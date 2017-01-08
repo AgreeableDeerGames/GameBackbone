@@ -27,7 +27,7 @@ public:
 	unsigned int getCols();
 	unsigned int getTotalFrames();
 	unsigned int getCurrentFrame();
-	unsigned int getCurrentAnimation();
+	unsigned int getCurrentAnimationId();
 	bool isAnimating();
 	
 	//operations
