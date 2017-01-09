@@ -13,7 +13,7 @@ public:
 
 	void clearAnimations();
 
-	const std::vector<std::vector<sf::IntRect>>* getAnimations();
+	std::vector<std::vector<sf::IntRect>>* getAnimations();
 
 protected:
 	unsigned int rows;

@@ -1,19 +1,23 @@
 #include "AnimatedSprite.h"
 
-//TODO: add animation update rate
-//TODO: create animation frame rectangles
 
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Rect.hpp>
+
+//TODO: add animation update rate
 
 //ctr and dtr
 
 ///<summary>Default Constructor. Values initialized to 0</summary>
 AnimatedSprite::AnimatedSprite() {
-	init(0, 0, 0);
+	animations = nullptr;
+	init();
 }
 
 ///<summary>Constructor. Texture set to passed value. Position set to 0.</summary>
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture) {
-	init(0, 0, 0);
+	animations = nullptr;
+	init();
 }
 
 /**
@@ -22,24 +26,22 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture
 <param name = "rows"> the number of rows in the animated sprite animation sheet</param>
 <param name = "cols"> the number of columns in the animated sprite animation sheet</param>
 <param name = "totalFrames"> the total number of frames in the animated sprite animation sheet</param>*/
-AnimatedSprite::AnimatedSprite(const sf::Texture & texture, unsigned int rows, unsigned int cols, unsigned int totalFrames) : sf::Sprite(texture){
-	init(rows, cols, totalFrames);
+AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * animations) : sf::Sprite(texture){
+	setAnimations(animations);
+	init();
 }
 
 /**
-<summary>Initializes the row, column and frame count of the animated sprite. Initializes animating property to false Should only be called in constructors.</summary>
-<param name = "rows"> the number of rows in the animated sprite animation sheet</param>
-<param name = "cols"> the number of columns in the animated sprite animation sheet</param>
-<param name = "totalFrames"> the total number of frames in the animated sprite animation sheet</param>*/
-void AnimatedSprite::init(unsigned int rows, unsigned int cols, unsigned int totalFrames) {
-	this->rows = rows;
-	this->cols = cols;
-	this->totalFrames = totalFrames;
-	this->animating = false;
-	this->currentAnimation = nullptr;
-	this->currentFrame = 0;
-	this->currentAnimationId = 0;
+<summary>Initializes properties to false, 0, or nullptr</summary>
+*/
+void AnimatedSprite::init() {
+
+	animating = false;
+	currentFrame = 0;
+	currentAnimationId = 0;
+	currentAnimation = nullptr;
 }
+
 
 
 
@@ -48,31 +50,8 @@ AnimatedSprite::~AnimatedSprite() {
 
 
 //getters and setters
+
 	//setters
-
-/**
-<summary>sets the number of rows in the animation sheet to a new value</summary>
-<param name = "rows">new number of rows in the sprite sheet</param>
-*/
-void AnimatedSprite::setRows(unsigned int rows) {
-	this->rows = rows;
-}
-
-/**
-<summary>sets the number of columns in the animation sheet to a new value</summary>
-<param name = "cols">new number of columns in the sprite sheet</param>
-*/
-void AnimatedSprite::setCols(unsigned int cols) {
-	this->cols = cols;
-}
-
-/**
-<summary>sets the value for the total animation frame count of the animated sprite</summary>
-<param name = "totalFrames">the new total number of animation frames in the sprite sheet</param>
-*/
-void AnimatedSprite::setTotalFrames(unsigned int totalFrames) {
-	this->totalFrames = totalFrames;
-}
 
 ///<summary> Whether or not the animated sprite is currently playing an animation</summary>
 void AnimatedSprite::setAnimating(bool animating) {
@@ -83,21 +62,12 @@ void AnimatedSprite::setAnimating(bool animating) {
 void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 }
 
+///<summary>sets the animations of the sprite to the passed AnimationSet</summary>
+void AnimatedSprite::setAnimations( AnimationSet * animationSet) {
+	auto a = animationSet->getAnimations();
+}
+
 	//getters
-///<summary>sets the number of rows in the animation sheet to a new value</summary>
-unsigned int AnimatedSprite::getRows() {
-	return rows;
-}
-
-///<summary>sets the number of columns in the animation sheet to a new value</summary>
-unsigned int AnimatedSprite::getCols() {
-	return cols;
-}
-
-///<summary>sets the value for the total animation frame count of the animated sprite</summary>
-unsigned int AnimatedSprite::getTotalFrames() {
-	return totalFrames;
-}
 
 ///<summary>returns the current frame of the current animation</summary>
 unsigned int AnimatedSprite::getCurrentFrame() {
@@ -117,40 +87,21 @@ bool AnimatedSprite::isAnimating() {
 //operations
 
 /**
-<summary>adds an animation (vector of animation frames) to the AnimatedSprite's vector of animations</summary>
-<param name = "animation">vector containing the animation frame indexes for the new animation</param>
-*/
-void AnimatedSprite::addAnimation(std::vector<unsigned int> animation) {
-	animations.push_back(animation);
-}
-
-///<summary>removes all animations</summary>
-void AnimatedSprite::clearAnimations() {
-	animations.clear();
-}
-
-/**
-<summary>replaces the animation at the given index with the passed animation</summary>
-<param name = "animationId"> index of the animation to be replaced</param>
-<param name "animation"> new animation to place at index</param>
-*/
-void AnimatedSprite::changeAnimationFrames(unsigned int animationId, std::vector<unsigned int> animation) {
-	animations[animationId] = animation;
-}
-
-/**
 <summary>begins a new animation from the first frame</summary>
 <param name = "animationId"> the index of the animation to begin </param>
 */
 void AnimatedSprite::runAnimation(unsigned int animationId) {
 	this->animating = true;
 	this->currentAnimationId = animationId;
-	this->currentAnimation = &animations[animationId];
+	this->currentAnimation = &animations->at(animationId);
 	this->currentFrame = 0;
 }
 
 
-///<summary>Moves the next frame of the active animation</summary>
+///<summary>Moves the next frame of the active animation if the sprite is animating</summary>
 void AnimatedSprite::update() {
-	currentFrame = (currentFrame + 1) % currentAnimation->size();
+	if (animating) 	{
+		setCurrentFrame((currentFrame + 1) % currentAnimation->size());
+		setTextureRect(currentAnimation->at(currentFrame));
+	}
 }

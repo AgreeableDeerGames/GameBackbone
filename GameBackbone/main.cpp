@@ -1,10 +1,34 @@
+#include "AnimatedSprite.h"
+#include "AnimationSet.h"
+
 #include <SFML/Graphics.hpp>
+#include <vector>
+
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(700, 700), "SpriteTests");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
+	//create sprites and textures THIS PROB WONT BE HERE WHEN MAIN GAME LOGIC IS ADDED
+
+		//create sprite
+	sf::Texture testSpriteTexture;
+	testSpriteTexture.loadFromFile("..\\Textures\\testSprite.png");
+	sf::Sprite s(testSpriteTexture);
+
+		//create animation set
+	sf::Vector2u textureDim = testSpriteTexture.getSize();
+	std::vector<std::vector<unsigned int>> aSpriteAnims;
+	std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
+	aSpriteAnims.push_back(aSpriteAnim1);
+	AnimationSet* animSet = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+	
+		//create animatedSprite
+	AnimatedSprite aSprite(testSpriteTexture, animSet);
+	aSprite.runAnimation(0);
+
+	//main logic loop
 	while (window.isOpen()) {
 		//close window
 		sf::Event event;
@@ -17,12 +41,10 @@ int main() {
 		window.clear();
 		//draw logic here
 
-		sf::Texture testSpriteTexture;
-		testSpriteTexture.loadFromFile("..\\Textures\\testSprite.png");
+		
 
-		sf::Sprite s(testSpriteTexture);
-
-		window.draw(s);
+		window.draw(aSprite);
+		//aSprite.update();
 		
 
 
