@@ -44,7 +44,7 @@ int main() {
 		
 
 		window.draw(aSprite);
-		//aSprite.update();
+		aSprite.update();
 		
 
 

@@ -36,7 +36,7 @@ protected:
 	bool animating;
 	unsigned int currentFrame;
 	unsigned int currentAnimationId;
-	std::vector<sf::IntRect>* currentAnimation;
+	//std::vector<sf::IntRect>* currentAnimation;
 
 private:
 	void init();
