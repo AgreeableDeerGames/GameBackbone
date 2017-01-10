@@ -19,13 +19,15 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture
 }
 
 /**
-<summary>Constructor</summary>
+<summary>Constructor. Initializes texture to first frame of first animation.</summary>
 <param name = "texture"> texture representing the animation sheet </param>
 <param name = "rows"> the number of rows in the animated sprite animation sheet</param>
 <param name = "cols"> the number of columns in the animated sprite animation sheet</param>
 <param name = "totalFrames"> the total number of frames in the animated sprite animation sheet</param>*/
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * animations) : sf::Sprite(texture){
 	setAnimations(animations);
+	//initialize sprite to first frame of first animation
+	setTextureRect(this->animations->at(0).at(0));
 	init();
 }
 

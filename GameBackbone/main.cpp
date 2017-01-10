@@ -48,10 +48,10 @@ int main() {
 		//draw logic here
 
 		
-		aSprite.update(updateClock.getElapsedTime());
 
 		window.draw(aSprite);
 		
+		aSprite.update(updateClock.getElapsedTime());
 
 
 		//window.draw(shape);
