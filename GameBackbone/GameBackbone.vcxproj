@@ -160,12 +160,14 @@
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimationSet.cpp" />
+    <ClCompile Include="GameWorldObject.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimationSet.h" />
     <ClInclude Include="DebugIncludes.h" />
+    <ClInclude Include="GameWorldObject.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>
