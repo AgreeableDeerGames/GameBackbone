@@ -41,7 +41,7 @@ void AnimationSet::clearAnimations() {
 	animations.clear();
 }
 
-///<summary> returns a const pointer to the vector of animations;
+///<summary> returns a const pointer to the vector of animations</summary>
 std::vector<std::vector<sf::IntRect>>* AnimationSet::getAnimations() {
 	return &animations;
 }
