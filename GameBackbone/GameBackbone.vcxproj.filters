@@ -27,6 +27,9 @@
     <ClCompile Include="GameWorldObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameWorldSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameWorldObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWorldSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -161,6 +161,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimationSet.cpp" />
     <ClCompile Include="GameWorldObject.cpp" />
+    <ClCompile Include="GameWorldSprite.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="AnimationSet.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="GameWorldObject.h" />
+    <ClInclude Include="GameWorldSprite.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>

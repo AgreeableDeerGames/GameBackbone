@@ -1,5 +1,6 @@
 #include "AnimatedSprite.h"
 #include "AnimationSet.h"
+#include "GameWorldSprite.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -21,6 +22,10 @@ int main() {
 	sf::Texture testSpriteTexture;
 	testSpriteTexture.loadFromFile("..\\Textures\\testSprite.png");
 	sf::Sprite s(testSpriteTexture);
+
+		//create GameWorldSprite
+	GameWorldSprite gameWorldSprite(testSpriteTexture);
+	gameWorldSprite.gMove(100, 100);
 
 		//create animation set
 	sf::Vector2u textureDim = testSpriteTexture.getSize();
@@ -50,6 +55,7 @@ int main() {
 		
 
 		window.draw(aSprite);
+		window.draw(gameWorldSprite);
 		
 		aSprite.update(updateClock.getElapsedTime());
 

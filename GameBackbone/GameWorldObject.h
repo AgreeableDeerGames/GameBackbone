@@ -12,10 +12,6 @@ public:
 	//getters / setters
 
 		//setters
-	///<summary>Sets the x position of the object in the game world.</summary>
-	virtual void setGx(double x) = 0;
-	///<summary>Sets the y position of the object in the game world.</summary>
-	virtual void setGy(double y) = 0;
 	///<summary>Whether or not the GameWorldObject is active in the game world</summary>
 	virtual void setActive(bool active) = 0;
 
@@ -25,7 +21,9 @@ public:
 	double isActive();
 
 	//operations
-	virtual void Update(sf::Time currentTime) = 0;
+	virtual void update(sf::Time currentTime) = 0;
+	///<summary>Changes the position of the sprite in the game world by the given offsets</summary>
+	virtual void gMove(double xOffset, double yOffset) = 0;
 
 protected:
 	double gx;
