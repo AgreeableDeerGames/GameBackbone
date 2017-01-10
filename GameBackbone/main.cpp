@@ -2,6 +2,8 @@
 #include "AnimationSet.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
+
 #include <vector>
 
 
@@ -9,6 +11,9 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(700, 700), "SpriteTests");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
+
+	//init game update clock
+	sf::Clock updateClock;
 
 	//create sprites and textures THIS PROB WONT BE HERE WHEN MAIN GAME LOGIC IS ADDED
 
@@ -26,6 +31,7 @@ int main() {
 	
 		//create animatedSprite
 	AnimatedSprite aSprite(testSpriteTexture, animSet);
+	aSprite.setAnimationDelay(1000);
 	aSprite.runAnimation(0);
 
 	//main logic loop
@@ -42,7 +48,7 @@ int main() {
 		//draw logic here
 
 		
-		aSprite.update();
+		aSprite.update(updateClock.getElapsedTime());
 
 		window.draw(aSprite);
 		

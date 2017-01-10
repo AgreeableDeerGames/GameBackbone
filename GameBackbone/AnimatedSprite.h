@@ -21,14 +21,16 @@ public:
 	void setAnimating(bool animating);
 	void setCurrentFrame(unsigned int frame);
 	void setAnimations(AnimationSet * animations);
+	void setAnimationDelay(unsigned int speed);
 		//getters
 	unsigned int getCurrentFrame();
 	unsigned int getCurrentAnimationId();
+	unsigned int getAnimationDelay();
 	bool isAnimating();
 	
 	//operations
 	void runAnimation(unsigned int animationId);
-	virtual void update();
+	virtual void update(sf::Time currentTime);
 
 
 protected:
@@ -37,6 +39,7 @@ protected:
 	unsigned int currentFrame;
 	unsigned int currentAnimationId;
 	std::vector<sf::IntRect>* currentAnimation;
+	unsigned int animationDelay;
 
 private:
 	void init();

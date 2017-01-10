@@ -1,4 +1,6 @@
 #pragma once
+
+#include<SFML\System\Clock.hpp>
 class Updatable {
 public:
 
@@ -8,6 +10,9 @@ public:
 	virtual ~Updatable() {
 	}
 
-	virtual void update() = 0;
+	virtual void update(sf::Time currentTime) = 0;
+
+protected:
+	sf::Time lastUpdate;
 };
 

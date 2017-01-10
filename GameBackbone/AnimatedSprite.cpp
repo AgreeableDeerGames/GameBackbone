@@ -4,8 +4,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-//TODO: add animation update rate
-
 //ctr and dtr
 
 ///<summary>Default Constructor. Values initialized to 0</summary>
@@ -31,19 +29,17 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * anima
 	init();
 }
 
-/**
-<summary>Initializes properties to false, 0, or nullptr</summary>
-*/
+
+///<summary>Initializes properties to false, 0, or nullptr.</summary>
 void AnimatedSprite::init() {
 
 	animating = false;
 	currentFrame = 0;
 	currentAnimationId = 0;
 	currentAnimation = nullptr;
+	lastUpdate = lastUpdate.Zero;
+	animationDelay = 0;
 }
-
-
-
 
 AnimatedSprite::~AnimatedSprite() {
 }
@@ -68,6 +64,11 @@ void AnimatedSprite::setAnimations( AnimationSet * animationSet) {
 	animations = animationSet->getAnimations();
 }
 
+///<summary>Sets the minimum time (in ms) between two animation frames.</summary>
+void AnimatedSprite::setAnimationDelay(unsigned int delay) {
+	animationDelay = delay;
+}
+
 	//getters
 
 ///<summary>returns the current frame of the current animation</summary>
@@ -78,6 +79,11 @@ unsigned int AnimatedSprite::getCurrentFrame() {
 ///<summary>returns the ID of the current animation</summary>
 unsigned int AnimatedSprite::getCurrentAnimationId() {
 	return currentAnimationId;
+}
+
+///<summary>returns the minimum time (in ms) between two animation frames.</summary>
+unsigned int AnimatedSprite::getAnimationDelay() {
+	return animationDelay;
 }
 
 ///<summary>Whether or not the animated sprite is currently playing an animation.</summary>
@@ -98,11 +104,12 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 	this->currentFrame = 0;
 }
 
-
 ///<summary>Moves the next frame of the active animation if the sprite is animating</summary>
-void AnimatedSprite::update() {
-	if (animating) 	{
+void AnimatedSprite::update(sf::Time currentTime) {
+	
+	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > animationDelay)) {
 		setCurrentFrame((currentFrame + 1) % currentAnimation->size());
 		setTextureRect(currentAnimation->at(currentFrame));
+		lastUpdate = currentTime;
 	}
 }
