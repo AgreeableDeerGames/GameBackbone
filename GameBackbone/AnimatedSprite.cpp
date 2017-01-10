@@ -3,10 +3,8 @@
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include<iostream>
 
 //TODO: add animation update rate
-//TODO: add currentAnimation pointer
 
 //ctr and dtr
 
@@ -41,7 +39,7 @@ void AnimatedSprite::init() {
 	animating = false;
 	currentFrame = 0;
 	currentAnimationId = 0;
-	//currentAnimation = nullptr;
+	currentAnimation = nullptr;
 }
 
 
@@ -62,6 +60,7 @@ void AnimatedSprite::setAnimating(bool animating) {
 
 ///<summary>sets the current frame (within the current animation) of the animated sprite</summary>
 void AnimatedSprite::setCurrentFrame(unsigned int frame) {
+	currentFrame = frame;
 }
 
 ///<summary>sets the animations of the sprite to the passed AnimationSet</summary>
@@ -95,7 +94,7 @@ bool AnimatedSprite::isAnimating() {
 void AnimatedSprite::runAnimation(unsigned int animationId) {
 	this->animating = true;
 	this->currentAnimationId = animationId;
-	//this->currentAnimation = &animations->at(animationId);
+	this->currentAnimation = &animations->at(animationId);
 	this->currentFrame = 0;
 }
 
@@ -103,10 +102,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 ///<summary>Moves the next frame of the active animation if the sprite is animating</summary>
 void AnimatedSprite::update() {
 	if (animating) 	{
-		setCurrentFrame((currentFrame + 1) % animations->at(currentAnimationId).size());
-		//setCurrentFrame((currentFrame + 1) % currentAnimation->size());
-		//setTextureRect(currentAnimation->at(currentFrame));
-		setTextureRect(animations->at(currentAnimationId).at(currentFrame));
-		std::cout << ".";
+		setCurrentFrame((currentFrame + 1) % currentAnimation->size());
+		setTextureRect(currentAnimation->at(currentFrame));
 	}
 }

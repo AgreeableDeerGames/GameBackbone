@@ -42,9 +42,9 @@ int main() {
 		//draw logic here
 
 		
+		aSprite.update();
 
 		window.draw(aSprite);
-		aSprite.update();
 		
 
 
