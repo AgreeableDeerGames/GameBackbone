@@ -44,7 +44,7 @@ int main() {
 	GameWorldAnimatedSprite gameWorldAnimatedSprite(testSpriteTexture, animSet);
 	gameWorldAnimatedSprite.setAnimationDelay(500);
 	gameWorldAnimatedSprite.runAnimation(0);
-	gameWorldAnimatedSprite.move(300, 100);
+	gameWorldAnimatedSprite.gMove(300, 100);
 
 	//main logic loop
 	while (window.isOpen()) {
@@ -61,8 +61,8 @@ int main() {
 
 		
 
-		//window.draw(aSprite);
-		//window.draw(gameWorldSprite);
+		window.draw(aSprite);
+		window.draw(gameWorldSprite);
 		window.draw(gameWorldAnimatedSprite);
 		
 		aSprite.update(updateClock.getElapsedTime());
