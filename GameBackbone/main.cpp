@@ -1,6 +1,7 @@
 #include "AnimatedSprite.h"
 #include "AnimationSet.h"
 #include "GameWorldSprite.h"
+#include "GameWorldAnimatedSprite.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -39,6 +40,12 @@ int main() {
 	aSprite.setAnimationDelay(1000);
 	aSprite.runAnimation(0);
 
+		//create GameWorldAnimatedSprite
+	GameWorldAnimatedSprite gameWorldAnimatedSprite(testSpriteTexture, animSet);
+	gameWorldAnimatedSprite.setAnimationDelay(500);
+	gameWorldAnimatedSprite.runAnimation(0);
+	gameWorldAnimatedSprite.move(300, 100);
+
 	//main logic loop
 	while (window.isOpen()) {
 		//close window
@@ -54,10 +61,12 @@ int main() {
 
 		
 
-		window.draw(aSprite);
-		window.draw(gameWorldSprite);
+		//window.draw(aSprite);
+		//window.draw(gameWorldSprite);
+		window.draw(gameWorldAnimatedSprite);
 		
 		aSprite.update(updateClock.getElapsedTime());
+		gameWorldAnimatedSprite.update(updateClock.getElapsedTime());
 
 
 		//window.draw(shape);
