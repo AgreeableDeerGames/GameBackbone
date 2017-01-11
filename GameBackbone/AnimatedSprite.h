@@ -1,14 +1,15 @@
 #pragma once
 
-#include "../../SFML/SFML-2.4.1/include/SFML/Graphics/Sprite.hpp"
 #include "updatable.h"
 #include "AnimationSet.h"
+
+#include<SFML/Graphics/Sprite.hpp>
 
 #include <vector>
 
 
 class AnimatedSprite :
-	public sf::Sprite, public Updatable {
+	public virtual sf::Sprite, public virtual Updatable {
 public:
 	//ctr and dtr
 	AnimatedSprite();

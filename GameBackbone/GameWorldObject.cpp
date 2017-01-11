@@ -3,6 +3,8 @@
 
 
 GameWorldObject::GameWorldObject() {
+	gx = 0;
+	gy = 0;
 }
 
 
