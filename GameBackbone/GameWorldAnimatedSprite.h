@@ -1,8 +1,8 @@
 #pragma once
 #include "AnimatedSprite.h"
-#include "GameWorldObject.h"
+#include "GameWorldSprite.h"
 class GameWorldAnimatedSprite :
-			public GameWorldObject, public AnimatedSprite {
+			public GameWorldSprite, public AnimatedSprite {
 public:
 	GameWorldAnimatedSprite();
 	GameWorldAnimatedSprite(const sf::Texture &texture);

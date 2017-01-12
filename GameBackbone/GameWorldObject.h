@@ -2,7 +2,7 @@
 
 #include "Updatable.h"
 
-class GameWorldObject : public virtual Updatable{
+class GameWorldObject : public Updatable{
 public:
 
 	//ctr / dtr

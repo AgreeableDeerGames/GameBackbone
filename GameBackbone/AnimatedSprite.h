@@ -9,7 +9,7 @@
 
 
 class AnimatedSprite :
-	public virtual sf::Sprite, public virtual Updatable {
+	public virtual sf::Sprite, public Updatable {
 public:
 	//ctr and dtr
 	AnimatedSprite();

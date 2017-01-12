@@ -20,9 +20,7 @@ GameWorldAnimatedSprite::~GameWorldAnimatedSprite() {
 
 ///<summary>Changes the position of the sprite in the game world by the given offsets</summary>
 void GameWorldAnimatedSprite::gMove(double xOffset, double yOffset) {
-	move((float)xOffset, (float)yOffset);
-	gx += xOffset;
-	gy += yOffset;
+	GameWorldSprite::gMove(xOffset, yOffset);
 }
 
 void GameWorldAnimatedSprite::setActive(bool active) {
