@@ -3,12 +3,15 @@
 
 
 GameWorldAnimatedSprite::GameWorldAnimatedSprite() {
+	AnimatedSpriteInit(nullptr);
 }
 
-GameWorldAnimatedSprite::GameWorldAnimatedSprite(const sf::Texture & texture) : AnimatedSprite(texture){
+GameWorldAnimatedSprite::GameWorldAnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture){
+	AnimatedSpriteInit(nullptr);
 }
 
-GameWorldAnimatedSprite::GameWorldAnimatedSprite(const sf::Texture & texture, AnimationSet * animations) : AnimatedSprite(texture, animations) {
+GameWorldAnimatedSprite::GameWorldAnimatedSprite(const sf::Texture & texture, AnimationSet * animations) : sf::Sprite(texture) {
+	AnimatedSpriteInit(animations);
 }
 
 

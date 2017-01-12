@@ -9,7 +9,7 @@
 
 
 class AnimatedSprite :
-	public sf::Sprite, public virtual Updatable {
+	public virtual sf::Sprite, public virtual Updatable {
 public:
 	//ctr and dtr
 	AnimatedSprite();
@@ -42,8 +42,7 @@ protected:
 	std::vector<sf::IntRect>* currentAnimation;
 	unsigned int animationDelay;
 
-private:
-	void init();
+	void AnimatedSpriteInit(AnimationSet * animations);
 
 };
 

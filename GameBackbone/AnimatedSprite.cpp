@@ -1,4 +1,5 @@
 #include "AnimatedSprite.h"
+#include "DebugIncludes.h"
 
 
 #include <SFML/Graphics/Texture.hpp>
@@ -6,16 +7,23 @@
 
 //ctr and dtr
 
-///<summary>Default Constructor. Values initialized to 0</summary>
+///<summary>Default Constructor. Values are not initialized 0</summary>
 AnimatedSprite::AnimatedSprite() {
-	animations = nullptr;
-	init();
+	/*Values are deliberately left uninitialized in this case. Because of the way the inheritance hierarchy is set up, if 
+	this function sets any values it will result in the values being set twice in GameWorldAnimatedSprite's constructors.
+	Since GameWorldAnimatedSprite will likely be used more often than the default constructor for generic AnimatedSprites
+	it is more important that GameWorldAnimatedSprite be fast than AnimatedSprite have a safe default constructor. I don't
+	like this, but short of rewriting the current inheritance structure (not out of the question) I don't see a good solution.
+
+	:( 
+	
+	-Ryan Lavin
+	*/
 }
 
 ///<summary>Constructor. Texture set to passed value. Position set to 0.</summary>
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture) {
-	animations = nullptr;
-	init();
+	AnimatedSpriteInit(nullptr);
 }
 
 /**
@@ -25,15 +33,20 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture
 <param name = "cols"> the number of columns in the animated sprite animation sheet</param>
 <param name = "totalFrames"> the total number of frames in the animated sprite animation sheet</param>*/
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * animations) : sf::Sprite(texture){
-	setAnimations(animations);
-	//initialize sprite to first frame of first animation
-	setTextureRect(this->animations->at(0).at(0));
-	init();
+	AnimatedSpriteInit(animations);
 }
 
 
-///<summary>Initializes properties to false, 0, or nullptr.</summary>
-void AnimatedSprite::init() {
+///<summary>Initializes properties to false, 0, or nullptr. Initializes animation set and sets texture to first animation frame if animation set is valid</summary>
+///<param name = "animations"> animation set for the sprite. If this value is set to a valid animation then the texture of the sprite is set to the first frame of the first animation.</param>
+void AnimatedSprite::AnimatedSpriteInit(AnimationSet * animations) {
+
+	setAnimations(animations);
+
+	if (animations) {
+		//initialize sprite to first frame of first animation
+		setTextureRect(this->animations->at(0).at(0));
+	}
 
 	animating = false;
 	currentFrame = 0;

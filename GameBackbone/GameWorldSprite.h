@@ -2,7 +2,7 @@
 #include "GameWorldObject.h"
 #include <SFML\Graphics\Sprite.hpp>
 class GameWorldSprite :
-	public GameWorldObject, public sf::Sprite {
+	public virtual GameWorldObject, public virtual sf::Sprite {
 public:
 	GameWorldSprite();
 	GameWorldSprite(const sf::Texture &texture);
