@@ -6,11 +6,14 @@
 GameRegion::GameRegion() {
 	updatables = new std::vector<Updatable*>();
 	drawables = new std::vector<sf::Sprite*>();
+	parentRegion = nullptr;
 }
 
 
 GameRegion::~GameRegion() {
-	parentRegion->removeChildRegion(this);
+	if (parentRegion) {
+		parentRegion->removeChildRegion(this);
+	}
 	clearChildren();
 	clearNeighborRegions();
 	delete updatables;
@@ -54,6 +57,16 @@ void GameRegion::setDrawable(bool status, sf::Sprite * object) {
 void GameRegion::setDrawAndUpdateable(bool status, GameWorldSprite* object) {
 	setDrawable(status, object);
 	setUpdatable(status, object);
+}
+
+///<summary>returns list of the region's updatable objects</summary>
+std::vector<Updatable*>* GameRegion::getUpdatables() {
+	return updatables;
+}
+
+///<summary>return the region's list of drawable objects</summary>
+std::vector<sf::Sprite*>* GameRegion::getDrawables() {
+	return drawables;
 }
 
 //general operations

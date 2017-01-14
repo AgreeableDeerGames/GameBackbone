@@ -19,6 +19,9 @@ public:
 	void setUpdatable(bool status, Updatable* object);
 	void setDrawable(bool status, sf::Sprite* object);
 	void setDrawAndUpdateable(bool status, GameWorldSprite* object);
+	std::vector<Updatable*>* getUpdatables();
+	std::vector<sf::Sprite*>* getDrawables();
+
 
 	//internal behavior alteration
 	void reset() {}

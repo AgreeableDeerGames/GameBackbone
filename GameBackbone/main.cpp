@@ -2,9 +2,12 @@
 #include "AnimationSet.h"
 #include "GameWorldSprite.h"
 #include "GameWorldAnimatedSprite.h"
+#include "GameRegion.h"
+#include "Updatable.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <vector>
 
@@ -46,7 +49,13 @@ int main() {
 	gameWorldAnimatedSprite.runAnimation(0);
 	gameWorldAnimatedSprite.gMove(300, 100);
 
+	//add objects to game region
+	GameRegion testGameRegion;
+	testGameRegion.setDrawAndUpdateable(true, &gameWorldSprite);
+	testGameRegion.setDrawAndUpdateable(true, &gameWorldAnimatedSprite);
+
 	//main logic loop
+	GameRegion* activeRegion = &testGameRegion;
 	while (window.isOpen()) {
 		//close window
 		sf::Event event;
@@ -57,20 +66,16 @@ int main() {
 
 		//draw loop
 		window.clear();
+
 		//draw logic here
+		for (sf::Sprite* drawObject : *(activeRegion->getDrawables())) {
+			window.draw(*drawObject);
+		}
 
-		
-
-		window.draw(aSprite);
-		window.draw(gameWorldSprite);
-		window.draw(gameWorldAnimatedSprite);
-		
-		aSprite.update(updateClock.getElapsedTime());
-		gameWorldAnimatedSprite.update(updateClock.getElapsedTime());
-
-
-		//window.draw(shape);
-
+		//update logic here
+		for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
+			updateObject->update(updateClock.getElapsedTime());
+		}
 
 		//end draw logic
 		window.display();
