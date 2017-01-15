@@ -51,6 +51,9 @@
     <ClInclude Include="Updatable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CompoundSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameWorldSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompoundSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

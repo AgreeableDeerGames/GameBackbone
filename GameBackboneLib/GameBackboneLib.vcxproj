@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimationSet.h" />
+    <ClInclude Include="CompoundSprite.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="GameBackboneLib.h" />
     <ClInclude Include="GameRegion.h" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimationSet.cpp" />
+    <ClCompile Include="CompoundSprite.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
