@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GameBackboneLib.h"
 #include "GameWorldSprite.h"
 #include "Updatable.h"
 
@@ -7,7 +7,7 @@
 
 #include<vector>
 
-class GameRegion {
+class GAMEBACKBONELIB_API GameRegion {
 public:
 	//ctr / dtr
 	GameRegion();

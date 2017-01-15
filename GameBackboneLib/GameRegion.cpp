@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameRegion.h"
 
 #include<algorithm>

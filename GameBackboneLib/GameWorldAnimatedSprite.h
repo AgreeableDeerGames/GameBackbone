@@ -1,7 +1,8 @@
 #pragma once
+#include "GameBackboneLib.h"
 #include "AnimatedSprite.h"
 #include "GameWorldSprite.h"
-class GameWorldAnimatedSprite :
+class GAMEBACKBONELIB_API GameWorldAnimatedSprite :
 			public GameWorldSprite, public AnimatedSprite {
 public:
 	GameWorldAnimatedSprite();

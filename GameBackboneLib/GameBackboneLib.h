@@ -9,14 +9,3 @@
 #else
 #define GAMEBACKBONELIB_API __declspec(dllimport)
 #endif
-
-// This class is exported from the GameBackboneLib.dll
-class GAMEBACKBONELIB_API CGameBackboneLib {
-public:
-	CGameBackboneLib(void);
-	// TODO: add your methods here.
-};
-
-extern GAMEBACKBONELIB_API int nGameBackboneLib;
-
-GAMEBACKBONELIB_API int fnGameBackboneLib(void);

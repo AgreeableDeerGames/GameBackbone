@@ -1,7 +1,7 @@
 #pragma once
-
+#include "GameBackboneLib.h"
 #include<SFML\System\Clock.hpp>
-class Updatable {
+class GAMEBACKBONELIB_API Updatable {
 public:
 
 	Updatable() {

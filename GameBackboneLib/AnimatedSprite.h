@@ -1,14 +1,15 @@
 #pragma once
-
+#include "GameBackboneLib.h"
 #include "updatable.h"
 #include "AnimationSet.h"
+
 
 #include<SFML/Graphics/Sprite.hpp>
 
 #include <vector>
 
 
-class AnimatedSprite :
+class GAMEBACKBONELIB_API AnimatedSprite :
 	public virtual sf::Sprite, public Updatable {
 public:
 	//ctr and dtr

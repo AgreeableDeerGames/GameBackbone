@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "AnimatedSprite.h"
 #include "DebugIncludes.h"
 

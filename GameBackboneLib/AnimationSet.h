@@ -1,9 +1,9 @@
 #pragma once
-
+#include "GameBackboneLib.h"
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>
 
-class AnimationSet {
+class GAMEBACKBONELIB_API AnimationSet {
 public:
 	AnimationSet(unsigned int rows, unsigned int cols);
 	AnimationSet(std::vector<std::vector<unsigned int>> frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols);
