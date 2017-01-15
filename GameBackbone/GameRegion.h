@@ -58,6 +58,8 @@ private:
 	//deleted copy and assignment ctr
 	GameRegion(const GameRegion&) = delete;
 	GameRegion& operator=(const GameRegion&) = delete;
+	GameRegion(GameRegion&&) = delete;
+	GameRegion& operator=(GameRegion&&) = delete;
 
 };
 
