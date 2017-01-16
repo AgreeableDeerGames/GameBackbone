@@ -1,6 +1,7 @@
 #pragma once
 #include "GameWorldAnimatedSprite.h"
 #include "Updatable.h"
+#include "GameWorldCompoundSprite2.h"
 
 #include<SFML/Graphics/Sprite.hpp>
 
@@ -17,7 +18,9 @@ public:
 		//setters
 	void setUpdatable(bool status, Updatable* object);
 	void setDrawable(bool status, sf::Sprite* object);
+	void setDrawable(bool status, GameWorldCompoundSprite2* object);
 	void setDrawAndUpdateable(bool status, GameWorldAnimatedSprite* object);
+	void setDrawAndUpdateable(bool status, GameWorldCompoundSprite2* object);
 	std::vector<Updatable*>* getUpdatables();
 	std::vector<sf::Sprite*>* getDrawables();
 

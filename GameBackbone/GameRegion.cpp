@@ -51,10 +51,30 @@ void GameRegion::setDrawable(bool status, sf::Sprite * object) {
 	}
 }
 
+///<summary> adds or removes all drawable object from a GameWorldCompound sprite to the array of drawable objects </summary>
+///<param name = "status"> Whether or not the object will be drawable </param>
+///<param name = "object"> the object that whose draw-ability status will be changed </param>
+void GameRegion::setDrawable(bool status, GameWorldCompoundSprite2 * object) {
+	for each (sf::Sprite* sprite in *(object->getSfSprites()) ) {
+		setDrawable(status, sprite);
+	}
+	for each (AnimatedSprite* aSprite in *(object->getaAnimatedSprites())) {
+		setDrawable(status, aSprite);
+	}
+}
+
 ///<summary> adds or removes a drawable and updatable object from the arrays of drawable and updatable objects </summary>
 ///<param name = "status"> Whether or not the object will be drawable and updatable </param>
 ///<param name = "object"> the object that whose draw-ability and updatability status will be changed </param>
 void GameRegion::setDrawAndUpdateable(bool status, GameWorldAnimatedSprite* object) {
+	setDrawable(status, object);
+	setUpdatable(status, object);
+}
+
+///<summary> adds or removes all drawable and updatable object from a GameWorldCompoundSprite to the arrays of drawable and updatable objects </summary>
+///<param name = "status"> Whether or not the object will be drawable and updatable </param>
+///<param name = "object"> the object that whose draw-ability and updatability status will be changed </param>
+void GameRegion::setDrawAndUpdateable(bool status, GameWorldCompoundSprite2 * object) {
 	setDrawable(status, object);
 	setUpdatable(status, object);
 }

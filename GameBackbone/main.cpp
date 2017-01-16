@@ -51,10 +51,26 @@ int main() {
 	gameWorldAnimatedSprite.runAnimation(0);
 	gameWorldAnimatedSprite.gMove(300, 100);
 
+	//create compound sprite
+	sf::Sprite sprite1(testSpriteTexture);
+	AnimatedSprite aSprite1(testSpriteTexture, animSet);
+	AnimatedSprite aSprite2(testSpriteTexture, animSet);
+	aSprite2.move(500, 500);
+	aSprite1.move(100, 300);
+	aSprite1.runAnimation(0);
+	aSprite2.runAnimation(0);
+	aSprite1.setAnimationDelay(200);
+	aSprite2.setAnimationDelay(500);
+	std::vector<sf::Sprite*> gwcpSpriteSprites = { &sprite1 };
+	std::vector<AnimatedSprite*> gwcpSpriteASprites = { &aSprite1, &aSprite2 };
+	GameWorldCompoundSprite2 gwcpSprite(gwcpSpriteSprites, gwcpSpriteASprites);
+	gwcpSprite.gMove(100, 100);
+
 	//add objects to game region
 	GameRegion testGameRegion;
-	testGameRegion.setDrawable(true, &gameWorldSprite);
-	testGameRegion.setDrawAndUpdateable(true, &gameWorldAnimatedSprite);
+	//testGameRegion.setDrawable(true, &gameWorldSprite);
+	//testGameRegion.setDrawAndUpdateable(true, &gameWorldAnimatedSprite);
+	testGameRegion.setDrawAndUpdateable(true, &gwcpSprite);
 
 	//main logic loop
 	GameRegion* activeRegion = &testGameRegion;
