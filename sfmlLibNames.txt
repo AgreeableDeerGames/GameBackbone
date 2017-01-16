@@ -1,0 +1,13 @@
+release
+sfml-audio.lib
+sfml-graphics.lib
+sfml-window.lib
+sfml-network.lib
+sfml-system.lib
+
+debug
+sfml-audio-d.lib
+sfml-graphics-d.lib
+sfml-window-d.lib
+sfml-network-d.lib
+sfml-system-d.lib
