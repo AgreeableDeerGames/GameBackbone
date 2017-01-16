@@ -1,12 +1,13 @@
 #pragma once
 #include "GameBackboneLib.h"
 #include "AnimatedSprite.h"
+#include "Updatable.h"
 
 #include<SFML/Graphics/Sprite.hpp>
 
 #include<vector>
 
-class GAMEBACKBONELIB_API CompoundSprite {
+class GAMEBACKBONELIB_API CompoundSprite : public virtual Updatable {
 public:
 
 	//ctr / dtr
@@ -28,6 +29,7 @@ public:
 	//operations
 	void scale(float factorX, float factorY);
 	void move(float offsetX, float offsetY);
+	virtual void update(sf::Time currentTime);
 
 protected:
 	std::vector<sf::Sprite*> sprites;
