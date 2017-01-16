@@ -81,7 +81,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\SFML\SFML-2.4.1\Includes</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\SFML\SFML-2.4.1\lib</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -103,13 +107,36 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\SFML\SFML-2.4.1\Includes</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\SFML\SFML-2.4.1\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="AnimationSet.cpp" />
+    <ClCompile Include="CompoundSprite.cpp" />
+    <ClCompile Include="GameRegion.cpp" />
+    <ClCompile Include="GameWorldAnimatedSprite.cpp" />
+    <ClCompile Include="GameWorldCompoundSprite2.cpp" />
+    <ClCompile Include="GameWorldObject.cpp" />
+    <ClCompile Include="GameWorldSprite.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="AnimationSet.h" />
+    <ClInclude Include="CompoundSprite.h" />
+    <ClInclude Include="DebugIncludes.h" />
+    <ClInclude Include="GameRegion.h" />
+    <ClInclude Include="GameWorldAnimatedSprite.h" />
+    <ClInclude Include="GameWorldCompoundSprite2.h" />
+    <ClInclude Include="GameWorldObject.h" />
+    <ClInclude Include="GameWorldSprite.h" />
+    <ClInclude Include="Updatable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
