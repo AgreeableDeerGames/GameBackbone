@@ -4,6 +4,8 @@
 #include "GameWorldAnimatedSprite.h"
 #include "GameRegion.h"
 #include "Updatable.h"
+#include "CompoundSprite.h"
+#include "GameWorldCompoundSprite2.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>

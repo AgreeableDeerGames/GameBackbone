@@ -168,6 +168,7 @@
     <ClInclude Include="GameWorldSprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="GameWorldCompoundSprite2.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="GameRegion.cpp" />
     <ClCompile Include="GameWorldAnimatedSprite.cpp" />
+    <ClCompile Include="GameWorldCompoundSprite2.cpp" />
     <ClCompile Include="GameWorldObject.cpp" />
     <ClCompile Include="GameWorldSprite.cpp" />
     <ClCompile Include="stdafx.cpp">
