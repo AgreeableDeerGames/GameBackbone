@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "GameWorldCompoundSprite2.h"
 
 

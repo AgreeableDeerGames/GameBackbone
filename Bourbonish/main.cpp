@@ -53,7 +53,7 @@ int main() {
 
 	//add objects to game region
 	GameRegion testGameRegion;
-	testGameRegion.setDrawAndUpdateable(true, &gameWorldSprite);
+	testGameRegion.setDrawable(true, &gameWorldSprite);
 	testGameRegion.setDrawAndUpdateable(true, &gameWorldAnimatedSprite);
 
 	//main logic loop

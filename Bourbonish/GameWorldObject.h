@@ -1,8 +1,7 @@
 #pragma once
-#include "GameBackboneLib.h"
 #include "Updatable.h"
 
-class GAMEBACKBONELIB_API GameWorldObject {
+class GameWorldObject {
 public:
 
 	//ctr / dtr

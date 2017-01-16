@@ -1,5 +1,4 @@
 #pragma once
-#include "GameBackboneLib.h"
 #include "updatable.h"
 #include "AnimationSet.h"
 
@@ -9,7 +8,7 @@
 #include <vector>
 
 
-class GAMEBACKBONELIB_API AnimatedSprite :
+class AnimatedSprite :
 	public virtual sf::Sprite, public virtual Updatable {
 public:
 	//ctr and dtr

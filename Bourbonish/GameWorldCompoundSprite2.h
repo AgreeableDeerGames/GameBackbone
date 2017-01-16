@@ -1,8 +1,7 @@
 #pragma once
-#include "GameBackboneLib.h"
 #include "CompoundSprite.h"
 #include "GameWorldObject.h"
-class GAMEBACKBONELIB_API GameWorldCompoundSprite2 : 
+class GameWorldCompoundSprite2 : 
 	public CompoundSprite, GameWorldObject {
 public:
 public:
