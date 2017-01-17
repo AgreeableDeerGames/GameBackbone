@@ -12,6 +12,8 @@ GameWorldSprite::~GameWorldSprite() {
 }
 
 ///<summary>Changes the position of the sprite in the game world by the given offsets</summary>
+///<param name = "xOffset"> x offset of the new position</param>
+///<param name = "YOffset"> y offset of the new position</param>
 void GameWorldSprite::gMove(double xOffset, double yOffset) {
 
 	move((float)xOffset, (float)yOffset);

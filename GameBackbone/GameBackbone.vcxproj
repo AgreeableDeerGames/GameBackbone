@@ -122,6 +122,7 @@
     <ClCompile Include="AnimationSet.cpp" />
     <ClCompile Include="CompoundSprite.cpp" />
     <ClCompile Include="GameRegion.cpp" />
+    <ClCompile Include="GameWorldAnchor.cpp" />
     <ClCompile Include="GameWorldAnimatedSprite.cpp" />
     <ClCompile Include="GameWorldCompoundSprite2.cpp" />
     <ClCompile Include="GameWorldObject.cpp" />
@@ -134,11 +135,15 @@
     <ClInclude Include="CompoundSprite.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="GameRegion.h" />
+    <ClInclude Include="GameWorldAnchor.h" />
     <ClInclude Include="GameWorldAnimatedSprite.h" />
     <ClInclude Include="GameWorldCompoundSprite2.h" />
     <ClInclude Include="GameWorldObject.h" />
     <ClInclude Include="GameWorldSprite.h" />
     <ClInclude Include="Updatable.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

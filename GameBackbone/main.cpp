@@ -6,6 +6,7 @@
 #include "Updatable.h"
 #include "CompoundSprite.h"
 #include "GameWorldCompoundSprite2.h"
+#include "GameWorldAnchor.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -15,7 +16,9 @@
 
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(700, 700), "SpriteTests");
+	const int WINDOW_WIDTH = 700;
+	const int WINDOW_HEIGHT = 700;
+	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SpriteTests");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
@@ -72,14 +75,29 @@ int main() {
 	//testGameRegion.setDrawAndUpdateable(true, &gameWorldAnimatedSprite);
 	testGameRegion.setDrawAndUpdateable(true, &gwcpSprite);
 
+	//GameWorldAnchor
+	GameWorldAnchor regionAnchor(&testGameRegion, 0, 0);
+
 	//main logic loop
 	GameRegion* activeRegion = &testGameRegion;
+	int oldMouseX = WINDOW_WIDTH / 2;
+	int oldMouseY = WINDOW_HEIGHT / 2;
 	while (window.isOpen()) {
 		//close window
 		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
+			switch (event.type) {
+			case sf::Event::Closed:
 				window.close();
+				break;
+			case sf::Event::MouseMoved:
+				regionAnchor.gMove(event.mouseMove.x - oldMouseX, event.mouseMove.y - oldMouseY);
+				oldMouseX = event.mouseMove.x;
+				oldMouseY = event.mouseMove.y;
+				break;
+			default:
+				break;
+			}
 		}
 
 		//draw loop
