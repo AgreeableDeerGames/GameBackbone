@@ -122,7 +122,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 ///<summary>Moves the next frame of the active animation if the sprite is animating</summary>
 void AnimatedSprite::update(sf::Time currentTime) {
 	
-	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > animationDelay)) {
+	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > (int)animationDelay)) {
 		setCurrentFrame((currentFrame + 1) % currentAnimation->size());
 		setTextureRect(currentAnimation->at(currentFrame));
 		lastUpdate = currentTime;

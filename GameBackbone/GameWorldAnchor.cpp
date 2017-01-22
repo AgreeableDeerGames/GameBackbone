@@ -37,7 +37,7 @@ GameWorldAnchor::~GameWorldAnchor() {}
 ///<param name = "YOffset"> y offset of the new position</param>
 void GameWorldAnchor::gMove(double xOffset, double yOffset) {
 	for each (sf::Sprite* object in *(anchoredRegion->getDrawables()) ) {
-		object->move(-xOffset, -yOffset);
+		object->move(-(float)xOffset, -(float)yOffset);
 	}
 	gx += xOffset;
 	gy += yOffset;
