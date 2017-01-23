@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Navigation">
-      <UniqueIdentifier>{1f510d66-495b-4c2c-8419-5afec112484a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Navigation">
-      <UniqueIdentifier>{32b64941-9b52-408e-8e08-20614b346f47}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
@@ -51,10 +45,10 @@
     <ClCompile Include="GameWorldAnchor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NavigationGrid.cpp">
-      <Filter>Source Files\Navigation</Filter>
-    </ClCompile>
     <ClCompile Include="NavigationNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +86,10 @@
     <ClInclude Include="GameWorldAnchor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NavigationGrid.h">
-      <Filter>Header Files\Navigation</Filter>
-    </ClInclude>
     <ClInclude Include="NavigationNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
