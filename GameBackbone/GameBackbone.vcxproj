@@ -128,6 +128,8 @@
     <ClCompile Include="GameWorldObject.cpp" />
     <ClCompile Include="GameWorldSprite.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NavigationGrid.cpp" />
+    <ClCompile Include="NavigationNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
@@ -140,6 +142,8 @@
     <ClInclude Include="GameWorldCompoundSprite2.h" />
     <ClInclude Include="GameWorldObject.h" />
     <ClInclude Include="GameWorldSprite.h" />
+    <ClInclude Include="NavigationGrid.h" />
+    <ClInclude Include="NavigationNode.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>
   <ItemGroup>
