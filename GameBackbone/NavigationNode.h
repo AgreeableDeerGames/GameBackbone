@@ -7,31 +7,47 @@
 
 
 
-class NavigationNode : public sf::FloatRect {
+class NavigationNode {
 public:
 
 	//ctr / dtr
 	NavigationNode();
-	NavigationNode(float rectLeft, float rectTop, float rectWidth, float rectHeight);
-	NavigationNode(const sf::Vector2f &position, const sf::Vector2f &size);
-	NavigationNode(const sf::FloatRect& other);
+	NavigationNode(double x, double y);
+	
 	virtual ~NavigationNode();
 
+	//getters / setters
+		
+		//setters
+	void setX( double x );
+	void setY( double y );
+	void setBlocked(bool blocked);
 
-	//getters
+		//getters
+	double getX();
+	double getY();
+	bool isBlocked();
 	NavigationNode* getParentNode();
 	std::vector<NavigationNode*>* getChildNodes();
 
 	//operations
 	void addChildNode(NavigationNode* child);
 	void setParentNode(NavigationNode* parent);
-	void scale(double scaleFactor);
+
 	
 
 
 private:
+	//position
+	double x;
+	double y;
+
+	//status
+	bool blocked;
+
+	//tree structure
 	std::vector<NavigationNode*>* childNodes;
-	NavigationNode* parentNode
+	NavigationNode* parentNode;
 
 };
 

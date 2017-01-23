@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Backbone">
       <UniqueIdentifier>{58356b69-11b2-4ea1-b007-92b2ec78e8ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Navigation">
+      <UniqueIdentifier>{ef6f9179-4b56-4dfc-ad1f-d8ac627e56d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Navigation">
+      <UniqueIdentifier>{d6f78620-88b6-466f-b2f9-3dabfe9e4249}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
@@ -52,10 +58,10 @@
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
     <ClCompile Include="NavigationNode.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="NavigationGrid.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Navigation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,10 +99,10 @@
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
     <ClInclude Include="NavigationNode.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="NavigationGrid.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Navigation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
