@@ -57,11 +57,14 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
+    <ClCompile Include="NavigationGrid.cpp">
+      <Filter>Source Files\Navigation</Filter>
+    </ClCompile>
     <ClCompile Include="NavigationNode.cpp">
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
-    <ClCompile Include="NavigationGrid.cpp">
-      <Filter>Source Files\Navigation</Filter>
+    <ClCompile Include="SpriteNavigator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="NavigationGrid.h">
       <Filter>Header Files\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteNavigator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
