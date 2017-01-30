@@ -5,11 +5,11 @@
 
 #include <vector>
 
-class SpriteNavigator {
+class Pathfinder {
 public:
-	SpriteNavigator();
+	Pathfinder();
 
-	virtual ~SpriteNavigator();
+	virtual ~Pathfinder();
 
 	void pathfind(sf::Vector2f start, sf::Vector2f finish);
 
