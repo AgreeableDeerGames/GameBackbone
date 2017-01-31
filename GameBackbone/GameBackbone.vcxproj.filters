@@ -63,7 +63,7 @@
     <ClCompile Include="NavigationNode.cpp">
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteNavigator.cpp">
+    <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,7 +107,7 @@
     <ClInclude Include="NavigationGrid.h">
       <Filter>Header Files\Navigation</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteNavigator.h">
+    <ClInclude Include="PathFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

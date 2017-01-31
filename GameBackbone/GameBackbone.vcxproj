@@ -130,7 +130,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NavigationGrid.cpp" />
     <ClCompile Include="NavigationNode.cpp" />
-    <ClCompile Include="SpriteNavigator.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
@@ -145,7 +145,7 @@
     <ClInclude Include="GameWorldSprite.h" />
     <ClInclude Include="NavigationGrid.h" />
     <ClInclude Include="NavigationNode.h" />
-    <ClInclude Include="SpriteNavigator.h" />
+    <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>
   <ItemGroup>

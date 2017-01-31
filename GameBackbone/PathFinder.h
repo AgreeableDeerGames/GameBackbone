@@ -4,14 +4,23 @@
 #include <SFML\Graphics.hpp>
 
 #include <vector>
+#include <list>
 
 class Pathfinder {
 public:
 	Pathfinder();
+	Pathfinder(sf::Vector2f minFreeSpace);
 
 	virtual ~Pathfinder();
 
-	void pathfind(sf::Vector2f start, sf::Vector2f finish);
+	void pathfind(double startX, double startY, double endX, double endY);
+	void pathfind(double startX, double startY, double endX, double endY, sf::Vector2f minFreeSpace);
+
+	//getters / setters
+		//setters
+	void setMinFreeSpace(sf::Vector2f minFreeSpace);
+		//setters
+	sf::Vector2f getMinFreeSpace();
 
 
 private:
