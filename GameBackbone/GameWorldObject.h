@@ -1,5 +1,6 @@
 #pragma once
 #include "Updatable.h"
+#include "Point2D.h"
 
 class GameWorldObject {
 public:
@@ -24,8 +25,7 @@ public:
 	virtual void gMove(double xOffset, double yOffset) = 0;
 
 protected:
-	double gx;
-	double gy;
+	Point2D gwPosition;
 	bool active;
 };
 

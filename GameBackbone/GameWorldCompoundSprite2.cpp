@@ -30,8 +30,8 @@ void GameWorldCompoundSprite2::gMove(double xOffset, double yOffset) {
 	for (size_t i = 0; i < animatedSprites.size(); i++) {
 		animatedSprites[i]->move((float)xOffset, (float)yOffset);
 	}
-	gx += xOffset;
-	gy += yOffset;
+	gwPosition.x += xOffset;
+	gwPosition.y += yOffset;
 }
 
 void GameWorldCompoundSprite2::setActive(bool active) {

@@ -146,6 +146,7 @@
     <ClInclude Include="NavigationGrid.h" />
     <ClInclude Include="NavigationNode.h" />
     <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="Point2D.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>
   <ItemGroup>

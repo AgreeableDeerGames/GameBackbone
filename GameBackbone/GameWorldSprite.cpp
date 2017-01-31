@@ -17,8 +17,8 @@ GameWorldSprite::~GameWorldSprite() {
 void GameWorldSprite::gMove(double xOffset, double yOffset) {
 
 	move((float)xOffset, (float)yOffset);
-	gx += xOffset;
-	gy += yOffset;
+	gwPosition.x += xOffset;
+	gwPosition.y += yOffset;
 }
 
 void GameWorldSprite::update(sf::Time currentTime) {}
