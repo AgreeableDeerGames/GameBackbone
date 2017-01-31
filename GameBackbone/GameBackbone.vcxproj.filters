@@ -64,7 +64,7 @@
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="PathFinder.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Navigation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
