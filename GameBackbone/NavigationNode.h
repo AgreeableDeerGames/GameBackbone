@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Point2D.h"
+
 #include <SFML/Graphics/Rect.hpp>
 
 
@@ -39,8 +41,7 @@ public:
 
 private:
 	//position
-	double x;
-	double y;
+	Point2D gwPosition;
 
 	//status
 	bool blocked;

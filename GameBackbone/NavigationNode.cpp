@@ -9,8 +9,8 @@ NavigationNode::NavigationNode() : NavigationNode(0, 0) {
 ///<param name = "x"> the x location of the new navigation node </param>
 ///<param name = "y"> the y location of the new navigation node </param>
 NavigationNode::NavigationNode(double x, double y) {
-	this->x = x;
-	this->y = y;
+	this->gwPosition.x = x;
+	this->gwPosition.y = y;
 
 	childNodes = new std::vector<NavigationNode*>();
 }
@@ -29,13 +29,13 @@ NavigationNode::~NavigationNode() {
 ///<summary> sets the position of the node on the x axis </summary>
 ///<param name = "x"> the new position of the node on the x axis </param>
 void NavigationNode::setX(double x) {
-	this->x = x;
+	this->gwPosition.x = x;
 }
 
 ///<summary> sets the position of the node on the y axis </summary>
 ///<param name = "y"> the new position of the node on the y axis </param>
 void NavigationNode::setY(double y) {
-	this->y = y;
+	this->gwPosition.y = y;
 }
 
 
@@ -49,12 +49,12 @@ void NavigationNode::setBlocked(bool blocked) {
 
 ///<summary> returns the position of the navigation node on the x axis </summary>
 double NavigationNode::getX() {
-	return x;
+	return gwPosition.x;
 }
 
 ///<summary> returns the position of the navigation node on the y axis </summary>
 double NavigationNode::getY() {
-	return y;
+	return gwPosition.y;
 }
 
 
