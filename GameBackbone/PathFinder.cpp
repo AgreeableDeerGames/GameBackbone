@@ -17,6 +17,7 @@ Pathfinder::~Pathfinder() {
 
 //operations
 
+//TODO: doc string
 std::list<Point2D>* Pathfinder::pathfind(double startX, double startY, double endX, double endY) {
 	//determine the position of the start and end coordinates in the SFML coordinate system
 	sf::Vector2f sfStart(startX - anchor->getGx(), startY - anchor->getGy());
