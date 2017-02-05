@@ -4,14 +4,13 @@
 
 
 
-typedef std::vector<std::vector<std::vector<int>>> WeightedHexGrid;
 
 class NavigationGrid {
 public:
 
 	//ctr / dtr
 	NavigationGrid();
-	NavigationGrid(unsigned int cubeGridDimention);
+	NavigationGrid(unsigned int cubeGridDimension);
 	NavigationGrid(unsigned int xDim, unsigned int yDim, unsigned int zDim);
 	virtual ~NavigationGrid();
 
@@ -19,14 +18,23 @@ public:
 
 		//setters
 	void setWeight(unsigned int x, unsigned int y, unsigned int z, int value);
-	void setGridSize(unsigned int x, unsigned int y, unsigned int z);
 
 		//getters
 	int getWeight(unsigned int x, unsigned int y, unsigned int z);
+	int getGridXSize();
+	int getGridYSize();
+	int getGridZSize();
 
 
 private:
-	WeightedHexGrid internalHexGrid;
+	std::vector<int> internalArray;
+
+	unsigned int xDim;
+	unsigned int yDim;
+	unsigned int zDim;
+
+	int Flatten3dCoordinate(unsigned int x, unsigned int y, unsigned int z);
+
 
 };
 
