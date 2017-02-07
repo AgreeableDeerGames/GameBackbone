@@ -37,12 +37,24 @@ public:
 	//getters / setters
 
 		//setters
+
+///<summary> sets the value of the selected array index to the passed value</summary>
+///<param name = "x">x coordinate of the array index to change</param>
+///<param name = "y">y coordinate of the array index to change</param>
+///<param name = "z">z coordinate of the array index to change</param>
+///<param name = "value"> new value for the passed array index</param>
 	void setValueAt(unsigned int x, unsigned int y, unsigned int z, templateClass value) {
 		internalArray[Flatten3dCoordinate(x, y, z)] = value;
 	}
 		//getters
+
+
+///<summary> returns the weight of the specified array index </summary>
+///<param name = "x">x position of the array index to change</param>
+///<param name = "y">y position of the array index to change</param>
+///<param name = "z">z position of the array index to change</param>
 	templateClass getValueAt(unsigned int x, unsigned int y, unsigned int z) {
-		return 		internalArray[Flatten3dCoordinate(x, y, z)];
+		return 	internalArray[Flatten3dCoordinate(x, y, z)];
 	}
 
 	///<summary> returns the x dimension of the array</summary>
