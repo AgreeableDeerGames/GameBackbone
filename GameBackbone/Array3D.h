@@ -87,13 +87,17 @@ public:
 
 private:
 
+	//Internal Helper Functions
+
+	///<summary> returns the 1d array position of the input 3d coordinates </summary>
+	///<param name = "x"> x position of the 3d coordinate</param>
+	///<param name = "y"> y position of the 3d coordinate</param>
+	///<param name = "z"> z position of the 3d coordinate</param>
 	unsigned int Flatten3dCoordinate(unsigned int x, unsigned int y, unsigned int z) {
 		return z*xLength*yLength + y*zLength + x;
 
 	}
 	
-
-
 	//properties
 	unsigned int xLength;
 	unsigned int yLength;
