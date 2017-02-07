@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimationSet.h" />
+    <ClInclude Include="Array3D.h" />
     <ClInclude Include="CompoundSprite.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="GameRegion.h" />

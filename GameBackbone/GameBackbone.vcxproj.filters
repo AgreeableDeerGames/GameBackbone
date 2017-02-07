@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Navigation">
       <UniqueIdentifier>{d6f78620-88b6-466f-b2f9-3dabfe9e4249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{0f7956c7-df7a-4bc1-a521-1a8608f2be79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{3e3acaed-1976-41c3-8bdc-a8515caaca27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
@@ -112,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="Point2D.h">
       <Filter>Header Files\Backbone</Filter>
+    </ClInclude>
+    <ClInclude Include="Array3D.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

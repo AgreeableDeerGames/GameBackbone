@@ -10,6 +10,8 @@ Pathfinder::Pathfinder() : Pathfinder(sf::Vector2f(1,1)) {}
 Pathfinder::Pathfinder(sf::Vector2f minFreeSpace) {
 	pathBlockers = nullptr;
 	this->minFreeSpace = minFreeSpace;
+
+	Array3D<int> tempArray();//todo: Remove this after Array3D is debugged
 }
 
 Pathfinder::~Pathfinder() {
