@@ -1,4 +1,9 @@
 #include "PathFinder.h"
+#include "Array3D.h"
+
+
+#include <queue>
+#include <set>
 
 //ctr / dtr
 
@@ -10,8 +15,6 @@ Pathfinder::Pathfinder() : Pathfinder(sf::Vector2f(1,1)) {}
 Pathfinder::Pathfinder(sf::Vector2f minFreeSpace) {
 	pathBlockers = nullptr;
 	this->minFreeSpace = minFreeSpace;
-
-	Array3D<int> tempArray();//todo: Remove this after Array3D is debugged
 }
 
 Pathfinder::~Pathfinder() {
@@ -41,3 +44,42 @@ void Pathfinder::addPathBlocker(sf::Sprite * blocker) {//TODO: fill stub
 void Pathfinder::removePathBlocker(sf::Sprite * blocker) {//TODO: fill stub
 }
 
+//TODO: PathFinder::NavigationGridPathFind add docstring and finish function
+std::vector<sf::Vector3i> Pathfinder::NavigationGridPathFind(sf::Vector3i start, sf::Vector3i stop) {
+	const unsigned int oneDimentionalStart = 0;//Flatten3dCoordinate(start.x, start.y, start.z);
+	const unsigned int oneDimentionalEnd = 0;//Flatten3dCoordinate(end.x, end.y, end.z);
+
+	// the set of nodes already evaluated
+	std::set<unsigned int>* closedSet = new std::set<unsigned int>();
+
+	//the set of currently discovered nodes that are already evaluated.
+	//std::set<unsigned int>* openSet = new std::set<unsigned int>();
+	typedef std::priority_queue<unsigned int, std::vector<int>, std::less<int> > PriorityIntQueue;//TODO: NavigationGrid::FindPath : This priority queue is wrong. It only prioritizes grid positions with a lower index. Perhaps use a custom struct?
+	PriorityIntQueue* openSet = new PriorityIntQueue();
+
+	//Start node is always explored
+	openSet->push(oneDimentionalStart);
+
+	// For each node, which node it can most efficiently be reached from.
+	// If a node can be reached from many nodes, cameFrom will eventually contain the
+	// most efficient previous step.
+	std::map<unsigned int, unsigned int>* cameFrom = new std::map<unsigned int, unsigned int>();
+
+	while (!openSet->empty()) {
+		unsigned int current = openSet->top();
+		if (current == oneDimentionalEnd) {
+			//TODO: NavigationGrid::FindPath: reconstruct path, free memory, and return
+		}
+		openSet->pop();
+		closedSet->insert(current);
+
+	}
+
+
+	//free all memory
+	delete closedSet;
+	delete openSet;
+	delete cameFrom;
+
+	return std::vector<sf::Vector3i>();//TODO: fill NavigationGrid::FindPath stub
+}

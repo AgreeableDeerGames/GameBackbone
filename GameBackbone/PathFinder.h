@@ -1,7 +1,6 @@
 #pragma once
 #include "Point2D.h"
 #include "GameWorldAnchor.h"
-#include "Array3D.h"
 
 #include <sfml/Graphics/Sprite.hpp>
 #include <SFML\Graphics.hpp>
@@ -36,6 +35,9 @@ public:
 
 
 private:
+
+	//internal helper functions
+	std::vector<sf::Vector3i>NavigationGridPathFind(sf::Vector3i start, sf::Vector3i stop);
 
 	//storage
 	std::vector<sf::Sprite*>* pathBlockers;
