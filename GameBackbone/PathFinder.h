@@ -1,52 +1,37 @@
 #pragma once
-#include "Point2D.h"
-#include "GameWorldAnchor.h"
+#include "Array3D.h"
+#include "NavigationHexData.h"
+#include "PathRequest.h"
 
-#include <sfml/Graphics/Sprite.hpp>
-#include <SFML\Graphics.hpp>
+#include<SFML/System/Vector3.hpp>
 
-#include <vector>
-#include <list>
+#include<vector>
+
+typedef Array3D<NavigationHexData> NavigationGrid;
 
 class Pathfinder {
 public:
+	//ctr / dtr
 	Pathfinder();
-	Pathfinder(sf::Vector2f minFreeSpace);
-
-	virtual ~Pathfinder();
-
-	//operations
-	std::list<Point2D>* pathfind(double startX, double startY, double endX, double endY);
-	std::list<Point2D>* pathfind(double startX, double startY, double endX, double endY, sf::Vector2f minFreeSpace);
-	void addPathBlocker(sf::Sprite* blocker);
-	void removePathBlocker(sf::Sprite* blocker);
+	Pathfinder(NavigationGrid* navigationGrid);
+	
+	~Pathfinder();
 
 	//getters / setters
+	
 		//setters
-	void setMinFreeSpace(sf::Vector2f minFreeSpace);
-	void setPathBlockers(std::vector<sf::Sprite*>* blockers);
-	void setAnchor(GameWorldAnchor* anchor);
+	void setNavigationGrid(NavigationGrid* navigationGrid);
 
 		//getters
-	sf::Vector2f getMinFreeSpace();
-	std::list<Point2D> getLasFoundPath();
-	std::vector<sf::Sprite*>* getPathBlockers();
-	GameWorldAnchor* getAnchor();
+	NavigationGrid* getNavigationGrid();
 
+	//operations
+	std::vector<std::vector<sf::Vector3i>> pathFind(std::vector<PathRequest> pathRequests);
 
 private:
 
-	//internal helper functions
-	std::vector<sf::Vector3i>NavigationGridPathFind(sf::Vector3i start, sf::Vector3i stop);
-
-	//storage
-	std::vector<sf::Sprite*>* pathBlockers;
-	std::list<Point2D> lastFoundPath;
-	sf::Vector2f minFreeSpace;
-	GameWorldAnchor* anchor;
-	
-	//logic helper
-	sf::FloatRect positionChecker;
+	//data
+	NavigationGrid* navigationGrid;
 
 	//deleted copy and assignment
 	Pathfinder(const Pathfinder&) = delete;

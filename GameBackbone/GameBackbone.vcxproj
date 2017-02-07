@@ -144,6 +144,8 @@
     <ClInclude Include="GameWorldCompoundSprite2.h" />
     <ClInclude Include="GameWorldObject.h" />
     <ClInclude Include="GameWorldSprite.h" />
+    <ClInclude Include="NavigationHexData.h" />
+    <ClInclude Include="PathRequest.h" />
     <ClInclude Include="NavigationGrid.h" />
     <ClInclude Include="NavigationNode.h" />
     <ClInclude Include="PathFinder.h" />

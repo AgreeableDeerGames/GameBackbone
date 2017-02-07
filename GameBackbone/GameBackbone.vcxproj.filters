@@ -122,6 +122,12 @@
     <ClInclude Include="Array3D.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="PathRequest.h">
+      <Filter>Source Files\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationHexData.h">
+      <Filter>Source Files\Navigation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
