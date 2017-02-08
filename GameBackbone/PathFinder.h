@@ -13,7 +13,7 @@ class Pathfinder {
 public:
 	//ctr / dtr
 	Pathfinder();
-	Pathfinder(NavigationGrid* navigationGrid);
+	explicit Pathfinder(NavigationGrid* navigationGrid);
 	
 	~Pathfinder();
 

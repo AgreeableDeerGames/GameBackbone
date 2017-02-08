@@ -150,7 +150,11 @@
     <ClInclude Include="NavigationNode.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Point2D.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Updatable.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameBackbone.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
