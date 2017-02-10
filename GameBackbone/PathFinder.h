@@ -6,6 +6,7 @@
 #include<SFML/System/Vector3.hpp>
 
 #include<vector>
+#include<set>
 
 typedef Array3D<NavigationHexData> NavigationGrid;
 
@@ -26,9 +27,12 @@ public:
 	NavigationGrid* getNavigationGrid();
 
 	//operations
-	std::vector<std::vector<sf::Vector3i>> pathFind(std::vector<PathRequest> pathRequests);
+	std::vector<std::vector<sf::Vector3i>>* pathFind(const std::vector<PathRequest>& pathRequests);
 
 private:
+
+	//helper functions
+	sf::Vector3i chooseNextHex(const PathRequest& pathRequest, const std::set<sf::Vector3i> * const availableHexes);
 
 	//data
 	NavigationGrid* navigationGrid;
@@ -40,3 +44,29 @@ private:
 	Pathfinder& operator=(Pathfinder&&) = delete;
 };
 
+
+
+//define required functions to use sf::Vector3i in sets
+namespace sf {
+
+	bool operator<(const sf::Vector3i& lhs, const sf::Vector3i& rhs) {
+		if (lhs.x != rhs.x) {
+			return lhs.x < rhs.y;
+		} else if (lhs.y != rhs.y) {
+			return lhs.y < rhs.y;
+		} else {
+			return lhs.z < rhs.z;
+		}
+	}
+
+	bool operator>(const sf::Vector3i& lhs, const sf::Vector3i& rhs) {
+		if (lhs.x != rhs.x) {
+			return lhs.x > rhs.y;
+		} else if (lhs.y != rhs.y) {
+			return lhs.y > rhs.y;
+		} else {
+			return lhs.z > rhs.z;
+		}
+	}
+
+}

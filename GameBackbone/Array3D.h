@@ -50,11 +50,21 @@ public:
 
 
 ///<summary> returns the weight of the specified array index </summary>
-///<param name = "x">x position of the array index to change</param>
-///<param name = "y">y position of the array index to change</param>
-///<param name = "z">z position of the array index to change</param>
+///<param name = "x">x position of the element to return</param>
+///<param name = "y">y position of the element to return</param>
+///<param name = "z">z position of the element to return</param>
+/// <returns>The element stored at the passed coordinates</returns>
 	templateClass getValueAt(unsigned int x, unsigned int y, unsigned int z) {
 		return 	internalArray[Flatten3dCoordinate(x, y, z)];
+	}
+	
+	/// <summary>
+	/// returns the weight of the specified array index.
+	/// </summary>
+	/// <param name="coordinate">The 3d position of the element to return.</param>
+	/// <returns>The element stored at the passed coordinates</returns>
+	templateClass getValueAt(sf::Vector3i coordinate) {
+		return internalArray[Flatten3dCoordinate(coordinate.x, coordinate.y, coordinate.z)];
 	}
 
 	///<summary> returns the x dimension of the array</summary>

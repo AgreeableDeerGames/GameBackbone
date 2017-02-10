@@ -2,11 +2,11 @@
 struct NavigationHexData {
 	int weight;
 	unsigned int blockerDist;
-
-	bool operator<(const NavigationHexData& other) {
-		return weight < other.weight;
-	}
-	bool operator>(const NavigationHexData& other) {
-		return weight > other.weight;
-	}
 };
+
+bool operator<(const NavigationHexData& lhs, const NavigationHexData& rhs) {
+	return lhs.weight < rhs.weight;
+}
+bool operator>(const NavigationHexData& lhs, const NavigationHexData& rhs) {
+	return lhs.weight > rhs.weight;
+}
