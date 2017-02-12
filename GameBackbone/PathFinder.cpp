@@ -54,8 +54,6 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 	//store all paths
 	std::vector<std::list<sf::Vector3i>>* allPaths = new std::vector<std::list<sf::Vector3i>>(pathRequests.size());
 
-	//TODO: (pathFind) find a way to move memory allocations out of the loop. They are bad for performance.
-
 	for (unsigned int i = 0; i < pathRequests.size(); i++) {
 
 		PathRequest pathRequest = pathRequests[i];
@@ -96,7 +94,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 				delete cameFrom;
 				delete score;
 			}
-			openSet->erase(openSet->find(current));//TODO: (pathFind) Find a better way to remove an item from the open set.
+			openSet->erase(openSet->find(current));
 			closedSet->insert(current);
 
 			//find neighbors
@@ -147,8 +145,6 @@ sf::Vector3i Pathfinder::chooseNextHex(const PathRequest & pathRequest, const st
 
 	unsigned int shortestDistance = UINT_MAX;
 	sf::Vector3i const * bestHex = nullptr;
-
-	//TODO: (chooseNextHex) add different heuristics for path-finding.
 
 	for each (const sf::Vector3i hex in *availableHexes) {
 		unsigned int hexDistance = SquaredDist3d(hex, pathRequest.end);
