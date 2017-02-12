@@ -13,6 +13,7 @@
 
 typedef Array3D<NavigationHexData> NavigationGrid;
 
+///<summary> used to calculate groups of paths in one navigation grid</summary>
 libGameBackbone class Pathfinder {
 public:
 	//ctr / dtr

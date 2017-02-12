@@ -4,6 +4,7 @@
 
 #include<vector>
 
+///<summary>Store any type in a three dimensional array</summary>
 template <class templateClass>
 class Array3D {
 public:
