@@ -107,7 +107,13 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 
 				//discover new node
 				if (openSet->find(neighbor) == openSet->end()) {
-					openSet->insert(neighbor);
+					//add blocked to closed set and unblocked to open set
+					if (navigationGrid->getValueAt(neighbor).weight >= BLOCKED_HEX_WEIGHT) {
+						closedSet->insert(neighbor);
+						continue;
+					} else {
+						openSet->insert(neighbor);
+					}
 				} else if (tentativeScore >= score->at(neighbor)) {
 					continue; // found a worse path
 				}

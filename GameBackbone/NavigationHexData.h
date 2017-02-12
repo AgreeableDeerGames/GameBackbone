@@ -1,6 +1,8 @@
 #pragma once
 #include "DllUtil.h"
 
+#define BLOCKED_HEX_WEIGHT 10000
+
 libGameBackbone struct NavigationHexData {
 	int weight;
 	unsigned int blockerDist;
