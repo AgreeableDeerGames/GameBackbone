@@ -33,6 +33,7 @@ private:
 
 	//helper functions
 	sf::Vector3i chooseNextHex(const PathRequest& pathRequest, const std::set<sf::Vector3i> * const availableHexes);
+	std::vector<sf::Vector3i> getNeighbors(const sf::Vector3i& hexCoordinate);
 
 	//data
 	NavigationGrid* navigationGrid;
