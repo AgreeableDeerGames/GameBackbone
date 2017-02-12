@@ -51,9 +51,6 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 
 	typedef std::pair<sf::Vector3i, int> hexValuePair;
 
-	//store all paths
-	std::vector<std::list<sf::Vector3i>>* allPaths = new std::vector<std::list<sf::Vector3i>>(pathRequests.size());
-
 	for (unsigned int i = 0; i < pathRequests.size(); i++) {
 
 		PathRequest pathRequest = pathRequests[i];
@@ -86,7 +83,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 				//reconstruct path, and add to output vector
 
 				std::list<sf::Vector3i> inOrderPath = reconstructPath(endPoint, cameFrom);
-				(*allPaths)[i] = inOrderPath;
+				(*returnedPaths)[i] = inOrderPath;
 
 				//free memory
 				delete closedSet;
@@ -122,7 +119,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 		}
 		
 		// no path found. Place empty path for this request.
-		(*allPaths)[i] = std::list<sf::Vector3i>();
+		(*returnedPaths)[i] = std::list<sf::Vector3i>();
 
 		//free memory
 		delete closedSet;
