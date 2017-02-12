@@ -1,0 +1,135 @@
+\hypertarget{class_animation_set}{}\section{Animation\+Set Class Reference}
+\label{class_animation_set}\index{Animation\+Set@{Animation\+Set}}
+
+
+A groups of Animation frames used by animated sprites to determine animation loops 
+
+
+
+
+{\ttfamily \#include $<$Animation\+Set.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_animation_set_a4291450987a71b6923ecdc44d38f3647}{Animation\+Set} (unsigned int rows, unsigned int cols)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_animation_set}{Animation\+Set} class. \end{DoxyCompactList}\item 
+\hyperlink{class_animation_set_a1a7cce6f8664911363d621ec01f022e6}{Animation\+Set} (const std\+::vector$<$ std\+::vector$<$ unsigned int $>$$>$ \&frame\+Animations, unsigned int texture\+Width, unsigned int texture\+Height, unsigned int rows, unsigned int cols)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_animation_set}{Animation\+Set} class. \end{DoxyCompactList}\item 
+void \hyperlink{class_animation_set_ab673697a6a87e0d62cc9d8da5912e633}{frames\+To\+Rects} (const std\+::vector$<$ std\+::vector$<$ unsigned int $>$$>$ \&frame\+Animations, unsigned int texture\+Width, unsigned int texture\+Height)
+\begin{DoxyCompactList}\small\item\em Converts a full set of animations in the frame number format to the texture\+Rect format \end{DoxyCompactList}\item 
+void \hyperlink{class_animation_set_a6c48243cd06f90f7b21c792f7f092a83}{clear\+Animations} ()
+\begin{DoxyCompactList}\small\item\em Clears all animations. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ sf\+::\+Int\+Rect $>$ $>$ $\ast$ \hyperlink{class_animation_set_ae523b9c1f7702b1ebe02662078a8f701}{get\+Animations} ()
+\begin{DoxyCompactList}\small\item\em returns a const pointer to the vector of animations \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_animation_set_a9e31574676175d9d5dc36ef5facf7150}\label{class_animation_set_a9e31574676175d9d5dc36ef5facf7150}} 
+unsigned int {\bfseries rows}
+\item 
+\mbox{\Hypertarget{class_animation_set_ababecc4cc5e80e68da53a9aabbef1c88}\label{class_animation_set_ababecc4cc5e80e68da53a9aabbef1c88}} 
+unsigned int {\bfseries cols}
+\item 
+\mbox{\Hypertarget{class_animation_set_aa36a8a16f556bb3609c8dc2b64030387}\label{class_animation_set_aa36a8a16f556bb3609c8dc2b64030387}} 
+std\+::vector$<$ std\+::vector$<$ sf\+::\+Int\+Rect $>$ $>$ {\bfseries animations}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A groups of Animation frames used by animated sprites to determine animation loops
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_animation_set_a4291450987a71b6923ecdc44d38f3647}\label{class_animation_set_a4291450987a71b6923ecdc44d38f3647}} 
+\index{Animation\+Set@{Animation\+Set}!Animation\+Set@{Animation\+Set}}
+\index{Animation\+Set@{Animation\+Set}!Animation\+Set@{Animation\+Set}}
+\subsubsection{\texorpdfstring{Animation\+Set()}{AnimationSet()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Animation\+Set\+::\+Animation\+Set (\begin{DoxyParamCaption}\item[{unsigned int}]{rows,  }\item[{unsigned int}]{cols }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \hyperlink{class_animation_set}{Animation\+Set} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rows} & The number of rows in the sprite sheet.\\
+\hline
+{\em cols} & The number of columns in the sprite sheet.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_animation_set_a1a7cce6f8664911363d621ec01f022e6}\label{class_animation_set_a1a7cce6f8664911363d621ec01f022e6}} 
+\index{Animation\+Set@{Animation\+Set}!Animation\+Set@{Animation\+Set}}
+\index{Animation\+Set@{Animation\+Set}!Animation\+Set@{Animation\+Set}}
+\subsubsection{\texorpdfstring{Animation\+Set()}{AnimationSet()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Animation\+Set\+::\+Animation\+Set (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::vector$<$ unsigned int $>$$>$ \&}]{frame\+Animations,  }\item[{unsigned int}]{texture\+Width,  }\item[{unsigned int}]{texture\+Height,  }\item[{unsigned int}]{rows,  }\item[{unsigned int}]{cols }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \hyperlink{class_animation_set}{Animation\+Set} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame\+Animations} & Arrays of frame numbers for each animation in the set. Each array corresponds to the animation of the same index.\\
+\hline
+{\em texture\+Width} & Width of the texture.\\
+\hline
+{\em texture\+Height} & Height of the texture.\\
+\hline
+{\em rows} & The number of rows in the sprite sheet.\\
+\hline
+{\em cols} & The number of columns in the sprite sheet.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_animation_set_a6c48243cd06f90f7b21c792f7f092a83}\label{class_animation_set_a6c48243cd06f90f7b21c792f7f092a83}} 
+\index{Animation\+Set@{Animation\+Set}!clear\+Animations@{clear\+Animations}}
+\index{clear\+Animations@{clear\+Animations}!Animation\+Set@{Animation\+Set}}
+\subsubsection{\texorpdfstring{clear\+Animations()}{clearAnimations()}}
+{\footnotesize\ttfamily void Animation\+Set\+::clear\+Animations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Clears all animations. 
+
+\mbox{\Hypertarget{class_animation_set_ab673697a6a87e0d62cc9d8da5912e633}\label{class_animation_set_ab673697a6a87e0d62cc9d8da5912e633}} 
+\index{Animation\+Set@{Animation\+Set}!frames\+To\+Rects@{frames\+To\+Rects}}
+\index{frames\+To\+Rects@{frames\+To\+Rects}!Animation\+Set@{Animation\+Set}}
+\subsubsection{\texorpdfstring{frames\+To\+Rects()}{framesToRects()}}
+{\footnotesize\ttfamily void Animation\+Set\+::frames\+To\+Rects (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::vector$<$ unsigned int $>$$>$ \&}]{frame\+Animations,  }\item[{unsigned int}]{texture\+Width,  }\item[{unsigned int}]{texture\+Height }\end{DoxyParamCaption})}
+
+
+
+Converts a full set of animations in the frame number format to the texture\+Rect format 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame\+Animations} & Animation represented by frame numbers.\\
+\hline
+{\em texture\+Width} & Width of the sprite sheet texture.\\
+\hline
+{\em texture\+Height} & Height of the sprite sheet texture.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_animation_set_ae523b9c1f7702b1ebe02662078a8f701}\label{class_animation_set_ae523b9c1f7702b1ebe02662078a8f701}} 
+\index{Animation\+Set@{Animation\+Set}!get\+Animations@{get\+Animations}}
+\index{get\+Animations@{get\+Animations}!Animation\+Set@{Animation\+Set}}
+\subsubsection{\texorpdfstring{get\+Animations()}{getAnimations()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::vector$<$ sf\+::\+Int\+Rect $>$ $>$ $\ast$ Animation\+Set\+::get\+Animations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns a const pointer to the vector of animations 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Animation\+Set.\+h\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Animation\+Set.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,170 @@
+\hypertarget{class_array3_d}{}\section{Array3D$<$ template\+Class $>$ Class Template Reference}
+\label{class_array3_d}\index{Array3\+D$<$ template\+Class $>$@{Array3\+D$<$ template\+Class $>$}}
+
+
+Store any type in a three dimensional array 
+
+
+
+
+{\ttfamily \#include $<$Array3\+D.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_array3_d_a86765d4b26c76555b35279d42a69158a}{Array3D} ()
+\begin{DoxyCompactList}\small\item\em creates a 3D array with dimensions of 100 $\ast$ 100 $\ast$ 100 \end{DoxyCompactList}\item 
+\hyperlink{class_array3_d_a16a7c8e4de7c1529f4d72c00d2f5b8f9}{Array3D} (unsigned int dimensions)
+\item 
+\mbox{\Hypertarget{class_array3_d_a603b0ad73fd7bb2a28e08538bb8e2ad6}\label{class_array3_d_a603b0ad73fd7bb2a28e08538bb8e2ad6}} 
+{\bfseries Array3D} (unsigned int x\+Lenght, unsigned int y\+Length, unsigned int z\+Length)
+\item 
+void \hyperlink{class_array3_d_ab10ba3c75901c55b3d7cd2f58f6d6bde}{set\+Value\+At} (unsigned int x, unsigned int y, unsigned int z, template\+Class value)
+\begin{DoxyCompactList}\small\item\em sets the value of the selected array index to the passed value\end{DoxyCompactList}\item 
+template\+Class \hyperlink{class_array3_d_ac16b3ce3f37d597033a7b7fd1fdb5e41}{get\+Value\+At} (unsigned int x, unsigned int y, unsigned int z)
+\begin{DoxyCompactList}\small\item\em returns the weight of the specified array index \end{DoxyCompactList}\item 
+template\+Class \hyperlink{class_array3_d_ac1539b1f9907ae9996178b968e43c53c}{get\+Value\+At} (sf\+::\+Vector3i coordinate)
+\begin{DoxyCompactList}\small\item\em returns the weight of the specified array index. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_array3_d_a5c406bcb6868cb65acb6ac1f593d743e}{get\+Array\+SizeX} ()
+\begin{DoxyCompactList}\small\item\em summary$>$ returns the y dimension of the array\end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_array3_d_a1d60c3290d17e30e1e5854f296bba68b}{get\+Array\+SizeY} ()
+\begin{DoxyCompactList}\small\item\em summary$>$ returns the z dimension of the grid\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_array3_d_a6223fa080e3dfef08b48f893fad066ad}\label{class_array3_d_a6223fa080e3dfef08b48f893fad066ad}} 
+unsigned int {\bfseries get\+Array\+SizeZ} ()
+\item 
+void \hyperlink{class_array3_d_a0bc535dddbd5c2e5597fc967aa0e4a0e}{init\+All\+Values} (template\+Class value)
+\begin{DoxyCompactList}\small\item\em Initializes all values of the array to the passed value. Existing values are overwritten. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class template\+Class$>$\newline
+class Array3\+D$<$ template\+Class $>$}
+
+Store any type in a three dimensional array
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_array3_d_a86765d4b26c76555b35279d42a69158a}\label{class_array3_d_a86765d4b26c76555b35279d42a69158a}} 
+\index{Array3D@{Array3D}!Array3D@{Array3D}}
+\index{Array3D@{Array3D}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{Array3\+D()}{Array3D()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+\hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::\hyperlink{class_array3_d}{Array3D} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+creates a 3D array with dimensions of 100 $\ast$ 100 $\ast$ 100 
+
+summary$>$ creates a cube 3D array with the passed width.
+
+param name = \char`\"{}dimensions\char`\"{}$>$ size of the width of the array cube\mbox{\Hypertarget{class_array3_d_a16a7c8e4de7c1529f4d72c00d2f5b8f9}\label{class_array3_d_a16a7c8e4de7c1529f4d72c00d2f5b8f9}} 
+\index{Array3D@{Array3D}!Array3D@{Array3D}}
+\index{Array3D@{Array3D}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{Array3\+D()}{Array3D()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+\hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::\hyperlink{class_array3_d}{Array3D} (\begin{DoxyParamCaption}\item[{unsigned int}]{dimensions }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+summary$>$ creates a 3D array with passed x , y and z dimensions.
+
+param name = \char`\"{}x\+Dim\char`\"{}$>$size of the array in the x dimension
+
+param name = \char`\"{}y\+Dim\char`\"{}$>$size of the array in the y dimension
+
+param name = \char`\"{}z\+Dim\char`\"{}$>$size of the array in the z dimension
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_array3_d_a5c406bcb6868cb65acb6ac1f593d743e}\label{class_array3_d_a5c406bcb6868cb65acb6ac1f593d743e}} 
+\index{Array3D@{Array3D}!get\+Array\+SizeX@{get\+Array\+SizeX}}
+\index{get\+Array\+SizeX@{get\+Array\+SizeX}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{get\+Array\+Size\+X()}{getArraySizeX()}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+unsigned int \hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::get\+Array\+SizeX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+summary$>$ returns the y dimension of the array
+
+\mbox{\Hypertarget{class_array3_d_a1d60c3290d17e30e1e5854f296bba68b}\label{class_array3_d_a1d60c3290d17e30e1e5854f296bba68b}} 
+\index{Array3D@{Array3D}!get\+Array\+SizeY@{get\+Array\+SizeY}}
+\index{get\+Array\+SizeY@{get\+Array\+SizeY}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{get\+Array\+Size\+Y()}{getArraySizeY()}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+unsigned int \hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::get\+Array\+SizeY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+summary$>$ returns the z dimension of the grid
+
+\mbox{\Hypertarget{class_array3_d_ac16b3ce3f37d597033a7b7fd1fdb5e41}\label{class_array3_d_ac16b3ce3f37d597033a7b7fd1fdb5e41}} 
+\index{Array3D@{Array3D}!get\+Value\+At@{get\+Value\+At}}
+\index{get\+Value\+At@{get\+Value\+At}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{get\+Value\+At()}{getValueAt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+template\+Class \hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::get\+Value\+At (\begin{DoxyParamCaption}\item[{unsigned int}]{x,  }\item[{unsigned int}]{y,  }\item[{unsigned int}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+returns the weight of the specified array index 
+
+param name = \char`\"{}x\char`\"{}$>$x position of the element to return
+
+param name = \char`\"{}y\char`\"{}$>$y position of the element to return
+
+param name = \char`\"{}z\char`\"{}$>$z position of the element to return
+
+\begin{DoxyReturn}{Returns}
+The element stored at the passed coordinates
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_array3_d_ac1539b1f9907ae9996178b968e43c53c}\label{class_array3_d_ac1539b1f9907ae9996178b968e43c53c}} 
+\index{Array3D@{Array3D}!get\+Value\+At@{get\+Value\+At}}
+\index{get\+Value\+At@{get\+Value\+At}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{get\+Value\+At()}{getValueAt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+template\+Class \hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::get\+Value\+At (\begin{DoxyParamCaption}\item[{sf\+::\+Vector3i}]{coordinate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+returns the weight of the specified array index. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em coordinate} & The 3d position of the element to return.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The element stored at the passed coordinates
+\end{DoxyReturn}
+summary$>$ returns the x dimension of the array\mbox{\Hypertarget{class_array3_d_a0bc535dddbd5c2e5597fc967aa0e4a0e}\label{class_array3_d_a0bc535dddbd5c2e5597fc967aa0e4a0e}} 
+\index{Array3D@{Array3D}!init\+All\+Values@{init\+All\+Values}}
+\index{init\+All\+Values@{init\+All\+Values}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{init\+All\+Values()}{initAllValues()}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+void \hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::init\+All\+Values (\begin{DoxyParamCaption}\item[{template\+Class}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initializes all values of the array to the passed value. Existing values are overwritten. 
+
+param name = \char`\"{}value\char`\"{}$>$ new value for every element in the array \mbox{\Hypertarget{class_array3_d_ab10ba3c75901c55b3d7cd2f58f6d6bde}\label{class_array3_d_ab10ba3c75901c55b3d7cd2f58f6d6bde}} 
+\index{Array3D@{Array3D}!set\+Value\+At@{set\+Value\+At}}
+\index{set\+Value\+At@{set\+Value\+At}!Array3D@{Array3D}}
+\subsubsection{\texorpdfstring{set\+Value\+At()}{setValueAt()}}
+{\footnotesize\ttfamily template$<$class template\+Class $>$ \\
+void \hyperlink{class_array3_d}{Array3D}$<$ template\+Class $>$\+::set\+Value\+At (\begin{DoxyParamCaption}\item[{unsigned int}]{x,  }\item[{unsigned int}]{y,  }\item[{unsigned int}]{z,  }\item[{template\+Class}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+sets the value of the selected array index to the passed value
+
+param name = \char`\"{}x\char`\"{}$>$x coordinate of the array index to change
+
+param name = \char`\"{}y\char`\"{}$>$y coordinate of the array index to change
+
+param name = \char`\"{}z\char`\"{}$>$z coordinate of the array index to change
+
+param name = \char`\"{}value\char`\"{}$>$ new value for the passed array index
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Array3\+D.\+h\end{DoxyCompactItemize}

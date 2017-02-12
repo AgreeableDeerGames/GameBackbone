@@ -1,0 +1,163 @@
+\hypertarget{class_game_world_animated_sprite}{}\section{Game\+World\+Animated\+Sprite Class Reference}
+\label{class_game_world_animated_sprite}\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+
+
+An \hyperlink{class_animated_sprite}{Animated\+Sprite} that exists in a game world and tracks its position within the game world.  
+
+
+
+
+{\ttfamily \#include $<$Game\+World\+Animated\+Sprite.\+h$>$}
+
+Inheritance diagram for Game\+World\+Animated\+Sprite\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.470588cm]{class_game_world_animated_sprite}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_game_world_animated_sprite_a3833958136cf7e0f4a0141006e48e598}{Game\+World\+Animated\+Sprite} ()
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. No texture or animations are assigned. \end{DoxyCompactList}\item 
+\hyperlink{class_game_world_animated_sprite_a6b80254cbd23ab70708c9a48fbc33ce7}{Game\+World\+Animated\+Sprite} (const sf\+::\+Texture \&texture)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. The \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} is given a texture, but is given no animations. \end{DoxyCompactList}\item 
+\hyperlink{class_game_world_animated_sprite_af8277765bcbb4eb8b5621c6141324b94}{Game\+World\+Animated\+Sprite} (const sf\+::\+Texture \&texture, \hyperlink{class_animation_set}{Animation\+Set} $\ast$animations)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. The \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} is given a texture, and assigned animations. The first frame of the first animation is set to active. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_game_world_animated_sprite_a33868dd12e9d7496e47760a765b55d87}{$\sim$\+Game\+World\+Animated\+Sprite} ()
+\begin{DoxyCompactList}\small\item\em Finalizes an instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_world_animated_sprite_ac1aa0ef5ec1a3278934238ea214624a4}{g\+Move} (double x\+Offset, double y\+Offset)
+\begin{DoxyCompactList}\small\item\em Changes the position of the sprite in the game world by the given offsets \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_world_animated_sprite_a625b0d3876fbac51995bf048e94fd7e5}{set\+Active} (bool active)
+\begin{DoxyCompactList}\small\item\em Sets the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} active. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_world_animated_sprite_a6fab62c5ed11541027a88c695a8b6147}{update} (sf\+::\+Time current\+Time)
+\begin{DoxyCompactList}\small\item\em Moves the next frame of the active animation if the sprite is animating. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+An \hyperlink{class_animated_sprite}{Animated\+Sprite} that exists in a game world and tracks its position within the game world. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_game_world_animated_sprite_a3833958136cf7e0f4a0141006e48e598}\label{class_game_world_animated_sprite_a3833958136cf7e0f4a0141006e48e598}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{Game\+World\+Animated\+Sprite()}{GameWorldAnimatedSprite()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Game\+World\+Animated\+Sprite\+::\+Game\+World\+Animated\+Sprite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. No texture or animations are assigned. 
+
+\mbox{\Hypertarget{class_game_world_animated_sprite_a6b80254cbd23ab70708c9a48fbc33ce7}\label{class_game_world_animated_sprite_a6b80254cbd23ab70708c9a48fbc33ce7}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{Game\+World\+Animated\+Sprite()}{GameWorldAnimatedSprite()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Game\+World\+Animated\+Sprite\+::\+Game\+World\+Animated\+Sprite (\begin{DoxyParamCaption}\item[{const sf\+::\+Texture \&}]{texture }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Initializes a new instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. The \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} is given a texture, but is given no animations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em texture} & The texture.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_world_animated_sprite_af8277765bcbb4eb8b5621c6141324b94}\label{class_game_world_animated_sprite_af8277765bcbb4eb8b5621c6141324b94}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{Game\+World\+Animated\+Sprite()}{GameWorldAnimatedSprite()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Game\+World\+Animated\+Sprite\+::\+Game\+World\+Animated\+Sprite (\begin{DoxyParamCaption}\item[{const sf\+::\+Texture \&}]{texture,  }\item[{\hyperlink{class_animation_set}{Animation\+Set} $\ast$}]{animations }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. The \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} is given a texture, and assigned animations. The first frame of the first animation is set to active. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em texture} & The texture.\\
+\hline
+{\em animations} & The animations.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_world_animated_sprite_a33868dd12e9d7496e47760a765b55d87}\label{class_game_world_animated_sprite_a33868dd12e9d7496e47760a765b55d87}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!````~Game\+World\+Animated\+Sprite@{$\sim$\+Game\+World\+Animated\+Sprite}}
+\index{````~Game\+World\+Animated\+Sprite@{$\sim$\+Game\+World\+Animated\+Sprite}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{$\sim$\+Game\+World\+Animated\+Sprite()}{~GameWorldAnimatedSprite()}}
+{\footnotesize\ttfamily Game\+World\+Animated\+Sprite\+::$\sim$\+Game\+World\+Animated\+Sprite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Finalizes an instance of the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} class. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_game_world_animated_sprite_ac1aa0ef5ec1a3278934238ea214624a4}\label{class_game_world_animated_sprite_ac1aa0ef5ec1a3278934238ea214624a4}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!g\+Move@{g\+Move}}
+\index{g\+Move@{g\+Move}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{g\+Move()}{gMove()}}
+{\footnotesize\ttfamily void Game\+World\+Animated\+Sprite\+::g\+Move (\begin{DoxyParamCaption}\item[{double}]{x\+Offset,  }\item[{double}]{y\+Offset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Changes the position of the sprite in the game world by the given offsets 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+Offset} & The x offset.\\
+\hline
+{\em y\+Offset} & The y offset.\\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_game_world_sprite_ad2374a50582a6eb9e4da3cd2115dad08}{Game\+World\+Sprite}.
+
+\mbox{\Hypertarget{class_game_world_animated_sprite_a625b0d3876fbac51995bf048e94fd7e5}\label{class_game_world_animated_sprite_a625b0d3876fbac51995bf048e94fd7e5}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!set\+Active@{set\+Active}}
+\index{set\+Active@{set\+Active}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{set\+Active()}{setActive()}}
+{\footnotesize\ttfamily void Game\+World\+Animated\+Sprite\+::set\+Active (\begin{DoxyParamCaption}\item[{bool}]{active }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Sets the \hyperlink{class_game_world_animated_sprite}{Game\+World\+Animated\+Sprite} active. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em active} & if set to {\ttfamily true} \mbox{[}active\mbox{]}.\\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_game_world_sprite_a4b8597b947076f847d20c66be7db8847}{Game\+World\+Sprite}.
+
+\mbox{\Hypertarget{class_game_world_animated_sprite_a6fab62c5ed11541027a88c695a8b6147}\label{class_game_world_animated_sprite_a6fab62c5ed11541027a88c695a8b6147}} 
+\index{Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}!update@{update}}
+\index{update@{update}!Game\+World\+Animated\+Sprite@{Game\+World\+Animated\+Sprite}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Game\+World\+Animated\+Sprite\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Time}]{current\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Moves the next frame of the active animation if the sprite is animating. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+Time} & The current time.\\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{class_animated_sprite_afdeda3e3030963a8ba290e23e48acc40}{Animated\+Sprite}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Game\+World\+Animated\+Sprite.\+h\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Game\+World\+Animated\+Sprite.\+cpp\end{DoxyCompactItemize}

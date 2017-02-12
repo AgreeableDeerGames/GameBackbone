@@ -1,0 +1,155 @@
+\hypertarget{class_game_world_anchor}{}\section{Game\+World\+Anchor Class Reference}
+\label{class_game_world_anchor}\index{Game\+World\+Anchor@{Game\+World\+Anchor}}
+
+
+Anchors the center of the window to the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor}.  
+
+
+
+
+{\ttfamily \#include $<$Game\+World\+Anchor.\+h$>$}
+
+Inheritance diagram for Game\+World\+Anchor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game_world_anchor}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_game_world_anchor_a9b0a0ee5f92e6fabee6f6e5adc7001a2}{Game\+World\+Anchor} ()
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class with no \hyperlink{class_game_region}{Game\+Region} at location 0,0. \end{DoxyCompactList}\item 
+\hyperlink{class_game_world_anchor_a65f7f152f39e2bbe2e76e6c7fffaeb93}{Game\+World\+Anchor} (\hyperlink{class_game_region}{Game\+Region} $\ast$anchored\+Region)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class at location 0,0. \end{DoxyCompactList}\item 
+\hyperlink{class_game_world_anchor_a0c6a75a46de880453962859d3d15e56e}{Game\+World\+Anchor} (\hyperlink{class_game_region}{Game\+Region} $\ast$anchored\+Region, double gx, double gy)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class for the passed region at the passed starting location. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_game_world_anchor_a364eff1c23a49bbfc050c18efcacc48c}{$\sim$\+Game\+World\+Anchor} ()
+\begin{DoxyCompactList}\small\item\em Finalizes an instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_world_anchor_a9402f4205c4bbd2c62d8f450cf59f178}\label{class_game_world_anchor_a9402f4205c4bbd2c62d8f450cf59f178}} 
+void {\bfseries set\+Anchored\+Region} (\hyperlink{class_game_region}{Game\+Region} $\ast$region)
+\item 
+\mbox{\Hypertarget{class_game_world_anchor_a90f0218771154558ab23d613cc99c2f7}\label{class_game_world_anchor_a90f0218771154558ab23d613cc99c2f7}} 
+\hyperlink{class_game_region}{Game\+Region} $\ast$ {\bfseries get\+Anchored\+Region} ()
+\item 
+virtual void \hyperlink{class_game_world_anchor_a35bafca13929710c6138950c7c38ec71}{g\+Move} (double x\+Offset, double y\+Offset)
+\begin{DoxyCompactList}\small\item\em \textquotesingle{}Moves\textquotesingle{} the anchor my moving all drawable objects sf\+::sprite.\+x and sf\+::sprite.\+y in the opposite direction \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_world_anchor_accfec567c6edaa530ef6f5d5b5489d6b}{set\+Active} (bool active)
+\begin{DoxyCompactList}\small\item\em Sets the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} active. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_game_world_anchor_a3efa7371cec833e9ed49478e70b28012}\label{class_game_world_anchor_a3efa7371cec833e9ed49478e70b28012}} 
+\hyperlink{class_game_region}{Game\+Region} $\ast$ {\bfseries anchored\+Region}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Anchors the center of the window to the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor}. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_game_world_anchor_a9b0a0ee5f92e6fabee6f6e5adc7001a2}\label{class_game_world_anchor_a9b0a0ee5f92e6fabee6f6e5adc7001a2}} 
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\subsubsection{\texorpdfstring{Game\+World\+Anchor()}{GameWorldAnchor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Game\+World\+Anchor\+::\+Game\+World\+Anchor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class with no \hyperlink{class_game_region}{Game\+Region} at location 0,0. 
+
+\mbox{\Hypertarget{class_game_world_anchor_a65f7f152f39e2bbe2e76e6c7fffaeb93}\label{class_game_world_anchor_a65f7f152f39e2bbe2e76e6c7fffaeb93}} 
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\subsubsection{\texorpdfstring{Game\+World\+Anchor()}{GameWorldAnchor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Game\+World\+Anchor\+::\+Game\+World\+Anchor (\begin{DoxyParamCaption}\item[{\hyperlink{class_game_region}{Game\+Region} $\ast$}]{anchored\+Region }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Initializes a new instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class at location 0,0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em anchored\+Region} & Region attached to this anchor. Every drawable item will be drawn relative to the anchors position. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_world_anchor_a0c6a75a46de880453962859d3d15e56e}\label{class_game_world_anchor_a0c6a75a46de880453962859d3d15e56e}} 
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\subsubsection{\texorpdfstring{Game\+World\+Anchor()}{GameWorldAnchor()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Game\+World\+Anchor\+::\+Game\+World\+Anchor (\begin{DoxyParamCaption}\item[{\hyperlink{class_game_region}{Game\+Region} $\ast$}]{anchored\+Region,  }\item[{double}]{gx,  }\item[{double}]{gy }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class for the passed region at the passed starting location. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em anchored\+Region} & The region attached to this anchor. Every drawable item will be drawn relative to the anchors position.\\
+\hline
+{\em gx} & The x starting position of the anchor. Used to determine the initial offset of drawable items. \\
+\hline
+{\em gy} & The y starting position of the anchor. Used to determine the initial offset of drawable items. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_world_anchor_a364eff1c23a49bbfc050c18efcacc48c}\label{class_game_world_anchor_a364eff1c23a49bbfc050c18efcacc48c}} 
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!````~Game\+World\+Anchor@{$\sim$\+Game\+World\+Anchor}}
+\index{````~Game\+World\+Anchor@{$\sim$\+Game\+World\+Anchor}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\subsubsection{\texorpdfstring{$\sim$\+Game\+World\+Anchor()}{~GameWorldAnchor()}}
+{\footnotesize\ttfamily Game\+World\+Anchor\+::$\sim$\+Game\+World\+Anchor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Finalizes an instance of the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} class. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_game_world_anchor_a35bafca13929710c6138950c7c38ec71}\label{class_game_world_anchor_a35bafca13929710c6138950c7c38ec71}} 
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!g\+Move@{g\+Move}}
+\index{g\+Move@{g\+Move}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\subsubsection{\texorpdfstring{g\+Move()}{gMove()}}
+{\footnotesize\ttfamily void Game\+World\+Anchor\+::g\+Move (\begin{DoxyParamCaption}\item[{double}]{x\+Offset,  }\item[{double}]{y\+Offset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\textquotesingle{}Moves\textquotesingle{} the anchor my moving all drawable objects sf\+::sprite.\+x and sf\+::sprite.\+y in the opposite direction 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+Offset} & The x offset.\\
+\hline
+{\em y\+Offset} & The y offset.\\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_game_world_object_a3ddbcf57e6eb43cb4aaec7ac347d4e17}{Game\+World\+Object}.
+
+\mbox{\Hypertarget{class_game_world_anchor_accfec567c6edaa530ef6f5d5b5489d6b}\label{class_game_world_anchor_accfec567c6edaa530ef6f5d5b5489d6b}} 
+\index{Game\+World\+Anchor@{Game\+World\+Anchor}!set\+Active@{set\+Active}}
+\index{set\+Active@{set\+Active}!Game\+World\+Anchor@{Game\+World\+Anchor}}
+\subsubsection{\texorpdfstring{set\+Active()}{setActive()}}
+{\footnotesize\ttfamily void Game\+World\+Anchor\+::set\+Active (\begin{DoxyParamCaption}\item[{bool}]{active }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Sets the \hyperlink{class_game_world_anchor}{Game\+World\+Anchor} active. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em active} & if set to {\ttfamily true} \mbox{[}active\mbox{]}.\\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_game_world_object_a79d89ff68b9334b454300cf855719b77}{Game\+World\+Object}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Game\+World\+Anchor.\+h\item 
+E\+:/\+Programing/\+Programing/\+Cpp/\+Game\+Backbone/\+Game\+Backbone/Game\+World\+Anchor.\+cpp\end{DoxyCompactItemize}
