@@ -253,3 +253,4 @@ paket-files/
 *.autosave
 DoxygenWorkDir/
 CodeCheck/
+DoxygenOutputDir/
