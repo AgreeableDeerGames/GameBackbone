@@ -72,6 +72,9 @@
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
+    <ClCompile Include="UtilMath.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -122,14 +125,17 @@
     <ClInclude Include="Array3D.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="PathRequest.h">
-      <Filter>Source Files\Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="NavigationHexData.h">
-      <Filter>Source Files\Navigation</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathRequest.h">
+      <Filter>Header Files\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationHexData.h">
+      <Filter>Header Files\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilMath.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

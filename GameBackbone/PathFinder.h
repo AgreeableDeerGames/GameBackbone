@@ -7,6 +7,8 @@
 
 #include<vector>
 #include<set>
+#include<list>
+#include<map>
 
 typedef Array3D<NavigationHexData> NavigationGrid;
 
@@ -34,6 +36,7 @@ private:
 	//helper functions
 	sf::Vector3i chooseNextHex(const PathRequest& pathRequest, const std::set<sf::Vector3i> * const availableHexes);
 	std::vector<sf::Vector3i> getNeighbors(const sf::Vector3i& hexCoordinate);
+	std::list<sf::Vector3i> reconstructPath(const sf::Vector3i & endPoint, std::map<sf::Vector3i, sf::Vector3i> const * const cameFrom);
 
 	//data
 	NavigationGrid* navigationGrid;

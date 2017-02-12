@@ -1,8 +1,11 @@
 #include "PathFinder.h"
+#include "UtilMath.h"
 
 #include <set>
 #include <queue>
 #include <map>
+#include <limits.h>
+#include<list>
 
 //ctr / dtr
 
@@ -43,7 +46,7 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <returns>Pointer to a vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request. 
-/// Impossible path requests will result in an empty path.</returns>
+/// Impossible path requests will result in an empty path. Caller is responsible for freeing memory.</returns>
 std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests) {
 
 	typedef std::pair<sf::Vector3i, int> hexValuePair;
@@ -77,7 +80,15 @@ std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<P
 			//check current hex
 			sf::Vector3i current = chooseNextHex(pathRequest, openSet);
 			if (current == endPoint) {
-				//TODO: (pathFind) reconstruct path, free memory, and return
+				//TODO: (pathFind) reconstruct path, and add to output vector
+
+				std::list<sf::Vector3i> inOrderPath = reconstructPath(endPoint, cameFrom);
+
+				//free memory
+				delete closedSet;
+				delete openSet;
+				delete cameFrom;
+				delete score;
 			}
 			openSet->erase(openSet->find(current));//TODO: (pathFind) Find a better way to remove an item from the open set.
 			closedSet->insert(current);
@@ -89,8 +100,9 @@ std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<P
 				if (closedSet->find(neighbor) != closedSet->end()) {
 					continue;// no need to evaluate already evaluated nodes
 				}
-				//TODO: (pathFind) calculate the tentative score
-				int tentativeScore = 0;
+				//cost of reaching neighbor using current path
+				int transitionCost = (navigationGrid->getValueAt(current).weight + navigationGrid->getValueAt(neighbor).weight) / 2;
+				int tentativeScore = score->at(current) + transitionCost;
 
 				//discover new node
 				if (openSet->find(neighbor) == openSet->end()) {
@@ -103,7 +115,6 @@ std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<P
 				cameFrom->insert_or_assign(neighbor, current);
 				score->insert_or_assign(neighbor, tentativeScore);
 			}
-
 		}
 		
 		//free memory
@@ -126,7 +137,21 @@ std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<P
 /// <param name="availableHexes">The available hexes.</param>
 /// <returns>coordinates of the best available hex grid for the passed pathRequest.</returns>
 sf::Vector3i Pathfinder::chooseNextHex(const PathRequest & pathRequest, const std::set<sf::Vector3i>* const availableHexes) {
-	return sf::Vector3i();//TODO: (chooseNextHex) fill stub
+
+	unsigned int shortestDistance = UINT_MAX;
+	sf::Vector3i const * bestHex = nullptr;
+
+	//TODO: (chooseNextHex) add different heuristics for path-finding.
+
+	for each (const sf::Vector3i hex in *availableHexes) {
+		unsigned int hexDistance = SquaredDist3d(hex, pathRequest.end);
+		if ( hexDistance < shortestDistance) {
+			shortestDistance = hexDistance;
+			bestHex = &hex;
+		}
+	}
+
+	return *bestHex;
 }
 
 /// <summary>
@@ -220,6 +245,28 @@ std::vector<sf::Vector3i> Pathfinder::getNeighbors(const sf::Vector3i & hexCoord
 
 	return neighbors;
 
+}
+
+/// <summary>
+/// Reconstructs the path of hexes to the endpoint.
+/// </summary>
+/// <param name="endPoint">The end point.</param>
+/// <param name="cameFrom">A map containing each hex's predecessor from.</param>
+/// <returns>A vector of hex indexes representing an in-order path to the passed endPoint.</returns>
+std::list<sf::Vector3i> Pathfinder::reconstructPath(const sf::Vector3i & endPoint, std::map<sf::Vector3i, sf::Vector3i> const * const cameFrom) {
+
+	std::list<sf::Vector3i> inOrderPath;
+
+	sf::Vector3i const * lastHex = &endPoint;
+
+	//add hexes until the beginning (hex that did not come from anywhere) is found
+	// do not add first hex. the path-finding object is already there.
+	auto foundHex = cameFrom->find(*lastHex);
+	while (foundHex != cameFrom->end()) {
+		inOrderPath.push_front(foundHex->first);
+		lastHex = &foundHex->second;
+	}
+	return inOrderPath;
 }
 
 
