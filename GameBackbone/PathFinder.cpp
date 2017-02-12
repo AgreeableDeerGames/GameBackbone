@@ -42,8 +42,7 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 }
 
 /// <summary>
-/// Creates an unblocked path of adjacent hexes to for each path request. The caller is responsible for freeing 
-/// the memory for the returned value.
+/// Creates an unblocked path of adjacent hexes to for each path request.
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
