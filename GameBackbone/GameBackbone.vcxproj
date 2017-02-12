@@ -174,8 +174,6 @@
     <ClCompile Include="GameWorldObject.cpp" />
     <ClCompile Include="GameWorldSprite.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NavigationGrid.cpp" />
-    <ClCompile Include="NavigationNode.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="UtilMath.cpp" />
   </ItemGroup>
@@ -194,8 +192,6 @@
     <ClInclude Include="UtilMath.h" />
     <ClInclude Include="NavigationHexData.h" />
     <ClInclude Include="PathRequest.h" />
-    <ClInclude Include="NavigationGrid.h" />
-    <ClInclude Include="NavigationNode.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="resource.h" />

@@ -63,12 +63,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
-    <ClCompile Include="NavigationGrid.cpp">
-      <Filter>Source Files\Navigation</Filter>
-    </ClCompile>
-    <ClCompile Include="NavigationNode.cpp">
-      <Filter>Source Files\Navigation</Filter>
-    </ClCompile>
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
@@ -109,12 +103,6 @@
     </ClInclude>
     <ClInclude Include="Updatable.h">
       <Filter>Header Files\Backbone</Filter>
-    </ClInclude>
-    <ClInclude Include="NavigationNode.h">
-      <Filter>Header Files\Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="NavigationGrid.h">
-      <Filter>Header Files\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="PathFinder.h">
       <Filter>Header Files\Navigation</Filter>
