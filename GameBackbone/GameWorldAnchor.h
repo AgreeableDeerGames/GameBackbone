@@ -3,6 +3,7 @@
 #include "GameWorldObject.h"
 #include "GameRegion.h"
 
+/// <summary> Anchors the center of the window to the GameWorldAnchor. </summary>
 libGameBackbone class GameWorldAnchor :
 	public GameWorldObject {
 public:
