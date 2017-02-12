@@ -16,7 +16,7 @@ public:
 
 	///<summary> creates a cube 3D array with the passed width.</summary>
 	///<param name = "dimensions"> size of the width of the array cube</param>
-	Array3D(unsigned int dimensions) : Array3D(dimensions, dimensions, dimensions) {}
+	explicit Array3D(unsigned int dimensions) : Array3D(dimensions, dimensions, dimensions) {}
 
 	///<summary> creates a 3D array with passed x , y and z dimensions.</summary>
 	///<param name = "xDim">size of the array in the x dimension</param>

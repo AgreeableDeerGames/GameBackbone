@@ -13,7 +13,7 @@ class AnimatedSprite :
 public:
 	//ctr and dtr
 	AnimatedSprite();
-	AnimatedSprite(const sf::Texture &texture);
+	explicit AnimatedSprite(const sf::Texture &texture);
 	AnimatedSprite(const sf::Texture &texture, AnimationSet * animations);
 	virtual ~AnimatedSprite();
 

@@ -5,7 +5,7 @@ class GameWorldAnimatedSprite :
 			public GameWorldSprite, public AnimatedSprite {
 public:
 	GameWorldAnimatedSprite();
-	GameWorldAnimatedSprite(const sf::Texture &texture);
+	explicit GameWorldAnimatedSprite(const sf::Texture &texture);
 	GameWorldAnimatedSprite(const sf::Texture &texture, AnimationSet * animations);
 	virtual ~GameWorldAnimatedSprite();
 

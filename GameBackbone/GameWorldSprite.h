@@ -5,7 +5,7 @@ class GameWorldSprite :
 	public GameWorldObject, public virtual sf::Sprite {
 public:
 	GameWorldSprite();
-	GameWorldSprite(const sf::Texture &texture);
+	explicit GameWorldSprite(const sf::Texture &texture);
 	GameWorldSprite(const sf::Texture &texture, const sf::IntRect &rectangle);
 	virtual ~GameWorldSprite();
 

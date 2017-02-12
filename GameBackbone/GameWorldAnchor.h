@@ -7,7 +7,7 @@ public:
 
 	//ctr / dtr
 	GameWorldAnchor();
-	GameWorldAnchor(GameRegion* anchoredRegion);
+	explicit GameWorldAnchor(GameRegion* anchoredRegion);
 	GameWorldAnchor(GameRegion* anchoredRegion, double gx, double gy);
 	virtual ~GameWorldAnchor();
 
