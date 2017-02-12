@@ -1,7 +1,9 @@
 #pragma once
+#include "DllUtil.h"
 #include "GameWorldObject.h"
 #include <SFML\Graphics\Sprite.hpp>
-class GameWorldSprite :
+
+libGameBackbone class GameWorldSprite :
 	public GameWorldObject, public virtual sf::Sprite {
 public:
 	GameWorldSprite();

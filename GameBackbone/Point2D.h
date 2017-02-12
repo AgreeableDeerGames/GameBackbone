@@ -1,5 +1,6 @@
 #pragma once
-struct Point2D {
+#include "DllUtil.h"
+libGameBackbone struct Point2D {
 	double x;
 	double y;
 };

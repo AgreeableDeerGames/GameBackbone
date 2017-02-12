@@ -1,5 +1,5 @@
 #pragma once
-
+#include "DllUtil.h"
 #include<SFML\System\Vector3.hpp>
 
 #include<vector>
@@ -30,7 +30,9 @@ public:
 	}
 
 
-	~Array3D();
+	~Array3D() {
+
+	}
 
 	
 

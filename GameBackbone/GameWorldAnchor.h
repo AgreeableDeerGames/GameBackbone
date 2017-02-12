@@ -1,7 +1,9 @@
 #pragma once
+#include "DllUtil.h"
 #include "GameWorldObject.h"
 #include "GameRegion.h"
-class GameWorldAnchor :
+
+libGameBackbone class GameWorldAnchor :
 	public GameWorldObject {
 public:
 

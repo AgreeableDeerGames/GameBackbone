@@ -1,4 +1,5 @@
 #pragma once
+#include "DllUtil.h"
 #include "AnimatedSprite.h"
 #include "Updatable.h"
 
@@ -6,7 +7,7 @@
 
 #include<vector>
 
-class CompoundSprite : public virtual Updatable {
+libGameBackbone class CompoundSprite : public virtual Updatable {
 public:
 
 	//ctr / dtr

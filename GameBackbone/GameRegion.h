@@ -1,4 +1,5 @@
 #pragma once
+#include "DllUtil.h"
 #include "GameWorldAnimatedSprite.h"
 #include "Updatable.h"
 #include "GameWorldCompoundSprite2.h"
@@ -7,7 +8,7 @@
 
 #include<vector>
 
-class GameRegion {
+libGameBackbone class GameRegion {
 public:
 	//ctr / dtr
 	GameRegion();

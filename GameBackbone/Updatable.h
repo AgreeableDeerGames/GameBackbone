@@ -1,6 +1,8 @@
 #pragma once
+#include "DllUtil.h"
 #include<SFML\System\Clock.hpp>
-class Updatable {
+
+libGameBackbone class Updatable {
 public:
 
 	Updatable() {

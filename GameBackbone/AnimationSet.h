@@ -1,8 +1,10 @@
 #pragma once
+#include "DllUtil.h"
+
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>
 
-class AnimationSet {
+libGameBackbone class AnimationSet {
 public:
 	AnimationSet(unsigned int rows, unsigned int cols);
 	AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols);

@@ -1,8 +1,9 @@
 #pragma once
+#include "DllUtil.h"
 #include "Updatable.h"
 #include "Point2D.h"
 
-class GameWorldObject {
+libGameBackbone class GameWorldObject {
 public:
 
 	//ctr / dtr

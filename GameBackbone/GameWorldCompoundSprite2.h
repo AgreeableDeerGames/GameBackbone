@@ -1,7 +1,8 @@
 #pragma once
+#include "DllUtil.h"
 #include "CompoundSprite.h"
 #include "GameWorldObject.h"
-class GameWorldCompoundSprite2 : 
+libGameBackbone class GameWorldCompoundSprite2 :
 	public CompoundSprite, GameWorldObject {
 public:
 public:

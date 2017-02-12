@@ -1,4 +1,5 @@
 #pragma once
+#include "DllUtil.h"
 #include "Array3D.h"
 #include "NavigationHexData.h"
 #include "PathRequest.h"
@@ -12,7 +13,7 @@
 
 typedef Array3D<NavigationHexData> NavigationGrid;
 
-class Pathfinder {
+libGameBackbone class Pathfinder {
 public:
 	//ctr / dtr
 	Pathfinder();

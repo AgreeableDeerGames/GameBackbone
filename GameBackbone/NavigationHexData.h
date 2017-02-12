@@ -1,12 +1,14 @@
 #pragma once
-struct NavigationHexData {
+#include "DllUtil.h"
+
+libGameBackbone struct NavigationHexData {
 	int weight;
 	unsigned int blockerDist;
 };
 
-bool operator<(const NavigationHexData& lhs, const NavigationHexData& rhs) {
+libGameBackbone bool operator<(const NavigationHexData& lhs, const NavigationHexData& rhs) {
 	return lhs.weight < rhs.weight;
 }
-bool operator>(const NavigationHexData& lhs, const NavigationHexData& rhs) {
+libGameBackbone bool operator>(const NavigationHexData& lhs, const NavigationHexData& rhs) {
 	return lhs.weight > rhs.weight;
 }

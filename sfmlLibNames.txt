@@ -1,3 +1,5 @@
+Linker -> input -> additional Dependencies
+
 release
 sfml-audio.lib
 sfml-graphics.lib
@@ -11,3 +13,9 @@ sfml-graphics-d.lib
 sfml-window-d.lib
 sfml-network-d.lib
 sfml-system-d.lib
+
+c++ -> general -> additioinal include Directories
+..\..\SFML\SFML-2.4.1\include
+
+linker -> general ->Additional Library Directories
+..\..\SFML\SFML-2.4.1\lib
