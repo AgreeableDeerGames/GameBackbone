@@ -8,6 +8,7 @@
 
 #include<vector>
 
+/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 libGameBackbone class GameRegion {
 public:
 	//ctr / dtr
@@ -27,7 +28,15 @@ public:
 
 
 	//internal behavior alteration
+	
+	/// <summary>
+	/// Resets this instance.
+	/// </summary>
 	void reset() {}
+	
+	/// <summary>
+	/// Runs the game behaviors and logic for this instance.
+	/// </summary>
 	void behave() {}
 
 	//general operations
