@@ -29,7 +29,7 @@ public:
 	NavigationGrid* getNavigationGrid();
 
 	//operations
-	std::vector<std::vector<sf::Vector3i>>* pathFind(const std::vector<PathRequest>& pathRequests);
+	void pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<sf::Vector3i>> * const returnedPaths);
 
 private:
 

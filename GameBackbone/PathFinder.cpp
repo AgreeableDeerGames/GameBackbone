@@ -42,18 +42,23 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 }
 
 /// <summary>
-/// Creates an unblocked path of adjacent hexes to for each path request.
+/// Creates an unblocked path of adjacent hexes to for each path request. The caller is responsible for freeing 
+/// the memory for the returned value.
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
-/// <returns>Pointer to a vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request. 
-/// Impossible path requests will result in an empty path. Caller is responsible for freeing memory.</returns>
-std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests) {
+/// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
+void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<sf::Vector3i>> * const returnedPaths) {
 
 	typedef std::pair<sf::Vector3i, int> hexValuePair;
 
+	//store all paths
+	std::vector<std::list<sf::Vector3i>>* allPaths = new std::vector<std::list<sf::Vector3i>>(pathRequests.size());
+
 	//TODO: (pathFind) find a way to move memory allocations out of the loop. They are bad for performance.
 
-	for each (PathRequest pathRequest in pathRequests) {
+	for (unsigned int i = 0; i < pathRequests.size(); i++) {
+
+		PathRequest pathRequest = pathRequests[i];
 
 		//grid address of start and end points
 		sf::Vector3i startPoint = pathRequest.start;
@@ -80,9 +85,10 @@ std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<P
 			//check current hex
 			sf::Vector3i current = chooseNextHex(pathRequest, openSet);
 			if (current == endPoint) {
-				//TODO: (pathFind) reconstruct path, and add to output vector
+				//reconstruct path, and add to output vector
 
 				std::list<sf::Vector3i> inOrderPath = reconstructPath(endPoint, cameFrom);
+				(*allPaths)[i] = inOrderPath;
 
 				//free memory
 				delete closedSet;
@@ -117,14 +123,15 @@ std::vector<std::vector<sf::Vector3i>>* Pathfinder::pathFind(const std::vector<P
 			}
 		}
 		
+		// no path found. Place empty path for this request.
+		(*allPaths)[i] = std::list<sf::Vector3i>();
+
 		//free memory
 		delete closedSet;
 		delete openSet;
 		delete cameFrom;
 		delete score;
 	}
-
-	return nullptr;//TODO: (pathFind) fill stub
 }
 
 
