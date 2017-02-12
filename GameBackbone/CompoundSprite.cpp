@@ -8,7 +8,7 @@ CompoundSprite::CompoundSprite() {
 }
 
 /// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed sprites and animatedSprites as components of the CompoundSprite 
+/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the CompoundSprite 
 /// </summary>
 /// <param name="sprites">Sprite components of the new CompoundSprite</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite</param>
@@ -21,7 +21,9 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 	}
 }
 
-
+/// <summary>
+/// Finalizes an instance of the <see cref="CompoundSprite"/> class.
+/// </summary>
 CompoundSprite::~CompoundSprite() {
 }
 

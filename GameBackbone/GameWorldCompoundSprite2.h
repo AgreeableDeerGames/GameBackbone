@@ -2,6 +2,8 @@
 #include "DllUtil.h"
 #include "CompoundSprite.h"
 #include "GameWorldObject.h"
+
+/// <summary> A CompoundSprite that exists withing a game world and tracks its position withing the game world. </summary>
 libGameBackbone class GameWorldCompoundSprite2 :
 	public CompoundSprite, GameWorldObject {
 public:
