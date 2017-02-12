@@ -265,6 +265,7 @@ std::list<sf::Vector3i> Pathfinder::reconstructPath(const sf::Vector3i & endPoin
 	while (foundHex != cameFrom->end()) {
 		inOrderPath.push_front(foundHex->first);
 		lastHex = &foundHex->second;
+		foundHex = cameFrom->find(*lastHex);
 	}
 	return inOrderPath;
 }
