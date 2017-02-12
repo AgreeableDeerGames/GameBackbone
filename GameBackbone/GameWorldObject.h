@@ -3,6 +3,7 @@
 #include "Updatable.h"
 #include "Point2D.h"
 
+/// <summary> Abstract object in the game world that keep track of its position within the game world </summary>
 libGameBackbone class GameWorldObject {
 public:
 

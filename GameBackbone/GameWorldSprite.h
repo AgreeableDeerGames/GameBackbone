@@ -3,6 +3,7 @@
 #include "GameWorldObject.h"
 #include <SFML\Graphics\Sprite.hpp>
 
+/// <summary> A sf::Sprite that exists withing a game world and tracks its position withing the game world. </summary>
 libGameBackbone class GameWorldSprite :
 	public GameWorldObject, public virtual sf::Sprite {
 public:
