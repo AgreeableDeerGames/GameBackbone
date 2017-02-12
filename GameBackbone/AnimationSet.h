@@ -4,6 +4,7 @@
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>
 
+///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
 libGameBackbone class AnimationSet {
 public:
 	AnimationSet(unsigned int rows, unsigned int cols);

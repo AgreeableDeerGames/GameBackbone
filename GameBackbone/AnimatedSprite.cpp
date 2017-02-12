@@ -7,7 +7,7 @@
 
 //ctr and dtr
 
-///<summary>Default Constructor. Values are not initialized 0</summary>
+/// <summary>Default Constructor. Values are not initialized 0.</summary>
 AnimatedSprite::AnimatedSprite() {
 	/*Values are deliberately left uninitialized in this case. Because of the way the inheritance hierarchy is set up, if 
 	this function sets any values it will result in the values being set twice in GameWorldAnimatedSprite's constructors.
