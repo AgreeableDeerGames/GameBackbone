@@ -18,7 +18,7 @@ AnimationSet::AnimationSet(unsigned int rows, unsigned int cols) {
 /// <param name="textureHeight">Height of the texture.</param>
 /// <param name="rows">The number of rows in the sprite sheet.</param>
 /// <param name="cols">The number of columns in the sprite sheet.</param>
-AnimationSet::AnimationSet(std::vector<std::vector<unsigned int>> frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols) {
+AnimationSet::AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols) {
 	this->rows = rows;
 	this->cols = cols;
 	framesToRects(frameAnimations, textureWidth, textureHeight);
@@ -33,7 +33,7 @@ AnimationSet::~AnimationSet() {
 /// <param name="frameAnimations">Animation represented by frame numbers.</param>
 /// <param name="textureWidth">Width of the sprite sheet texture.</param>
 /// <param name="textureHeight">Height of the sprite sheet texture.</param>
-void AnimationSet::framesToRects(std::vector<std::vector<unsigned int>> frameAnimations, unsigned int textureWidth, unsigned int textureHeight) {
+void AnimationSet::framesToRects(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight) {
 
 	//find the dimensions of the rectangles
 	unsigned int rectWidth = textureWidth / cols;
