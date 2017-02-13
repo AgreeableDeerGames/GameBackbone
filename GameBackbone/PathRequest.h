@@ -2,7 +2,7 @@
 #include <SFML/System/Vector3.hpp>
 
 /// <summary> A request to calculate a path from the start coordinate to the end coordinate. </summary>
-libGameBackbone struct PathRequest {
+struct libGameBackbone PathRequest {
 	sf::Vector3i start;
 	sf::Vector3i end;
 	double minimumFreeSpace;

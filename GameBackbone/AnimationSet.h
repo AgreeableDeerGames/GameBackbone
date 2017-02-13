@@ -5,7 +5,7 @@
 #include <SFML/Graphics/Rect.hpp>
 
 ///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
-libGameBackbone class AnimationSet {
+class libGameBackbone AnimationSet {
 public:
 	AnimationSet(unsigned int rows, unsigned int cols);
 	AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols);

@@ -3,7 +3,7 @@
 #include<SFML\System\Clock.hpp>
 
 /// <summary> Abstract class meant to be inherited. Class that is capable of being updated. </summary>
-libGameBackbone class Updatable {
+class libGameBackbone Updatable {
 public:
 
 	Updatable() {

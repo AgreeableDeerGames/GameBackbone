@@ -18,6 +18,12 @@ Pathfinder::Pathfinder(NavigationGrid * navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="Pathfinder"/> class.
+/// </summary>
+Pathfinder::~Pathfinder() {
+}
+
 
 //getters / setters
 

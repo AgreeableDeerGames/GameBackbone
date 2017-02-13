@@ -4,7 +4,7 @@
 #include "GameWorldSprite.h"
 
 /// <summary> An AnimatedSprite that exists in a game world and tracks its position within the game world. </summary>
-libGameBackbone class GameWorldAnimatedSprite :
+ class libGameBackbone GameWorldAnimatedSprite :
 			public GameWorldSprite, public AnimatedSprite {
 public:
 	GameWorldAnimatedSprite();

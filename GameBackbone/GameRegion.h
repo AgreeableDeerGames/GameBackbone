@@ -9,7 +9,7 @@
 #include<vector>
 
 /// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
-libGameBackbone class GameRegion {
+class libGameBackbone GameRegion {
 public:
 	//ctr / dtr
 	GameRegion();

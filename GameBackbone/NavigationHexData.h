@@ -4,7 +4,7 @@
 #define BLOCKED_HEX_WEIGHT 10000
 
 /// <summary> Information stored in each navigation hex. </summary>
-libGameBackbone struct NavigationHexData {
+struct libGameBackbone NavigationHexData {
 	int weight;
 	unsigned int blockerDist;
 };

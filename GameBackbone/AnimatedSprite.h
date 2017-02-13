@@ -9,7 +9,7 @@
 #include <vector>
 
 ///<summary> Sprite with the ability to display several animation states. </summary>
-libGameBackbone class AnimatedSprite :
+class libGameBackbone AnimatedSprite :
 	public virtual sf::Sprite, public virtual Updatable {
 public:
 	//ctr and dtr

@@ -8,7 +8,7 @@
 #include<vector>
 
 /// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
-libGameBackbone class CompoundSprite : public virtual Updatable {
+class libGameBackbone CompoundSprite : public virtual Updatable {
 public:
 
 	//ctr / dtr

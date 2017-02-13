@@ -2,7 +2,7 @@
 #include "DllUtil.h"
 
 /// <summary> Stores a two dimensional position. </summary>
-libGameBackbone struct Point2D {
+struct libGameBackbone Point2D {
 	double x;
 	double y;
 };
