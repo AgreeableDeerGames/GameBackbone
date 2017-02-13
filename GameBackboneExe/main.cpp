@@ -27,28 +27,28 @@ int main() {
 
 	//create sprites and textures THIS PROB WONT BE HERE WHEN MAIN GAME LOGIC IS ADDED
 
-		//create sprite
+	//create sprite
 	sf::Texture testSpriteTexture;
 	testSpriteTexture.loadFromFile("..\\Textures\\testSprite.png");
 	sf::Sprite s(testSpriteTexture);
 
-		//create GameWorldSprite
+	//create GameWorldSprite
 	GameWorldSprite gameWorldSprite(testSpriteTexture);
 	gameWorldSprite.gMove(100, 100);
 
-		//create animation set
+	//create animation set
 	sf::Vector2u textureDim = testSpriteTexture.getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
 	std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
 	aSpriteAnims.push_back(aSpriteAnim1);
 	AnimationSet* animSet = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-	
-		//create animatedSprite
+
+	//create animatedSprite
 	AnimatedSprite aSprite(testSpriteTexture, animSet);
 	aSprite.setAnimationDelay(1000);
 	aSprite.runAnimation(0);
 
-		//create GameWorldAnimatedSprite
+	//create GameWorldAnimatedSprite
 	GameWorldAnimatedSprite gameWorldAnimatedSprite(testSpriteTexture, animSet);
 	gameWorldAnimatedSprite.setAnimationDelay(500);
 	gameWorldAnimatedSprite.runAnimation(0);

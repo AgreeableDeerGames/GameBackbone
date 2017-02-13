@@ -60,9 +60,6 @@
     <ClCompile Include="GameWorldSprite.cpp">
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files\Backbone</Filter>
-    </ClCompile>
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>

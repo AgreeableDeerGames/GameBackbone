@@ -64,7 +64,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -173,7 +173,6 @@
     <ClCompile Include="GameWorldCompoundSprite2.cpp" />
     <ClCompile Include="GameWorldObject.cpp" />
     <ClCompile Include="GameWorldSprite.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="UtilMath.cpp" />
   </ItemGroup>
