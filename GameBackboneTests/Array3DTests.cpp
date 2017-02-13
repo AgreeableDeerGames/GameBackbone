@@ -3,6 +3,7 @@
 #include "../GameBackbone/Array3D.h"
 
 
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace GameBackboneTests
@@ -11,6 +12,10 @@ namespace GameBackboneTests
 	{
 	public:
 		
+		TEST_CLASS_INITIALIZE(TEST_CLASS_INIT) {
+			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+		}
+
 		TEST_METHOD(default_constructor_test)
 		{
 			Array3D<int>* intArray = new Array3D<int>();
@@ -22,6 +27,5 @@ namespace GameBackboneTests
 			Assert::AreEqual(arrayZSize, 100, L"Array Z size", LINE_INFO());
 			delete intArray;
 		}
-
 	};
 }
