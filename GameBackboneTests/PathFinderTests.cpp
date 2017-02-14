@@ -17,7 +17,7 @@ namespace GameBackboneTests
 
 		TEST_METHOD(default_constructor_test)
 		{
-			//Pathfinder pathfinder;
+			Pathfinder pathfinder;
 		}
 
 	};
