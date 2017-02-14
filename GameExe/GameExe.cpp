@@ -1,3 +1,8 @@
+// GameExe.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+
 #include "AnimatedSprite.h"
 #include "AnimationSet.h"
 #include "GameWorldSprite.h"
