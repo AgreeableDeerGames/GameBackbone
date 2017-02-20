@@ -101,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\GameBackboneDll</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
