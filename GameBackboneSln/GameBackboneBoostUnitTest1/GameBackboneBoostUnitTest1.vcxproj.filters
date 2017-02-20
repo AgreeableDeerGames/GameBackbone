@@ -32,5 +32,8 @@
     <ClCompile Include="Array3DTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinderTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,7 +2,6 @@
 
 #include<Array3D.h>
 
-
 BOOST_AUTO_TEST_CASE( default_ctr_test )  
 {
 
