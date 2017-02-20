@@ -19,3 +19,16 @@ c++ -> general -> additioinal include Directories
 
 linker -> general ->Additional Library Directories
 ..\..\..\SFML\SFML-2.4.1\lib
+
+
+
+
+////////////////////////////////
+TESTING paths
+///////////////////////////////
+
+include
+..\..\..\Boost\boost_1_63_0_x64\include\boost-1_63
+
+linker
+..\..\..\Boost\boost_1_63_0_x64\lib
