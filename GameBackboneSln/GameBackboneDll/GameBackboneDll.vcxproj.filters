@@ -45,21 +45,6 @@
     <ClInclude Include="GameRegion.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
-    <ClInclude Include="GameWorldAnchor.h">
-      <Filter>Header Files\Backbone</Filter>
-    </ClInclude>
-    <ClInclude Include="GameWorldAnimatedSprite.h">
-      <Filter>Header Files\Backbone</Filter>
-    </ClInclude>
-    <ClInclude Include="GameWorldCompoundSprite2.h">
-      <Filter>Header Files\Backbone</Filter>
-    </ClInclude>
-    <ClInclude Include="GameWorldObject.h">
-      <Filter>Header Files\Backbone</Filter>
-    </ClInclude>
-    <ClInclude Include="GameWorldSprite.h">
-      <Filter>Header Files\Backbone</Filter>
-    </ClInclude>
     <ClInclude Include="Updatable.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
@@ -108,21 +93,6 @@
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
     <ClCompile Include="GameRegion.cpp">
-      <Filter>Source Files\Backbone</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWorldAnchor.cpp">
-      <Filter>Source Files\Backbone</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWorldAnimatedSprite.cpp">
-      <Filter>Source Files\Backbone</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWorldCompoundSprite2.cpp">
-      <Filter>Source Files\Backbone</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWorldObject.cpp">
-      <Filter>Source Files\Backbone</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWorldSprite.cpp">
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
     <ClCompile Include="PathFinder.cpp">

@@ -2,13 +2,9 @@
 
 #include "AnimatedSprite.h"
 #include "AnimationSet.h"
-#include "GameWorldSprite.h"
-#include "GameWorldAnimatedSprite.h"
 #include "GameRegion.h"
 #include "Updatable.h"
 #include "CompoundSprite.h"
-#include "GameWorldCompoundSprite2.h"
-#include "GameWorldAnchor.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -34,10 +30,6 @@ int main() {
 	testSpriteTexture.loadFromFile("..\\..\\Textures\\testSprite.png");
 	sf::Sprite s(testSpriteTexture);
 
-	//create GameWorldSprite
-	GameWorldSprite gameWorldSprite(testSpriteTexture);
-	gameWorldSprite.gMove(100, 100);
-
 	//create animation set
 	sf::Vector2u textureDim = testSpriteTexture.getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
@@ -47,6 +39,7 @@ int main() {
 
 	//create animatedSprite
 	AnimatedSprite aSprite(testSpriteTexture, animSet);
+	aSprite.move(600, 200);
 	aSprite.setAnimationDelay(1000);
 	aSprite.runAnimation(0);
 

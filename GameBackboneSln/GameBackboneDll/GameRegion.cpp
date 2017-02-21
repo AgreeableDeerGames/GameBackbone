@@ -62,11 +62,11 @@ void GameRegion::setDrawable(bool status, sf::Sprite * object) {
 
 
 /// <summary>
-/// Adds or removes all drawable object from a GameWorldCompound sprite to the array of drawable objects.
+/// Adds or removes all drawable object from a CompoundSprite to the array of drawable objects.
 /// </summary>
 /// <param name="status">if set to <c>true</c> the object will be drawable, otherwise the object will be made non-drawable.</param>
 /// <param name="object">The object.</param>
-void GameRegion::setDrawable(bool status, GameWorldCompoundSprite2 * object) {
+void GameRegion::setDrawable(bool status, CompoundSprite * object) {
 	for each (sf::Sprite* sprite in *(object->getSfSprites()) ) {
 		setDrawable(status, sprite);
 	}
@@ -80,17 +80,17 @@ void GameRegion::setDrawable(bool status, GameWorldCompoundSprite2 * object) {
 /// </summary>
 /// <param name="status">if set to <c>true</c> the object will be both drawable and updatable, otherwise the object will be neither drawable nor updatable. </param>
 /// <param name="object">The object.</param>
-void GameRegion::setDrawAndUpdateable(bool status, GameWorldAnimatedSprite* object) {
+void GameRegion::setDrawAndUpdateable(bool status, AnimatedSprite* object) {
 	setDrawable(status, object);
 	setUpdatable(status, object);
 }
 
 /// <summary>
-/// Adds or removes all drawable and updatable object from a GameWorldCompoundSprite to the arrays of drawable and updatable objects.
+/// Adds or removes all drawable and updatable object from a CompoundSprite to the arrays of drawable and updatable objects.
 /// </summary>
 /// <param name="status">if set to <c>true</c> the object will be both drawable and updatable, otherwise the object will be neither drawable nor updatable. </param>
 /// <param name="object">The object.</param>
-void GameRegion::setDrawAndUpdateable(bool status, GameWorldCompoundSprite2 * object) {
+void GameRegion::setDrawAndUpdateable(bool status, CompoundSprite * object) {
 	setDrawable(status, object);
 	setUpdatable(status, object);
 }

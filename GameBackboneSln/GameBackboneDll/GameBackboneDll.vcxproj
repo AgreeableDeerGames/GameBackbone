@@ -159,11 +159,6 @@
     <ClInclude Include="DllUtil.h" />
     <ClInclude Include="GameBackboneDll.h" />
     <ClInclude Include="GameRegion.h" />
-    <ClInclude Include="GameWorldAnchor.h" />
-    <ClInclude Include="GameWorldAnimatedSprite.h" />
-    <ClInclude Include="GameWorldCompoundSprite2.h" />
-    <ClInclude Include="GameWorldObject.h" />
-    <ClInclude Include="GameWorldSprite.h" />
     <ClInclude Include="NavigationHexData.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathRequest.h" />
@@ -192,11 +187,6 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameRegion.cpp" />
-    <ClCompile Include="GameWorldAnchor.cpp" />
-    <ClCompile Include="GameWorldAnimatedSprite.cpp" />
-    <ClCompile Include="GameWorldCompoundSprite2.cpp" />
-    <ClCompile Include="GameWorldObject.cpp" />
-    <ClCompile Include="GameWorldSprite.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
