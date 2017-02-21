@@ -50,35 +50,17 @@ int main() {
 	aSprite.setAnimationDelay(1000);
 	aSprite.runAnimation(0);
 
-	//create GameWorldAnimatedSprite
-	GameWorldAnimatedSprite gameWorldAnimatedSprite(testSpriteTexture, animSet);
-	gameWorldAnimatedSprite.setAnimationDelay(500);
-	gameWorldAnimatedSprite.runAnimation(0);
-	gameWorldAnimatedSprite.gMove(300, 100);
-
-	//create compound sprite
-	sf::Sprite sprite1(testSpriteTexture);
-	AnimatedSprite aSprite1(testSpriteTexture, animSet);
-	AnimatedSprite aSprite2(testSpriteTexture, animSet);
-	aSprite2.move(500, 500);
-	aSprite1.move(100, 300);
-	aSprite1.runAnimation(0);
-	aSprite2.runAnimation(0);
-	aSprite1.setAnimationDelay(200);
-	aSprite2.setAnimationDelay(500);
-	std::vector<sf::Sprite*> gwcpSpriteSprites = { &sprite1 };
-	std::vector<AnimatedSprite*> gwcpSpriteASprites = { &aSprite1, &aSprite2 };
-	GameWorldCompoundSprite2 gwcpSprite(gwcpSpriteSprites, gwcpSpriteASprites);
-	gwcpSprite.gMove(100, 100);
-
 	//add objects to game region
 	GameRegion testGameRegion;
-	//testGameRegion.setDrawable(true, &gameWorldSprite);
-	//testGameRegion.setDrawAndUpdateable(true, &gameWorldAnimatedSprite);
-	testGameRegion.setDrawAndUpdateable(true, &gwcpSprite);
+	testGameRegion.setDrawable(true, &aSprite);
+	testGameRegion.setUpdatable(true, &aSprite);
 
-	//GameWorldAnchor
-	GameWorldAnchor regionAnchor(&testGameRegion, 0, 0);
+	testGameRegion.setDrawable(true, &s);
+
+
+	//view
+	sf::View camera(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
+	window.setView(camera);
 
 	//main logic loop
 	GameRegion* activeRegion = &testGameRegion;
@@ -93,7 +75,9 @@ int main() {
 				window.close();
 				break;
 			case sf::Event::MouseMoved:
-				regionAnchor.gMove(event.mouseMove.x - oldMouseX, event.mouseMove.y - oldMouseY);
+				//pan camera with mouse
+				window.setView(camera);
+				camera.move(event.mouseMove.x - oldMouseX, event.mouseMove.y - oldMouseY);
 				oldMouseX = event.mouseMove.x;
 				oldMouseY = event.mouseMove.y;
 				break;
@@ -118,6 +102,8 @@ int main() {
 		//end draw logic
 		window.display();
 	}
+
+	delete animSet;
 
 	return 0;
 }
