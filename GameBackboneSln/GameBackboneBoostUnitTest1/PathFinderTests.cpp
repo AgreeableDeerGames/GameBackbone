@@ -40,13 +40,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//block all hexes
-	for (size_t i = 0; i < CUBE_DIM; i++) {
-		for (size_t j = 0; j < CUBE_DIM; j++) {
-			for (size_t k = 0; k < CUBE_DIM; k++) {
-				navGrid.setValueAt(i, j, k, NavigationHexData{BLOCKED_HEX_WEIGHT, 0});
-			}
-		}
-	}
+	navGrid.initAllValues(NavigationHexData{ BLOCKED_HEX_WEIGHT, 0 });
 
 	//Set value at the midPoint
 	sf::Vector3i startPoint(1, 1, 1);
@@ -66,6 +60,34 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 	//ensure the returned path is empty
 	BOOST_CHECK(pathsReturn[0].size() == 0);
+
+	delete pathfinder;
+}
+
+
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
+	const int CUBE_DIM = 3;
+	NavigationGrid navGrid(CUBE_DIM);
+	Pathfinder* pathfinder = new Pathfinder(&navGrid);
+
+	//ensure all hexes are clear
+	navGrid.initAllValues(NavigationHexData{ 0,0 });
+
+	//create request
+	sf::Vector3i startPoint(1, 1, 1);
+	PathRequest pathRequest{ startPoint, sf::Vector3i(2,2,2), 1, 0 };
+	std::vector<PathRequest> pathRequests;
+	pathRequests.push_back(pathRequest);
+
+
+	//create return value
+	std::vector<std::list<sf::Vector3i>> pathsReturn;
+	pathsReturn.resize(pathRequests.size());
+	//find the path
+	pathfinder->pathFind(pathRequests, &pathsReturn);
+
+	//ensure the returned path is empty
+	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	delete pathfinder;
 }
