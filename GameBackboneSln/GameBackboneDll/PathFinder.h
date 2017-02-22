@@ -55,25 +55,31 @@ private:
 
 //define required functions to use sf::Vector3i in sets
 namespace sf {
-
+	
+	/// <summary>
+	/// Strict weak ordering less than comparator for sf::Vector3i
+	/// </summary>
+	/// <param name="lhs">The left hand side sf::Vector3i.</param>
+	/// <param name="rhs">The right hand side sf::Vector3i.</param>
+	/// <returns>True if lhs is less than rhs, falsee otherwise</returns>
 	bool operator<(const sf::Vector3i& lhs, const sf::Vector3i& rhs) {
-		if (lhs.x != rhs.x) {
-			return lhs.x < rhs.y;
-		} else if (lhs.y != rhs.y) {
-			return lhs.y < rhs.y;
-		} else {
-			return lhs.z < rhs.z;
-		}
+		if (lhs.x < rhs.x) return true;
+		if (lhs.x > rhs.x) return false;
+		if (lhs.y < rhs.y) return true;
+		if (lhs.y > rhs.y) return false;
+		if (lhs.z < rhs.z) return true;
+		if (lhs.z > rhs.z) return false;
+		return false;
 	}
-
+	
+	/// <summary>
+	/// Strict weak ordering greater than comparator for sf::Vector3i
+	/// </summary>
+	/// <param name="lhs">The left hand side sf::Vector3i.</param>
+	/// <param name="rhs">The right hand side sf::Vector3i.</param>
+	/// <returns>True if lhs is greater than rhs, falsee otherwise</returns>
 	bool operator>(const sf::Vector3i& lhs, const sf::Vector3i& rhs) {
-		if (lhs.x != rhs.x) {
-			return lhs.x > rhs.y;
-		} else if (lhs.y != rhs.y) {
-			return lhs.y > rhs.y;
-		} else {
-			return lhs.z > rhs.z;
-		}
+		return !(lhs < rhs);
 	}
 
 }
