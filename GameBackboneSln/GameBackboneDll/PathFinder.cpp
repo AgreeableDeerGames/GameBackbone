@@ -96,6 +96,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 				delete openSet;
 				delete cameFrom;
 				delete score;
+				return;
 			}
 			openSet->erase(openSet->find(current));
 			closedSet->insert(current);
