@@ -160,7 +160,7 @@
     <ClInclude Include="DllUtil.h" />
     <ClInclude Include="GameBackboneDll.h" />
     <ClInclude Include="GameRegion.h" />
-    <ClInclude Include="NavigationHexData.h" />
+    <ClInclude Include="NavigationGridData.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathRequest.h" />
     <ClInclude Include="Point2D.h" />

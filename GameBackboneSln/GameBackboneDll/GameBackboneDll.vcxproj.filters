@@ -69,9 +69,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="NavigationHexData.h">
-      <Filter>Header Files\Navigation</Filter>
-    </ClInclude>
     <ClInclude Include="PathFinder.h">
       <Filter>Header Files\Navigation</Filter>
     </ClInclude>
@@ -83,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="Array2D.h">
       <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationGridData.h">
+      <Filter>Header Files\Navigation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

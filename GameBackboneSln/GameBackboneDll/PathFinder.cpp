@@ -6,7 +6,7 @@
 #include <queue>
 #include <map>
 #include <limits.h>
-#include<list>
+#include <list>
 
 //ctr / dtr
 
@@ -53,42 +53,42 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
-void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<sf::Vector3i>> * const returnedPaths) {
+void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<IntPair>> * const returnedPaths) {
 
-	typedef std::pair<sf::Vector3i, int> hexValuePair;
+	typedef std::pair<IntPair, int> GridValuePair;
 
 	for (unsigned int i = 0; i < pathRequests.size(); i++) {
 
 		PathRequest pathRequest = pathRequests[i];
 
 		//grid address of start and end points
-		sf::Vector3i startPoint = pathRequest.start;
-		sf::Vector3i endPoint = pathRequest.end;
+		IntPair startPoint = pathRequest.start;
+		IntPair endPoint = pathRequest.end;
 
 		// the set of nodes already evaluated
-		std::set<sf::Vector3i>* closedSet = new std::set<sf::Vector3i>();
+		std::set<IntPair>* closedSet = new std::set<IntPair>();
 
 		//the set of currently discovered nodes that are already evaluated.
-		std::set<sf::Vector3i>* openSet = new std::set<sf::Vector3i>();
+		std::set<IntPair>* openSet = new std::set<IntPair>();
 		openSet->insert(startPoint);
 
 		//cost to move to a point from the start
-		std::map<sf::Vector3i, int>* score = new std::map<sf::Vector3i, int>();
-		score->insert(hexValuePair(startPoint, 0));
+		std::map<IntPair, int>* score = new std::map<IntPair, int>();
+		score->insert(GridValuePair(startPoint, 0));
 
 		// For each node, which node it can most efficiently be reached from.
 		// If a node can be reached from many nodes, cameFrom will eventually contain the
 		// most efficient previous step.
-		std::map<sf::Vector3i, sf::Vector3i>* cameFrom = new std::map<sf::Vector3i, sf::Vector3i>();
+		std::map<IntPair, IntPair>* cameFrom = new std::map<IntPair, IntPair>();
 
 		//search for path
 		while (!openSet->empty()) {
 			//check current hex
-			sf::Vector3i current = chooseNextHex(pathRequest, openSet);
+			IntPair current = chooseNextHex(pathRequest, openSet);
 			if (current == endPoint) {
 				//reconstruct path, and add to output vector
 
-				std::list<sf::Vector3i> inOrderPath = reconstructPath(endPoint, cameFrom);
+				std::list<IntPair> inOrderPath = reconstructPath(endPoint, cameFrom);
 				(*returnedPaths)[i] = inOrderPath;
 
 				//free memory
@@ -102,20 +102,20 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 			closedSet->insert(current);
 
 			//find neighbors
-			std::vector<sf::Vector3i> neighbors = getNeighbors(current);
+			std::vector<IntPair> neighbors = getNeighbors(current);
 
-			for each (sf::Vector3i neighbor in neighbors) {
+			for each (IntPair neighbor in neighbors) {
 				if (closedSet->find(neighbor) != closedSet->end()) {
 					continue;// no need to evaluate already evaluated nodes
 				}
 				//cost of reaching neighbor using current path
-				int transitionCost = (navigationGrid->getValueAt(current).weight + navigationGrid->getValueAt(neighbor).weight) / 2;
+				int transitionCost = (navigationGrid->getValueAt(current.first, current.second).weight + navigationGrid->getValueAt(neighbor.first, neighbor.second).weight) / 2;
 				int tentativeScore = score->at(current) + transitionCost;
 
 				//discover new node
 				if (openSet->find(neighbor) == openSet->end()) {
 					//add blocked to closed set and unblocked to open set
-					if (navigationGrid->getValueAt(neighbor).weight >= BLOCKED_HEX_WEIGHT) {
+					if (navigationGrid->getValueAt(neighbor.first, neighbor.second).weight >= BLOCKED_HEX_WEIGHT) {
 						closedSet->insert(neighbor);
 						continue;
 					} else {
@@ -132,7 +132,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 		}
 		
 		// no path found. Place empty path for this request.
-		(*returnedPaths)[i] = std::list<sf::Vector3i>();
+		(*returnedPaths)[i] = std::list<IntPair>();
 
 		//free memory
 		delete closedSet;
@@ -151,13 +151,13 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 /// <param name="pathRequest">The path request.</param>
 /// <param name="availableHexes">The available hexes.</param>
 /// <returns>coordinates of the best available hex grid for the passed pathRequest.</returns>
-sf::Vector3i Pathfinder::chooseNextHex(const PathRequest & pathRequest, const std::set<sf::Vector3i>* const availableHexes) {
+IntPair Pathfinder::chooseNextHex(const PathRequest & pathRequest, const std::set<IntPair>* const availableHexes) {
 
 	unsigned int shortestDistance = UINT_MAX;
-	sf::Vector3i const * bestHex = nullptr;
+	IntPair const * bestHex = nullptr;
 
-	for each (const sf::Vector3i hex in *availableHexes) {
-		unsigned int hexDistance = SquaredDist3d(hex, pathRequest.end);
+	for each (const IntPair hex in *availableHexes) {
+		unsigned int hexDistance = SquaredDist2d(hex, pathRequest.end);
 		if ( hexDistance < shortestDistance) {
 			shortestDistance = hexDistance;
 			bestHex = &hex;
@@ -172,89 +172,31 @@ sf::Vector3i Pathfinder::chooseNextHex(const PathRequest & pathRequest, const st
 /// </summary>
 /// <param name="hexCoordinate">The coordinate of the hex node to get neighbors for</param>
 /// <returns>Vector containing all valid neighbors of the hex node at the passed coordinate</returns>
-std::vector<sf::Vector3i> Pathfinder::getNeighbors(const sf::Vector3i & hexCoordinate) {
+std::vector<IntPair> Pathfinder::getNeighbors(const IntPair & hexCoordinate) {
 
 	//find the bounds of the active navigation grid
 	int maxX = navigationGrid->getArraySizeX();
 	int maxY = navigationGrid->getArraySizeY();
-	int maxZ = navigationGrid->getArraySizeZ();
-	std::vector<sf::Vector3i> neighbors;
+	std::vector<IntPair> neighbors;
 
-	bool xUp = (hexCoordinate.x + 1 < maxX);
-	bool xDown = (hexCoordinate.x - 1 >= 0);
-	bool yUp = (hexCoordinate.y + 1 < maxY);
-	bool yDown = (hexCoordinate.y - 1 >= 0);
-	bool zUP = (hexCoordinate.z + 1 < maxZ);
-	bool zDown = (hexCoordinate.z - 1 >= 0);
+	bool xUp = (hexCoordinate.first + 1 < maxX);
+	bool xDown = (hexCoordinate.first - 1 >= 0);
+	bool yUp = (hexCoordinate.second + 1 < maxY);
+	bool yDown = (hexCoordinate.second - 1 >= 0);
 
-	if (xUp) {//x
-		neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y, hexCoordinate.z));
-		if (yUp) { //x + y
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y + 1, hexCoordinate.z));
-			if (zUP) { //x + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y + 1, hexCoordinate.z + 1));
-			}
-			if (zDown) {// x + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y + 1, hexCoordinate.z - 1));
-			}
-		}
-		if (yDown) {// x + y
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y - 1, hexCoordinate.z));
-			if (zUP) {//X + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y - 1, hexCoordinate.z + 1));
-			}
-			if (zDown) {// X + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x + 1, hexCoordinate.y - 1, hexCoordinate.z - 1));
-			}
-		}
+	if (xUp) {
+		neighbors.push_back(IntPair(hexCoordinate.first + 1, hexCoordinate.second));
 	}
-	if (xDown) {// x
-		neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y, hexCoordinate.z));
-		if (yUp) {// x + y
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y + 1, hexCoordinate.z));
-			if (zUP) { // x + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y + 1, hexCoordinate.z + 1));
-			}
-			if (zDown) {//X + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y + 1, hexCoordinate.z - 1));
-			}
-		}
-		if (yDown) {//x + y
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y - 1, hexCoordinate.z));
-			if (zUP) {// x + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y - 1, hexCoordinate.z + 1));
-			}
-			if (zDown) {//X + y + z
-				neighbors.push_back(sf::Vector3i(hexCoordinate.x - 1, hexCoordinate.y - 1, hexCoordinate.z - 1));
-			}
-		}
+	if (xDown) {
+		neighbors.push_back(IntPair(hexCoordinate.first - 1, hexCoordinate.second));
 	}
-
-	if (yUp) { //y
-		neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y + 1, hexCoordinate.z));
-		if (zUP) {// y + z
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y + 1, hexCoordinate.z + 1));
-		}
-		if (zDown) {// y + z
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y + 1, hexCoordinate.z - 1));
-		}
+	if (yUp) {
+		neighbors.push_back(IntPair(hexCoordinate.first, hexCoordinate.second + 1));
 	}
-	if (yDown) {// y
-		neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y - 1, hexCoordinate.z));
-		if (zUP) {// y + z
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y - 1, hexCoordinate.z + 1));
-		}
-		if (zDown) {// y + z
-			neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y - 1, hexCoordinate.z - 1));
-		}
+	if (yDown) {
+		neighbors.push_back(IntPair(hexCoordinate.first, hexCoordinate.second - 1));
 	}
 	
-	if (zUP) { // z
-		neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y, hexCoordinate.z + 1));
-	}
-	if (zDown) { //z
-		neighbors.push_back(sf::Vector3i(hexCoordinate.x, hexCoordinate.y, hexCoordinate.z - 1));
-	}
 
 	return neighbors;
 
@@ -266,11 +208,11 @@ std::vector<sf::Vector3i> Pathfinder::getNeighbors(const sf::Vector3i & hexCoord
 /// <param name="endPoint">The end point.</param>
 /// <param name="cameFrom">A map containing each hex's predecessor from.</param>
 /// <returns>A vector of hex indexes representing an in-order path to the passed endPoint.</returns>
-std::list<sf::Vector3i> Pathfinder::reconstructPath(const sf::Vector3i & endPoint, std::map<sf::Vector3i, sf::Vector3i> const * const cameFrom) {
+std::list<IntPair> Pathfinder::reconstructPath(const IntPair & endPoint, std::map<IntPair, IntPair> const * const cameFrom) {
 
-	std::list<sf::Vector3i> inOrderPath;
+	std::list<IntPair> inOrderPath;
 
-	sf::Vector3i const * lastHex = &endPoint;
+	IntPair const * lastHex = &endPoint;
 
 	//add hexes until the beginning (hex that did not come from anywhere) is found
 	// do not add first hex. the path-finding object is already there.

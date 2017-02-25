@@ -5,14 +5,14 @@
 #define BLOCKED_HEX_WEIGHT 10000
 
 /// <summary> Information stored in each navigation hex. </summary>
-struct libGameBackbone NavigationHexData {
+struct libGameBackbone NavigationGridData {
 	int weight;
 	unsigned int blockerDist;
 };
 
-libGameBackbone bool operator<(const NavigationHexData& lhs, const NavigationHexData& rhs) {
+libGameBackbone bool operator<(const NavigationGridData& lhs, const NavigationGridData& rhs) {
 	return lhs.weight < rhs.weight;
 }
-libGameBackbone bool operator>(const NavigationHexData& lhs, const NavigationHexData& rhs) {
+libGameBackbone bool operator>(const NavigationGridData& lhs, const NavigationGridData& rhs) {
 	return lhs.weight > rhs.weight;
 }
