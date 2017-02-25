@@ -37,8 +37,8 @@ public:
 private:
 
 	//helper functions
-	IntPair chooseNextHex(const PathRequest& pathRequest, const std::set<IntPair> * const availableHexes);
-	std::vector<IntPair> getNeighbors(const IntPair& hexCoordinate);
+	IntPair chooseNextGridSquare(const PathRequest& pathRequest, const std::set<IntPair> * const availableGridSquares);
+	std::vector<IntPair> getNeighbors(const IntPair& gridCoordinate);
 	std::list<IntPair> reconstructPath(const IntPair& endPoint, std::map<IntPair, IntPair> const * const cameFrom);
 
 	//data

@@ -2,9 +2,9 @@
 #include "stdafx.h"
 #include "DllUtil.h"
 
-#define BLOCKED_HEX_WEIGHT 10000
+#define BLOCKED_GRID_WEIGHT 10000
 
-/// <summary> Information stored in each navigation hex. </summary>
+/// <summary> Information stored in each navigation grid square. </summary>
 struct libGameBackbone NavigationGridData {
 	int weight;
 	unsigned int blockerDist;

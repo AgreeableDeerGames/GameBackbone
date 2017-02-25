@@ -49,7 +49,7 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 }
 
 /// <summary>
-/// Creates an unblocked path of adjacent hexes to for each path request.
+/// Creates an unblocked path of adjacent grid squares to for each path request.
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
@@ -83,8 +83,8 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 
 		//search for path
 		while (!openSet->empty()) {
-			//check current hex
-			IntPair current = chooseNextHex(pathRequest, openSet);
+			//check current grid square
+			IntPair current = chooseNextGridSquare(pathRequest, openSet);
 			if (current == endPoint) {
 				//reconstruct path, and add to output vector
 
@@ -115,7 +115,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 				//discover new node
 				if (openSet->find(neighbor) == openSet->end()) {
 					//add blocked to closed set and unblocked to open set
-					if (navigationGrid->getValueAt(neighbor.first, neighbor.second).weight >= BLOCKED_HEX_WEIGHT) {
+					if (navigationGrid->getValueAt(neighbor.first, neighbor.second).weight >= BLOCKED_GRID_WEIGHT) {
 						closedSet->insert(neighbor);
 						continue;
 					} else {
@@ -146,55 +146,55 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 // private helper functions 
 
 /// <summary>
-/// Chooses the next Hex-grid for pathFind based on the pathRequest and the available hexes.
+/// Chooses the next grid square for pathFind based on the pathRequest and the available grid squares.
 /// </summary>
 /// <param name="pathRequest">The path request.</param>
-/// <param name="availableHexes">The available hexes.</param>
-/// <returns>coordinates of the best available hex grid for the passed pathRequest.</returns>
-IntPair Pathfinder::chooseNextHex(const PathRequest & pathRequest, const std::set<IntPair>* const availableHexes) {
+/// <param name="gridSquares">The available gridSquares.</param>
+/// <returns>coordinates of the best available grid square for the passed pathRequest.</returns>
+IntPair Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<IntPair>* const availableGridSquares) {
 
 	unsigned int shortestDistance = UINT_MAX;
-	IntPair const * bestHex = nullptr;
+	IntPair const * bestGridSquare = nullptr;
 
-	for each (const IntPair hex in *availableHexes) {
-		unsigned int hexDistance = SquaredDist2d(hex, pathRequest.end);
-		if ( hexDistance < shortestDistance) {
-			shortestDistance = hexDistance;
-			bestHex = &hex;
+	for each (const IntPair gridSquare in *availableGridSquares) {
+		unsigned int gridSquareDistance = SquaredDist2d(gridSquare, pathRequest.end);
+		if ( gridSquareDistance < shortestDistance) {
+			shortestDistance = gridSquareDistance;
+			bestGridSquare = &gridSquare;
 		}
 	}
 
-	return *bestHex;
+	return *bestGridSquare;
 }
 
 /// <summary>
-/// Gets the neighbors of a hex.
+/// Gets the neighbors of a gridSquare.
 /// </summary>
-/// <param name="hexCoordinate">The coordinate of the hex node to get neighbors for</param>
-/// <returns>Vector containing all valid neighbors of the hex node at the passed coordinate</returns>
-std::vector<IntPair> Pathfinder::getNeighbors(const IntPair & hexCoordinate) {
+/// <param name="gridSquareCoordinate">The coordinate of the grid square to get neighbors for.</param>
+/// <returns>Vector containing all valid neighbors of the grid square at the passed coordinate.</returns>
+std::vector<IntPair> Pathfinder::getNeighbors(const IntPair & gridSquareCoordinate) {
 
 	//find the bounds of the active navigation grid
 	int maxX = navigationGrid->getArraySizeX();
 	int maxY = navigationGrid->getArraySizeY();
 	std::vector<IntPair> neighbors;
 
-	bool xUp = (hexCoordinate.first + 1 < maxX);
-	bool xDown = (hexCoordinate.first - 1 >= 0);
-	bool yUp = (hexCoordinate.second + 1 < maxY);
-	bool yDown = (hexCoordinate.second - 1 >= 0);
+	bool xUp = (gridSquareCoordinate.first + 1 < maxX);
+	bool xDown = (gridSquareCoordinate.first - 1 >= 0);
+	bool yUp = (gridSquareCoordinate.second + 1 < maxY);
+	bool yDown = (gridSquareCoordinate.second - 1 >= 0);
 
 	if (xUp) {
-		neighbors.push_back(IntPair(hexCoordinate.first + 1, hexCoordinate.second));
+		neighbors.push_back(IntPair(gridSquareCoordinate.first + 1, gridSquareCoordinate.second));
 	}
 	if (xDown) {
-		neighbors.push_back(IntPair(hexCoordinate.first - 1, hexCoordinate.second));
+		neighbors.push_back(IntPair(gridSquareCoordinate.first - 1, gridSquareCoordinate.second));
 	}
 	if (yUp) {
-		neighbors.push_back(IntPair(hexCoordinate.first, hexCoordinate.second + 1));
+		neighbors.push_back(IntPair(gridSquareCoordinate.first, gridSquareCoordinate.second + 1));
 	}
 	if (yDown) {
-		neighbors.push_back(IntPair(hexCoordinate.first, hexCoordinate.second - 1));
+		neighbors.push_back(IntPair(gridSquareCoordinate.first, gridSquareCoordinate.second - 1));
 	}
 	
 
@@ -203,24 +203,24 @@ std::vector<IntPair> Pathfinder::getNeighbors(const IntPair & hexCoordinate) {
 }
 
 /// <summary>
-/// Reconstructs the path of hexes to the endpoint.
+/// Reconstructs the path of grid squares to the endpoint.
 /// </summary>
 /// <param name="endPoint">The end point.</param>
-/// <param name="cameFrom">A map containing each hex's predecessor from.</param>
-/// <returns>A vector of hex indexes representing an in-order path to the passed endPoint.</returns>
+/// <param name="cameFrom">A map containing each grid square's predecessor from.</param>
+/// <returns>A vector of grid square indexes representing an in-order path to the passed endPoint.</returns>
 std::list<IntPair> Pathfinder::reconstructPath(const IntPair & endPoint, std::map<IntPair, IntPair> const * const cameFrom) {
 
 	std::list<IntPair> inOrderPath;
 
-	IntPair const * lastHex = &endPoint;
+	IntPair const * lastGridSquare = &endPoint;
 
-	//add hexes until the beginning (hex that did not come from anywhere) is found
-	// do not add first hex. the path-finding object is already there.
-	auto foundHex = cameFrom->find(*lastHex);
-	while (foundHex != cameFrom->end()) {
-		inOrderPath.push_front(foundHex->first);
-		lastHex = &foundHex->second;
-		foundHex = cameFrom->find(*lastHex);
+	//add grid squares until the beginning (grid square that did not come from anywhere) is found
+	// do not add first grid square. the path-finding object is already there.
+	auto foundSquare = cameFrom->find(*lastGridSquare);
+	while (foundSquare != cameFrom->end()) {
+		inOrderPath.push_front(foundSquare->first);
+		lastGridSquare = &foundSquare->second;
+		foundSquare = cameFrom->find(*lastGridSquare);
 	}
 	return inOrderPath;
 }
