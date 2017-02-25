@@ -82,7 +82,7 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="Array2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
