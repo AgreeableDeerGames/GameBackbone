@@ -81,6 +81,9 @@
     <ClInclude Include="UtilMath.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Array2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
