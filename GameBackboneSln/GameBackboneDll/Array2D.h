@@ -48,7 +48,7 @@ public:
 	templateClass& operator() (unsigned int x, unsigned int y) {
 		return internalArray[flatten2dCoordinate(x, y)];
 	}
-
+	
 		//setters
 	
 	/// <summary>
