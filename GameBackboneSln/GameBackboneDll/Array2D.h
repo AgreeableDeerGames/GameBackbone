@@ -49,6 +49,15 @@ public:
 		return internalArray[flatten2dCoordinate(x, y)];
 	}
 	
+	/// <summary>
+	/// Returns the 1d array for the passed row coordinate
+	/// </summary>
+	/// <param name="x">The position of the row to return.</param>
+	/// <returns>Returns the 1d array for the passed row coordinate.</returns>
+	templateClass* operator[] (unsigned int x) {
+		return &internalArray[flatten2dCoordinate(x, 0)];
+	}
+	
 		//setters
 	
 	/// <summary>
@@ -111,7 +120,8 @@ private:
 /// <param name="y">The y position of the 2d coordinate.</param>
 /// <returns>The position of the 2d coordinate in a 1d format.</returns>
 	unsigned int flatten2dCoordinate(unsigned int x, unsigned int y) {
-		return y * xLength + x;
+		//return y * xLength + x;
+		return x * yLength + y;
 	}
 
 	//properties
