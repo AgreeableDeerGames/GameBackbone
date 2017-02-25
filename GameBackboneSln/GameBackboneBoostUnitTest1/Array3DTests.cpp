@@ -2,7 +2,7 @@
 
 #include<Array3D.h>
 
-BOOST_AUTO_TEST_CASE( default_ctr_test )  
+BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )  
 {
 
 	Array3D<int>* intArray = new Array3D<int>();//sizes of all dimensions should be 100
@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE( default_ctr_test )
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_CASE(one_param_ctr_test) {
+BOOST_AUTO_TEST_CASE(Array3D_one_param_ctr_test) {
 	const int arrayDim = 10;
 	Array3D<int> intArray(arrayDim); //sizes of all dimensions should be 10
 	int arrayXSize = intArray.getArraySizeX();
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(one_param_ctr_test) {
 	BOOST_CHECK_EQUAL(arrayZSize, arrayDim);
 }
 
-BOOST_AUTO_TEST_CASE(three_param_ctr_test) {
+BOOST_AUTO_TEST_CASE(Array3D_three_param_ctr_test) {
 	const int arrayDimX = 10;
 	const int arrayDimY = 11;
 	const int arrayDimZ = 12;
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(three_param_ctr_test) {
 
 
 
-BOOST_AUTO_TEST_CASE(setValueAt_test_1) {
+BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_1) {
 	Array3D<int> intArray(100);
 	const int value = 15;
 	int x = 10;
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(setValueAt_test_1) {
 }
 
 
-BOOST_AUTO_TEST_CASE(setValueAt_test_2) {
+BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_2) {
 	Array3D<int> intArray(100);
 	int x = 0;
 	int y = 0;
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(setValueAt_test_2) {
 	BOOST_CHECK_EQUAL(value, arrayreturn);
 }
 
-BOOST_AUTO_TEST_CASE(setValueAt_test_3) {
+BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_3) {
 	Array3D<int> intArray(100);
 	int x = 99;
 	int y = 99;
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(setValueAt_test_3) {
 }
 
 
-BOOST_AUTO_TEST_CASE(getValueAt_test_1) {
+BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_1) {
 	const size_t dimensionSize = 10;
 
 	Array3D<int> intArray(dimensionSize);
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE(getValueAt_test_1) {
 
 
 
-BOOST_AUTO_TEST_CASE(getValueAt_test_2) {
+BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_2) {
 	const size_t dimensionSize = 10;
 
 	Array3D<int> intArray(dimensionSize);
