@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 	NavigationGrid navGrid(CUBE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
-	//ensure all hexes are clear
+	//ensure all grid squares are clear
 	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 	//create request
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	NavigationGrid navGrid(CUBE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
-	//ensure all hexes are clear
+	//ensure all grid squares are clear
 	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 	//create request
@@ -107,12 +107,12 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	pathRequests.push_back(pathRequest);
 
 
-	//block hex between start and end point
-	IntPair blockedHexCoord(1, 0);
-	NavigationGridData blockedHexData;
-	blockedHexData.weight = BLOCKED_GRID_WEIGHT;
-	blockedHexData.blockerDist = 0;
-	navGrid.setValueAt(blockedHexCoord.first, blockedHexCoord.second, blockedHexData);
+	//block grid square between start and end point
+	IntPair blockedSquareCoord(1, 0);
+	NavigationGridData blockedSquareData;
+	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
+	blockedSquareData.blockerDist = 0;
+	navGrid.setValueAt(blockedSquareCoord.first, blockedSquareCoord.second, blockedSquareData);
 
 
 	//create return value
@@ -125,10 +125,10 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	//ensure the returned path is not empty
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
-	//ensure the blocked hex is not in the path
+	//ensure the blocked grid square is not in the path
 
-	for each (IntPair hex in pathsReturn[0]) {
-		BOOST_CHECK(hex != blockedHexCoord);
+	for each (IntPair gridSquare in pathsReturn[0]) {
+		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
 
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	NavigationGrid navGrid(CUBE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
-	//ensure all hexes are clear
+	//ensure all squares are clear
 	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 	//create request
