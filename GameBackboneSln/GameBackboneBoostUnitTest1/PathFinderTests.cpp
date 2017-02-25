@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_setNavigationGrid) {
 }
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
-	const int CUBE_DIM = 3;
-	NavigationGrid navGrid(CUBE_DIM);
+	const int SQUARE_DIM = 3;
+	NavigationGrid navGrid(SQUARE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//block all squares
@@ -66,8 +66,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
-	const int CUBE_DIM = 3;
-	NavigationGrid navGrid(CUBE_DIM);
+	const int SQUARE_DIM = 3;
+	NavigationGrid navGrid(SQUARE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
@@ -93,8 +93,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 }
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
-	const int CUBE_DIM = 3;
-	NavigationGrid navGrid(CUBE_DIM);
+	const int SQUARE_DIM = 3;
+	NavigationGrid navGrid(SQUARE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
@@ -136,8 +136,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 }
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
-	const int CUBE_DIM = 3;
-	NavigationGrid navGrid(CUBE_DIM);
+	const int SQUARE_DIM = 3;
+	NavigationGrid navGrid(SQUARE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all squares are clear
