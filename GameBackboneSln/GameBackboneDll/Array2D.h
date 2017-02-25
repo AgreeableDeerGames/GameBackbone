@@ -46,7 +46,7 @@ public:
 	/// <param name="y">The y position of the element.</param>
 	/// <returns>Returns a reference to the element at the passed index.</returns>
 	templateClass& operator() (unsigned int x, unsigned int y) {
-		return internalArray[flatten2dCoordinate(x, y)]
+		return internalArray[flatten2dCoordinate(x, y)];
 	}
 
 		//setters
@@ -58,7 +58,7 @@ public:
 	/// <param name="y">The y position of the index to set.</param>
 	/// <param name="value">The new value of the selected index.</param>
 	void setValueAt(unsigned int x, unsigned int y, templateClass value) {
-		internalArray[flatten2dCoordinate] = value;
+		internalArray[flatten2dCoordinate(x,y)] = value;
 	}
 
 		//getters
@@ -70,7 +70,7 @@ public:
 	/// <param name="y">The y position of the element to return.</param>
 	/// <returns>The element at the passed coordinate</returns>
 	templateClass getValueAt(unsigned int x, unsigned int y) {
-		return internalArray[flatten2dCoordinate];
+		return internalArray[flatten2dCoordinate(x, y)];
 	}
 	
 	/// <summary>

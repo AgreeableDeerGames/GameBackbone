@@ -154,6 +154,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Array2DTests.cpp" />
     <ClCompile Include="Array3DTests.cpp" />
     <ClCompile Include="PathFinderTests.cpp" />
     <ClCompile Include="stdafx.cpp">
