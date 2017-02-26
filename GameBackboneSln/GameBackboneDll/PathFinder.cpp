@@ -54,9 +54,13 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
 void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<IntPair>> * const returnedPaths) {
-
+	
 	typedef std::pair<IntPair, int> GridValuePair;
 
+	//ensure that returned paths is big enough to store all results
+	returnedPaths->resize(pathRequests.size());
+
+	//find result for each path request
 	for (unsigned int i = 0; i < pathRequests.size(); i++) {
 
 		PathRequest pathRequest = pathRequests[i];
@@ -82,6 +86,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 		std::map<IntPair, IntPair>* cameFrom = new std::map<IntPair, IntPair>();
 
 		//search for path
+		(*returnedPaths)[i] = std::list<IntPair>(); //initialize path as empty
 		while (!openSet->empty()) {
 			//check current grid square
 			IntPair current = chooseNextGridSquare(pathRequest, openSet);
@@ -90,13 +95,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 
 				std::list<IntPair> inOrderPath = reconstructPath(endPoint, cameFrom);
 				(*returnedPaths)[i] = inOrderPath;
-
-				//free memory
-				delete closedSet;
-				delete openSet;
-				delete cameFrom;
-				delete score;
-				return;
+				break;
 			}
 			openSet->erase(openSet->find(current));
 			closedSet->insert(current);
@@ -131,9 +130,6 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 			}
 		}
 		
-		// no path found. Place empty path for this request.
-		(*returnedPaths)[i] = std::list<IntPair>();
-
 		//free memory
 		delete closedSet;
 		delete openSet;
