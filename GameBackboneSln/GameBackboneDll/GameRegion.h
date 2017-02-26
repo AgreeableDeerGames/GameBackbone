@@ -33,12 +33,12 @@ public:
 	/// <summary>
 	/// Resets this instance.
 	/// </summary>
-	void reset() {}
+	virtual void reset() {}
 	
 	/// <summary>
 	/// Runs the game behaviors and logic for this instance.
 	/// </summary>
-	void behave() {}
+	virtual void behave() {}
 
 	//general operations
 		//additions
