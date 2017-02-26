@@ -15,7 +15,7 @@
 /// <param name="point2">The second point.</param>
 /// <returns>The square of the distance between two three dimensional points.</returns>
 unsigned int SquaredDist3d(const sf::Vector3i & point1, const sf::Vector3i & point2) {
-	return pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2) + pow(point1.z - point2.z, 2);
+	return (unsigned int)(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2) + pow(point1.z - point2.z, 2));
 }
 
 /// <summary>
@@ -25,7 +25,7 @@ unsigned int SquaredDist3d(const sf::Vector3i & point1, const sf::Vector3i & poi
 /// <param name="point2">The second point</param>
 /// <returns>the distance between the two points</returns>
 unsigned int Dist3d(const sf::Vector3i & point1, const sf::Vector3i & point2) {
-	return sqrt(SquaredDist3d(point1, point2));
+	return (unsigned int)sqrt(SquaredDist3d(point1, point2));
 }
 
 /// <summary>
@@ -35,7 +35,7 @@ unsigned int Dist3d(const sf::Vector3i & point1, const sf::Vector3i & point2) {
 /// <param name="point2">The second point.</param>
 /// <returns>The square of the distance between two three dimensional points.</returns>
 unsigned int SquaredDist2d(const std::pair<int, int> & point1, const std::pair<int, int> & point2) {
-	return pow(point1.first - point2.first, 2) + pow(point1.second - point2.second, 2);
+	return (unsigned int) (pow(point1.first - point2.first, 2) + pow(point1.second - point2.second, 2));
 }
 
 /// <summary>
@@ -45,7 +45,7 @@ unsigned int SquaredDist2d(const std::pair<int, int> & point1, const std::pair<i
 /// <param name="point2">The second point</param>
 /// <returns>the distance between the two points</returns>
 unsigned int Dist2d(const std::pair<int, int> & point1, const std::pair<int, int> & point2) {
-	return sqrt(SquaredDist2d(point1, point2));
+	return (unsigned int)sqrt(SquaredDist2d(point1, point2));
 }
 
 
