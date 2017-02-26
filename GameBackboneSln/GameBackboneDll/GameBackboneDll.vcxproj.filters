@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{a688d4cd-4ede-47cb-bbe3-a53ca5725fd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Demo">
+      <UniqueIdentifier>{dbdefe6c-d59a-4f27-8b5a-d5ec14bceb80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Demo">
+      <UniqueIdentifier>{71e2a719-18d5-4692-8dbb-db3db5874349}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
