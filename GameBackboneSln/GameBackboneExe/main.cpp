@@ -5,6 +5,7 @@
 #include "GameRegion.h"
 #include "Updatable.h"
 #include "CompoundSprite.h"
+#include "NavigationDemoRegion.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -25,30 +26,7 @@ int main() {
 
 	//create sprites and textures THIS PROB WONT BE HERE WHEN MAIN GAME LOGIC IS ADDED
 
-	//create sprite
-	sf::Texture testSpriteTexture;
-	testSpriteTexture.loadFromFile("..\\..\\Textures\\testSprite.png");
-	sf::Sprite s(testSpriteTexture);
-
-	//create animation set
-	sf::Vector2u textureDim = testSpriteTexture.getSize();
-	std::vector<std::vector<unsigned int>> aSpriteAnims;
-	std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-	aSpriteAnims.push_back(aSpriteAnim1);
-	AnimationSet* animSet = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-
-	//create animatedSprite
-	AnimatedSprite aSprite(testSpriteTexture, animSet);
-	aSprite.move(600, 200);
-	aSprite.setAnimationDelay(1000);
-	aSprite.runAnimation(0);
-
-	//add objects to game region
-	GameRegion testGameRegion;
-	testGameRegion.setDrawable(true, &aSprite);
-	testGameRegion.setUpdatable(true, &aSprite);
-
-	testGameRegion.setDrawable(true, &s);
+	NavigationDemoRegion* demoRegion = new NavigationDemoRegion();
 
 
 	//view
@@ -56,7 +34,7 @@ int main() {
 	window.setView(camera);
 
 	//main logic loop
-	GameRegion* activeRegion = &testGameRegion;
+	GameRegion* activeRegion = demoRegion;
 	int oldMouseX = WINDOW_WIDTH / 2;
 	int oldMouseY = WINDOW_HEIGHT / 2;
 	while (window.isOpen()) {
@@ -96,7 +74,6 @@ int main() {
 		window.display();
 	}
 
-	delete animSet;
 
 	return 0;
 }
