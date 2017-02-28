@@ -50,11 +50,17 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
 	navigators.push_back(navigator1);
 	navigators.push_back(navigator2);
-	navigator2->setPosition(500, 600);
 	navigator2->setColor(sf::Color::Green);
 	navigator1->setColor(sf::Color::Blue);
 	setDrawable(true, navigator1);
 	setDrawable(true, navigator2);
+
+	navigator1->setPosition((*visualNavigationGrid)[0][0]->getPosition());
+	navigator2->setPosition((*visualNavigationGrid)[3][0]->getPosition());
+
+
+	//Path-find from starting positions to end positions
+
 }
 
 /// <summary>
