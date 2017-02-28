@@ -24,7 +24,8 @@ int main() {
 	//init game update clock
 	sf::Clock updateClock;
 
-	//create sprites and textures THIS PROB WONT BE HERE WHEN MAIN GAME LOGIC IS ADDED
+
+	//create game regions
 
 	NavigationDemoRegion* demoRegion = new NavigationDemoRegion();
 

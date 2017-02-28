@@ -46,12 +46,15 @@ NavigationDemoRegion::NavigationDemoRegion() {
 
 
 	//init navigators
-	sf::Sprite* navigator1 = new sf::Sprite();
-	sf::Sprite* navigator2 = new sf::Sprite();
+	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
+	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
 	navigators.push_back(navigator1);
 	navigators.push_back(navigator2);
-	//setDrawable(true, navigator1);
-	//setDrawable(true, navigator2);
+	navigator2->setPosition(500, 600);
+	navigator2->setColor(sf::Color::Green);
+	navigator1->setColor(sf::Color::Blue);
+	setDrawable(true, navigator1);
+	setDrawable(true, navigator2);
 }
 
 /// <summary>
@@ -101,21 +104,16 @@ void NavigationDemoRegion::initMaze() {
 	Key:
 	0: clear
 	1: blocked
-	S: start
-	F: finish
 
-	001F00
-	001000
-	011000
-	0S1110
-	001000
-	001000
-	000000
-
+	0	0	1	0	0	0
+	0	0	1	0	0	0
+	0	1	1	0	0	0
+	0	0	1	1	1	0
+	0	0	1	0	0	0
+	0	0	1	0	0	0
+	0	0	0	0	0	0
 
 	*/
-
-
 
 	//block grids for maze
 	(*navGrid)[2][0] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
