@@ -38,7 +38,7 @@ public:
 	/// <summary>
 	/// Runs the game behaviors and logic for this instance.
 	/// </summary>
-	virtual void behave() {}
+	virtual void behave(sf::Time currentTime) {}
 
 	//general operations
 		//additions
