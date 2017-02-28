@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['navigationhexdata',['NavigationHexData',['../struct_navigation_hex_data.html',1,'']]]
+  ['navigationgriddata',['NavigationGridData',['../struct_navigation_grid_data.html',1,'']]]
 ];
