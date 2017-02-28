@@ -97,7 +97,7 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void NavigationDemoRegion::behave() {
+void NavigationDemoRegion::behave(sf::Time currentTime) {
 }
 
 /// <summary>

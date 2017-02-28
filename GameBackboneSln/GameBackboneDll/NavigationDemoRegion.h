@@ -20,7 +20,7 @@ public:
 
 	//behavior
 
-	virtual void behave() override;
+	virtual void behave(sf::Time currentTime) override;
 
 
 
