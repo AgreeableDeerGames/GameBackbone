@@ -27,6 +27,12 @@ public:
 private:
 	//helper functions
 	void initMaze();
+	sf::Vector2f gridCoordToWorldCoord(const IntPair& gridCoordinate);
+	IntPair worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
+
+	//movement functions
+	void moveSpriteTowardsPoint(sf::Sprite* sprite, sf::Vector2f destination, float distance);
+	void moveSpriteAlongPath(sf::Sprite* sprite, std::list<IntPair>* path, unsigned int msPassed, float speed);
 
 
 	// sprite textures

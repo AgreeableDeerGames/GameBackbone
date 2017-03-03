@@ -1,9 +1,13 @@
 #include "stdafx.h"
+
+#define _USE_MATH_DEFINES
+
 #include "NavigationDemoRegion.h"
 
 #include <SFML/Graphics.hpp>
 
 #include <string>
+#include <math.h>
 
 
 NavigationDemoRegion::NavigationDemoRegion() {
@@ -132,6 +136,78 @@ void NavigationDemoRegion::initMaze() {
 	(*navGrid)[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	(*navGrid)[3][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	(*navGrid)[4][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+}
+
+/// <summary>
+/// Calculates the game world position of a grid coordinate.
+/// </summary>
+/// <param name="gridCoordinate">The grid coordinate.</param>
+/// <returns>The 2D position of the grid coordinate's top left corner in the game world's coordinate system.</returns>
+sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoordinate) {
+	//for the demo we can assume that the grid starts at the origin
+	sf::Vector2f gridOrigin(0, 0);
+
+	// use size of grid squares and grid origin position to calculate world coordinate
+	return sf::Vector2f(gridCoordinate.first * NAV_GRID_DIM + gridOrigin.x, 
+						gridCoordinate.second * NAV_GRID_DIM + gridOrigin.y);
+}
+
+
+/// <summary>
+/// Determine what grid square a game world coordinate lies in. 
+/// </summary>
+/// <param name="worldCoordinate">The world coordinate.</param>
+/// <returns>The coordinate of the grid that the game world coordinate lies in.</returns>
+IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCoordinate) {
+	//for the demo we can assume that the grid starts at the origin
+	sf::Vector2f gridOrigin(0, 0);
+
+	// use size of grid squares and grid origin position to calculate grid coordinate
+	return IntPair((int)(worldCoordinate.x - gridOrigin.x / NAV_GRID_DIM),
+				   (int)(worldCoordinate.y - gridOrigin.y / NAV_GRID_DIM));
+}
+
+/// <summary>
+/// Moves the sprite towards point.
+/// </summary>
+/// <param name="sprite">The sprite.</param>
+/// <param name="destination">The destination.</param>
+/// <param name="distance">The distance.</param>
+void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vector2f destination, float distance) {
+
+	//angle between the sprite and the destination
+	const float angleToDestination = atan2(sprite->getPosition().y - destination.y, sprite->getPosition().x - destination.x) * (180.0f / M_PI);
+	
+	//angle sprite to point at destination 
+	sprite->setRotation(angleToDestination);
+
+	//move sprite by distance towards its destination
+	const sf::Vector2f spriteMovement(cosf(angleToDestination) * distance, sinf(angleToDestination) * distance);
+	sprite->move(spriteMovement);
+}
+
+/// <summary>
+/// Moves a single sprite along a navigation path.
+/// </summary>
+/// <param name="sprite">The sprite.</param>
+/// <param name="path">The path.</param>
+/// <param name="msPassed">The time passed in ms since the last movement.</param>
+/// <param name="speed">The speed of the sprite in pixels per ms.</param>
+void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<IntPair>* path, unsigned int msPassed, float speed) {
+	//determine if sprite has reached first point in path
+	if (worldCoordToGridCoord(sprite->getPosition()) == path->front()) {//this is a bad way, but quick for demo
+		//remove front and return if empty
+		if (path->size() <= 1) {
+			return;
+		} else {
+			path->pop_front();
+		}
+	}
+
+	//move sprite a step towards the next point in the path
+	float actualMovement = speed / msPassed;
+	sf::Vector2f targetPosition = gridCoordToWorldCoord(path->front());
+	moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
 }
 
 
