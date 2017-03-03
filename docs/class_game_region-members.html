@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.0.1.22717</span>
    </div>
   </td>
  </tr>
@@ -68,7 +68,7 @@ $(function() {
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a236553887b1a3fe32095fad88d6fc0d3">addChildRegion</a>(GameRegion *child)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_game_region.html#a37aafd0bde02f74fb034d81ea704b663">addNeighborRegion</a>(GameRegion *neighbor)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a047f02018203a81d1a114e285e4426e7">behave</a>()</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a4edd3dd8dbfebc3e07ead825622ceda4">behave</a>(sf::Time currentTime)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0"><td class="entry"><b>childRegions</b> (defined in <a class="el" href="class_game_region.html">GameRegion</a>)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a1686b8a8b480ee89dcf3fdf8df7d757b">clearChildren</a>()</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_game_region.html#a172d9fe151436379944caf0d747ec29e">clearDrawable</a>()</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
@@ -83,11 +83,11 @@ $(function() {
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>parentRegion</b> (defined in <a class="el" href="class_game_region.html">GameRegion</a>)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_game_region.html#ab6bcf7b9077d6ed941bffc035b6c9096">removeChildRegion</a>(GameRegion *child)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a55c7083be9026270f98506dc73dc9079">removeNeighborRegion</a>(GameRegion *neighbor)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_game_region.html#a60039b499643e39e5b00ddd3b523caa2">reset</a>()</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_game_region.html#a07e32250fd46cf657380e18c32bce235">reset</a>()</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a7b5ad1e840ab5bb75dbb43a05408b150">setDrawable</a>(bool status, sf::Sprite *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_game_region.html#a9a0b65219b4e47b296f7d99bc8317294">setDrawable</a>(bool status, GameWorldCompoundSprite2 *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a414ac61fc4e1e4066578ec8042f51218">setDrawAndUpdateable</a>(bool status, GameWorldAnimatedSprite *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_game_region.html#a8bc4a01b5b06af358dbcde73f0de1367">setDrawAndUpdateable</a>(bool status, GameWorldCompoundSprite2 *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_game_region.html#ab806a1aa039257e928f1779611fef745">setDrawable</a>(bool status, CompoundSprite *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a45c3cbb983f8180d3c1eda617cbc44eb">setDrawAndUpdateable</a>(bool status, AnimatedSprite *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_game_region.html#a0351a7e83514494a1b06d18931ae64c9">setDrawAndUpdateable</a>(bool status, CompoundSprite *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a012e10566b0cde66139a1bf535f359e0">setUpdatable</a>(bool status, Updatable *object)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0"><td class="entry"><b>updatables</b> (defined in <a class="el" href="class_game_region.html">GameRegion</a>)</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_game_region.html#a500e2c616e2f4da094de18046b303ef3">~GameRegion</a>()</td><td class="entry"><a class="el" href="class_game_region.html">GameRegion</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
