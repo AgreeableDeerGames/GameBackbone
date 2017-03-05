@@ -34,6 +34,8 @@ private:
 	void moveSpriteTowardsPoint(sf::Sprite* sprite, sf::Vector2f destination, float distance);
 	void moveSpriteAlongPath(sf::Sprite* sprite, std::list<IntPair>* path, unsigned int msPassed, float speed);
 
+	//update logic storage
+	sf::Time lastUpdateTime;
 
 	// sprite textures
 	sf::Texture* navigatorTexture;
@@ -48,5 +50,7 @@ private:
 	NavigationGrid* navGrid;
 	const unsigned int NAV_GRID_DIM = 20;
 	const float VISUAL_GRID_SCALE = 1.0f;
+	std::vector<std::list<IntPair>> pathsReturn;
+
 };
 

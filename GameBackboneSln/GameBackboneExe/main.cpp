@@ -58,6 +58,8 @@ int main() {
 			}
 		}
 
+		activeRegion->behave(updateClock.getElapsedTime());
+
 		//draw loop
 		window.clear();
 

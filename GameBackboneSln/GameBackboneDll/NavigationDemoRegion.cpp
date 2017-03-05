@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <iostream>
 
 #define _USE_MATH_DEFINES
 
@@ -13,6 +14,7 @@
 NavigationDemoRegion::NavigationDemoRegion() {
 	//init storage
 	navGrid = new NavigationGrid(NAV_GRID_DIM);
+	regionPathfinder.setNavigationGrid(navGrid);
 	visualNavigationGrid = new Array2D<sf::Sprite*>(NAV_GRID_DIM);
 
 	//init textures
@@ -59,11 +61,24 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	setDrawable(true, navigator1);
 	setDrawable(true, navigator2);
 
-	navigator1->setPosition((*visualNavigationGrid)[0][0]->getPosition());
-	navigator2->setPosition((*visualNavigationGrid)[3][0]->getPosition());
-
+	IntPair navigator1StartingGrid(0, 0);
+	IntPair navigator2StartingGrid(3, 0);
+	navigator1->setPosition((*visualNavigationGrid)[navigator1StartingGrid.first][navigator1StartingGrid.second]->getPosition());
+	navigator2->setPosition((*visualNavigationGrid)[navigator2StartingGrid.first][navigator2StartingGrid.second]->getPosition());
 
 	//Path-find from starting positions to end positions
+	//create request
+	PathRequest pathRequest{ navigator1StartingGrid, IntPair(2,2), 3, 0 };
+	std::vector<PathRequest> pathRequests;
+	pathRequests.push_back(pathRequest);
+
+	//second request
+	PathRequest pathRequest2{ navigator2StartingGrid, IntPair(0,0), 1, 0 };
+	pathRequests.push_back(pathRequest2);
+
+	//find the path
+	pathsReturn.resize(pathRequests.size());
+	regionPathfinder.pathFind(pathRequests, &pathsReturn);
 
 }
 
@@ -102,6 +117,26 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
 void NavigationDemoRegion::behave(sf::Time currentTime) {
+
+	/*std::cout << "N1 start: (0,0)\tN1 current: " << worldCoordToGridCoord(navigators[0]->getPosition()).first << "," << worldCoordToGridCoord(navigators[0]->getPosition()).second << std::endl;
+	std::cout << "N1 world pos: " << navigators[0]->getPosition().x << "," << navigators[0]->getPosition().y << std::endl;
+
+	std::cout << "N2 start: (3,0)\tN2 current: " << worldCoordToGridCoord(navigators[1]->getPosition()).first << "," << worldCoordToGridCoord(navigators[1]->getPosition()).second << std::endl;
+	std::cout << "N2 world pos: " << navigators[1]->getPosition().x << "," << navigators[1]->getPosition().y << std::endl;
+	*/
+
+
+	sf::Sprite* spriteToMove = navigators[0];
+
+	moveSpriteTowardsPoint(spriteToMove, sf::Vector2f(spriteToMove->getPosition().x + 1, spriteToMove->getPosition().y + 1), 0.01);
+	
+	std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
+	/*for (size_t i = 0; i < navigators.size(); i++) {
+		int msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
+		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 100.0f);
+	}*/
+
+	lastUpdateTime = currentTime;
 }
 
 /// <summary>
@@ -176,10 +211,12 @@ IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCo
 void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vector2f destination, float distance) {
 
 	//angle between the sprite and the destination
-	const float angleToDestination = atan2(sprite->getPosition().y - destination.y, sprite->getPosition().x - destination.x) * (180.0f / M_PI);
+	const float angleToDestination = atan2(destination.y - sprite->getPosition().y, destination.x - sprite->getPosition().x);
+	const float angleToDestinationDeg = angleToDestination * (180.0f / M_PI) + 90;// This is offset by 90 degrees. This is because this value is only used to rotate the sprite. 
+																				  //The sprite is currently rotated at -90 from teh games coordinate system
 	
 	//angle sprite to point at destination 
-	sprite->setRotation(angleToDestination);
+	sprite->setRotation(angleToDestinationDeg);
 
 	//move sprite by distance towards its destination
 	const sf::Vector2f spriteMovement(cosf(angleToDestination) * distance, sinf(angleToDestination) * distance);
@@ -195,19 +232,16 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 /// <param name="speed">The speed of the sprite in pixels per ms.</param>
 void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<IntPair>* path, unsigned int msPassed, float speed) {
 	//determine if sprite has reached first point in path
-	if (worldCoordToGridCoord(sprite->getPosition()) == path->front()) {//this is a bad way, but quick for demo
-		//remove front and return if empty
-		if (path->size() <= 1) {
-			return;
-		} else {
+	if (path->size() >= 1) {
+		//move sprite a step towards the next point in the path
+		float actualMovement = speed / msPassed;
+		sf::Vector2f targetPosition = gridCoordToWorldCoord(path->front());
+		moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
+
+		if (worldCoordToGridCoord(sprite->getPosition()) == path->front()) { // this is a bad way, but quick to code and run
 			path->pop_front();
 		}
 	}
-
-	//move sprite a step towards the next point in the path
-	float actualMovement = speed / msPassed;
-	sf::Vector2f targetPosition = gridCoordToWorldCoord(path->front());
-	moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
 }
 
 
