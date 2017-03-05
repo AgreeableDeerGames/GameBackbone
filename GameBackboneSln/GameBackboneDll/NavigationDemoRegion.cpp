@@ -52,6 +52,8 @@ NavigationDemoRegion::NavigationDemoRegion() {
 
 
 	//init navigators
+
+		//create navigators and add to respective arrays
 	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
 	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
 	navigators.push_back(navigator1);
@@ -61,10 +63,24 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	setDrawable(true, navigator1);
 	setDrawable(true, navigator2);
 
+
+	//set rotation point of navigators
+	for each (sf::Sprite* navigator in navigators) {
+		const sf::IntRect * const  textureRect = &navigator->getTextureRect();
+		sf::Vector2f newOrigin(textureRect->width / 2, textureRect->height / 2);
+		navigator->setOrigin(newOrigin);
+	}
+
+		//position navigators
 	IntPair navigator1StartingGrid(0, 0);
 	IntPair navigator2StartingGrid(3, 0);
-	navigator1->setPosition((*visualNavigationGrid)[navigator1StartingGrid.first][navigator1StartingGrid.second]->getPosition());
-	navigator2->setPosition((*visualNavigationGrid)[navigator2StartingGrid.first][navigator2StartingGrid.second]->getPosition());
+
+	const sf::Vector2f navigator1StartingPos = (*visualNavigationGrid)[navigator1StartingGrid.first][navigator1StartingGrid.second]->getPosition();
+	const sf::Vector2f navigator2StartingPos = (*visualNavigationGrid)[navigator2StartingGrid.first][navigator2StartingGrid.second]->getPosition();
+	navigator1->setPosition(navigator1StartingPos);
+	navigator2->setPosition(navigator2StartingPos);
+
+
 
 	//Path-find from starting positions to end positions
 	//create request
@@ -126,14 +142,14 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	*/
 
 
-	sf::Sprite* spriteToMove = navigators[0];
+	//sf::Sprite* spriteToMove = navigators[0];
 
-	moveSpriteTowardsPoint(spriteToMove, sf::Vector2f(spriteToMove->getPosition().x + 1, spriteToMove->getPosition().y + 1), 0.01);
+	//moveSpriteTowardsPoint(spriteToMove, sf::Vector2f(spriteToMove->getPosition().x + 1, spriteToMove->getPosition().y + 1), 0.01);
 	
-	std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
+	//std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
 	/*for (size_t i = 0; i < navigators.size(); i++) {
 		int msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
-		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 100.0f);
+		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 0.01f);
 	}*/
 
 	lastUpdateTime = currentTime;
@@ -213,7 +229,7 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 	//angle between the sprite and the destination
 	const float angleToDestination = atan2(destination.y - sprite->getPosition().y, destination.x - sprite->getPosition().x);
 	const float angleToDestinationDeg = angleToDestination * (180.0f / M_PI) + 90;// This is offset by 90 degrees. This is because this value is only used to rotate the sprite. 
-																				  //The sprite is currently rotated at -90 from teh games coordinate system
+																				  //The sprite is currently rotated at -90 from the games coordinate system
 	
 	//angle sprite to point at destination 
 	sprite->setRotation(angleToDestinationDeg);
