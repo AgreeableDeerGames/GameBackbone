@@ -75,8 +75,8 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	IntPair navigator1StartingGrid(0, 0);
 	IntPair navigator2StartingGrid(3, 0);
 
-	const sf::Vector2f navigator1StartingPos = (*visualNavigationGrid)[navigator1StartingGrid.first][navigator1StartingGrid.second]->getPosition();
-	const sf::Vector2f navigator2StartingPos = (*visualNavigationGrid)[navigator2StartingGrid.first][navigator2StartingGrid.second]->getPosition();
+	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
+	const sf::Vector2f navigator2StartingPos = gridCoordToWorldCoord(navigator2StartingGrid);
 	navigator1->setPosition(navigator1StartingPos);
 	navigator2->setPosition(navigator2StartingPos);
 
@@ -198,9 +198,13 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoo
 	//for the demo we can assume that the grid starts at the origin
 	sf::Vector2f gridOrigin(0, 0);
 
+	int gridSquareWidth = gridTexture->getSize().x;
+	int gridSquareHeight = gridTexture->getSize().y;
+	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2), 0 + (gridSquareHeight / 2));// bad hack
+
 	// use size of grid squares and grid origin position to calculate world coordinate
-	return sf::Vector2f(gridCoordinate.first * NAV_GRID_DIM + gridOrigin.x, 
-						gridCoordinate.second * NAV_GRID_DIM + gridOrigin.y);
+	return sf::Vector2f(gridCoordinate.first * gridSquareWidth + offsetOrigin.x, 
+						gridCoordinate.second * gridSquareHeight + offsetOrigin.y);
 }
 
 
@@ -213,9 +217,14 @@ IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCo
 	//for the demo we can assume that the grid starts at the origin
 	sf::Vector2f gridOrigin(0, 0);
 
+	//offset origin to produce coordinate in center of grid square
+	int gridSquareWidth = gridTexture->getSize().x;
+	int gridSquareHeight = gridTexture->getSize().y;
+	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2), 0 + (gridSquareHeight / 2));// bad hack
+
 	// use size of grid squares and grid origin position to calculate grid coordinate
-	return IntPair((int)(worldCoordinate.x - gridOrigin.x / NAV_GRID_DIM),
-				   (int)(worldCoordinate.y - gridOrigin.y / NAV_GRID_DIM));
+	return IntPair((int)(worldCoordinate.x - offsetOrigin.x / gridSquareWidth),
+				   (int)(worldCoordinate.y - offsetOrigin.y / gridSquareHeight));
 }
 
 /// <summary>
