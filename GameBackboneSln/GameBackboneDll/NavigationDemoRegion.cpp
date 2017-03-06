@@ -147,10 +147,10 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	//moveSpriteTowardsPoint(spriteToMove, sf::Vector2f(spriteToMove->getPosition().x + 1, spriteToMove->getPosition().y + 1), 0.01);
 	
 	//std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
-	/*for (size_t i = 0; i < navigators.size(); i++) {
+	for (size_t i = 0; i < navigators.size(); i++) {
 		int msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
-		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 0.01f);
-	}*/
+		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
+	}
 
 	lastUpdateTime = currentTime;
 }
@@ -223,8 +223,8 @@ IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCo
 	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2), 0 + (gridSquareHeight / 2));// bad hack
 
 	// use size of grid squares and grid origin position to calculate grid coordinate
-	return IntPair((int)(worldCoordinate.x - offsetOrigin.x / gridSquareWidth),
-				   (int)(worldCoordinate.y - offsetOrigin.y / gridSquareHeight));
+	return IntPair((int)((worldCoordinate.x - offsetOrigin.x) / gridSquareWidth),
+				   (int)((worldCoordinate.y - offsetOrigin.y) / gridSquareHeight));
 }
 
 /// <summary>
@@ -234,6 +234,8 @@ IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCo
 /// <param name="destination">The destination.</param>
 /// <param name="distance">The distance.</param>
 void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vector2f destination, float distance) {
+	
+	distance = 0.1f; //TODO: figure out why this isn't ever big enough
 
 	//angle between the sprite and the destination
 	const float angleToDestination = atan2(destination.y - sprite->getPosition().y, destination.x - sprite->getPosition().x);
@@ -263,7 +265,10 @@ void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<In
 		sf::Vector2f targetPosition = gridCoordToWorldCoord(path->front());
 		moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
 
-		if (worldCoordToGridCoord(sprite->getPosition()) == path->front()) { // this is a bad way, but quick to code and run
+		auto spriteCurrentPosition = worldCoordToGridCoord(sprite->getPosition());
+		auto destination = path->front();
+
+		if (spriteCurrentPosition == destination) { // this is a bad way, but quick to code and run
 			path->pop_front();
 		}
 	}
