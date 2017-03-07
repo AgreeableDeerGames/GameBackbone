@@ -84,7 +84,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 
 	//Path-find from starting positions to end positions
 	//create request
-	PathRequest pathRequest{ navigator1StartingGrid, IntPair(2,2), 3, 0 };
+	PathRequest pathRequest{ navigator1StartingGrid, IntPair(3,2), 3, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
