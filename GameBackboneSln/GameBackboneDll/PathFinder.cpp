@@ -129,7 +129,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 				score->insert_or_assign(neighbor, tentativeScore);
 			}
 		}
-		
+
 		//free memory
 		delete closedSet;
 		delete openSet;
@@ -150,17 +150,17 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 IntPair Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<IntPair>* const availableGridSquares) {
 
 	unsigned int shortestDistance = UINT_MAX;
-	IntPair const * bestGridSquare = nullptr;
+	IntPair bestGridSquare;
 
 	for each (const IntPair gridSquare in *availableGridSquares) {
 		unsigned int gridSquareDistance = SquaredDist2d(gridSquare, pathRequest.end);
 		if ( gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
-			bestGridSquare = &gridSquare;
+			bestGridSquare = gridSquare;
 		}
 	}
 
-	return *bestGridSquare;
+	return bestGridSquare;
 }
 
 /// <summary>
