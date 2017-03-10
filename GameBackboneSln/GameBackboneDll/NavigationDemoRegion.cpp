@@ -32,8 +32,11 @@ NavigationDemoRegion::NavigationDemoRegion() {
 		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
 			//create sprite in correct position
 			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
+			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
+			const float gridOriginOffsetY = gridSquare->getLocalBounds().height / 2;
+			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of grid
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
-			gridSquare->move(i * gridSquare->getLocalBounds().width, j * gridSquare->getLocalBounds().height);
+			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
 
 			//shade blocked grids
 			bool blocked = (*navGrid)[i][j].weight == BLOCKED_GRID_WEIGHT;
@@ -148,7 +151,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	
 	//std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
 	for (size_t i = 0; i < navigators.size(); i++) {
-		int msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
+		long int msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
 		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
 	}
 
@@ -175,6 +178,8 @@ void NavigationDemoRegion::initMaze() {
 	0	0	0	0	0	0
 
 	*/
+
+	navGrid->initAllValues(NavigationGridData{ 1, 0 });
 
 	//block grids for maze
 	(*navGrid)[2][0] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
@@ -248,6 +253,8 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 	//move sprite by distance towards its destination
 	const sf::Vector2f spriteMovement(cosf(angleToDestination) * distance, sinf(angleToDestination) * distance);
 	sprite->move(spriteMovement);
+	volatile auto sx = sprite->getPosition().x;
+	volatile auto sy = sprite->getPosition().y;
 }
 
 /// <summary>
@@ -260,15 +267,18 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<IntPair>* path, unsigned int msPassed, float speed) {
 	//determine if sprite has reached first point in path
 	if (path->size() >= 1) {
+
 		//move sprite a step towards the next point in the path
 		float actualMovement = speed / msPassed;
-		sf::Vector2f targetPosition = gridCoordToWorldCoord(path->front());
+		auto nextGrid = path->front();
+		sf::Vector2f targetPosition = ((*visualNavigationGrid)[nextGrid.first][nextGrid.second])->getPosition();
 		moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
-
-		auto spriteCurrentPosition = worldCoordToGridCoord(sprite->getPosition());
-		auto destination = path->front();
-
-		if (spriteCurrentPosition == destination) { // this is a bad way, but quick to code and run
+		
+		//check if the sprite is close enough to its destination
+		auto spriteCurrentPosition = sprite->getPosition();
+		auto destination = targetPosition;
+		const float acceptableDistance = 0.2f;
+		if(abs(destination.x - spriteCurrentPosition.x) < acceptableDistance && abs(destination.y - spriteCurrentPosition.y) < acceptableDistance) {// this is a bad way, but quick to code and run
 			path->pop_front();
 		}
 	}
