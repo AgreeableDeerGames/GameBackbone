@@ -25,34 +25,6 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	gridTexture = new sf::Texture();
 	gridTexture->loadFromFile(navigationGridPath);
 
-	initMaze();
-
-	//fill visual grid
-	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
-			//create sprite in correct position
-			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
-			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
-			const float gridOriginOffsetY = gridSquare->getLocalBounds().height / 2;
-			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of grid
-			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
-			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
-
-			//shade blocked grids
-			bool blocked = (*navGrid)[i][j].weight == BLOCKED_GRID_WEIGHT;
-			if (blocked) {
-				gridSquare->setColor(sf::Color::Red);
-			}
-
-			//add grids to storage
-			(*visualNavigationGrid)[i][j] = gridSquare;
-
-			//ensure grids are drawn
-			setDrawable(true, gridSquare);
-		}
-	}
-
-
 
 	//init navigators
 
@@ -63,9 +35,6 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	navigators.push_back(navigator2);
 	navigator2->setColor(sf::Color::Green);
 	navigator1->setColor(sf::Color::Blue);
-	setDrawable(true, navigator1);
-	setDrawable(true, navigator2);
-
 
 	//set rotation point of navigators
 	for each (sf::Sprite* navigator in navigators) {
@@ -77,12 +46,17 @@ NavigationDemoRegion::NavigationDemoRegion() {
 		//position navigators
 	IntPair navigator1StartingGrid(0, 0);
 	IntPair navigator2StartingGrid(3, 0);
-
 	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
 	const sf::Vector2f navigator2StartingPos = gridCoordToWorldCoord(navigator2StartingGrid);
 	navigator1->setPosition(navigator1StartingPos);
 	navigator2->setPosition(navigator2StartingPos);
 
+	//create maze
+	initMaze();
+
+	//draw navigators on top of maze
+	setDrawable(true, navigator1);
+	setDrawable(true, navigator2);
 
 
 	//Path-find from starting positions to end positions
@@ -137,19 +111,6 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// </summary>
 void NavigationDemoRegion::behave(sf::Time currentTime) {
 
-	/*std::cout << "N1 start: (0,0)\tN1 current: " << worldCoordToGridCoord(navigators[0]->getPosition()).first << "," << worldCoordToGridCoord(navigators[0]->getPosition()).second << std::endl;
-	std::cout << "N1 world pos: " << navigators[0]->getPosition().x << "," << navigators[0]->getPosition().y << std::endl;
-
-	std::cout << "N2 start: (3,0)\tN2 current: " << worldCoordToGridCoord(navigators[1]->getPosition()).first << "," << worldCoordToGridCoord(navigators[1]->getPosition()).second << std::endl;
-	std::cout << "N2 world pos: " << navigators[1]->getPosition().x << "," << navigators[1]->getPosition().y << std::endl;
-	*/
-
-
-	//sf::Sprite* spriteToMove = navigators[0];
-
-	//moveSpriteTowardsPoint(spriteToMove, sf::Vector2f(spriteToMove->getPosition().x + 1, spriteToMove->getPosition().y + 1), 0.01);
-	
-	//std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
 	for (size_t i = 0; i < navigators.size(); i++) {
 		sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
 		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
@@ -162,36 +123,43 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 /// Initializes the maze that the navigators will use.
 /// </summary>
 void NavigationDemoRegion::initMaze() {
-	/*
-
-	representation of the maze
-	Key:
-	0: clear
-	1: blocked
-
-	0	0	1	0	0	0
-	0	0	1	0	0	0
-	0	1	1	0	0	0
-	0	0	1	1	1	0
-	0	0	1	0	0	0
-	0	0	1	0	0	0
-	0	0	0	0	0	0
-
-	*/
 
 	navGrid->initAllValues(NavigationGridData{ 1, 0 });
 
 	//block grids for maze
-	(*navGrid)[2][0] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[2][1] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[2][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[2][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[2][4] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[2][5] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[3][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	(*navGrid)[4][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	srand(time(NULL));
+	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
+		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
+			if (! (rand() % 5)) {//1 in 5 are blocked
+				(*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
+			}
+		}
+	}
+
+	//fill visual grid
+	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
+		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
+			//create sprite in correct position
+			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
+			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
+			const float gridOriginOffsetY = gridSquare->getLocalBounds().height / 2;
+			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of grid
+			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
+			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
+
+			//shade blocked grids
+			bool blocked = (*navGrid)[i][j].weight == BLOCKED_GRID_WEIGHT;
+			if (blocked) {
+				gridSquare->setColor(sf::Color::Red);
+			}
+
+			//add grids to storage
+			(*visualNavigationGrid)[i][j] = gridSquare;
+
+			//ensure grids are drawn
+			setDrawable(true, gridSquare);
+		}
+	}
 }
 
 /// <summary>
