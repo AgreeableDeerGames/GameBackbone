@@ -5,6 +5,7 @@
 #include "PathFinder.h"
 
 #include<SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
 
 /// <summary>
 /// GameRegion with logic for demonstrating basic path-finding demonstrations.
@@ -21,6 +22,8 @@ public:
 	//behavior
 
 	virtual void behave(sf::Time currentTime) override;
+	
+	virtual void handleMouseClick(int x, int y, sf::Mouse::Button button);
 
 
 

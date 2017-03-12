@@ -51,7 +51,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	
 		//position navigators
 	IntPair navigator1StartingGrid(0, 0);
-	IntPair navigator2StartingGrid(3, 0);
+	IntPair navigator2StartingGrid(15, 15);
 	nonBlockableGridSquares.push_back(navigator1StartingGrid);
 	nonBlockableGridSquares.push_back(navigator2StartingGrid);
 	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
@@ -69,7 +69,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 
 	//Path-find from starting positions to end positions
 	//create request
-	PathRequest pathRequest{ navigator1StartingGrid, IntPair(3,2), 3, 0 };
+	PathRequest pathRequest{ navigator1StartingGrid, IntPair(15,15), 3, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -128,6 +128,30 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 }
 
 /// <summary>
+/// Handles mouse click logic.
+/// </summary>
+/// <param name="x">The x position of the click.</param>
+/// <param name="y">The y position of the click.</param>
+/// <param name="button">The mouse button clicked button.</param>
+void NavigationDemoRegion::handleMouseClick(int x, int y, sf::Mouse::Button button) {
+	if (button == sf::Mouse::Left) {
+		std::vector<PathRequest> pathRequests(navigators.size());
+
+		//create each path request
+		for (size_t i = 0; i < navigators.size(); i++) {
+			sf::Sprite* currentNavigator = navigators[i];
+			IntPair startingPos = worldCoordToGridCoord(currentNavigator->getPosition());
+			IntPair endingPos = worldCoordToGridCoord(sf::Vector2f((float)x,(float)y));
+			pathRequests[i] = PathRequest{ startingPos, endingPos, 1, 0 };
+		}
+
+		//path-find
+		pathsReturn.resize(pathRequests.size());
+		regionPathfinder.pathFind(pathRequests, &pathsReturn);
+	}
+}
+
+/// <summary>
 /// Initializes the maze that the navigators will use.
 /// </summary>
 void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) {
@@ -146,7 +170,7 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 						blockable = false;
 					}
 				}
-				//only block blockable grids
+				//only block blockable grids	
 				if (blockable) {
 					(*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
 				}

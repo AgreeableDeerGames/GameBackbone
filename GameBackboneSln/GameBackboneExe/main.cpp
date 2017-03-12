@@ -35,7 +35,7 @@ int main() {
 	window.setView(camera);
 
 	//main logic loop
-	GameRegion* activeRegion = demoRegion;
+	NavigationDemoRegion* activeRegion = demoRegion;
 	int oldMouseX = WINDOW_WIDTH / 2;
 	int oldMouseY = WINDOW_HEIGHT / 2;
 	while (window.isOpen()) {
@@ -53,6 +53,13 @@ int main() {
 				oldMouseX = event.mouseMove.x;
 				oldMouseY = event.mouseMove.y;
 				break;
+			case sf::Event::MouseButtonPressed:
+			{
+				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+				sf::Vector2f actualPosition = window.mapPixelToCoords(mousePos);
+				activeRegion->handleMouseClick(actualPosition.x, actualPosition.y, event.mouseButton.button);
+				break;
+			}
 			default:
 				break;
 			}
