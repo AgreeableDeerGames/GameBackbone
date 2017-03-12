@@ -11,6 +11,9 @@
 #include <math.h>
 
 
+/// <summary>
+/// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
+/// </summary>
 NavigationDemoRegion::NavigationDemoRegion() {
 	//init storage
 	navGrid = new NavigationGrid(NAV_GRID_DIM);
@@ -24,6 +27,9 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	std::string navigationGridPath("..\\..\\Textures\\NavigationGrid.png");
 	gridTexture = new sf::Texture();
 	gridTexture->loadFromFile(navigationGridPath);
+
+	//internal function logic
+	std::vector<IntPair> nonBlockableGridSquares;
 
 
 	//init navigators
@@ -42,17 +48,19 @@ NavigationDemoRegion::NavigationDemoRegion() {
 		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);
 	}
-
+	
 		//position navigators
 	IntPair navigator1StartingGrid(0, 0);
 	IntPair navigator2StartingGrid(3, 0);
+	nonBlockableGridSquares.push_back(navigator1StartingGrid);
+	nonBlockableGridSquares.push_back(navigator2StartingGrid);
 	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
 	const sf::Vector2f navigator2StartingPos = gridCoordToWorldCoord(navigator2StartingGrid);
 	navigator1->setPosition(navigator1StartingPos);
 	navigator2->setPosition(navigator2StartingPos);
 
 	//create maze
-	initMaze();
+	initMaze(nonBlockableGridSquares);
 
 	//draw navigators on top of maze
 	setDrawable(true, navigator1);
@@ -122,7 +130,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 /// <summary>
 /// Initializes the maze that the navigators will use.
 /// </summary>
-void NavigationDemoRegion::initMaze() {
+void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) {
 
 	navGrid->initAllValues(NavigationGridData{ 1, 0 });
 
@@ -131,7 +139,17 @@ void NavigationDemoRegion::initMaze() {
 	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
 		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
 			if (! (rand() % 5)) {//1 in 5 are blocked
-				(*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
+				bool blockable = true;
+				//determine if the square is non-blockable
+				for each (IntPair nonBlockable in nonBlockablePositions) {
+					if (nonBlockable.first == i && nonBlockable.second == j) {
+						blockable = false;
+					}
+				}
+				//only block blockable grids
+				if (blockable) {
+					(*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
+				}
 			}
 		}
 	}

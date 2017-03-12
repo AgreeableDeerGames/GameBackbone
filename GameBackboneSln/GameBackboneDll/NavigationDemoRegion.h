@@ -26,7 +26,7 @@ public:
 
 protected:
 	//helper functions
-	void initMaze();
+	void initMaze(std::vector<IntPair> nonBlockablePositions);
 	sf::Vector2f gridCoordToWorldCoord(const IntPair& gridCoordinate);
 	IntPair worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
 
