@@ -24,7 +24,7 @@ public:
 
 
 
-private:
+protected:
 	//helper functions
 	void initMaze();
 	sf::Vector2f gridCoordToWorldCoord(const IntPair& gridCoordinate);
@@ -32,7 +32,7 @@ private:
 
 	//movement functions
 	void moveSpriteTowardsPoint(sf::Sprite* sprite, sf::Vector2f destination, float distance);
-	void moveSpriteAlongPath(sf::Sprite* sprite, std::list<IntPair>* path, unsigned int msPassed, float speed);
+	void moveSpriteAlongPath(sf::Sprite* sprite, std::list<IntPair>* path, sf::Int64 msPassed, float speed);
 
 	//update logic storage
 	sf::Time lastUpdateTime;

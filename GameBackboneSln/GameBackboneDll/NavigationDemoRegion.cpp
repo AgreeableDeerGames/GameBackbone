@@ -70,7 +70,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	//set rotation point of navigators
 	for each (sf::Sprite* navigator in navigators) {
 		const sf::IntRect * const  textureRect = &navigator->getTextureRect();
-		sf::Vector2f newOrigin(textureRect->width / 2, textureRect->height / 2);
+		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);
 	}
 
@@ -151,7 +151,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	
 	//std::cout << "x: " << spriteToMove->getPosition().x << "\tY: " << spriteToMove->getPosition().y << std::endl;
 	for (size_t i = 0; i < navigators.size(); i++) {
-		long int msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
+		sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
 		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
 	}
 
@@ -205,7 +205,7 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoo
 
 	int gridSquareWidth = gridTexture->getSize().x;
 	int gridSquareHeight = gridTexture->getSize().y;
-	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2), 0 + (gridSquareHeight / 2));// bad hack
+	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2.0f), 0 + (gridSquareHeight / 2.0f));// bad hack
 
 	// use size of grid squares and grid origin position to calculate world coordinate
 	return sf::Vector2f(gridCoordinate.first * gridSquareWidth + offsetOrigin.x, 
@@ -264,7 +264,7 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 /// <param name="path">The path.</param>
 /// <param name="msPassed">The time passed in ms since the last movement.</param>
 /// <param name="speed">The speed of the sprite in pixels per ms.</param>
-void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<IntPair>* path, unsigned int msPassed, float speed) {
+void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<IntPair>* path, sf::Int64 msPassed, float speed) {
 	//determine if sprite has reached first point in path
 	if (path->size() >= 1) {
 
