@@ -52,7 +52,7 @@ int main() {
 
 
 	//view
-	sf::View camera(sf::FloatRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::View camera(sf::FloatRect(0,0,(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
 	window.setView(camera);
 
 	//main logic loop
@@ -70,7 +70,7 @@ int main() {
 			case sf::Event::MouseMoved:
 				//pan camera with mouse
 				window.setView(camera);
-				camera.move(event.mouseMove.x - oldMouseX, event.mouseMove.y - oldMouseY);
+				camera.move((float)(event.mouseMove.x - oldMouseX), (float)(event.mouseMove.y - oldMouseY));
 				oldMouseX = event.mouseMove.x;
 				oldMouseY = event.mouseMove.y;
 				break;
