@@ -380,3 +380,44 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	delete pathfinder;
 }
 
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker_) {
+	const int SQUARE_DIM = 3;
+	NavigationGrid navGrid(SQUARE_DIM);
+	Pathfinder* pathfinder = new Pathfinder(&navGrid);
+
+	//ensure all grid squares are clear
+	navGrid.initAllValues(NavigationGridData{0,0});
+
+	//create request
+	IntPair startPoint(2, 0);
+	PathRequest pathRequest{ startPoint, IntPair(0,0), 1, 0 };
+	std::vector<PathRequest> pathRequests;
+	pathRequests.push_back(pathRequest);
+
+
+	//block grid square between start and end point
+	IntPair blockedSquareCoord(1, 0);
+	NavigationGridData blockedSquareData;
+	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
+	blockedSquareData.blockerDist = 0;
+	navGrid.setValueAt(blockedSquareCoord.first, blockedSquareCoord.second, blockedSquareData);
+
+
+	//create return value
+	std::vector<std::list<IntPair>> pathsReturn;
+	pathsReturn.resize(pathRequests.size());
+
+	//find the path
+	pathfinder->pathFind(pathRequests, &pathsReturn);
+
+	//ensure the returned path is not empty
+	BOOST_CHECK(pathsReturn[0].size() > 0);
+
+	//ensure the blocked grid square is not in the path
+	for each (IntPair gridSquare in pathsReturn[0]) {
+		BOOST_CHECK(gridSquare != blockedSquareCoord);
+	}
+
+
+	delete pathfinder;
+}
