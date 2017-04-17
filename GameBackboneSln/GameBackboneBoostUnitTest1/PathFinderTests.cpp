@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	delete pathfinder;
 }
 
-BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker_) {
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	const int SQUARE_DIM = 3;
 	NavigationGrid navGrid(SQUARE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
@@ -390,7 +390,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker_) {
 
 	//create request
 	IntPair startPoint(2, 0);
-	PathRequest pathRequest{ startPoint, IntPair(0,0), 1, 0 };
+	PathRequest pathRequest{startPoint, IntPair(0,0), 1, 0};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -416,6 +416,55 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker_) {
 	//ensure the blocked grid square is not in the path
 	for each (IntPair gridSquare in pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
+	}
+
+
+	delete pathfinder;
+}
+
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
+	const int SQUARE_DIM = 2;
+	NavigationGrid navGrid(SQUARE_DIM);
+	Pathfinder* pathfinder = new Pathfinder(&navGrid);
+
+	//ensure all grid squares are clear
+	navGrid.initAllValues(NavigationGridData{0,0});
+
+	//create request
+	IntPair startPoint(1, 1);
+	PathRequest pathRequest{startPoint, IntPair(0,0), 1, 0};
+	std::vector<PathRequest> pathRequests;
+	pathRequests.push_back(pathRequest);
+
+
+	//Make square that is left have weight 1
+	IntPair leftSquareCoord(0, 1);
+	NavigationGridData leftSquareData;
+	leftSquareData.weight = 1;
+	leftSquareData.blockerDist = 0;
+	navGrid.setValueAt(leftSquareCoord.first, leftSquareCoord.second, leftSquareData);
+
+	//Make square that is up have weight 2
+	IntPair upSquareCoord(1, 0);
+	NavigationGridData upSquareData;
+	upSquareData.weight = 2;
+	upSquareData.blockerDist = 0;
+	navGrid.setValueAt(upSquareCoord.first, upSquareCoord.second, upSquareData);
+
+
+	//create return value
+	std::vector<std::list<IntPair>> pathsReturn;
+	pathsReturn.resize(pathRequests.size());
+
+	//find the path
+	pathfinder->pathFind(pathRequests, &pathsReturn);
+
+	//ensure the returned path is not empty
+	BOOST_CHECK(pathsReturn[0].size() > 0);
+
+	//ensure the blocked grid square is not in the path
+	for each (IntPair gridSquare in pathsReturn[0]) {
+		BOOST_CHECK(gridSquare != upSquareCoord);
 	}
 
 
