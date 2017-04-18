@@ -8,18 +8,9 @@
 
 //ctr and dtr
 
-/// <summary>Default Constructor. Values are not initialized 0.</summary>
+/// <summary>Default Constructor. All values are initialized to 0 or nullptr.</summary>
 AnimatedSprite::AnimatedSprite() {
-	/*Values are deliberately left uninitialized in this case. Because of the way the inheritance hierarchy is set up, if 
-	this function sets any values it will result in the values being set twice in GameWorldAnimatedSprite's constructors.
-	Since GameWorldAnimatedSprite will likely be used more often than the default constructor for generic AnimatedSprites
-	it is more important that GameWorldAnimatedSprite be fast than AnimatedSprite have a safe default constructor. I don't
-	like this, but short of rewriting the current inheritance structure (not out of the question) I don't see a good solution.
-
-	:( 
-	
-	-Ryan Lavin
-	*/
+	AnimatedSpriteInit(nullptr);
 }
 
 /// <summary>
