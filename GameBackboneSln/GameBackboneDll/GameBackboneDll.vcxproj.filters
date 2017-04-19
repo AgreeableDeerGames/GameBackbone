@@ -63,9 +63,6 @@
     <ClInclude Include="DllUtil.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="GameBackboneDll.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Point2D.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>

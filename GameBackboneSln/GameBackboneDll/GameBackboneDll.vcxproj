@@ -158,7 +158,6 @@
     <ClInclude Include="CompoundSprite.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="DllUtil.h" />
-    <ClInclude Include="GameBackboneDll.h" />
     <ClInclude Include="GameRegion.h" />
     <ClInclude Include="NavigationDemoRegion.h" />
     <ClInclude Include="NavigationGridData.h" />
