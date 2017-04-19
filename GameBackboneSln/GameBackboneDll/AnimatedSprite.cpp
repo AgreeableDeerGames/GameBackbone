@@ -77,7 +77,11 @@ void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 /// </summary>
 /// <param name="animationSet">The animation set.</param>
 void AnimatedSprite::setAnimations(AnimationSet * animationSet) {
-	animations = animationSet->getAnimations();
+	if (animationSet) {
+		animations = animationSet->getAnimations();
+	} else {
+		animations = nullptr;
+	}
 }
 
 /// <summary>
