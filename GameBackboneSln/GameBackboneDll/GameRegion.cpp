@@ -70,7 +70,7 @@ void GameRegion::setDrawable(bool status, CompoundSprite * object) {
 	for each (sf::Sprite* sprite in *(object->getSfSprites()) ) {
 		setDrawable(status, sprite);
 	}
-	for each (AnimatedSprite* aSprite in *(object->getaAnimatedSprites())) {
+	for each (AnimatedSprite* aSprite in *(object->getAnimatedSprites())) {
 		setDrawable(status, aSprite);
 	}
 }

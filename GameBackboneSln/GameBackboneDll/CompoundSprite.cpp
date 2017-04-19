@@ -42,7 +42,7 @@ std::vector<sf::Sprite*>* CompoundSprite::getSfSprites() {
 /// Returns the animated sprite components of the CompoundSprite
 /// </summary>
 /// <returns>The animated sprite components of the CompoundSprite.</returns>
-std::vector<AnimatedSprite*>* CompoundSprite::getaAnimatedSprites() {
+std::vector<AnimatedSprite*>* CompoundSprite::getAnimatedSprites() {
 	return &animatedSprites;
 }
 
