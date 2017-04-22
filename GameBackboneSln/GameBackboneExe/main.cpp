@@ -54,12 +54,15 @@ int main() {
 				oldMouseY = event.mouseMove.y;
 				break;
 			case sf::Event::MouseButtonPressed:
-			{
-				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
-				sf::Vector2f actualPosition = window.mapPixelToCoords(mousePos);
-				activeRegion->handleMouseClick(actualPosition.x, actualPosition.y, event.mouseButton.button);
-				break;
-			}
+            {
+                sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+                sf::Vector2f actualPosition = window.mapPixelToCoords(mousePos);
+                activeRegion->handleMouseClick(actualPosition.x, actualPosition.y, event.mouseButton.button);
+                break;
+            }
+            case sf::Event::Resized:
+                camera.reset(sf::FloatRect(0, 0, event.size.width, event.size.height));
+                break;
 			default:
 				break;
 			}
