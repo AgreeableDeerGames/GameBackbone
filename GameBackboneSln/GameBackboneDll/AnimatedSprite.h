@@ -14,6 +14,7 @@ class libGameBackbone AnimatedSprite :
 	public virtual sf::Sprite, public virtual Updatable {
 public:
 	//ctr and dtr
+	//shallow copy and move are fine for this class
 	AnimatedSprite();
 	explicit AnimatedSprite(const sf::Texture &texture);
 	AnimatedSprite(const sf::Texture &texture, AnimationSet * animations);

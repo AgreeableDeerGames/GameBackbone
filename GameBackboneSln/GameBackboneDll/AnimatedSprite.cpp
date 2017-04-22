@@ -37,11 +37,10 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * anima
 void AnimatedSprite::AnimatedSpriteInit(AnimationSet * animations) {
 
 	setAnimations(animations);
-
 	if (animations) {
 		//initialize sprite to first frame of first animation
 		setTextureRect(this->animations->at(0).at(0));
-	}
+	} 
 
 	animating = false;
 	currentFrame = 0;
