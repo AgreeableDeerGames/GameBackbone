@@ -41,5 +41,8 @@
     <ClCompile Include="AnimatedSpriteTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CompoundSpriteTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

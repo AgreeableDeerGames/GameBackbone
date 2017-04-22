@@ -36,7 +36,7 @@ struct ReusableObjects
 };
 
 //keep at start of file
-BOOST_FIXTURE_TEST_SUITE(AnimatedSpriteTests, ReusableObjects);
+BOOST_FIXTURE_TEST_SUITE(AnimatedSpriteTests, ReusableObjects)
 
 BOOST_AUTO_TEST_CASE(AnimatedSprite_default_ctr) {
 	AnimatedSprite* animSprite = new AnimatedSprite();
