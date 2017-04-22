@@ -43,10 +43,10 @@ BOOST_AUTO_TEST_CASE(Array2D_all_dim_ctr) {
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_CASE(Array2D_setValueAt_getValueAt_1) {
+BOOST_AUTO_TEST_CASE(Array2D_at_1) {
 	Array2D<int>* intArray = new Array2D<int>();//sizes of all dimensions should be 100
 
-	//init all values to 0
+												//init all values to 0
 
 	intArray->initAllValues(0);
 
@@ -54,28 +54,27 @@ BOOST_AUTO_TEST_CASE(Array2D_setValueAt_getValueAt_1) {
 	const int y = 10;
 	const int val = 1;
 
-	intArray->setValueAt(x, y, val);
-
-	int returnVal = intArray->getValueAt(x, y);
+	intArray->at(x, y) = val;
+	int returnVal = intArray->at(x, y);
 
 	BOOST_CHECK_EQUAL(val, returnVal);
 
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_CASE(Array2D_setValueAt_getValueAt_2) {
+BOOST_AUTO_TEST_CASE(Array2D_at_2) {
 	Array2D<int>* intArray = new Array2D<int>();//sizes of all dimensions should be 100
 
-	//set values
+												//set values
 	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
 		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
-			intArray->setValueAt(i, j, i*j+i);
+			intArray->at(i, j) = i*j + i;
 		}
 	}
 	//check values
 	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
 		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
-			int returnVal = intArray->getValueAt(i, j);
+			int returnVal = intArray->at(i, j);
 			BOOST_CHECK_EQUAL(i*j + i, returnVal);
 		}
 	}
