@@ -11,6 +11,7 @@ class Array3D {
 public:
 
 	//ctr / Dtr
+	//default copy and move are fine for this class
 
 	///<summary> creates a 3D array with dimensions of 100 * 100 * 100<summary>
 	Array3D() : Array3D(100) {}
