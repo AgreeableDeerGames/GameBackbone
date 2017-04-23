@@ -57,30 +57,30 @@ public:
 	templateClass* operator[] (unsigned int x) {
 		return &internalArray[flatten2dCoordinate(x, 0)];
 	}
-	
-		//setters
-	
+
+		//accessors
+
 	/// <summary>
-	/// Sets the value of the selected array index to the passed value.
+	/// Accesses the element at the passed index.
 	/// </summary>
-	/// <param name="x">The x position of the index to set.</param>
-	/// <param name="y">The y position of the index to set.</param>
-	/// <param name="value">The new value of the selected index.</param>
-	void setValueAt(unsigned int x, unsigned int y, templateClass value) {
-		internalArray[flatten2dCoordinate(x,y)] = value;
+	/// <param name="x">The x position of the element.</param>
+	/// <param name="y">The y position of the element.</param>
+	/// <returns>Returns a reference to the element at the passed index.</returns>
+	templateClass& at(unsigned int x, unsigned int y) {
+		return (*this)(x, y);
 	}
 
-		//getters
-		
 	/// <summary>
-	/// Gets the value of the selected array index.
+	/// Returns the 1d array for the passed row coordinate
 	/// </summary>
-	/// <param name="x">The x position of the element to return.</param>
-	/// <param name="y">The y position of the element to return.</param>
-	/// <returns>The element at the passed coordinate</returns>
-	templateClass getValueAt(unsigned int x, unsigned int y) {
-		return internalArray[flatten2dCoordinate(x, y)];
+	/// <param name="x">The position of the row to return.</param>
+	/// <returns>Returns the 1d array for the passed row coordinate.</returns>
+	templateClass* at(unsigned int x) {
+		return (*this)[x];
 	}
+
+
+		//getters
 	
 	/// <summary>
 	/// Gets the array size in the x dimension.

@@ -19,7 +19,7 @@ public:
 
 	//getters
 	std::vector<sf::Sprite*>* getSfSprites();
-	std::vector<AnimatedSprite*>* getaAnimatedSprites();
+	std::vector<AnimatedSprite*>* getAnimatedSprites();
 
 	//add / remove
 	void addSprite(sf::Sprite* component);
