@@ -37,10 +37,12 @@ struct ReusableObjects
 	sf::Texture* aSpriteTexture;
 };
 
-//keep at start of file
-BOOST_FIXTURE_TEST_SUITE(AnimatedSpriteTests, ReusableObjects)
 
-BOOST_AUTO_TEST_CASE(AnimatedSprite_default_ctr) {
+//keep at start of file
+BOOST_AUTO_TEST_SUITE(AnimatedSpriteTests)
+
+
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_default_ctr, ReusableObjects) {
 	AnimatedSprite* animSprite = new AnimatedSprite();
 
 	BOOST_CHECK(!animSprite->isAnimating());
@@ -51,7 +53,7 @@ BOOST_AUTO_TEST_CASE(AnimatedSprite_default_ctr) {
 	delete animSprite;
 }
 
-BOOST_AUTO_TEST_CASE(AnimatedSprite_Texture_ctr) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_ctr, ReusableObjects) {
 	AnimatedSprite* animSprite = new AnimatedSprite(*aSpriteTexture);
 
 	BOOST_CHECK(!animSprite->isAnimating());
@@ -62,21 +64,21 @@ BOOST_AUTO_TEST_CASE(AnimatedSprite_Texture_ctr) {
 	delete animSprite;
 }
 
-BOOST_AUTO_TEST_CASE(AnimatedSprite_Texture_and_Animations) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_and_Animations, ReusableObjects) {
 	BOOST_CHECK(!animSpriteWithAnim->isAnimating());
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getAnimationDelay() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimationId() == 0);
 }
 
-BOOST_AUTO_TEST_CASE(AnimatedSprite_Start_Animation) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Animation, ReusableObjects) {
 	animSpriteWithAnim->runAnimation(0);
 	BOOST_CHECK(animSpriteWithAnim->isAnimating());
 	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimationId() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 }
 
-BOOST_AUTO_TEST_CASE(AnimatedSprite_Animation_Next_Frame) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Next_Frame, ReusableObjects) {
 	animSpriteWithAnim->runAnimation(0);
 	BOOST_CHECK(animSpriteWithAnim->isAnimating());
 	animSpriteWithAnim->setAnimationDelay(2);
@@ -86,13 +88,29 @@ BOOST_AUTO_TEST_CASE(AnimatedSprite_Animation_Next_Frame) {
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 }
 
-BOOST_AUTO_TEST_CASE(AnimatedSprite_Animation_Next_Frame_Not_Enough_Time) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Next_Frame_Not_Enough_Time, ReusableObjects) {
 	animSpriteWithAnim->runAnimation(0);
 	BOOST_CHECK(animSpriteWithAnim->isAnimating());
 	animSpriteWithAnim->setAnimationDelay(2);
 	//fake sleep for 1ms shorter than the min delay
 	sf::Time timeAfterDelay = sf::milliseconds(1);
 	animSpriteWithAnim->update(timeAfterDelay);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
+}
+
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects) {
+	animSpriteWithAnim->runAnimation(0);
+	animSpriteWithAnim->setAnimationDelay(1);
+
+	//update the sprite one frame farther than the length of the animation
+	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		animSpriteWithAnim->update(timeAfterDelay);
+	}
+
+	//ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 }
 
