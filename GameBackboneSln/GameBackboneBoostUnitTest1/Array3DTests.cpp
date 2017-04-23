@@ -2,6 +2,10 @@
 
 #include<Array3D.h>
 
+BOOST_AUTO_TEST_SUITE(Array3D_Tests)
+
+BOOST_AUTO_TEST_SUITE(Array3D_ctrs)
+
 BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )  
 {
 
@@ -39,7 +43,9 @@ BOOST_AUTO_TEST_CASE(Array3D_three_param_ctr_test) {
 	BOOST_CHECK_EQUAL(arrayZSize, arrayDimZ);
 }
 
+BOOST_AUTO_TEST_SUITE_END() // end Array3D_ctrs
 
+BOOST_AUTO_TEST_SUITE(Array3D_get_set_tests)
 
 BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_1) {
 	Array3D<int> intArray(100);
@@ -51,7 +57,6 @@ BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_1) {
 	auto arrayreturn = intArray.getValueAt(x, y, z);
 	BOOST_CHECK_EQUAL(value, arrayreturn);
 }
-
 
 BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_2) {
 	Array3D<int> intArray(100);
@@ -74,7 +79,6 @@ BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_3) {
 	auto arrayreturn = intArray.getValueAt(x, y, z);
 	BOOST_CHECK_EQUAL(value, arrayreturn);
 }
-
 
 BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_1) {
 	const size_t dimensionSize = 10;
@@ -100,8 +104,6 @@ BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_1) {
 
 }
 
-
-
 BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_2) {
 	const size_t dimensionSize = 10;
 
@@ -125,3 +127,7 @@ BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_2) {
 	}
 
 }
+
+BOOST_AUTO_TEST_SUITE_END() //end Array3D_get_set_tests
+
+BOOST_AUTO_TEST_SUITE_END() //end Array3D_Tests

@@ -2,6 +2,10 @@
 
 #include <PathFinder.h>
 
+BOOST_AUTO_TEST_SUITE(Pathfinder_Tests)
+
+BOOST_AUTO_TEST_SUITE(Pathfinder_ctrs)
+
 BOOST_AUTO_TEST_CASE(Pathfinder_default_ctr_test) {
 
 	Pathfinder* pathfinder = new Pathfinder();
@@ -22,6 +26,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_navigationGrid_ctr_test) {
 	delete pathfinder;
 }
 
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_ctrs
 
 BOOST_AUTO_TEST_CASE(Pathfinder_setNavigationGrid) {
 	NavigationGrid navGrid(10);
@@ -33,6 +38,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_setNavigationGrid) {
 
 	delete pathfinder;
 }
+
+BOOST_AUTO_TEST_SUITE(Pathfinder_pathFind_Tests)
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	const int SQUARE_DIM = 3;
@@ -63,7 +70,6 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 	delete pathfinder;
 }
-
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 	const int SQUARE_DIM = 3;
@@ -470,3 +476,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 
 	delete pathfinder;
 }
+
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_pathFind_Tests
+
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_tests
