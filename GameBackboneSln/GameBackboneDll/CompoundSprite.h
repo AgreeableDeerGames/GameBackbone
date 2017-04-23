@@ -13,6 +13,7 @@ class libGameBackbone CompoundSprite : public virtual Updatable {
 public:
 
 	//ctr / dtr
+	//shallow copy and move are fine for this class
 	CompoundSprite();
 	CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 	virtual ~CompoundSprite();
