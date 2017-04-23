@@ -4,7 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <chrono>
 #include <string>
+#include <thread>
 
 struct ReusableObjects
 {
@@ -36,7 +38,7 @@ struct ReusableObjects
 };
 
 //keep at start of file
-BOOST_FIXTURE_TEST_SUITE(AnimatedSpriteTests, ReusableObjects);
+BOOST_FIXTURE_TEST_SUITE(AnimatedSpriteTests, ReusableObjects)
 
 BOOST_AUTO_TEST_CASE(AnimatedSprite_default_ctr) {
 	AnimatedSprite* animSprite = new AnimatedSprite();
@@ -61,21 +63,36 @@ BOOST_AUTO_TEST_CASE(AnimatedSprite_Texture_ctr) {
 }
 
 BOOST_AUTO_TEST_CASE(AnimatedSprite_Texture_and_Animations) {
-	
-
-
 	BOOST_CHECK(!animSpriteWithAnim->isAnimating());
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getAnimationDelay() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimationId() == 0);
-
-	
 }
 
 BOOST_AUTO_TEST_CASE(AnimatedSprite_Start_Animation) {
 	animSpriteWithAnim->runAnimation(0);
 	BOOST_CHECK(animSpriteWithAnim->isAnimating());
 	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
+}
+
+BOOST_AUTO_TEST_CASE(AnimatedSprite_Animation_Next_Frame) {
+	animSpriteWithAnim->runAnimation(0);
+	BOOST_CHECK(animSpriteWithAnim->isAnimating());
+	animSpriteWithAnim->setAnimationDelay(2);
+	//fake sleep for 1ms longer than the min delay
+	sf::Time timeAfterDelay = sf::milliseconds(3);
+	animSpriteWithAnim->update(timeAfterDelay);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
+}
+
+BOOST_AUTO_TEST_CASE(AnimatedSprite_Animation_Next_Frame_Not_Enough_Time) {
+	animSpriteWithAnim->runAnimation(0);
+	BOOST_CHECK(animSpriteWithAnim->isAnimating());
+	animSpriteWithAnim->setAnimationDelay(2);
+	//fake sleep for 1ms shorter than the min delay
+	sf::Time timeAfterDelay = sf::milliseconds(1);
+	animSpriteWithAnim->update(timeAfterDelay);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 }
 
