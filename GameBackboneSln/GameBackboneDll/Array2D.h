@@ -9,6 +9,7 @@ class Array2D {
 public:
 
 	//ctr / dtr
+	//default copy and move are fine for this class
 	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Array2D"/> with dimensions of 100 by 100.
