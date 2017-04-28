@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSpriteTests.cpp" />
+    <ClCompile Include="AnimationSetTests.cpp" />
     <ClCompile Include="Array2DTests.cpp" />
     <ClCompile Include="Array3DTests.cpp" />
     <ClCompile Include="PathFinderTests.cpp" />
