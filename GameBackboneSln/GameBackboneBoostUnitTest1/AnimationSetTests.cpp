@@ -17,13 +17,13 @@ struct ReusableGenericAnimations {
 	AnimationVector numericAnimations = { anim1, anim2 };
 };
 
-//contains all tests for AnimationSet
+// Contains all tests for AnimationSet
 BOOST_AUTO_TEST_SUITE(AnimationSet_Tests)
 
-//all the ctrs for AnimationSet
+// All the ctrs for AnimationSet
 BOOST_AUTO_TEST_SUITE(AnimationSet_ctrs)
 
-//Test the row and col ctr for AnimationSet
+// Test the row and col ctr for AnimationSet
 BOOST_AUTO_TEST_CASE(AnimationSet_Default_ctr) {
 	AnimationSet* animSet = new AnimationSet(2,2);
 
@@ -33,15 +33,15 @@ BOOST_AUTO_TEST_CASE(AnimationSet_Default_ctr) {
 	delete animSet;
 }
 
-//Test the ctr for AnimationSet that includes the dimensions of the animation texture
-//and the frames for each animation
+// Test the ctr for AnimationSet that includes the dimensions of the animation texture
+// and the frames for each animation
 BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations) {
 	AnimationSet* animSet = new AnimationSet(numericAnimations, 100, 100, 2, 2);
 
-	//ensure that animations have been produced
+	// ensure that animations have been produced
 	BOOST_CHECK(!animSet->getAnimations()->empty());
 
-	//check that produced animations are logical
+	// check that produced animations are logical
 	std::vector<std::vector<sf::IntRect>>* rectAnims = animSet->getAnimations();
 
 	sf::IntRect rect0(0, 0, 50, 50);
@@ -49,13 +49,13 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations
 	sf::IntRect rect2(0, 50, 50, 50);
 	sf::IntRect rect3(50, 50, 50, 50);
 
-		//check the first animation
+		// check the first animation
 	BOOST_CHECK((*rectAnims)[0][0] == rect0);
 	BOOST_CHECK((*rectAnims)[0][1] == rect1);
 	BOOST_CHECK((*rectAnims)[0][2] == rect2);
 	BOOST_CHECK((*rectAnims)[0][3] == rect3);
 
-		//check the second animation
+		// check the second animation
 	BOOST_CHECK((*rectAnims)[1][0] == rect3);
 	BOOST_CHECK((*rectAnims)[1][1] == rect2);
 	BOOST_CHECK((*rectAnims)[1][2] == rect1);
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_ctrs
 
 BOOST_AUTO_TEST_SUITE(AnimationSet_Actions)
 
-//test that framesToRects produces the correct rectangles for a 2 by 2 sprite sheet
+// Test that framesToRects produces the correct rectangles for a 2 by 2 sprite sheet
 BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnimations) {
 	AnimationSet* animSet = new AnimationSet(2, 2);
 
@@ -80,16 +80,16 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnim
 	sf::IntRect rect2(0, 50, 50, 50);
 	sf::IntRect rect3(50, 50, 50, 50);
 
-	//check that produced animations are logical
+	// Check that produced animations are logical
 	std::vector<std::vector<sf::IntRect>>* rectAnims = animSet->getAnimations();
 
-	//check the first animation
+	// Check the first animation
 	BOOST_CHECK((*rectAnims)[0][0] == rect0);
 	BOOST_CHECK((*rectAnims)[0][1] == rect1);
 	BOOST_CHECK((*rectAnims)[0][2] == rect2);
 	BOOST_CHECK((*rectAnims)[0][3] == rect3);
 
-	//check the second animation
+	// Check the second animation
 	BOOST_CHECK((*rectAnims)[1][0] == rect3);
 	BOOST_CHECK((*rectAnims)[1][1] == rect2);
 	BOOST_CHECK((*rectAnims)[1][2] == rect1);
@@ -98,7 +98,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnim
 	delete animSet;
 }
 
-//test that framesToRects produces the correct rectangles for a 1 by 2 sprite sheet
+// Test that framesToRects produces the correct rectangles for a 1 by 2 sprite sheet
 BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x2_test) {
 	
 	Animation anim1 = { 0, 1 };
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x2_test) {
 	delete animSet;
 }
 
-//test that framesToRects produces the correct rectangles for a 1 by 1 sprite sheet
+// Test that framesToRects produces the correct rectangles for a 1 by 1 sprite sheet
 BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x1_test) {
 
 	Animation anim1 = { 0 };
@@ -147,4 +147,4 @@ BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x1_test) {
 
 BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_actions
 
-BOOST_AUTO_TEST_SUITE_END()// end AnimationSet_Tests
+BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_Tests
