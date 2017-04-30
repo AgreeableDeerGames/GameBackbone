@@ -67,4 +67,84 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations
 BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_ctrs
 
 
+BOOST_AUTO_TEST_SUITE(AnimationSet_Actions)
+
+//test that framesToRects produces the correct rectangles for a 2 by 2 sprite sheet
+BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnimations) {
+	AnimationSet* animSet = new AnimationSet(2, 2);
+
+	animSet->framesToRects(numericAnimations, 100, 100);
+
+	sf::IntRect rect0(0, 0, 50, 50);
+	sf::IntRect rect1(50, 0, 50, 50);
+	sf::IntRect rect2(0, 50, 50, 50);
+	sf::IntRect rect3(50, 50, 50, 50);
+
+	//check that produced animations are logical
+	std::vector<std::vector<sf::IntRect>>* rectAnims = animSet->getAnimations();
+
+	//check the first animation
+	BOOST_CHECK((*rectAnims)[0][0] == rect0);
+	BOOST_CHECK((*rectAnims)[0][1] == rect1);
+	BOOST_CHECK((*rectAnims)[0][2] == rect2);
+	BOOST_CHECK((*rectAnims)[0][3] == rect3);
+
+	//check the second animation
+	BOOST_CHECK((*rectAnims)[1][0] == rect3);
+	BOOST_CHECK((*rectAnims)[1][1] == rect2);
+	BOOST_CHECK((*rectAnims)[1][2] == rect1);
+	BOOST_CHECK((*rectAnims)[1][3] == rect0);
+
+	delete animSet;
+}
+
+//test that framesToRects produces the correct rectangles for a 1 by 2 sprite sheet
+BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x2_test) {
+	
+	Animation anim1 = { 0, 1 };
+	Animation anim2 = { 1, 0 };
+	AnimationVector numericAnimations = { anim1, anim2 };
+
+	AnimationSet* animSet = new AnimationSet(1, 2);
+	animSet->framesToRects(numericAnimations, 100, 100);
+
+	//check that produced animations are logical
+	std::vector<std::vector<sf::IntRect>>* rectAnims = animSet->getAnimations();
+
+	sf::IntRect rect0(0, 0, 50, 100);
+	sf::IntRect rect1(50, 0, 50, 100);
+
+	//check the first animation
+	BOOST_CHECK((*rectAnims)[0][0] == rect0);
+	BOOST_CHECK((*rectAnims)[0][1] == rect1);
+
+	//check the second animation
+	BOOST_CHECK((*rectAnims)[1][0] == rect1);
+	BOOST_CHECK((*rectAnims)[1][1] == rect0);
+
+	delete animSet;
+}
+
+//test that framesToRects produces the correct rectangles for a 1 by 1 sprite sheet
+BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x1_test) {
+
+	Animation anim1 = { 0 };
+	AnimationVector numericAnimations = { anim1 };
+
+	AnimationSet* animSet = new AnimationSet(1, 1);
+	animSet->framesToRects(numericAnimations, 100, 100);
+
+	//check that produced animations are logical
+	std::vector<std::vector<sf::IntRect>>* rectAnims = animSet->getAnimations();
+
+	sf::IntRect rect0(0, 0, 100, 100);
+
+	//check the first animation
+	BOOST_CHECK((*rectAnims)[0][0] == rect0);
+
+	delete animSet;
+}
+
+BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_actions
+
 BOOST_AUTO_TEST_SUITE_END()// end AnimationSet_Tests
