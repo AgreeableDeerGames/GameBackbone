@@ -38,10 +38,10 @@ BOOST_AUTO_TEST_CASE(AnimationSet_Default_ctr) {
 BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations) {
 	AnimationSet* animSet = new AnimationSet(numericAnimations, 100, 100, 2, 2);
 
-	// ensure that animations have been produced
+	// Ensure that animations have been produced
 	BOOST_CHECK(!animSet->getAnimations()->empty());
 
-	// check that produced animations are logical
+	// Check that produced animations are logical
 	std::vector<std::vector<sf::IntRect>>* rectAnims = animSet->getAnimations();
 
 	sf::IntRect rect0(0, 0, 50, 50);
@@ -49,13 +49,13 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations
 	sf::IntRect rect2(0, 50, 50, 50);
 	sf::IntRect rect3(50, 50, 50, 50);
 
-		// check the first animation
+		// Check the first animation
 	BOOST_CHECK((*rectAnims)[0][0] == rect0);
 	BOOST_CHECK((*rectAnims)[0][1] == rect1);
 	BOOST_CHECK((*rectAnims)[0][2] == rect2);
 	BOOST_CHECK((*rectAnims)[0][3] == rect3);
 
-		// check the second animation
+		// Check the second animation
 	BOOST_CHECK((*rectAnims)[1][0] == rect3);
 	BOOST_CHECK((*rectAnims)[1][1] == rect2);
 	BOOST_CHECK((*rectAnims)[1][2] == rect1);
