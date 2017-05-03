@@ -5,9 +5,10 @@
 #include "CompoundSprite.h"
 #include "AnimatedSprite.h"
 
-#include<SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-#include<vector>
+#include <list>
+#include <vector>
 
 /// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 class libGameBackbone GameRegion {
@@ -25,8 +26,8 @@ public:
 	void setDrawAndUpdateable(bool status, AnimatedSprite* object);
 	void setDrawAndUpdateable(bool status, CompoundSprite* object);
         //getters
-	std::vector<Updatable*>* getUpdatables();
-	std::vector<sf::Sprite*>* getDrawables();
+	std::list<Updatable*>* getUpdatables();
+	std::list<sf::Sprite*>* getDrawables();
     std::vector<GameRegion*>* getNeighborRegions();
     std::vector<GameRegion*>* getChildRegions();
 
@@ -62,8 +63,8 @@ protected:
 	void init() {}
 
 	//internal logic members
-	std::vector<sf::Sprite*>* drawables;
-	std::vector<Updatable*>* updatables;
+	std::list<sf::Sprite*>* drawables;
+	std::list<Updatable*>* updatables;
 
 	//associated regions
 	GameRegion* parentRegion;
