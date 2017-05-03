@@ -126,25 +126,25 @@ std::vector<GameRegion*>* GameRegion::getChildRegions() {
 /// <summary>
 /// sets this GameRegion as the parent of the passed GameRegion.
 /// </summary>
-/// <param name="child">The new child region of this region.</param>
-void GameRegion::addChildRegion(GameRegion * child) {
+/// <param name="childToAdd">The new child region of this region.</param>
+void GameRegion::addChildRegion(GameRegion * childToAdd) {
 	//clear any previous parents
-    if (child->parentRegion) {
-        child->parentRegion->removeChildRegion(child);
+    if (childToAdd->parentRegion) {
+		childToAdd->parentRegion->removeChildRegion(childToAdd);
     }
 
 	//add child
-	childRegions.push_back(child);
-	child->parentRegion = this;
+	childRegions.push_back(childToAdd);
+	childToAdd->parentRegion = this;
 }
 
 /// <summary>
 /// Associates  two GameRegions as neighbors of each other.
 /// </summary>
-/// <param name="neighbor">The neighbor.</param>
-void GameRegion::addNeighborRegion(GameRegion * neighbor) {
-	neighborRegions.push_back(neighbor);
-	neighbor->neighborRegions.push_back(this);
+/// <param name="neighborToAdd">The neighbor that is being added to the region.</param>
+void GameRegion::addNeighborRegion(GameRegion * neighborToAdd) {
+	neighborRegions.push_back(neighborToAdd);
+	neighborToAdd->neighborRegions.push_back(this);
 }
 
 	//removals
@@ -152,16 +152,16 @@ void GameRegion::addNeighborRegion(GameRegion * neighbor) {
 /// <summary>
 /// Removes the neighbor association between two GameRegions.
 /// </summary>
-/// <param name="neighbor">The neighbor.</param>
-void GameRegion::removeNeighborRegion(GameRegion * neighbor) {
+/// <param name="neighborToRemove">The neighbor that is being removed from this GameRegion.</param>
+void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
     //remove this from neighbor->neighborRegions
-    auto nit = std::find(neighbor->neighborRegions.begin(), neighbor->neighborRegions.end(), this);
-    if (nit != neighbor->neighborRegions.end()) {
-        neighbor->neighborRegions.erase(nit);
+    auto nit = std::find(neighborToRemove->neighborRegions.begin(), neighborToRemove->neighborRegions.end(), this);
+    if (nit != neighborToRemove->neighborRegions.end()) {
+		neighborToRemove->neighborRegions.erase(nit);
     }
 
 	//remove neighbor from this.neighborRegions
-	auto it = std::find(neighborRegions.begin(), neighborRegions.end(), neighbor);
+	auto it = std::find(neighborRegions.begin(), neighborRegions.end(), neighborToRemove);
 	if (it != neighborRegions.end()) {
 		neighborRegions.erase(it);
 	}
@@ -170,13 +170,13 @@ void GameRegion::removeNeighborRegion(GameRegion * neighbor) {
 /// <summary>
 /// Removes the parent child relationship between two GameRegions.
 /// </summary>
-/// <param name="child">The child.</param>
-void GameRegion::removeChildRegion(GameRegion * child) {
-	auto it = std::find(childRegions.begin(), childRegions.end(), child);
+/// <param name="childToRemove">The child that is being removed from the Parent Region.</param>
+void GameRegion::removeChildRegion(GameRegion * childToRemove) {
+	auto it = std::find(childRegions.begin(), childRegions.end(), childToRemove);
 	if (it != childRegions.end()) {
 		childRegions.erase(it);
 	}
-	child->parentRegion = nullptr;
+	childToRemove->parentRegion = nullptr;
 }
 
 /// <summary>

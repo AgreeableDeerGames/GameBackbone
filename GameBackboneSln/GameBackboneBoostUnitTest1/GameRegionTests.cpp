@@ -332,6 +332,7 @@ BOOST_AUTO_TEST_SUITE_END() // end GameRegion_neighbor_tests
 BOOST_AUTO_TEST_SUITE(GameRegion_child_tests)
 //////////////////////////////////////////////
 
+/*
 // Tests add and destructor
 BOOST_AUTO_TEST_CASE(GameRegion_child_t1) {
     GameRegion* gameRegion = new GameRegion();
@@ -339,7 +340,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_child_t1) {
 
     gameRegion->addChildRegion(childRegion);
 
-}
+}*/
 
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_child_tests
 
