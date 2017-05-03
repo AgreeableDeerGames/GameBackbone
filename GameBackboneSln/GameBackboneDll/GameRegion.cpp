@@ -218,7 +218,8 @@ void GameRegion::clearNeighborRegions() {
 void GameRegion::removeAssociations(const std::function<void(std::vector<GameRegion*>::iterator)> disassociator, std::vector<GameRegion*>* list) {
     auto it = list->begin();
     while (it != list->end()) {
-        disassociator(it);
+        // perfoms operation on iterator then increments it
+        disassociator(it++);
     }
 }
 
