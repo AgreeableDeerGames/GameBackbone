@@ -131,7 +131,17 @@ bool AnimatedSprite::isAnimating() {
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId) {
+	runAnimation(animationId, ANIMATION_END_TYPE::ANIMATION_LOOP);
+}
+
+/// <summary>
+/// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends
+/// </summary>
+/// <param name="animationId">the index of the animation to begin.</param>
+/// <param name="endStyle">What happens when the animation reaches the end.</param>
+void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
 	this->animating = true;
+	this->animationEnd = endStyle;
 	this->currentAnimationId = animationId;
 	this->currentAnimation = &animations->at(animationId);
 	this->currentFrame = 0;
@@ -144,7 +154,30 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 void AnimatedSprite::update(sf::Time currentTime) {
 	
 	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > (int)animationDelay)) {
-		setCurrentFrame((currentFrame + 1) % currentAnimation->size());
+		switch (animationEnd) {
+		case ANIMATION_END_TYPE::ANIMATION_LOOP:
+			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
+			break;
+		case ANIMATION_END_TYPE::ANIMATION_REVERSE:
+			if (currentFrame >= currentAnimation->size() - 1 || currentFrame <= 0) {
+				isReverse = !isReverse;
+			}
+
+			if (!isReverse) {
+				setCurrentFrame(currentFrame + 1);
+			}
+			else {
+				setCurrentFrame(currentFrame - 1);
+			}
+			break;
+		case ANIMATION_END_TYPE::ANIMATION_STOP:
+			if (currentFrame < currentAnimation->size()) {
+				setCurrentFrame(currentFrame + 1);
+			}
+			break;
+		}
+
+
 		setTextureRect(currentAnimation->at(currentFrame));
 		lastUpdate = currentTime;
 	}
