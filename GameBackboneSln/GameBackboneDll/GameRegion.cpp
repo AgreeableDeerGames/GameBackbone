@@ -212,7 +212,15 @@ void GameRegion::clearNeighborRegions() {
     }
 }
 
-
+/// <summary>
+/// Loops through list of associations, and calls the passed in function on each.
+/// <summary>
+void GameRegion::removeAssociations(const std::function<void(std::vector<GameRegion*>::iterator)> disassociator, std::vector<GameRegion*>* list) {
+    auto it = list->begin();
+    while (it != list->end()) {
+        disassociator(it);
+    }
+}
 
 
 
