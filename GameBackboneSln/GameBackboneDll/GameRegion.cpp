@@ -111,6 +111,14 @@ std::vector<sf::Sprite*>* GameRegion::getDrawables() {
 	return drawables;
 }
 
+std::vector<GameRegion*>* GameRegion::getNeighborRegions() {
+    return &neighborRegions;
+}
+
+std::vector<GameRegion*>* GameRegion::getChildRegions() {
+    return &childRegions;
+}
+
 //general operations
 
 	//additions
@@ -121,7 +129,9 @@ std::vector<sf::Sprite*>* GameRegion::getDrawables() {
 /// <param name="child">The new child region of this region.</param>
 void GameRegion::addChildRegion(GameRegion * child) {
 	//clear any previous parents
-	child->parentRegion->removeChildRegion(child);
+    if (child->parentRegion) {
+        child->parentRegion->removeChildRegion(child);
+    }
 
 	//add child
 	childRegions.push_back(child);
@@ -144,16 +154,16 @@ void GameRegion::addNeighborRegion(GameRegion * neighbor) {
 /// </summary>
 /// <param name="neighbor">The neighbor.</param>
 void GameRegion::removeNeighborRegion(GameRegion * neighbor) {
+    //remove this from neighbor->neighborRegions
+    auto nit = std::find(neighbor->neighborRegions.begin(), neighbor->neighborRegions.end(), this);
+    if (nit != neighbor->neighborRegions.end()) {
+        neighbor->neighborRegions.erase(nit);
+    }
+
 	//remove neighbor from this.neighborRegions
 	auto it = std::find(neighborRegions.begin(), neighborRegions.end(), neighbor);
 	if (it != neighborRegions.end()) {
 		neighborRegions.erase(it);
-	}
-
-	//remove this from neighbor->neighborRegions
-	auto nit = std::find(neighbor->neighborRegions.begin(), neighbor->neighborRegions.end(), this);
-	if (nit != neighbor->neighborRegions.end()){
-		neighbor->neighborRegions.erase(nit);
 	}
 }
 
@@ -196,9 +206,10 @@ void GameRegion::clearDrawable() {
 /// Disassociates all neighbor GameRegions from this GameRegion.
 /// </summary>
 void GameRegion::clearNeighborRegions() {
-	for (GameRegion* neighbor : neighborRegions) {
-		removeNeighborRegion(neighbor);
-	}
+    for (int ii = neighborRegions.size() -1 ; ii >= 0; ii--)
+    {
+        removeNeighborRegion(neighborRegions[ii]);
+    }
 }
 
 

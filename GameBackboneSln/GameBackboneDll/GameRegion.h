@@ -24,8 +24,11 @@ public:
 	void setDrawable(bool status, CompoundSprite* object);
 	void setDrawAndUpdateable(bool status, AnimatedSprite* object);
 	void setDrawAndUpdateable(bool status, CompoundSprite* object);
+        //getters
 	std::vector<Updatable*>* getUpdatables();
 	std::vector<sf::Sprite*>* getDrawables();
+    std::vector<GameRegion*>* getNeighborRegions();
+    std::vector<GameRegion*>* getChildRegions();
 
 
 	//internal behavior alteration
