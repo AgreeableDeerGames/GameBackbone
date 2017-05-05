@@ -332,7 +332,7 @@ BOOST_AUTO_TEST_SUITE_END() // end GameRegion_neighbor_tests
 BOOST_AUTO_TEST_SUITE(GameRegion_child_tests)
 //////////////////////////////////////////////
 
-/*
+
 // Tests add and destructor
 BOOST_AUTO_TEST_CASE(GameRegion_child_t1) {
     GameRegion* gameRegion = new GameRegion();
@@ -340,7 +340,61 @@ BOOST_AUTO_TEST_CASE(GameRegion_child_t1) {
 
     gameRegion->addChildRegion(childRegion);
 
-}*/
+	auto returnedChildRegions = gameRegion->getChildRegions();
+
+	//ensure that exactly one child is found
+	BOOST_CHECK(returnedChildRegions->size() == 1);
+
+	//ensure that the correct child region has been stored
+	BOOST_CHECK(returnedChildRegions->at(0) == childRegion);
+
+	delete gameRegion;
+	delete childRegion;
+
+}
+
+// Test removing a child
+BOOST_AUTO_TEST_CASE(GameRegion_child_t2) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	//add and remove the region
+	gameRegion->addChildRegion(childRegion);
+	gameRegion->removeChildRegion(childRegion);
+
+	auto returnedChildRegions = gameRegion->getChildRegions();
+
+	//ensure that the child has been removed
+	BOOST_CHECK(returnedChildRegions->empty());
+
+	delete gameRegion;
+	delete childRegion;
+}
+
+// Test that the correct child is removed in removeChildRegion
+BOOST_AUTO_TEST_CASE(GameRegion_child_t3) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion1 = new GameRegion();
+	GameRegion* childRegion2 = new GameRegion();
+
+	//add and remove the region
+	gameRegion->addChildRegion(childRegion1);
+	gameRegion->addChildRegion(childRegion2);
+
+	gameRegion->removeChildRegion(childRegion1);
+
+	auto returnedChildRegions = gameRegion->getChildRegions();
+
+	//ensure that the child has been removed
+	BOOST_CHECK(returnedChildRegions->size() == 1);
+
+	//ensure the region not removed is still present
+	BOOST_CHECK(returnedChildRegions->at(0) == childRegion2);
+
+	delete gameRegion;
+	delete childRegion1;
+	delete childRegion2;
+}
 
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_child_tests
 
