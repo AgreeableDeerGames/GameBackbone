@@ -171,8 +171,6 @@ void GameRegion::addNeighborRegion(GameRegion * neighborToAdd) {
 /// Removes the neighbor association between two GameRegions.
 /// 
 /// Throws GameRegion_BadDissociation if the GameRegions are not neighbors.
-/// 
-/// Returns an iterator to the next region.
 /// </summary>
 /// <param name="neighborToRemove">The neighbor that is being removed from this GameRegion.</param>
 void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
@@ -244,6 +242,12 @@ void GameRegion::clearNeighborRegions() {
 
 /// <summary>
 /// Loops through list of associations, and calls the passed in function on each.
+///
+/// Usage:
+/// void GameRegion::clearNeighborRegions() {
+/// std::function /<void(GameRegion*)/ disassociator = std::bind(&aClass::FunctionWhichDisassociates, this, std::placeholders::_1);
+/// clearAssociations(disassociator, getNeighborRegions());
+/// }
 /// <summary>
 void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* list) {
     for (int ii = list->size() - 1; ii >= 0; ii--)
