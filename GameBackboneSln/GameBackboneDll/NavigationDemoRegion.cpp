@@ -131,10 +131,9 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 /// <summary>
 /// Handles mouse click logic.
 /// </summary>
-/// <param name="x">The x position of the click.</param>
-/// <param name="y">The y position of the click.</param>
+/// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button clicked button.</param>
-void NavigationDemoRegion::handleMouseClick(int x, int y, sf::Mouse::Button button) {
+void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
 		std::vector<PathRequest> pathRequests(navigators.size());
 
@@ -142,7 +141,7 @@ void NavigationDemoRegion::handleMouseClick(int x, int y, sf::Mouse::Button butt
 		for (size_t i = 0; i < navigators.size(); i++) {
 			sf::Sprite* currentNavigator = navigators[i];
 			IntPair startingPos = worldCoordToGridCoord(currentNavigator->getPosition());
-			IntPair endingPos = worldCoordToGridCoord(sf::Vector2f((float)x,(float)y));
+			IntPair endingPos = worldCoordToGridCoord(newPosition);
 			pathRequests[i] = PathRequest{ startingPos, endingPos, 1, 0 };
 		}
 
@@ -160,7 +159,7 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 	navGrid->initAllValues(NavigationGridData{ 1, 0 });
 
 	//block grids for maze
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
 		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
 			if (! (rand() % 5)) {//1 in 5 are blocked
@@ -234,9 +233,9 @@ IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCo
 	sf::Vector2f gridOrigin(0, 0);
 
 	//offset origin to produce coordinate in center of grid square
-	int gridSquareWidth = gridTexture->getSize().x;
-	int gridSquareHeight = gridTexture->getSize().y;
-	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2), 0 + (gridSquareHeight / 2));// bad hack
+	unsigned int gridSquareWidth = gridTexture->getSize().x;
+	unsigned int gridSquareHeight = gridTexture->getSize().y;
+	sf::Vector2f offsetOrigin(0.0f + ((float)gridSquareWidth / 2.0f), 0.0f + ((float)gridSquareHeight / 2.0f));// bad hack
 
 	// use size of grid squares and grid origin position to calculate grid coordinate
 	return IntPair((int)((worldCoordinate.x - offsetOrigin.x) / gridSquareWidth),
@@ -255,7 +254,7 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 
 	//angle between the sprite and the destination
 	const float angleToDestination = atan2(destination.y - sprite->getPosition().y, destination.x - sprite->getPosition().x);
-	const float angleToDestinationDeg = angleToDestination * (180.0f / M_PI) + 90;// This is offset by 90 degrees. This is because this value is only used to rotate the sprite. 
+	const float angleToDestinationDeg = angleToDestination * (180.0f / (float)M_PI) + 90.0f;// This is offset by 90 degrees. This is because this value is only used to rotate the sprite. 
 																				  //The sprite is currently rotated at -90 from the games coordinate system
 	
 	//angle sprite to point at destination 

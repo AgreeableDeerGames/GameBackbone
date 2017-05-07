@@ -87,16 +87,16 @@ BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_1) {
 
 	Array3D<int> intArray(dimensionSize);
 
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				intArray.setValueAt(i, j, k, i + dimensionSize * j + dimensionSize * dimensionSize + k);
 			}
 		}
 	}
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				const int expectedValue = i + dimensionSize * j + dimensionSize * dimensionSize + k;
 				const int foundValue = intArray.getValueAt(i, j, k);
 				BOOST_CHECK_EQUAL(foundValue, expectedValue);
@@ -111,16 +111,16 @@ BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_2) {
 
 	Array3D<int> intArray(dimensionSize);
 
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				intArray.setValueAt(i, j, k, i + dimensionSize * j + dimensionSize * dimensionSize + k);
 			}
 		}
 	}
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				const int expectedValue = i + dimensionSize * j + dimensionSize * dimensionSize + k;
 				const int foundValue = intArray.getValueAt(sf::Vector3i(i, j, k));
 				BOOST_CHECK_EQUAL(foundValue, expectedValue);

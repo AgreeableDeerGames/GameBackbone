@@ -23,7 +23,7 @@ namespace GB {
 	protected:
 		unsigned int rows;
 		unsigned int cols;
-		std::vector<std::vector<sf::IntRect>> animations;
+		std::vector<std::vector<sf::IntRect>>* animations;
 
 	};
 

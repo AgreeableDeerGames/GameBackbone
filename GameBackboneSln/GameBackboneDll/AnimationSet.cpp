@@ -11,6 +11,7 @@ using namespace GB;
 AnimationSet::AnimationSet(unsigned int rows, unsigned int cols) {
 	this->rows = rows;
 	this->cols = cols;
+	this->animations = new std::vector<std::vector<sf::IntRect>>;
 }
 
 /// <summary>
@@ -24,10 +25,13 @@ AnimationSet::AnimationSet(unsigned int rows, unsigned int cols) {
 AnimationSet::AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols) {
 	this->rows = rows;
 	this->cols = cols;
+	this->animations = new std::vector<std::vector<sf::IntRect>>;
 	framesToRects(frameAnimations, textureWidth, textureHeight);
 }
 
 AnimationSet::~AnimationSet() {
+	delete this->animations;
+	this->animations = nullptr;
 }
 
 /// <summary>
@@ -51,7 +55,7 @@ void AnimationSet::framesToRects(const std::vector<std::vector<unsigned int>>& f
 			sf::IntRect frameRect(newRectX, newRectY, rectWidth, rectHeight);
 			rectAnimation.push_back(frameRect);
 		}
-		animations.push_back(rectAnimation);
+		animations->push_back(rectAnimation);
 	}
 }
 
@@ -60,7 +64,7 @@ void AnimationSet::framesToRects(const std::vector<std::vector<unsigned int>>& f
 /// Clears all animations.
 /// </summary>
 void AnimationSet::clearAnimations() {
-	animations.clear();
+	animations->clear();
 }
 
 /// <summary>
@@ -68,6 +72,6 @@ void AnimationSet::clearAnimations() {
 /// </summary>
 /// <returns></returns>
 std::vector<std::vector<sf::IntRect>>* AnimationSet::getAnimations() {
-	return &animations;
+	return animations;
 }
 

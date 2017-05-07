@@ -75,14 +75,14 @@ BOOST_AUTO_TEST_CASE(Array2D_at_2) {
 	Array2D<int>* intArray = new Array2D<int>();//sizes of all dimensions should be 100
 
 												//set values
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			intArray->at(i, j) = i*j + i;
 		}
 	}
 	//check values
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			int returnVal = intArray->at(i, j);
 			BOOST_CHECK_EQUAL(i*j + i, returnVal);
 		}
@@ -98,8 +98,8 @@ BOOST_AUTO_TEST_CASE(Array2D_initAllValues) {
 
 	intArray->initAllValues(initVal);
 
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			int returnVal = intArray->at(i, j);
 			BOOST_CHECK_EQUAL(returnVal, initVal);
 		}
@@ -112,14 +112,14 @@ BOOST_AUTO_TEST_CASE(Array2D_operatorParen_get_set) {
 	Array2D<int>* intArray = new Array2D<int>();//sizes of all dimensions should be 100
 
 												//set values
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			(*intArray)(i, j) = i*j + i;
 		}
 	}
 	//check values
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			int returnVal = (*intArray)(i, j);
 			BOOST_CHECK_EQUAL(i*j + i, returnVal);
 		}
@@ -132,14 +132,14 @@ BOOST_AUTO_TEST_CASE(Array2D_operatorSqare_get_set) {
 	Array2D<int>* intArray = new Array2D<int>();//sizes of all dimensions should be 100
 
 												//set values
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			(*intArray)[i][j] = i*j + i;
 		}
 	}
 	//check values
-	for (size_t i = 0; i < intArray->getArraySizeX(); i++) {
-		for (size_t j = 0; j < intArray->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < intArray->getArraySizeX(); ++i) {
+		for (unsigned int j = 0; j < intArray->getArraySizeY(); ++j) {
 			int returnVal = (*intArray)[i][j];
 			BOOST_CHECK_EQUAL(i*j + i, returnVal);
 		}
