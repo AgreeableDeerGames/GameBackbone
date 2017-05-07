@@ -25,7 +25,7 @@ namespace GB {
 
 		virtual void behave(sf::Time currentTime) override;
 
-		virtual void handleMouseClick(int x, int y, sf::Mouse::Button button);
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
 
 
 
