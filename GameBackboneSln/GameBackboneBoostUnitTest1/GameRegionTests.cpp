@@ -326,6 +326,17 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t6) {
     delete region1; delete region3;
 }
 
+// Tests attempting to remove a non-neighbor
+BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t7) {
+	GameRegion* region1 = new GameRegion();
+	GameRegion* region2 = new GameRegion();
+	
+	//BOOST_CHECK_THROW(region1->removeNeighborRegion(region1), GameRegion_BadDissociation);
+
+	delete region1; 
+	delete region2;
+}
+
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_neighbor_tests
 
 ////////////////////////////////////////////////
@@ -394,6 +405,19 @@ BOOST_AUTO_TEST_CASE(GameRegion_child_t3) {
 	delete gameRegion;
 	delete childRegion1;
 	delete childRegion2;
+}
+
+// Test that exception is thrown when child is not a child of parent
+BOOST_AUTO_TEST_CASE(GameRegion_child_t4) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	//add and remove the region
+
+	//BOOST_CHECK_THROW(gameRegion->removeChildRegion(childRegion), GameRegion_BadDissociation);
+
+	delete gameRegion;
+	delete childRegion;
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_child_tests
