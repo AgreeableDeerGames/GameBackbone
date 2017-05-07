@@ -151,6 +151,8 @@ void GameRegion::addNeighborRegion(GameRegion * neighborToAdd) {
 
 /// <summary>
 /// Removes the neighbor association between two GameRegions.
+/// 
+/// Throws GameRegion_BadDissociation if the GameRegions are not neighbors.
 /// </summary>
 /// <param name="neighborToRemove">The neighbor that is being removed from this GameRegion.</param>
 void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
@@ -158,25 +160,33 @@ void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
     auto nit = std::find(neighborToRemove->neighborRegions.begin(), neighborToRemove->neighborRegions.end(), this);
     if (nit != neighborToRemove->neighborRegions.end()) {
 		neighborToRemove->neighborRegions.erase(nit);
-    }
+	} else {
+		throw GameRegion_BadDissociation();
+	}
 
 	//remove neighbor from this.neighborRegions
 	auto it = std::find(neighborRegions.begin(), neighborRegions.end(), neighborToRemove);
 	if (it != neighborRegions.end()) {
 		neighborRegions.erase(it);
+	} else {
+		throw GameRegion_BadDissociation();
 	}
 }
 
 /// <summary>
 /// Removes the parent child relationship between two GameRegions.
+/// 
+/// Throws GameRegion_BadDissociation if childToRemove is not a child.
 /// </summary>
 /// <param name="childToRemove">The child that is being removed from the Parent Region.</param>
 void GameRegion::removeChildRegion(GameRegion * childToRemove) {
 	auto it = std::find(childRegions.begin(), childRegions.end(), childToRemove);
 	if (it != childRegions.end()) {
 		childRegions.erase(it);
+		childToRemove->parentRegion = nullptr;
+	} else {
+		throw GameRegion_BadDissociation();
 	}
-	childToRemove->parentRegion = nullptr;
 }
 
 /// <summary>

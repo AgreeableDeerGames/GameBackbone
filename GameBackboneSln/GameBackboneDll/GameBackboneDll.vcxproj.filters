@@ -90,6 +90,9 @@
     <ClInclude Include="NavigationDemoRegion.h">
       <Filter>Header Files\Demo</Filter>
     </ClInclude>
+    <ClInclude Include="BackboneBaseExceptions.h">
+      <Filter>Header Files\Backbone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
