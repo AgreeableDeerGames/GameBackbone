@@ -45,12 +45,15 @@ public:
 	virtual void behave(sf::Time currentTime) {}
 
 	//general operations
+		//getters/setters
+	GameRegion* getParentRegion();
+	void setParentRegion(GameRegion* newParent);
 		//additions
-	void addChildRegion(GameRegion* child);
-	void addNeighborRegion(GameRegion* neighbor);
+	void addChildRegion(GameRegion* childToAdd);
+	void addNeighborRegion(GameRegion* neighborToAdd);
 		//removals
-	void removeNeighborRegion(GameRegion* neighbor);
-	void removeChildRegion(GameRegion* child);
+	void removeNeighborRegion(GameRegion* neighborToRemove);
+	void removeChildRegion(GameRegion* childToRemove);
 		//clears
 	void clearUpdatable();
 	void clearChildren();

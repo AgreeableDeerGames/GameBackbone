@@ -121,6 +121,27 @@ std::vector<GameRegion*>* GameRegion::getChildRegions() {
 
 //general operations
 
+	//getters/setters
+
+/// <summary>
+/// Gets the parent region.
+/// </summary>
+GameRegion* GameRegion::getParentRegion() {
+	return parentRegion;
+}
+
+/// <summary>
+/// Sets the parent region.
+/// </summary>
+/// <param name="newParent">The new parent.</param>
+void GameRegion::setParentRegion(GameRegion* newParent) {
+	if (parentRegion != newParent)
+	{
+		parentRegion->GameRegion::removeChildRegion(this);
+		parentRegion = newParent;
+	}
+}
+
 	//additions
 
 /// <summary>
