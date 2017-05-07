@@ -200,8 +200,9 @@ void GameRegion::clearUpdatable() {
 /// Orphans all children GameRegions in this GameRegion.
 /// </summary>
 void GameRegion::clearChildren() {
-	for (GameRegion* child : childRegions) {
-		removeChildRegion(child);
+	for (int ii = childRegions.size() - 1; ii >= 0; ii--)
+	{
+		removeChildRegion(childRegions[ii]);
 	}
 }
 
