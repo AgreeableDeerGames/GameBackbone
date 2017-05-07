@@ -5,23 +5,26 @@
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>
 
-///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
-class libGameBackbone AnimationSet {
-public:
-	AnimationSet(unsigned int rows, unsigned int cols);
-	AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols);
-	virtual ~AnimationSet();
+namespace GB {
 
-	void framesToRects(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight);
+	///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
+	class libGameBackbone AnimationSet {
+	public:
+		AnimationSet(unsigned int rows, unsigned int cols);
+		AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols);
+		virtual ~AnimationSet();
 
-	void clearAnimations();
+		void framesToRects(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight);
 
-	std::vector<std::vector<sf::IntRect>>* getAnimations();
+		void clearAnimations();
 
-protected:
-	unsigned int rows;
-	unsigned int cols;
-	std::vector<std::vector<sf::IntRect>> animations;
+		std::vector<std::vector<sf::IntRect>>* getAnimations();
 
-};
+	protected:
+		unsigned int rows;
+		unsigned int cols;
+		std::vector<std::vector<sf::IntRect>> animations;
 
+	};
+
+}

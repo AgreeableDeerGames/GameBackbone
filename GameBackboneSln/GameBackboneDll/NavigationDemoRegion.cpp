@@ -10,6 +10,7 @@
 #include <string>
 #include <math.h>
 
+using namespace GB;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.

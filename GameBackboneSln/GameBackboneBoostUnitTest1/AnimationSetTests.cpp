@@ -7,6 +7,8 @@
 typedef std::vector<unsigned int> Animation;
 typedef std::vector<Animation> AnimationVector;
 
+using namespace GB;
+
 /// <summary>
 /// Struct to store generic animations that can be used for
 /// multiple test cases

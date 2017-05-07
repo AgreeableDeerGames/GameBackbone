@@ -2,6 +2,8 @@
 
 #include <PathFinder.h>
 
+using namespace GB;
+
 BOOST_AUTO_TEST_SUITE(Pathfinder_Tests)
 
 BOOST_AUTO_TEST_SUITE(Pathfinder_ctrs)

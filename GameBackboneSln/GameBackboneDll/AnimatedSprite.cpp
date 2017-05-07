@@ -6,6 +6,8 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
+using namespace GB;
+
 //ctr and dtr
 
 /// <summary>Default Constructor. All values are initialized to 0 or nullptr.</summary>

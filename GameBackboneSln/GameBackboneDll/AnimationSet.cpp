@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "AnimationSet.h"
 
+using namespace GB;
+
 /// <summary>
 /// Initializes a new instance of the <see cref="AnimationSet"/> class.
 /// </summary>

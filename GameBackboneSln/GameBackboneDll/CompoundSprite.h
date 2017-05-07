@@ -8,34 +8,37 @@
 
 #include<vector>
 
-/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
-class libGameBackbone CompoundSprite : public virtual Updatable {
-public:
+namespace GB {
 
-	//ctr / dtr
-	//shallow copy and move are fine for this class
-	CompoundSprite();
-	CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
-	virtual ~CompoundSprite();
+	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
+	class libGameBackbone CompoundSprite : public virtual Updatable {
+	public:
 
-	//getters
-	std::vector<sf::Sprite*>* getSfSprites();
-	std::vector<AnimatedSprite*>* getAnimatedSprites();
+		//ctr / dtr
+		//shallow copy and move are fine for this class
+		CompoundSprite();
+		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
+		virtual ~CompoundSprite();
 
-	//add / remove
-	void addSprite(sf::Sprite* component);
-	void addAnimatedSprite(AnimatedSprite* component);
-	void removeSprite(sf::Sprite* component);
-	void removeAnimatedSprite(AnimatedSprite* component);
-	void clearComponents();
+		//getters
+		std::vector<sf::Sprite*>* getSfSprites();
+		std::vector<AnimatedSprite*>* getAnimatedSprites();
 
-	//operations
-	void scale(float factorX, float factorY);
-	void move(float offsetX, float offsetY);
-	virtual void update(sf::Time currentTime);
+		//add / remove
+		void addSprite(sf::Sprite* component);
+		void addAnimatedSprite(AnimatedSprite* component);
+		void removeSprite(sf::Sprite* component);
+		void removeAnimatedSprite(AnimatedSprite* component);
+		void clearComponents();
 
-protected:
-	std::vector<sf::Sprite*> sprites;
-	std::vector<AnimatedSprite*> animatedSprites;
-};
+		//operations
+		void scale(float factorX, float factorY);
+		void move(float offsetX, float offsetY);
+		virtual void update(sf::Time currentTime);
 
+	protected:
+		std::vector<sf::Sprite*> sprites;
+		std::vector<AnimatedSprite*> animatedSprites;
+	};
+
+}

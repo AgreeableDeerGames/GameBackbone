@@ -8,6 +8,8 @@
 #include <limits.h>
 #include <list>
 
+using namespace GB;
+
 //ctr / dtr
 
 /// <summary> Creates a PathFinder with a null navigation grid. </summary>
