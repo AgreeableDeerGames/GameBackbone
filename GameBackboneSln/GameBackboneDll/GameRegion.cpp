@@ -121,6 +121,27 @@ std::vector<GameRegion*>* GameRegion::getChildRegions() {
 
 //general operations
 
+	//getters/setters
+
+/// <summary>
+/// Gets the parent region.
+/// </summary>
+GameRegion* GameRegion::getParentRegion() {
+	return parentRegion;
+}
+
+/// <summary>
+/// Sets the parent region.
+/// </summary>
+/// <param name="newParent">The new parent.</param>
+void GameRegion::setParentRegion(GameRegion* newParent) {
+	if (parentRegion != newParent)
+	{
+		parentRegion->GameRegion::removeChildRegion(this);
+		parentRegion = newParent;
+	}
+}
+
 	//additions
 
 /// <summary>
@@ -212,7 +233,16 @@ void GameRegion::clearNeighborRegions() {
     }
 }
 
-
+/// <summary>
+/// Loops through list of associations, and calls the passed in function on each.
+/// <summary>
+void GameRegion::removeAssociations(const std::function<void(std::vector<GameRegion*>::iterator)> disassociator, std::vector<GameRegion*>* list) {
+    auto it = list->begin();
+    while (it != list->end()) {
+        // perfoms operation on iterator then increments it
+        disassociator(it++);
+    }
+}
 
 
 

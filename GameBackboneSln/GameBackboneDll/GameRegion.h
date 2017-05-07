@@ -8,6 +8,7 @@
 #include<SFML/Graphics/Sprite.hpp>
 
 #include<vector>
+#include<functional>
 
 /// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 class libGameBackbone GameRegion {
@@ -44,12 +45,15 @@ public:
 	virtual void behave(sf::Time currentTime) {}
 
 	//general operations
+		//getters/setters
+	GameRegion* getParentRegion();
+	void setParentRegion(GameRegion* newParent);
 		//additions
-	void addChildRegion(GameRegion* child);
-	void addNeighborRegion(GameRegion* neighbor);
+	void addChildRegion(GameRegion* childToAdd);
+	void addNeighborRegion(GameRegion* neighborToAdd);
 		//removals
-	void removeNeighborRegion(GameRegion* neighbor);
-	void removeChildRegion(GameRegion* child);
+	void removeNeighborRegion(GameRegion* neighborToRemove);
+	void removeChildRegion(GameRegion* childToRemove);
 		//clears
 	void clearUpdatable();
 	void clearChildren();
@@ -60,6 +64,9 @@ protected:
 
 	//ctr
 	void init() {}
+
+    //operations
+    void removeAssociations(std::function<void(std::vector<GameRegion*>::iterator)> disassociator, std::vector<GameRegion*>* list);
 
 	//internal logic members
 	std::vector<sf::Sprite*>* drawables;
