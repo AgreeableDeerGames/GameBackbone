@@ -347,7 +347,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_child_tests)
 
 
 // Tests add and destructor
-BOOST_AUTO_TEST_CASE(GameRegion_child_t1) {
+BOOST_AUTO_TEST_CASE(GameRegion_add_child) {
     GameRegion* gameRegion = new GameRegion();
     GameRegion* childRegion = new GameRegion();
 
@@ -367,7 +367,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_child_t1) {
 }
 
 // Test removing a child
-BOOST_AUTO_TEST_CASE(GameRegion_child_t2) {
+BOOST_AUTO_TEST_CASE(GameRegion_remove_child) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 
@@ -385,7 +385,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_child_t2) {
 }
 
 // Test that the correct child is removed in removeChildRegion
-BOOST_AUTO_TEST_CASE(GameRegion_child_t3) {
+BOOST_AUTO_TEST_CASE(GameRegion_remove_correct_child) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion1 = new GameRegion();
 	GameRegion* childRegion2 = new GameRegion();
@@ -410,7 +410,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_child_t3) {
 }
 
 // Test that exception is thrown when child is not a child of parent
-BOOST_AUTO_TEST_CASE(GameRegion_child_t4) {
+BOOST_AUTO_TEST_CASE(GameRegion_remove_child_child_not_in_children) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 

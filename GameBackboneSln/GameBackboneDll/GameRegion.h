@@ -27,11 +27,14 @@ public:
 	void setDrawable(bool status, CompoundSprite* object);
 	void setDrawAndUpdateable(bool status, AnimatedSprite* object);
 	void setDrawAndUpdateable(bool status, CompoundSprite* object);
+	void setParentRegion(GameRegion* newParent);
+
         //getters
 	std::list<Updatable*>* getUpdatables();
 	std::list<sf::Sprite*>* getDrawables();
     std::vector<GameRegion*>* getNeighborRegions();
     std::vector<GameRegion*>* getChildRegions();
+	GameRegion* getParentRegion();
 
 
 	//internal behavior alteration
@@ -47,9 +50,7 @@ public:
 	virtual void behave(sf::Time currentTime) {}
 
 	//general operations
-		//getters/setters
-	GameRegion* getParentRegion();
-	void setParentRegion(GameRegion* newParent);
+
 		//additions
 	void addChildRegion(GameRegion* childToAdd);
 	void addNeighborRegion(GameRegion* neighborToAdd);

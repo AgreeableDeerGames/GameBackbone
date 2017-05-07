@@ -119,10 +119,6 @@ std::vector<GameRegion*>* GameRegion::getChildRegions() {
     return &childRegions;
 }
 
-//general operations
-
-	//getters/setters
-
 /// <summary>
 /// Gets the parent region.
 /// </summary>
@@ -141,6 +137,8 @@ void GameRegion::setParentRegion(GameRegion* newParent) {
 		parentRegion = newParent;
 	}
 }
+
+//general operations
 
 	//additions
 
