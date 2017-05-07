@@ -13,6 +13,7 @@
 
 #include <vector>
 
+using namespace GB;
 
 int main() {
 	const int WINDOW_WIDTH = 700;

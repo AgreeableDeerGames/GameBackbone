@@ -3,6 +3,7 @@
 
 #include<algorithm>
 
+using namespace GB;
 
 //ctr / dtr
 CompoundSprite::CompoundSprite() {

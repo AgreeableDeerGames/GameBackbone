@@ -3,6 +3,8 @@
 
 #include<algorithm>
 
+using namespace GB;
+
 /// <summary>
 /// Initializes a new instance of the <see cref="GameRegion"/> class. All members are initialized empty or null.
 /// </summary>

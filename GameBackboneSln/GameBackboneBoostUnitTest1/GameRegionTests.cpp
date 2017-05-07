@@ -3,47 +3,8 @@
 #include <GameRegion.h>
 
 #include <SFML/Graphics.hpp>
-/*
-/// <summary>
-/// Struct to store objects that can be reused for all or nearly all 
-/// of the unit tests in this file. This struct is meant to be used with fixtures
-/// at the unit test level.
-/// </summary>
-struct ReusableObjects
-{
-    ReusableObjects() {
-        std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
-        aSpriteTexture->loadFromFile(testTexturePath);
 
-        //create animation set
-        sf::Vector2u textureDim = aSpriteTexture->getSize();
-        std::vector<std::vector<unsigned int>> aSpriteAnims;
-        std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-        aSpriteAnims.push_back(aSpriteAnim1);
-        animSet = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-
-        compSprite = new CompoundSprite();
-
-        for (int i = 0; i < 10 ; i++) {
-            animSpriteWithAnimVector[i] = new AnimatedSprite(*aSpriteTexture, animSet);
-            compSprite->addAnimatedSprite(animSpriteWithAnimVector[i]);
-            compSprite->addSprite(&sf::Sprite());
-        }
-
-    }
-
-    ~ReusableObjects() {
-        delete animSet;
-        delete aSpriteTexture;
-        delete[] animSpriteWithAnimVector;
-        delete compSprite;
-    }
-
-    AnimatedSprite* animSpriteWithAnimVector[10];
-    AnimationSet* animSet;
-    sf::Texture* aSpriteTexture;
-    CompoundSprite* compSprite;
-};*/
+using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
@@ -453,13 +414,102 @@ BOOST_AUTO_TEST_CASE(GameRegion_remove_child_child_not_in_children) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 
-	//add and remove the region
-
-	//BOOST_CHECK_THROW(gameRegion->removeChildRegion(childRegion), GameRegion_BadDissociation);
+	// ensure exception is thrown when attempting to remove a region that is not a child
+	BOOST_CHECK_THROW(gameRegion->removeChildRegion(childRegion), GameRegion_BadDissociation);
 
 	delete gameRegion;
 	delete childRegion;
 }
+
+// Test that setting a parent for the first time successfully creates the parent child relation
+BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_no_existing_parent) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	// ensure that the child does not already have a parent
+	BOOST_CHECK(childRegion->getParentRegion() == nullptr);
+
+	childRegion->setParentRegion(gameRegion);
+
+	// ensure that the child has the correct parent assigned
+	BOOST_CHECK(childRegion->getParentRegion() == gameRegion);
+
+	// ensure that the child region is a child of the parent region
+	BOOST_CHECK(gameRegion->getChildRegions()->at(0) == childRegion);
+
+	delete gameRegion;
+	delete childRegion;
+}
+
+// Test that setting a parent will disacociate any previous parent relationship
+BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_existing_parent) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* gameRegion2 = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	childRegion->setParentRegion(gameRegion);
+	childRegion->setParentRegion(gameRegion2);
+	
+	// ensure that the child has the correct parent assigned
+	BOOST_CHECK(childRegion->getParentRegion() == gameRegion2);
+
+	// ensure that the child region is a child of the parent region
+	BOOST_CHECK(gameRegion2->getChildRegions()->at(0) == childRegion);
+
+	// ensure that the previous parent region has no association to the child
+	BOOST_CHECK(gameRegion->getChildRegions()->empty());
+
+	delete gameRegion;
+	delete gameRegion2;
+	delete childRegion;
+}
+
+// Test that setting a parent for two child regions correctly creates the relationship for both
+BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_two_children) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion1 = new GameRegion();
+	GameRegion* childRegion2 = new GameRegion();
+
+	childRegion1->setParentRegion(gameRegion);
+	childRegion2->setParentRegion(gameRegion);
+
+	// ensure that the child has the correct parent assigned
+	BOOST_CHECK(childRegion1->getParentRegion() == gameRegion);
+	BOOST_CHECK(childRegion2->getParentRegion() == gameRegion);
+
+	// ensure that the child region is a child of the parent region
+	BOOST_CHECK(gameRegion->getChildRegions()->at(0) == childRegion1);
+	BOOST_CHECK(gameRegion->getChildRegions()->at(1) == childRegion2);
+
+	delete gameRegion;
+	delete childRegion1;
+	delete childRegion2;
+}
+
+// Test that setting a parent twice only adds the relationship once
+BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_same_parent) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	childRegion->setParentRegion(gameRegion);
+	childRegion->setParentRegion(gameRegion);
+
+	// ensure that the child has the correct parent assigned
+	BOOST_CHECK(childRegion->getParentRegion() == gameRegion);
+
+	// ensure that the child region is a child of the parent region
+	BOOST_CHECK(gameRegion->getChildRegions()->at(0) == childRegion);
+
+	// ensure that the child region has only been added once
+	BOOST_CHECK(gameRegion->getChildRegions()->size() == 1);
+
+
+	delete gameRegion;
+	delete childRegion;
+}
+
+
+
 
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_child_tests
 

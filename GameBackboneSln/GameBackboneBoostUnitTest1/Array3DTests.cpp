@@ -2,6 +2,8 @@
 
 #include<Array3D.h>
 
+using namespace GB;
+
 BOOST_AUTO_TEST_SUITE(Array3D_Tests)
 
 BOOST_AUTO_TEST_SUITE(Array3D_ctrs)
