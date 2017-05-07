@@ -153,6 +153,45 @@ BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_test) {
     delete gameRegion;
 }
 
+// Tests getting Parent with getParentRegion
+BOOST_AUTO_TEST_CASE(GameRegion_getParent_test) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	gameRegion->addChildRegion(childRegion);
+
+	GameRegion* returnedParentRegion = childRegion->getParentRegion();
+
+	//ensure that the correct Parent region has been stored
+	BOOST_CHECK(returnedParentRegion == gameRegion);
+
+	delete gameRegion;
+	delete childRegion;
+}
+
+// Tests setting Parent with setParentRegion
+BOOST_AUTO_TEST_CASE(GameRegion_setParent_test) {
+	GameRegion* gameRegion = new GameRegion();
+	GameRegion* childRegion = new GameRegion();
+
+	childRegion->setParentRegion(gameRegion);
+
+	GameRegion* returnedParentRegion = childRegion->getParentRegion();
+	auto returnedChildRegions = gameRegion->getChildRegions();
+
+	//ensure that the correct child region has been stored
+	BOOST_CHECK(returnedParentRegion == gameRegion);
+
+	//ensure that exactly one child is found
+	BOOST_CHECK(returnedChildRegions->size() == 1);
+
+	//ensure the region not removed is still present
+	BOOST_CHECK(returnedChildRegions->at(0) == childRegion);
+
+	delete gameRegion;
+	delete childRegion;
+}
+
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_get_set_tests
 
 ////////////////////////////////////////////////

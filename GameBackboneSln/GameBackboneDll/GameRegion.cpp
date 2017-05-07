@@ -133,8 +133,7 @@ GameRegion* GameRegion::getParentRegion() {
 void GameRegion::setParentRegion(GameRegion* newParent) {
 	if (parentRegion != newParent)
 	{
-		parentRegion->GameRegion::removeChildRegion(this);
-		parentRegion = newParent;
+		newParent->addChildRegion(this);
 	}
 }
 
