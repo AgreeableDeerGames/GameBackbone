@@ -1,16 +1,20 @@
 #pragma once
 #include "stdafx.h"
+#include "AnimatedSprite.h"
+#include "BackboneBaseExceptions.h"
+#include "CompoundSprite.h"
 #include "DllUtil.h"
 #include "Updatable.h"
-#include "CompoundSprite.h"
-#include "AnimatedSprite.h"
 
-#include<SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-#include<vector>
+#include<functional>
+#include <list>
+#include <vector>
 
 namespace GB {
 
+	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	class libGameBackbone GameRegion {
 	public:
@@ -20,14 +24,20 @@ namespace GB {
 		virtual ~GameRegion();
 
 		//getters / setters
-			//setters
+		//setters
 		void setUpdatable(bool status, Updatable* object);
 		void setDrawable(bool status, sf::Sprite* object);
 		void setDrawable(bool status, CompoundSprite* object);
 		void setDrawAndUpdateable(bool status, AnimatedSprite* object);
 		void setDrawAndUpdateable(bool status, CompoundSprite* object);
-		std::vector<Updatable*>* getUpdatables();
-		std::vector<sf::Sprite*>* getDrawables();
+		void setParentRegion(GameRegion* newParent);
+
+		//getters
+		std::list<Updatable*>* getUpdatables();
+		std::list<sf::Sprite*>* getDrawables();
+		std::vector<GameRegion*>* getNeighborRegions();
+		std::vector<GameRegion*>* getChildRegions();
+		GameRegion* getParentRegion();
 
 
 		//internal behavior alteration
@@ -43,12 +53,14 @@ namespace GB {
 		virtual void behave(sf::Time currentTime) {}
 
 		//general operations
-			//additions
-		void addChildRegion(GameRegion* child);
-		void addNeighborRegion(GameRegion* neighbor);
+
+		//additions
+		void addChildRegion(GameRegion* childToAdd);
+		void addNeighborRegion(GameRegion* neighborToAdd);
 		//removals
-		void removeNeighborRegion(GameRegion* neighbor);
-		void removeChildRegion(GameRegion* child);
+		void removeNeighborRegion(GameRegion* neighborToRemove);
+		void removeChildRegion(GameRegion* childToRemove);
+
 		//clears
 		void clearUpdatable();
 		void clearChildren();
@@ -60,9 +72,12 @@ namespace GB {
 		//ctr
 		void init() {}
 
+		//operations
+		void removeAssociations(std::function<void(std::vector<GameRegion*>::iterator)> disassociator, std::vector<GameRegion*>* list);
+
 		//internal logic members
-		std::vector<sf::Sprite*>* drawables;
-		std::vector<Updatable*>* updatables;
+		std::list<sf::Sprite*>* drawables;
+		std::list<Updatable*>* updatables;
 
 		//associated regions
 		GameRegion* parentRegion;
