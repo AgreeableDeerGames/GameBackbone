@@ -8,6 +8,8 @@
 #include <string>
 #include <thread>
 
+using namespace GB;
+
 /// <summary>
 /// Struct to store objects that can be reused for all or nearly all 
 /// of the unit tests in this file. This struct is meant to be used with fixtures

@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
+using namespace GB;
+
 BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 BOOST_AUTO_TEST_SUITE(GameRegion_ctrs)
