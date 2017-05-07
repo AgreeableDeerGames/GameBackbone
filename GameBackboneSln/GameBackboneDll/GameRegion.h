@@ -55,7 +55,7 @@ public:
 	void addChildRegion(GameRegion* childToAdd);
 	void addNeighborRegion(GameRegion* neighborToAdd);
 		//removals
-	void removeNeighborRegion(GameRegion* neighborToRemove);
+    void removeNeighborRegion(GameRegion* neighborToRemove);
 	void removeChildRegion(GameRegion* childToRemove);
 		//clears
 	void clearUpdatable();
@@ -69,7 +69,7 @@ protected:
 	void init() {}
 
     //operations
-    void removeAssociations(std::function<void(std::vector<GameRegion*>::iterator)> disassociator, std::vector<GameRegion*>* list);
+    void clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* list);
 
 	//internal logic members
 	std::list<sf::Sprite*>* drawables;
