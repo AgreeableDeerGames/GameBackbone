@@ -1,9 +1,10 @@
 #pragma once
 #include "stdafx.h"
+#include "AnimatedSprite.h"
+#include "BackboneBaseExceptions.h"
+#include "CompoundSprite.h"
 #include "DllUtil.h"
 #include "Updatable.h"
-#include "CompoundSprite.h"
-#include "AnimatedSprite.h"
 
 #include<SFML/Graphics/Sprite.hpp>
 
