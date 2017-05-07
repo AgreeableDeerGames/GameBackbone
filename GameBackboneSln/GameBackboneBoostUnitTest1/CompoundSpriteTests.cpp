@@ -84,6 +84,35 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_getSfSprites_Populated_Input_Vectors) {
 	animatedSpriteVector.push_back(animSpriteWithAnim1);
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+	
+	BOOST_CHECK(compoundSprite->getSfSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getSfSprites()->at(0) == sprite);
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_getSfSprites_Populated_Sprite_Vector) {
+	std::vector<sf::Sprite*> spriteVector;
+	std::vector<AnimatedSprite*> animatedSpriteVector;
+
+	spriteVector.push_back(sprite);
+	animatedSpriteVector.push_back(animSpriteWithAnim1);
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+
+	BOOST_CHECK(compoundSprite->getSfSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getSfSprites()->at(0) == sprite);
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_getSfSprites_Populated_Animated_Vector) {
+	std::vector<sf::Sprite*> spriteVector;
+	std::vector<AnimatedSprite*> animatedSpriteVector;
+
+	animatedSpriteVector.push_back(animSpriteWithAnim1);
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
 
 	BOOST_CHECK(compoundSprite->getSfSprites()->size() == 1);
 	BOOST_CHECK(compoundSprite->getSfSprites()->at(0) == sprite);
@@ -106,6 +135,50 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_getSfSprites_Defualt_Constructor) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_getaAnimatedSprites_Populated_Input_Vectors) {
+	std::vector<sf::Sprite*> spriteVector;
+	std::vector<AnimatedSprite*> animatedSpriteVector;
+
+	spriteVector.push_back(sprite);
+	animatedSpriteVector.push_back(animSpriteWithAnim1);
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+
+	BOOST_CHECK(compoundSprite->getaAnimatedSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getaAnimatedSprites()->at(0) == animSpriteWithAnim1);
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_getaAnimatedSprites_Populated_Sprite_Vector) {
+	std::vector<sf::Sprite*> spriteVector;
+	std::vector<AnimatedSprite*> animatedSpriteVector;
+
+	spriteVector.push_back(sprite);
+	animatedSpriteVector.push_back(animSpriteWithAnim1);
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+
+	BOOST_CHECK(compoundSprite->getaAnimatedSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getaAnimatedSprites()->at(0) == sprite);
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_getaAnimatedSprites_Populated_Animated_Vector) {
+	std::vector<sf::Sprite*> spriteVector;
+	std::vector<AnimatedSprite*> animatedSpriteVector;
+
+	animatedSpriteVector.push_back(animSpriteWithAnim1);
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+
+	BOOST_CHECK(compoundSprite->getaAnimatedSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getaAnimatedSprites()->at(0) == sprite);
 
 	delete compoundSprite;
 }
