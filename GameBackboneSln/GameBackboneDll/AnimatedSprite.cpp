@@ -161,7 +161,7 @@ void AnimatedSprite::update(sf::Time currentTime) {
 			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
 			break;
 		case ANIMATION_END_TYPE::ANIMATION_REVERSE:
-			if (currentFrame >= currentAnimation->size() - 1 || currentFrame <= 0) {
+			if (currentFrame >= currentAnimation->size() - 1 || (currentFrame <= 0 && isReverse)) {
 				isReverse = !isReverse;
 			}
 
@@ -173,7 +173,7 @@ void AnimatedSprite::update(sf::Time currentTime) {
 			}
 			break;
 		case ANIMATION_END_TYPE::ANIMATION_STOP:
-			if (currentFrame < currentAnimation->size()) {
+			if (currentFrame < currentAnimation->size() - 1) {
 				setCurrentFrame(currentFrame + 1);
 			}
 			break;
