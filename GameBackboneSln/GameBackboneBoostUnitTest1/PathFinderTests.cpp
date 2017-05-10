@@ -2,6 +2,12 @@
 
 #include <PathFinder.h>
 
+using namespace GB;
+
+BOOST_AUTO_TEST_SUITE(Pathfinder_Tests)
+
+BOOST_AUTO_TEST_SUITE(Pathfinder_ctrs)
+
 BOOST_AUTO_TEST_CASE(Pathfinder_default_ctr_test) {
 
 	Pathfinder* pathfinder = new Pathfinder();
@@ -22,6 +28,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_navigationGrid_ctr_test) {
 	delete pathfinder;
 }
 
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_ctrs
 
 BOOST_AUTO_TEST_CASE(Pathfinder_setNavigationGrid) {
 	NavigationGrid navGrid(10);
@@ -34,6 +41,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_setNavigationGrid) {
 	delete pathfinder;
 }
 
+BOOST_AUTO_TEST_SUITE(Pathfinder_pathFind_Tests)
+
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	const int SQUARE_DIM = 3;
 	NavigationGrid navGrid(SQUARE_DIM);
@@ -44,7 +53,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 	//Set value at the midPoint
 	IntPair startPoint(1, 1);
-	navGrid.setValueAt(startPoint.first, startPoint.second, NavigationGridData{0, 0});
+	navGrid.at(startPoint.first, startPoint.second) = NavigationGridData{ 0, 0 };
 
 	//create request
 	PathRequest pathRequest{ startPoint, IntPair(2,2), 1, 0 };
@@ -63,7 +72,6 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 	delete pathfinder;
 }
-
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 	const int SQUARE_DIM = 3;
@@ -112,7 +120,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	NavigationGridData blockedSquareData;
 	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
 	blockedSquareData.blockerDist = 0;
-	navGrid.setValueAt(blockedSquareCoord.first, blockedSquareCoord.second, blockedSquareData);
+	navGrid.at(blockedSquareCoord.first, blockedSquareCoord.second) = blockedSquareData;
 
 
 	//create return value
@@ -144,7 +152,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 	//create request
-	IntPair startPoint(0,0);
+	IntPair startPoint(0, 0);
 	PathRequest pathRequest{ startPoint, startPoint, 1, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
@@ -200,17 +208,17 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 
 	NavigationGrid navGrid(X_DIM, Y_DIM);
 	//ensure all squares are clear;
-	navGrid.initAllValues(NavigationGridData{0,0});
+	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 
-	/*	
+	/*
 
 	representation of the maze
 	Key:
-		0: clear
-		1: blocked
-		S: start
-		F: finish
+	0: clear
+	1: blocked
+	S: start
+	F: finish
 
 	001F00
 	001000
@@ -336,7 +344,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	//clean path for first request
 
 	/*
-	
+
 	representation of the maze
 	Key:
 	0: clear
@@ -348,7 +356,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	0   1   1
 	F1  1   F2
 
-	
+
 	*/
 
 	navGrid[0][0].weight = 0;
@@ -386,11 +394,11 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{0,0});
+	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(2, 0);
-	PathRequest pathRequest{startPoint, IntPair(0,0), 1, 0};
+	PathRequest pathRequest{ startPoint, IntPair(0,0), 1, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -400,7 +408,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	NavigationGridData blockedSquareData;
 	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
 	blockedSquareData.blockerDist = 0;
-	navGrid.setValueAt(blockedSquareCoord.first, blockedSquareCoord.second, blockedSquareData);
+	navGrid.at(blockedSquareCoord.first, blockedSquareCoord.second) = blockedSquareData;
 
 
 	//create return value
@@ -428,11 +436,11 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{0,0});
+	navGrid.initAllValues(NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(1, 1);
-	PathRequest pathRequest{startPoint, IntPair(0,0), 1, 0};
+	PathRequest pathRequest{ startPoint, IntPair(0,0), 1, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -442,14 +450,14 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	NavigationGridData leftSquareData;
 	leftSquareData.weight = 1;
 	leftSquareData.blockerDist = 0;
-	navGrid.setValueAt(leftSquareCoord.first, leftSquareCoord.second, leftSquareData);
+	navGrid.at(leftSquareCoord.first, leftSquareCoord.second) = leftSquareData;
 
 	//Make square that is up have weight 2
 	IntPair upSquareCoord(1, 0);
 	NavigationGridData upSquareData;
 	upSquareData.weight = 2;
 	upSquareData.blockerDist = 0;
-	navGrid.setValueAt(upSquareCoord.first, upSquareCoord.second, upSquareData);
+	navGrid.at(upSquareCoord.first, upSquareCoord.second) = upSquareData;
 
 
 	//create return value
@@ -470,3 +478,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 
 	delete pathfinder;
 }
+
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_pathFind_Tests
+
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_tests

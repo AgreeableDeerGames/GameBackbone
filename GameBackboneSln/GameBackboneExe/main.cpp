@@ -13,12 +13,13 @@
 
 #include <vector>
 
+using namespace GB;
 
 int main() {
 	const int WINDOW_WIDTH = 700;
 	const int WINDOW_HEIGHT = 700;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SpriteTests");
-	sf::CircleShape shape(100.f);
+	sf::CircleShape shape(10.0f);
 	shape.setFillColor(sf::Color::Green);
 
 	//init game update clock
@@ -47,19 +48,28 @@ int main() {
 				window.close();
 				break;
 			case sf::Event::MouseMoved:
+			{
 				//pan camera with mouse
 				window.setView(camera);
 				camera.move((float)(event.mouseMove.x - oldMouseX), (float)(event.mouseMove.y - oldMouseY));
 				oldMouseX = event.mouseMove.x;
 				oldMouseY = event.mouseMove.y;
-				break;
-			case sf::Event::MouseButtonPressed:
-			{
-				sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+
+				sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 				sf::Vector2f actualPosition = window.mapPixelToCoords(mousePos);
-				activeRegion->handleMouseClick(actualPosition.x, actualPosition.y, event.mouseButton.button);
+				shape.setPosition(actualPosition);
 				break;
 			}
+			case sf::Event::MouseButtonPressed:
+            {
+                sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+                sf::Vector2f actualPosition = window.mapPixelToCoords(mousePos);
+                activeRegion->handleMouseClick(actualPosition, event.mouseButton.button);
+                break;
+            }
+            case sf::Event::Resized:
+                camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
+                break;
 			default:
 				break;
 			}
@@ -79,6 +89,8 @@ int main() {
 		for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
 			updateObject->update(updateClock.getElapsedTime());
 		}
+
+		window.draw(shape);
 
 		//end draw logic
 		window.display();

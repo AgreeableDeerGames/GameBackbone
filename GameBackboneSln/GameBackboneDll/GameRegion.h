@@ -1,78 +1,95 @@
 #pragma once
 #include "stdafx.h"
+#include "AnimatedSprite.h"
+#include "BackboneBaseExceptions.h"
+#include "CompoundSprite.h"
 #include "DllUtil.h"
 #include "Updatable.h"
-#include "CompoundSprite.h"
-#include "AnimatedSprite.h"
 
-#include<SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-#include<vector>
+#include<functional>
+#include <list>
+#include <vector>
 
-/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
-class libGameBackbone GameRegion {
-public:
-	//ctr / dtr
-	GameRegion();
+namespace GB {
 
-	virtual ~GameRegion();
-	
-	//getters / setters
+	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
+	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
+	class libGameBackbone GameRegion {
+	public:
+		//ctr / dtr
+		GameRegion();
+
+		virtual ~GameRegion();
+
+		//getters / setters
 		//setters
-	void setUpdatable(bool status, Updatable* object);
-	void setDrawable(bool status, sf::Sprite* object);
-	void setDrawable(bool status, CompoundSprite* object);
-	void setDrawAndUpdateable(bool status, AnimatedSprite* object);
-	void setDrawAndUpdateable(bool status, CompoundSprite* object);
-	std::vector<Updatable*>* getUpdatables();
-	std::vector<sf::Sprite*>* getDrawables();
+		void setUpdatable(bool status, Updatable* object);
+		void setDrawable(bool status, sf::Sprite* object);
+		void setDrawable(bool status, CompoundSprite* object);
+		void setDrawAndUpdateable(bool status, AnimatedSprite* object);
+		void setDrawAndUpdateable(bool status, CompoundSprite* object);
+		void setParentRegion(GameRegion* newParent);
+
+		//getters
+		std::list<Updatable*>* getUpdatables();
+		std::list<sf::Sprite*>* getDrawables();
+		std::vector<GameRegion*>* getNeighborRegions();
+		std::vector<GameRegion*>* getChildRegions();
+		GameRegion* getParentRegion();
 
 
-	//internal behavior alteration
-	
-	/// <summary>
-	/// Resets this instance.
-	/// </summary>
-	virtual void reset() {}
-	
-	/// <summary>
-	/// Runs the game behaviors and logic for this instance.
-	/// </summary>
-	virtual void behave(sf::Time currentTime) {}
+		//internal behavior alteration
 
-	//general operations
+		/// <summary>
+		/// Resets this instance.
+		/// </summary>
+		virtual void reset() {}
+
+		/// <summary>
+		/// Runs the game behaviors and logic for this instance.
+		/// </summary>
+		virtual void behave(sf::Time currentTime) {}
+
+		//general operations
+
 		//additions
-	void addChildRegion(GameRegion* child);
-	void addNeighborRegion(GameRegion* neighbor);
+		void addChildRegion(GameRegion* childToAdd);
+		void addNeighborRegion(GameRegion* neighborToAdd);
 		//removals
-	void removeNeighborRegion(GameRegion* neighbor);
-	void removeChildRegion(GameRegion* child);
+		void removeNeighborRegion(GameRegion* neighborToRemove);
+		void removeChildRegion(GameRegion* childToRemove);
 		//clears
-	void clearUpdatable();
-	void clearChildren();
-	void clearDrawable();
-	void clearNeighborRegions();
+		void clearUpdatable();
+		void clearChildren();
+		void clearDrawable();
+		void clearNeighborRegions();
 
-protected:
+	protected:
 
-	//ctr
-	void init() {}
+		//ctr
+		void init() {}
 
-	//internal logic members
-	std::vector<sf::Sprite*>* drawables;
-	std::vector<Updatable*>* updatables;
+		//operations
+		void clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* list);
 
-	//associated regions
-	GameRegion* parentRegion;
-	std::vector<GameRegion*> childRegions;
-	std::vector<GameRegion*> neighborRegions;
+		//internal logic members
+		std::list<sf::Sprite*>* drawables;
+		std::list<Updatable*>* updatables;
 
-private:
-	//deleted copy and assignment ctr
-	GameRegion(const GameRegion&) = delete;
-	GameRegion& operator=(const GameRegion&) = delete;
-	GameRegion(GameRegion&&) = delete;
-	GameRegion& operator=(GameRegion&&) = delete;
+		//associated regions
+		GameRegion* parentRegion;
+		std::vector<GameRegion*> childRegions;
+		std::vector<GameRegion*> neighborRegions;
 
-};
+	private:
+		//deleted copy and assignment ctr
+		GameRegion(const GameRegion&) = delete;
+		GameRegion& operator=(const GameRegion&) = delete;
+		GameRegion(GameRegion&&) = delete;
+		GameRegion& operator=(GameRegion&&) = delete;
 
+	};
+
+}

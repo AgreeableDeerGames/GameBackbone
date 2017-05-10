@@ -8,10 +8,12 @@
 #include <limits.h>
 #include <list>
 
+using namespace GB;
+
 //ctr / dtr
 
 /// <summary> Creates a PathFinder with a null navigation grid. </summary>
-Pathfinder::Pathfinder() : Pathfinder(nullptr){}
+Pathfinder::Pathfinder() : Pathfinder(nullptr) {}
 
 /// <summary> Creates a PathFinder with an assigned navigation grid. </summary>
 /// <param name = "navigationGrid"> Three dimensional grid to be used when path-finding. </param>
@@ -28,7 +30,7 @@ Pathfinder::~Pathfinder() {
 
 //getters / setters
 
-	//setters
+//setters
 
 /// <summary>
 /// Sets the navigation grid.
@@ -38,7 +40,7 @@ void Pathfinder::setNavigationGrid(NavigationGrid * navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
-	//setters
+//setters
 
 /// <summary>
 /// Gets the navigation grid.
@@ -54,7 +56,7 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
 void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<IntPair>> * const returnedPaths) {
-	
+
 	typedef std::pair<IntPair, int> GridValuePair;
 
 	//ensure that returned paths is big enough to store all results
@@ -108,19 +110,21 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 					continue;// no need to evaluate already evaluated nodes
 				}
 				//cost of reaching neighbor using current path
-				int transitionCost = (navigationGrid->getValueAt(current.first, current.second).weight + navigationGrid->getValueAt(neighbor.first, neighbor.second).weight) / 2;
+				int transitionCost = (navigationGrid->at(current.first, current.second).weight + navigationGrid->at(neighbor.first, neighbor.second).weight) / 2;
 				int tentativeScore = score->at(current) + transitionCost;
 
 				//discover new node
 				if (openSet->find(neighbor) == openSet->end()) {
 					//add blocked to closed set and unblocked to open set
-					if (navigationGrid->getValueAt(neighbor.first, neighbor.second).weight >= BLOCKED_GRID_WEIGHT) {
+					if (navigationGrid->at(neighbor.first, neighbor.second).weight >= BLOCKED_GRID_WEIGHT) {
 						closedSet->insert(neighbor);
 						continue;
-					} else {
+					}
+					else {
 						openSet->insert(neighbor);
 					}
-				} else if (tentativeScore >= score->at(neighbor)) {
+				}
+				else if (tentativeScore >= score->at(neighbor)) {
 					continue; // found a worse path
 				}
 
@@ -154,7 +158,7 @@ IntPair Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const 
 
 	for each (const IntPair gridSquare in *availableGridSquares) {
 		unsigned int gridSquareDistance = SquaredDist2d(gridSquare, pathRequest.end);
-		if ( gridSquareDistance < shortestDistance) {
+		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
 			bestGridSquare = gridSquare;
 		}
@@ -192,7 +196,7 @@ std::vector<IntPair> Pathfinder::getNeighbors(const IntPair & gridSquareCoordina
 	if (yDown) {
 		neighbors.push_back(IntPair(gridSquareCoordinate.first, gridSquareCoordinate.second - 1));
 	}
-	
+
 
 	return neighbors;
 

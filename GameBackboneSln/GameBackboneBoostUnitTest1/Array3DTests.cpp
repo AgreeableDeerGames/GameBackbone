@@ -2,6 +2,12 @@
 
 #include<Array3D.h>
 
+using namespace GB;
+
+BOOST_AUTO_TEST_SUITE(Array3D_Tests)
+
+BOOST_AUTO_TEST_SUITE(Array3D_ctrs)
+
 BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )  
 {
 
@@ -39,7 +45,9 @@ BOOST_AUTO_TEST_CASE(Array3D_three_param_ctr_test) {
 	BOOST_CHECK_EQUAL(arrayZSize, arrayDimZ);
 }
 
+BOOST_AUTO_TEST_SUITE_END() // end Array3D_ctrs
 
+BOOST_AUTO_TEST_SUITE(Array3D_get_set_tests)
 
 BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_1) {
 	Array3D<int> intArray(100);
@@ -51,7 +59,6 @@ BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_1) {
 	auto arrayreturn = intArray.getValueAt(x, y, z);
 	BOOST_CHECK_EQUAL(value, arrayreturn);
 }
-
 
 BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_2) {
 	Array3D<int> intArray(100);
@@ -75,22 +82,21 @@ BOOST_AUTO_TEST_CASE(Array3D_setValueAt_test_3) {
 	BOOST_CHECK_EQUAL(value, arrayreturn);
 }
 
-
 BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_1) {
 	const size_t dimensionSize = 10;
 
 	Array3D<int> intArray(dimensionSize);
 
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				intArray.setValueAt(i, j, k, i + dimensionSize * j + dimensionSize * dimensionSize + k);
 			}
 		}
 	}
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				const int expectedValue = i + dimensionSize * j + dimensionSize * dimensionSize + k;
 				const int foundValue = intArray.getValueAt(i, j, k);
 				BOOST_CHECK_EQUAL(foundValue, expectedValue);
@@ -100,23 +106,21 @@ BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_1) {
 
 }
 
-
-
 BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_2) {
 	const size_t dimensionSize = 10;
 
 	Array3D<int> intArray(dimensionSize);
 
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				intArray.setValueAt(i, j, k, i + dimensionSize * j + dimensionSize * dimensionSize + k);
 			}
 		}
 	}
-	for (size_t i = 0; i < dimensionSize; i++) {
-		for (size_t j = 0; j < dimensionSize; ++j) {
-			for (size_t k = 0; k < dimensionSize; k++) {
+	for (unsigned int i = 0; i < dimensionSize; ++i) {
+		for (unsigned int j = 0; j < dimensionSize; ++j) {
+			for (unsigned int k = 0; k < dimensionSize; ++k) {
 				const int expectedValue = i + dimensionSize * j + dimensionSize * dimensionSize + k;
 				const int foundValue = intArray.getValueAt(sf::Vector3i(i, j, k));
 				BOOST_CHECK_EQUAL(foundValue, expectedValue);
@@ -125,3 +129,7 @@ BOOST_AUTO_TEST_CASE(Array3D_getValueAt_test_2) {
 	}
 
 }
+
+BOOST_AUTO_TEST_SUITE_END() //end Array3D_get_set_tests
+
+BOOST_AUTO_TEST_SUITE_END() //end Array3D_Tests

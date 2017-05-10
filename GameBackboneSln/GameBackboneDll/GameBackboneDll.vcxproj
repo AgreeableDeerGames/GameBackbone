@@ -22,7 +22,7 @@
     <ProjectGuid>{A9D0E80D-4090-4283-BAF6-F86685A65D8A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>GameBackboneDll</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -155,6 +155,7 @@
     <ClInclude Include="AnimationSet.h" />
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Array3D.h" />
+    <ClInclude Include="BackboneBaseExceptions.h" />
     <ClInclude Include="CompoundSprite.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="DllUtil.h" />
