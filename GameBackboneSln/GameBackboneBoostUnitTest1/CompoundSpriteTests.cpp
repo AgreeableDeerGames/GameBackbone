@@ -62,16 +62,17 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite_ctr, ReusableObjects) {
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, emptyAnimatedSpriteVector);
 
-	for (int i = 0; i < spriteVector.size(); i++) {
+	for (unsigned int i = 0; i < spriteVector.size(); ++i) {
 		BOOST_CHECK(compoundSprite->getSfSprites()->at(i) == spriteVector[i]);
 	}
 
-	for (int i = 0; i < emptyAnimatedSpriteVector.size(); i++) {
+	for (unsigned int i = 0; i < emptyAnimatedSpriteVector.size(); ++i) {
 		BOOST_CHECK(compoundSprite->getaAnimatedSprites()->at(i) == emptyAnimatedSpriteVector[i]);
 	}
 
 	delete compoundSprite;
 }
+
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_ctr
 
 BOOST_FIXTURE_TEST_SUITE(CompoundSprite_getter, ReusableObjects)
@@ -203,5 +204,42 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_getaAnimatedSprites_Defualt_Constructor) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_getter
+
+BOOST_FIXTURE_TEST_SUITE(CompoundSprite_add, ReusableObjects)
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_addSprite_defualt_ctr) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->addSprite(sprite);
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getaAnimatedSprites();
+
+	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), sprite);
+	BOOST_CHECK(it != animatedSpriteVector->end());
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_add
+
+BOOST_AUTO_TEST_SUITE(Compound_Sprite_opertations)
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getaAnimatedSprites();
+	for (unsigned int i = 0; i < animatedSpriteVector->size(); ++i) {
+		animatedSpriteVector->at(i)->runAnimation(0);
+	}
+	
+	compoundSprite->update(sf::milliseconds(2));
+
+	for (unsigned int i = 0; i < animatedSpriteVector->size(); ++i) {
+		BOOST_CHECK(animatedSpriteVector->at(i)->getCurrentFrame() == 1);
+	}
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_oppertaions
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSpriteTests
