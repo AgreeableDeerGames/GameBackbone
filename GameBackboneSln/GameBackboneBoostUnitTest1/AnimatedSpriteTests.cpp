@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include <AnimatedSprite.h>
+#include <BackboneBaseExceptions.h>
 
 #include <SFML/Graphics.hpp>
 
@@ -162,6 +163,18 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 }
 
+//Test running an empty animation
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
+	std::vector<unsigned int> singleFrameAnim = {0};
+	std::vector<unsigned int> emptyAnim;
+	std::vector<std::vector<unsigned int>> animVector = {singleFrameAnim, emptyAnim};
+	AnimationSet animSetEmptyAnim(animVector, 1, 1, 1, 1);
+	AnimatedSprite emptyAnimSprite(*aSpriteTexture, &animSetEmptyAnim);
+
+	//ensure that an empty animation can be ran
+	BOOST_CHECK_THROW(emptyAnimSprite.runAnimation(1), AnimatedSprite_EmptyAnimation);
+}
+
 //Ensures that animations set with setAnimations can be successfully run
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations, ReusableObjects) {
 	AnimatedSprite* animSprite = new AnimatedSprite(*aSpriteTexture);
@@ -192,6 +205,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame, ReusableObjects) {
 	animSpriteWithAnim->setCurrentFrame(3);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 3);
 }
+
 
 BOOST_AUTO_TEST_SUITE_END() //end AnimatedSprite_Animations
 

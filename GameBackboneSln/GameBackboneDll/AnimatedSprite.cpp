@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AnimatedSprite.h"
+#include "BackboneBaseExceptions.h"
 #include "DebugIncludes.h"
-
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -137,11 +137,19 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 }
 
 /// <summary>
-/// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends
+/// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends.
+/// 
+/// Throws a AnimatedSprite_EmptyAnimation exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 /// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
+	
+	//Empty animations cannot be ran. What frame would be displayed?
+	if (animations->at(animationId).empty()) {
+		throw AnimatedSprite_EmptyAnimation();
+	}
+
 	this->animating = true;
 	this->animationEnd = endStyle;
 	this->currentAnimationId = animationId;
