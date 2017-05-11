@@ -4,10 +4,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <chrono>
-#include <string>
-#include <thread>
-
 using namespace GB;
 
 
