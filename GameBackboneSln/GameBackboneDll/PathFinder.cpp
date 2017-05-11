@@ -157,7 +157,7 @@ IntPair Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const 
 	IntPair bestGridSquare;
 
 	for each (const IntPair gridSquare in *availableGridSquares) {
-		unsigned int gridSquareDistance = SquaredDist2d(gridSquare, pathRequest.end);
+		unsigned int gridSquareDistance = GB::CalcSquaredDistance(gridSquare, pathRequest.end);
 		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
 			bestGridSquare = gridSquare;
