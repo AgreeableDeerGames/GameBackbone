@@ -145,8 +145,8 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Next_Frame_Not_Enough_Time, Reu
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 }
 
-//Tests that AnimatedSprite loops its animations
-BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects) {
+//Tests that AnimatedSprite loops its animations by default
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End_Default, ReusableObjects) {
 	animSpriteWithAnim->runAnimation(0);
 	animSpriteWithAnim->setAnimationDelay(1);
 
@@ -160,6 +160,75 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects
 
 	//ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
+}
+
+//Tests AnimatedSprite looping its animations
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects) {
+	animSpriteWithAnim->runAnimation(0, ANIMATION_LOOP);
+	animSpriteWithAnim->setAnimationDelay(1);
+
+	//update the sprite one frame farther than the length of the animation
+	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		animSpriteWithAnim->update(timeAfterDelay);
+	}
+
+	//ensure that the animation has looped
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
+}
+
+//Tests AnimatedSprite reversing its animations
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_End, ReusableObjects) {
+	animSpriteWithAnim->runAnimation(0, ANIMATION_REVERSE);
+	animSpriteWithAnim->setAnimationDelay(1);
+
+	//update the sprite one frame farther than the length of the animation
+	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		animSpriteWithAnim->update(timeAfterDelay);
+	}
+
+	//ensure that the animation has looped
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 2);
+}
+
+//Tests AnimatedSprite reversing its animations
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_Begin, ReusableObjects) {
+	animSpriteWithAnim->runAnimation(0, ANIMATION_REVERSE);
+	animSpriteWithAnim->setAnimationDelay(1);
+
+	//update the sprite one frame farther than the length of the animation
+	for (int i = 0; i < animSet->getAnimations()->at(0).size()*2; i++)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		animSpriteWithAnim->update(timeAfterDelay);
+	}
+
+	//ensure that the animation has looped
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
+}
+
+
+//Tests AnimatedSprite stopping its animations
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Stop_After_End, ReusableObjects) {
+	animSpriteWithAnim->runAnimation(0, ANIMATION_STOP);
+	animSpriteWithAnim->setAnimationDelay(1);
+
+	//update the sprite one frame farther than the length of the animation
+	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		animSpriteWithAnim->update(timeAfterDelay);
+	}
+
+	//ensure that the animation has looped
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == animSet->getAnimations()->at(0).size() - 1);
 }
 
 //Ensures that animations set with setAnimations can be successfully run
