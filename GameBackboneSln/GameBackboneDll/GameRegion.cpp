@@ -220,7 +220,7 @@ void GameRegion::clearUpdatable() {
 /// Orphans all children GameRegions in this GameRegion.
 /// </summary>
 void GameRegion::clearChildren() {
-	for (int ii = childRegions.size() - 1; ii >= 0; ii--)
+	for (int ii = (int)(childRegions.size() - 1); ii >= 0; --ii)
 	{
 		removeChildRegion(childRegions[ii]);
 	}
@@ -252,9 +252,9 @@ void GameRegion::clearNeighborRegions() {
 /// }
 /// <summary>
 void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* list) {
-    for (int ii = list->size() - 1; ii >= 0; ii--)
+    for (int ii = (int)(list->size() - 1); ii >= 0; --ii)
     {
-        // perfoms operation on iterator then increments it
+        // performs operation on iterator then increments it
         memberFunctionPointer((*list)[ii]);
     }
 }

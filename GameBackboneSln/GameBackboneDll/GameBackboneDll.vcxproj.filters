@@ -116,9 +116,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="UtilMath.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClCompile>
     <ClCompile Include="NavigationDemoRegion.cpp">
       <Filter>Source Files\Demo</Filter>
     </ClCompile>
