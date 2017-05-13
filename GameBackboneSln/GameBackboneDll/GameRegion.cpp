@@ -244,10 +244,15 @@ void GameRegion::clearNeighborRegions() {
 /// Loops through list of associations, and calls the passed in function on each.
 /// </summary>
 /// <example>
+/// <pre>
+/// \b Example
+/// \code{.cpp}
 /// void GameRegion::clearNeighborRegions() {
 ///     std::function <void(GameRegion*)> disassociator = std::bind(&aClass::FunctionWhichDisassociates, this, std::placeholders::_1);
 ///     clearAssociations(disassociator, getNeighborRegions());
 /// }
+/// \endcode
+/// </pre>
 /// </example>
 /// <param name="memberFunctionPointer">Function used to disassociate individual elements of the list</param>
 /// <param name="list">List of GameRegions to clear associations from.</param>
