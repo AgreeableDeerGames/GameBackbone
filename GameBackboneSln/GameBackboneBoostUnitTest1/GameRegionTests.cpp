@@ -513,9 +513,22 @@ BOOST_AUTO_TEST_CASE(GameRegion_clearChildren) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion1 = new GameRegion();
 	GameRegion* childRegion2 = new GameRegion();
+	GameRegion* childRegion3 = new GameRegion();
+	GameRegion* childRegion4 = new GameRegion();
+	GameRegion* childRegion5 = new GameRegion();
+	GameRegion* childRegion6 = new GameRegion();
+	GameRegion* childRegion7 = new GameRegion();
+	GameRegion* childRegion8 = new GameRegion();
 
 	childRegion1->setParentRegion(gameRegion);
 	childRegion2->setParentRegion(gameRegion);
+	childRegion3->setParentRegion(gameRegion);
+	childRegion4->setParentRegion(gameRegion);
+	childRegion5->setParentRegion(gameRegion);
+	childRegion6->setParentRegion(gameRegion);
+	childRegion7->setParentRegion(gameRegion);
+	childRegion8->setParentRegion(gameRegion);
+
 
 	gameRegion->clearChildren();
 
@@ -525,10 +538,22 @@ BOOST_AUTO_TEST_CASE(GameRegion_clearChildren) {
 	//ensure that the children no longer have a parent
 	BOOST_CHECK(childRegion1->getParentRegion() == nullptr);
 	BOOST_CHECK(childRegion2->getParentRegion() == nullptr);
+	BOOST_CHECK(childRegion3->getParentRegion() == nullptr);
+	BOOST_CHECK(childRegion4->getParentRegion() == nullptr);
+	BOOST_CHECK(childRegion5->getParentRegion() == nullptr);
+	BOOST_CHECK(childRegion6->getParentRegion() == nullptr);
+	BOOST_CHECK(childRegion7->getParentRegion() == nullptr);
+	BOOST_CHECK(childRegion8->getParentRegion() == nullptr);
 
 	delete gameRegion;
 	delete childRegion1;
 	delete childRegion2;
+	delete childRegion3;
+	delete childRegion4;
+	delete childRegion5;
+	delete childRegion6;
+	delete childRegion7;
+	delete childRegion8;
 }
 
 
