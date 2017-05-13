@@ -184,20 +184,72 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame, ReusableObjec
 
 	singleFrameAnimSprite.setAnimationDelay(1);
 
-	//update the sprite one frame farther than the length of the animation
+	//Play the animation
+	singleFrameAnimSprite.runAnimation(0);
 	const int LOOP_LENGTH = 100;
 	for (int i = 0; i < LOOP_LENGTH; ++i)
 	{
 		//fake sleep for 1ms longer than the min delay
 		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
 		singleFrameAnimSprite.update(timeAfterDelay);
+
+		//ensure that the frame is always 0
 		BOOST_CHECK(singleFrameAnimSprite.getCurrentFrame() == 0);
 	}
 
+	//ensure that the frame is always 0
 	BOOST_CHECK(singleFrameAnimSprite.getCurrentFrame() == 0);
 }
 
-// Ensures that animations set with setAnimations can be successfully run
+// Test running an animation with one frame and reversing directions
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Reverse_After_End, ReusableObjects) {
+	std::vector<unsigned int> singleFrameAnim = { 0 };
+	std::vector<std::vector<unsigned int>> animVector = { singleFrameAnim };
+	AnimationSet animSetSingleFrameAnim(animVector, 1, 1, 1, 1);
+	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
+
+	singleFrameAnimSprite.setAnimationDelay(1);
+
+	//Play the animation
+	singleFrameAnimSprite.runAnimation(0, GB::ANIMATION_REVERSE);
+	const int LOOP_LENGTH = 100;
+	for (int i = 0; i < LOOP_LENGTH; ++i)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		singleFrameAnimSprite.update(timeAfterDelay);
+		//ensure that the frame is always 0
+		BOOST_CHECK(singleFrameAnimSprite.getCurrentFrame() == 0);
+	}
+
+	//ensure that the frame is always 0
+	BOOST_CHECK(singleFrameAnimSprite.getCurrentFrame() == 0);
+}
+
+// Test running an animation with one frame and stopping
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Stop_After_End, ReusableObjects) {
+	std::vector<unsigned int> singleFrameAnim = { 0 };
+	std::vector<std::vector<unsigned int>> animVector = { singleFrameAnim };
+	AnimationSet animSetSingleFrameAnim(animVector, 1, 1, 1, 1);
+	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
+
+	singleFrameAnimSprite.setAnimationDelay(1);
+
+	//Play the animation
+	singleFrameAnimSprite.runAnimation(0, GB::ANIMATION_STOP);
+	const int LOOP_LENGTH = 100;
+	for (int i = 0; i < LOOP_LENGTH; ++i)
+	{
+		//fake sleep for 1ms longer than the min delay
+		sf::Time timeAfterDelay = sf::milliseconds(2 * i);
+		singleFrameAnimSprite.update(timeAfterDelay);
+		//ensure that the frame is always 0
+		BOOST_CHECK(singleFrameAnimSprite.getCurrentFrame() == 0);
+	}
+
+	//ensure that the frame is always 0
+	BOOST_CHECK(singleFrameAnimSprite.getCurrentFrame() == 0);
+}
 
 //Tests AnimatedSprite looping its animations
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects) {
@@ -249,7 +301,6 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_Begin, ReusableOb
 	//ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 }
-
 
 //Tests AnimatedSprite stopping its animations
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Stop_After_End, ReusableObjects) {
