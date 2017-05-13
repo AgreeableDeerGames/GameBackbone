@@ -15,7 +15,6 @@
 namespace GB {
 
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
-	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	class libGameBackbone GameRegion {
 	public:
 		//ctr / dtr
