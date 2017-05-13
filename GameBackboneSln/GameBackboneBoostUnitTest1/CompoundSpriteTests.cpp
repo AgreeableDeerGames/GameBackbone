@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_getter
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_add)
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->addSprite(sprite);
@@ -222,7 +222,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite_default_ctr, ReusableObjects) {
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->addAnimatedSprite(animSpriteWithAnim1);
@@ -237,7 +237,98 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite_default_ctr, ReusableOb
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_add
 
 
-BOOST_AUTO_TEST_SUITE(Compound_Sprite_opertations)
+BOOST_AUTO_TEST_SUITE(CompoundSprite_remove)
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->addSprite(sprite);
+	compoundSprite->removeSprite(sprite);
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+
+	BOOST_CHECK(spriteVector->empty());
+
+	auto it = std::find(spriteVector->begin(), spriteVector->end(), sprite);
+	BOOST_CHECK(it == spriteVector->end());
+
+	delete compoundSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite_empty, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->removeSprite(sprite);
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+
+	BOOST_CHECK(spriteVector->empty());
+
+	auto it = std::find(spriteVector->begin(), spriteVector->end(), sprite);
+	BOOST_CHECK(it == spriteVector->end());
+
+	delete compoundSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeAnimatedSprite, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->addAnimatedSprite(animSpriteWithAnim1);
+	compoundSprite->removeAnimatedSprite(animSpriteWithAnim1);
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
+
+	BOOST_CHECK(animatedSpriteVector->empty());
+	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), animSpriteWithAnim1);
+	BOOST_CHECK(it == animatedSpriteVector->end());
+
+	delete compoundSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeAnimatedSprite_empty, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+	
+	compoundSprite->removeSprite(sprite);
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
+
+	BOOST_CHECK(animatedSpriteVector->empty());
+	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), animSpriteWithAnim1);
+	BOOST_CHECK(it == animatedSpriteVector->end());
+
+	delete compoundSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_clearComponents, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->addSprite(sprite);
+	compoundSprite->addAnimatedSprite(animSpriteWithAnim1);
+	compoundSprite->addAnimatedSprite(animSpriteWithAnim2);
+
+	compoundSprite->clearComponents();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
+
+	BOOST_CHECK(spriteVector->empty());
+	BOOST_CHECK(animatedSpriteVector->empty());
+
+	delete compoundSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_clearComponents_empty, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->clearComponents();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
+
+	BOOST_CHECK(spriteVector->empty());
+	BOOST_CHECK(animatedSpriteVector->empty());
+
+	delete compoundSprite;
+}
+
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_remove
+
+
+BOOST_AUTO_TEST_SUITE(CompoundSprite_operations)
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
@@ -256,6 +347,6 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 	delete compoundSprite;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_oppertaions
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_opertaions
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSpriteTests
