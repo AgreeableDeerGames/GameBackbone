@@ -1,0 +1,54 @@
+Naming:
+	File: Files are to be named after their most important class with the same naming conventions(see Class) followed by a ".h" or ".cpp"
+			ei: GameRegion.h/GameRegion.cpp
+			ei: AnimatedSprite.h/AnimatedSprite.cpp
+	
+	NameSpace: NameSpaces are to be named using CamelCase. Acronyms are to be typed in ALL CAPS.
+			ei: namespace ErrorNamespace
+			ei: namespace XMLParcer
+	
+	Class: Classes are to be named using CamelCase. Acronyms are to be typed in ALL CAPS.
+			ei: class GameRegion
+			ei: class XMLParcer
+	
+	Function: All Functions are to be named starting with a verb(action). They are to be named using mixedCase. 
+			ei: removeChildRegion()
+			ei: clearUpdatable()
+	        ei: parceXML()
+			
+			Acronyms are to be typed in ALL CAPS. Functions that return booleans are to use "is", "should", "has", or other such words as their first word.
+			ei: isAnimating()
+			ei: shouldUpdate()
+			ei: hasParent()
+			
+			Accessors and mutators are to always have get or set respectively as their first word.
+			ei: getParentRegion()
+			ei: getCurrentFrame()
+			ei: getIsReverse()
+			
+	Variable:
+		common: Common Variables are to be named using mixedCase. Acronyms are to be typed in ALL CAPS.
+			ei: currentAnimationID
+			ei: clearUpdatable
+			
+			Variables that are booleans are to use "is", "should", "has", or other such words as their first word.
+			ei: isReverse
+			ei: hasColor
+			
+		Enum: Enums are to be named using ALL_CAPS_WITH_UNDERSCORES followed by an "_TYPE"
+			ei: enum ANIMATION_END_TYPE
+			
+			All options of the Enum should be named with a maching beginning portion
+			ei: ANIMATION_LOOP
+			ei: ANIMATION_REVERSE
+		
+		const: Const Variables are to be named ALL_CAPS_WITH_UNDERSCORES
+			ei: LOOP_LENGTH
+			ei: FILE_SIZE
+		
+		loop iterator: Loop Iterators are to be named using mixedCase. They must be named something that is easily differentiatable from the rest of code.
+			ei: int ii
+			ei: auto iter
+			
+	
+	

@@ -113,11 +113,11 @@ std::list<sf::Sprite*>* GameRegion::getDrawables() {
 	return drawables;
 }
 
-std::vector<GameRegion*>* GameRegion::getNeighborRegions() {
+std::list<GameRegion*>* GameRegion::getNeighborRegions() {
     return &neighborRegions;
 }
 
-std::vector<GameRegion*>* GameRegion::getChildRegions() {
+std::list<GameRegion*>* GameRegion::getChildRegions() {
     return &childRegions;
 }
 
@@ -181,7 +181,7 @@ void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
     if (nit != neighborToRemove->neighborRegions.end()) {
 		neighborToRemove->neighborRegions.erase(nit);
 	} else {
-		throw GameRegion_BadDissociation();
+		throw Error::GameRegion_BadDissociation();
 	}
 
 	//remove neighbor from this.neighborRegions
@@ -189,7 +189,7 @@ void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
 	if (it != neighborRegions.end()) {
 		neighborRegions.erase(it);
 	} else {
-		throw GameRegion_BadDissociation();
+		throw Error::GameRegion_BadDissociation();
 	}
 }
 
@@ -205,7 +205,7 @@ void GameRegion::removeChildRegion(GameRegion * childToRemove) {
 		childRegions.erase(it);
 		childToRemove->parentRegion = nullptr;
 	} else {
-		throw GameRegion_BadDissociation();
+		throw Error::GameRegion_BadDissociation();
 	}
 }
 
@@ -220,10 +220,8 @@ void GameRegion::clearUpdatable() {
 /// Orphans all children GameRegions in this GameRegion.
 /// </summary>
 void GameRegion::clearChildren() {
-	for (int ii = childRegions.size() - 1; ii >= 0; ii--)
-	{
-		removeChildRegion(childRegions[ii]);
-	}
+	std::function<void(GameRegion*)> disassociator = std::bind(&GameRegion::removeChildRegion, this, std::placeholders::_1);
+	clearAssociations(disassociator, getChildRegions());
 }
 
 /// <summary>
@@ -244,20 +242,31 @@ void GameRegion::clearNeighborRegions() {
 
 /// <summary>
 /// Loops through list of associations, and calls the passed in function on each.
-///
-/// Usage:
+/// </summary>
+/// <example>
+/// <pre>
+/// \b Example
+/// \code{.cpp}
 /// void GameRegion::clearNeighborRegions() {
-/// std::function /<void(GameRegion*)/ disassociator = std::bind(&aClass::FunctionWhichDisassociates, this, std::placeholders::_1);
-/// clearAssociations(disassociator, getNeighborRegions());
+///     std::function <void(GameRegion*)> disassociator = std::bind(&aClass::FunctionWhichDisassociates, this, std::placeholders::_1);
+///     clearAssociations(disassociator, getNeighborRegions());
 /// }
-/// <summary>
-void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* list) {
-    for (int ii = list->size() - 1; ii >= 0; ii--)
-    {
-        // perfoms operation on iterator then increments it
-        memberFunctionPointer((*list)[ii]);
+/// \endcode
+/// </pre>
+/// </example>
+/// <param name="memberFunctionPointer">Function used to disassociate individual elements of the list</param>
+/// <param name="list">List of GameRegions to clear associations from.</param>
+void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::list<GameRegion*>* list) {
+	auto iter = list->begin();
+	while (iter != list->end())
+	{
+		//Move iterator to next element before altering the list
+		auto tempIter = iter;
+		++iter;
+
+		//disassociate element and remove from the list
+        memberFunctionPointer(*tempIter);
     }
 }
-
 
 

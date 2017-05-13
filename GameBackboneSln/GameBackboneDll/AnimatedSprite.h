@@ -10,15 +10,22 @@
 #include <vector>
 
 namespace GB {
-
+	
+	/// <summary>
+	/// Animation behaviors after animation end is reached.
+	/// </summary>
 	enum ANIMATION_END_TYPE
 	{
 		ANIMATION_LOOP,
 		ANIMATION_REVERSE,
 		ANIMATION_STOP
 	};
-
-	///<summary> Sprite with the ability to display several animation states. </summary>
+	
+	/// <summary>
+	/// Sprite with the ability to display several animation states.
+	/// </summary>
+	/// <seealso cref="sf::Sprite" />
+	/// <seealso cref="Updatable" />
 	class libGameBackbone AnimatedSprite :
 		public virtual sf::Sprite, public virtual Updatable {
 	public:
