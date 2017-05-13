@@ -176,7 +176,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
 }
 
 // Test running an animation with one frame
-BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Loop_After_End, ReusableObjects) {
 	std::vector<unsigned int> singleFrameAnim = { 0 };
 	std::vector<std::vector<unsigned int>> animVector = { singleFrameAnim };
 	AnimationSet animSetSingleFrameAnim(animVector, 1, 1, 1, 1);
@@ -185,7 +185,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame, ReusableObjec
 	singleFrameAnimSprite.setAnimationDelay(1);
 
 	//Play the animation
-	singleFrameAnimSprite.runAnimation(0);
+	singleFrameAnimSprite.runAnimation(0, GB::ANIMATION_LOOP);
 	const int LOOP_LENGTH = 100;
 	for (int i = 0; i < LOOP_LENGTH; ++i)
 	{
