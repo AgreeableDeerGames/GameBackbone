@@ -147,7 +147,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 	
 	//Empty animations cannot be ran. What frame would be displayed?
 	if (animations->at(animationId).empty()) {
-		throw AnimatedSprite_EmptyAnimation();
+		throw Error::AnimatedSprite_EmptyAnimation();
 	}
 
 	this->animating = true;

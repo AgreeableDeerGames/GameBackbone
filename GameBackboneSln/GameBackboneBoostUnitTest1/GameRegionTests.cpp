@@ -415,7 +415,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_remove_child_child_not_in_children) {
 	GameRegion* childRegion = new GameRegion();
 
 	// ensure exception is thrown when attempting to remove a region that is not a child
-	BOOST_CHECK_THROW(gameRegion->removeChildRegion(childRegion), GameRegion_BadDissociation);
+	BOOST_CHECK_THROW(gameRegion->removeChildRegion(childRegion), Error::GameRegion_BadDissociation);
 
 	delete gameRegion;
 	delete childRegion;

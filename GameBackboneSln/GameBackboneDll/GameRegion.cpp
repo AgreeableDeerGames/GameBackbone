@@ -181,7 +181,7 @@ void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
     if (nit != neighborToRemove->neighborRegions.end()) {
 		neighborToRemove->neighborRegions.erase(nit);
 	} else {
-		throw GameRegion_BadDissociation();
+		throw Error::GameRegion_BadDissociation();
 	}
 
 	//remove neighbor from this.neighborRegions
@@ -189,7 +189,7 @@ void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
 	if (it != neighborRegions.end()) {
 		neighborRegions.erase(it);
 	} else {
-		throw GameRegion_BadDissociation();
+		throw Error::GameRegion_BadDissociation();
 	}
 }
 
@@ -205,7 +205,7 @@ void GameRegion::removeChildRegion(GameRegion * childToRemove) {
 		childRegions.erase(it);
 		childToRemove->parentRegion = nullptr;
 	} else {
-		throw GameRegion_BadDissociation();
+		throw Error::GameRegion_BadDissociation();
 	}
 }
 

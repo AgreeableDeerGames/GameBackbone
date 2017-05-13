@@ -172,7 +172,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
 	AnimatedSprite emptyAnimSprite(*aSpriteTexture, &animSetEmptyAnim);
 
 	//ensure that an empty animation can be ran
-	BOOST_CHECK_THROW(emptyAnimSprite.runAnimation(1), AnimatedSprite_EmptyAnimation);
+	BOOST_CHECK_THROW(emptyAnimSprite.runAnimation(1), Error::AnimatedSprite_EmptyAnimation);
 }
 
 // Test running an animation with one frame
