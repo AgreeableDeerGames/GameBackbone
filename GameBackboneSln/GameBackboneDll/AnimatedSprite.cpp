@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AnimatedSprite.h"
+#include "BackboneBaseExceptions.h"
 #include "DebugIncludes.h"
-
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -137,11 +137,19 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 }
 
 /// <summary>
-/// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends
+/// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends.
+/// 
+/// Throws a AnimatedSprite_EmptyAnimation exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 /// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
+	
+	//Empty animations cannot be ran. What frame would be displayed?
+	if (animations->at(animationId).empty()) {
+		throw AnimatedSprite_EmptyAnimation();
+	}
+
 	this->animating = true;
 	this->animationEnd = endStyle;
 	this->currentAnimationId = animationId;
@@ -161,15 +169,18 @@ void AnimatedSprite::update(sf::Time currentTime) {
 			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
 			break;
 		case ANIMATION_END_TYPE::ANIMATION_REVERSE:
-			if (currentFrame >= currentAnimation->size() - 1 || (currentFrame <= 0 && isReverse)) {
-				isReverse = !isReverse;
-			}
+			// Only change the frame if the animation has more than one frame
+			if (currentAnimation->size() > 1) {
+				if (currentFrame >= currentAnimation->size() - 1 || (currentFrame <= 0 && isReverse)) {
+					isReverse = !isReverse;
+				}
 
-			if (!isReverse) {
-				setCurrentFrame(currentFrame + 1);
-			}
-			else {
-				setCurrentFrame(currentFrame - 1);
+				if (!isReverse) {
+					setCurrentFrame(currentFrame + 1);
+				}
+				else {
+					setCurrentFrame(currentFrame - 1);
+				}
 			}
 			break;
 		case ANIMATION_END_TYPE::ANIMATION_STOP:
