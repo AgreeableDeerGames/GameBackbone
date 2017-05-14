@@ -45,9 +45,6 @@ struct ReusableObjects
 	sf::Texture* aSpriteTexture;
 };
 
-
-// keep at start of file
-
 // Contains all of the tests for AnimatedSprite
 BOOST_AUTO_TEST_SUITE(AnimatedSpriteTests)
 

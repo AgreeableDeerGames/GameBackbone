@@ -160,6 +160,7 @@
     <ClCompile Include="Array3DTests.cpp" />
     <ClCompile Include="GameRegionTests.cpp" />
     <ClCompile Include="PathFinderTests.cpp" />
+    <ClCompile Include="CompoundSpriteTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
