@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['removeanimatedsprite',['removeAnimatedSprite',['../class_compound_sprite.html#ad2cf68974d376edab2d657437c06deb2',1,'CompoundSprite']]],
-  ['removechildregion',['removeChildRegion',['../class_game_region.html#ab6bcf7b9077d6ed941bffc035b6c9096',1,'GameRegion']]],
-  ['removeneighborregion',['removeNeighborRegion',['../class_game_region.html#a55c7083be9026270f98506dc73dc9079',1,'GameRegion']]],
-  ['removesprite',['removeSprite',['../class_compound_sprite.html#ae673d681620b0e8805b692a80c1548a3',1,'CompoundSprite']]],
-  ['reset',['reset',['../class_game_region.html#a07e32250fd46cf657380e18c32bce235',1,'GameRegion']]],
-  ['runanimation',['runAnimation',['../class_animated_sprite.html#a38725e0f5facf5d3d993500476790a9f',1,'AnimatedSprite']]]
+  ['operator_28_29',['operator()',['../class_g_b_1_1_array2_d.html#af9ddaa62cecb311cf0225512225a8ff1',1,'GB::Array2D']]],
+  ['operator_5b_5d',['operator[]',['../class_g_b_1_1_array2_d.html#ac179c000c20eddd81f2aa56b7b64455d',1,'GB::Array2D']]]
 ];

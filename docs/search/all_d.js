@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['_7ecompoundsprite',['~CompoundSprite',['../class_compound_sprite.html#aca999fc5b5e8acad37303ae151ab9bd9',1,'CompoundSprite']]],
-  ['_7egameregion',['~GameRegion',['../class_game_region.html#a500e2c616e2f4da094de18046b303ef3',1,'GameRegion']]],
-  ['_7epathfinder',['~Pathfinder',['../class_pathfinder.html#a5b39561ad7375cfdc493d58cbb9fdc1b',1,'Pathfinder']]]
+  ['updatable',['Updatable',['../class_g_b_1_1_updatable.html',1,'GB']]],
+  ['update',['update',['../class_g_b_1_1_animated_sprite.html#afdeda3e3030963a8ba290e23e48acc40',1,'GB::AnimatedSprite::update()'],['../class_g_b_1_1_compound_sprite.html#a0761cc2bdded00f203db7e4c6d02aa6c',1,'GB::CompoundSprite::update()']]]
 ];
