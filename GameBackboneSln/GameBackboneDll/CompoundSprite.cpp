@@ -122,7 +122,7 @@ void CompoundSprite::move(float offsetX, float offsetY) {
 		sprites[i]->move(offsetX, offsetY);
 	}
 	for (size_t i = 0; i < animatedSprites.size(); i++) {
-		animatedSprites[i]->scale(offsetX, offsetY);
+		animatedSprites[i]->move(offsetX, offsetY);
 	}
 }
 
