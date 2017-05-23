@@ -13,7 +13,7 @@
 
 namespace GB {
 
-	typedef Array2D<NavigationGridData> NavigationGrid;
+	typedef Array2D<NavigationGridData*> NavigationGrid;
 	typedef std::pair<int, int> IntPair;
 
 	/// <summary> used to calculate groups of paths in one navigation grid. </summary>

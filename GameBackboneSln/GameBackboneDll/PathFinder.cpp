@@ -110,13 +110,13 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 					continue;// no need to evaluate already evaluated nodes
 				}
 				//cost of reaching neighbor using current path
-				int transitionCost = (navigationGrid->at(current.first, current.second).weight + navigationGrid->at(neighbor.first, neighbor.second).weight) / 2;
+				int transitionCost = (navigationGrid->at(current.first, current.second)->weight + navigationGrid->at(neighbor.first, neighbor.second)->weight) / 2;
 				int tentativeScore = score->at(current) + transitionCost;
 
 				//discover new node
 				if (openSet->find(neighbor) == openSet->end()) {
 					//add blocked to closed set and unblocked to open set
-					if (navigationGrid->at(neighbor.first, neighbor.second).weight >= BLOCKED_GRID_WEIGHT) {
+					if (navigationGrid->at(neighbor.first, neighbor.second)->weight >= BLOCKED_GRID_WEIGHT) {
 						closedSet->insert(neighbor);
 						continue;
 					}
