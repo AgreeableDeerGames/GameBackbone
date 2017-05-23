@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "NavigationTools.h"
 
 #include <PathFinder.h>
 
@@ -49,11 +50,11 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//block all squares
-	navGrid.initAllValues(NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 });
 
 	//Set value at the midPoint
 	IntPair startPoint(1, 1);
-	navGrid.at(startPoint.first, startPoint.second) = NavigationGridData{ 0, 0 };
+	navGrid.at(startPoint.first, startPoint.second)->weight = 0;
 
 	//create request
 	PathRequest pathRequest{ startPoint, IntPair(2,2), 1, 0 };
@@ -70,6 +71,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	//ensure the returned path is empty
 	BOOST_CHECK(pathsReturn[0].size() == 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -79,7 +81,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(1, 1);
@@ -97,6 +99,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 	//ensure the returned path is not empty
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -106,7 +109,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(0, 0);
@@ -120,7 +123,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	NavigationGridData blockedSquareData;
 	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
 	blockedSquareData.blockerDist = 0;
-	navGrid.at(blockedSquareCoord.first, blockedSquareCoord.second) = blockedSquareData;
+	*navGrid.at(blockedSquareCoord.first, blockedSquareCoord.second) = blockedSquareData;
 
 
 	//create return value
@@ -139,7 +142,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
-
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -149,7 +152,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all squares are clear
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	//initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(0, 0);
@@ -167,8 +171,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	//ensure the returned path is empty
 	BOOST_CHECK(pathsReturn[0].size() == 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
-
 }
 
 BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
@@ -177,11 +181,11 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all squares are blocked
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//block end point
 	IntPair endPoint(1, 1);
-	navGrid[endPoint.first][endPoint.second].weight = BLOCKED_GRID_WEIGHT;
+	navGrid[endPoint.first][endPoint.second]->weight = BLOCKED_GRID_WEIGHT;
 
 	//create request
 	IntPair startPoint(0, 0);
@@ -199,6 +203,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
 	//ensure the returned path is empty
 	BOOST_CHECK(pathsReturn[0].size() == 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -208,8 +213,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 
 	NavigationGrid navGrid(X_DIM, Y_DIM);
 	//ensure all squares are clear;
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
-
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	/*
 
@@ -234,16 +238,16 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 
 
 	//block grids for maze
-	navGrid[2][0] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[2][1] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[2][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[2][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[2][4] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[2][5] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[3][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	navGrid[4][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[2][0] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[2][1] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[2][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[2][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[2][4] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[2][5] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[3][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
+	*navGrid[4][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 
 
 	//create pathfinder
@@ -264,6 +268,8 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 
 	//ensure the path is not empty
 	BOOST_CHECK(pathsReturn[0].size() >= 0);
+	
+	freeAllNavigationGridData(navGrid);
 }
 
 BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
@@ -272,7 +278,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(1, 1);
@@ -296,6 +302,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 	BOOST_CHECK(pathsReturn[1].size() > 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -305,7 +312,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are not clear
-	navGrid.initAllValues(NavigationGridData{ BLOCKED_GRID_WEIGHT,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ BLOCKED_GRID_WEIGHT,0 });
 
 	//create request
 	IntPair startPoint(1, 1);
@@ -318,7 +325,6 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 	PathRequest pathRequest2{ startPoint2, IntPair(0,0), 1, 0 };
 	pathRequests.push_back(pathRequest2);
 
-
 	//create return value
 	std::vector<std::list<IntPair>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
@@ -329,6 +335,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 	BOOST_CHECK(pathsReturn[0].size() == 0);
 	BOOST_CHECK(pathsReturn[1].size() == 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -338,7 +345,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are not clear
-	navGrid.initAllValues(NavigationGridData{ BLOCKED_GRID_WEIGHT,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ BLOCKED_GRID_WEIGHT,0 });
 
 
 	//clean path for first request
@@ -359,9 +366,9 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 
 	*/
 
-	navGrid[0][0].weight = 0;
-	navGrid[0][1].weight = 0;
-	navGrid[0][2].weight = 0;
+	navGrid[0][0]->weight = 0;
+	navGrid[0][1]->weight = 0;
+	navGrid[0][2]->weight = 0;
 
 	//create request
 	IntPair startPoint(0, 0);
@@ -385,6 +392,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 	BOOST_CHECK(pathsReturn[1].size() == 0);
 
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -394,7 +402,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(2, 0);
@@ -408,7 +416,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	NavigationGridData blockedSquareData;
 	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
 	blockedSquareData.blockerDist = 0;
-	navGrid.at(blockedSquareCoord.first, blockedSquareCoord.second) = blockedSquareData;
+	*navGrid.at(blockedSquareCoord.first, blockedSquareCoord.second) = blockedSquareData;
 
 
 	//create return value
@@ -426,7 +434,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
-
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
@@ -436,7 +444,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
 	//ensure all grid squares are clear
-	navGrid.initAllValues(NavigationGridData{ 0,0 });
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
 	IntPair startPoint(1, 1);
@@ -450,14 +458,14 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	NavigationGridData leftSquareData;
 	leftSquareData.weight = 1;
 	leftSquareData.blockerDist = 0;
-	navGrid.at(leftSquareCoord.first, leftSquareCoord.second) = leftSquareData;
+	*navGrid.at(leftSquareCoord.first, leftSquareCoord.second) = leftSquareData;
 
 	//Make square that is up have weight 2
 	IntPair upSquareCoord(1, 0);
 	NavigationGridData upSquareData;
 	upSquareData.weight = 2;
 	upSquareData.blockerDist = 0;
-	navGrid.at(upSquareCoord.first, upSquareCoord.second) = upSquareData;
+	*navGrid.at(upSquareCoord.first, upSquareCoord.second) = upSquareData;
 
 
 	//create return value
@@ -475,7 +483,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 		BOOST_CHECK(gridSquare != upSquareCoord);
 	}
 
-
+	freeAllNavigationGridData(navGrid);
 	delete pathfinder;
 }
 
