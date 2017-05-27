@@ -91,6 +91,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 NavigationDemoRegion::~NavigationDemoRegion() {
 
 	//delete navigation data
+	freeAllNavigationGridData(*navGrid);
 	delete navGrid;
 	navGrid = nullptr;
 
