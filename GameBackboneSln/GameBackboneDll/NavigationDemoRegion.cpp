@@ -63,9 +63,28 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// </summary>
 void NavigationDemoRegion::behave(sf::Time currentTime) {
 
-	for (size_t i = 0; i < navigators.size(); i++) {
-		sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
-		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
+	sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
+	switch (selectedNavigatorOption)
+	{
+	case GB::NAVIGATOR_1: 
+	{
+		moveSpriteAlongPath(navigators[0], &(pathsReturn[0]), msPassed, 1);
+	}
+		break;
+	case GB::NAVIGATOR_2:
+	{
+		moveSpriteAlongPath(navigators[1], &(pathsReturn[1]), msPassed, 1);
+	}
+		break;
+	case GB::ALL_NAVIGATORS: 
+	{
+		for (size_t i = 0; i < navigators.size(); i++) {
+			moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
+		}
+		break;
+	}
+	default:
+		break;
 	}
 
 	lastUpdateTime = currentTime;
@@ -165,7 +184,14 @@ void GB::NavigationDemoRegion::init() {
 	regionPathfinder.pathFind(pathRequests, &pathsReturn);
 
 	//initialize GUI
-	initGUI();
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
 }
 
 /// <summary>
@@ -183,14 +209,32 @@ void GB::NavigationDemoRegion::initGUI() {
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	auto picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
-	// Create the username edit box
-	tgui::EditBox::Ptr editBoxUsername = theme->load("EditBox");
-	editBoxUsername->setSize(windowWidth * 2 / 3, windowHeight / 8);
-	editBoxUsername->setPosition(windowWidth / 6, windowHeight / 6);
-	editBoxUsername->setDefaultText("Username");
-	regionGUI->add(editBoxUsername, "Username");
+	// create navigator 1 button
+	tgui::Button::Ptr buttonNavigator1 = theme->load("Button");
+	buttonNavigator1->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	buttonNavigator1->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	buttonNavigator1->setText("Navigator1");
+	buttonNavigator1->connect("pressed", &NavigationDemoRegion::handleButtonNavigator1, this);
+	regionGUI->add(buttonNavigator1);
+
+	// create navigator 2 button
+	tgui::Button::Ptr buttonNavigator2 = theme->load("Button");
+	buttonNavigator2->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	buttonNavigator2->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	buttonNavigator2->setText("Navigator2");
+	buttonNavigator2->connect("pressed", &NavigationDemoRegion::handleButtonNavigator2, this);
+	regionGUI->add(buttonNavigator2);
+
+	// create all navigators button
+	tgui::Button::Ptr buttonAllNavigators = theme->load("Button");
+	buttonAllNavigators->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	buttonAllNavigators->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	buttonAllNavigators->setText("All Navigators");
+	buttonAllNavigators->connect("pressed", &NavigationDemoRegion::handleButtonAllNavigators, this);
+	regionGUI->add(buttonAllNavigators);
 }
 
 /// <summary>
@@ -264,7 +308,6 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoo
 						gridCoordinate.second * gridSquareHeight + offsetOrigin.y);
 }
 
-
 /// <summary>
 /// Determine what grid square a game world coordinate lies in. 
 /// </summary>
@@ -336,5 +379,29 @@ void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<In
 	}
 }
 
+/// <summary>
+/// Handles the button navigator1.
+/// </summary>
+void GB::NavigationDemoRegion::handleButtonNavigator1()
+{
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_1;
+	debugPrint("navigator1");
+}
 
+/// <summary>
+/// Handles the button navigator2.
+/// </summary>
+void GB::NavigationDemoRegion::handleButtonNavigator2()
+{
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_2;
+	debugPrint("navigator2");
+}
 
+/// <summary>
+/// Handles the button all navigators.
+/// </summary>
+void GB::NavigationDemoRegion::handleButtonAllNavigators()
+{
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
+	debugPrint("all navigators");
+}
