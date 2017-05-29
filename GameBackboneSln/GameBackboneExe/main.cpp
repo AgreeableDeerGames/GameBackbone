@@ -18,14 +18,12 @@
 
 using namespace GB;
 
-void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
-{
+void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
 	std::cout << "Username: " << username->getText().toAnsiString() << std::endl;
 	std::cout << "Password: " << password->getText().toAnsiString() << std::endl;
 }
 
-void loadWidgets(tgui::Gui& gui)
-{
+void loadWidgets(tgui::Gui & gui) {
 	// Load the black theme
 	auto theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
 
