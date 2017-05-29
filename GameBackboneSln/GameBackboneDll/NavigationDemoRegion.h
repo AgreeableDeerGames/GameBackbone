@@ -9,6 +9,13 @@
 
 namespace GB {
 
+	enum SELECTED_NAVIGATOR_BUTTON_TYPE
+	{
+		NAVIGATOR_1,
+		NAVIGATOR_2,
+		ALL_NAVIGATORS
+	};
+
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
 	/// </summary>
@@ -61,6 +68,12 @@ namespace GB {
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
 		std::vector<std::list<IntPair>> pathsReturn;
+
+		//GUI handle functions
+		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
+		void handleButtonNavigator1();
+		void handleButtonNavigator2();
+		void handleButtonAllNavigators();
 
 	};
 
