@@ -20,7 +20,7 @@ namespace GB {
 	public:
 		//ctr / dtr
 		GameRegion();
-		GameRegion(sf::RenderWindow & window);
+		explicit GameRegion(sf::RenderWindow & window);
 
 		virtual ~GameRegion();
 
