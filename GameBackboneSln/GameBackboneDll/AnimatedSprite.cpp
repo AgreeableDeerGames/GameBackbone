@@ -171,7 +171,7 @@ void AnimatedSprite::update(sf::Time currentTime) {
 		case ANIMATION_END_TYPE::ANIMATION_REVERSE:
 			// Only change the frame if the animation has more than one frame
 			if (currentAnimation->size() > 1) {
-				if (currentFrame >= currentAnimation->size() - 1 || (currentFrame <= 0 && isReverse)) {
+				if (currentFrame >= currentAnimation->size() - 1 || (currentFrame == 0 && isReverse)) {
 					isReverse = !isReverse;
 				}
 
