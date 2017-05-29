@@ -17,8 +17,8 @@ namespace GB {
 	public:
 
 		// ctr / dtr
-
 		NavigationDemoRegion();
+		NavigationDemoRegion(sf::RenderWindow & window);
 		virtual ~NavigationDemoRegion();
 
 		//behavior
@@ -30,7 +30,12 @@ namespace GB {
 
 
 	protected:
+
+		//ctr
+		void init();
+
 		//helper functions
+		void initGUI();
 		void initMaze(std::vector<IntPair> nonBlockablePositions);
 		sf::Vector2f gridCoordToWorldCoord(const IntPair& gridCoordinate);
 		IntPair worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);

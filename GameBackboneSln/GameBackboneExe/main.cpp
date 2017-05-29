@@ -18,10 +18,10 @@
 
 using namespace GB;
 
-void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
-	std::cout << "Username: " << username->getText().toAnsiString() << std::endl;
-	std::cout << "Password: " << password->getText().toAnsiString() << std::endl;
-}
+//void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
+//	std::cout << "Username: " << username->getText().toAnsiString() << std::endl;
+//	std::cout << "Password: " << password->getText().toAnsiString() << std::endl;
+//}
 
 void loadWidgets(tgui::Gui & gui) {
 	// Load the black theme
@@ -88,7 +88,7 @@ int main() {
 
 	//create game regions
 
-	NavigationDemoRegion* demoRegion = new NavigationDemoRegion();
+	NavigationDemoRegion* demoRegion = new NavigationDemoRegion(window);
 
 
 	//view
@@ -105,7 +105,7 @@ int main() {
 		while (window.pollEvent(event)) {
 			
 			// if the GUI handles this loop then move on
-			if (gui.handleEvent(event)) {
+			if (activeRegion->getGUI()->handleEvent(event)) {
 				continue;
 			}
 
@@ -137,7 +137,7 @@ int main() {
             case sf::Event::Resized:
                 //camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
 				window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
-				gui.setView(window.getView());
+				activeRegion->getGUI()->setView(window.getView());
                 break;
 			default:
 				break;
@@ -160,7 +160,7 @@ int main() {
 		}
 
 		window.draw(shape);
-		gui.draw();
+		activeRegion->getGUI()->draw();
 
 
 		//end draw logic

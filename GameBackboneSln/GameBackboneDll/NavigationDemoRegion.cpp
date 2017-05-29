@@ -16,72 +16,15 @@ using namespace GB;
 /// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
 /// </summary>
 NavigationDemoRegion::NavigationDemoRegion() {
-	//init storage
-	navGrid = new NavigationGrid(NAV_GRID_DIM);
-	regionPathfinder.setNavigationGrid(navGrid);
-	visualNavigationGrid = new Array2D<sf::Sprite*>(NAV_GRID_DIM);
+	init();
+}
 
-	//init textures
-	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
-	navigatorTexture = new sf::Texture();
-	navigatorTexture->loadFromFile(arrowPath);
-	std::string navigationGridPath("..\\..\\Textures\\NavigationGrid.png");
-	gridTexture = new sf::Texture();
-	gridTexture->loadFromFile(navigationGridPath);
-
-	//internal function logic
-	std::vector<IntPair> nonBlockableGridSquares;
-
-
-	//init navigators
-
-		//create navigators and add to respective arrays
-	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
-	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
-	navigators.push_back(navigator1);
-	navigators.push_back(navigator2);
-	navigator2->setColor(sf::Color::Green);
-	navigator1->setColor(sf::Color::Blue);
-
-	//set rotation point of navigators
-	for each (sf::Sprite* navigator in navigators) {
-		const sf::IntRect * const  textureRect = &navigator->getTextureRect();
-		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
-		navigator->setOrigin(newOrigin);
-	}
-	
-		//position navigators
-	IntPair navigator1StartingGrid(0, 0);
-	IntPair navigator2StartingGrid(15, 15);
-	nonBlockableGridSquares.push_back(navigator1StartingGrid);
-	nonBlockableGridSquares.push_back(navigator2StartingGrid);
-	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
-	const sf::Vector2f navigator2StartingPos = gridCoordToWorldCoord(navigator2StartingGrid);
-	navigator1->setPosition(navigator1StartingPos);
-	navigator2->setPosition(navigator2StartingPos);
-
-	//create maze
-	initMaze(nonBlockableGridSquares);
-
-	//draw navigators on top of maze
-	setDrawable(true, navigator1);
-	setDrawable(true, navigator2);
-
-
-	//Path-find from starting positions to end positions
-	//create request
-	PathRequest pathRequest{ navigator1StartingGrid, IntPair(15,15), 3, 0 };
-	std::vector<PathRequest> pathRequests;
-	pathRequests.push_back(pathRequest);
-
-	//second request
-	PathRequest pathRequest2{ navigator2StartingGrid, IntPair(0,0), 1, 0 };
-	pathRequests.push_back(pathRequest2);
-
-	//find the path
-	pathsReturn.resize(pathRequests.size());
-	regionPathfinder.pathFind(pathRequests, &pathsReturn);
-
+/// <summary>
+/// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
+/// </summary>
+/// <param name="window">The window that will be attached to this instances GUI.</param>
+GB::NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : GameRegion(window) {
+	init();
 }
 
 /// <summary>
@@ -149,6 +92,105 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 		pathsReturn.resize(pathRequests.size());
 		regionPathfinder.pathFind(pathRequests, &pathsReturn);
 	}
+}
+
+/// <summary>
+/// Initializes this instance.
+/// </summary>
+void GB::NavigationDemoRegion::init() {
+	//init storage
+	navGrid = new NavigationGrid(NAV_GRID_DIM);
+	regionPathfinder.setNavigationGrid(navGrid);
+	visualNavigationGrid = new Array2D<sf::Sprite*>(NAV_GRID_DIM);
+
+	//init textures
+	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
+	navigatorTexture = new sf::Texture();
+	navigatorTexture->loadFromFile(arrowPath);
+	std::string navigationGridPath("..\\..\\Textures\\NavigationGrid.png");
+	gridTexture = new sf::Texture();
+	gridTexture->loadFromFile(navigationGridPath);
+
+	//internal function logic
+	std::vector<IntPair> nonBlockableGridSquares;
+
+
+	//init navigators
+
+	//create navigators and add to respective arrays
+	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
+	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
+	navigators.push_back(navigator1);
+	navigators.push_back(navigator2);
+	navigator2->setColor(sf::Color::Green);
+	navigator1->setColor(sf::Color::Blue);
+
+	//set rotation point of navigators
+	for each (sf::Sprite* navigator in navigators) {
+		const sf::IntRect * const  textureRect = &navigator->getTextureRect();
+		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
+		navigator->setOrigin(newOrigin);
+	}
+
+	//position navigators
+	IntPair navigator1StartingGrid(0, 0);
+	IntPair navigator2StartingGrid(15, 15);
+	nonBlockableGridSquares.push_back(navigator1StartingGrid);
+	nonBlockableGridSquares.push_back(navigator2StartingGrid);
+	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
+	const sf::Vector2f navigator2StartingPos = gridCoordToWorldCoord(navigator2StartingGrid);
+	navigator1->setPosition(navigator1StartingPos);
+	navigator2->setPosition(navigator2StartingPos);
+
+	//create maze
+	initMaze(nonBlockableGridSquares);
+
+	//draw navigators on top of maze
+	setDrawable(true, navigator1);
+	setDrawable(true, navigator2);
+
+
+	//Path-find from starting positions to end positions
+	//create request
+	PathRequest pathRequest{ navigator1StartingGrid, IntPair(15,15), 3, 0 };
+	std::vector<PathRequest> pathRequests;
+	pathRequests.push_back(pathRequest);
+
+	//second request
+	PathRequest pathRequest2{ navigator2StartingGrid, IntPair(0,0), 1, 0 };
+	pathRequests.push_back(pathRequest2);
+
+	//find the path
+	pathsReturn.resize(pathRequests.size());
+	regionPathfinder.pathFind(pathRequests, &pathsReturn);
+
+	//initialize GUI
+	initGUI();
+}
+
+/// <summary>
+/// Initializes the GUI.
+/// </summary>
+void GB::NavigationDemoRegion::initGUI() {
+	// Load the black theme
+	auto theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+
+	// Get a bound version of the window size
+	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
+	auto windowWidth = tgui::bindWidth(*regionGUI);
+	auto windowHeight = tgui::bindHeight(*regionGUI);
+
+	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	auto picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
+	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
+	regionGUI->add(picture);
+
+	// Create the username edit box
+	tgui::EditBox::Ptr editBoxUsername = theme->load("EditBox");
+	editBoxUsername->setSize(windowWidth * 2 / 3, windowHeight / 8);
+	editBoxUsername->setPosition(windowWidth / 6, windowHeight / 6);
+	editBoxUsername->setDefaultText("Username");
+	regionGUI->add(editBoxUsername, "Username");
 }
 
 /// <summary>
