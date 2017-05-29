@@ -105,6 +105,13 @@ int main() {
 		//close window
 		sf::Event event;
 		while (window.pollEvent(event)) {
+			
+			// if the GUI handles this loop then move on
+			if (gui.handleEvent(event)) {
+				continue;
+			}
+
+			//Handle events not handled by the GUI
 			switch (event.type) {
 			case sf::Event::Closed:
 				window.close();
@@ -131,13 +138,12 @@ int main() {
             }
             case sf::Event::Resized:
                 //camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
-				window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
+				window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
 				gui.setView(window.getView());
                 break;
 			default:
 				break;
 			}
-			gui.handleEvent(event);
 		}
 
 		activeRegion->behave(updateClock.getElapsedTime());

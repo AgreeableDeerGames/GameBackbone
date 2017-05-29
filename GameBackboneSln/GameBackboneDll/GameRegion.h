@@ -6,6 +6,8 @@
 #include "DllUtil.h"
 #include "Updatable.h"
 
+#include <TGUI\TGUI.hpp>
+
 #include <SFML/Graphics/Sprite.hpp>
 
 #include<functional>
@@ -18,6 +20,7 @@ namespace GB {
 	public:
 		//ctr / dtr
 		GameRegion();
+		GameRegion(sf::RenderWindow & window);
 
 		virtual ~GameRegion();
 
@@ -36,6 +39,7 @@ namespace GB {
 		std::list<GameRegion*>* getNeighborRegions();
 		std::list<GameRegion*>* getChildRegions();
 		GameRegion* getParentRegion();
+		tgui::Gui* getGUI();
 
 
 		//internal behavior alteration
@@ -80,6 +84,9 @@ namespace GB {
 		GameRegion* parentRegion;
 		std::list<GameRegion*> childRegions;
 		std::list<GameRegion*> neighborRegions;
+
+		//GUI
+		tgui::Gui* regionGUI;
 
 	private:
 		//deleted copy and assignment ctr
