@@ -12,6 +12,12 @@ namespace GB {
 	public:
 		AnimationSet(unsigned int rows, unsigned int cols);
 		AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols);
+		AnimationSet() = delete;
+		AnimationSet(const AnimationSet& other) = delete;
+		AnimationSet(AnimationSet&& other) = default;
+		AnimationSet& operator= (const AnimationSet& other) = delete;
+		AnimationSet& operator= (AnimationSet&& other) = default;
+
 		virtual ~AnimationSet();
 
 		void framesToRects(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight);

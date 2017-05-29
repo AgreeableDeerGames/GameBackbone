@@ -19,6 +19,10 @@ namespace GB {
 		// ctr / dtr
 
 		NavigationDemoRegion();
+		NavigationDemoRegion(const NavigationDemoRegion& other) = delete;
+		NavigationDemoRegion(NavigationDemoRegion&& other) = delete;
+		NavigationDemoRegion& operator= (const NavigationDemoRegion& other) = delete;
+		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
 		virtual ~NavigationDemoRegion();
 
 		//behavior

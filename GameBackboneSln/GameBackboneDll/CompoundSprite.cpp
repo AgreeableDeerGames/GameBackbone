@@ -6,8 +6,6 @@
 using namespace GB;
 
 //ctr / dtr
-CompoundSprite::CompoundSprite() {
-}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the CompoundSprite 

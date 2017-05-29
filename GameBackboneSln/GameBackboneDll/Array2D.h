@@ -35,6 +35,11 @@ namespace GB {
 			internalArray.resize(xLength * yLength);
 		}
 
+		Array2D(const Array2D<templateClass>& other) = default;
+		Array2D(Array2D<templateClass>&& other) = default;
+		Array2D& operator= (const Array2D<templateClass>& other) = default;
+		Array2D& operator= (Array2D<templateClass>&& other) = default;
+
 		~Array2D() {
 		}
 

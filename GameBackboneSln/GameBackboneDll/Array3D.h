@@ -34,6 +34,10 @@ namespace GB {
 			this->zLength = zLength;
 		}
 
+		Array3D(const Array3D<templateClass>& other) = default;
+		Array3D(Array3D<templateClass>&& other) = default; 
+		Array3D& operator= (const Array3D<templateClass>& other) = default;
+		Array3D& operator= (Array3D<templateClass>&& other) = default;
 
 		~Array3D() {
 

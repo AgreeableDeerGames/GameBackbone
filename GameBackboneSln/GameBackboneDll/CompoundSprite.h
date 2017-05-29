@@ -16,8 +16,12 @@ namespace GB {
 
 		//ctr / dtr
 		//shallow copy and move are fine for this class
-		CompoundSprite();
+		CompoundSprite() = default;
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
+		CompoundSprite(const CompoundSprite& other) = default;
+		CompoundSprite(CompoundSprite&& other) = default;
+		CompoundSprite& operator= (const CompoundSprite& other) = default;
+		CompoundSprite& operator= (CompoundSprite&& other) = default;
 		virtual ~CompoundSprite();
 
 		//getters
