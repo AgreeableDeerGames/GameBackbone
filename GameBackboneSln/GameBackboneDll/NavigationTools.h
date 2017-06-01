@@ -4,12 +4,10 @@
 #include "Array2D.h"
 #include "NavigationGridData.h"
 
-#include<tuple>
-
 
 
 namespace GB {
-	libGameBackbone typedef GB::Array2D<GB::NavigationGridData*> NavigationGrid;
+	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
 	libGameBackbone typedef std::pair<int, int> IntPair;
 
 
