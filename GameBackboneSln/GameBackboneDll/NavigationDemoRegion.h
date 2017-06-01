@@ -71,9 +71,9 @@ namespace GB {
 
 		//GUI handle functions
 		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
-		void handleButtonNavigator1();
-		void handleButtonNavigator2();
-		void handleButtonAllNavigators();
+		void Navigator1CB();
+		void Navigator2CB();
+		void AllNavigatorsCB();
 
 	};
 

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameRegion.h"
 
+#include <TGUI/TGUI.hpp>
+
 #include<algorithm>
 
 using namespace GB;

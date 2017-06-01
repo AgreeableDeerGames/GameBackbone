@@ -6,7 +6,7 @@
 #include "DllUtil.h"
 #include "Updatable.h"
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 

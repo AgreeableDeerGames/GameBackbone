@@ -5,6 +5,8 @@
 
 #include "NavigationDemoRegion.h"
 
+#include <TGUI/TGUI.hpp>
+
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -199,42 +201,42 @@ void GB::NavigationDemoRegion::init() {
 /// </summary>
 void GB::NavigationDemoRegion::initGUI() {
 	// Load the black theme
-	auto theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	auto windowWidth = tgui::bindWidth(*regionGUI);
-	auto windowHeight = tgui::bindHeight(*regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
+	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	auto picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
+	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
 	// create navigator 1 button
-	tgui::Button::Ptr buttonNavigator1 = theme->load("Button");
-	buttonNavigator1->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	buttonNavigator1->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	buttonNavigator1->setText("Navigator1");
-	buttonNavigator1->connect("pressed", &NavigationDemoRegion::handleButtonNavigator1, this);
-	regionGUI->add(buttonNavigator1);
+	tgui::Button::Ptr navigator1Button = theme->load("Button");
+	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator1Button->setText("Navigator1");
+	navigator1Button->connect("pressed", &NavigationDemoRegion::Navigator1CB, this);
+	regionGUI->add(navigator1Button);
 
 	// create navigator 2 button
-	tgui::Button::Ptr buttonNavigator2 = theme->load("Button");
-	buttonNavigator2->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	buttonNavigator2->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	buttonNavigator2->setText("Navigator2");
-	buttonNavigator2->connect("pressed", &NavigationDemoRegion::handleButtonNavigator2, this);
-	regionGUI->add(buttonNavigator2);
+	tgui::Button::Ptr navigator2Button = theme->load("Button");
+	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator2Button->setText("Navigator2");
+	navigator2Button->connect("pressed", &NavigationDemoRegion::Navigator2CB, this);
+	regionGUI->add(navigator2Button);
 
 	// create all navigators button
-	tgui::Button::Ptr buttonAllNavigators = theme->load("Button");
-	buttonAllNavigators->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	buttonAllNavigators->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	buttonAllNavigators->setText("All Navigators");
-	buttonAllNavigators->connect("pressed", &NavigationDemoRegion::handleButtonAllNavigators, this);
-	regionGUI->add(buttonAllNavigators);
+	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
+	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	allNavigatorsButton->setText("All Navigators");
+	allNavigatorsButton->connect("pressed", &NavigationDemoRegion::AllNavigatorsCB, this);
+	regionGUI->add(allNavigatorsButton);
 }
 
 /// <summary>
@@ -382,7 +384,7 @@ void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<In
 /// <summary>
 /// Handles the button navigator1.
 /// </summary>
-void GB::NavigationDemoRegion::handleButtonNavigator1()
+void GB::NavigationDemoRegion::Navigator1CB()
 {
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_1;
 	debugPrint("navigator1");
@@ -391,7 +393,7 @@ void GB::NavigationDemoRegion::handleButtonNavigator1()
 /// <summary>
 /// Handles the button navigator2.
 /// </summary>
-void GB::NavigationDemoRegion::handleButtonNavigator2()
+void GB::NavigationDemoRegion::Navigator2CB()
 {
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_2;
 	debugPrint("navigator2");
@@ -400,7 +402,7 @@ void GB::NavigationDemoRegion::handleButtonNavigator2()
 /// <summary>
 /// Handles the button all navigators.
 /// </summary>
-void GB::NavigationDemoRegion::handleButtonAllNavigators()
+void GB::NavigationDemoRegion::AllNavigatorsCB()
 {
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
 	debugPrint("all navigators");
