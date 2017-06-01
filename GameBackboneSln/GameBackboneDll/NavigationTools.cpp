@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "NavigationTools.h"
 
+using namespace GB;
+
 /// <summary>
 /// Initializes all navigation grid values to the passed value.
 /// </summary>
