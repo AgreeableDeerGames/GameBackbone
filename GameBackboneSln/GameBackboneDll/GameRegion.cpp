@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameRegion.h"
 
+#include <TGUI/TGUI.hpp>
+
 #include<algorithm>
 
 using namespace GB;
@@ -12,6 +14,16 @@ GameRegion::GameRegion() {
 	updatables = new std::list<Updatable*>();
 	drawables = new std::list<sf::Sprite*>();
 	parentRegion = nullptr;
+	regionGUI = nullptr;
+}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="GameRegion"/> class. All members except regionGUI
+/// are initialized empty or null. The regions GUI is bound to the passed window.
+/// </summary>
+/// <param name="window">The window.</param>
+GameRegion::GameRegion(sf::RenderWindow & window) : GameRegion() {
+	regionGUI = new tgui::Gui(window);
 }
 
 /// <summary>
@@ -25,6 +37,10 @@ GameRegion::~GameRegion() {
 	clearNeighborRegions();
 	delete updatables;
 	delete drawables;
+
+	if (regionGUI) {
+		delete regionGUI;
+	}
 }
 
 //getters / setters
@@ -98,6 +114,17 @@ void GameRegion::setDrawAndUpdateable(bool status, CompoundSprite * object) {
 }
 
 /// <summary>
+/// Sets the parent region.
+/// </summary>
+/// <param name="newParent">The new parent.</param>
+void GameRegion::setParentRegion(GameRegion* newParent) {
+	if (parentRegion != newParent)
+	{
+		newParent->addChildRegion(this);
+	}
+}
+
+/// <summary>
 /// Returns list of the region's updatable objects.
 /// </summary>
 /// <returns>std::list of the region's updatable objects.</returns>
@@ -129,14 +156,11 @@ GameRegion* GameRegion::getParentRegion() {
 }
 
 /// <summary>
-/// Sets the parent region.
+/// Gets the GUI for this region.
 /// </summary>
-/// <param name="newParent">The new parent.</param>
-void GameRegion::setParentRegion(GameRegion* newParent) {
-	if (parentRegion != newParent)
-	{
-		newParent->addChildRegion(this);
-	}
+/// <returns>This regions GUI.</returns>
+tgui::Gui* GameRegion::getGUI() {
+	return regionGUI;
 }
 
 //general operations

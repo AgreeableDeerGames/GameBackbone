@@ -9,6 +9,13 @@
 
 namespace GB {
 
+	enum SELECTED_NAVIGATOR_BUTTON_TYPE
+	{
+		NAVIGATOR_1,
+		NAVIGATOR_2,
+		ALL_NAVIGATORS
+	};
+
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
 	/// </summary>
@@ -17,12 +24,12 @@ namespace GB {
 	public:
 
 		// ctr / dtr
-
 		NavigationDemoRegion();
 		NavigationDemoRegion(const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion(NavigationDemoRegion&& other) = delete;
 		NavigationDemoRegion& operator= (const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
+		NavigationDemoRegion(sf::RenderWindow & window);
 		virtual ~NavigationDemoRegion();
 
 		//behavior
@@ -34,7 +41,12 @@ namespace GB {
 
 
 	protected:
+
+		//ctr
+		void init();
+
 		//helper functions
+		void initGUI();
 		void initMaze(std::vector<IntPair> nonBlockablePositions);
 		sf::Vector2f gridCoordToWorldCoord(const IntPair& gridCoordinate);
 		IntPair worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
@@ -60,6 +72,12 @@ namespace GB {
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
 		std::vector<std::list<IntPair>> pathsReturn;
+
+		//GUI handle functions
+		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
+		void Navigator1CB();
+		void Navigator2CB();
+		void AllNavigatorsCB();
 
 	};
 

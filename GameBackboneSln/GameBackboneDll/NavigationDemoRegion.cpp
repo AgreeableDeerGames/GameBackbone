@@ -6,6 +6,8 @@
 #include "NavigationDemoRegion.h"
 #include "NavigationTools.h"
 
+#include <TGUI/TGUI.hpp>
+
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -17,6 +19,107 @@ using namespace GB;
 /// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
 /// </summary>
 NavigationDemoRegion::NavigationDemoRegion() {
+	init();
+}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
+/// </summary>
+/// <param name="window">The window that will be attached to this instances GUI.</param>
+GB::NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : GameRegion(window) {
+	init();
+}
+
+/// <summary>
+/// Finalizes an instance of the <see cref="NavigationDemoRegion"/> class.
+/// </summary>
+NavigationDemoRegion::~NavigationDemoRegion() {
+
+	//delete navigation data
+	delete navGrid;
+	navGrid = nullptr;
+
+	//delete visual navigation grid data
+	for (unsigned int i = 0; i < visualNavigationGrid->getArraySizeX(); i++) {
+		for (unsigned int j = 0; j < visualNavigationGrid->getArraySizeY(); j++) {
+			delete (*visualNavigationGrid)[i][j];
+			(*visualNavigationGrid)[i][j] = nullptr;
+		}
+	}
+	delete visualNavigationGrid;
+
+	//delete navigators
+	for each (auto navigator in navigators) {
+		delete navigator;
+		navigator = nullptr;
+	}
+
+	//delete textures
+	delete navigatorTexture;
+	navigatorTexture = nullptr;
+	delete gridTexture;
+	gridTexture = nullptr;
+}
+
+/// <summary>
+/// Executes a single cycle of the main logic loop for this region.
+/// </summary>
+void NavigationDemoRegion::behave(sf::Time currentTime) {
+
+	sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
+	switch (selectedNavigatorOption)
+	{
+	case GB::NAVIGATOR_1: 
+	{
+		moveSpriteAlongPath(navigators[0], &(pathsReturn[0]), msPassed, 1);
+	}
+		break;
+	case GB::NAVIGATOR_2:
+	{
+		moveSpriteAlongPath(navigators[1], &(pathsReturn[1]), msPassed, 1);
+	}
+		break;
+	case GB::ALL_NAVIGATORS: 
+	{
+		for (size_t i = 0; i < navigators.size(); i++) {
+			moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
+		}
+		break;
+	}
+	default:
+		break;
+	}
+
+	lastUpdateTime = currentTime;
+}
+
+/// <summary>
+/// Handles mouse click logic.
+/// </summary>
+/// <param name="newPosition">The position of the click.</param>
+/// <param name="button">The mouse button clicked button.</param>
+void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+	if (button == sf::Mouse::Left) {
+		std::vector<PathRequest> pathRequests(navigators.size());
+
+		//create each path request
+		for (size_t i = 0; i < navigators.size(); i++) {
+			sf::Sprite* currentNavigator = navigators[i];
+			IntPair startingPos = worldCoordToGridCoord(currentNavigator->getPosition());
+			IntPair endingPos = worldCoordToGridCoord(newPosition);
+			pathRequests[i] = PathRequest{ startingPos, endingPos, 1, 0 };
+		}
+
+		//path-find
+		pathsReturn.resize(pathRequests.size());
+		regionPathfinder.pathFind(pathRequests, &pathsReturn);
+	}
+}
+
+/// <summary>
+/// Initializes this instance.
+/// </summary>
+void GB::NavigationDemoRegion::init() {
 	//init storage
 	navGrid = new NavigationGrid(NAV_GRID_DIM);
 	regionPathfinder.setNavigationGrid(navGrid);
@@ -36,7 +139,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 
 	//init navigators
 
-		//create navigators and add to respective arrays
+	//create navigators and add to respective arrays
 	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
 	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
 	navigators.push_back(navigator1);
@@ -50,8 +153,8 @@ NavigationDemoRegion::NavigationDemoRegion() {
 		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);
 	}
-	
-		//position navigators
+
+	//position navigators
 	IntPair navigator1StartingGrid(0, 0);
 	IntPair navigator2StartingGrid(15, 15);
 	nonBlockableGridSquares.push_back(navigator1StartingGrid);
@@ -83,74 +186,58 @@ NavigationDemoRegion::NavigationDemoRegion() {
 	pathsReturn.resize(pathRequests.size());
 	regionPathfinder.pathFind(pathRequests, &pathsReturn);
 
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
 }
 
 /// <summary>
-/// Finalizes an instance of the <see cref="NavigationDemoRegion"/> class.
+/// Initializes the GUI.
 /// </summary>
-NavigationDemoRegion::~NavigationDemoRegion() {
+void GB::NavigationDemoRegion::initGUI() {
+	// Load the black theme
+	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
 
-	//delete navigation data
-	freeAllNavigationGridData(*navGrid);
-	delete navGrid;
-	navGrid = nullptr;
+	// Get a bound version of the window size
+	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
+	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
+	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
-	//delete visual navigation grid data
-	for (unsigned int i = 0; i < visualNavigationGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < visualNavigationGrid->getArraySizeY(); j++) {
-			delete (*visualNavigationGrid)[i][j];
-			(*visualNavigationGrid)[i][j] = nullptr;
-		}
-	}
-	delete visualNavigationGrid;
+	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
+	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setPosition(0, 9 * windowHeight / 10.0f);
+	regionGUI->add(picture);
 
-	//delete navigators
-	for each (auto navigator in navigators) {
-		delete navigator;
-		navigator = nullptr;
-	}
+	// create navigator 1 button
+	tgui::Button::Ptr navigator1Button = theme->load("Button");
+	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator1Button->setText("Navigator1");
+	navigator1Button->connect("pressed", &NavigationDemoRegion::Navigator1CB, this);
+	regionGUI->add(navigator1Button);
 
-	//delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-	delete gridTexture;
-	gridTexture = nullptr;
-}
+	// create navigator 2 button
+	tgui::Button::Ptr navigator2Button = theme->load("Button");
+	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator2Button->setText("Navigator2");
+	navigator2Button->connect("pressed", &NavigationDemoRegion::Navigator2CB, this);
+	regionGUI->add(navigator2Button);
 
-/// <summary>
-/// Executes a single cycle of the main logic loop for this region.
-/// </summary>
-void NavigationDemoRegion::behave(sf::Time currentTime) {
-
-	for (size_t i = 0; i < navigators.size(); i++) {
-		sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
-		moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
-	}
-
-	lastUpdateTime = currentTime;
-}
-
-/// <summary>
-/// Handles mouse click logic.
-/// </summary>
-/// <param name="newPosition">The position of the click.</param>
-/// <param name="button">The mouse button clicked button.</param>
-void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
-	if (button == sf::Mouse::Left) {
-		std::vector<PathRequest> pathRequests(navigators.size());
-
-		//create each path request
-		for (size_t i = 0; i < navigators.size(); i++) {
-			sf::Sprite* currentNavigator = navigators[i];
-			IntPair startingPos = worldCoordToGridCoord(currentNavigator->getPosition());
-			IntPair endingPos = worldCoordToGridCoord(newPosition);
-			pathRequests[i] = PathRequest{ startingPos, endingPos, 1, 0 };
-		}
-
-		//path-find
-		pathsReturn.resize(pathRequests.size());
-		regionPathfinder.pathFind(pathRequests, &pathsReturn);
-	}
+	// create all navigators button
+	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
+	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	allNavigatorsButton->setText("All Navigators");
+	allNavigatorsButton->connect("pressed", &NavigationDemoRegion::AllNavigatorsCB, this);
+	regionGUI->add(allNavigatorsButton);
 }
 
 /// <summary>
@@ -224,7 +311,6 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoo
 						gridCoordinate.second * gridSquareHeight + offsetOrigin.y);
 }
 
-
 /// <summary>
 /// Determine what grid square a game world coordinate lies in. 
 /// </summary>
@@ -296,5 +382,29 @@ void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<In
 	}
 }
 
+/// <summary>
+/// Handles the button navigator1.
+/// </summary>
+void GB::NavigationDemoRegion::Navigator1CB()
+{
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_1;
+	debugPrint("navigator1");
+}
 
+/// <summary>
+/// Handles the button navigator2.
+/// </summary>
+void GB::NavigationDemoRegion::Navigator2CB()
+{
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_2;
+	debugPrint("navigator2");
+}
 
+/// <summary>
+/// Handles the button all navigators.
+/// </summary>
+void GB::NavigationDemoRegion::AllNavigatorsCB()
+{
+	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
+	debugPrint("all navigators");
+}

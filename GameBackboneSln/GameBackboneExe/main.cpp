@@ -6,6 +6,9 @@
 #include "Updatable.h"
 #include "CompoundSprite.h"
 #include "NavigationDemoRegion.h"
+#include "SampleGuiInterface.h"
+
+#include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -16,20 +19,19 @@
 using namespace GB;
 
 int main() {
+	//Init Window
 	const int WINDOW_WIDTH = 700;
 	const int WINDOW_HEIGHT = 700;
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SpriteTests");
+
 	sf::CircleShape shape(10.0f);
 	shape.setFillColor(sf::Color::Green);
 
 	//init game update clock
 	sf::Clock updateClock;
 
-
 	//create game regions
-
-	NavigationDemoRegion* demoRegion = new NavigationDemoRegion();
-
+	NavigationDemoRegion* demoRegion = new NavigationDemoRegion(window);
 
 	//view
 	sf::View camera(sf::FloatRect(0,0,(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
@@ -43,6 +45,13 @@ int main() {
 		//close window
 		sf::Event event;
 		while (window.pollEvent(event)) {
+			
+			// if the GUI handles this loop then move on
+			if (activeRegion->getGUI()->handleEvent(event)) {
+				continue;
+			}
+
+			//Handle events not handled by the GUI
 			switch (event.type) {
 			case sf::Event::Closed:
 				window.close();
@@ -68,7 +77,9 @@ int main() {
                 break;
             }
             case sf::Event::Resized:
-                camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
+				camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
+				window.setView(camera);
+				activeRegion->getGUI()->setView(camera);
                 break;
 			default:
 				break;
@@ -91,11 +102,11 @@ int main() {
 		}
 
 		window.draw(shape);
+		activeRegion->getGUI()->draw();
 
 		//end draw logic
 		window.display();
 	}
-
 
 	return 0;
 }
