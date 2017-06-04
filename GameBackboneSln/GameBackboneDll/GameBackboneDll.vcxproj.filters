@@ -93,6 +93,9 @@
     <ClInclude Include="BackboneBaseExceptions.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
+    <ClInclude Include="NavigationTools.h">
+      <Filter>Header Files\Navigation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="NavigationDemoRegion.cpp">
       <Filter>Source Files\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationTools.cpp">
+      <Filter>Source Files\Navigation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 
 #include "NavigationDemoRegion.h"
+#include "NavigationTools.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -90,6 +91,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 NavigationDemoRegion::~NavigationDemoRegion() {
 
 	//delete navigation data
+	freeAllNavigationGridData(*navGrid);
 	delete navGrid;
 	navGrid = nullptr;
 
@@ -156,7 +158,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 /// </summary>
 void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) {
 
-	navGrid->initAllValues(NavigationGridData{ 1, 0 });
+	initAllNavigationGridValues(*navGrid, NavigationGridData{ 1, 0 });
 
 	//block grids for maze
 	srand((unsigned int)time(NULL));
@@ -172,7 +174,7 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 				}
 				//only block blockable grids	
 				if (blockable) {
-					(*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
+					(*navGrid)[i][j]->weight = BLOCKED_GRID_WEIGHT;
 				}
 			}
 		}
@@ -190,7 +192,7 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
 
 			//shade blocked grids
-			bool blocked = (*navGrid)[i][j].weight == BLOCKED_GRID_WEIGHT;
+			bool blocked = (*navGrid)[i][j]->weight == BLOCKED_GRID_WEIGHT;
 			if (blocked) {
 				gridSquare->setColor(sf::Color::Red);
 			}

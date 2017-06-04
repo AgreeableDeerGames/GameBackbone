@@ -162,6 +162,7 @@
     <ClInclude Include="GameRegion.h" />
     <ClInclude Include="NavigationDemoRegion.h" />
     <ClInclude Include="NavigationGridData.h" />
+    <ClInclude Include="NavigationTools.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathRequest.h" />
     <ClInclude Include="Point2D.h" />
@@ -190,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="GameRegion.cpp" />
     <ClCompile Include="NavigationDemoRegion.cpp" />
+    <ClCompile Include="NavigationTools.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

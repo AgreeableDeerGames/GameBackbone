@@ -4,6 +4,7 @@
 #include "Array2D.h"
 #include "NavigationGridData.h"
 #include "PathRequest.h"
+#include "NavigationTools.h"
 
 #include<vector>
 #include<set>
@@ -12,9 +13,6 @@
 #include<tuple>
 
 namespace GB {
-
-	typedef Array2D<NavigationGridData> NavigationGrid;
-	typedef std::pair<int, int> IntPair;
 
 	/// <summary> used to calculate groups of paths in one navigation grid. </summary>
 	class libGameBackbone Pathfinder {
