@@ -179,10 +179,10 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\Boost\boost_1_63_0_x64\include\boost-1_63;..\..\..\SFML\SFML-2.4.1\include;..\GameBackboneDll;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDE);$(SFML_INCLUDE);$(TGUI_INCLUDE);..\GameBackboneDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\..\Boost\boost_1_63_0_x64\lib;..\..\..\SFML\SFML-2.4.1\lib;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BOOST_LIB);$(SFML_LIB);$(TGUI_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(BOOST_LIB_FOR_ADAPTER);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
