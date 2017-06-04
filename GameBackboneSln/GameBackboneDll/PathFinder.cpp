@@ -212,15 +212,12 @@ std::list<IntPair> Pathfinder::reconstructPath(const IntPair & endPoint, std::ma
 
 	std::list<IntPair> inOrderPath;
 
-	IntPair const * lastGridSquare = &endPoint;
-
 	//add grid squares until the beginning (grid square that did not come from anywhere) is found
 	// do not add first grid square. the path-finding object is already there.
-	auto foundSquare = cameFrom->find(*lastGridSquare);
+	auto foundSquare = cameFrom->find(endPoint);
 	while (foundSquare != cameFrom->end()) {
 		inOrderPath.push_front(foundSquare->first);
-		lastGridSquare = &foundSquare->second;
-		foundSquare = cameFrom->find(*lastGridSquare);
+		foundSquare = cameFrom->find(foundSquare->second);
 	}
 	return inOrderPath;
 }
