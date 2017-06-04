@@ -11,6 +11,9 @@
 
 using namespace GB;
 
+// Contains all of the tests for AnimatedSprite
+BOOST_AUTO_TEST_SUITE(AnimatedSpriteTests)
+
 /// <summary>
 /// Struct to store objects that can be reused for all or nearly all 
 /// of the unit tests in this file. This struct is meant to be used with fixtures
@@ -35,18 +38,17 @@ struct ReusableObjects
 	}
 
 	~ReusableObjects() {
+
 		delete animSpriteWithAnim;
 		delete animSet;
 		delete aSpriteTexture;
+
 	}
 
 	AnimatedSprite* animSpriteWithAnim;
 	AnimationSet* animSet;
 	sf::Texture* aSpriteTexture;
 };
-
-// Contains all of the tests for AnimatedSprite
-BOOST_AUTO_TEST_SUITE(AnimatedSpriteTests)
 
 // Contains all of the tests for AnimatedSprite constructors
 BOOST_AUTO_TEST_SUITE(AnimatedSprite_ctrs)

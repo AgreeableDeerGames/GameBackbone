@@ -10,6 +10,9 @@
 
 using namespace GB;
 
+
+BOOST_AUTO_TEST_SUITE(CompoundSpriteTests)
+
 struct ReusableObjects
 {
 	ReusableObjects() {
@@ -30,12 +33,14 @@ struct ReusableObjects
 		animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);
 	}
 	~ReusableObjects() {
+
 		delete aSpriteTexture;
 		delete animSet1;
 		delete animSet2;
-		delete aSpriteTexture;
 		delete animSpriteWithAnim1;
 		delete animSpriteWithAnim2;
+		delete sprite;
+
 	}
 
 	AnimatedSprite* animSpriteWithAnim1;
@@ -45,10 +50,6 @@ struct ReusableObjects
 	sf::Texture* aSpriteTexture;
 	sf::Sprite* sprite;
 };
-
-
-
-BOOST_AUTO_TEST_SUITE(CompoundSpriteTests)
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_ctr)
 
