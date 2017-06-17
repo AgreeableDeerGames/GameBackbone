@@ -166,6 +166,7 @@
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathRequest.h" />
     <ClInclude Include="Point2D.h" />
+    <ClInclude Include="RandGen.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Updatable.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="NavigationDemoRegion.cpp" />
     <ClCompile Include="NavigationTools.cpp" />
     <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="RandGen.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

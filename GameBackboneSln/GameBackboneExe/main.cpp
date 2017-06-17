@@ -7,6 +7,7 @@
 #include "CompoundSprite.h"
 #include "NavigationDemoRegion.h"
 #include "SampleGuiInterface.h"
+#include "RandGen.h"
 
 #include <TGUI/TGUI.hpp>
 
@@ -14,11 +15,23 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <string>
 #include <vector>
 
 using namespace GB;
 
 int main() {
+
+	//RandGen* testThing = new RandGen();
+	RandGen testThing;
+
+	for (int ii = 0; ii < 10; ++ii)
+	{
+		std::cout << "\nSeed: " << testThing.GetSeed();
+		std::cout << "\nNumber: " << testThing.UniDist(1, 7);
+	}
+
+
 	//Init Window
 	const int WINDOW_WIDTH = 700;
 	const int WINDOW_HEIGHT = 700;
