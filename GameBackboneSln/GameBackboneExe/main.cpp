@@ -22,18 +22,18 @@ using namespace GB;
 
 int main() {
 	RandGen testThing;
-	std::cout << "\nSeed: " << testThing.GetSeed() << "\n";
+	std::cout << "\nSeed: " << testThing.getSeed() << "\n";
 
 	for (int ii = 0; ii < 10; ++ii)
 	{
-		std::cout << "\nNumber: " << testThing.UniDist();
+		std::cout << "\nNumber: " << testThing.uniDist();
 	}
 
 	std::cout << "\n";
 
 	for (int ii = 0; ii < 10; ++ii)
 	{
-		std::cout << "\nNumber: " << testThing.UniDist(1, 101);
+		std::cout << "\nNumber: " << testThing.uniDist(1, 101);
 	}
 
 

@@ -23,12 +23,12 @@ namespace GB {
 		~RandGen() = default;
 
 
-		std::string GetSeed();
-		void SetSeed(std::string seed);
-		void SetUniDistributor(double min, double max);
+		std::string getSeed();
+		void setSeed(std::string seed);
+		void setUniDistributor(double min, double max);
 
-		double UniDist();
-		double UniDist(double min, double max);
+		double uniDist();
+		double uniDist(double min, double max);
 
 	private:
 		std::string m_seedString;

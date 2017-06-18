@@ -12,7 +12,7 @@ BOOST_AUTO_TEST_CASE(RandGen_default_ctr_test) {
 	RandGen* testRandGen = new RandGen();
 
 	// Ensure that the Distributor has been set up correctly
-	double output = testRandGen->UniDist();
+	double output = testRandGen->uniDist();
 	BOOST_CHECK(output >= 0 && output < 1);
 
 	delete testRandGen;
@@ -22,10 +22,10 @@ BOOST_AUTO_TEST_CASE(RandGen_seed_ctr_test) {
 	RandGen* testRandGen = new RandGen("TestString");
 
 	//Ensure that the seed is what we set;
-	BOOST_CHECK_EQUAL("TestString", testRandGen->GetSeed());
+	BOOST_CHECK_EQUAL("TestString", testRandGen->getSeed());
 
 	// Ensure that the Distributor has been set up correctly
-	double output = testRandGen->UniDist();
+	double output = testRandGen->uniDist();
 	BOOST_CHECK(output >= 0 && output < 1);
 
 	delete testRandGen;
@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(RandGen_minmax_ctr_test) {
 	RandGen* testRandGen = new RandGen(3, 4);
 
 	// Ensure that the Distributor has been set up correctly
-	double output = testRandGen->UniDist();
+	double output = testRandGen->uniDist();
 	BOOST_CHECK(output >= 3 && output < 4);
 
 	delete testRandGen;
@@ -46,10 +46,10 @@ BOOST_AUTO_TEST_CASE(RandGen_seedminmax_ctr_test) {
 
 
 	//Ensure that the seed is what we set;
-	BOOST_CHECK_EQUAL("TestString", testRandGen->GetSeed());
+	BOOST_CHECK_EQUAL("TestString", testRandGen->getSeed());
 
 	// Ensure that the Distributor has been set up correctly
-	double output = testRandGen->UniDist();
+	double output = testRandGen->uniDist();
 	BOOST_CHECK(output >= 3 && output < 4);
 
 	delete testRandGen;
@@ -63,14 +63,14 @@ BOOST_AUTO_TEST_SUITE(RandGen_setter)
 BOOST_AUTO_TEST_CASE(RandGen_SetSeed_test) {
 
 	RandGen* testRandGen = new RandGen();
-	testRandGen->SetSeed("TestString");
+	testRandGen->setSeed("TestString");
 
 	// Ensure that the Distributor has been set up correctly
-	double output = testRandGen->UniDist();
+	double output = testRandGen->uniDist();
 	BOOST_CHECK(output >= 0 && output < 1);
 
 	//Ensure that the seed is what we set;
-	BOOST_CHECK_EQUAL("TestString", testRandGen->GetSeed());
+	BOOST_CHECK_EQUAL("TestString", testRandGen->getSeed());
 
 	delete testRandGen;
 }
@@ -78,10 +78,10 @@ BOOST_AUTO_TEST_CASE(RandGen_SetSeed_test) {
 BOOST_AUTO_TEST_CASE(RandGen_SetUniDistributor_test) {
 
 	RandGen* testRandGen = new RandGen();
-	testRandGen->SetUniDistributor(3, 4);
+	testRandGen->setUniDistributor(3, 4);
 
 	// Ensure that the Distributor has been set up correctly
-	double output = testRandGen->UniDist();
+	double output = testRandGen->uniDist();
 	BOOST_CHECK(output >= 3 && output < 4);
 
 	delete testRandGen;
@@ -98,8 +98,8 @@ BOOST_AUTO_TEST_CASE(RandGen_same_Seed_test) {
 	RandGen* testRandGen2 = new RandGen("TestString");
 
 	// Ensure that the outputs for the same seed are the same
-	double output1 = testRandGen1->UniDist();
-	double output2 = testRandGen2->UniDist();
+	double output1 = testRandGen1->uniDist();
+	double output2 = testRandGen2->uniDist();
 	BOOST_CHECK(output1 == output2);
 
 	delete testRandGen1;
@@ -112,8 +112,8 @@ BOOST_AUTO_TEST_CASE(RandGen_different_Seed_test) {
 	RandGen* testRandGen2 = new RandGen("TestString2");
 
 	// Ensure that the outputs for the same seed are the same
-	double output1 = testRandGen1->UniDist();
-	double output2 = testRandGen2->UniDist();
+	double output1 = testRandGen1->uniDist();
+	double output2 = testRandGen2->uniDist();
 	BOOST_CHECK(output1 != output2);
 
 	delete testRandGen1;

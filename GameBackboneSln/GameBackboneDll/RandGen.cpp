@@ -12,9 +12,9 @@ RandGen::RandGen() {
 	// This Random device is used to generate the seed if no seed is provided.
 	// We then convert the unsigned int that it returns and turn that into a string which we set on our Generator.
 	std::random_device rd;
-	SetSeed(std::to_string(rd()));
+	setSeed(std::to_string(rd()));
 
-	SetUniDistributor(0, 1);
+	setUniDistributor(0, 1);
 }
 
 
@@ -23,8 +23,8 @@ RandGen::RandGen() {
 /// </summary>
 /// <param name="seed">The seed for the Generator.</param>
 RandGen::RandGen(std::string seed) {
-	SetSeed(seed); 
-	SetUniDistributor(0, 1);
+	setSeed(seed); 
+	setUniDistributor(0, 1);
 }
 
 
@@ -37,9 +37,9 @@ RandGen::RandGen(double min, double max) {
 	// This Random device is used to generate the seed if no seed is provided.
 	// We then convert the unsigned int that it returns and turn that into a string which we set on our Generator.
 	std::random_device rd;
-	SetSeed(std::to_string(rd()));
+	setSeed(std::to_string(rd()));
 
-	SetUniDistributor(min, max);
+	setUniDistributor(min, max);
 }
 
 
@@ -50,15 +50,15 @@ RandGen::RandGen(double min, double max) {
 /// <param name="min">The minimum number that will be set on the UniDistributor.</param>
 /// <param name="max">The maximum number that will be set on the UniDistributor.</param>
 RandGen::RandGen(std::string seed, double min, double max) {
-	SetSeed(seed);
-	SetUniDistributor(min, max);
+	setSeed(seed);
+	setUniDistributor(min, max);
 }
 
 /// <summary>
 /// Gets the seed of the Random Generator.
 /// </summary>
 /// <returns></returns>
-std::string RandGen::GetSeed() {
+std::string RandGen::getSeed() {
 	return m_seedString;
 }
 
@@ -67,7 +67,7 @@ std::string RandGen::GetSeed() {
 /// Sets the seed of the Random Generator.
 /// </summary>
 /// <param name="seed">New seed that we are setting on the engine.</param>
-void RandGen::SetSeed(std::string seed) {
+void RandGen::setSeed(std::string seed) {
 	// Save the string
 	m_seedString = seed;
 
@@ -78,21 +78,18 @@ void RandGen::SetSeed(std::string seed) {
 
 /// <summary>
 /// Sets uniDistributor's min and max limits.
-/// 
-/// Note: if you change the min and max limits using this function, 
-///		  the UniDist function will give bad results.
 /// </summary>
 /// <param name="min">The minimum.</param>
 /// <param name="max">The maximum.</param>
-void RandGen::SetUniDistributor(double min, double max) {
+void RandGen::setUniDistributor(double min, double max) {
 	m_uniDistributor = std::uniform_real_distribution<double>(min, max);
 }
 
 /// <summary>
-/// Creates a uniform distribution between [0, 1)
+/// Creates a uniform distribution between the previously set min and max values.
 /// </summary>
 /// <returns></returns>
-double RandGen::UniDist() {
+double RandGen::uniDist() {
 	double tempNumber = m_uniDistributor(m_generator);
 	return tempNumber;
 }
@@ -103,8 +100,9 @@ double RandGen::UniDist() {
 /// <param name="min">The minimum number that can be returned.</param>
 /// <param name="max">The maximum number that can be returned.</param>
 /// <returns></returns>
-double RandGen::UniDist(double min, double max) {
-	double tempNumber = m_uniDistributor(m_generator);
-
-	return min + tempNumber * (max - min);
+double RandGen::uniDist(double min, double max) {
+	if (min != m_uniDistributor.a() || max != m_uniDistributor.b()) {
+		setUniDistributor(min, max);
+	}
+	return uniDist();
 }
