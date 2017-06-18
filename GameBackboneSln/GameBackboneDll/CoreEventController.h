@@ -1,19 +1,7 @@
 #pragma once
 #include "stdafx.h"
-#include "AnimatedSprite.h"
-#include "AnimationSet.h"
 #include "GameRegion.h"
-#include "Updatable.h"
-#include "CompoundSprite.h"
-#include "NavigationDemoRegion.h"
 
-#include <TGUI/TGUI.hpp>
-
-#include <SFML/Graphics.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-
-#include <vector>
 #include <string>
 
 namespace GB {
@@ -38,23 +26,25 @@ protected:
 		//events
 		virtual void handleEvent(sf::Event& event);
 		virtual bool handleGuiEvent(sf::Event& event);
-		virtual void handleNonGuiEvent(sf::Event& event);
-		virtual void preHandleEvent();
-		virtual void postHandleEvent();
+		virtual bool handleNonGuiEvent(sf::Event& event);
+		virtual void preHandleEvent(sf::Event& event);
+		virtual void postHandleEvent(sf::Event& event);
 
 		//draw
 		virtual void draw();
 		virtual void preDraw();
+		virtual void coreDraw();
 		virtual void postDraw();
 
 		//update
 		virtual void update();
 		virtual void preUpdate();
+		virtual void coreUpdate();
 		virtual void postUpdate();
-
 
 		sf::Clock updateClock;
 		sf::RenderWindow* window;
+		GameRegion* activeRegion;
 
 	};
 

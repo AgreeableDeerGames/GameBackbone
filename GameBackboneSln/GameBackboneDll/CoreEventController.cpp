@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "CoreEventController.h"
+#include "GameRegion.h"
+
+#include <string>
 
 using namespace GB;
 
@@ -39,13 +42,9 @@ void CoreEventController::runLoop() {
 	while (window->isOpen()) {
 		handleEvent(event);
 
-		preDraw();
 		draw();
-		postDraw();
 
-		preUpdate();
 		update();
-		postUpdate();
 	}
 }
 
@@ -56,12 +55,11 @@ void CoreEventController::runLoop() {
 /// </summary>
 /// <param name="event">The event.</param>
 void GB::CoreEventController::handleEvent(sf::Event & event) {
-	preHandleEvent();
-	if (!handleGuiEvent(event))
-	{
+	preHandleEvent(event);
+	if (!handleGuiEvent(event)) {
 		handleNonGuiEvent(event);
 	}
-	postHandleEvent();
+	postHandleEvent(event);
 }
 
 bool GB::CoreEventController::handleGuiEvent(sf::Event & event)
@@ -69,25 +67,32 @@ bool GB::CoreEventController::handleGuiEvent(sf::Event & event)
 	return false;
 }
 
-void GB::CoreEventController::handleNonGuiEvent(sf::Event & event)
+bool GB::CoreEventController::handleNonGuiEvent(sf::Event & event)
+{
+	return true;
+}
+
+void GB::CoreEventController::preHandleEvent(sf::Event & event)
 {
 }
 
-void GB::CoreEventController::preHandleEvent()
-{
-}
-
-void GB::CoreEventController::postHandleEvent()
+void GB::CoreEventController::postHandleEvent(sf::Event & event)
 {
 }
 
 //draw
 
-void GB::CoreEventController::draw()
-{
+void GB::CoreEventController::draw() {
+	preDraw();
+	coreDraw();
+	postDraw();
 }
 
 void GB::CoreEventController::preDraw()
+{
+}
+
+void GB::CoreEventController::coreDraw()
 {
 }
 
@@ -97,11 +102,17 @@ void GB::CoreEventController::postDraw()
 
 //update
 
-void GB::CoreEventController::update()
-{
+void GB::CoreEventController::update() {
+	preUpdate();
+	coreUpdate();
+	postUpdate();
 }
 
 void GB::CoreEventController::preUpdate()
+{
+}
+
+void GB::CoreEventController::coreUpdate()
 {
 }
 
