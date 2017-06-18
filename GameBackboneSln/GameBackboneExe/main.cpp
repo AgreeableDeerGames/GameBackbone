@@ -21,14 +21,19 @@
 using namespace GB;
 
 int main() {
-
-	//RandGen* testThing = new RandGen();
 	RandGen testThing;
+	std::cout << "\nSeed: " << testThing.GetSeed() << "\n";
 
 	for (int ii = 0; ii < 10; ++ii)
 	{
-		std::cout << "\nSeed: " << testThing.GetSeed();
-		std::cout << "\nNumber: " << testThing.UniDist(1, 7);
+		std::cout << "\nNumber: " << testThing.UniDist();
+	}
+
+	std::cout << "\n";
+
+	for (int ii = 0; ii < 10; ++ii)
+	{
+		std::cout << "\nNumber: " << testThing.UniDist(1, 101);
 	}
 
 
