@@ -20,7 +20,7 @@ namespace GB {
 
 	libGameBackbone class CoreEventController {
 	public:
-		//ctrs / dtr
+		//ctr / dtr
 		CoreEventController();
 		CoreEventController(const std::string& windowName);
 		CoreEventController(int windowWidth, int windowHeight, const std::string& windowName);

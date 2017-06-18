@@ -9,7 +9,7 @@ CoreEventController::CoreEventController()
 {
 	const int WINDOW_WIDTH = 700;
 	const int WINDOW_HEIGHT = 700;
-	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "SpriteTests");
+	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "GameBackbone");
 }
 
 GB::CoreEventController::CoreEventController(const std::string & windowName)
