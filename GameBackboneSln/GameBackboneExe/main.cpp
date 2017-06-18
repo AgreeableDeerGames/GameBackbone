@@ -26,7 +26,7 @@ int main() {
 
 	for (int ii = 0; ii < 10; ++ii)
 	{
-		std::cout << "\nNumber: " << testThing.uniDist();
+		std::cout << "\nNumber: " << testThing.uniDist(0, 1);
 	}
 
 	std::cout << "\n";
