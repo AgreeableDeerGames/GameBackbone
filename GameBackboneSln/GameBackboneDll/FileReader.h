@@ -8,6 +8,10 @@
 #include<string>
 
 namespace GB {
+	
+	/// <summary>
+	/// Use this to read in a file.
+	/// </summary>
 	class libGameBackbone FileReader {
 	public:
 		FileReader() = default;
