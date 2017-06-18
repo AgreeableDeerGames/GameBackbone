@@ -8,15 +8,9 @@
 #include<string>
 
 namespace GB {
-
-	/// <summary>
-	/// TODO: Update this thing.
-	/// </summary>
-
 	class libGameBackbone FileReader {
 	public:
-		FileReader();
-
+		FileReader() = default;
 		FileReader(const FileReader& generator) = default;
 		FileReader(FileReader&& generator) = default;
 		FileReader& operator= (const FileReader& generator) = default;
@@ -24,7 +18,7 @@ namespace GB {
 		~FileReader() = default;
 
 
-		Array2D<std::string> ReadFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter);
+		Array2D<std::string> readFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter);
 	private:
 
 	};

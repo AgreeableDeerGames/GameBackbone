@@ -8,11 +8,15 @@
 
 using namespace GB;
 
-FileReader::FileReader() {
-
-}
-
-Array2D<std::string> FileReader::ReadFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
+/// <summary>
+/// Reads the file and splits it up using the delimiter.
+/// </summary>
+/// <param name="filePath">The path to the file to be read. This can be relative or full.</param>
+/// <param name="totalRows">The number of lines to be read.</param>
+/// <param name="totalColumns">The number of columns to be read</param>
+/// <param name="delimiter">The delimiter for the table type.</param>
+/// <returns></returns>
+Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
 	std::ifstream inFile(filePath);
 
 	Array2D<std::string> fileArray = Array2D<std::string>(totalRows, totalColumns);

@@ -21,43 +21,6 @@
 using namespace GB;
 
 int main() {
-	FileReader testReader;
-	Array2D<std::string> testFile = testReader.ReadFile("D:\\Documents\\Projects\\CppProjects\\GameBackbone\\GameBackboneSln\\TestInFile.tsv", 5, 4, '\t');
-
-	for (int ii = 0; ii < 5; ++ii)
-	{
-		for (int jj = 0; jj < 4; ++jj)
-		{
-
-			std::cout << testFile[ii][jj] << "\t";
-		}
-		std::cout << "\n";
-	}
-
-	Array2D<std::string> testFile1 = testReader.ReadFile("D:\\Documents\\Projects\\CppProjects\\GameBackbone\\GameBackboneSln\\TestInFile.tsv", 3, 3, '\t');
-
-	for (int ii = 0; ii < 3; ++ii)
-	{
-		for (int jj = 0; jj < 3; ++jj)
-		{
-
-			std::cout << testFile1[ii][jj] << "\t";
-		}
-		std::cout << "\n";
-	}
-
-	Array2D<std::string> testFile2 = testReader.ReadFile("D:\\Documents\\Projects\\CppProjects\\GameBackbone\\GameBackboneSln\\TestInFile.csv", 5, 4, ',');
-
-	for (int ii = 0; ii < 5; ++ii)
-	{
-		for (int jj = 0; jj < 4; ++jj)
-		{
-
-			std::cout << testFile2[ii][jj] << ",";
-		}
-		std::cout << "\n";
-	}
-
 	//Init Window
 	const int WINDOW_WIDTH = 700;
 	const int WINDOW_HEIGHT = 700;
