@@ -38,7 +38,7 @@ protected:
 		//events
 		virtual void handleEvent(sf::Event& event);
 		virtual bool handleGuiEvent(sf::Event& event);
-		virtual void hendleNonGuiEvent(sf::Event& event);
+		virtual void handleNonGuiEvent(sf::Event& event);
 		virtual void preHandleEvent();
 		virtual void postHandleEvent();
 

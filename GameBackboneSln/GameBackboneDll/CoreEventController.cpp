@@ -59,7 +59,7 @@ void GB::CoreEventController::handleEvent(sf::Event & event) {
 	preHandleEvent();
 	if (!handleGuiEvent(event))
 	{
-		hendleNonGuiEvent(event);
+		handleNonGuiEvent(event);
 	}
 	postHandleEvent();
 }
@@ -69,7 +69,7 @@ bool GB::CoreEventController::handleGuiEvent(sf::Event & event)
 	return false;
 }
 
-void GB::CoreEventController::hendleNonGuiEvent(sf::Event & event)
+void GB::CoreEventController::handleNonGuiEvent(sf::Event & event)
 {
 }
 
