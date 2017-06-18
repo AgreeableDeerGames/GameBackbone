@@ -75,6 +75,6 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_partial_test, ReusableObjects) {
 	}
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end FileReader_readFile
 
 BOOST_AUTO_TEST_SUITE_END() // end FileReader_Tests
