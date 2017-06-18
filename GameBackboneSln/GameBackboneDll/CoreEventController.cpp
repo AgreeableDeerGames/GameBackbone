@@ -62,14 +62,24 @@ void GB::CoreEventController::handleEvent(sf::Event & event) {
 	postHandleEvent(event);
 }
 
+/// <summary>
+/// Handles the GUI event.
+/// </summary>
+/// <param name="event">The event.</param>
+/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
 bool GB::CoreEventController::handleGuiEvent(sf::Event & event)
 {
-	return false;
+	return activeRegion->getGUI()->handleEvent(event);
 }
 
+/// <summary>
+/// Handles the non GUI event.
+/// </summary>
+/// <param name="event">The event.</param>
+/// <returns>Returns true if the event was consumed. Returns false otherwise.</returns>
 bool GB::CoreEventController::handleNonGuiEvent(sf::Event & event)
 {
-	return true;
+	return false;
 }
 
 void GB::CoreEventController::preHandleEvent(sf::Event & event)
@@ -82,22 +92,34 @@ void GB::CoreEventController::postHandleEvent(sf::Event & event)
 
 //draw
 
+/// <summary>
+/// Calls all draw helper functions then displays the window.
+/// </summary>
 void GB::CoreEventController::draw() {
 	preDraw();
 	coreDraw();
 	postDraw();
+
+	window->display();
 }
 
 void GB::CoreEventController::preDraw()
 {
 }
 
-void GB::CoreEventController::coreDraw()
-{
+/// <summary>
+/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
+/// </summary>
+void GB::CoreEventController::coreDraw() {
+	//draw every drawable object in the active region.
+	for (sf::Sprite* drawObject : *(activeRegion->getDrawables())) {
+		window->draw(*drawObject);
+	}
+
+	activeRegion->getGUI()->draw();
 }
 
-void GB::CoreEventController::postDraw()
-{
+void GB::CoreEventController::postDraw() {
 }
 
 //update
@@ -108,14 +130,20 @@ void GB::CoreEventController::update() {
 	postUpdate();
 }
 
-void GB::CoreEventController::preUpdate()
-{
+void GB::CoreEventController::preUpdate() {
 }
 
-void GB::CoreEventController::coreUpdate()
-{
+/// <summary>
+/// Primary update logic. Runs behavior logic for active GameRegion. Updates every updatable object in the active GameRegion.
+/// </summary>
+void GB::CoreEventController::coreUpdate() {
+
+	activeRegion->behave(updateClock.getElapsedTime());
+
+	for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
+		updateObject->update(updateClock.getElapsedTime());
+	}
 }
 
-void GB::CoreEventController::postUpdate()
-{
+void GB::CoreEventController::postUpdate() {
 }
