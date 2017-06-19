@@ -8,25 +8,42 @@ using namespace GB;
 
 //ctr / dtr
 
-CoreEventController::CoreEventController()
-{
-	const int WINDOW_WIDTH = 700;
-	const int WINDOW_HEIGHT = 700;
-	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "GameBackbone");
+static const int DEFAULT_WINDOW_WIDTH = 700;
+static const int DEFAULT_WINDOW_HEIGHT = 700;
+static const std::string DEFAULT_WINDOW_NAME = "GameBackbone";
+
+
+/// <summary>
+/// Initializes a new instance of the <see cref="CoreEventController"/> class. Window width, height, and name are default.
+/// </summary>
+CoreEventController::CoreEventController() : CoreEventController(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_NAME){}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="CoreEventController"/> class. Window width and height are default.
+/// </summary>
+/// <param name="windowName">Name of the window.</param>
+GB::CoreEventController::CoreEventController(const std::string & windowName) : CoreEventController(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, windowName) {}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="CoreEventController"/> class. Window name is default.
+/// </summary>
+/// <param name="windowWidth">Width of the window.</param>
+/// <param name="windowHeight">Height of the window.</param>
+GB::CoreEventController::CoreEventController(int windowWidth, int windowHeight) : CoreEventController(windowWidth, windowHeight, DEFAULT_WINDOW_NAME){}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="CoreEventController"/> class.
+/// </summary>
+/// <param name="windowWidth">Width of the window.</param>
+/// <param name="windowHeight">Height of the window.</param>
+/// <param name="windowName">Name of the window.</param>
+GB::CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string & windowName) {
+	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName);
 }
 
-GB::CoreEventController::CoreEventController(const std::string & windowName)
-{
-}
-
-GB::CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string & windowName)
-{
-}
-
-GB::CoreEventController::CoreEventController(int windowWidth, int windowHeight)
-{
-}
-
+/// <summary>
+/// Finalizes an instance of the <see cref="CoreEventController"/> class.
+/// </summary>
 CoreEventController::~CoreEventController()
 {
 	delete window;
@@ -82,10 +99,18 @@ bool GB::CoreEventController::handleNonGuiEvent(sf::Event & event)
 	return false;
 }
 
+/// <summary>
+/// Called before handleGuiEvent and handleNonGuiEvent. Place logic to be executed before the main event logic here.
+/// </summary>
+/// <param name="event">The event.</param>
 void GB::CoreEventController::preHandleEvent(sf::Event & event)
 {
 }
 
+/// <summary>
+/// Called after hendleGuiEvent and handleNonGuiEvent. Place logic to be executed after the main event logic here.
+/// </summary>
+/// <param name="event">The event.</param>
 void GB::CoreEventController::postHandleEvent(sf::Event & event)
 {
 }
@@ -103,6 +128,9 @@ void GB::CoreEventController::draw() {
 	window->display();
 }
 
+/// <summary>
+/// Called before coreDraw. PLace logic to be executed before the main draw logic here.
+/// </summary>
 void GB::CoreEventController::preDraw()
 {
 }
@@ -119,17 +147,26 @@ void GB::CoreEventController::coreDraw() {
 	activeRegion->getGUI()->draw();
 }
 
+/// <summary>
+/// called after core draw. Place logic to be executed after the main draw logic here.
+/// </summary>
 void GB::CoreEventController::postDraw() {
 }
 
 //update
 
+/// <summary>
+/// Calls all update helper functions.
+/// </summary>
 void GB::CoreEventController::update() {
 	preUpdate();
 	coreUpdate();
 	postUpdate();
 }
 
+/// <summary>
+/// called before coreUpdate. Place logic meant to execute before the main update logic here.
+/// </summary>
 void GB::CoreEventController::preUpdate() {
 }
 
@@ -145,5 +182,8 @@ void GB::CoreEventController::coreUpdate() {
 	}
 }
 
+/// <summary>
+/// Executes after coreUpdate. Place logic meant to update after the main update logic here.
+/// </summary>
 void GB::CoreEventController::postUpdate() {
 }
