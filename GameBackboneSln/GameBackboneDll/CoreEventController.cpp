@@ -121,6 +121,8 @@ void GB::CoreEventController::postHandleEvent(sf::Event & event)
 /// Calls all draw helper functions then displays the window.
 /// </summary>
 void GB::CoreEventController::draw() {
+	window->clear();
+
 	preDraw();
 	coreDraw();
 	postDraw();
