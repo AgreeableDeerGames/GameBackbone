@@ -6,7 +6,7 @@
 
 namespace GB {
 
-	libGameBackbone class CoreEventController {
+	class libGameBackbone CoreEventController {
 	public:
 		//ctr / dtr
 		CoreEventController();
