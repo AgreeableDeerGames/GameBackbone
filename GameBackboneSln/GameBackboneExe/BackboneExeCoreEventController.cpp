@@ -21,6 +21,9 @@ BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventCont
 	oldMouseY = window->getSize().y / 2;
 }
 
+BackboneExeCoreEventController::~BackboneExeCoreEventController() {
+	delete activeRegion;
+}
 
 //events
 

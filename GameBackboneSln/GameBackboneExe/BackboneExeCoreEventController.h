@@ -13,7 +13,7 @@ public:
 	BackboneExeCoreEventController(BackboneExeCoreEventController&& other) = default;
 	BackboneExeCoreEventController& operator=(const BackboneExeCoreEventController& other) = delete;
 	BackboneExeCoreEventController& operator=(BackboneExeCoreEventController&& other) = default;
-	virtual ~BackboneExeCoreEventController() = default;
+	virtual ~BackboneExeCoreEventController();
 
 	//events
 	virtual void handleEvent (sf::Event& event);
