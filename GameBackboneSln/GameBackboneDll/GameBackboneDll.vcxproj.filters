@@ -97,7 +97,7 @@
       <Filter>Header Files\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="CoreEventController.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Backbone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -129,7 +129,7 @@
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="CoreEventController.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Backbone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
