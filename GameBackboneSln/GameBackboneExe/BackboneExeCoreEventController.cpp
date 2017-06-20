@@ -27,13 +27,12 @@ BackboneExeCoreEventController::~BackboneExeCoreEventController() {
 
 //events
 
-void BackboneExeCoreEventController::handleEvent(sf::Event & event) {
-
+bool BackboneExeCoreEventController::handleNonGuiEvent(sf::Event & event) {
 	//Handle events not handled by the GUI
 	switch (event.type) {
 	case sf::Event::Closed:
 		window->close();
-		break;
+		return true;
 	case sf::Event::MouseMoved:
 	{
 		//pan camera with mouse
@@ -44,22 +43,22 @@ void BackboneExeCoreEventController::handleEvent(sf::Event & event) {
 
 		sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
-		break;
+		return true;
 	}
 	case sf::Event::MouseButtonPressed:
 	{
 		sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
 		static_cast<NavigationDemoRegion*>(activeRegion)->handleMouseClick(actualPosition, event.mouseButton.button);
-		break;
+		return true;
 	}
 	case sf::Event::Resized:
 		camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
 		window->setView(camera);
 		activeRegion->getGUI()->setView(camera);
-		break;
+		return true;
 	default:
-		break;
+		return false;
 	}
 
 }
