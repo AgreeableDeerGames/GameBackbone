@@ -16,7 +16,7 @@ public:
 	virtual ~BackboneExeCoreEventController();
 
 	//events
-	bool handleNonGuiEvent (sf::Event& event) override;
+	bool handleCoreEvent (sf::Event& event) override;
 
 private:
 	sf::View camera;

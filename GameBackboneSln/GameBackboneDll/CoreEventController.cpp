@@ -77,7 +77,7 @@ void CoreEventController::runLoop() {
 void GB::CoreEventController::handleEvent(sf::Event & event) {
 	preHandleEvent(event);
 	if (!handleGuiEvent(event)) {
-		handleNonGuiEvent(event);
+		handleCoreEvent(event);
 	}
 	postHandleEvent(event);
 }
@@ -97,13 +97,13 @@ bool GB::CoreEventController::handleGuiEvent(sf::Event & event)
 /// </summary>
 /// <param name="event">The event.</param>
 /// <returns>Returns true if the event was consumed. Returns false otherwise.</returns>
-bool GB::CoreEventController::handleNonGuiEvent(sf::Event & event)
+bool GB::CoreEventController::handleCoreEvent(sf::Event & event)
 {
 	return false;
 }
 
 /// <summary>
-/// Called before handleGuiEvent and handleNonGuiEvent. Place logic to be executed before the main event logic here.
+/// Called before handleGuiEvent and handleCoreEvent. Place logic to be executed before the main event logic here.
 /// </summary>
 /// <param name="event">The event.</param>
 void GB::CoreEventController::preHandleEvent(sf::Event & event)
@@ -111,7 +111,7 @@ void GB::CoreEventController::preHandleEvent(sf::Event & event)
 }
 
 /// <summary>
-/// Called after hendleGuiEvent and handleNonGuiEvent. Place logic to be executed after the main event logic here.
+/// Called after hendleGuiEvent and handleCoreEvent. Place logic to be executed after the main event logic here.
 /// </summary>
 /// <param name="event">The event.</param>
 void GB::CoreEventController::postHandleEvent(sf::Event & event)

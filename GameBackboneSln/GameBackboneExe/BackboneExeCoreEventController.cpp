@@ -21,13 +21,21 @@ BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventCont
 	oldMouseY = window->getSize().y / 2;
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
+/// </summary>
 BackboneExeCoreEventController::~BackboneExeCoreEventController() {
 	delete activeRegion;
 }
 
 //events
 
-bool BackboneExeCoreEventController::handleNonGuiEvent(sf::Event & event) {
+/// <summary>
+/// Handles non gui user / window events.
+/// </summary>
+/// <param name="event">The event.</param>
+/// <returns></returns>
+bool BackboneExeCoreEventController::handleCoreEvent(sf::Event & event) {
 	//Handle events not handled by the GUI
 	switch (event.type) {
 	case sf::Event::Closed:
