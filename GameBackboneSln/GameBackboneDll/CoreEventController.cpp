@@ -57,7 +57,10 @@ CoreEventController::~CoreEventController()
 void CoreEventController::runLoop() {
 	sf::Event event;
 	while (window->isOpen()) {
-		handleEvent(event);
+
+		while (window->pollEvent(event)) {
+			handleEvent(event);
+		}
 
 		draw();
 
