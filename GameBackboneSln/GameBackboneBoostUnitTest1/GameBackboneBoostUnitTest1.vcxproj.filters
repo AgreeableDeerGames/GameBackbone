@@ -41,7 +41,7 @@
     <ClCompile Include="AnimatedSpriteTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="CompoundSpriteTests.cpp">
+    <ClCompile Include="CompoundSpriteTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameRegionTests.cpp">
@@ -51,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UtilMathTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileReaderTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

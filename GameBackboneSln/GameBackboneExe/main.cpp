@@ -9,6 +9,7 @@
 #include "CompoundSprite.h"
 #include "NavigationDemoRegion.h"
 #include "SampleGuiInterface.h"
+#include "FileReader.h"
 
 #include <TGUI/TGUI.hpp>
 
@@ -17,6 +18,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <vector>
+
 
 using namespace GB;
 

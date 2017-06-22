@@ -160,6 +160,7 @@
     <ClInclude Include="CoreEventController.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="DllUtil.h" />
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="GameRegion.h" />
     <ClInclude Include="NavigationDemoRegion.h" />
     <ClInclude Include="NavigationGridData.h" />
@@ -191,6 +192,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="GameRegion.cpp" />
     <ClCompile Include="NavigationDemoRegion.cpp" />
     <ClCompile Include="NavigationTools.cpp" />
