@@ -27,6 +27,9 @@
     <ClInclude Include="SampleGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BackboneExeCoreEventController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SampleGuiInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BackboneExeCoreEventController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -157,6 +157,7 @@
     <ClInclude Include="Array3D.h" />
     <ClInclude Include="BackboneBaseExceptions.h" />
     <ClInclude Include="CompoundSprite.h" />
+    <ClInclude Include="CoreEventController.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="DllUtil.h" />
     <ClInclude Include="GameRegion.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimationSet.cpp" />
     <ClCompile Include="CompoundSprite.cpp" />
+    <ClCompile Include="CoreEventController.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
