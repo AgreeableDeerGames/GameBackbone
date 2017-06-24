@@ -3,7 +3,7 @@
 
 #include <TGUI/TGUI.hpp>
 
-#include<algorithm>
+#include <algorithm>
 
 using namespace GB;
 
@@ -14,7 +14,7 @@ GameRegion::GameRegion() {
 	updatables = new std::list<Updatable*>();
 	drawables = new std::list<sf::Sprite*>();
 	parentRegion = nullptr;
-	regionGUI = nullptr;
+	regionGUI = new tgui::Gui();
 }
 
 /// <summary>
@@ -23,7 +23,7 @@ GameRegion::GameRegion() {
 /// </summary>
 /// <param name="window">The window.</param>
 GameRegion::GameRegion(sf::RenderWindow & window) : GameRegion() {
-	regionGUI = new tgui::Gui(window);
+	regionGUI->setWindow(window);
 }
 
 /// <summary>

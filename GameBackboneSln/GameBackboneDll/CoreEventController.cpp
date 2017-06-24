@@ -145,7 +145,7 @@ void GB::CoreEventController::preDraw()
 /// </summary>
 void GB::CoreEventController::coreDraw() {
 	//draw every drawable object in the active region.
-	for (sf::Sprite* drawObject : *(activeRegion->getDrawables())) {
+	for (sf::Sprite*  drawObject : *(activeRegion->getDrawables())) {
 		window->draw(*drawObject);
 	}
 
