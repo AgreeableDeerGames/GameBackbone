@@ -1,6 +1,6 @@
-#include "stdafx.h"
+#include "../HeaderFiles/stdafx.h"
 
-#include <AnimatedSprite.h>
+#include "../GameBackboneDll/HeaderFiles/Backbone/AnimatedSprite.h"
 #include <BackboneBaseExceptions.h>
 
 #include <SFML/Graphics.hpp>
