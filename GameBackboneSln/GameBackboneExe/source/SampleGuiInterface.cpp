@@ -1,6 +1,6 @@
-#include <../GameBackboneExe/header/stdafx.h>
+#include <stdafx.h>
 
-#include <../GameBackboneExe/header/SampleGuiInterface.h>
+#include <SampleGuiInterface.h>
 
 
 SampleGuiInterface::SampleGuiInterface(sf::RenderWindow & attachedWindow) {

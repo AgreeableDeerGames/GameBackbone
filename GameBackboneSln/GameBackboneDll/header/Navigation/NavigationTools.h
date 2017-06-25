@@ -1,8 +1,9 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Util/DllUtil.h"
-#include "../Util/Array2D.h"
-#include "NavigationGridData.h"
+#include <Util\stdafx.h>
+
+#include <Util\DllUtil.h>
+#include <Util\Array2D.h>
+#include <Navigation\NavigationGridData.h>
 
 
 

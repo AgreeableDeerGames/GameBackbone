@@ -1,12 +1,13 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Util/DllUtil.h"
-#include "AnimatedSprite.h"
-#include "Updatable.h"
+#include <Util\stdafx.h>
 
-#include<SFML/Graphics/Sprite.hpp>
+#include <Backbone\AnimatedSprite.h>
+#include <Backbone\Updatable.h>
+#include <Util\DllUtil.h>
 
-#include<vector>
+#include <SFML/Graphics/Sprite.hpp>
+
+#include <vector>
 
 namespace GB {
 

@@ -1,10 +1,11 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Backbone/GameRegion.h"
-#include "../Util/Array2D.h"
-#include "../Navigation/PathFinder.h"
+#include <Util\stdafx.h>
 
-#include<SFML/Graphics/Sprite.hpp>
+#include <Backbone\GameRegion.h>
+#include <Navigation\PathFinder.h>
+#include <Util\Array2D.h>
+
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics.hpp>
 
 namespace GB {

@@ -1,10 +1,10 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
+#include <Util/stdafx.h>
 #include <iostream>
 
 #define _USE_MATH_DEFINES
 
-#include <../GameBackboneDll/header/Demo/NavigationDemoRegion.h>
-#include <../GameBackboneDll/header/Navigation/NavigationTools.h>
+#include <Demo/NavigationDemoRegion.h>
+#include <Navigation/NavigationTools.h>
 
 #include <TGUI/TGUI.hpp>
 

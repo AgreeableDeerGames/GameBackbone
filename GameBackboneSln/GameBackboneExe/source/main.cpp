@@ -1,12 +1,12 @@
-#include <../GameBackboneExe/header/stdafx.h>
+#include <stdafx.h>
 
-#include <../GameBackboneDll/header/Backbone/AnimatedSprite.h>
-#include <../GameBackboneDll/header/Backbone/AnimationSet.h>
-#include <../GameBackboneDll/header/Backbone/CompoundSprite.h>
-#include <../GameBackboneDll/header/Backbone/GameRegion.h>
-#include <../GameBackboneDll/header/Demo/NavigationDemoRegion.h>
-#include <../GameBackboneExe/header/SampleGuiInterface.h>
-#include <../GameBackboneDll/header/Backbone/Updatable.h>
+#include <Backbone/AnimatedSprite.h>
+#include <Backbone/AnimationSet.h>
+#include <Backbone/CompoundSprite.h>
+#include <Backbone/GameRegion.h>
+#include <Demo/NavigationDemoRegion.h>
+#include <SampleGuiInterface.h>
+#include <Backbone/Updatable.h>
 
 #include <TGUI/TGUI.hpp>
 

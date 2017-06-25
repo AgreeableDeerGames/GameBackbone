@@ -1,6 +1,7 @@
 #pragma once
-#include "stdafx.h"
-#include "DllUtil.h"
+#include <Util\stdafx.h>
+
+#include <Util\DllUtil.h>
 
 namespace GB {
 

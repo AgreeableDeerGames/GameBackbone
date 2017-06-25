@@ -1,6 +1,6 @@
-#include "../header/stdafx.h"
+#include <stdafx.h>
 
-#include <../GameBackboneDll/header/Util/UtilMath.h>
+#include <Util/UtilMath.h>
 
 #include <SFML/Graphics.hpp>
 

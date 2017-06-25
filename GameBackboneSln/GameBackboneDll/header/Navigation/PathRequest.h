@@ -1,5 +1,6 @@
 #pragma once
-#include "../Util/stdafx.h"
+#include <Util\stdafx.h>
+
 #include <tuple>
 
 template struct __declspec(dllexport) std::pair<int, int>;

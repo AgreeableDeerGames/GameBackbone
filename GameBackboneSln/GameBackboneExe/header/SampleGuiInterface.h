@@ -1,4 +1,5 @@
 #pragma once
+#include <Util\stdafx.h>
 
 #include <TGUI/TGUI.hpp>
 

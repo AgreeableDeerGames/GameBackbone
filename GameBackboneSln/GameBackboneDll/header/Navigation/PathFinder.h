@@ -1,16 +1,17 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Util/DllUtil.h"
-#include "../Util/Array2D.h"
-#include "NavigationGridData.h"
-#include "PathRequest.h"
-#include "NavigationTools.h"
+#include <Util\stdafx.h>
 
-#include<vector>
-#include<set>
-#include<list>
-#include<map>
-#include<tuple>
+#include <Util\DllUtil.h>
+#include <Util/Array2D.h>
+#include <Navigation\NavigationGridData.h>
+#include <Navigation\PathRequest.h>
+#include <Navigation\NavigationTools.h>
+
+#include <vector>
+#include <set>
+#include <list>
+#include <map>
+#include <tuple>
 
 namespace GB {
 

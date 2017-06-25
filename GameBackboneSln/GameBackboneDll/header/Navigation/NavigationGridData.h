@@ -1,5 +1,7 @@
 #pragma once
-#include "../Util/DllUtil.h"
+#include <Util\stdafx.h>
+
+#include <Util\DllUtil.h>
 
 #define BLOCKED_GRID_WEIGHT 10000
 

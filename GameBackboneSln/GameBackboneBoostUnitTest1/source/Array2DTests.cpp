@@ -1,6 +1,6 @@
-#include "../header/stdafx.h"
+#include <stdafx.h>
 
-#include <../GameBackboneDll/header/Util/Array2D.h>
+#include <Util/Array2D.h>
 
 using namespace GB;
 

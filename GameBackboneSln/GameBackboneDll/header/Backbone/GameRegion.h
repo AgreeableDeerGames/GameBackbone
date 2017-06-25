@@ -1,16 +1,17 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "AnimatedSprite.h"
-#include "BackboneBaseExceptions.h"
-#include "CompoundSprite.h"
-#include "../Util/DllUtil.h"
-#include "Updatable.h"
+#include <Util\stdafx.h>
+
+#include <Backbone\AnimationSet.h>
+#include <Backbone\BackboneBaseExceptions.h>
+#include <Backbone\CompoundSprite.h>
+#include <Backbone\Updatable.h>
+#include <Util\DllUtil.h>
 
 #include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 
-#include<functional>
+#include <functional>
 #include <list>
 
 namespace GB {

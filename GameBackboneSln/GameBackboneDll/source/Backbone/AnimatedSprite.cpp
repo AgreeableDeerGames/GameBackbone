@@ -1,7 +1,7 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
-#include <../GameBackboneDll/header/Backbone/AnimatedSprite.h>
-#include <../GameBackboneDll/header/Backbone/BackboneBaseExceptions.h>
-#include <../GameBackboneDll/header/Util/DebugIncludes.h>
+#include <Util/stdafx.h>
+#include <Backbone/AnimatedSprite.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Util/DebugIncludes.h>
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>

@@ -1,6 +1,6 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
-#include <../GameBackboneDll/header/Navigation/PathFinder.h>
-#include <../GameBackboneDll/header/Util/UtilMath.h>
+#include <Util/stdafx.h>
+#include <Navigation/PathFinder.h>
+#include <Util/UtilMath.h>
 
 #include <set>
 #include <queue>

@@ -47,10 +47,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\stdafx.h">
+    <ClInclude Include="header\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\targetver.h">
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

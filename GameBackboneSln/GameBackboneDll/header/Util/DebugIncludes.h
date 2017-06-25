@@ -1,6 +1,7 @@
 #pragma once
-#include "stdafx.h"
-#include<iostream>
+#include <Util\stdafx.h>
+
+#include <iostream>
 
 #define debugDefines
 

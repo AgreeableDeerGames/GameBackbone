@@ -25,9 +25,6 @@
     <Filter Include="Source Files\Backbone">
       <UniqueIdentifier>{f457098a-b316-41cb-8733-e1fd97dd38f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Navigation">
-      <UniqueIdentifier>{e0980832-c84e-4987-993b-7510092fc4a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{a688d4cd-4ede-47cb-bbe3-a53ca5725fd8}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,9 @@
     </Filter>
     <Filter Include="Header Files\Demo">
       <UniqueIdentifier>{71e2a719-18d5-4692-8dbb-db3db5874349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Navigation">
+      <UniqueIdentifier>{e0980832-c84e-4987-993b-7510092fc4a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,13 +87,13 @@
     <ClInclude Include="header\Util\Point2D.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="header\Util\stdafx.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="header\Util\targetver.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="header\Util\UtilMath.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>

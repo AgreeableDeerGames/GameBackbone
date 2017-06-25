@@ -1,5 +1,5 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
-#include <../GameBackboneDll/header/Backbone/CompoundSprite.h>
+#include <Util/stdafx.h>
+#include <Backbone/CompoundSprite.h>
 
 #include<algorithm>
 

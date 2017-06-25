@@ -1,11 +1,11 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Util/DllUtil.h"
-#include "updatable.h"
-#include "AnimationSet.h"
+#include <Util\stdafx.h>
 
+#include <Backbone\AnimationSet.h>
+#include <Backbone\Updatable.h>
+#include <Util\DllUtil.h>
 
-#include<SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <vector>
 

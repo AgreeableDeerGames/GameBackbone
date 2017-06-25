@@ -1,5 +1,6 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
-#include <../GameBackboneDll/header/Navigation/NavigationTools.h>
+#include <Util/stdafx.h>
+
+#include <Navigation/NavigationTools.h>
 
 using namespace GB;
 

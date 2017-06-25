@@ -21,10 +21,10 @@
     <ClInclude Include="header\SampleGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\targetver.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,8 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Util/DllUtil.h"
-#include<SFML\System\Clock.hpp>
+#include <Util\stdafx.h>
+
+#include <Util\DllUtil.h>
+#include <SFML\System\Clock.hpp>
 
 namespace GB {
 

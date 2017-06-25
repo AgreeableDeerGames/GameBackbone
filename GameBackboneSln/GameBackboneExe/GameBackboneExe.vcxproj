@@ -101,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\GameBackboneDll;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include;..\GameBackboneDll\header;..\GameBackboneExe\header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +136,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\GameBackboneDll;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include;..\GameBackboneDll\header;..\GameBackboneExe\header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,8 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\SampleGuiInterface.h" />
-    <ClInclude Include="header\stdafx.h" />
     <ClInclude Include="header\targetver.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp" />

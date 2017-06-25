@@ -1,6 +1,7 @@
 #pragma once
-#include "../Util/stdafx.h"
-#include "../Util/DllUtil.h"
+#include <Util\stdafx.h>
+
+#include <Util\DllUtil.h>
 
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>

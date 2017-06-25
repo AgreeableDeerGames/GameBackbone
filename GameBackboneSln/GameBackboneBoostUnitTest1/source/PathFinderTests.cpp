@@ -1,8 +1,8 @@
-#include "../header/stdafx.h"
+#include <stdafx.h>
 
-#include "../GameBackboneDll/header/Navigation/NavigationTools.h"
+#include <Navigation/NavigationTools.h>
 
-#include <../GameBackboneDll/header/Navigation/PathFinder.h>
+#include <Navigation/PathFinder.h>
 
 using namespace GB;
 

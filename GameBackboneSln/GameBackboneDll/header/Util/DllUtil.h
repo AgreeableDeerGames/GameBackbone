@@ -1,6 +1,7 @@
 #pragma once
-#include "stdafx.h"
-#include "DebugIncludes.h"
+#include <Util\stdafx.h>
+
+#include <Util\DebugIncludes.h>
 
 #define libGameBackbone __declspec(dllexport)
 

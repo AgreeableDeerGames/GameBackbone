@@ -1,5 +1,5 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
-#include <../GameBackboneDll/header/Backbone/GameRegion.h>
+#include <Util/stdafx.h>
+#include <Backbone/GameRegion.h>
 
 #include <TGUI/TGUI.hpp>
 

@@ -1,5 +1,5 @@
-#include <../GameBackboneDll/header/Util/stdafx.h>
-#include <../GameBackboneDll/header/Backbone/AnimationSet.h>
+#include <Util/stdafx.h>
+#include <Backbone/AnimationSet.h>
 
 using namespace GB;
 

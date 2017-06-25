@@ -1,5 +1,7 @@
 #pragma once
-#include<vector>
+#include <Util\stdafx.h>
+
+#include <vector>
 
 namespace GB {
 

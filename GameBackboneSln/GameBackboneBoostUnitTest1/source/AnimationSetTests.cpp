@@ -1,6 +1,6 @@
-#include "../header/stdafx.h"
+#include <stdafx.h>
 
-#include <../GameBackboneDll/header/Backbone/AnimationSet.h>
+#include <Backbone/AnimationSet.h>
 
 #include <vector>
 

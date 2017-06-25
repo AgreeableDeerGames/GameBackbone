@@ -101,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include;..\GameBackboneDll\header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,7 +136,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\SFML\SFML-2.4.1\include;..\..\..\TGUI\TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2\TGUI-0.7\include;..\GameBackboneDll\header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,9 +167,9 @@
     <ClInclude Include="header\Util\DebugIncludes.h" />
     <ClInclude Include="header\Util\DllUtil.h" />
     <ClInclude Include="header\Util\Point2D.h" />
-    <ClInclude Include="header\Util\stdafx.h" />
     <ClInclude Include="header\Util\targetver.h" />
     <ClInclude Include="header\Util\UtilMath.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Backbone\AnimatedSprite.cpp" />

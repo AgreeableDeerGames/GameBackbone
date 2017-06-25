@@ -1,9 +1,10 @@
 #pragma once
-#include "stdafx.h"
-#include "DllUtil.h"
-#include<SFML/System/Vector3.hpp>
+#include <Util\stdafx.h>
 
-#include<math.h>
+#include <Util\DllUtil.h>
+#include <SFML/System/Vector3.hpp>
+
+#include <math.h>
 
 namespace GB {
 
