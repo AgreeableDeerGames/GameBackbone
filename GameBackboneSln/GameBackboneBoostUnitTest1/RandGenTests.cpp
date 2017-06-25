@@ -29,6 +29,7 @@ BOOST_AUTO_TEST_CASE(RandGen_seed_ctr_test) {
 	double output = testRandGen->uniDist(0, 1);
 	BOOST_CHECK(output >= 0 && output < 1);
 
+	delete seedString;
 	delete testRandGen;
 }
 
@@ -50,6 +51,7 @@ BOOST_AUTO_TEST_CASE(RandGen_SetSeed_test) {
 	//Ensure that the seed is what we set;
 	BOOST_CHECK_EQUAL("TestString", testRandGen->getSeed());
 
+	delete seedString;
 	delete testRandGen;
 }
 
@@ -69,6 +71,7 @@ BOOST_AUTO_TEST_CASE(RandGen_same_Seed_test) {
 	double output2 = testRandGen2->uniDist(0, 1);
 	BOOST_CHECK(output1 == output2);
 
+	delete seedString;
 	delete testRandGen1;
 	delete testRandGen2;
 }
@@ -85,6 +88,8 @@ BOOST_AUTO_TEST_CASE(RandGen_different_Seed_test) {
 	double output2 = testRandGen2->uniDist(0, 1);
 	BOOST_CHECK(output1 != output2);
 
+	delete seedString1;
+	delete seedString2;
 	delete testRandGen1;
 	delete testRandGen2;
 }
