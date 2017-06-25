@@ -43,6 +43,14 @@ GameRegion::~GameRegion() {
 	}
 }
 
+//behavior modafiers
+
+
+void GameRegion::registerChangeActiveRegionCB(std::function<void(GameRegion)> newChangeActiveRegionCB) {
+	changeActiveRegionCB = newChangeActiveRegionCB;
+}
+
+
 //getters / setters
 	//setters
 

@@ -10,7 +10,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
-#include<functional>
+#include <functional>
 #include <list>
 
 namespace GB {
@@ -54,6 +54,8 @@ namespace GB {
 		/// </summary>
 		virtual void behave(sf::Time currentTime) {}
 
+		void registerChangeActiveRegionCB(std::function<void(GameRegion)> newChangeActiveRegionCB);
+
 		//general operations
 
 		//additions
@@ -84,6 +86,7 @@ namespace GB {
 		GameRegion* parentRegion;
 		std::list<GameRegion*> childRegions;
 		std::list<GameRegion*> neighborRegions;
+		std::function<void(GameRegion)> changeActiveRegionCB;
 
 		//GUI
 		tgui::Gui* regionGUI;
