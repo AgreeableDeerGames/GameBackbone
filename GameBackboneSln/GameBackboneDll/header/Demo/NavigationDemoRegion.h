@@ -1,5 +1,4 @@
 #pragma once
-#include <Util\stdafx.h>
 
 #include <Backbone\GameRegion.h>
 #include <Navigation\PathFinder.h>

@@ -1,9 +1,9 @@
-#include <stdafx.h>
-
 #include <Backbone/AnimatedSprite.h>
 #include <Backbone/CompoundSprite.h>
 
 #include <SFML/Graphics.hpp>
+
+#include <boost/test/unit_test.hpp>
 
 #include <string>
 

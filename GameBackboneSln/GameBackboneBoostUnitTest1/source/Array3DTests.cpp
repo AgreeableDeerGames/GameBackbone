@@ -1,6 +1,6 @@
-#include <stdafx.h>
-
 #include <Util/Array3D.h>
+
+#include <boost/test/unit_test.hpp>
 
 using namespace GB;
 

@@ -1,8 +1,8 @@
-#include <stdafx.h>
-
 #include <Util/UtilMath.h>
 
 #include <SFML/Graphics.hpp>
+
+#include <boost/test/unit_test.hpp>
 
 using namespace GB;
 

@@ -1,5 +1,4 @@
 #pragma once
-#include <Util\stdafx.h>
 
 #include <Util\Array2D.h>
 #include <SFML\System\Vector3.hpp>

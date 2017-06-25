@@ -93,9 +93,6 @@
     <ClInclude Include="header\Util\UtilMath.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt">
@@ -125,9 +122,6 @@
       <Filter>Source Files\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="source\Util\dllmain.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Util\stdafx.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
   </ItemGroup>

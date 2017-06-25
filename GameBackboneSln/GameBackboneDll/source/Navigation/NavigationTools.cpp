@@ -1,5 +1,3 @@
-#include <Util/stdafx.h>
-
 #include <Navigation/NavigationTools.h>
 
 using namespace GB;

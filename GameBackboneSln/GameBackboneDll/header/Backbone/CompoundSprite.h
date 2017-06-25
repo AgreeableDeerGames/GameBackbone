@@ -1,5 +1,4 @@
 #pragma once
-#include <Util\stdafx.h>
 
 #include <Backbone\AnimatedSprite.h>
 #include <Backbone\Updatable.h>

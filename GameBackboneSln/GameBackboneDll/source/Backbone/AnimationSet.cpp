@@ -1,4 +1,3 @@
-#include <Util/stdafx.h>
 #include <Backbone/AnimationSet.h>
 
 using namespace GB;

@@ -1,8 +1,8 @@
-#include <stdafx.h>
-
 #include <Navigation/NavigationTools.h>
 
 #include <Navigation/PathFinder.h>
+
+#include <boost/test/unit_test.hpp>
 
 using namespace GB;
 

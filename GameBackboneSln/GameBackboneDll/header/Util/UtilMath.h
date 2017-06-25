@@ -1,5 +1,4 @@
 #pragma once
-#include <Util\stdafx.h>
 
 #include <Util\DllUtil.h>
 #include <SFML/System/Vector3.hpp>

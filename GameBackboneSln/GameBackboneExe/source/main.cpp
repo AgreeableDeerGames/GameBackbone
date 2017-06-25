@@ -1,5 +1,3 @@
-#include <stdafx.h>
-
 #include <Backbone/AnimatedSprite.h>
 #include <Backbone/AnimationSet.h>
 #include <Backbone/CompoundSprite.h>

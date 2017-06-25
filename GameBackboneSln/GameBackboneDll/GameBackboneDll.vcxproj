@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -130,7 +130,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -169,7 +169,6 @@
     <ClInclude Include="header\Util\Point2D.h" />
     <ClInclude Include="header\Util\targetver.h" />
     <ClInclude Include="header\Util\UtilMath.h" />
-    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Backbone\AnimatedSprite.cpp" />
@@ -180,7 +179,6 @@
     <ClCompile Include="source\Navigation\NavigationTools.cpp" />
     <ClCompile Include="source\Navigation\PathFinder.cpp" />
     <ClCompile Include="source\Util\dllmain.cpp" />
-    <ClCompile Include="source\Util\stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

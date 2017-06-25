@@ -1,4 +1,3 @@
-#include <Util/stdafx.h>
 #include <Backbone/AnimatedSprite.h>
 #include <Backbone/BackboneBaseExceptions.h>
 #include <Util/DebugIncludes.h>

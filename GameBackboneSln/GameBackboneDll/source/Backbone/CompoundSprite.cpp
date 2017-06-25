@@ -1,4 +1,3 @@
-#include <Util/stdafx.h>
 #include <Backbone/CompoundSprite.h>
 
 #include<algorithm>

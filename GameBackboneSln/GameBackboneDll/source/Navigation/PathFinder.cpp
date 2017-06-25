@@ -1,4 +1,3 @@
-#include <Util/stdafx.h>
 #include <Navigation/PathFinder.h>
 #include <Util/UtilMath.h>
 
