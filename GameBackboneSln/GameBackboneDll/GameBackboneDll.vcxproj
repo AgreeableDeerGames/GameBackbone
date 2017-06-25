@@ -167,7 +167,7 @@
     <ClInclude Include="NavigationTools.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PathRequest.h" />
-    <ClInclude Include="Point2D.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Updatable.h" />

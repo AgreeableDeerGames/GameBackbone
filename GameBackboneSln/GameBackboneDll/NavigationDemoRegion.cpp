@@ -105,8 +105,8 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 		//create each path request
 		for (size_t i = 0; i < navigators.size(); i++) {
 			sf::Sprite* currentNavigator = navigators[i];
-			IntPair startingPos = worldCoordToGridCoord(currentNavigator->getPosition());
-			IntPair endingPos = worldCoordToGridCoord(newPosition);
+			Point2D<int> startingPos = worldCoordToGridCoord(currentNavigator->getPosition());
+			Point2D<int> endingPos = worldCoordToGridCoord(newPosition);
 			pathRequests[i] = PathRequest{ startingPos, endingPos, 1, 0 };
 		}
 
@@ -134,7 +134,7 @@ void GB::NavigationDemoRegion::init() {
 	gridTexture->loadFromFile(navigationGridPath);
 
 	//internal function logic
-	std::vector<IntPair> nonBlockableGridSquares;
+	std::vector<Point2D<int>> nonBlockableGridSquares;
 
 
 	//init navigators
@@ -155,8 +155,8 @@ void GB::NavigationDemoRegion::init() {
 	}
 
 	//position navigators
-	IntPair navigator1StartingGrid(0, 0);
-	IntPair navigator2StartingGrid(15, 15);
+	Point2D<int> navigator1StartingGrid{ 0, 0 };
+	Point2D<int> navigator2StartingGrid{15, 15};
 	nonBlockableGridSquares.push_back(navigator1StartingGrid);
 	nonBlockableGridSquares.push_back(navigator2StartingGrid);
 	const sf::Vector2f navigator1StartingPos = gridCoordToWorldCoord(navigator1StartingGrid);
@@ -174,12 +174,12 @@ void GB::NavigationDemoRegion::init() {
 
 	//Path-find from starting positions to end positions
 	//create request
-	PathRequest pathRequest{ navigator1StartingGrid, IntPair(15,15), 3, 0 };
+	PathRequest pathRequest{ navigator1StartingGrid, Point2D<int>{15,15}, 3, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
-	PathRequest pathRequest2{ navigator2StartingGrid, IntPair(0,0), 1, 0 };
+	PathRequest pathRequest2{ navigator2StartingGrid, Point2D<int>{0,0}, 1, 0 };
 	pathRequests.push_back(pathRequest2);
 
 	//find the path
@@ -243,7 +243,7 @@ void GB::NavigationDemoRegion::initGUI() {
 /// <summary>
 /// Initializes the maze that the navigators will use.
 /// </summary>
-void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) {
+void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositions) {
 
 	initAllNavigationGridValues(*navGrid, NavigationGridData{ 1, 0 });
 
@@ -254,8 +254,8 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 			if (! (rand() % 5)) {//1 in 5 are blocked
 				bool blockable = true;
 				//determine if the square is non-blockable
-				for each (IntPair nonBlockable in nonBlockablePositions) {
-					if (nonBlockable.first == i && nonBlockable.second == j) {
+				for each (Point2D<int> nonBlockable in nonBlockablePositions) {
+					if (nonBlockable.x == i && nonBlockable.y == j) {
 						blockable = false;
 					}
 				}
@@ -298,7 +298,7 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 /// </summary>
 /// <param name="gridCoordinate">The grid coordinate.</param>
 /// <returns>The 2D position of the grid coordinate's top left corner in the game world's coordinate system.</returns>
-sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoordinate) {
+sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const Point2D<int> & gridCoordinate) {
 	//for the demo we can assume that the grid starts at the origin
 	sf::Vector2f gridOrigin(0, 0);
 
@@ -307,8 +307,8 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoo
 	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2.0f), 0 + (gridSquareHeight / 2.0f));// bad hack
 
 	// use size of grid squares and grid origin position to calculate world coordinate
-	return sf::Vector2f(gridCoordinate.first * gridSquareWidth + offsetOrigin.x, 
-						gridCoordinate.second * gridSquareHeight + offsetOrigin.y);
+	return sf::Vector2f(gridCoordinate.x * gridSquareWidth + offsetOrigin.x, 
+						gridCoordinate.y * gridSquareHeight + offsetOrigin.y);
 }
 
 /// <summary>
@@ -316,7 +316,7 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const IntPair & gridCoo
 /// </summary>
 /// <param name="worldCoordinate">The world coordinate.</param>
 /// <returns>The coordinate of the grid that the game world coordinate lies in.</returns>
-IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCoordinate) {
+Point2D<int> NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCoordinate) {
 	//for the demo we can assume that the grid starts at the origin
 	sf::Vector2f gridOrigin(0, 0);
 
@@ -326,8 +326,8 @@ IntPair NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & worldCo
 	sf::Vector2f offsetOrigin(0.0f + ((float)gridSquareWidth / 2.0f), 0.0f + ((float)gridSquareHeight / 2.0f));// bad hack
 
 	// use size of grid squares and grid origin position to calculate grid coordinate
-	return IntPair((int)((worldCoordinate.x - offsetOrigin.x) / gridSquareWidth),
-				   (int)((worldCoordinate.y - offsetOrigin.y) / gridSquareHeight));
+	return Point2D<int>{ (int)((worldCoordinate.x - offsetOrigin.x) / gridSquareWidth),
+				   (int)((worldCoordinate.y - offsetOrigin.y) / gridSquareHeight) };
 }
 
 /// <summary>
@@ -362,14 +362,14 @@ void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vecto
 /// <param name="path">The path.</param>
 /// <param name="msPassed">The time passed in ms since the last movement.</param>
 /// <param name="speed">The speed of the sprite in pixels per ms.</param>
-void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<IntPair>* path, sf::Int64 msPassed, float speed) {
+void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float speed) {
 	//determine if sprite has reached first point in path
 	if (path->size() >= 1) {
 
 		//move sprite a step towards the next point in the path
 		float actualMovement = speed / msPassed;
 		auto nextGrid = path->front();
-		sf::Vector2f targetPosition = ((*visualNavigationGrid)[nextGrid.first][nextGrid.second])->getPosition();
+		sf::Vector2f targetPosition = ((*visualNavigationGrid)[nextGrid.x][nextGrid.y])->getPosition();
 		moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
 		
 		//check if the sprite is close enough to its destination

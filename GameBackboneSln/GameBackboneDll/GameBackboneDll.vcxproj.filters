@@ -63,9 +63,6 @@
     <ClInclude Include="DllUtil.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Point2D.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
@@ -100,6 +97,9 @@
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
     <ClInclude Include="FileReader.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
