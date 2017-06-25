@@ -164,6 +164,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 
+	// give the window time to get set up.
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	testController.runLoop();
