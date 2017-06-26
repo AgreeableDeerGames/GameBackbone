@@ -102,6 +102,9 @@
     <ClInclude Include="Point.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
+    <ClInclude Include="RandGen.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">
@@ -135,6 +138,9 @@
       <Filter>Source Files\Backbone</Filter>
     </ClCompile>
     <ClCompile Include="FileReader.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="RandGen.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
   </ItemGroup>

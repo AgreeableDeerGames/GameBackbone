@@ -9,7 +9,6 @@
 #include "CompoundSprite.h"
 #include "NavigationDemoRegion.h"
 #include "SampleGuiInterface.h"
-#include "FileReader.h"
 
 #include <TGUI/TGUI.hpp>
 
@@ -17,13 +16,13 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <string>
 #include <vector>
 
 
 using namespace GB;
 
 int main() {
-
 	BackboneExeCoreEventController controller;
 	controller.runLoop();
 
