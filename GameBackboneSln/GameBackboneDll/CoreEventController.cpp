@@ -192,3 +192,10 @@ void GB::CoreEventController::coreUpdate() {
 /// </summary>
 void GB::CoreEventController::postUpdate() {
 }
+
+/// <summary>
+/// Used to determine if the protected window in the CoreEventController is open.
+/// </summary>
+bool GB::CoreEventController::isWindowOpen() {
+	return window->isOpen();
+}
