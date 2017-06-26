@@ -1,16 +1,16 @@
 #pragma once
 
 #include <Util\DllUtil.h>
-#include <Util/Array2D.h>
+#include <Util\Array2D.h>
 #include <Navigation\NavigationGridData.h>
 #include <Navigation\PathRequest.h>
 #include <Navigation\NavigationTools.h>
+#include <Util\Point.h>
 
-#include <vector>
-#include <set>
-#include <list>
-#include <map>
-#include <tuple>
+#include<list>
+#include<map>
+#include<set>
+#include<vector>
 
 namespace GB {
 
@@ -32,14 +32,14 @@ namespace GB {
 		NavigationGrid* getNavigationGrid();
 
 		//operations
-		void pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<IntPair>> * const returnedPaths);
+		void pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>> * const returnedPaths);
 
 	private:
 
 		//helper functions
-		IntPair chooseNextGridSquare(const PathRequest& pathRequest, const std::set<IntPair> * const availableGridSquares);
-		std::vector<IntPair> getNeighbors(const IntPair& gridCoordinate);
-		std::list<IntPair> reconstructPath(const IntPair& endPoint, std::map<IntPair, IntPair> const * const cameFrom);
+		Point2D<int> chooseNextGridSquare(const PathRequest& pathRequest, const std::set<Point2D<int>> * const availableGridSquares);
+		std::vector<Point2D<int>> getNeighbors(const Point2D<int>& gridCoordinate);
+		std::list<Point2D<int>> reconstructPath(const Point2D<int>& endPoint, std::map<Point2D<int>, Point2D<int>> const * const cameFrom);
 
 		//data
 		NavigationGrid* navigationGrid;

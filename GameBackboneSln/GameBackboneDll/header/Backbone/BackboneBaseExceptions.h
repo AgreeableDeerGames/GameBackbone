@@ -29,6 +29,18 @@ namespace GB {
 				return "Cannot run an empty animation.";
 			}
 		};
+
+		/// <summary>
+		/// Exception thrown when an FileReader fails to open a file.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class FileReader_BadFile : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Cannot open the file.";
+			}
+		};
 	}
 }
 

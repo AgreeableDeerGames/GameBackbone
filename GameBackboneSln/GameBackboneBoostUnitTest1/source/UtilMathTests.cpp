@@ -1,8 +1,9 @@
-#include <Util/UtilMath.h>
+#include <Util\Point.h>
+#include <Util\UtilMath.h>
 
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include <boost\test\unit_test.hpp>
 
 using namespace GB;
 
@@ -18,9 +19,9 @@ BOOST_AUTO_TEST_SUITE(UtilMath_CalcDistance_2D)
 
 //Tests the UtilMath CalcDistance 2D function for ints
 BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_2D_int) {
-	std::pair<int, int> originPoint(0, 0);
-	std::pair<int, int> onePoint(1, 1);
-	std::pair<int, int> negativePoint(-2, -2);
+	Point2D<int> originPoint{ 0, 0 };
+	Point2D<int> onePoint{1, 1};
+	Point2D<int> negativePoint{-2, -2};
 
 	int distanceResult = CalcDistance(originPoint, onePoint);
 	int controlResult = 1;
@@ -37,9 +38,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_2D_int) {
 
 //Tests the UtilMath CalcDistance 2D function for doubles
 BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_2D_double) {
-	std::pair<double, double> originPoint(0.0, 0.0);
-	std::pair<double, double> onePoint(1.0, 1.0);
-	std::pair<double, double> negativePoint(-2.0, -2.0);
+	Point2D<double> originPoint{ 0.0, 0.0 };
+	Point2D<double> onePoint{ 1.0, 1.0 };
+	Point2D<double> negativePoint{ -2.0, -2.0 };
 
 	double distanceResult = CalcDistance(originPoint, onePoint);
 	double controlResult = 1.414214;
@@ -56,9 +57,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_2D_double) {
 
 //Tests the UtilMath CalcDistance 2D function for floats
 BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_2D_float) {
-	std::pair<float, float> originPoint(0.0f, 0.0f);
-	std::pair<float, float> onePoint(1.0f, 1.0f);
-	std::pair<float, float> negativePoint(-2.0f, -2.0f);
+	Point2D<float> originPoint{0.0f, 0.0f};
+	Point2D<float> onePoint{1.0f, 1.0f};
+	Point2D<float> negativePoint{-2.0f, -2.0f};
 
 	float distanceResult = CalcDistance(originPoint, onePoint);
 	float controlResult = 1.414214f;
@@ -81,9 +82,9 @@ BOOST_AUTO_TEST_SUITE(UtilMath_CalcSquaredDistance_2D)
 
 //Tests the UtilMath CalcSquaredDistance 2D function for ints
 BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_2D_int) {
-	std::pair<int, int> originPoint(0, 0);
-	std::pair<int, int> onePoint(1, 1);
-	std::pair<int, int> negativePoint(-2, -2);
+	Point2D<int> originPoint{ 0, 0 };
+	Point2D<int> onePoint{1, 1};
+	Point2D<int> negativePoint{-2, -2};
 
 	int distanceResult = CalcSquaredDistance(originPoint, onePoint);
 	int controlResult = 2;
@@ -100,9 +101,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_2D_int) {
 
 //Tests the UtilMath CalcSquaredDistance 2D function for doubles
 BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_2D_double) {
-	std::pair<double, double> originPoint(0.0, 0.0);
-	std::pair<double, double> onePoint(1.0, 1.0);
-	std::pair<double, double> negativePoint(-2.0, -2.0);
+	Point2D<double> originPoint{0.0, 0.0};
+	Point2D<double> onePoint{1.0, 1.0};
+	Point2D<double> negativePoint{-2.0, -2.0};
 
 	double distanceResult = CalcSquaredDistance(originPoint, onePoint);
 	double controlResult = 1.414214*1.414214;
@@ -119,9 +120,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_2D_double) {
 
 //Tests the UtilMath CalcSquaredDistance 2D function for floats
 BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_2D_float) {
-	std::pair<float, float> originPoint(0.0f, 0.0f);
-	std::pair<float, float> onePoint(1.0f, 1.0f);
-	std::pair<float, float> negativePoint(-2.0f, -2.0f);
+	Point2D<float> originPoint{0.0f, 0.0f};
+	Point2D<float> onePoint{1.0f, 1.0f};
+	Point2D<float> negativePoint{-2.0f, -2.0f};
 
 	float distanceResult = CalcSquaredDistance(originPoint, onePoint);
 	float controlResult = 1.414214f*1.414214f;
@@ -144,9 +145,9 @@ BOOST_AUTO_TEST_SUITE(UtilMath_CalcDistance_3D)
 
 //Tests the UtilMath CalcDistance 3D function for ints
 BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_3D_int) {
-	sf::Vector3<int> originPoint(0, 0, 0);
-	sf::Vector3<int> onePoint(1, 1, 1);
-	sf::Vector3<int> negativePoint(-2, -2, -2);
+	Point3D<int> originPoint{ 0, 0, 0 };
+	Point3D<int> onePoint{ 1, 1, 1 };
+	Point3D<int> negativePoint{ -2, -2, -2 };
 
 	int distanceResult = CalcDistance(originPoint, onePoint);
 	int controlResult = 1;
@@ -163,9 +164,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_3D_int) {
 
 //Tests the UtilMath CalcDistance 3D function for doubles
 BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_3D_double) {
-	sf::Vector3<double> originPoint(0.0, 0.0, 0.0);
-	sf::Vector3<double> onePoint(1.0, 1.0, 1.0);
-	sf::Vector3<double> negativePoint(-2.0, -2.0, -2.0);
+	Point3D<double> originPoint{0.0, 0.0, 0.0};
+	Point3D<double> onePoint{1.0, 1.0, 1.0};
+	Point3D<double> negativePoint{-2.0, -2.0, -2.0};
 
 	double distanceResult = CalcDistance(originPoint, onePoint);
 	double controlResult = 1.732051;
@@ -182,9 +183,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_3D_double) {
 
 //Tests the UtilMath CalcDistance 3D function for floats
 BOOST_AUTO_TEST_CASE(UtilMath_CalcDistance_3D_float) {
-	sf::Vector3<float> originPoint(0.0f, 0.0f, 0.0f);
-	sf::Vector3<float> onePoint(1.0f, 1.0f, 1.0f);
-	sf::Vector3<float> negativePoint(-2.0f, -2.0f, -2.0f);
+	Point3D<float> originPoint{0.0f, 0.0f, 0.0f};
+	Point3D<float> onePoint{1.0f, 1.0f, 1.0f};
+	Point3D<float> negativePoint{-2.0f, -2.0f, -2.0f};
 
 	float distanceResult = CalcDistance(originPoint, onePoint);
 	float controlResult = 1.732051f;
@@ -207,9 +208,9 @@ BOOST_AUTO_TEST_SUITE(UtilMath_CalcSquaredDistance_3D)
 
 //Tests the UtilMath CalcSquaredDistance 3D function for ints
 BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_3D_int) {
-	sf::Vector3<int> originPoint(0, 0, 0);
-	sf::Vector3<int> onePoint(1, 1, 1);
-	sf::Vector3<int> negativePoint(-2, -2, -2);
+	Point3D<int> originPoint{ 0, 0, 0 };
+	Point3D<int> onePoint{ 1, 1, 1 };
+	Point3D<int> negativePoint{ -2, -2, -2 };
 
 	int distanceResult = CalcSquaredDistance(originPoint, onePoint);
 	int controlResult = 3;
@@ -226,9 +227,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_3D_int) {
 
 //Tests the UtilMath CalcSquaredDistance 3D function for doubles
 BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_3D_double) {
-	sf::Vector3<double> originPoint(0.0, 0.0, 0.0);
-	sf::Vector3<double> onePoint(1.0, 1.0, 1.0);
-	sf::Vector3<double> negativePoint(-2.0, -2.0, -2.0);
+	Point3D<double> originPoint{0.0, 0.0, 0.0};
+	Point3D<double> onePoint{1.0, 1.0, 1.0};
+	Point3D<double> negativePoint{-2.0, -2.0, -2.0};
 
 	double distanceResult = CalcSquaredDistance(originPoint, onePoint);
 	double controlResult = 1.732051*1.732051;
@@ -245,9 +246,9 @@ BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_3D_double) {
 
 //Tests the UtilMath CalcSquaredDistance 3D function for floats
 BOOST_AUTO_TEST_CASE(UtilMath_CalcSquaredDistance_3D_float) {
-	sf::Vector3<float> originPoint(0.0f, 0.0f, 0.0f);
-	sf::Vector3<float> onePoint(1.0f, 1.0f, 1.0f);
-	sf::Vector3<float> negativePoint(-2.0f, -2.0f, -2.0f);
+	Point3D<float> originPoint{0.0f, 0.0f, 0.0f};
+	Point3D<float> onePoint{1.0f, 1.0f, 1.0f};
+	Point3D<float> negativePoint{-2.0f, -2.0f, -2.0f};
 
 	float distanceResult = CalcSquaredDistance(originPoint, onePoint);
 	float controlResult = 1.732051f*1.732051f;
