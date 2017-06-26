@@ -50,7 +50,7 @@ GameRegion::~GameRegion() {
 /// Registers the callback function for changing the active region .
 /// </summary>
 /// <param name="newChangeActiveRegionCB">The new callback for changing the active region..</param>
-void GameRegion::registerChangeActiveRegionCB(std::function<void(GameRegion)> newChangeActiveRegionCB) {
+void GameRegion::registerChangeActiveRegionCB(std::function<void(GameRegion*)> newChangeActiveRegionCB) {
 	changeActiveRegionCB = newChangeActiveRegionCB;
 }
 
