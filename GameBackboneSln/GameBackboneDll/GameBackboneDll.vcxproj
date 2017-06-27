@@ -96,12 +96,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE);..\GameBackboneDll\header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,13 +130,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE);..\GameBackboneDll\header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,60 +151,40 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedSprite.h" />
-    <ClInclude Include="AnimationSet.h" />
-    <ClInclude Include="Array2D.h" />
-    <ClInclude Include="Array3D.h" />
-    <ClInclude Include="BackboneBaseExceptions.h" />
-    <ClInclude Include="CompoundSprite.h" />
-    <ClInclude Include="CoreEventController.h" />
-    <ClInclude Include="DebugIncludes.h" />
-    <ClInclude Include="DllUtil.h" />
-    <ClInclude Include="FileReader.h" />
-    <ClInclude Include="GameRegion.h" />
-    <ClInclude Include="NavigationDemoRegion.h" />
-    <ClInclude Include="NavigationGridData.h" />
-    <ClInclude Include="NavigationTools.h" />
-    <ClInclude Include="PathFinder.h" />
-    <ClInclude Include="PathRequest.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="RandGen.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Updatable.h" />
-    <ClInclude Include="UtilMath.h" />
+    <ClInclude Include="header\Backbone\AnimatedSprite.h" />
+    <ClInclude Include="header\Backbone\AnimationSet.h" />
+    <ClInclude Include="header\Backbone\BackboneBaseExceptions.h" />
+    <ClInclude Include="header\Backbone\CompoundSprite.h" />
+    <ClInclude Include="header\Backbone\CoreEventController.h" />
+    <ClInclude Include="header\Backbone\GameRegion.h" />
+    <ClInclude Include="header\Backbone\Updatable.h" />
+    <ClInclude Include="header\Demo\NavigationDemoRegion.h" />
+    <ClInclude Include="header\Navigation\NavigationGridData.h" />
+    <ClInclude Include="header\Navigation\NavigationTools.h" />
+    <ClInclude Include="header\Navigation\PathFinder.h" />
+    <ClInclude Include="header\Navigation\PathRequest.h" />
+    <ClInclude Include="header\Util\Array2D.h" />
+    <ClInclude Include="header\Util\Array3D.h" />
+    <ClInclude Include="header\Util\DebugIncludes.h" />
+    <ClInclude Include="header\Util\DllUtil.h" />
+    <ClInclude Include="header\Util\FileReader.h" />
+    <ClInclude Include="header\Util\Point.h" />
+    <ClInclude Include="header\Util\RandGen.h" />
+    <ClInclude Include="header\Util\targetver.h" />
+    <ClInclude Include="header\Util\UtilMath.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatedSprite.cpp" />
-    <ClCompile Include="AnimationSet.cpp" />
-    <ClCompile Include="CompoundSprite.cpp" />
-    <ClCompile Include="CoreEventController.cpp" />
-    <ClCompile Include="dllmain.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="FileReader.cpp" />
-    <ClCompile Include="GameRegion.cpp" />
-    <ClCompile Include="NavigationDemoRegion.cpp" />
-    <ClCompile Include="NavigationTools.cpp" />
-    <ClCompile Include="PathFinder.cpp" />
-    <ClCompile Include="RandGen.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="source\Backbone\AnimatedSprite.cpp" />
+    <ClCompile Include="source\Backbone\AnimationSet.cpp" />
+    <ClCompile Include="source\Backbone\CompoundSprite.cpp" />
+    <ClCompile Include="source\Backbone\CoreEventController.cpp" />
+    <ClCompile Include="source\Backbone\GameRegion.cpp" />
+    <ClCompile Include="source\Demo\NavigationDemoRegion.cpp" />
+    <ClCompile Include="source\Navigation\NavigationTools.cpp" />
+    <ClCompile Include="source\Navigation\PathFinder.cpp" />
+    <ClCompile Include="source\Util\dllmain.cpp" />
+    <ClCompile Include="source\Util\FileReader.cpp" />
+    <ClCompile Include="source\Util\RandGen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
