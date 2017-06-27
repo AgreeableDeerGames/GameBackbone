@@ -128,7 +128,7 @@ void GameRegion::setParentRegion(GameRegion* newParent) {
 /// Returns list of the region's updatable objects.
 /// </summary>
 /// <returns>std::list of the region's updatable objects.</returns>
-std::list<Updatable*>* GameRegion::getUpdatables() {
+std::list<Updatable*>const * const GameRegion::getUpdatables() {
 	return updatables;
 }
 
@@ -136,7 +136,7 @@ std::list<Updatable*>* GameRegion::getUpdatables() {
 /// Return the region's list of drawable objects
 /// </summary>
 /// <returns>std::list of drawable objects</returns>
-std::list<sf::Sprite*>* GameRegion::getDrawables() {
+std::list<sf::Sprite*>const * const GameRegion::getDrawables() {
 	return drawables;
 }
 
