@@ -5,8 +5,8 @@
 #include <Util\Array2D.h>
 #include <Util\Point.h>
 
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics\Sprite.hpp>
+#include <SFML\Graphics.hpp>
 
 namespace GB {
 

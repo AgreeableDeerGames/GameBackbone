@@ -3,7 +3,7 @@
 #include <Util\DllUtil.h>
 #include <Util\Point.h>
 
-#include <SFML/System/Vector3.hpp>
+#include <SFML\System\Vector3.hpp>
 
 #include <math.h>
 

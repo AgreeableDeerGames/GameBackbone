@@ -4,7 +4,7 @@
 #include <Backbone\Updatable.h>
 #include <Util\DllUtil.h>
 
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML\Graphics\Sprite.hpp>
 
 #include <vector>
 

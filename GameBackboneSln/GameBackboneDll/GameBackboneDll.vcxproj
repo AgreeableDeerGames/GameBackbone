@@ -185,7 +185,6 @@
     <ClCompile Include="source\Util\dllmain.cpp" />
     <ClCompile Include="source\Util\FileReader.cpp" />
     <ClCompile Include="source\Util\RandGen.cpp" />
-    <ClInclude Include="source\Util\Point.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

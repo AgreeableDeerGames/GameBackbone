@@ -4,7 +4,7 @@
 
 #define BOOST_TEST_MODULE GameBackboneBoostUnitTest1
 
-#include <stdafx.h>
+#include "stdafx.h"
 #include "boost\test\test_exec_monitor.hpp"
 #include "boost\test\execution_monitor.hpp"
 

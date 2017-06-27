@@ -2,12 +2,12 @@
 
 #define _USE_MATH_DEFINES
 
-#include <Demo/NavigationDemoRegion.h>
-#include <Navigation/NavigationTools.h>
+#include <Demo\NavigationDemoRegion.h>
+#include <Navigation\NavigationTools.h>
 
-#include <TGUI/TGUI.hpp>
+#include <TGUI\TGUI.hpp>
 
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
 
 #include <string>
 #include <math.h>

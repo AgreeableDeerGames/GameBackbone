@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone/AnimatedSprite.h>
-#include <Backbone/BackboneBaseExceptions.h>
+#include <Backbone\AnimatedSprite.h>
+#include <Backbone\BackboneBaseExceptions.h>
 
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
 
 #include <chrono>
 #include <string>

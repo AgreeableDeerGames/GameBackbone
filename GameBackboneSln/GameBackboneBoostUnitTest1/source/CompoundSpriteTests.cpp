@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone/AnimatedSprite.h>
-#include <Backbone/CompoundSprite.h>
+#include <Backbone\AnimatedSprite.h>
+#include <Backbone\CompoundSprite.h>
 
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
 
 #include <string>
 

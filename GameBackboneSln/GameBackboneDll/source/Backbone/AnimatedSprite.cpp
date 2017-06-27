@@ -1,9 +1,9 @@
-#include <Backbone/AnimatedSprite.h>
-#include <Backbone/BackboneBaseExceptions.h>
-#include <Util/DebugIncludes.h>
+#include <Backbone\AnimatedSprite.h>
+#include <Backbone\BackboneBaseExceptions.h>
+#include <Util\DebugIncludes.h>
 
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Rect.hpp>
+#include <SFML\Graphics\Texture.hpp>
+#include <SFML\Graphics\Rect.hpp>
 
 using namespace GB;
 

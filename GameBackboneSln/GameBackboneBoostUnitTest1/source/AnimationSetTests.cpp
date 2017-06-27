@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Backbone/AnimationSet.h>
+#include <Backbone\AnimationSet.h>
 
 #include <vector>
 

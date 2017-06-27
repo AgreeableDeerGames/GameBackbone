@@ -1,6 +1,6 @@
-#include <Backbone/GameRegion.h>
+#include <Backbone\GameRegion.h>
 
-#include <TGUI/TGUI.hpp>
+#include <TGUI\TGUI.hpp>
 
 #include <algorithm>
 

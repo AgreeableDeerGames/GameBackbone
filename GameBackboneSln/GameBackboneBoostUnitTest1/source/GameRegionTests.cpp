@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Backbone/GameRegion.h>
+#include <Backbone\GameRegion.h>
 
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
 
 using namespace GB;
 

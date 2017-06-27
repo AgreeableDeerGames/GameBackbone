@@ -6,9 +6,9 @@
 #include <Backbone\Updatable.h>
 #include <Util\DllUtil.h>
 
-#include <TGUI/TGUI.hpp>
+#include <TGUI\TGUI.hpp>
 
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML\Graphics\Sprite.hpp>
 
 #include <functional>
 #include <list>

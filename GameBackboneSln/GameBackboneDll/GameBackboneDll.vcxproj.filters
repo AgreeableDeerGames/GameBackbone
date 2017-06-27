@@ -122,9 +122,6 @@
     <ClInclude Include="header\Navigation\PathRequest.h">
       <Filter>Header Files\Navigation</Filter>
     </ClInclude>
-    <ClInclude Include="source\Util\Point.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="header\Util\Point.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
