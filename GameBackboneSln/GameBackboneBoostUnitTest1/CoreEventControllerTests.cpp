@@ -1,9 +1,9 @@
+#include "stdafx.h"
+
 #include <Backbone\CoreEventController.h>
 #include <Util\DebugIncludes.h>
 
 #include <SFML\Graphics.hpp>
-
-#include <boost\test\unit_test.hpp>
 
 #include <thread>
 #include <chrono>

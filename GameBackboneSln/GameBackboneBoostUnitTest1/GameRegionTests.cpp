@@ -1,8 +1,8 @@
+#include "stdafx.h"
+
 #include <Backbone/GameRegion.h>
 
 #include <SFML/Graphics.hpp>
-
-#include <boost/test/unit_test.hpp>
 
 using namespace GB;
 
