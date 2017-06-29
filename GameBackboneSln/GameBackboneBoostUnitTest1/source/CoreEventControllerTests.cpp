@@ -19,6 +19,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventControllerTests)
 /// <seealso cref="CoreEventController" />
 class TestCoreEventController : public CoreEventController
 {
+
 public:	
 	// ctr / dtr
 	TestCoreEventController() {
@@ -164,9 +165,11 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 
-	// give the window time to get set up.
-	std::this_thread::sleep_for(std::chrono::seconds(2));
-
+	//Ensure window is fully opened before before we do any work on it.
+	while (testController.isWindowOpen() != true) {
+		continue;
+	}
+	
 	testController.runLoop();
 
 	// ensure that the draw functions have been called

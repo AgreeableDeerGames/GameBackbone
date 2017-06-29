@@ -32,6 +32,10 @@ namespace GB {
 		void runLoop();
 		void changeActiveRegionCB(GameRegion* newRegion);
 
+		//status
+		bool isWindowOpen();
+
+
 protected:
 		//events
 		virtual void handleEvent(sf::Event& event);
