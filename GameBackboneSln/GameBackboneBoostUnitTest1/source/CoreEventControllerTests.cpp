@@ -37,7 +37,9 @@ public:
 		activeRegion = new GameRegion(*window);
 	}
 	~TestCoreEventController() {
-		delete activeRegion;
+		if (activeRegion) {
+			delete activeRegion;
+		}
 	}
 
 	// test event functions
@@ -148,7 +150,49 @@ public:
 	bool hasFinishedCoreUpdate;
 	bool hasFinishedPostUpdate;
 
+	//region tracker
+	GameRegion* getActiveGameRegion() {
+		return activeRegion;
+	}
+
 };
+
+/// <summary>
+/// GameRegion that creates a child region.
+/// Changes active region to child/parent region on behave call.
+/// </summary>
+class TestGameRegion : public GB::GameRegion
+{
+public:
+	TestGameRegion(bool shouldCreateChild = false) {
+		if (shouldCreateChild) {
+			TestGameRegion* child = new TestGameRegion();
+			addChildRegion(child);
+		}
+	}
+	~TestGameRegion(){
+		//free memory created for each child region.
+		for (auto child : childRegions) {
+			delete child;
+		}
+	}
+		
+	/// <summary>
+	/// change mark different region as active
+	/// </summary>
+	/// <param name="currentTime">The current time.</param>
+	void behave(sf::Time currentTime) override {
+		if (parentRegion) {
+			changeActiveRegionCB(parentRegion);
+		} else if (childRegions.front()){
+			changeActiveRegionCB(childRegions.front());
+		}
+	}
+
+private:
+
+};
+
 
 BOOST_AUTO_TEST_SUITE(CoreEventController_ctrs)
 
@@ -192,6 +236,55 @@ BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	BOOST_CHECK(testController.hasFinishedPreUpdate);
 	BOOST_CHECK(testController.hasFinishedCoreUpdate);
 	BOOST_CHECK(testController.hasFinishedPostUpdate);
+}
+
+//ensure that calling changeActiveRegionCB changes to the correct active region
+BOOST_AUTO_TEST_CASE(CoreEventController_changeActiveRegionCB) {
+	TestCoreEventController testController;
+	
+	//region constructed by TestCoreEventController is not required for this test 
+	GameRegion* defaultRegion = testController.getActiveGameRegion();
+	delete defaultRegion;
+
+	GameRegion region1;
+	testController.changeActiveRegionCB(&region1);
+	GameRegion* returnedRegion = testController.getActiveGameRegion();
+
+	//ensure that the region stored by testController is the one set by changeActiveRegionCB
+	BOOST_CHECK(returnedRegion == &region1);
+}
+
+//ensure that regions within the CoreEventController can correctly change their active region.
+BOOST_AUTO_TEST_CASE(CoreEventController_changeActiveRegionCB_From_Region) {
+	TestCoreEventController testController;
+
+	//region constructed by TestCoreEventController is not required for this test 
+	GameRegion* defaultRegion = testController.getActiveGameRegion();
+	delete defaultRegion;
+	
+	//create a region with a child
+	TestGameRegion testRegion(true);
+	
+	//register testRegion's callback to testController
+	//this would normally be done from within testController with the "&testController" being replaced with "this"
+	testRegion.registerChangeActiveRegionCB(std::bind(&TestCoreEventController::changeActiveRegionCB, &testController, std::placeholders::_1));
+
+	for (auto child : *testRegion.getChildRegions())
+	{
+		child->registerChangeActiveRegionCB(std::bind(&TestCoreEventController::changeActiveRegionCB, &testController, std::placeholders::_1));
+	}
+
+	//setup the first active region
+	testController.changeActiveRegionCB(&testRegion);
+
+	//change to child region
+	testController.getActiveGameRegion()->behave(sf::Time::Time());
+	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.getChildRegions()->front());
+
+	//change back to parent region
+	testController.getActiveGameRegion()->behave(sf::Time::Time());
+	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end CoreEventController_Events
