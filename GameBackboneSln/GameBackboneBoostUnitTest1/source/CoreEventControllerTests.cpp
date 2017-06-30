@@ -37,9 +37,10 @@ public:
 		activeRegion = new GameRegion(*window);
 	}
 	~TestCoreEventController() {
-		if (activeRegion) {
-			delete activeRegion;
-		}
+		//TODO: (Ryan Lavin) this will cause a memory leak in the tests. Refactor old tests to not need this, or new tests to deal with it.
+		//if (activeRegion) {
+		//	delete activeRegion;
+		//}
 	}
 
 	// test event functions
@@ -172,8 +173,9 @@ public:
 	}
 	~TestGameRegion(){
 		//free memory created for each child region.
-		for (auto child : childRegions) {
-			delete child;
+
+		if (!childRegions.empty()) {
+			delete childRegions.front();
 		}
 	}
 		
@@ -209,7 +211,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 
-	//Ensure window is fully opened before before we do any work on it.
+	//Ensure window is fully opened before we do any work on it.
 	while (testController.isWindowOpen() != true) {
 		continue;
 	}
@@ -245,7 +247,8 @@ BOOST_AUTO_TEST_CASE(CoreEventController_changeActiveRegionCB) {
 	//region constructed by TestCoreEventController is not required for this test 
 	GameRegion* defaultRegion = testController.getActiveGameRegion();
 	delete defaultRegion;
-
+	testController.changeActiveRegionCB(nullptr);
+	
 	GameRegion region1;
 	testController.changeActiveRegionCB(&region1);
 	GameRegion* returnedRegion = testController.getActiveGameRegion();
@@ -261,7 +264,8 @@ BOOST_AUTO_TEST_CASE(CoreEventController_changeActiveRegionCB_From_Region) {
 	//region constructed by TestCoreEventController is not required for this test 
 	GameRegion* defaultRegion = testController.getActiveGameRegion();
 	delete defaultRegion;
-	
+	testController.changeActiveRegionCB(nullptr);
+
 	//create a region with a child
 	TestGameRegion testRegion(true);
 	
