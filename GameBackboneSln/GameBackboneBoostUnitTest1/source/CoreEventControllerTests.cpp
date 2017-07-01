@@ -33,15 +33,8 @@ public:
 		hasFinishedPreDraw = false;
 		hasFinishedPreHandleEvent = false;
 		hasFinishedPreUpdate = false;
-
-		activeRegion = new GameRegion(*window);
 	}
-	~TestCoreEventController() {
-		//TODO: (Ryan Lavin) this will cause a memory leak in the tests. Refactor old tests to not need this, or new tests to deal with it.
-		//if (activeRegion) {
-		//	delete activeRegion;
-		//}
-	}
+	~TestCoreEventController() {}
 
 	// test event functions
 
@@ -210,6 +203,8 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
  //Tests the behavior of RunLoop when the sf window has no events
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
+	GameRegion gameRegion;
+	testController.changeActiveRegionCB(&gameRegion);
 
 	//Ensure window is fully opened before we do any work on it.
 	while (testController.isWindowOpen() != true) {
