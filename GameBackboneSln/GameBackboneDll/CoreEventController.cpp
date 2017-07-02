@@ -56,6 +56,12 @@ CoreEventController::~CoreEventController()
 /// </summary>
 void CoreEventController::runLoop() {
 	sf::Event event;
+
+	//Ensure window is fully opened before before we do any work on it.
+	while (window->isOpen() == false) {
+		continue;
+	}
+
 	while (window->isOpen()) {
 
 		while (window->pollEvent(event)) {
@@ -191,11 +197,4 @@ void GB::CoreEventController::coreUpdate() {
 /// Executes after coreUpdate. Place logic meant to update after the main update logic here.
 /// </summary>
 void GB::CoreEventController::postUpdate() {
-}
-
-/// <summary>
-/// Used to determine if the protected window in the CoreEventController is open.
-/// </summary>
-bool GB::CoreEventController::isWindowOpen() {
-	return window->isOpen();
 }

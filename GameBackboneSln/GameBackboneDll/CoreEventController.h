@@ -31,10 +31,6 @@ namespace GB {
 		//operations
 		void runLoop();
 
-		//status
-		bool isWindowOpen();
-
-
 protected:
 		//events
 		virtual void handleEvent(sf::Event& event);

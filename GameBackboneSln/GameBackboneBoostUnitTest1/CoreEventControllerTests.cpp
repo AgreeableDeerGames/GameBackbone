@@ -165,11 +165,6 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 
-	//Ensure window is fully opened before before we do any work on it.
-	while (testController.isWindowOpen() != true) {
-		continue;
-	}
-	
 	testController.runLoop();
 
 	// ensure that the draw functions have been called
