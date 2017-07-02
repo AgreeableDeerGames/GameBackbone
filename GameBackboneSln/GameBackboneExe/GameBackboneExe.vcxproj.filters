@@ -24,6 +24,9 @@
     <ClCompile Include="source\BackboneExeCoreEventController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\NavigationDemoRegion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\targetver.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\BackboneExeCoreEventController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\NavigationDemoRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

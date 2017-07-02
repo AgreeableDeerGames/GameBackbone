@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include <Demo\NavigationDemoRegion.h>
+#include <NavigationDemoRegion.h>
 #include <Navigation\NavigationTools.h>
 
 #include <TGUI\TGUI.hpp>
