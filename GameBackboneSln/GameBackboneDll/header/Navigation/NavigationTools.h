@@ -14,11 +14,22 @@
 namespace GB {
 	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
 
+	//NavigationGrid memory
 	libGameBackbone extern void initAllNavigationGridValues(NavigationGrid & navGrid, NavigationGridData & gridData);
 	libGameBackbone extern void freeAllNavigationGridData(NavigationGrid & navGrid);
 
-	libGameBackbone extern void moveSpriteToPoint(sf::Sprite& sprite, const sf::Vector2f& destination, const float pixelsPerMs);
-	libGameBackbone extern void moveAllSpritesToPoint(const std::vector<sf::Sprite*>& sprites, const std::vector<const sf::Vector2f>& destinations, const std::vector<const float>& pixelsPerMs);
-	libGameBackbone extern void moveSpriteStepTowardsPoint(sf::Sprite& sprite, const sf::Vector2f& destination, const float maxStepLength);
+	//sprite movement to point
+	libGameBackbone extern void moveSpriteStepTowardsPoint(sf::Sprite& sprite, const sf::Vector2f& destination, const float maxStepLength, const bool orientSpriteToDestination = true);
+	libGameBackbone extern void batchMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites, 
+																const std::vector<sf::Vector2f>& destinations,
+																const std::vector<const float>& maxStepLength,
+																const bool orientSpritesToDestination = true);
 
+	//sprite movement along path
+	libGameBackbone extern void moveSpriteAlongPath(sf::Sprite& sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float distPerMs);
+	libGameBackbone extern void batchMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
+														 const std::vector<std::list<Point2D<int>>*>& paths, 
+														 const sf::Int64 msPassed,
+														 const std::vector<const float>& distPerMs,
+													     const bool orientSpriteToDestination = true);
 }
