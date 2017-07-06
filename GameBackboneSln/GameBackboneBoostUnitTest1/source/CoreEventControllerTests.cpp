@@ -178,9 +178,9 @@ public:
 	/// <param name="currentTime">The current time.</param>
 	void behave(sf::Time currentTime) override {
 		if (parentRegion) {
-			changeActiveRegionCB(parentRegion);
+			setActiveRegionCB(parentRegion);
 		} else if (childRegions.front()){
-			changeActiveRegionCB(childRegions.front());
+			setActiveRegionCB(childRegions.front());
 		}
 	}
 
@@ -266,11 +266,11 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	
 	//register testRegion's callback to testController
 	//this would normally be done from within testController with the "&testController" being replaced with "this"
-	testRegion.registerChangeActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
+	testRegion.registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
 
 	for (auto child : *testRegion.getChildRegions())
 	{
-		child->registerChangeActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
+		child->registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
 	}
 
 	//setup the first active region

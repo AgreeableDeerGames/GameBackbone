@@ -71,9 +71,9 @@ void CoreEventController::runLoop() {
 /// <summary>
 /// Changes the active region to the passed game region.
 /// </summary>
-/// <param name="newRegion">The new active game region.</param>
-void GB::CoreEventController::setActiveRegion(GameRegion * newRegion) {
-	activeRegion = newRegion;
+/// <param name="newActiveRegion">The new active GameRegion.</param>
+void GB::CoreEventController::setActiveRegion(GameRegion * newActiveRegion) {
+	activeRegion = newActiveRegion;
 }
 
 //events

@@ -30,7 +30,7 @@ namespace GB {
 
 		//operations
 		void runLoop();
-		void setActiveRegion(GameRegion* newRegion);
+		void setActiveRegion(GameRegion* newAciveRegion);
 
 		//status
 		bool isWindowOpen();
