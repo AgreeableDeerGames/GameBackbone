@@ -113,6 +113,19 @@ namespace GB {
 			}
 		}
 
+        /// <summary>
+        /// Checks if the given element is within the Array2D
+        /// </summary>
+	    /// <param name="x">The x position of the element.</param>
+	    /// <param name="y">The y position of the element.</param>
+	    /// <returns>Returns true if in the Array2D, false if not.</returns>
+        bool isInArray(unsigned int x, unsigned int y) {
+            if (x < getArraySizeX() && y < getArraySizeY()) {
+                return true;
+            }
+            return false;
+        }
+
 	private:
 		//internal helper functions
 

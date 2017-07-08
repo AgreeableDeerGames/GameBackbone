@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 
 #include "NavigationDemoRegion.h"
+#include "UtilMath.h"
 
 #include <TGUI/TGUI.hpp>
 
@@ -245,30 +246,17 @@ void GB::NavigationDemoRegion::initGUI() {
 void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) {
 
 	navGrid->initAllValues(NavigationGridData{ 1, 0 });
-
-	//block grids for maze
-	srand((unsigned int)time(NULL));
-	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
-			if (! (rand() % 5)) {//1 in 5 are blocked
-				bool blockable = true;
-				//determine if the square is non-blockable
-				for each (IntPair nonBlockable in nonBlockablePositions) {
-					if (nonBlockable.first == i && nonBlockable.second == j) {
-						blockable = false;
-					}
-				}
-				//only block blockable grids	
-				if (blockable) {
-					(*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
-				}
-			}
-		}
-	}
+    Array2D<int> graph(NAV_GRID_DIM, NAV_GRID_DIM);
+    std::vector<ClusterGenerationOptions> genOptions;
+    // comment these out to make random clusters
+    /*ClusterGenerationOptions ClusterGenerationOptions1{ sf::Color::Red, 10 }; genOptions.push_back(ClusterGenerationOptions1);
+    ClusterGenerationOptions ClusterGenerationOptions2{ sf::Color::Blue, 40 }; genOptions.push_back(ClusterGenerationOptions2);
+    ClusterGenerationOptions ClusterGenerationOptions3{ sf::Color::Magenta, 50 }; genOptions.push_back(ClusterGenerationOptions3);*/
+    std::multimap<std::pair<int, int>, Cluster> pointToClusterMap = GenerateClusteredGraph(graph, &genOptions);
 
 	//fill visual grid
-	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < graph.getArraySizeX(); i++) {
+		for (unsigned int j = 0; j < graph.getArraySizeY(); j++) {
 			//create sprite in correct position
 			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
 			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
@@ -277,12 +265,17 @@ void NavigationDemoRegion::initMaze(std::vector<IntPair> nonBlockablePositions) 
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
 
-			//shade blocked grids
-			bool blocked = (*navGrid)[i][j].weight == BLOCKED_GRID_WEIGHT;
-			if (blocked) {
-				gridSquare->setColor(sf::Color::Red);
-			}
-
+            // color the graph
+            std::pair<int, int> clusterKey(i, j);
+            auto search = pointToClusterMap.find(clusterKey);
+            if (search != pointToClusterMap.end()) {
+                gridSquare->setColor(search->second.getClusterGenerationOptions()->colorOfCluster);
+                (*navGrid)[i][j].weight = BLOCKED_GRID_WEIGHT;
+            }
+            else {
+                gridSquare->setColor(sf::Color::Yellow);
+            }
+                
 			//add grids to storage
 			(*visualNavigationGrid)[i][j] = gridSquare;
 

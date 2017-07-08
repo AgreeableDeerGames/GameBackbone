@@ -2,6 +2,7 @@
 
 #include "AnimatedSprite.h"
 #include "AnimationSet.h"
+#include "Cluster.h"
 #include "GameRegion.h"
 #include "Updatable.h"
 #include "CompoundSprite.h"

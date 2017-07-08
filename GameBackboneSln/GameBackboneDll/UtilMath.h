@@ -1,9 +1,12 @@
 #pragma once
 #include "stdafx.h"
 #include "DllUtil.h"
+#include "Cluster.h"
+#include "NavigationGridData.h"
 #include<SFML/System/Vector3.hpp>
 
 #include<math.h>
+#include<stdlib.h>
 
 namespace GB {
 
@@ -53,4 +56,22 @@ namespace GB {
 		return (T)(pow(point1.first - point2.first, 2) + pow(point1.second - point2.second, 2));
 	}
 
+    /// <summary>
+    /// Generates Clusters in the graph.
+    /// </summary>
+    /// <param name="graph">The graph to be clustered.</param>
+    /// <param name="graphOptions">Graph options/settings.</param>
+    /// <returns>Vector of clusters in the graph.</returns>
+    template<class T>
+    libGameBackbone std::multimap<std::pair<int, int>, Cluster> GenerateClusteredGraph(Array2D<T>& graph, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
+        srand(time(NULL));
+
+        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(generationOptionsVector, graph);
+        for (int i = 0; i < 20; i++) {
+            Cluster* clusterToAddTo = graphGenerator->chooseClusterToAddTo();
+            bool clusterGrew = graphGenerator->growCluster(clusterToAddTo);
+        }
+        return graphGenerator->pointToClusterMap;
+    }// end GenerateClusteredGraph
+    
 }

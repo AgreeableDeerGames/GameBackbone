@@ -93,6 +93,9 @@
     <ClInclude Include="BackboneBaseExceptions.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
+    <ClInclude Include="Cluster.h">
+      <Filter>Header Files\Backbone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp">

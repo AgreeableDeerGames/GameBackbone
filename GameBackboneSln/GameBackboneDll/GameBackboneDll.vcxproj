@@ -156,6 +156,7 @@
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Array3D.h" />
     <ClInclude Include="BackboneBaseExceptions.h" />
+    <ClInclude Include="Cluster.h" />
     <ClInclude Include="CompoundSprite.h" />
     <ClInclude Include="DebugIncludes.h" />
     <ClInclude Include="DllUtil.h" />
