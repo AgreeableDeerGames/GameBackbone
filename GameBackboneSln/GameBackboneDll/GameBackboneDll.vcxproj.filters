@@ -137,6 +137,9 @@
     <ClInclude Include="header\Backbone\Updatable.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
+    <ClInclude Include="header\Backbone\Cluster.h">
+      <Filter>Header Files\Backbone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

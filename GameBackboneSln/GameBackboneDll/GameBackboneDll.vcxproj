@@ -154,6 +154,7 @@
     <ClInclude Include="header\Backbone\AnimatedSprite.h" />
     <ClInclude Include="header\Backbone\AnimationSet.h" />
     <ClInclude Include="header\Backbone\BackboneBaseExceptions.h" />
+    <ClInclude Include="header\Backbone\Cluster.h" />
     <ClInclude Include="header\Backbone\CompoundSprite.h" />
     <ClInclude Include="header\Backbone\CoreEventController.h" />
     <ClInclude Include="header\Backbone\GameRegion.h" />

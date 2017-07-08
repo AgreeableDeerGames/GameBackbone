@@ -1,5 +1,5 @@
 #pragma once
-
+#include <Backbone\Cluster.h>
 #include <Util\DllUtil.h>
 #include <Util\Point.h>
 
@@ -55,4 +55,22 @@ namespace GB {
 		return (T)(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
 	}
 
+    /// <summary>
+    /// Generates Clusters in the graph.
+    /// </summary>
+    /// <param name="graph">The graph to be clustered.</param>
+    /// <param name="graphOptions">Graph options/settings.</param>
+    /// <returns>Vector of clusters in the graph.</returns>
+    template<class T>
+    libGameBackbone std::multimap<std::pair<int, int>, Cluster> GenerateClusteredGraph(Array2D<T>& graph, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
+        srand((unsigned int)time(NULL));
+
+        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(generationOptionsVector, graph);
+        for (int i = 0; i < 20; i++) {
+            Cluster* clusterToAddTo = graphGenerator->chooseClusterToAddTo();
+            bool clusterGrew = graphGenerator->growCluster(clusterToAddTo);
+        }
+        return graphGenerator->pointToClusterMap;
+    }// end GenerateClusteredGraph
+    
 }

@@ -71,7 +71,7 @@ namespace GB {
 		Pathfinder regionPathfinder;
 		NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
-		const float VISUAL_GRID_SCALE = 1.0f;
+		const float VISUAL_GRID_SCALE = .9f;
 		std::vector<std::list<Point2D<int>>> pathsReturn;
 
 		//GUI handle functions
