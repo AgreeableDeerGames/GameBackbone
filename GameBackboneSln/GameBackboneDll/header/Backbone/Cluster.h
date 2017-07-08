@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Util\Array2D.h>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML\Graphics\Sprite.hpp>
 
 #include <set>
 #include <tuple>
