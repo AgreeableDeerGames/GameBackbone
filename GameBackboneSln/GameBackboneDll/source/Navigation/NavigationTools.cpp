@@ -28,15 +28,3 @@ void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
 		}
 	}
 }
-
-/// <summary>
-/// Moves the sprite to point at the passed speed.
-/// </summary>
-/// <param name="sprite">The sprite.</param>
-/// <param name="destingation">The destination.</param>
-/// <param name="pixelsPerMs">The speed of the sprite in pixels per ms.</param>
-void GB::moveSpriteToPoint(sf::Sprite & sprite, const sf::Vector2f & destination, const float pixelsPerMs)
-{
-	return void();
-}
-
