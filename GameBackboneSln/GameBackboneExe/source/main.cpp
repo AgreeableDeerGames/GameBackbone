@@ -3,7 +3,7 @@
 #include <Backbone\CompoundSprite.h>
 #include <Backbone\GameRegion.h>
 #include <Backbone\Updatable.h>
-#include <Demo\NavigationDemoRegion.h>
+#include <NavigationDemoRegion.h>
 #include <BackboneExeCoreEventController.h>
 #include <SampleGuiInterface.h>
 
