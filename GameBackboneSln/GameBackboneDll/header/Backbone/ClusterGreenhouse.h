@@ -3,6 +3,7 @@
 
 #include <Backbone\Cluster.h>
 #include <Util\Array2D.h>
+#include <Util\Point.h>
 
 #include <SFML\Graphics\Sprite.hpp>
 
@@ -26,7 +27,7 @@ namespace GB {
 		void GenerateRandomOptionsVector(std::vector<ClusterGenerationOptions>* generationOptions);
 
 		std::vector<Cluster> clusterVector;
-		std::multimap<std::pair<int, int>, Cluster> pointToClusterMap;
-		std::pair<int, int> graphDims;
+		std::multimap<Point2D<int>, Cluster> pointToClusterMap;
+		Point2D<int> graphDims;
 	};
 }

@@ -1,6 +1,7 @@
 #include <Backbone\Cluster.h>
 #include <Backbone\ClusterGreenhouse.h>
 #include <Util\Array2D.h>
+#include <Util\Point.h>
 
 #include <SFML\Graphics\Sprite.hpp>
 
@@ -12,8 +13,8 @@
 using namespace GB;
 
 ClusterGreenhouse::ClusterGreenhouse(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptions) {
-	graphDims.first = graphSizeX; 
-	graphDims.second = graphSizeY;
+	graphDims.x = graphSizeX; 
+	graphDims.y = graphSizeY;
 
 	if (generationOptions->empty()) {
 		GenerateRandomOptionsVector(generationOptions);
@@ -22,12 +23,12 @@ ClusterGreenhouse::ClusterGreenhouse(unsigned int graphSizeX, unsigned int graph
 	int newPercent = 0;
 	for (auto i = 0; i < generationOptions->size(); i++) {
 		// make an origin for the cluster
-		std::pair<int, int> clusterOrigin(rand() % graphSizeX, rand() % graphSizeY);
+		Point2D<int> clusterOrigin{ (int)(rand() % graphSizeX), (int)(rand() % graphSizeY) };
 		while (pointToClusterMap.find(clusterOrigin) != pointToClusterMap.end()) {
 			// make a new one if one is already taken
 			// TODO: make sure that it is also ether not within another cluster's border here, or check to make sure that 
 			// we are not adding a point to a cluster where the said point is in a different cluster
-			clusterOrigin = std::pair<int, int>(rand() % graphSizeX, rand() % graphSizeY);
+			clusterOrigin = Point2D<int>{(int)(rand() % graphSizeX), (int)(rand() % graphSizeY)};
 		}
 		// adjust the frequency of the cluster
 		// when the percentages of each cluster are entered, they will be not relative to eachother,
@@ -37,21 +38,21 @@ ClusterGreenhouse::ClusterGreenhouse(unsigned int graphSizeX, unsigned int graph
 		newPercent = (*generationOptions)[i].percent + newPercent;
 		(*generationOptions)[i].percent = newPercent;
 
-		Cluster clusterToAdd(clusterOrigin, pointToClusterMap, std::pair<int, int>(graphSizeX, graphSizeY));
+		Cluster clusterToAdd(clusterOrigin, pointToClusterMap, Point2D<int>{(int)graphSizeX, (int)graphSizeY});
 		clusterToAdd.setClusterGenerationOptions(&(*generationOptions)[i]);
 		clusterVector.push_back(clusterToAdd);
 		pointToClusterMap.insert(std::make_pair(clusterOrigin, clusterToAdd));
 	}
 	// 2-cluster debug
 	/*
-	Cluster cluster1(std::pair<int, int>(13, 13), pointToClusterMap, std::pair<int, int>(20, 20));
+	Cluster cluster1(Point2D<int>{13, 13}, pointToClusterMap, Point2D<int>{20, 20});
 	cluster1.setClusterDisplayColor(sf::Color::Red);
 	clusterVector.push_back(cluster1);
-	pointToClusterMap.insert(std::make_pair(std::pair<int, int>(13, 13), cluster1));
-	Cluster cluster2(std::pair<int, int>(5, 5), pointToClusterMap, std::pair<int, int>(20, 20));
+	pointToClusterMap.insert(std::make_pair(Point2D<int>{13, 13}, cluster1));
+	Cluster cluster2(Point2D<int>{5, 5}, pointToClusterMap, Point2D<int>{20, 20});
 	cluster2.setClusterDisplayColor(sf::Color::Red);
 	clusterVector.push_back(cluster2);
-	pointToClusterMap.insert(std::make_pair(std::pair<int, int>(5, 5), cluster2));*/
+	pointToClusterMap.insert(std::make_pair(Point2D<int>{5, 5}, cluster2));*/
 }
 
 Cluster* ClusterGreenhouse::chooseClusterToAddTo() {
@@ -91,8 +92,8 @@ void ClusterGreenhouse::GenerateRandomOptionsVector(std::vector<ClusterGeneratio
 		}
 
 		// choose a starting point for cluster then make cluster
-		std::pair<int, int> originPoint(rand() % graphDims.first, rand() % graphDims.second);
-		Cluster cluster(originPoint, pointToClusterMap, std::pair<int, int>(graphDims.first, graphDims.second));
+		Point2D<int> originPoint{ rand() % graphDims.x, rand() % graphDims.y };
+		Cluster cluster(originPoint, pointToClusterMap, Point2D<int>{graphDims.x, graphDims.y});
 
 		// create the generation options for cluster made, using 
 		ClusterGenerationOptions newGenerationOption;

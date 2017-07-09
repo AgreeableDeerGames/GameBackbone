@@ -63,7 +63,7 @@ namespace GB {
     /// <param name="graph">The graph to be clustered.</param>
     /// <param name="graphOptions">Graph options/settings.</param>
     /// <returns>Vector of clusters in the graph.</returns>
-    libGameBackbone std::multimap<std::pair<int, int>, Cluster> GenerateClusteredGraph(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
+    libGameBackbone std::multimap<Point2D<int>, Cluster> GenerateClusteredGraph(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
         srand((unsigned int)time(NULL));
 
         ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(graphSizeX, graphSizeY, generationOptionsVector);
