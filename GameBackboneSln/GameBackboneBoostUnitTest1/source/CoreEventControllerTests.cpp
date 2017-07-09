@@ -79,6 +79,13 @@ public:
 		//ensure that postHandleEvent happens after preHandleEvent and either handleGuiEvent or handleCoreEvent
 		BOOST_CHECK(hasFinishedPreHandleEvent);
 		BOOST_CHECK(hasFinishedHandleCoreEvent || hasFinishedHandleGuiEvent);
+
+		//Reset these flags to prevent multiple GUI events from trampling one another's results
+		hasFinishedHandleCoreEvent = false;
+		hasFinishedHandleGuiEvent = false;
+		hasFinishedPostHandleEvent = false;
+		hasFinishedPreHandleEvent = false;
+		
 	}
 
 	//draw
