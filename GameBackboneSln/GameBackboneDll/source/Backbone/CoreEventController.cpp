@@ -55,6 +55,12 @@ CoreEventController::~CoreEventController()
 /// </summary>
 void CoreEventController::runLoop() {
 	sf::Event event;
+
+	//Ensure window is fully opened before before we do any work on it.
+	while (window->isOpen() == false) {
+		continue;
+	}
+
 	while (window->isOpen()) {
 
 		while (window->pollEvent(event)) {

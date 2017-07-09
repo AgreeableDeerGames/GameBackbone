@@ -19,6 +19,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventControllerTests)
 /// <seealso cref="CoreEventController" />
 class TestCoreEventController : public CoreEventController
 {
+
 public:	
 	// ctr / dtr
 	TestCoreEventController() {
@@ -78,6 +79,13 @@ public:
 		//ensure that postHandleEvent happens after preHandleEvent and either handleGuiEvent or handleCoreEvent
 		BOOST_CHECK(hasFinishedPreHandleEvent);
 		BOOST_CHECK(hasFinishedHandleCoreEvent || hasFinishedHandleGuiEvent);
+
+		//Reset these flags to prevent multiple GUI events from trampling one another's results
+		hasFinishedHandleCoreEvent = false;
+		hasFinishedHandleGuiEvent = false;
+		hasFinishedPostHandleEvent = false;
+		hasFinishedPreHandleEvent = false;
+		
 	}
 
 	//draw
@@ -163,9 +171,6 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
  //Tests the behavior of RunLoop when the sf window has no events
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
-
-	// give the window time to get set up.
-	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	testController.runLoop();
 
