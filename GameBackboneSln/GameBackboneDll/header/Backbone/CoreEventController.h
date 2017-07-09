@@ -30,6 +30,7 @@ namespace GB {
 
 		//operations
 		void runLoop();
+		void setActiveRegion(GameRegion* newActiveRegion);
 
 protected:
 		//events

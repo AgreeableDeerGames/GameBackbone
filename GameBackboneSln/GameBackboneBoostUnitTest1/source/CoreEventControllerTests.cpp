@@ -33,12 +33,8 @@ public:
 		hasFinishedPreDraw = false;
 		hasFinishedPreHandleEvent = false;
 		hasFinishedPreUpdate = false;
-
-		activeRegion = new GameRegion(*window);
 	}
-	~TestCoreEventController() {
-		delete activeRegion;
-	}
+	~TestCoreEventController() {}
 
 	// test event functions
 
@@ -155,7 +151,50 @@ public:
 	bool hasFinishedCoreUpdate;
 	bool hasFinishedPostUpdate;
 
+	//region tracker
+	GameRegion* getActiveGameRegion() {
+		return activeRegion;
+	}
+
 };
+
+/// <summary>
+/// GameRegion that creates a child region.
+/// Changes active region to child/parent region on behave call.
+/// </summary>
+class TestGameRegion : public GB::GameRegion
+{
+public:
+	TestGameRegion(bool shouldCreateChild = false) {
+		if (shouldCreateChild) {
+			TestGameRegion* child = new TestGameRegion();
+			addChildRegion(child);
+		}
+	}
+	~TestGameRegion(){
+		//free memory created for each child region.
+
+		if (!childRegions.empty()) {
+			delete childRegions.front();
+		}
+	}
+		
+	/// <summary>
+	/// change mark different region as active
+	/// </summary>
+	/// <param name="currentTime">The current time.</param>
+	void behave(sf::Time currentTime) override {
+		if (parentRegion) {
+			setActiveRegionCB(parentRegion);
+		} else if (childRegions.front()){
+			setActiveRegionCB(childRegions.front());
+		}
+	}
+
+private:
+
+};
+
 
 BOOST_AUTO_TEST_SUITE(CoreEventController_ctrs)
 
@@ -171,6 +210,8 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
  //Tests the behavior of RunLoop when the sf window has no events
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
+	GameRegion gameRegion;
+	testController.setActiveRegion(&gameRegion);
 
 	testController.runLoop();
 
@@ -194,6 +235,57 @@ BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	BOOST_CHECK(testController.hasFinishedPreUpdate);
 	BOOST_CHECK(testController.hasFinishedCoreUpdate);
 	BOOST_CHECK(testController.hasFinishedPostUpdate);
+}
+
+//ensure that calling setActiveRegion changes to the correct active region
+BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion) {
+	TestCoreEventController testController;
+	
+	//region constructed by TestCoreEventController is not required for this test 
+	GameRegion* defaultRegion = testController.getActiveGameRegion();
+	delete defaultRegion;
+	testController.setActiveRegion(nullptr);
+	
+	GameRegion region1;
+	testController.setActiveRegion(&region1);
+	GameRegion* returnedRegion = testController.getActiveGameRegion();
+
+	//ensure that the region stored by testController is the one set by setActiveRegion
+	BOOST_CHECK(returnedRegion == &region1);
+}
+
+//ensure that regions within the CoreEventController can correctly change the active region.
+BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
+	TestCoreEventController testController;
+
+	//region constructed by TestCoreEventController is not required for this test 
+	GameRegion* defaultRegion = testController.getActiveGameRegion();
+	delete defaultRegion;
+	testController.setActiveRegion(nullptr);
+
+	//create a region with a child
+	TestGameRegion testRegion(true);
+	
+	//register testRegion's callback to testController
+	//this would normally be done from within testController with the "&testController" being replaced with "this"
+	testRegion.registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
+
+	for (auto child : *testRegion.getChildRegions())
+	{
+		child->registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
+	}
+
+	//setup the first active region
+	testController.setActiveRegion(&testRegion);
+
+	//change to child region
+	testController.getActiveGameRegion()->behave(sf::Time::Time());
+	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.getChildRegions()->front());
+
+	//change back to parent region
+	testController.getActiveGameRegion()->behave(sf::Time::Time());
+	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end CoreEventController_Events
