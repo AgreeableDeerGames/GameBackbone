@@ -13,9 +13,9 @@
 
 namespace GB {
 
-	class ClusterGreenhouse {
+	class libGameBackbone ClusterGreenhouse {
 	public:
-		ClusterGreenhouse(std::vector<ClusterGenerationOptions>* generationOptions, Array2D<T>& graphToPopulate);
+		ClusterGreenhouse(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptions);
 
 		Cluster* chooseClusterToAddTo();
 
@@ -24,4 +24,9 @@ namespace GB {
 		// If there is no input cluster generation options, then we'll just generate some
 		// generationOptions should be empty
 		void GenerateRandomOptionsVector(std::vector<ClusterGenerationOptions>* generationOptions);
+
+		std::vector<Cluster> clusterVector;
+		std::multimap<std::pair<int, int>, Cluster> pointToClusterMap;
+		std::pair<int, int> graphDims;
+	};
 }

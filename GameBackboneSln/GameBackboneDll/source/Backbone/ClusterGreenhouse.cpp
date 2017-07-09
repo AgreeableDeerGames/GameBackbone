@@ -11,8 +11,10 @@
 
 using namespace GB;
 
-ClusterGreenhouse::ClusterGreenhouse(std::vector<ClusterGenerationOptions>* generationOptions, Array2D<T>& graphToPopulate) {
-	graphDims.first = graphToPopulate.getArraySizeX(); graphDims.second = graphToPopulate.getArraySizeY();
+ClusterGreenhouse::ClusterGreenhouse(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptions) {
+	graphDims.first = graphSizeX; 
+	graphDims.second = graphSizeY;
+
 	if (generationOptions->empty()) {
 		GenerateRandomOptionsVector(generationOptions);
 	}
@@ -20,12 +22,12 @@ ClusterGreenhouse::ClusterGreenhouse(std::vector<ClusterGenerationOptions>* gene
 	int newPercent = 0;
 	for (auto i = 0; i < generationOptions->size(); i++) {
 		// make an origin for the cluster
-		std::pair<int, int> clusterOrigin(rand() % graphToPopulate.getArraySizeX(), rand() % graphToPopulate.getArraySizeY());
+		std::pair<int, int> clusterOrigin(rand() % graphSizeX, rand() % graphSizeY);
 		while (pointToClusterMap.find(clusterOrigin) != pointToClusterMap.end()) {
 			// make a new one if one is already taken
 			// TODO: make sure that it is also ether not within another cluster's border here, or check to make sure that 
 			// we are not adding a point to a cluster where the said point is in a different cluster
-			clusterOrigin = std::pair<int, int>(rand() % graphToPopulate.getArraySizeX(), rand() % graphToPopulate.getArraySizeY());
+			clusterOrigin = std::pair<int, int>(rand() % graphSizeX, rand() % graphSizeY);
 		}
 		// adjust the frequency of the cluster
 		// when the percentages of each cluster are entered, they will be not relative to eachother,
@@ -35,7 +37,7 @@ ClusterGreenhouse::ClusterGreenhouse(std::vector<ClusterGenerationOptions>* gene
 		newPercent = (*generationOptions)[i].percent + newPercent;
 		(*generationOptions)[i].percent = newPercent;
 
-		Cluster clusterToAdd(clusterOrigin, pointToClusterMap, std::pair<int, int>(graphToPopulate.getArraySizeX(), graphToPopulate.getArraySizeY()));
+		Cluster clusterToAdd(clusterOrigin, pointToClusterMap, std::pair<int, int>(graphSizeX, graphSizeY));
 		clusterToAdd.setClusterGenerationOptions(&(*generationOptions)[i]);
 		clusterVector.push_back(clusterToAdd);
 		pointToClusterMap.insert(std::make_pair(clusterOrigin, clusterToAdd));

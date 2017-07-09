@@ -155,6 +155,7 @@
     <ClInclude Include="header\Backbone\AnimationSet.h" />
     <ClInclude Include="header\Backbone\BackboneBaseExceptions.h" />
     <ClInclude Include="header\Backbone\Cluster.h" />
+    <ClInclude Include="header\Backbone\ClusterGreenhouse.h" />
     <ClInclude Include="header\Backbone\CompoundSprite.h" />
     <ClInclude Include="header\Backbone\CoreEventController.h" />
     <ClInclude Include="header\Backbone\GameRegion.h" />
@@ -176,6 +177,8 @@
   <ItemGroup>
     <ClCompile Include="source\Backbone\AnimatedSprite.cpp" />
     <ClCompile Include="source\Backbone\AnimationSet.cpp" />
+    <ClCompile Include="source\Backbone\Cluster.cpp" />
+    <ClCompile Include="source\Backbone\ClusterGreenhouse.cpp" />
     <ClCompile Include="source\Backbone\CompoundSprite.cpp" />
     <ClCompile Include="source\Backbone\CoreEventController.cpp" />
     <ClCompile Include="source\Backbone\GameRegion.cpp" />

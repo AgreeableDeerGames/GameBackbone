@@ -246,17 +246,16 @@ void GB::NavigationDemoRegion::initGUI() {
 void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositions) {
 	initAllNavigationGridValues(*navGrid, NavigationGridData{ 1, 0 });
 
-    Array2D<int> graph(NAV_GRID_DIM, NAV_GRID_DIM);
     std::vector<ClusterGenerationOptions> genOptions;
     // comment these out to make random clusters
     /*ClusterGenerationOptions ClusterGenerationOptions1{ sf::Color::Red, 10 }; genOptions.push_back(ClusterGenerationOptions1);
     ClusterGenerationOptions ClusterGenerationOptions2{ sf::Color::Blue, 40 }; genOptions.push_back(ClusterGenerationOptions2);
     ClusterGenerationOptions ClusterGenerationOptions3{ sf::Color::Magenta, 50 }; genOptions.push_back(ClusterGenerationOptions3);*/
-    std::multimap<std::pair<int, int>, Cluster> pointToClusterMap = GenerateClusteredGraph(graph, &genOptions);
+    std::multimap<std::pair<int, int>, Cluster> pointToClusterMap = GenerateClusteredGraph(NAV_GRID_DIM, NAV_GRID_DIM, &genOptions);
 
 	//fill visual grid
-	for (unsigned int i = 0; i < graph.getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < graph.getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
+		for (unsigned int j = 0; j < NAV_GRID_DIM; j++) {
 			//create sprite in correct position
 			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
 			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;

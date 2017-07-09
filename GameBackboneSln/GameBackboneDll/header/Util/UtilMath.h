@@ -1,10 +1,12 @@
 #pragma once
 #include <Backbone\Cluster.h>
+#include <Backbone\ClusterGreenhouse.h>
 #include <Util\DllUtil.h>
 #include <Util\Point.h>
 
 #include <SFML\System\Vector3.hpp>
 
+#include <chrono>
 #include <math.h>
 
 namespace GB {
@@ -61,11 +63,10 @@ namespace GB {
     /// <param name="graph">The graph to be clustered.</param>
     /// <param name="graphOptions">Graph options/settings.</param>
     /// <returns>Vector of clusters in the graph.</returns>
-    template<class T>
-    libGameBackbone std::multimap<std::pair<int, int>, Cluster> GenerateClusteredGraph(Array2D<T>& graph, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
+    libGameBackbone std::multimap<std::pair<int, int>, Cluster> GenerateClusteredGraph(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
         srand((unsigned int)time(NULL));
 
-        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(generationOptionsVector, graph);
+        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(graphSizeX, graphSizeY, generationOptionsVector);
         for (int i = 0; i < 20; i++) {
             Cluster* clusterToAddTo = graphGenerator->chooseClusterToAddTo();
             bool clusterGrew = graphGenerator->growCluster(clusterToAddTo);
