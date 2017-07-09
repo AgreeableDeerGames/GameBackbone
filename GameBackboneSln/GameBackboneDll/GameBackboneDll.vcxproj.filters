@@ -28,12 +28,6 @@
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{a688d4cd-4ede-47cb-bbe3-a53ca5725fd8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Demo">
-      <UniqueIdentifier>{dbdefe6c-d59a-4f27-8b5a-d5ec14bceb80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Demo">
-      <UniqueIdentifier>{71e2a719-18d5-4692-8dbb-db3db5874349}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Navigation">
       <UniqueIdentifier>{e0980832-c84e-4987-993b-7510092fc4a7}</UniqueIdentifier>
     </Filter>
@@ -104,9 +98,6 @@
     <ClInclude Include="header\Backbone\GameRegion.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
-    <ClInclude Include="header\Navigation\NavigationGridData.h">
-      <Filter>Header Files\Demo</Filter>
-    </ClInclude>
     <ClInclude Include="header\Navigation\NavigationTools.h">
       <Filter>Header Files\Navigation</Filter>
     </ClInclude>
@@ -130,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="header\Backbone\Updatable.h">
       <Filter>Header Files\Backbone</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Navigation\NavigationGridData.h">
+      <Filter>Header Files\Navigation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
