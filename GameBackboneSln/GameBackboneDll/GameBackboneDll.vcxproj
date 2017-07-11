@@ -154,8 +154,6 @@
     <ClInclude Include="header\Backbone\AnimatedSprite.h" />
     <ClInclude Include="header\Backbone\AnimationSet.h" />
     <ClInclude Include="header\Backbone\BackboneBaseExceptions.h" />
-    <ClInclude Include="header\Backbone\Cluster.h" />
-    <ClInclude Include="header\Backbone\ClusterGreenhouse.h" />
     <ClInclude Include="header\Backbone\CompoundSprite.h" />
     <ClInclude Include="header\Backbone\CoreEventController.h" />
     <ClInclude Include="header\Backbone\GameRegion.h" />
@@ -166,6 +164,8 @@
     <ClInclude Include="header\Navigation\PathRequest.h" />
     <ClInclude Include="header\Util\Array2D.h" />
     <ClInclude Include="header\Util\Array3D.h" />
+    <ClInclude Include="header\Util\Cluster.h" />
+    <ClInclude Include="header\Util\ClusterGreenhouse.h" />
     <ClInclude Include="header\Util\DebugIncludes.h" />
     <ClInclude Include="header\Util\DllUtil.h" />
     <ClInclude Include="header\Util\FileReader.h" />
@@ -177,13 +177,13 @@
   <ItemGroup>
     <ClCompile Include="source\Backbone\AnimatedSprite.cpp" />
     <ClCompile Include="source\Backbone\AnimationSet.cpp" />
-    <ClCompile Include="source\Backbone\Cluster.cpp" />
-    <ClCompile Include="source\Backbone\ClusterGreenhouse.cpp" />
     <ClCompile Include="source\Backbone\CompoundSprite.cpp" />
     <ClCompile Include="source\Backbone\CoreEventController.cpp" />
     <ClCompile Include="source\Backbone\GameRegion.cpp" />
     <ClCompile Include="source\Navigation\NavigationTools.cpp" />
     <ClCompile Include="source\Navigation\PathFinder.cpp" />
+    <ClCompile Include="source\Util\Cluster.cpp" />
+    <ClCompile Include="source\Util\ClusterGreenhouse.cpp" />
     <ClCompile Include="source\Util\dllmain.cpp" />
     <ClCompile Include="source\Util\FileReader.cpp" />
     <ClCompile Include="source\Util\RandGen.cpp" />

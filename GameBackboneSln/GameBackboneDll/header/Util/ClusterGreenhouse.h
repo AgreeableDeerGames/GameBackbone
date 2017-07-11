@@ -1,9 +1,9 @@
 #pragma once
 
-
-#include <Backbone\Cluster.h>
 #include <Util\Array2D.h>
+#include <Util\Cluster.h>
 #include <Util\Point.h>
+#include <Util\RandGen.h>
 
 #include <SFML\Graphics\Sprite.hpp>
 
@@ -16,7 +16,7 @@ namespace GB {
 
 	class libGameBackbone ClusterGreenhouse {
 	public:
-		ClusterGreenhouse(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptions);
+		ClusterGreenhouse(Point2D<int> dimensions, std::vector<ClusterGenerationOptions>* generationOptions);
 
 		Cluster* chooseClusterToAddTo();
 
@@ -29,5 +29,6 @@ namespace GB {
 		std::vector<Cluster> clusterVector;
 		std::multimap<Point2D<int>, Cluster> pointToClusterMap;
 		Point2D<int> graphDims;
+		RandGen RandomGenerator;
 	};
 }

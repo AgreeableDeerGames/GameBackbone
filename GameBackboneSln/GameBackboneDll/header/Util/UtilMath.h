@@ -1,6 +1,6 @@
 #pragma once
-#include <Backbone\Cluster.h>
-#include <Backbone\ClusterGreenhouse.h>
+#include <Util\Cluster.h>
+#include <Util\ClusterGreenhouse.h>
 #include <Util\DllUtil.h>
 #include <Util\Point.h>
 
@@ -63,10 +63,10 @@ namespace GB {
     /// <param name="graph">The graph to be clustered.</param>
     /// <param name="graphOptions">Graph options/settings.</param>
     /// <returns>Vector of clusters in the graph.</returns>
-    libGameBackbone std::multimap<Point2D<int>, Cluster> GenerateClusteredGraph(unsigned int graphSizeX, unsigned int graphSizeY, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
+    libGameBackbone std::multimap<Point2D<int>, Cluster> GenerateClusteredGraph(Point2D<int> dimensions, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
         srand((unsigned int)time(NULL));
 
-        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(graphSizeX, graphSizeY, generationOptionsVector);
+        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(dimensions, generationOptionsVector);
         for (int i = 0; i < 20; i++) {
             Cluster* clusterToAddTo = graphGenerator->chooseClusterToAddTo();
             bool clusterGrew = graphGenerator->growCluster(clusterToAddTo);

@@ -95,6 +95,40 @@ BOOST_AUTO_TEST_CASE(RandGen_different_Seed_test) {
 	delete testRandGen2;
 }
 
+BOOST_AUTO_TEST_CASE(RandGen_uniDist) {
+	RandGen* testRandGen = new RandGen();
+
+	int min = 0;
+	int max = 1;
+	for (unsigned int ii = 0; ii < 10; ++ii)
+	{
+		// Ensure that the outputs for the same seed are the same
+		double output = testRandGen->uniDist(min, max);
+		BOOST_CHECK(min <= output && output < max);
+		min = min + 1; 
+		max = max + 4;
+	}
+
+	delete testRandGen;
+}
+
+BOOST_AUTO_TEST_CASE(RandGen_uniDist_toInt) {
+	RandGen* testRandGen = new RandGen();
+
+	int min = 0;
+	int max = 1;
+	for (unsigned int ii = 0; ii < 10; ++ii)
+	{
+		// Ensure that the outputs for the same seed are the same
+		int output = (int)testRandGen->uniDist(min, max);
+		BOOST_CHECK(min <= output && output < max);
+		min = min + 1;
+		max = max + 4;
+	}
+
+	delete testRandGen;
+}
+
 BOOST_AUTO_TEST_SUITE_END() // end RandGen_Generator
 
 BOOST_AUTO_TEST_SUITE_END() // end RandGen_Tests

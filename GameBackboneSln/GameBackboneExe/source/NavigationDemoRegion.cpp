@@ -4,6 +4,7 @@
 
 #include <NavigationDemoRegion.h>
 #include <Navigation\NavigationTools.h>
+#include <Util\Point.h>
 #include <Util\UtilMath.h>
 
 #include <TGUI\TGUI.hpp>
@@ -251,7 +252,7 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
     /*ClusterGenerationOptions ClusterGenerationOptions1{ sf::Color::Red, 10 }; genOptions.push_back(ClusterGenerationOptions1);
     ClusterGenerationOptions ClusterGenerationOptions2{ sf::Color::Blue, 40 }; genOptions.push_back(ClusterGenerationOptions2);
     ClusterGenerationOptions ClusterGenerationOptions3{ sf::Color::Magenta, 50 }; genOptions.push_back(ClusterGenerationOptions3);*/
-    std::multimap<Point2D<int>, Cluster> pointToClusterMap = GenerateClusteredGraph(NAV_GRID_DIM, NAV_GRID_DIM, &genOptions);
+	std::multimap<Point2D<int>, Cluster> pointToClusterMap = GenerateClusteredGraph(Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM}, &genOptions);
 
 	//fill visual grid
 	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
