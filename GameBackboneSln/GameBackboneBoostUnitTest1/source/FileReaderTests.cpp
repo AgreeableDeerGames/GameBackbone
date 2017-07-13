@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Util\FileReader.h>
-#include <Util\Array2D.h>
 #include <Backbone\BackboneBaseExceptions.h>
+#include <Util\Array2D.h>
+#include <Util\FileReader.h>
 
 using namespace GB;
 

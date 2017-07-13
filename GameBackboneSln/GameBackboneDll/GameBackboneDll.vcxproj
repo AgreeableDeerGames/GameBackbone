@@ -166,6 +166,7 @@
     <ClInclude Include="header\Util\Array3D.h" />
     <ClInclude Include="header\Util\DebugIncludes.h" />
     <ClInclude Include="header\Util\DllUtil.h" />
+    <ClInclude Include="header\Util\FileManager.h" />
     <ClInclude Include="header\Util\FileReader.h" />
     <ClInclude Include="header\Util\Point.h" />
     <ClInclude Include="header\Util\RandGen.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="source\Navigation\NavigationTools.cpp" />
     <ClCompile Include="source\Navigation\PathFinder.cpp" />
     <ClCompile Include="source\Util\dllmain.cpp" />
+    <ClCompile Include="source\Util\FileManager.cpp" />
     <ClCompile Include="source\Util\FileReader.cpp" />
     <ClCompile Include="source\Util\RandGen.cpp" />
   </ItemGroup>

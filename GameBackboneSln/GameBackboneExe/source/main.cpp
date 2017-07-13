@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+#include <Util\FileManager.h>
+
 
 using namespace GB;
 
