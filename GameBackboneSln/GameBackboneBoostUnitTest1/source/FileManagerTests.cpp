@@ -11,20 +11,58 @@ BOOST_AUTO_TEST_SUITE(FileManager_Tests)
 BOOST_AUTO_TEST_SUITE(FileManager_encryptDecryptString)
 
 // Ensure that encryptDecryptString gives correct results.
-BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_tsv_test) {
+BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_general) {
 	FileManager testManager;
-
 
 	std::string testString = "Test String with Some Form of Stuff...";
 	std::string key = "KEY";
 
+	std::string outputString = testManager.encryptDecryptString(testString, key);
+	BOOST_CHECK(outputString != testString);
+	BOOST_CHECK(outputString.size() == testString.size());
 
-	testString = testManager.encryptDecryptString(testString, key);
-	std::cout << testString << "\n";
+	outputString = testManager.encryptDecryptString(outputString, key);
+	BOOST_CHECK(outputString == testString);
+}
 
-	testString = testManager.encryptDecryptString(testString, key);
-	std::cout << testString << "\n";
+// Ensure that encryptDecryptString gives correct results given the same key as input string.
+BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_same_Key) {
+	FileManager testManager;
 
+	std::string testString = "Test String with Some Form of Stuff...";
+	std::string key = "Test String with Some Form of Stuff...";
+
+	std::string outputString = testManager.encryptDecryptString(testString, key);
+	BOOST_CHECK(outputString != testString);
+	BOOST_CHECK(outputString.size() == testString.size());
+
+	for (char character : outputString)
+	{ 
+		BOOST_CHECK(character == '\0');
+	}
+
+	outputString = testManager.encryptDecryptString(outputString, key);
+	BOOST_CHECK(outputString == testString);
+}
+
+// Ensure that encryptDecryptString gives correct results given the same key as input string.
+BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_slashN) {
+	FileManager testManager;
+
+	std::string testString = "SSSSSSSSSSSSSSSSSSSSSSSSSS";
+	std::string key = "Y";
+
+	std::string outputString = testManager.encryptDecryptString(testString, key);
+	BOOST_CHECK(outputString != testString);
+	BOOST_CHECK(outputString.size() == testString.size());
+
+	for (char character : outputString)
+	{
+		BOOST_CHECK(character == '\n');
+	}
+
+	outputString = testManager.encryptDecryptString(outputString, key);
+	BOOST_CHECK(outputString == testString);
 }
 
 

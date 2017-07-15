@@ -17,12 +17,19 @@ FileManager::~FileManager()
 	delete reader;
 }
 
-std::string FileManager::encryptDecryptString(std::string stringToChange, const std::string key){
-	std::string output = stringToChange;
+/// <summary>
+/// Encrypts or decrypts a string.
+/// </summary>
+/// <param name="stringToChange">The string to be encrypted.</param>
+/// <param name="key">The key for the encryption.</param>
+/// <returns></returns>
+std::string FileManager::encryptDecryptString(const std::string stringToEncrypt, const std::string key) {
+	std::string output = stringToEncrypt;
 
-	for (int i = 0; i < stringToChange.size(); i++)
+	for (unsigned int ii = 0; ii < stringToEncrypt.size(); ++ii)
 	{
-		output[i] = stringToChange[i] ^ key[(i % key.size())];
+		// XOR the char in stringToChange with the corresponding char from the key.
+		output[ii] = stringToEncrypt[ii] ^ key[(ii % key.size())];
 	}
 
 	return output;
