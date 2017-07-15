@@ -56,22 +56,4 @@ namespace GB {
 	libGameBackbone T CalcSquaredDistance(const Point2D<T> & point1, const Point2D<T> & point2) {
 		return (T)(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
 	}
-
-    /// <summary>
-    /// Generates Clusters in the graph.
-    /// </summary>
-    /// <param name="graph">The graph to be clustered.</param>
-    /// <param name="graphOptions">Graph options/settings.</param>
-    /// <returns>Vector of clusters in the graph.</returns>
-    libGameBackbone std::multimap<Point2D<int>, Cluster> GenerateClusteredGraph(Point2D<int> dimensions, std::vector<ClusterGenerationOptions>* generationOptionsVector) {
-        srand((unsigned int)time(NULL));
-
-        ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(dimensions, generationOptionsVector);
-        for (int i = 0; i < 20; i++) {
-            Cluster* clusterToAddTo = graphGenerator->chooseClusterToAddTo();
-            bool clusterGrew = graphGenerator->growCluster(clusterToAddTo);
-        }
-        return graphGenerator->pointToClusterMap;
-    }// end GenerateClusteredGraph
-    
 }

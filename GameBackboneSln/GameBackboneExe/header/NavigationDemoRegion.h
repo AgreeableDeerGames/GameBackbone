@@ -49,6 +49,7 @@ namespace GB {
 		//helper functions
 		void initGUI();
 		void initMaze(std::vector<Point2D<int>> nonBlockablePositions);
+		std::vector<std::set<Point2D<int>>> generateClusteredGraph(Point2D<int> dimensions);
 		sf::Vector2f gridCoordToWorldCoord(const Point2D<int>& gridCoordinate);
 		Point2D<int> worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
 

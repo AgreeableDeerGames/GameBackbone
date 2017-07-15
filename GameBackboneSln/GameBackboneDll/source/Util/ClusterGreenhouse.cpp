@@ -12,15 +12,21 @@
 
 using namespace GB;
 
-ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions, std::vector<ClusterGenerationOptions>* generationOptions) {
+/// <summary>
+/// Constructor
+/// </summary>
+/// <param name="dimensions">The dimension of the Array2D which is being used.</param>
+ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions) {
 	graphDims = dimensions;
-
-	if (generationOptions->empty()) {
+	std::vector<ClusterGenerationOptions> generationOptions; // This is temporary while we transition to passing in some other form of options
+	if (generationOptions.empty()) {
 		GenerateRandomOptionsVector(generationOptions);
+		return;
 	}
-
+	// TODO: it is uncertain how we are going to let the greenhouse know what kinds of cluster are to be made.  For now
+	// just call GenerateRandomOptionsVector (see above).
 	int newPercent = 0;
-	for (auto i = 0; i < generationOptions->size(); i++) {
+	for (auto i = 0; i < generationOptions.size(); i++) {
 		// make an origin for the cluster
 		Point2D<int> originPoint{(int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y)};
 
@@ -35,63 +41,66 @@ ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions, std::vector<Cluste
 		// ie 25, 25, 10, 40
 		// afterwards it will be
 		// 25, 50, 60, 100
-		newPercent = (*generationOptions)[i].percent + newPercent;
-		(*generationOptions)[i].percent = newPercent;
+		newPercent = generationOptions[i].percent + newPercent;
+		generationOptions[i].percent = newPercent;
 
 		Cluster clusterToAdd(originPoint, graphDims, pointToClusterMap);
-		clusterToAdd.setClusterGenerationOptions(&(*generationOptions)[i]);
+		clusterToAdd.setClusterGenerationOptions(&(generationOptions)[i]);
 		clusterVector.push_back(clusterToAdd);
 		pointToClusterMap.insert(std::make_pair(originPoint, clusterToAdd));
 	}
-	// 2-cluster debug
-	/*
-	Cluster cluster1(Point2D<int>{13, 13}, pointToClusterMap, Point2D<int>{20, 20});
-	cluster1.setClusterDisplayColor(sf::Color::Red);
-	clusterVector.push_back(cluster1);
-	pointToClusterMap.insert(std::make_pair(Point2D<int>{13, 13}, cluster1));
-	Cluster cluster2(Point2D<int>{5, 5}, pointToClusterMap, Point2D<int>{20, 20});
-	cluster2.setClusterDisplayColor(sf::Color::Red);
-	clusterVector.push_back(cluster2);
-	pointToClusterMap.insert(std::make_pair(Point2D<int>{5, 5}, cluster2));*/
 }
 
+/// <summary>
+/// Chooses a cluster to add a point to, based on the frequency each Cluster has been assigned.
+/// </summary>
+/// <return> The cluster which will get a new point added to it. </return>
 Cluster* ClusterGreenhouse::chooseClusterToAddTo() {
-	int rollDie = (int)RandomGenerator.uniDist(0, 100);
-
+	double rollDie = RandomGenerator.uniDist(0, 1);
+	if (rollDie < sparcity) {
+		return nullptr;
+	}
+	Cluster* currentWinner = &clusterVector[0];
 	for (int i = 0; i < clusterVector.size(); i++) {
-		// check which cluster will be added to, based on rand number and frequency of cluster
-		if (rollDie < clusterVector[i].getClusterGenerationOptions()->percent)
-			return &clusterVector[i];
+		// check which cluster will be added to, based on random number and frequency of cluster
+		if(rollDie > clusterVector[i].getClusterGenerationOptions()->percent &&
+			currentWinner->getClusterGenerationOptions()->percent < clusterVector[i].getClusterGenerationOptions()->percent){
+			currentWinner = &clusterVector[i];
+		}
 	}
 
-	return &clusterVector[0];
+	return currentWinner;
 }
 
-bool ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
+/// <summary>
+/// Calls the Cluster's addPointToCluster.
+/// </summary>
+/// <param name="clusterToAddTo">Cluster which will have a point added to it.</param>
+/// <return> The Point which was added to the cluster. </return>
+Point2D<int> ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
+	// If the there were no point which could be added to the cluster, we are given a flag Point2D{-1, -1}.
 	return clusterToAddTo->addPointToCluster((int)RandomGenerator.uniDist(0, clusterToAddTo->getNumberBorderPoints()));
 }
 
-// If there is no input cluster generation options, then we'll just generate some
+// If there is no input cluster generation options, then we'll just generate some (only the frequency is used right now)
 // generationOptions should be empty
-void ClusterGreenhouse::GenerateRandomOptionsVector(std::vector<ClusterGenerationOptions>* generationOptions) {
-	int numberOfClustersToMake = (int)RandomGenerator.uniDist(1, 6);
+/// <summary>
+/// Generates some random options to be used be the clusters during generation (only frequency is useed.
+/// </summary>
+/// <param name="generationOptions">Empty ClusterGenerationOptions vector .</param>
+void ClusterGreenhouse::GenerateRandomOptionsVector(std::vector<ClusterGenerationOptions>& generationOptions) {
+	int numberOfClustersToMake = (int)RandomGenerator.uniDist(5, 10);
 
-	// decide the frequency of this cluster based on how much of the [1, 100] is left
-	int availablePercent = 100;
-	int clusterFrequency = 0;
+	// decide the frequency of this cluster based on how much of 0 through 1 (non-descrete) is left
+	double availablePercent = .15;
+	sparcity = 1 - availablePercent;
+	double clusterFrequency = 0;
 	for (int i = 0; i < numberOfClustersToMake; i++) {
-		clusterFrequency = 0;
-		if (i == 0 && availablePercent > 0) {
-			clusterFrequency = 40;
-			availablePercent = availablePercent - clusterFrequency;
-		}
-		else if (availablePercent > 0) {
-			clusterFrequency = ((int)RandomGenerator.uniDist(0, availablePercent + 1)) + (100 - availablePercent);
-			availablePercent = availablePercent - clusterFrequency;
-		}
-		else {
-			return;
-		}
+		if (availablePercent < 0)
+			break;
+
+	    clusterFrequency = RandomGenerator.uniDist(1 - availablePercent, 1);
+		availablePercent = 1 - clusterFrequency;
 
 		// choose a starting point for cluster then make cluster
 		Point2D<int> originPoint{(int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y)};
@@ -124,4 +133,7 @@ void ClusterGreenhouse::GenerateRandomOptionsVector(std::vector<ClusterGeneratio
 		clusterVector.push_back(cluster);
 		pointToClusterMap.insert(std::make_pair(originPoint, cluster)); // always be sure to insert you're origin point kids! :>
 	}
+	// whatever percent is left over will be added to sparcity
+	if(availablePercent>0)
+		sparcity += availablePercent;
 }

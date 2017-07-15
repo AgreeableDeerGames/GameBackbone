@@ -247,12 +247,16 @@ void GB::NavigationDemoRegion::initGUI() {
 void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositions) {
 	initAllNavigationGridValues(*navGrid, NavigationGridData{ 1, 0 });
 
-    std::vector<ClusterGenerationOptions> genOptions;
+    /*std::vector<ClusterGenerationOptions> genOptions;
     // comment these out to make random clusters
-    /*ClusterGenerationOptions ClusterGenerationOptions1{ sf::Color::Red, 10 }; genOptions.push_back(ClusterGenerationOptions1);
+    ClusterGenerationOptions ClusterGenerationOptions1{ sf::Color::Red, 10 }; genOptions.push_back(ClusterGenerationOptions1);
     ClusterGenerationOptions ClusterGenerationOptions2{ sf::Color::Blue, 40 }; genOptions.push_back(ClusterGenerationOptions2);
     ClusterGenerationOptions ClusterGenerationOptions3{ sf::Color::Magenta, 50 }; genOptions.push_back(ClusterGenerationOptions3);*/
-	std::multimap<Point2D<int>, Cluster> pointToClusterMap = GenerateClusteredGraph(Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM}, &genOptions);
+	std::vector<std::set<Point2D<int>>> ClusterPointSetVector = generateClusteredGraph(Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
+	std::vector<sf::Color> clusterColors;
+	for (int i = 0; i < ClusterPointSetVector.size(); i++) {
+		clusterColors.push_back(sf::Color(rand() % 250, rand() % 250, rand() % 250));
+	}
 
 	//fill visual grid
 	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
@@ -264,17 +268,17 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
 			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of grid
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
+			gridSquare->setColor(sf::Color::Yellow);
 
             // color the graph
 			Point2D<int> clusterKey{(int)i, (int)j};
-            auto search = pointToClusterMap.find(clusterKey);
-            if (search != pointToClusterMap.end()) {
-                gridSquare->setColor(search->second.getClusterGenerationOptions()->colorOfCluster);
-                (*navGrid)[i][j]->weight = BLOCKED_GRID_WEIGHT;
-            }
-            else {
-                gridSquare->setColor(sf::Color::Yellow);
-            }
+			for (int k = 0; k < ClusterPointSetVector.size(); k++) {
+				if (ClusterPointSetVector[k].find(clusterKey) != ClusterPointSetVector[k].end()) {
+					gridSquare->setColor(clusterColors[k]);
+					(*navGrid)[i][j]->weight = BLOCKED_GRID_WEIGHT;
+					break;
+				}
+			}
 
 			//add grids to storage
 			(*visualNavigationGrid)[i][j] = gridSquare;
@@ -283,6 +287,32 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
 			setDrawable(true, gridSquare);
 		}
 	}
+}
+
+/// <summary>
+/// Generates the clusters for an Array2D
+/// </summary>
+/// <param name="dimensions">The x,y dimensions of the Array2D for which the Clusters are being generated.</param>
+/// <param name="generationOptionsVector">The options which will be used in generating the clusters.</param>
+/// <returns>A vector of sets.  A single set represents a single cluster, the items in said said being the Point2D's in the Cluster.</returns>
+std::vector<std::set<Point2D<int>>> NavigationDemoRegion::generateClusteredGraph(Point2D<int> dimensions) {
+	srand((unsigned int)time(NULL));
+
+	ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(dimensions);
+
+	int Array2DArea = dimensions.x*dimensions.y;
+	for (int i = 0; i < Array2DArea; i++) {
+		Cluster* clusterToAddTo = graphGenerator->chooseClusterToAddTo();
+		// clusterToAddTo will be nullptr if none of the clusters were chosen.
+		// this will happen frequently if the graph is sparse.
+		if(clusterToAddTo != nullptr)
+			Point2D<int> pointAdded = graphGenerator->growCluster(clusterToAddTo); // In the future, maybe do something if the cluster isn't grown (pointAdded.x != -1).
+	}
+	std::vector<std::set<Point2D<int>>> vectorOfPointSets;
+	for (auto cluster : graphGenerator->clusterVector) {
+		vectorOfPointSets.push_back(std::move(*(cluster.getClusterPoints())));
+	}
+	return vectorOfPointSets;
 }
 
 /// <summary>

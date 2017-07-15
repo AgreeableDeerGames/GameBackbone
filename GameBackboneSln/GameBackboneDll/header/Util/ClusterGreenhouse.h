@@ -16,19 +16,20 @@ namespace GB {
 
 	class libGameBackbone ClusterGreenhouse {
 	public:
-		ClusterGreenhouse(Point2D<int> dimensions, std::vector<ClusterGenerationOptions>* generationOptions);
+		ClusterGreenhouse(Point2D<int> dimensions);
 
 		Cluster* chooseClusterToAddTo();
 
-		bool growCluster(Cluster* clusterToAddTo);
+		Point2D<int> growCluster(Cluster* clusterToAddTo);
 
-		// If there is no input cluster generation options, then we'll just generate some
+		// If there is no input cluster generation options, then we'll just generate some.
 		// generationOptions should be empty
-		void GenerateRandomOptionsVector(std::vector<ClusterGenerationOptions>* generationOptions);
+		void GenerateRandomOptionsVector(std::vector<ClusterGenerationOptions>& generationOptions);
 
 		std::vector<Cluster> clusterVector;
 		std::multimap<Point2D<int>, Cluster> pointToClusterMap;
 		Point2D<int> graphDims;
 		RandGen RandomGenerator;
+		double sparcity;
 	};
 }
