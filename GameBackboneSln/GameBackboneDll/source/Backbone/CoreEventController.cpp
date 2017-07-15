@@ -55,6 +55,12 @@ CoreEventController::~CoreEventController()
 /// </summary>
 void CoreEventController::runLoop() {
 	sf::Event event;
+
+	//Ensure window is fully opened before we do any work on it.
+	while (window->isOpen() == false) {
+		continue;
+	}
+
 	while (window->isOpen()) {
 
 		while (window->pollEvent(event)) {
@@ -65,6 +71,15 @@ void CoreEventController::runLoop() {
 
 		update();
 	}
+}
+
+
+/// <summary>
+/// Changes the active region to the passed game region.
+/// </summary>
+/// <param name="newActiveRegion">The new active GameRegion.</param>
+void GB::CoreEventController::setActiveRegion(GameRegion * newActiveRegion) {
+	activeRegion = newActiveRegion;
 }
 
 //events

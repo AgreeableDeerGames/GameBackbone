@@ -1,4 +1,4 @@
-#include <Demo\NavigationDemoRegion.h>
+#include <NavigationDemoRegion.h>
 #include <BackboneExeCoreEventController.h>
 
 using namespace GB;
