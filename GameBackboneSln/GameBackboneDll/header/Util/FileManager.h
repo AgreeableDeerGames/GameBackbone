@@ -14,14 +14,14 @@ namespace GB {
 	class libGameBackbone FileManager {
 	public:
 		FileManager();
-		FileManager(const FileManager& manager) = default;
-		FileManager(FileManager&& manager) = default;
-		FileManager& operator= (const FileManager& manager) = default;
-		FileManager& operator= (FileManager&& manager) = default;
+		FileManager(const FileManager& manager) = delete;
+		FileManager(FileManager&& manager) = delete;
+		FileManager& operator= (const FileManager& manager) = delete;
+		FileManager& operator= (FileManager&& manager) = delete;
 		~FileManager();
 
 
-		std::string encryptDecryptString(const std::string stringToEncrypt, const std::string key);
+		std::string encryptDecryptString(const std::string& stringToEncrypt, const std::string& key);
 	private:
 
 		// Store the FileReader and FileWriter as pointers so clients can inherit from them

@@ -23,7 +23,11 @@ FileManager::~FileManager()
 /// <param name="stringToChange">The string to be encrypted.</param>
 /// <param name="key">The key for the encryption.</param>
 /// <returns></returns>
-std::string FileManager::encryptDecryptString(const std::string stringToEncrypt, const std::string key) {
+std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt, const std::string& key) {
+	if (key.empty()){
+		throw Error::FileManager_EmptyKey();
+	}
+
 	std::string output = stringToEncrypt;
 
 	for (unsigned int ii = 0; ii < stringToEncrypt.size(); ++ii)
