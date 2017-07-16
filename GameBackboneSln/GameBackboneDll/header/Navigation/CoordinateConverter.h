@@ -18,11 +18,11 @@ namespace GB {
 		CoordinateConverter(CoordinateConverter&& other) = default;
 		CoordinateConverter& operator= (const CoordinateConverter& other) = default;
 		CoordinateConverter& operator= (CoordinateConverter&& other) = default;
-		CoordinateConverter(float WidthOfGridSquares, Point2D<float> OffsetOfOrigin);
+		CoordinateConverter(float widthOfGridSquares, Point2D<float> offsetOfOrigin);
 		virtual ~CoordinateConverter() = default;
 
-		sf::Vector2<float> ConvertCoordToWindow(const Point2D<int>& NavGridCoord);
-		Point2D<int> ConvertCoordToNavGrid(const sf::Vector2<float>& WindowCoord);
+		sf::Vector2<float> ConvertCoordToWindow(const Point2D<int>& navGridCoord);
+		Point2D<int> ConvertCoordToNavGrid(const sf::Vector2<float>& windowCoord);
 
 		void setGridSquareWidth(float newWidth);
 		void setOriginOffset(const Point2D<float>& newOffset);

@@ -19,9 +19,8 @@ CoordinateConverter::CoordinateConverter() {
 /// </summary>
 /// <param name="WidthOfGridSquares">The width of grid squares.</param>
 /// <param name="OffsetOfOrigin">The offset of origin.</param>
-CoordinateConverter::CoordinateConverter(float WidthOfGridSquares, Point2D<float> OffsetOfOrigin) {
-	gridSquareWidth = WidthOfGridSquares;
-	originOffset = OffsetOfOrigin;
+CoordinateConverter::CoordinateConverter(float widthOfGridSquares, Point2D<float> offsetOfOrigin) : originOffset(offsetOfOrigin) {
+	gridSquareWidth = widthOfGridSquares;
 }
 
 /// <summary>
@@ -30,13 +29,13 @@ CoordinateConverter::CoordinateConverter(float WidthOfGridSquares, Point2D<float
 /// </summary>
 /// <param name="NavGridCoord">The navigation grid coordinate.</param>
 /// <returns></returns>
-sf::Vector2<float> CoordinateConverter::ConvertCoordToWindow(const Point2D<int>& NavGridCoord) {
-	sf::Vector2<float> WindowCoordTopLeft = {NavGridCoord.x*gridSquareWidth, NavGridCoord.y*gridSquareWidth };
+sf::Vector2<float> CoordinateConverter::ConvertCoordToWindow(const Point2D<int>& navGridCoord) {
+	sf::Vector2<float> windowCoordTopLeft = { navGridCoord.x*gridSquareWidth, navGridCoord.y*gridSquareWidth };
 
-	sf::Vector2<float> WindowCoordCenter = {WindowCoordTopLeft.x + (gridSquareWidth /2), WindowCoordTopLeft.y + (gridSquareWidth / 2)};
+	sf::Vector2<float> windowCoordCenter = { windowCoordTopLeft.x + (gridSquareWidth /2), windowCoordTopLeft.y + (gridSquareWidth / 2)};
 
-	sf::Vector2<float> OffsetWindowCoord = {WindowCoordCenter.x + originOffset.x, WindowCoordCenter.y + originOffset.y};
-	return OffsetWindowCoord;
+	sf::Vector2<float> offsetWindowCoord = { windowCoordCenter.x + originOffset.x, windowCoordCenter.y + originOffset.y};
+	return offsetWindowCoord;
 }
 
 /// <summary>
@@ -47,11 +46,11 @@ sf::Vector2<float> CoordinateConverter::ConvertCoordToWindow(const Point2D<int>&
 /// </summary>
 /// <param name="WindowCoord">The sf window coordinate.</param>
 /// <returns></returns>
-Point2D<int> CoordinateConverter::ConvertCoordToNavGrid(const sf::Vector2<float>& WindowCoord) {
-	sf::Vector2<float> WindowCoordCenter = {WindowCoord.x - originOffset.x, WindowCoord.y - originOffset.y};
+Point2D<int> CoordinateConverter::ConvertCoordToNavGrid(const sf::Vector2<float>& windowCoord) {
+	sf::Vector2<float> windowCoordCenter = { windowCoord.x - originOffset.x, windowCoord.y - originOffset.y};
 
-	Point2D<int> NavGridCoord = {(int)(WindowCoordCenter.x/ gridSquareWidth), (int)(WindowCoordCenter.y/ gridSquareWidth)};
-	return NavGridCoord;
+	Point2D<int> navGridCoord = {(int)(windowCoordCenter.x/ gridSquareWidth), (int)(windowCoordCenter.y/ gridSquareWidth)};
+	return navGridCoord;
 }
 
 /// <summary>
