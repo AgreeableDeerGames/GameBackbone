@@ -104,7 +104,7 @@ void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const 
 
 	std::vector<sf::Vector2f> destinations;
 	for (unsigned int ii = 0; ii < paths.size(); ++ii) {
-		destinations.push_back(paths[ii]->front);
+		destinations.push_back(paths[ii]->front());
 	}
 
 	bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, orientSpritesToDestination);
