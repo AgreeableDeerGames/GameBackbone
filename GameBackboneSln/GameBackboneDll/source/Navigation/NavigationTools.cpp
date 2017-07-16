@@ -33,6 +33,11 @@ void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
 	}
 }
 
+void GB::moveSpriteStepTowardsPoint(sf::Sprite & sprite, const sf::Vector2f & destination, const float maxStepLength, const bool orientSpriteToDestination)
+{
+	return;
+}
+
 /// <summary>
 /// Moves all passed sprites towards the destination of the same index.
 /// Sprites will not overshoot their destination.
@@ -73,4 +78,14 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 			sprite->setRotation(angleToDest);
 		}
 	}
+}
+
+void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float distPerMs)
+{
+	return;
+}
+
+void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<Point2D<int>>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpriteToDestination)
+{
+	return;
 }
