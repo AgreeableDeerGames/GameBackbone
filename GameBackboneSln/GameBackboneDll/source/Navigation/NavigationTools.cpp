@@ -61,7 +61,7 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 		const sf::Vector2f currentPosition = sprite->getPosition();
 		sf::Vector2f destination = destinations[ii];
 		float maxStepLength = maxStepLengths[ii];
-		float angleToDest = atan2f(currentPosition.y - destination.y, currentPosition.x - destination.x);
+		float angleToDest = atan2f(destination.y - currentPosition.y, destination.x - currentPosition.x);
 
 
 		// Move directly to the destination if it's within reach

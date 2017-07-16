@@ -72,13 +72,17 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Medium_Step, 
 
 	//create the vector of movement lengths
 	std::vector<float> maxMovementDistances;
-	const float MAX_MOVEMENT_DISTANCE = 0.5;
+	
+	//maximum possible distance of destination from sprite is 1.0
+	//it should take 2 moves at this speed to reach the destination.
+	const float MAX_MOVEMENT_DISTANCE = 0.5f;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
 	}
 
 	//move the sprites
-	const int NUM_MOVES = 2;
+	//extra move is required to compensate for floating point error
+	const int NUM_MOVES = 3; 
 	for (unsigned int i = 0; i < NUM_MOVES; i++) {
 		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances);
 	}
