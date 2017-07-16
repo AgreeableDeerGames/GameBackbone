@@ -12,19 +12,22 @@ namespace GB {
 	public:
 		// ctr / dtr
 		CoordinateConverter();
-		CoordinateConverter(const CoordinateConverter& other) = delete;
-		CoordinateConverter(CoordinateConverter&& other) = delete;
-		CoordinateConverter& operator= (const CoordinateConverter& other) = delete;
-		CoordinateConverter& operator= (CoordinateConverter&& other) = delete;
+		CoordinateConverter(const CoordinateConverter& other) = default;
+		CoordinateConverter(CoordinateConverter&& other) = default;
+		CoordinateConverter& operator= (const CoordinateConverter& other) = default;
+		CoordinateConverter& operator= (CoordinateConverter&& other) = default;
 		CoordinateConverter(float WidthOfGridSquares, Point2D<float> OffsetOfOrigin);
 		virtual ~CoordinateConverter() = default;
 
-		sf::Vector2<float> ConvertCoordToWindow(Point2D<int> NavGridCoord);
-		Point2D<int> ConvertCoordToNavGrid(sf::Vector2<float> WindowCoord);
+		sf::Vector2<float> ConvertCoordToWindow(const Point2D<int>& NavGridCoord);
+		Point2D<int> ConvertCoordToNavGrid(const sf::Vector2<float>& WindowCoord);
+
+		void setGridSquareWidth(float newWidth);
+		void setOriginOffset(const Point2D<float>& newOffset);
 
 	private:
-		float GridSquareWidth;
-		Point2D<float> OriginOffset;
+		float gridSquareWidth;
+		Point2D<float> originOffset;
 
 	};
 }
