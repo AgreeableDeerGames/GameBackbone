@@ -7,8 +7,33 @@
 
 using namespace GB;
 
-// Contains all of the tests for Navigation Tools
 
+/// <summary>
+/// Moves all passed sprites a number of steps towards the destination of the same index then checks to see if they have reached
+/// their intended destination.
+/// </summary>
+/// <param name="sprites">The sprites.</param>
+/// <param name="destinations">The destinations.</param>
+/// <param name="maxStepLengths">The maximum distances to move the sprites.</param>
+/// <param name="orientSpritesToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
+/// <param name="NUM_STEPS">The number of movements to make towards the destination.</param>
+static bool checkBulkStepsToDestinations(std::vector<sf::Sprite*>& sprites, std::vector<sf::Vector2f>& destinations, std::vector<float>& maxMovementDistances, bool orientSpritesToDestination, const unsigned int NUM_STEPS) {
+	//move the sprites
+	for (unsigned int i = 0; i < NUM_STEPS; i++) {
+		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances, orientSpritesToDestination);
+	}
+
+	//ensure that all sprites reached their destinations
+	bool missedTarget = false;
+	for (unsigned int i = 0; i < sprites.size(); i++) {
+		if (sprites[i]->getPosition() != destinations[i]) {
+			missedTarget = true;
+		}
+	}
+	return !missedTarget;
+}
+
+// Contains all of the tests for Navigation Tools
 BOOST_AUTO_TEST_SUITE(NavigationToolsTests)
 
 /// <summary>
@@ -50,19 +75,8 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Small_Step, R
 	}
 	
 	//move the sprites
-	const int NUM_MOVES = 13;
-	for (unsigned int i = 0; i < NUM_MOVES; i++) {
-		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances);
-	}
-
-	//ensure that all sprites reached their destinations
-	bool missedTarget = false;
-	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
-		if (sprites[i]->getPosition() != destinations[i]) {
-			missedTarget = true;
-		}
-	}
-	BOOST_CHECK(!missedTarget);
+	const int NUM_STEPS = 13;
+	BOOST_CHECK(checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, false, NUM_STEPS));
 }
 
 // Test moving a large number of sprites to their destinations by taking medium steps
@@ -77,20 +91,8 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Medium_Step, 
 	}
 
 	//move the sprites
-	const int NUM_MOVES = 3; 
-	for (unsigned int i = 0; i < NUM_MOVES; i++) {
-		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances);
-	}
-
-	//ensure that all sprites reached their destinations
-	bool missedTarget = false;
-	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
-		if (sprites[i]->getPosition() != destinations[i]) {
-			missedTarget = true;
-		}
-	}
-	BOOST_CHECK(!missedTarget);
-	
+	const int NUM_STEPS = 3; 
+	BOOST_CHECK(checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, false, NUM_STEPS));
 }
 
 // Test moving a large number of sprites to their destinations by taking large steps
@@ -104,19 +106,26 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_large_Step, R
 	}
 
 	//move the sprites
-	const int NUM_MOVES = 1;
-	for (unsigned int i = 0; i < NUM_MOVES; i++) {
-		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances);
+	const int NUM_STEPS = 1;
+	BOOST_CHECK(checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, false, NUM_STEPS));
+}
+
+// TODO (Ryan Lavin): add test for having 0 move distance 
+
+
+// Test that without any movement distance the sprite does not reach its destination.
+BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Zero_Size_Step, ReusableObjects) {
+
+	//create the vector of movement lengths
+	std::vector<float> maxMovementDistances;
+	const float MAX_MOVEMENT_DISTANCE = 0.0f;
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
 	}
 
-	//ensure that all sprites reached their destinations
-	bool missedTarget = false;
-	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
-		if (sprites[i]->getPosition() != destinations[i]) {
-			missedTarget = true;
-		}
-	}
-	BOOST_CHECK(!missedTarget);
+	//move the sprites
+	const int NUM_STEPS = 100;
+	BOOST_CHECK(!checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, false, NUM_STEPS));
 }
 
 // keep at end of file
