@@ -128,5 +128,32 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Zero_Size_Ste
 	BOOST_CHECK(!checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, false, NUM_STEPS));
 }
 
+// Test that all sprites are rotated towards their destination with a large step
+BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Large_Size_Step_Rotation, ReusableObjects) {
+
+	//create the vector of movement lengths
+	std::vector<float> maxMovementDistances;
+	const float MAX_MOVEMENT_DISTANCE = 1000.0f;
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
+	}
+
+	std::vector<float> angleToDestinations;
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		sf::Vector2f currentPos = sprites[i]->getPosition();
+		sf::Vector2f destination = destinations[i];
+		angleToDestinations.push_back(atan2f(destination.y - currentPos.y, destination.x - currentPos.x));
+	}
+
+	//move the sprites
+	const int NUM_STEPS = 1;
+	checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, true, NUM_STEPS);
+
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		BOOST_CHECK_CLOSE(angleToDestinations[i], sprites[i]->getRotation(), 0.01);
+	}
+
+}
+
 // keep at end of file
 BOOST_AUTO_TEST_SUITE_END() // end NavigationToolsTests
