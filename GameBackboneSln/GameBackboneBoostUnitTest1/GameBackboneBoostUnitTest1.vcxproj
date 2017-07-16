@@ -164,6 +164,7 @@
     <ClCompile Include="source\Array2DTests.cpp" />
     <ClCompile Include="source\Array3DTests.cpp" />
     <ClCompile Include="source\CompoundSpriteTests.cpp" />
+    <ClCompile Include="source\CoordinateConverterTests.cpp" />
     <ClCompile Include="source\CoreEventControllerTests.cpp" />
     <ClCompile Include="source\FileReaderTests.cpp" />
     <ClCompile Include="source\GameRegionTests.cpp" />
