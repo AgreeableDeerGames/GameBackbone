@@ -5,6 +5,7 @@
 
 #include <SFML\System\Vector3.hpp>
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 namespace GB {

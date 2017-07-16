@@ -1,9 +1,14 @@
 #include "stdafx.h"
+#include <Backbone\BackboneBaseExceptions.h>
 #include <Navigation\NavigationTools.h>
+#include <util\DebugIncludes.h>
 
 #include <SFML\Graphics.hpp>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <vector>
+
 
 using namespace GB;
 
@@ -64,6 +69,8 @@ struct ReusableObjects
 	std::vector<std::list<Point2D<int>>*> paths;
 };
 
+BOOST_AUTO_TEST_SUITE(bulkMoveSpriteStepTowardsPointTests)
+
 // Test moving a large number of sprites to their destinations by taking small steps
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Small_Step, ReusableObjects) {
 	
@@ -110,9 +117,6 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_large_Step, R
 	BOOST_CHECK(checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, false, NUM_STEPS));
 }
 
-// TODO (Ryan Lavin): add test for having 0 move distance 
-
-
 // Test that without any movement distance the sprite does not reach its destination.
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Zero_Size_Step, ReusableObjects) {
 
@@ -142,7 +146,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Large_Size_St
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		sf::Vector2f currentPos = sprites[i]->getPosition();
 		sf::Vector2f destination = destinations[i];
-		angleToDestinations.push_back(atan2f(destination.y - currentPos.y, destination.x - currentPos.x));
+		angleToDestinations.push_back(fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / M_PI, 360.0f));
 	}
 
 	//move the sprites
@@ -155,8 +159,31 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Large_Size_St
 			wrongRotatedSprites++;
 		}
 	}
+
 	BOOST_CHECK_EQUAL(wrongRotatedSprites, 0);
 }
+
+// Test that without any movement distance the sprite does not reach its destination.
+BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Incorrect_Sizes, ReusableObjects) {
+
+	//create the vector of movement lengths
+	std::vector<float> maxMovementDistances;
+	const float MAX_MOVEMENT_DISTANCE = 0.0f;
+	for (unsigned int i = 0; i < 1; i++) {
+		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
+	}
+
+	//move the sprites
+	BOOST_CHECK_THROW( bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances), Error::NavigationTools_MismatchedNavigationSizes);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // end bulkMoveSpriteStepTowardsPointTests
+
+BOOST_AUTO_TEST_SUITE(moveSpriteStepTowardsPointTests)
+
+
+
+BOOST_AUTO_TEST_SUITE_END() // end moveSpriteStepTowardsPointTests
 
 // keep at end of file
 BOOST_AUTO_TEST_SUITE_END() // end NavigationToolsTests

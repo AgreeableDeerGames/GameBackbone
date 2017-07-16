@@ -4,6 +4,8 @@
 
 #include <SFML\Graphics\Sprite.hpp>
 
+#include <math.h>
+
 using namespace GB;
 
 /// <summary>
@@ -75,17 +77,17 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 
 		//rotate the sprite if rotation is on
 		if (orientSpritesToDestination) {
-			sprite->setRotation(angleToDest);
+			sprite->setRotation(angleToDest * 180.0f / M_PI);
 		}
 	}
 }
 
-void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float distPerMs)
+void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<sf::Vector2f>* path, sf::Int64 msPassed, float distPerMs)
 {
 	return;
 }
 
-void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<Point2D<int>>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpriteToDestination)
+void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<sf::Vector2f>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpriteToDestination)
 {
 	return;
 }
