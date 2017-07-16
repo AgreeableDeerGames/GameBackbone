@@ -5,11 +5,20 @@
 
 using namespace GB;
 
+/// <summary>
+/// Initializes a new instance of the <see cref="CoordinateConverter"/> class.
+/// Default values of 50 and (0, 0) for gridSquareWidth and originOffset respectively.
+/// </summary>
 CoordinateConverter::CoordinateConverter() {
 	gridSquareWidth = 50.f;
 	originOffset.x = originOffset.y = 0;
 }
 
+/// <summary>
+/// Initializes a new instance of the <see cref="CoordinateConverter"/> class.
+/// </summary>
+/// <param name="WidthOfGridSquares">The width of grid squares.</param>
+/// <param name="OffsetOfOrigin">The offset of origin.</param>
 CoordinateConverter::CoordinateConverter(float WidthOfGridSquares, Point2D<float> OffsetOfOrigin) {
 	gridSquareWidth = WidthOfGridSquares;
 	originOffset = OffsetOfOrigin;
