@@ -38,6 +38,7 @@ GB::CoreEventController::CoreEventController(int windowWidth, int windowHeight) 
 /// <param name="windowName">Name of the window.</param>
 GB::CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string & windowName) {
 	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName);
+	activeRegion = nullptr;
 }
 
 /// <summary>

@@ -19,7 +19,7 @@ namespace GB {
 	public:
 		//ctr / dtr
 		CoreEventController();
-		CoreEventController(const std::string& windowName);
+		explicit CoreEventController(const std::string& windowName);
 		CoreEventController(int windowWidth, int windowHeight, const std::string& windowName);
 		CoreEventController(int windowWidth, int windowHeight);
 		CoreEventController(const CoreEventController& other) = delete;
