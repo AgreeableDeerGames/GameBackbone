@@ -71,6 +71,9 @@ struct ReusableObjects
 		for (sf::Sprite* sprite : sprites) {
 			delete sprite;
 		}
+		for (auto path : paths) {
+			delete path;
+		}
 	}
 
 	const unsigned int NUM_SPRITES = 100;
@@ -233,7 +236,27 @@ BOOST_AUTO_TEST_SUITE_END() // end moveSpriteStepTowardsPointTests
 
 BOOST_AUTO_TEST_SUITE(bulkMoveSpriteAlongPathTests)
 
+// Test that the sprites reach their destinations
+BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusableObjects) {
+	std::vector<float> movementSpeed;
+	for (unsigned int  i = 0; i < NUM_SPRITES; ++i) {
+		movementSpeed.push_back(10);
+	}
 
+	bool allAtDestination = false;
+	while (!allAtDestination) {
+		bulkMoveSpriteAlongPath(sprites, paths, 1, movementSpeed);
+		bool fullPath = false;
+		for (unsigned int i = 0; i < NUM_SPRITES; i++)	{
+			if (!paths[i]->empty()) {
+				fullPath = true;
+			}
+		}
+		allAtDestination = !fullPath;
+	}
+
+
+}
 
 BOOST_AUTO_TEST_SUITE_END() // end bulkMoveSpriteAlongPathTests
 
