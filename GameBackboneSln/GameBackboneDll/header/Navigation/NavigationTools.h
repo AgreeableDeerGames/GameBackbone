@@ -22,7 +22,7 @@ namespace GB {
 	libGameBackbone extern void moveSpriteStepTowardsPoint(sf::Sprite& sprite, const sf::Vector2f& destination, const float maxStepLength, const bool orientSpriteToDestination = true);
 	libGameBackbone extern void batchMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites, 
 																const std::vector<sf::Vector2f>& destinations,
-																const std::vector<const float>& maxStepLength,
+																const std::vector<float>& maxStepLength,
 																const bool orientSpritesToDestination = true);
 
 	//sprite movement along path
@@ -30,6 +30,6 @@ namespace GB {
 	libGameBackbone extern void batchMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
 														 const std::vector<std::list<Point2D<int>>*>& paths, 
 														 const sf::Int64 msPassed,
-														 const std::vector<const float>& distPerMs,
+														 const std::vector<float>& distPerMs,
 													     const bool orientSpriteToDestination = true);
 }

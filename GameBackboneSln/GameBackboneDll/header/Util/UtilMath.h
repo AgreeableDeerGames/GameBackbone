@@ -55,4 +55,15 @@ namespace GB {
 		return (T)(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
 	}
 
+
+	template<class T, class C>
+	libGameBackbone T CalcDistance2D_2(const C & point1, const C & point2) {
+		return (T)sqrt(CalcSquaredDistance2D_2<T, C>(point1, point2));
+	}
+
+	template<class T, class C>
+	libGameBackbone T CalcSquaredDistance2D_2(const C & point1, const C & point2) {
+		return (T)(pow(point1.x - point2.x, 2) + pow(point1.y - point2.y, 2));
+	}
+
 }
