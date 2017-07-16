@@ -41,7 +41,7 @@ void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
 /// <param name="destinations">The destinations.</param>
 /// <param name="maxStepLengths">The maximum distances to move the sprites.</param>
 /// <param name="orientSpritesToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
-void GB::batchMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
+void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 										 const std::vector<sf::Vector2f>& destinations,
 										 const std::vector<float>& maxStepLengths,
 										 const bool orientSpritesToDestination) {

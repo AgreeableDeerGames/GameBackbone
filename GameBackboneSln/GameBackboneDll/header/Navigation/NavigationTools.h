@@ -20,14 +20,14 @@ namespace GB {
 
 	//sprite movement to point
 	libGameBackbone extern void moveSpriteStepTowardsPoint(sf::Sprite& sprite, const sf::Vector2f& destination, const float maxStepLength, const bool orientSpriteToDestination = true);
-	libGameBackbone extern void batchMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites, 
+	libGameBackbone extern void bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites, 
 																const std::vector<sf::Vector2f>& destinations,
 																const std::vector<float>& maxStepLength,
 																const bool orientSpritesToDestination = true);
 
 	//sprite movement along path
 	libGameBackbone extern void moveSpriteAlongPath(sf::Sprite& sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float distPerMs);
-	libGameBackbone extern void batchMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
+	libGameBackbone extern void bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
 														 const std::vector<std::list<Point2D<int>>*>& paths, 
 														 const sf::Int64 msPassed,
 														 const std::vector<float>& distPerMs,
