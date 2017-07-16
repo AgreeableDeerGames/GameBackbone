@@ -50,10 +50,20 @@ struct ReusableObjects
 {
 	ReusableObjects() {
 		// add sprites
-		for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		for (unsigned int ii = 0; ii < NUM_SPRITES; ++ii) {
 			sprites.push_back(new sf::Sprite());
-			destinations.push_back(sf::Vector2f(sinf((float)i), sinf((float)(i+1)))); // should cover all quadrants. Max distance should be below 1.25.
-			//TODO (Ryan Lavin): initialize paths 
+			destinations.push_back(sf::Vector2f(sinf((float)ii), sinf((float)(ii + 1)))); // should cover all quadrants. Max distance should be below 1.25.
+			
+			// initialize paths 
+			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
+				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
+
+				for (unsigned int kk = 0; kk < jj; ++kk) {
+					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
+				}
+				paths.push_back(path);
+			}
+
 		}
 	}
 
@@ -66,7 +76,7 @@ struct ReusableObjects
 	const unsigned int NUM_SPRITES = 100;
 	std::vector<sf::Sprite*> sprites;
 	std::vector<sf::Vector2f> destinations;
-	std::vector<std::list<Point2D<int>>*> paths;
+	std::vector<std::list<sf::Vector2f>*> paths;
 };
 
 BOOST_AUTO_TEST_SUITE(bulkMoveSpriteStepTowardsPointTests)
@@ -220,6 +230,12 @@ BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_Rotation) {
 
 
 BOOST_AUTO_TEST_SUITE_END() // end moveSpriteStepTowardsPointTests
+
+BOOST_AUTO_TEST_SUITE(bulkMoveSpriteAlongPathTests)
+
+
+
+BOOST_AUTO_TEST_SUITE_END() // end bulkMoveSpriteAlongPathTests
 
 // keep at end of file
 BOOST_AUTO_TEST_SUITE_END() // end NavigationToolsTests
