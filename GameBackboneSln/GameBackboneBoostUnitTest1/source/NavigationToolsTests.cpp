@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include <Navigation\NavigationTools.h>
 
 #include <SFML\Graphics.hpp>
@@ -23,10 +22,9 @@ struct ReusableObjects
 		// add sprites
 		for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 			sprites.push_back(new sf::Sprite());
-			destinations.push_back(sf::Vector2f(sinf(i), sinf(i+1))); // should cover all quadrants
+			destinations.push_back(sf::Vector2f(sinf((float)i), sinf((float)(i+1)))); // should cover all quadrants. Max distance should be below 1.25.
 			//TODO (Ryan Lavin): initialize paths 
 		}
-
 	}
 
 	~ReusableObjects() {
@@ -52,7 +50,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Small_Step, R
 	}
 	
 	//move the sprites
-	const int NUM_MOVES = 1000;
+	const int NUM_MOVES = 13;
 	for (unsigned int i = 0; i < NUM_MOVES; i++) {
 		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances);
 	}
@@ -73,15 +71,12 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Medium_Step, 
 	//create the vector of movement lengths
 	std::vector<float> maxMovementDistances;
 	
-	//maximum possible distance of destination from sprite is 1.0
-	//it should take 2 moves at this speed to reach the destination.
 	const float MAX_MOVEMENT_DISTANCE = 0.5f;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
 	}
 
 	//move the sprites
-	//extra move is required to compensate for floating point error
 	const int NUM_MOVES = 3; 
 	for (unsigned int i = 0; i < NUM_MOVES; i++) {
 		bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances);
