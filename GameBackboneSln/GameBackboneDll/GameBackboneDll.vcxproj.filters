@@ -63,6 +63,9 @@
     <ClCompile Include="source\Util\FileReader.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
+    <ClCompile Include="source\Navigation\CoordinateConverter.cpp">
+      <Filter>Source Files\Navigation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Backbone\AnimatedSprite.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
     <ClInclude Include="header\Navigation\NavigationGridData.h">
+      <Filter>Header Files\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Navigation\CoordinateConverter.h">
       <Filter>Header Files\Navigation</Filter>
     </ClInclude>
   </ItemGroup>
