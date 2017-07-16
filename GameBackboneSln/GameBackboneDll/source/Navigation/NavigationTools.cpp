@@ -37,7 +37,11 @@ void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
 
 void GB::moveSpriteStepTowardsPoint(sf::Sprite & sprite, const sf::Vector2f & destination, const float maxStepLength, const bool orientSpriteToDestination)
 {
-	return;
+	std::vector<sf::Sprite*> sprites = {&sprite};
+	std::vector<sf::Vector2f> destinations = {destination};
+	std::vector<float> maxStepLengths = {maxStepLength};
+
+	bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, orientSpriteToDestination);
 }
 
 /// <summary>
@@ -82,12 +86,33 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 	}
 }
 
-void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<sf::Vector2f>* path, sf::Int64 msPassed, float distPerMs)
+void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<sf::Vector2f>* path, sf::Int64 msPassed, float distPerMs, const bool orientSpriteToDestination)
 {
-	return;
+	std::vector<sf::Sprite*> sprites = {&sprite};
+	std::vector<std::list<sf::Vector2f>*> paths = {path};
+	std::vector<float> distPerMsVec = {distPerMs};
+
+	bulkMoveSpriteAlongPath(sprites, paths, msPassed, distPerMsVec, orientSpriteToDestination);
 }
 
-void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<sf::Vector2f>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpriteToDestination)
+void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<sf::Vector2f>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpritesToDestination)
 {
-	return;
+	std::vector<float> maxStepLengths;
+	for (unsigned int ii = 0; ii < distPerMs.size(); ++ii) {
+		maxStepLengths.push_back(msPassed*distPerMs[ii]);
+	}
+
+	std::vector<sf::Vector2f> destinations;
+	for (unsigned int ii = 0; ii < paths.size(); ++ii) {
+		destinations.push_back(paths[ii]->front);
+	}
+
+	bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, orientSpritesToDestination);
+
+	for (unsigned int ii = 0; ii < sprites.size(); ii++) {
+		sf::Sprite* sprite = sprites[ii];
+		if (sprite->getPosition() == destinations[ii]){
+			paths[ii]->pop_front();
+		}
+	}
 }
