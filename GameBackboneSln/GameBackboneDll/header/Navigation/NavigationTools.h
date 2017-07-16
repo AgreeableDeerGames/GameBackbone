@@ -26,10 +26,10 @@ namespace GB {
 																const bool orientSpritesToDestination = true);
 
 	//sprite movement along path
-	libGameBackbone extern void moveSpriteAlongPath(sf::Sprite& sprite, std::list<sf::Vector2f>* path, sf::Int64 msPassed, float distPerMs);
+	libGameBackbone extern void moveSpriteAlongPath(sf::Sprite& sprite, std::list<sf::Vector2f>* path, sf::Int64 msPassed, float distPerMs, const bool orientSpriteToDestination = true);
 	libGameBackbone extern void bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
 														 const std::vector<std::list<sf::Vector2f>*>& paths, 
 														 const sf::Int64 msPassed,
 														 const std::vector<float>& distPerMs,
-													     const bool orientSpriteToDestination = true);
+													     const bool orientSpritesToDestination = true);
 }
