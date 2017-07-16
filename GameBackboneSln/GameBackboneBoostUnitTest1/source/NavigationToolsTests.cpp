@@ -46,7 +46,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Small_Step, R
 	
 	//create the vector of movement lengths
 	std::vector<float> maxMovementDistances;
-	const int MAX_MOVEMENT_DISTANCE = 0.1f;
+	const float MAX_MOVEMENT_DISTANCE = 0.1f;
 	for (unsigned int  i = 0; i < NUM_SPRITES; i++) {
 		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
 	}
@@ -72,7 +72,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Medium_Step, 
 
 	//create the vector of movement lengths
 	std::vector<float> maxMovementDistances;
-	const int MAX_MOVEMENT_DISTANCE = 0.5;
+	const float MAX_MOVEMENT_DISTANCE = 0.5;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
 	}
@@ -99,7 +99,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_large_Step, R
 
 	//create the vector of movement lengths
 	std::vector<float> maxMovementDistances;
-	const int MAX_MOVEMENT_DISTANCE = 1000.0f;
+	const float MAX_MOVEMENT_DISTANCE = 1000.0f;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
 	}
@@ -114,6 +114,8 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_large_Step, R
 	bool missedTarget = false;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		if (sprites[i]->getPosition() != destinations[i]) {
+			auto testSpritePos = sprites[i]->getPosition();
+			auto testDest = destinations[i];
 			missedTarget = true;
 		}
 	}

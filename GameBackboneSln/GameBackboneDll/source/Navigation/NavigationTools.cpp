@@ -65,7 +65,7 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 
 
 		// Move directly to the destination if it's within reach
-		if (CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination) >= maxStepLength) {
+		if (CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination) <= maxStepLength) {
 			sprite->setPosition(destination);
 		} else { //Move the sprite as close as possible to the destination
 			float xProgress = cosf(angleToDest) * maxStepLength;
