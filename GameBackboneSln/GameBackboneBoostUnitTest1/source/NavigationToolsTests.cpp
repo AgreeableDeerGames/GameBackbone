@@ -149,10 +149,13 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Large_Size_St
 	const int NUM_STEPS = 1;
 	checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, true, NUM_STEPS);
 
+	int wrongRotatedSprites = 0;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
-		BOOST_CHECK_CLOSE(angleToDestinations[i], sprites[i]->getRotation(), 0.01);
+		if (abs(angleToDestinations[i] - sprites[i]->getRotation()) > 0.01) {
+			wrongRotatedSprites++;
+		}
 	}
-
+	BOOST_CHECK_EQUAL(wrongRotatedSprites, 0);
 }
 
 // keep at end of file
