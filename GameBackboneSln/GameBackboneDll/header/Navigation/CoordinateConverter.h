@@ -6,8 +6,10 @@
 #include <SFML\Graphics.hpp>
 
 namespace GB {
-
-	/// <summary> used to calculate groups of paths in one navigation grid. </summary>
+	
+	/// <summary>
+	/// Converts coordinates between sf window and navigation grid.
+	/// </summary>
 	class libGameBackbone CoordinateConverter {
 	public:
 		// ctr / dtr
