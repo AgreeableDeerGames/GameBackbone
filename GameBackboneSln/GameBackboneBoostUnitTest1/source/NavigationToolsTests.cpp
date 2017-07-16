@@ -113,8 +113,6 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_large_Step, R
 	bool missedTarget = false;
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		if (sprites[i]->getPosition() != destinations[i]) {
-			auto testSpritePos = sprites[i]->getPosition();
-			auto testDest = destinations[i];
 			missedTarget = true;
 		}
 	}
