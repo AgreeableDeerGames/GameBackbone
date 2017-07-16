@@ -166,6 +166,7 @@
     <ClCompile Include="source\CompoundSpriteTests.cpp" />
     <ClCompile Include="source\CoordinateConverterTests.cpp" />
     <ClCompile Include="source\CoreEventControllerTests.cpp" />
+    <ClCompile Include="source\FileManagerTests.cpp" />
     <ClCompile Include="source\FileReaderTests.cpp" />
     <ClCompile Include="source\GameRegionTests.cpp" />
     <ClCompile Include="source\PathFinderTests.cpp" />

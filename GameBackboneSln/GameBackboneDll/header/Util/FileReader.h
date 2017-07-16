@@ -3,7 +3,6 @@
 #include <Util\DllUtil.h>
 #include <Util\Array2D.h>
 
-#include<random>
 #include<string>
 
 namespace GB {
@@ -14,10 +13,10 @@ namespace GB {
 	class libGameBackbone FileReader {
 	public:
 		FileReader() = default;
-		FileReader(const FileReader& generator) = default;
-		FileReader(FileReader&& generator) = default;
-		FileReader& operator= (const FileReader& generator) = default;
-		FileReader& operator= (FileReader&& generator) = default;
+		FileReader(const FileReader& reader) = default;
+		FileReader(FileReader&& reader) = default;
+		FileReader& operator= (const FileReader& reader) = default;
+		FileReader& operator= (FileReader&& reader) = default;
 		~FileReader() = default;
 
 

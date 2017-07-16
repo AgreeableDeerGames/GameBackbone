@@ -31,7 +31,7 @@ namespace GB {
 		};
 
 		/// <summary>
-		/// Exception thrown when an FileReader fails to open a file.
+		/// Exception thrown when a FileReader fails to open a file.
 		/// </summary>
 		/// <seealso cref="std::exception" />
 		class FileReader_BadFile : public std::exception
@@ -39,6 +39,18 @@ namespace GB {
 		public:
 			virtual const char* what() const override {
 				return "Cannot open the file.";
+			}
+		};
+
+		/// <summary>
+		/// Exception thrown when a FileManager is passed an empty key.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class FileManager_EmptyKey : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Encryption key is empty";
 			}
 		};
 	}
