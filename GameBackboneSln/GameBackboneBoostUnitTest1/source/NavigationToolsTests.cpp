@@ -181,6 +181,42 @@ BOOST_AUTO_TEST_SUITE_END() // end bulkMoveSpriteStepTowardsPointTests
 
 BOOST_AUTO_TEST_SUITE(moveSpriteStepTowardsPointTests)
 
+// Test that a single sprite can reach its destination when given a movement length greater than the distance to its destination.
+BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_Large_Step) {
+	sf::Sprite sprite;
+	sf::Vector2f destination{ 0, 10 };
+	moveSpriteStepTowardsPoint(sprite, destination, 11);
+
+	BOOST_CHECK(sprite.getPosition() == destination);
+}
+
+// Test that a single sprite can reach its destination 
+BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPoint_Small_Step) {
+	sf::Sprite sprite;
+	const float DIST_FROM_SPRITE = 10;
+	sf::Vector2f destination{ 0, DIST_FROM_SPRITE };
+
+	//move 1 more time than should be required to account for floating point error
+	for (unsigned int i = 0; i < DIST_FROM_SPRITE + 1; i++) {
+		moveSpriteStepTowardsPoint(sprite, destination, 1);
+	}
+
+	BOOST_CHECK(sprite.getPosition() == destination);
+
+}
+
+
+// Test that a single sprite is rotated correctly.
+BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_Rotation) {
+	sf::Sprite sprite;
+	sf::Vector2f destination{ 0, 10 };
+	sf::Vector2f currentPos = sprite.getPosition();
+	moveSpriteStepTowardsPoint(sprite, destination, 11);
+
+	float angleToDestination = (fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / M_PI, 360.0f));
+
+	BOOST_CHECK_CLOSE(sprite.getRotation(), angleToDestination, 0.01);
+}
 
 
 BOOST_AUTO_TEST_SUITE_END() // end moveSpriteStepTowardsPointTests
