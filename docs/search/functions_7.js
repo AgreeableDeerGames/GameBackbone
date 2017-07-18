@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['move',['move',['../class_g_b_1_1_compound_sprite.html#a8d9e7f79dc9c3137f1ff24c5201f61ec',1,'GB::CompoundSprite']]],
-  ['movespritealongpath',['moveSpriteAlongPath',['../class_g_b_1_1_navigation_demo_region.html#a83a951372440177de3872bc86248eb1c',1,'GB::NavigationDemoRegion']]],
-  ['movespritetowardspoint',['moveSpriteTowardsPoint',['../class_g_b_1_1_navigation_demo_region.html#ac286a6049a6af4e973014145b002ff88',1,'GB::NavigationDemoRegion']]]
+  ['handlecoreevent',['handleCoreEvent',['../class_g_b_1_1_core_event_controller.html#a3496e0f571740b9cc1e4255418cf542c',1,'GB::CoreEventController']]],
+  ['handleevent',['handleEvent',['../class_g_b_1_1_core_event_controller.html#a2e0cd969f4d74fc8d7a886b875952375',1,'GB::CoreEventController']]],
+  ['handleguievent',['handleGuiEvent',['../class_g_b_1_1_core_event_controller.html#afc426ec015e53866618d604dbeb8ae41',1,'GB::CoreEventController']]]
 ];

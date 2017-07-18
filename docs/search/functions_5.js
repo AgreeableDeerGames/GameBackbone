@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['handlemouseclick',['handleMouseClick',['../class_g_b_1_1_navigation_demo_region.html#afdb487c2d0e51b99fa6e9700e23f5695',1,'GB::NavigationDemoRegion']]]
+  ['framestorects',['framesToRects',['../class_g_b_1_1_animation_set.html#ab673697a6a87e0d62cc9d8da5912e633',1,'GB::AnimationSet']]]
 ];
