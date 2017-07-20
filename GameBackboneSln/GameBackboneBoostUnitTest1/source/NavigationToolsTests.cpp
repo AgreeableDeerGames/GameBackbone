@@ -159,7 +159,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Large_Size_St
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 		sf::Vector2f currentPos = sprites[i]->getPosition();
 		sf::Vector2f destination = destinations[i];
-		angleToDestinations.push_back(fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / M_PI, 360.0f));
+		angleToDestinations.push_back(fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / (float)M_PI, 360.0f));
 	}
 
 	//move the sprites
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_Rotation) {
 	sf::Vector2f currentPos = sprite.getPosition();
 	moveSpriteStepTowardsPoint(sprite, destination, 11);
 
-	float angleToDestination = (fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / M_PI, 360.0f));
+	float angleToDestination = (fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / (float)M_PI, 360.0f));
 
 	BOOST_CHECK_CLOSE(sprite.getRotation(), angleToDestination, 0.01);
 }
@@ -236,23 +236,71 @@ BOOST_AUTO_TEST_SUITE_END() // end moveSpriteStepTowardsPointTests
 
 BOOST_AUTO_TEST_SUITE(bulkMoveSpriteAlongPathTests)
 
-// Test that the sprites reach their destinations
-BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusableObjects) {
-	std::vector<float> movementSpeed;
-	for (unsigned int  i = 0; i < NUM_SPRITES; ++i) {
-		movementSpeed.push_back(10);
+struct ReusablePathfindingObjects
+{
+	ReusablePathfindingObjects() {
+
+		//create sprites
+		for (unsigned int ii = 0; ii < NUM_SPRITES; ii++) {
+			sprites.push_back(new sf::Sprite());
+		}
+
+		//fill the path for each sprite
+		for (unsigned int ii = 0; ii < NUM_SPRITES; ii++) {
+
+			//each sprite gets a longer path
+			std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>();
+			for (unsigned int jj = 0; jj < ii * BASE_PATH_LENGTH; jj++) {
+				path->push_back({ (float)ii, (float)jj });
+			}
+			paths.push_back(path);
+		}
+
+		backupPaths = paths;
+
 	}
 
-	bool allAtDestination = false;
-	while (!allAtDestination) {
-		bulkMoveSpriteAlongPath(sprites, paths, 1, movementSpeed);
-		bool fullPath = false;
-		for (unsigned int i = 0; i < NUM_SPRITES; i++)	{
-			if (!paths[i]->empty()) {
-				fullPath = true;
-			}
+	~ReusablePathfindingObjects()
+	{
+		for (sf::Sprite* sprite : sprites) {
+			delete sprite;
 		}
-		allAtDestination = !fullPath;
+		for (auto path : paths) {
+			delete path;
+		}
+	}
+
+	std::vector<sf::Sprite*> sprites;
+	std::vector<std::list<sf::Vector2f>*> paths;
+	std::vector<std::list<sf::Vector2f>*> backupPaths;
+
+	const unsigned int NUM_SPRITES = 3;
+	const unsigned int BASE_PATH_LENGTH = 3;
+};
+
+// Test that the sprites reach their destinations
+BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePathfindingObjects) {
+
+	//ensure that the sprites reach their destination in one move
+	const unsigned int MOVEMENT_SPEED = UINT64_MAX;
+	std::vector<float> movementSpeeds;
+	for (unsigned int  i = 0; i < NUM_SPRITES; ++i) {
+		movementSpeeds.push_back(MOVEMENT_SPEED);
+	}
+
+	//move until each sprite should have reached its destination
+	for (unsigned int i = 0; i < NUM_SPRITES * BASE_PATH_LENGTH; i++) {
+		bulkMoveSpriteAlongPath(sprites, paths, i, movementSpeeds);
+	}
+
+	//ensure that each path is at its end;
+	for each (auto path in paths) {
+		BOOST_CHECK_EQUAL(path->size(), 1);
+	}
+
+	//ensure that each sprite has reached its correct position
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		BOOST_CHECK(sprites[i]->getPosition() == paths[i]->front());
 	}
 
 
