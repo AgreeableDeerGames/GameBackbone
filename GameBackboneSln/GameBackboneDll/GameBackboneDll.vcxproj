@@ -71,15 +71,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -158,6 +162,7 @@
     <ClInclude Include="header\Backbone\CoreEventController.h" />
     <ClInclude Include="header\Backbone\GameRegion.h" />
     <ClInclude Include="header\Backbone\Updatable.h" />
+    <ClInclude Include="header\Navigation\CoordinateConverter.h" />
     <ClInclude Include="header\Navigation\NavigationGridData.h" />
     <ClInclude Include="header\Navigation\NavigationTools.h" />
     <ClInclude Include="header\Navigation\PathFinder.h" />
@@ -166,6 +171,7 @@
     <ClInclude Include="header\Util\Array3D.h" />
     <ClInclude Include="header\Util\DebugIncludes.h" />
     <ClInclude Include="header\Util\DllUtil.h" />
+    <ClInclude Include="header\Util\FileManager.h" />
     <ClInclude Include="header\Util\FileReader.h" />
     <ClInclude Include="header\Util\Point.h" />
     <ClInclude Include="header\Util\RandGen.h" />
@@ -178,9 +184,11 @@
     <ClCompile Include="source\Backbone\CompoundSprite.cpp" />
     <ClCompile Include="source\Backbone\CoreEventController.cpp" />
     <ClCompile Include="source\Backbone\GameRegion.cpp" />
+    <ClCompile Include="source\Navigation\CoordinateConverter.cpp" />
     <ClCompile Include="source\Navigation\NavigationTools.cpp" />
     <ClCompile Include="source\Navigation\PathFinder.cpp" />
     <ClCompile Include="source\Util\dllmain.cpp" />
+    <ClCompile Include="source\Util\FileManager.cpp" />
     <ClCompile Include="source\Util\FileReader.cpp" />
     <ClCompile Include="source\Util\RandGen.cpp" />
   </ItemGroup>

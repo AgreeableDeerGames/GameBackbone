@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['gameregion',['GameRegion',['../class_g_b_1_1_game_region.html',1,'GB']]],
-  ['gameregion_5fbaddissociation',['GameRegion_BadDissociation',['../class_g_b_1_1_error_1_1_game_region___bad_dissociation.html',1,'GB::Error']]]
+  ['filemanager',['FileManager',['../class_g_b_1_1_file_manager.html',1,'GB']]],
+  ['filemanager_5femptykey',['FileManager_EmptyKey',['../class_g_b_1_1_error_1_1_file_manager___empty_key.html',1,'GB::Error']]],
+  ['filereader',['FileReader',['../class_g_b_1_1_file_reader.html',1,'GB']]],
+  ['filereader_5fbadfile',['FileReader_BadFile',['../class_g_b_1_1_error_1_1_file_reader___bad_file.html',1,'GB::Error']]]
 ];

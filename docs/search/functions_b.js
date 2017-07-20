@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['removeanimatedsprite',['removeAnimatedSprite',['../class_g_b_1_1_compound_sprite.html#ad2cf68974d376edab2d657437c06deb2',1,'GB::CompoundSprite']]],
-  ['removechildregion',['removeChildRegion',['../class_g_b_1_1_game_region.html#aa80a31952e33177626dcf24688f28b51',1,'GB::GameRegion']]],
-  ['removeneighborregion',['removeNeighborRegion',['../class_g_b_1_1_game_region.html#a5d7bb4e40793d7940530e6e1e95261f5',1,'GB::GameRegion']]],
-  ['removesprite',['removeSprite',['../class_g_b_1_1_compound_sprite.html#ae673d681620b0e8805b692a80c1548a3',1,'GB::CompoundSprite']]],
-  ['reset',['reset',['../class_g_b_1_1_game_region.html#abfa18b8036d7762b7f75f8acee8c70a3',1,'GB::GameRegion']]],
-  ['runanimation',['runAnimation',['../class_g_b_1_1_animated_sprite.html#a38725e0f5facf5d3d993500476790a9f',1,'GB::AnimatedSprite::runAnimation(unsigned int animationId)'],['../class_g_b_1_1_animated_sprite.html#acdcc279301995902e3b1d8d619287516',1,'GB::AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle)']]]
+  ['pathfind',['pathFind',['../class_g_b_1_1_pathfinder.html#a2d1ba6ab0cc49da8b7a023a2ef4e7f83',1,'GB::Pathfinder']]],
+  ['pathfinder',['Pathfinder',['../class_g_b_1_1_pathfinder.html#af562d840858cf2b369fcee51f5069456',1,'GB::Pathfinder::Pathfinder()'],['../class_g_b_1_1_pathfinder.html#ac1e4958b42424bbc9c5868cff3296e8c',1,'GB::Pathfinder::Pathfinder(NavigationGrid *navigationGrid)']]],
+  ['postdraw',['postDraw',['../class_g_b_1_1_core_event_controller.html#a86d6481700947f587b186a49ccb9b999',1,'GB::CoreEventController']]],
+  ['posthandleevent',['postHandleEvent',['../class_g_b_1_1_core_event_controller.html#ade36002d50cbb21447de3f001f178574',1,'GB::CoreEventController']]],
+  ['postupdate',['postUpdate',['../class_g_b_1_1_core_event_controller.html#a7e09d15bb7d42f26fae28323995f14dc',1,'GB::CoreEventController']]],
+  ['predraw',['preDraw',['../class_g_b_1_1_core_event_controller.html#a320d958c421285c7d49da3010ca852bd',1,'GB::CoreEventController']]],
+  ['prehandleevent',['preHandleEvent',['../class_g_b_1_1_core_event_controller.html#a1ba4088cd9b1bc8a6f2bdf3fe61e8f72',1,'GB::CoreEventController']]],
+  ['preupdate',['preUpdate',['../class_g_b_1_1_core_event_controller.html#aba63fa5d72d837d4a9d6328067b4791b',1,'GB::CoreEventController']]]
 ];

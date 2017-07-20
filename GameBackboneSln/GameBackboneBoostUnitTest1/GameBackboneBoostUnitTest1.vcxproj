@@ -74,17 +74,21 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -164,7 +168,9 @@
     <ClCompile Include="source\Array2DTests.cpp" />
     <ClCompile Include="source\Array3DTests.cpp" />
     <ClCompile Include="source\CompoundSpriteTests.cpp" />
+    <ClCompile Include="source\CoordinateConverterTests.cpp" />
     <ClCompile Include="source\CoreEventControllerTests.cpp" />
+    <ClCompile Include="source\FileManagerTests.cpp" />
     <ClCompile Include="source\FileReaderTests.cpp" />
     <ClCompile Include="source\GameRegionTests.cpp" />
     <ClCompile Include="source\NavigationToolsTests.cpp" />

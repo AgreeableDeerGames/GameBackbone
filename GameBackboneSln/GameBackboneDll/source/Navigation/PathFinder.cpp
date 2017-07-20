@@ -154,7 +154,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>* const availableGridSquares) {
 
 	unsigned int shortestDistance = UINT_MAX;
-	Point2D<int> bestGridSquare;
+	Point2D<int> bestGridSquare = {-1, -1};
 
 	for each (const Point2D<int> gridSquare in *availableGridSquares) {
 		unsigned int gridSquareDistance = GB::CalcSquaredDistance(gridSquare, pathRequest.end);
