@@ -54,6 +54,8 @@ namespace GB {
 		/// </summary>
 		virtual void behave(sf::Time currentTime) {}
 
+		void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
+
 		//general operations
 
 		//additions
@@ -84,6 +86,7 @@ namespace GB {
 		GameRegion* parentRegion;
 		std::list<GameRegion*> childRegions;
 		std::list<GameRegion*> neighborRegions;
+		std::function<void(GameRegion*)> setActiveRegionCB;
 
 		//GUI
 		tgui::Gui* regionGUI;

@@ -20,9 +20,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.0.2</span>
+   &#160;<span id="projectnumber">0.0.4</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -75,12 +76,16 @@ $(function() {
   <tr><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#a13acfc8b235bdcc0a44872476042e70d">addSprite</a>(sf::Sprite *component)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>animatedSprites</b> (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#a5425526371c2c00586b757f93770edc4">clearComponents</a>()</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CompoundSprite</b>() (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CompoundSprite</b>()=default (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#ae9cc3d47da7d32e94b4c96c1ca55322c">CompoundSprite</a>(const std::vector&lt; sf::Sprite *&gt; &amp;sprites, const std::vector&lt; AnimatedSprite *&gt; &amp;animatedSprites)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CompoundSprite</b>(const CompoundSprite &amp;other)=default (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>CompoundSprite</b>(CompoundSprite &amp;&amp;other)=default (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#a92708d498fd818aea2c0a1df015ee906">getAnimatedSprites</a>()</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#ad52cfe65b36ff363698377b115c142e1">getSfSprites</a>()</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>lastUpdate</b> (defined in <a class="el" href="class_g_b_1_1_updatable.html">GB::Updatable</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_updatable.html">GB::Updatable</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#a8d9e7f79dc9c3137f1ff24c5201f61ec">move</a>(float offsetX, float offsetY)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator=</b>(const CompoundSprite &amp;other)=default (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>operator=</b>(CompoundSprite &amp;&amp;other)=default (defined in <a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a>)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#ad2cf68974d376edab2d657437c06deb2">removeAnimatedSprite</a>(AnimatedSprite *component)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#ae673d681620b0e8805b692a80c1548a3">removeSprite</a>(sf::Sprite *component)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html#adec10c3d85333f75e767b6dc3210b0e7">scale</a>(float factorX, float factorY)</td><td class="entry"><a class="el" href="class_g_b_1_1_compound_sprite.html">GB::CompoundSprite</a></td><td class="entry"></td></tr>

@@ -63,10 +63,10 @@
     <ClCompile Include="source\Util\FileReader.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="source\Util\Cluster.cpp">
-      <Filter>Source Files\Util</Filter>
+    <ClCompile Include="source\Navigation\CoordinateConverter.cpp">
+      <Filter>Source Files\Navigation</Filter>
     </ClCompile>
-    <ClCompile Include="source\Util\ClusterGreenhouse.cpp">
+    <ClCompile Include="source\Util\FileManager.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
   </ItemGroup>
@@ -135,6 +135,12 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="header\Util\ClusterGreenhouse.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Navigation\CoordinateConverter.h">
+      <Filter>Header Files\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Util\FileManager.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>

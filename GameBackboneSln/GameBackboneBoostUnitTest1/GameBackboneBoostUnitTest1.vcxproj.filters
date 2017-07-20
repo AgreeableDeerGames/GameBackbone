@@ -62,5 +62,11 @@
     <ClCompile Include="source\UtilMathTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\CoordinateConverterTests.cpp">
+      <Filter>Source Files</Filter>
+	</ClCompile>
+    <ClCompile Include="source\FileManagerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

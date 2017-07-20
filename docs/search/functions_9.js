@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['operator_28_29',['operator()',['../class_g_b_1_1_array2_d.html#af9ddaa62cecb311cf0225512225a8ff1',1,'GB::Array2D']]],
-  ['operator_5b_5d',['operator[]',['../class_g_b_1_1_array2_d.html#ac179c000c20eddd81f2aa56b7b64455d',1,'GB::Array2D']]]
+  ['move',['move',['../class_g_b_1_1_compound_sprite.html#a8d9e7f79dc9c3137f1ff24c5201f61ec',1,'GB::CompoundSprite']]]
 ];

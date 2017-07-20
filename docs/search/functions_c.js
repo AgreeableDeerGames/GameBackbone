@@ -1,14 +1,13 @@
 var searchData=
 [
-  ['scale',['scale',['../class_g_b_1_1_compound_sprite.html#adec10c3d85333f75e767b6dc3210b0e7',1,'GB::CompoundSprite']]],
-  ['setanimating',['setAnimating',['../class_g_b_1_1_animated_sprite.html#ab73cac59a5415b0f08eb3963543d9bc8',1,'GB::AnimatedSprite']]],
-  ['setanimationdelay',['setAnimationDelay',['../class_g_b_1_1_animated_sprite.html#a4dd9673ba304de36d69f15fe367a6e82',1,'GB::AnimatedSprite']]],
-  ['setanimations',['setAnimations',['../class_g_b_1_1_animated_sprite.html#ab3a1384d836bc7f9b8580dccf33c2f1c',1,'GB::AnimatedSprite']]],
-  ['setcurrentframe',['setCurrentFrame',['../class_g_b_1_1_animated_sprite.html#a8ad3a9bac853b0b55fb3efd96c93a2d5',1,'GB::AnimatedSprite']]],
-  ['setdrawable',['setDrawable',['../class_g_b_1_1_game_region.html#a7b5ad1e840ab5bb75dbb43a05408b150',1,'GB::GameRegion::setDrawable(bool status, sf::Sprite *object)'],['../class_g_b_1_1_game_region.html#ab806a1aa039257e928f1779611fef745',1,'GB::GameRegion::setDrawable(bool status, CompoundSprite *object)']]],
-  ['setdrawandupdateable',['setDrawAndUpdateable',['../class_g_b_1_1_game_region.html#a45c3cbb983f8180d3c1eda617cbc44eb',1,'GB::GameRegion::setDrawAndUpdateable(bool status, AnimatedSprite *object)'],['../class_g_b_1_1_game_region.html#a0351a7e83514494a1b06d18931ae64c9',1,'GB::GameRegion::setDrawAndUpdateable(bool status, CompoundSprite *object)']]],
-  ['setnavigationgrid',['setNavigationGrid',['../class_g_b_1_1_pathfinder.html#ab2077e60f522a2d422f8b0e63cc4aa40',1,'GB::Pathfinder']]],
-  ['setparentregion',['setParentRegion',['../class_g_b_1_1_game_region.html#a35615a4aacd81bc12bf02bab7ebccce8',1,'GB::GameRegion']]],
-  ['setupdatable',['setUpdatable',['../class_g_b_1_1_game_region.html#a012e10566b0cde66139a1bf535f359e0',1,'GB::GameRegion']]],
-  ['setvalueat',['setValueAt',['../class_g_b_1_1_array3_d.html#ae860cf110a6fbf73ed1bd3525cbcd2af',1,'GB::Array3D']]]
+  ['randgen',['RandGen',['../class_g_b_1_1_rand_gen.html#ae9625ea7b806dedbb25606ca24529f95',1,'GB::RandGen::RandGen()'],['../class_g_b_1_1_rand_gen.html#a303ea6aa001645fcd8cd4ea045de976d',1,'GB::RandGen::RandGen(std::string *seed)']]],
+  ['readfile',['readFile',['../class_g_b_1_1_file_reader.html#a8eb14c264435ce4da4425b8ee3992e7c',1,'GB::FileReader']]],
+  ['registersetactiveregioncb',['registerSetActiveRegionCB',['../class_g_b_1_1_game_region.html#a49b48d55f0aaba86eb55542c6ceb413d',1,'GB::GameRegion']]],
+  ['removeanimatedsprite',['removeAnimatedSprite',['../class_g_b_1_1_compound_sprite.html#ad2cf68974d376edab2d657437c06deb2',1,'GB::CompoundSprite']]],
+  ['removechildregion',['removeChildRegion',['../class_g_b_1_1_game_region.html#aa80a31952e33177626dcf24688f28b51',1,'GB::GameRegion']]],
+  ['removeneighborregion',['removeNeighborRegion',['../class_g_b_1_1_game_region.html#a5d7bb4e40793d7940530e6e1e95261f5',1,'GB::GameRegion']]],
+  ['removesprite',['removeSprite',['../class_g_b_1_1_compound_sprite.html#ae673d681620b0e8805b692a80c1548a3',1,'GB::CompoundSprite']]],
+  ['reset',['reset',['../class_g_b_1_1_game_region.html#abfa18b8036d7762b7f75f8acee8c70a3',1,'GB::GameRegion']]],
+  ['runanimation',['runAnimation',['../class_g_b_1_1_animated_sprite.html#a38725e0f5facf5d3d993500476790a9f',1,'GB::AnimatedSprite::runAnimation(unsigned int animationId)'],['../class_g_b_1_1_animated_sprite.html#acdcc279301995902e3b1d8d619287516',1,'GB::AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle)']]],
+  ['runloop',['runLoop',['../class_g_b_1_1_core_event_controller.html#a37877ea426553ce9b63a8332650dc42a',1,'GB::CoreEventController']]]
 ];
