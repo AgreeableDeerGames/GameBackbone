@@ -295,12 +295,14 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePath
 
 	//ensure that each path is at its end;
 	for each (auto path in paths) {
-		BOOST_CHECK_EQUAL(path->size(), 1);
+		BOOST_CHECK_EQUAL(path->size(), 0);
 	}
 
 	//ensure that each sprite has reached its correct position
 	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
-		BOOST_CHECK(sprites[i]->getPosition() == paths[i]->front());
+		if (!paths[i]->empty()) {
+			BOOST_CHECK(sprites[i]->getPosition() == paths[i]->front());
+		}
 	}
 
 

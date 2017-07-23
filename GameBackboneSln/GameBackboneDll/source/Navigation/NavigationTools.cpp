@@ -97,18 +97,31 @@ void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<sf::Vector2f>* path,
 
 void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<sf::Vector2f>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpritesToDestination)
 {
+	// insure that the input sizes match
+	if (sprites.size() != paths.size() || sprites.size() != distPerMs.size()) {
+		throw Error::NavigationTools_MismatchedNavigationSizes();
+	}
+
+
+	// determine speed and destination
 	std::vector<float> maxStepLengths;
-	for (unsigned int ii = 0; ii < distPerMs.size(); ++ii) {
+	maxStepLengths.reserve(sprites.size());
+	std::vector<sf::Vector2f> destinations;
+	destinations.reserve(sprites.size());
+	for (unsigned int ii = 0; ii < paths.size(); ++ii) {
+		if (!paths[ii]->empty()) {
+			destinations.push_back(paths[ii]->front());
+		} else {
+			destinations.push_back(sprites[ii]->getPosition());
+			paths[ii]->push_back(sprites[ii]->getPosition());
+		}
 		maxStepLengths.push_back(msPassed*distPerMs[ii]);
 	}
 
-	std::vector<sf::Vector2f> destinations;
-	for (unsigned int ii = 0; ii < paths.size(); ++ii) {
-		destinations.push_back(paths[ii]->front());
-	}
-
+	// move the sprites
 	bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, orientSpritesToDestination);
 
+	// if the sprite has reached destination, move on to next point in path
 	for (unsigned int ii = 0; ii < sprites.size(); ii++) {
 		sf::Sprite* sprite = sprites[ii];
 		if (sprite->getPosition() == destinations[ii]){
