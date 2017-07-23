@@ -27,13 +27,13 @@ std::set<Point2D<int>>* Cluster::getClusterPoints() {
     return &clusterPointSet;
 }
 
-ClusterGenerationOptions* Cluster::getClusterGenerationOptions() {
-    return &clusterOptions;
+double Cluster::getClusterGenerationOptions() {
+    return clusterOption;
 }
 
 //setter
-void Cluster::setClusterGenerationOptions(ClusterGenerationOptions* OptionsForThisCluster) {
-    clusterOptions = *OptionsForThisCluster;
+void Cluster::setClusterGenerationOptions(double OptionsForThisCluster) {
+    clusterOption = OptionsForThisCluster;
 }
 
 /// <summary>

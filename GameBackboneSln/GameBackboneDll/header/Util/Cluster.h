@@ -11,14 +11,6 @@
 #include <map>
 
 namespace GB {
-	// This gets used by the Cluster generator.
-	struct ClusterGenerationOptions {
-		// What cluster is displayed as (could be sprite later)
-		sf::Color colorOfCluster;
-		// percent of points to be this cluster
-		double percent;
-	};
-
     class libGameBackbone Cluster {
     public:
         // also functions as the setter
@@ -28,10 +20,10 @@ namespace GB {
         //getter
 		std::set<Point2D<int>>* Cluster::getClusterPoints();
 
-		ClusterGenerationOptions* getClusterGenerationOptions();
+		double getClusterGenerationOptions();
 
         //setter
-		void setClusterGenerationOptions(ClusterGenerationOptions* OptionsForThisCluster);
+		void setClusterGenerationOptions(double OptionsForThisCluster);
 
 		Point2D<int> addPointToCluster(int randomNumber);
 		int getNumberBorderPoints();
@@ -52,6 +44,6 @@ namespace GB {
         std::set<Point2D<int>> borderPointSet;
         std::set<Point2D<int>>::iterator borderPointSetIter;
 
-        ClusterGenerationOptions clusterOptions;
+        double clusterOption;
     };
 }
