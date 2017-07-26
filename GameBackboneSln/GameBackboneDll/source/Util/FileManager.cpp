@@ -4,6 +4,7 @@
 #include <Util\FileReader.h>
 
 #include <string>
+#include <sys/stat.h>
 
 using namespace GB;
 
@@ -37,4 +38,25 @@ std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt
 	}
 
 	return output;
+}
+
+
+/**
+* Get the size of a file.
+* @param filename The name of the file to check size for
+* @return The file size, or 0 if the file does not exist.
+*/
+size_t FileManager::getFileSize(const std::string& filename) {
+	struct stat st;
+	if (stat(filename.c_str(), &st) != 0) {
+		return 0;
+	}
+	return st.st_size;
+}
+
+size_t FileManager::getFileHash(const std::string& filename) {
+
+
+	size_t hashed = std::hash<std::string>{}(filename);
+	return hashed;
 }
