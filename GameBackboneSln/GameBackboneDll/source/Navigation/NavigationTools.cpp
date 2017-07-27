@@ -35,6 +35,15 @@ void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
 	}
 }
 
+
+/// <summary>
+/// Moves the sprite in the direction of the destination.
+/// The sprite will never overshoot the destination.
+/// </summary>
+/// <param name="sprite">The sprite to move.</param>
+/// <param name="destination">The destination.</param>
+/// <param name="maxStepLength">Maximum length that the sprite can move.</param>
+/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
 void GB::moveSpriteStepTowardsPoint(sf::Sprite & sprite, const sf::Vector2f & destination, const float maxStepLength, const bool orientSpriteToDestination)
 {
 	std::vector<sf::Sprite*> sprites = {&sprite};
@@ -53,9 +62,9 @@ void GB::moveSpriteStepTowardsPoint(sf::Sprite & sprite, const sf::Vector2f & de
 /// <param name="maxStepLengths">The maximum distances to move the sprites.</param>
 /// <param name="orientSpritesToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
 void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
-										 const std::vector<sf::Vector2f>& destinations,
-										 const std::vector<float>& maxStepLengths,
-										 const bool orientSpritesToDestination) {
+										const std::vector<sf::Vector2f>& destinations,
+										const std::vector<float>& maxStepLengths,
+										const bool orientSpritesToDestination) {
 
 	//ensure that all arrays are the same size
 	if (sprites.size() != destinations.size() || sprites.size() != maxStepLengths.size()) {
@@ -86,6 +95,17 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 	}
 }
 
+
+/// <summary>
+/// Moves a sprite one step forward along path.
+/// The sprite will not necessarily reach the end of the path after one call to this function.
+/// The sprite will stop after reaching each point in the path even if it is capable of moving farther.
+/// </summary>
+/// <param name="sprite">The sprite.</param>
+/// <param name="path">The path.</param>
+/// <param name="msPassed">Time passed in ms.</param>
+/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
+/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
 void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<sf::Vector2f>* path, sf::Int64 msPassed, float distPerMs, const bool orientSpriteToDestination)
 {
 	std::vector<sf::Sprite*> sprites = {&sprite};
@@ -95,7 +115,20 @@ void GB::moveSpriteAlongPath(sf::Sprite & sprite, std::list<sf::Vector2f>* path,
 	bulkMoveSpriteAlongPath(sprites, paths, msPassed, distPerMsVec, orientSpriteToDestination);
 }
 
-void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, const std::vector<std::list<sf::Vector2f>*>& paths, const sf::Int64 msPassed, const std::vector<float>& distPerMs, const bool orientSpritesToDestination)
+/// <summary>
+/// Moves all passed sprites one step forward along their respective paths.
+/// The sprites will not necessarily reach the end of their paths after one call to this function.
+/// The sprites will stop after reaching each point in the path even if they are capable of moving farther.
+/// </summary>
+/// <param name="sprites">The sprites.</param>
+/// <param name="paths">The paths. Each sprite will follow the path with the matching index.</param>
+/// <param name="msPassed">Time passed in ms.</param>
+/// <param name="distPerMs">The maximum distance that the each sprite can move per ms. Each distance corresponds to the sprite with the matching index.</param>
+/// <param name="orientSpritesToDestination">The orient sprites to destination.</param>
+void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, 
+								 const std::vector<std::list<sf::Vector2f>*>& paths,
+								 const sf::Int64 msPassed, const std::vector<float>& distPerMs,
+								 const bool orientSpritesToDestination)
 {
 	// insure that the input sizes match
 	if (sprites.size() != paths.size() || sprites.size() != distPerMs.size()) {
