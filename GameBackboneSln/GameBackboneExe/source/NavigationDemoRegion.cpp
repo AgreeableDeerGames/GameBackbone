@@ -89,7 +89,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	{
 		//TODO: change to use bulk
 		for (size_t i = 0; i < navigators.size(); i++) {
-			moveSpriteAlongPath(*navigators[i], (paths[i]), msPassed, 10);
+			moveSpriteAlongPath(*navigators[i], (paths[i]), msPassed, 1);
 		}
 		break;
 	}
