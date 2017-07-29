@@ -80,7 +80,8 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 		float angleToDest = atan2f(destination.y - currentPosition.y, destination.x - currentPosition.x);
 
 		// Move directly to the destination if it's within reach
-		if (CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination) <= maxStepLength) {
+		float distanceToDestination = CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination);
+		if (distanceToDestination <= maxStepLength) {
 			sprite->setPosition(destination);
 
 		} else { //Move the sprite as close as possible to the destination
@@ -91,7 +92,7 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 		}
 
 		//rotate the sprite if rotation is on
-		if (orientSpritesToDestination) {
+		if (orientSpritesToDestination && distanceToDestination != 0) {
 			sprite->setRotation(angleToDest * 180.0f / M_PI);
 		}
 	}
