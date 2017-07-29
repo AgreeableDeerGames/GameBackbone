@@ -380,7 +380,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindi
 	// move sprite to the end of the path 
 	const unsigned int NUM_STEPS = paths[2]->size();
 	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
+		moveSpriteAlongPath(*sprites[2], *paths[2], 1, INTMAX_MAX);
 	}
 
 	// ensure that the sprite is at the final position in the path
@@ -392,7 +392,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindin
 	// move sprite to the end of the path 
 	const unsigned int NUM_STEPS = paths[2]->size();
 	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
+		moveSpriteAlongPath(*sprites[2], *paths[2], 1, INTMAX_MAX);
 
 		// Test that the moving sprite moves to each consecutive point in the path in-order
 		BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
@@ -405,9 +405,9 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 	// move sprite to the end of the path 
 
 	// ensure that it takes two moves to reach the first point
-	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
+	moveSpriteAlongPath(*sprites[2], *paths[2], 1, 1.0f);
 	BOOST_CHECK(sprites[2]->getPosition() != backupPaths[2]->front());
-	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
+	moveSpriteAlongPath(*sprites[2], *paths[2], 1, 1.0f);
 	BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
 }
 
