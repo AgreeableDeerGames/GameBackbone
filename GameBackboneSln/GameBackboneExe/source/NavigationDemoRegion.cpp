@@ -75,21 +75,21 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	{
 	case GB::NAVIGATOR_1: 
 	{
-		moveSpriteAlongPath(*navigators[0], &paths[0], msPassed, 1);
+		moveSpriteAlongPath(*navigators[0], paths[0], msPassed, 1);
 
 		//moveSpriteAlongPath(navigators[0], &(pathsReturn[0]), msPassed, 1);
 	}
 		break;
 	case GB::NAVIGATOR_2:
 	{
-		moveSpriteAlongPath(*navigators[1], &(paths[1]), msPassed, 1);
+		moveSpriteAlongPath(*navigators[1], (paths[1]), msPassed, 1);
 	}
 		break;
 	case GB::ALL_NAVIGATORS: 
 	{
 		//TODO: change to use bulk
 		for (size_t i = 0; i < navigators.size(); i++) {
-			moveSpriteAlongPath(*navigators[i], &(paths[i]), msPassed, 10);
+			moveSpriteAlongPath(*navigators[i], (paths[i]), msPassed, 10);
 		}
 		break;
 	}
