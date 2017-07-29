@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Backbone\GameRegion.h>
+#include <Navigation\CoordinateConverter.h>
 #include <Navigation\PathFinder.h>
 #include <Util\Array2D.h>
 #include <Util\Point.h>
@@ -40,7 +41,6 @@ namespace GB {
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
 
 
-
 	protected:
 
 		//ctr
@@ -49,12 +49,6 @@ namespace GB {
 		//helper functions
 		void initGUI();
 		void initMaze(std::vector<Point2D<int>> nonBlockablePositions);
-		sf::Vector2f gridCoordToWorldCoord(const Point2D<int>& gridCoordinate);
-		Point2D<int> worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
-
-		//movement functions
-		void moveSpriteTowardsPoint(sf::Sprite* sprite, sf::Vector2f destination, float distance);
-		void moveSpriteAlongPath(sf::Sprite* sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float speed);
 
 		//update logic storage
 		sf::Time lastUpdateTime;
@@ -72,7 +66,9 @@ namespace GB {
 		NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
-		std::vector<std::list<Point2D<int>>> pathsReturn;
+		std::vector<std::list<sf::Vector2f>> paths;
+		CoordinateConverter coordinateConverter;
+		
 
 		//GUI handle functions
 		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
