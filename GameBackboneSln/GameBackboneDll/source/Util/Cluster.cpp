@@ -14,8 +14,7 @@ using namespace GB;
 /// Constructor 
 /// </summary>
 /// <param name="pointToClusterMap">The map of all of the points in the graph to their clusters.</param>
-Cluster::Cluster(Point2D<int> firstPoint, Point2D<int> dimensions, std::multimap<Point2D<int>, Cluster>& pointToClusterMap) {
-    this->pointToClusterMap = &pointToClusterMap;
+Cluster::Cluster(Point2D<int> firstPoint, Point2D<int> dimensions) {
     dimensionsOfGrid = dimensions;
     clusterPointSet.insert(firstPoint);
     UpdateBorder(firstPoint);
@@ -23,50 +22,26 @@ Cluster::Cluster(Point2D<int> firstPoint, Point2D<int> dimensions, std::multimap
 }
 
 //getter
-std::set<Point2D<int>>* Cluster::getClusterPoints() {
+std::set<Point2D<int>> const* const Cluster::getClusterPoints() {
     return &clusterPointSet;
 }
 
-double Cluster::getClusterGenerationOptions() {
-    return clusterOption;
+double Cluster::getClusterFrequency() {
+    return clusterFrequency;
 }
 
 //setter
-void Cluster::setClusterGenerationOptions(double OptionsForThisCluster) {
-    clusterOption = OptionsForThisCluster;
+void Cluster::setClusterFrequency(double FrequencyForCluster) {
+    clusterFrequency = FrequencyForCluster;
 }
 
 /// <summary>
-/// Adds a random point to the cluster.
+/// Adds a given point to the cluster.
 /// </summary>
-/// <param name="randomNumber">A random number, which will be used to determine which point in the border will be added to the cluster.</param>
-/// <returns>The point which was added.</returns>
-Point2D<int> Cluster::addPointToCluster(int randomNumber) {
-	borderPointSetIter = borderPointSet.begin();
-	std::advance(borderPointSetIter, randomNumber);
-
-    for (int i = 0; i < borderPointSet.size(); i++) {
-        // If the point is not already in a different cluster and also not on the edge
-        // of the graph, we're good
-        if (pointToClusterMap->find(*borderPointSetIter) == pointToClusterMap->end() &&
-            dimensionsOfGrid.x > borderPointSetIter->x && dimensionsOfGrid.y > borderPointSetIter->y &&
-			0 <= borderPointSetIter->x && 0 <= borderPointSetIter->y) {
-			Point2D<int> pointToAdd = *borderPointSetIter;
-            clusterPointSet.insert(pointToAdd);
-            UpdateBorder(pointToAdd);
-            pointToClusterMap->insert(std::make_pair(pointToAdd, *this));
-			return pointToAdd;
-        }
-        // Otherwise, check the next point in the set
-        else {
-            borderPointSetIter++;
-            if (borderPointSetIter == borderPointSet.end()) {
-                borderPointSetIter = borderPointSet.begin();
-            }
-        }
-    }
-	// There were not points to add
-	return Point2D<int>{-1, -1};
+/// <param name="newPointToAdd">A point which is to be added to this cluster</param>
+void Cluster::addPointToCluster(Point2D<int> newPointToAdd) {
+	clusterPointSet.insert(newPointToAdd);
+	UpdateBorder(newPointToAdd);
 }
 
 /// <summary>
@@ -82,6 +57,10 @@ void Cluster::UpdateBorder(Point2D<int> pointToAdd) {
     borderPointSetIter = borderPointSet.begin();
 }
 
-int Cluster::getNumberBorderPoints() {
-	return (int)borderPointSet.size();
+unsigned int Cluster::getNumberBorderPoints() {
+	return (unsigned int)borderPointSet.size();
+}
+
+std::set<Point2D<int>> const* const Cluster::getBorderPointSet() {
+	return &borderPointSet;
 }

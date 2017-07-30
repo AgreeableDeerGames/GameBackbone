@@ -44,7 +44,7 @@ ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions, std::vector<double
 		percentAdjustment = generationOptions[i] + percentAdjustment;
 		generationOptions[i] = percentAdjustment;
 
-		Cluster clusterToAdd(originPoint, graphDims, pointToClusterMap);
+		Cluster clusterToAdd(originPoint, graphDims);
 		clusterToAdd.setClusterGenerationOptions(generationOptions[i]);
 		clusterVector.push_back(clusterToAdd);
 		pointToClusterMap.insert(std::make_pair(originPoint, clusterToAdd));
@@ -63,7 +63,7 @@ Cluster* ClusterGreenhouse::chooseClusterToAddTo() {
 	}
 	for (int i = 0; i < clusterVector.size(); i++) {
 		// check which cluster will be added to, based on random number and frequency of cluster
-		if(rollDie < clusterVector[i].getClusterGenerationOptions()){
+		if(rollDie < clusterVector[i].getClusterFrequency()){
 			return &clusterVector[i];
 		}
 	}
@@ -76,8 +76,32 @@ Cluster* ClusterGreenhouse::chooseClusterToAddTo() {
 /// <param name="clusterToAddTo">Cluster which will have a point added to it.</param>
 /// <return> The Point which was added to the cluster. </return>
 Point2D<int> ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
+	const std::set<Point2D<int>>* clusterBorderPointSet = clusterToAddTo->getBorderPointSet();
+	auto borderPointSetIter = clusterBorderPointSet->begin();
+	std::advance(borderPointSetIter, RandomGenerator.uniDist(0, (double)clusterBorderPointSet->size()));
+
+	for (int i = 0; i < clusterBorderPointSet->size(); i++) {
+		// If the point is not already in a different cluster and also not on the edge
+		// of the graph, we're good
+		if (pointToClusterMap.find(*borderPointSetIter) == pointToClusterMap.end() &&
+			graphDims.x > borderPointSetIter->x && graphDims.y > borderPointSetIter->y &&
+			0 <= borderPointSetIter->x && 0 <= borderPointSetIter->y) {
+			Point2D<int> pointToAdd = *borderPointSetIter;
+			clusterToAddTo->addPointToCluster(pointToAdd);
+
+			pointToClusterMap.insert(std::make_pair(pointToAdd, *clusterToAddTo));
+			return pointToAdd;
+		}
+		// Otherwise, check the next point in the set
+		else {
+			borderPointSetIter++;
+			if (borderPointSetIter == clusterBorderPointSet->end()) {
+				borderPointSetIter = clusterBorderPointSet->begin();
+			}
+		}
+	}
 	// If the there were no point which could be added to the cluster, we are given a flag Point2D{-1, -1}.
-	return clusterToAddTo->addPointToCluster((int)RandomGenerator.uniDist(0, clusterToAddTo->getNumberBorderPoints()));
+	return Point2D<int>{-1, -1};
 }
 
 // If there is no input cluster generation options, then we'll just generate some (only the frequency is used right now)
@@ -102,7 +126,7 @@ void ClusterGreenhouse::GenerateRandomOptionsVector(std::vector<double>& generat
 
 		// choose a starting point for cluster then make cluster
 		Point2D<int> originPoint{(int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y)};
-		Cluster cluster(originPoint, graphDims, pointToClusterMap);
+		Cluster cluster(originPoint, graphDims);
 
 		// create the generation options for cluster made
 		double newGenerationOption = clusterFrequency;
