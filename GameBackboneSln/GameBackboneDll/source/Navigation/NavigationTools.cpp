@@ -134,7 +134,8 @@ void GB::moveSpriteAlongPath(sf::Sprite & sprite,
 /// <param name="orientSpritesToDestination">The orient sprites to destination.</param>
 void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, 
 								 const std::vector<std::shared_ptr<std::list<sf::Vector2f>>>& paths,
-								 const sf::Uint64 msPassed, const std::vector<float>& distPerMs,
+								 const sf::Uint64 msPassed, 
+								 const std::vector<float>& distPerMs,
 								 const bool orientSpritesToDestination) {
 	// insure that the input sizes match
 	if (sprites.size() != paths.size() || sprites.size() != distPerMs.size()) {
