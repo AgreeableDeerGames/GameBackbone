@@ -24,7 +24,7 @@ namespace GB {
 
 		// If there is no input cluster generation options, then we'll just generate some.
 		// generationOptions should be empty
-		void GenerateRandomOptionsVector(std::vector<double>& generationOptions);
+		void GenerateRandomFrequencyVector(std::vector<double>& generationOptions);
 
 		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double> generationOptions);
 

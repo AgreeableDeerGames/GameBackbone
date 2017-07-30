@@ -14,11 +14,9 @@ using namespace GB;
 /// Constructor 
 /// </summary>
 /// <param name="pointToClusterMap">The map of all of the points in the graph to their clusters.</param>
-Cluster::Cluster(Point2D<int> firstPoint, Point2D<int> dimensions) {
-    dimensionsOfGrid = dimensions;
+Cluster::Cluster(Point2D<int> firstPoint) {
     clusterPointSet.insert(firstPoint);
     UpdateBorder(firstPoint);
-    //this->pointToClusterMap->insert(std::make_pair(firstPoint, *this));
 }
 
 //getter
@@ -54,7 +52,6 @@ void Cluster::UpdateBorder(Point2D<int> pointToAdd) {
     borderPointSet.insert(Point2D<int>{pointToAdd.x, pointToAdd.y - 1});
     borderPointSet.insert(Point2D<int>{pointToAdd.x - 1, pointToAdd.y});
     borderPointSet.erase(pointToAdd);
-    borderPointSetIter = borderPointSet.begin();
 }
 
 unsigned int Cluster::getNumberBorderPoints() {
