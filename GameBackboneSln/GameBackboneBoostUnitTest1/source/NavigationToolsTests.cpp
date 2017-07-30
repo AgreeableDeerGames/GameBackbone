@@ -7,6 +7,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <memory>
 #include <vector>
 
 
@@ -83,7 +84,7 @@ struct ReusableObjects
 };
 
 /// <summary>
-/// 
+/// Test fixture for moving sprites along paths
 /// </summary>
 struct ReusablePathfindingObjects
 {
@@ -98,8 +99,8 @@ struct ReusablePathfindingObjects
 		for (unsigned int ii = 0; ii < NUM_SPRITES; ii++) {
 
 			//each sprite gets a longer path
-			std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>();
-			std::list<sf::Vector2f>* backupPath = new std::list<sf::Vector2f>();
+			std::shared_ptr<std::list<sf::Vector2f>> path = std::make_shared<std::list<sf::Vector2f>>();
+			std::shared_ptr<std::list<sf::Vector2f>> backupPath = std::make_shared<std::list<sf::Vector2f>>();
 			for (unsigned int jj = 0; jj < ii * BASE_PATH_LENGTH; jj++) {
 				path->push_back({ (float)ii, (float)jj });
 				backupPath->push_back({ (float)ii, (float)jj });
@@ -115,17 +116,11 @@ struct ReusablePathfindingObjects
 		for (sf::Sprite* sprite : sprites) {
 			delete sprite;
 		}
-		for (auto path : paths) {
-			delete path;
-		}
-		for (auto path : backupPaths) {
-			delete path;
-		}
 	}
 
 	std::vector<sf::Sprite*> sprites;
-	std::vector<std::list<sf::Vector2f>*> paths;
-	std::vector<std::list<sf::Vector2f>*> backupPaths;
+	std::vector<std::shared_ptr<std::list<sf::Vector2f>>> paths;
+	std::vector<std::shared_ptr<std::list<sf::Vector2f>>> backupPaths;
 
 	const unsigned int NUM_SPRITES = 3;
 	const unsigned int BASE_PATH_LENGTH = 3;
@@ -380,7 +375,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindi
 	// move sprite to the end of the path 
 	const unsigned int NUM_STEPS = paths[2]->size();
 	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], *paths[2], 1, INTMAX_MAX);
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
 	}
 
 	// ensure that the sprite is at the final position in the path
@@ -392,7 +387,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindin
 	// move sprite to the end of the path 
 	const unsigned int NUM_STEPS = paths[2]->size();
 	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], *paths[2], 1, INTMAX_MAX);
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
 
 		// Test that the moving sprite moves to each consecutive point in the path in-order
 		BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
@@ -405,9 +400,9 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 	// move sprite to the end of the path 
 
 	// ensure that it takes two moves to reach the first point
-	moveSpriteAlongPath(*sprites[2], *paths[2], 1, 1.0f);
+	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
 	BOOST_CHECK(sprites[2]->getPosition() != backupPaths[2]->front());
-	moveSpriteAlongPath(*sprites[2], *paths[2], 1, 1.0f);
+	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
 	BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
 }
 

@@ -5,6 +5,7 @@
 #include <SFML\Graphics\Sprite.hpp>
 
 #include <math.h>
+#include <memory>
 
 using namespace GB;
 
@@ -110,12 +111,12 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 /// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
 /// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
 void GB::moveSpriteAlongPath(sf::Sprite & sprite, 
-							 std::list<sf::Vector2f>& path,
+							 std::shared_ptr<std::list<sf::Vector2f>> path,
 							 sf::Uint64 msPassed,
 							 float distPerMs,
 							 const bool orientSpriteToDestination) {
 	std::vector<sf::Sprite*> sprites = {&sprite};
-	std::vector<std::list<sf::Vector2f>*> paths = {&path};
+	std::vector<std::shared_ptr<std::list<sf::Vector2f>>> paths = {path};
 	std::vector<float> distPerMsVec = {distPerMs};
 
 	bulkMoveSpriteAlongPath(sprites, paths, msPassed, distPerMsVec, orientSpriteToDestination);
@@ -132,8 +133,9 @@ void GB::moveSpriteAlongPath(sf::Sprite & sprite,
 /// <param name="distPerMs">The maximum distance that the each sprite can move per ms. Each distance corresponds to the sprite with the matching index.</param>
 /// <param name="orientSpritesToDestination">The orient sprites to destination.</param>
 void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, 
-								 const std::vector<std::list<sf::Vector2f>*>& paths,
-								 const sf::Uint64 msPassed, const std::vector<float>& distPerMs,
+								 const std::vector<std::shared_ptr<std::list<sf::Vector2f>>>& paths,
+								 const sf::Uint64 msPassed, 
+								 const std::vector<float>& distPerMs,
 								 const bool orientSpritesToDestination) {
 	// insure that the input sizes match
 	if (sprites.size() != paths.size() || sprites.size() != distPerMs.size()) {
