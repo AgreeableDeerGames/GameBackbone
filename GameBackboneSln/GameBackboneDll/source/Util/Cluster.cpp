@@ -42,7 +42,8 @@ void Cluster::setClusterGenerationOptions(double OptionsForThisCluster) {
 /// <param name="randomNumber">A random number, which will be used to determine which point in the border will be added to the cluster.</param>
 /// <returns>The point which was added.</returns>
 Point2D<int> Cluster::addPointToCluster(int randomNumber) {
-    moveIterator(randomNumber);
+	borderPointSetIter = borderPointSet.begin();
+	std::advance(borderPointSetIter, randomNumber);
 
     for (int i = 0; i < borderPointSet.size(); i++) {
         // If the point is not already in a different cluster and also not on the edge
@@ -66,22 +67,6 @@ Point2D<int> Cluster::addPointToCluster(int randomNumber) {
     }
 	// There were not points to add
 	return Point2D<int>{-1, -1};
-}        
-
-/// <summary>
-/// This moves the border's iterator some number, maintaining the circular property of the border.
-/// </summary>
-/// <param name="numberToMove">The number of times the iterator will move.</param>
-// This moves the border's iterator some number, maintaining the circular border
-void Cluster::moveIterator(int numberToMove) {
-    if (numberToMove >= 0) {
-        borderPointSetIter = borderPointSet.begin();
-        std::advance(borderPointSetIter, numberToMove);
-    }
-    else {
-        borderPointSetIter = borderPointSet.end();
-        std::advance(borderPointSetIter, numberToMove - 1);
-    }
 }
 
 /// <summary>

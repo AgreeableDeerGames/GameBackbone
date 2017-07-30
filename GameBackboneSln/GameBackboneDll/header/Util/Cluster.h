@@ -29,9 +29,6 @@ namespace GB {
 		int getNumberBorderPoints();
 
     private:
-        // This moves the border's iterator some number, maintaining the circular border
-		void moveIterator(int numberToMove);
-
 		void UpdateBorder(Point2D<int> pointToAdd);
 
         // Dimensions of the graph
