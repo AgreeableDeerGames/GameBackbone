@@ -66,7 +66,7 @@ namespace GB {
 		NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
-		std::vector<std::list<sf::Vector2f>> paths;
+		std::vector<std::shared_ptr<std::list<sf::Vector2f>>> paths;
 		CoordinateConverter coordinateConverter;
 		
 

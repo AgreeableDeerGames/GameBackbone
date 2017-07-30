@@ -126,8 +126,9 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 		paths.clear();
 		paths.resize(pathsReturn.size());
 		for (unsigned int i = 0; i < navigators.size(); i++) {
+			paths[i] = std::make_shared<std::list<sf::Vector2f>>();
 			for (auto point : pathsReturn[i]) {
-				paths[i].push_back(coordinateConverter.convertCoordToWindow(point));
+				paths[i]->push_back(coordinateConverter.convertCoordToWindow(point));
 			}
 		}
 	}
@@ -214,8 +215,9 @@ void GB::NavigationDemoRegion::init() {
 	//convert paths to window coordinates
 	paths.resize(pathsReturn.size());
 	for (unsigned int i = 0; i < navigators.size(); i++) {
+		paths[i] = std::make_shared<std::list<sf::Vector2f>>();
 		for (auto point : pathsReturn[i]) {
-			paths[i].push_back(coordinateConverter.convertCoordToWindow(point));
+			paths[i]->push_back(coordinateConverter.convertCoordToWindow(point));
 		}
 	}
 
