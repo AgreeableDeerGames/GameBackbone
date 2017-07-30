@@ -9,6 +9,7 @@
 
 #include <list>
 #include <vector>
+#include <memory>
 
 
 namespace GB {
@@ -27,14 +28,14 @@ namespace GB {
 
 	//sprite movement along path
 	libGameBackbone extern void moveSpriteAlongPath(sf::Sprite& sprite, 
-													std::list<sf::Vector2f>& path,
+													std::shared_ptr<std::list<sf::Vector2f>> path,
 													sf::Uint64 msPassed,
 													float distPerMs,
 													const bool orientSpriteToDestination = true);
 
 
 	libGameBackbone extern void bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
-														 const std::vector<std::list<sf::Vector2f>*>& paths, 
+														 const std::vector<std::shared_ptr<std::list<sf::Vector2f>>>& paths, 
 														 const sf::Uint64 msPassed,
 														 const std::vector<float>& distPerMs,
 													     const bool orientSpritesToDestination = true);
