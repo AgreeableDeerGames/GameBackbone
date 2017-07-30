@@ -36,17 +36,9 @@ GB::NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : Game
 NavigationDemoRegion::~NavigationDemoRegion() {
 
 	//delete navigation data
+	freeAllNavigationGridData(*navGrid);
 	delete navGrid;
 	navGrid = nullptr;
-
-	//delete visual navigation grid data
-	for (unsigned int i = 0; i < visualNavigationGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < visualNavigationGrid->getArraySizeY(); j++) {
-			delete (*visualNavigationGrid)[i][j];
-			(*visualNavigationGrid)[i][j] = nullptr;
-		}
-	}
-	delete visualNavigationGrid;
 
 	//delete navigators
 	for each (auto navigator in navigators) {
@@ -140,8 +132,9 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 void GB::NavigationDemoRegion::init() {
 	//init storage
 	navGrid = new NavigationGrid(NAV_GRID_DIM);
+	initAllNavigationGridValues(*navGrid, NavigationDemoData());
 	regionPathfinder.setNavigationGrid(navGrid);
-	visualNavigationGrid = new Array2D<sf::Sprite*>(NAV_GRID_DIM);
+
 
 	//init textures
 	std::string arrowPath(R"(..\..\Textures\SmallArrow.png)");
@@ -181,7 +174,8 @@ void GB::NavigationDemoRegion::init() {
 	initMaze(nonBlockableGridSquares);
 
 
-	float gridSquareWidth = visualNavigationGrid->at(0, 0)->getLocalBounds().width;
+	sf::Sprite* gridSprite = static_cast<NavigationDemoData*>(navGrid->at(0, 0))->demoSprite;
+	float gridSquareWidth = gridSprite->getLocalBounds().width;
 	coordinateConverter.setGridSquareWidth(gridSquareWidth);
 
 	//position navigators
@@ -279,9 +273,6 @@ void GB::NavigationDemoRegion::initGUI() {
 /// Initializes the maze that the navigators will use.
 /// </summary>
 void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositions) {
-
-	initAllNavigationGridValues(*navGrid, NavigationGridData{ 1, 0 });
-
 	//block grids for maze
 	srand((unsigned int)time(NULL));
 	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
@@ -320,7 +311,8 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
 			}
 
 			//add grids to storage
-			(*visualNavigationGrid)[i][j] = gridSquare;
+			//sf::Sprite* gridSprite = (static_cast<NavigationDemoData*>(navGrid->at(i, j))->demoSprite);
+			static_cast<NavigationDemoData*>(navGrid->at(i, j))->demoSprite = gridSquare;
 
 			//ensure grids are drawn
 			setDrawable(true, gridSquare);

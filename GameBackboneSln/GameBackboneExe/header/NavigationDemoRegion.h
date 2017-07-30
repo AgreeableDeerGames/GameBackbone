@@ -18,6 +18,14 @@ namespace GB {
 		ALL_NAVIGATORS
 	};
 
+	struct NavigationDemoData : public NavigationGridData
+	{
+		sf::Sprite* demoSprite;
+
+		NavigationDemoData(){demoSprite = nullptr;}
+		virtual ~NavigationDemoData(){delete demoSprite;}
+	};
+
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
 	/// </summary>
@@ -57,8 +65,7 @@ namespace GB {
 		sf::Texture* navigatorTexture;
 		sf::Texture* gridTexture;
 
-		//	store visual representation of maze and maze solvers
-		Array2D<sf::Sprite*>* visualNavigationGrid;
+		//	store visual representation of maze solvers
 		std::vector<sf::Sprite*> navigators;
 
 		//path-finding
