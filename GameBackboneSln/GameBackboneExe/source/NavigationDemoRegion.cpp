@@ -76,10 +76,8 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	case GB::NAVIGATOR_1: 
 	{
 		moveSpriteAlongPath(*navigators[0], paths[0], msPassed, 1);
-
-		//moveSpriteAlongPath(navigators[0], &(pathsReturn[0]), msPassed, 1);
-	}
 		break;
+	}
 	case GB::NAVIGATOR_2:
 	{
 		moveSpriteAlongPath(*navigators[1], (paths[1]), msPassed, 1);
@@ -87,10 +85,8 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 		break;
 	case GB::ALL_NAVIGATORS: 
 	{
-		//TODO: change to use bulk
-		for (size_t i = 0; i < navigators.size(); i++) {
-			moveSpriteAlongPath(*navigators[i], (paths[i]), msPassed, 1);
-		}
+		std::vector<float> speeds(navigators.size(), 1.0f);
+		bulkMoveSpriteAlongPath(navigators, paths, msPassed, speeds);
 		break;
 	}
 	default:
@@ -180,7 +176,7 @@ void GB::NavigationDemoRegion::init() {
 	nonBlockableGridSquares.push_back(navigator2StartingGrid);
 	initMaze(nonBlockableGridSquares);
 
-
+	//ensure that window / grid coordinates are converted with the correct ratio
 	float gridSquareWidth = visualNavigationGrid->at(0, 0)->getLocalBounds().width;
 	coordinateConverter.setGridSquareWidth(gridSquareWidth);
 
@@ -190,12 +186,9 @@ void GB::NavigationDemoRegion::init() {
 	navigator1->setPosition(navigator1StartingPos);
 	navigator2->setPosition(navigator2StartingPos);
 
-
-
 	//draw navigators on top of maze
 	setDrawable(true, navigator1);
 	setDrawable(true, navigator2);
-
 
 	//Path-find from starting positions to end positions
 	//create request
