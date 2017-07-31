@@ -14,6 +14,9 @@
 
 namespace GB {
 
+	/// <summary>
+	/// Grows existing clusters. Ensures that the sets of points added to each cluster are disjointed.
+	/// </summary>
 	class libGameBackbone ClusterGreenhouse {
 	public:
 		ClusterGreenhouse(Point2D<int> dimensions, std::vector<double>& generationOptions);
@@ -22,11 +25,9 @@ namespace GB {
 
 		Point2D<int> growCluster(Cluster* clusterToAddTo);
 
-		// If there is no input cluster generation options, then we'll just generate some.
-		// generationOptions should be empty
-		void GenerateRandomFrequencyVector(std::vector<double>& generationOptions);
+		std::vector<double> generateRandomFrequencyVector();
 
-		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double> generationOptions);
+		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double>& generationOptions);
 
 		std::vector<Cluster> clusterVector;
 		std::multimap<Point2D<int>, Cluster> pointToClusterMap;

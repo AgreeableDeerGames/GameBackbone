@@ -11,6 +11,10 @@
 #include <map>
 
 namespace GB {
+
+	/// <summary>
+	/// A collection of unique integer coordinates. 
+	/// </summary>
     class libGameBackbone Cluster {
     public:
         // also functions as the setter

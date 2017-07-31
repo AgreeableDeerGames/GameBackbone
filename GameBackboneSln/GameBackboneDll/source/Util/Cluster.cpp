@@ -20,9 +20,15 @@ Cluster::Cluster(Point2D<int> firstPoint) {
 }
 
 //getter
+
+/// <summary>
+/// Returns the coordinates contained by this clusters.
+/// </summary>
+/// <returns></returns>
 std::set<Point2D<int>> const* const Cluster::getClusterPoints() {
     return &clusterPointSet;
 }
+
 
 double Cluster::getClusterFrequency() {
     return clusterFrequency;
@@ -54,10 +60,18 @@ void Cluster::UpdateBorder(Point2D<int> pointToAdd) {
     borderPointSet.erase(pointToAdd);
 }
 
+/// <summary>
+/// Gets the number of coordinates bordering this cluster.
+/// </summary>
+/// <returns></returns>
 unsigned int Cluster::getNumberBorderPoints() {
 	return (unsigned int)borderPointSet.size();
 }
 
+/// <summary>
+/// Gets the set of coordinates that are bordering this cluster.
+/// </summary>
+/// <returns></returns>
 std::set<Point2D<int>> const* const Cluster::getBorderPointSet() {
 	return &borderPointSet;
 }

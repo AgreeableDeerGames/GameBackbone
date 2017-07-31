@@ -1,3 +1,4 @@
+#include <Backbone\BackboneBaseExceptions.h>
 #include <Util\Array2D.h>
 #include <Util\Cluster.h>
 #include <Util\ClusterGreenhouse.h>
@@ -20,7 +21,7 @@ ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions, std::vector<double
 	graphDims = dimensions;
 
 	if (clusterFrequencies.empty()) {
-		GenerateRandomFrequencyVector(clusterFrequencies);
+		clusterFrequencies = generateRandomFrequencyVector();
 		return;
 	}
 
@@ -104,22 +105,24 @@ Point2D<int> ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
 	return Point2D<int>{-1, -1};
 }
 
-// If there is no input cluster generation options, then we'll just generate some
-// frequencies should be empty
 /// <summary>
-/// Generates some random frequencies to be used be the clusters during generation (only frequency is used.
+/// Generates some random frequencies to be used be the clusters during generation (only frequency is used).
 /// </summary>
 /// <param name="frequencies">Empty frequency vector .</param>
-void ClusterGreenhouse::GenerateRandomFrequencyVector(std::vector<double>& frequencies) {
+std::vector<double> ClusterGreenhouse::generateRandomFrequencyVector() {
+
+	std::vector<double> frequencies;
+
 	int numberOfClustersToMake = (int)RandomGenerator.uniDist(4, 8);
 
-	// decide the frequency of this cluster based on how much of 0 through 1 (non-descrete) is left
+	// decide the frequency of this cluster based on how much of 0 through 1 (non-discrete) is left
 	double availablePercent = .15;
 	sparcity = 1 - availablePercent;
 	double clusterFrequency = 0;
 	for (int i = 0; i < numberOfClustersToMake; i++) {
-		if (availablePercent < 0)
+		if (availablePercent < 0) {
 			break;
+		}
 
 	    clusterFrequency = RandomGenerator.uniDist(1 - availablePercent, 1);
 		availablePercent = 1 - clusterFrequency;
@@ -136,9 +139,12 @@ void ClusterGreenhouse::GenerateRandomFrequencyVector(std::vector<double>& frequ
 		clusterVector.push_back(cluster);
 		pointToClusterMap.insert(std::make_pair(originPoint, cluster)); // always be sure to insert you're origin point kids! :>
 	}
-	// whatever percent is left over will be added to sparcity
-	if(availablePercent>0)
+	// whatever percent is left over will be added to sparsity
+	if (availablePercent > 0) {
 		sparcity += availablePercent;
+	}
+
+	return frequencies;
 }
 
 /// <summary>
@@ -146,9 +152,11 @@ void ClusterGreenhouse::GenerateRandomFrequencyVector(std::vector<double>& frequ
 /// </summary>
 /// <param name="frequencies">The frequencies which will be used in generating the clusters.</param>
 /// <returns>A vector of sets.  A single set represents a single cluster, the items in said said being the Point2D's in the Cluster.</returns>
-std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(std::vector<double> frequencies) {
+std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(std::vector<double>& frequencies) {
 	if (frequencies.empty()) {
-		GenerateRandomFrequencyVector(frequencies);
+		// If there is no input cluster generation options, then we'll just generate some
+		// frequencies should be empty
+		frequencies = generateRandomFrequencyVector();
 	}
 	int Array2DArea = graphDims.x*graphDims.y;
 	for (int i = 0; i < Array2DArea; i++) {
