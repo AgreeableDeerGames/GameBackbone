@@ -99,8 +99,8 @@ struct ReusablePathfindingObjects
 		for (unsigned int ii = 0; ii < NUM_SPRITES; ii++) {
 
 			//each sprite gets a longer path
-			std::shared_ptr<std::list<sf::Vector2f>> path = std::make_shared<std::list<sf::Vector2f>>();
-			std::shared_ptr<std::list<sf::Vector2f>> backupPath = std::make_shared<std::list<sf::Vector2f>>();
+			WindowCoordinatePathPtr path = std::make_shared<WindowCoordinatePath>();
+			WindowCoordinatePathPtr backupPath = std::make_shared<WindowCoordinatePath>();
 			for (unsigned int jj = 0; jj < ii * BASE_PATH_LENGTH; jj++) {
 				path->push_back({ (float)ii, (float)jj });
 				backupPath->push_back({ (float)ii, (float)jj });
@@ -119,8 +119,8 @@ struct ReusablePathfindingObjects
 	}
 
 	std::vector<sf::Sprite*> sprites;
-	std::vector<std::shared_ptr<std::list<sf::Vector2f>>> paths;
-	std::vector<std::shared_ptr<std::list<sf::Vector2f>>> backupPaths;
+	std::vector<WindowCoordinatePathPtr> paths;
+	std::vector<WindowCoordinatePathPtr> backupPaths;
 
 	const unsigned int NUM_SPRITES = 3;
 	const unsigned int BASE_PATH_LENGTH = 3;
