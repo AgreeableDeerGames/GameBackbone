@@ -220,6 +220,50 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Large_Size_St
 	BOOST_CHECK_EQUAL(wrongRotatedSprites, 0);
 }
 
+// Test that sprites are only rotated if they are not already at their destination.
+BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_No_Movement_No_Rotation, ReusableObjects) {
+
+	//create the vector of movement lengths
+	std::vector<float> maxMovementDistances;
+	const float MAX_MOVEMENT_DISTANCE = 1000.0f;
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		maxMovementDistances.push_back(MAX_MOVEMENT_DISTANCE);
+	}
+
+	//set the destinations of the first two sprites to their current positions.
+	destinations[0] = sprites[0]->getPosition();
+	destinations[1] = sprites[1]->getPosition();
+
+	//set the rotation of the first two sprites to a non-default angle.
+	const float SPECIAL_ROTATION = 12.345f;
+	sprites[0]->setRotation(SPECIAL_ROTATION);
+	sprites[1]->setRotation(SPECIAL_ROTATION);
+
+	std::vector<float> angleToDestinations;
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		sf::Vector2f currentPos = sprites[i]->getPosition();
+		sf::Vector2f destination = destinations[i];
+		angleToDestinations.push_back(fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / (float)M_PI, 360.0f));
+	}
+
+	//move the sprites
+	const int NUM_STEPS = 1;
+	checkBulkStepsToDestinations(sprites, destinations, maxMovementDistances, true, NUM_STEPS);
+
+	//ensure all sprites except the first two get the correct rotation.
+	int wrongRotatedSprites = 0;
+	for (unsigned int i = 2; i < NUM_SPRITES; i++) {
+		if (abs(angleToDestinations[i] - sprites[i]->getRotation()) > 0.01) {
+			wrongRotatedSprites++;
+		}
+	}
+	BOOST_CHECK_EQUAL(wrongRotatedSprites, 0);
+
+	//ensure that the first two sprites have their custom rotation
+	BOOST_CHECK_EQUAL(sprites[0]->getRotation(), SPECIAL_ROTATION);
+	BOOST_CHECK_EQUAL(sprites[1]->getRotation(), SPECIAL_ROTATION);
+}
+
 // Test that without any movement distance the sprite does not reach its destination.
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteStepTowardsPoint_Large_Batch_Incorrect_Sizes, ReusableObjects) {
 
@@ -275,6 +319,18 @@ BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_Rotation) {
 	BOOST_CHECK_CLOSE(sprite.getRotation(), angleToDestination, 0.01);
 }
 
+
+// Test that a single sprite does not rotate if it is already at its destination.
+BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_No_Movement_No_Rotation) {
+	sf::Sprite sprite;
+	const float SPECIAL_ROTATION = 12.345;
+	sprite.setRotation(SPECIAL_ROTATION);
+	sf::Vector2f destination = sprite.getPosition();
+	moveSpriteStepTowardsPoint(sprite, destination, 11);
+
+
+	BOOST_CHECK_EQUAL(sprite.getRotation(), SPECIAL_ROTATION);
+}
 
 BOOST_AUTO_TEST_SUITE_END() // end moveSpriteStepTowardsPointTests
 
