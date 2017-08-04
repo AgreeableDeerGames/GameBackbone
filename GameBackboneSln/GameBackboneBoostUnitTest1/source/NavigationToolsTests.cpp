@@ -408,5 +408,46 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 
 BOOST_AUTO_TEST_SUITE_END() //moveSpriteAlongPathTests
 
+
+BOOST_AUTO_TEST_SUITE(initAllNavigationGridValuesTests)
+
+class TestNavigationData : public NavigationGridData
+{
+public:
+	TestNavigationData() {}
+
+	~TestNavigationData() {}
+
+	sf::Sprite testDataSprite0;
+	sf::Sprite testDataSprite1;
+	sf::Sprite testDataSprite2;
+	sf::Sprite testDataSprite3;
+
+};
+
+// Test that NavigationGridData can be extended and that pointers 
+// to the child classes can be used in a Navigation grid without corrupting the heap.
+BOOST_AUTO_TEST_CASE(initAllNavigationGridValues_Test_Inheritance) {
+	NavigationGrid navGrid;
+
+	initAllNavigationGridValues(navGrid, TestNavigationData());
+
+	for (unsigned int i = 0; i < navGrid.getArraySizeX(); i++) {
+		for (unsigned int j = 0; j < navGrid.getArraySizeY(); j++) {
+			//these values aren't anything specific. Just changing data in a way that would corrupt the heap if
+			//the navigation grid is not populated with TestNavigationData
+			static_cast<TestNavigationData*> (navGrid.at(i, j))->testDataSprite3.setScale(1, 2);
+			static_cast<TestNavigationData*> (navGrid.at(i, j))->testDataSprite3.setRotation(100);
+			static_cast<TestNavigationData*> (navGrid.at(i, j))->testDataSprite3.setColor(sf::Color::Green);
+		}
+	}
+
+	freeAllNavigationGridData(navGrid);
+	// No assert here. Just ensure that nothing weird happens with the memory.
+}
+
+
+BOOST_AUTO_TEST_SUITE_END() // end initAllNavigationGridValuesTests
+
 // keep at end of file
 BOOST_AUTO_TEST_SUITE_END() // end NavigationToolsTests
