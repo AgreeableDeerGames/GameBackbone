@@ -41,6 +41,17 @@ namespace GB {
 				return "Cannot open the file.";
 			}
 		};
+		
+		/// <summary>
+		/// Exception thrown when input vectors for navigation functions are not of compatible sizes.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class NavigationTools_MismatchedNavigationSizes : public std::exception {
+		public:
+			virtual const char* what() const override {
+				return "The passed arrays are not of compatible sizes.";
+			}
+		};
 
 		/// <summary>
 		/// Exception thrown when a FileManager is passed an empty key.
