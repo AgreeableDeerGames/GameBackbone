@@ -80,7 +80,7 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 
 		//rotate the sprite if rotation is on
 		if (orientSpritesToDestination && distanceToDestination != 0) {
-			sprite->setRotation(angleToDest * 180.0f / M_PI);
+			sprite->setRotation(angleToDest * 180.0f / (float)M_PI);
 		}
 	}
 }

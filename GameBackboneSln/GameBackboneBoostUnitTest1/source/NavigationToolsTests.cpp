@@ -285,7 +285,7 @@ BOOST_AUTO_TEST_SUITE(bulkMoveSpriteAlongPathTests)
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePathfindingObjects) {
 
 	//ensure that the sprites reach their destination in one move
-	const unsigned int MOVEMENT_SPEED = UINT64_MAX;
+	const float MOVEMENT_SPEED = (float)UINT_MAX;
 	std::vector<float> movementSpeeds;
 	for (unsigned int  i = 0; i < NUM_SPRITES; ++i) {
 		movementSpeeds.push_back(MOVEMENT_SPEED);
@@ -314,7 +314,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePath
 // Test that the moving sprites move to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Follow_Full_Path, ReusablePathfindingObjects) {
 	//ensure that the sprites reach their destination in one move
-	const unsigned int MOVEMENT_SPEED = UINT64_MAX;
+	const float MOVEMENT_SPEED = (float)UINT_MAX;
 	std::vector<float> movementSpeeds;
 	for (unsigned int i = 0; i < NUM_SPRITES; ++i) {
 		movementSpeeds.push_back(MOVEMENT_SPEED);
@@ -373,9 +373,9 @@ BOOST_AUTO_TEST_SUITE(moveSpriteAlongPathTests)
 // ensure that a single sprite following a path can reach its destination
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindingObjects) {
 	// move sprite to the end of the path 
-	const unsigned int NUM_STEPS = paths[2]->size();
-	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
+	const size_t NUM_STEPS = paths[2]->size();
+	for (size_t i = 0; i < NUM_STEPS; i++) {
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, (float)INTMAX_MAX);
 	}
 
 	// ensure that the sprite is at the final position in the path
@@ -385,9 +385,9 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindi
 // Test that the moving sprite moves to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindingObjects) {
 	// move sprite to the end of the path 
-	const unsigned int NUM_STEPS = paths[2]->size();
-	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
+	const size_t NUM_STEPS = paths[2]->size();
+	for (size_t i = 0; i < NUM_STEPS; i++) {
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, (float)INTMAX_MAX);
 
 		// Test that the moving sprite moves to each consecutive point in the path in-order
 		BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
@@ -411,18 +411,12 @@ BOOST_AUTO_TEST_SUITE_END() //moveSpriteAlongPathTests
 
 BOOST_AUTO_TEST_SUITE(initAllNavigationGridValuesTests)
 
-class TestNavigationData : public NavigationGridData
+struct TestNavigationData : public NavigationGridData
 {
-public:
-	TestNavigationData() {}
-
-	~TestNavigationData() {}
-
 	sf::Sprite testDataSprite0;
 	sf::Sprite testDataSprite1;
 	sf::Sprite testDataSprite2;
 	sf::Sprite testDataSprite3;
-
 };
 
 // Test that NavigationGridData can be extended and that pointers 
