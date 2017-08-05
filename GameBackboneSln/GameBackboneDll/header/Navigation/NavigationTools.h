@@ -14,11 +14,13 @@
 
 namespace GB {
 	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
+	libGameBackbone typedef std::list<sf::Vector2f> WindowCoordinatePath;
+	libGameBackbone typedef std::shared_ptr<WindowCoordinatePath> WindowCoordinatePathPtr;
+	libGameBackbone typedef std::list<Point2D<int>> NavGridCoordinatePath;
 
 	//---------------------------------------------------------------------------------------------------------------------
+	// NavigationGrid memory
 
-
-	//NavigationGrid memory
 
 	/// <summary>
 	/// Initializes all navigation grid values to the passed value.
@@ -39,8 +41,9 @@ namespace GB {
 	libGameBackbone extern void freeAllNavigationGridData(NavigationGrid & navGrid);
 
 	//---------------------------------------------------------------------------------------------------------------------
+	// sprite movement to point
 
-	//sprite movement to point
+
 	libGameBackbone extern void moveSpriteStepTowardsPoint(sf::Sprite& sprite,
 														   const sf::Vector2f& destination,
 														   const float maxStepLength,
@@ -53,18 +56,18 @@ namespace GB {
 																const bool orientSpritesToDestination = true);
 
 	//---------------------------------------------------------------------------------------------------------------------
+	// sprite movement along path
 
 
-	//sprite movement along path
 	libGameBackbone extern void moveSpriteAlongPath(sf::Sprite& sprite, 
-													std::shared_ptr<std::list<sf::Vector2f>> path,
+													WindowCoordinatePathPtr path,
 													sf::Uint64 msPassed,
 													float distPerMs,
 													const bool orientSpriteToDestination = true);
 
 
 	libGameBackbone extern void bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
-														 const std::vector<std::shared_ptr<std::list<sf::Vector2f>>>& paths, 
+														 const std::vector<WindowCoordinatePathPtr>& paths,
 														 const sf::Uint64 msPassed,
 														 const std::vector<float>& distPerMs,
 													     const bool orientSpritesToDestination = true);
