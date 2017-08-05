@@ -16,6 +16,7 @@ namespace GB {
 	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
 	libGameBackbone typedef std::list<sf::Vector2f> WindowCoordinatePath;
 	libGameBackbone typedef std::shared_ptr<WindowCoordinatePath> WindowCoordinatePathPtr;
+	libGameBackbone typedef std::list<Point2D<int>> NavGridCoordinatePath;
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// NavigationGrid memory
