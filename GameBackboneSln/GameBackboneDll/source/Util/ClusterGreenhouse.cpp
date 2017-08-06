@@ -17,40 +17,8 @@ using namespace GB;
 /// Constructor
 /// </summary>
 /// <param name="dimensions">The dimension of the Array2D which is being used.</param>
-ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions, std::vector<double>& clusterFrequencies) {
+ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions) {
 	graphDims = dimensions;
-
-	if (clusterFrequencies.empty()) {
-		clusterFrequencies = generateRandomFrequencyVector();
-		return;
-	}
-
-	double percentAdjustment = 0;
-	for (auto i = 0; i < clusterFrequencies.size(); i++) {
-		// make an origin for the cluster
-		Point2D<int> originPoint{(int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y)};
-
-		while (pointToClusterMap.find(originPoint) != pointToClusterMap.end()) {
-			// make a new one if one is already taken
-			// TODO: make sure that it is also ether not within another cluster's border here, or check to make sure that 
-			// we are not adding a point to a cluster where the said point is in a different cluster
-			originPoint = Point2D<int>{(int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y)};
-		}
-		// adjust the frequency of the cluster
-		// when the percentages of each cluster are entered, they will be not relative to each other,
-		// ie .20, .10, .04
-		// afterwards it will be
-		// .20, .30, .34
-		// sparcity is the leftover percent, so .16
-		percentAdjustment = clusterFrequencies[i] + percentAdjustment;
-		clusterFrequencies[i] = percentAdjustment;
-
-		Cluster clusterToAdd(originPoint);
-		clusterToAdd.setClusterFrequency(clusterFrequencies[i]);
-		clusterVector.push_back(clusterToAdd);
-		pointToClusterMap.insert(std::make_pair(originPoint, clusterToAdd));
-	}
-    sparcity = 1 - clusterFrequencies[clusterFrequencies.size() - 1];
 }
 
 /// <summary>
@@ -62,10 +30,10 @@ Cluster* ClusterGreenhouse::chooseClusterToAddTo() {
 	if (rollDie > (1 - sparcity)) {
 		return nullptr;
 	}
-	for (int i = 0; i < clusterVector.size(); i++) {
+	for (int i = 0; i < clusterVectors[clusterVectors.size() - 1].size(); i++) {
 		// check which cluster will be added to, based on random number and frequency of cluster
-		if(rollDie < clusterVector[i].getClusterFrequency()){
-			return &clusterVector[i];
+		if(rollDie < clusterVectors[clusterVectors.size()-1][i].getClusterFrequency()){
+			return &clusterVectors[clusterVectors.size() - 1][i];
 		}
 	}
 	return nullptr;
@@ -84,13 +52,13 @@ Point2D<int> ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
 	for (int i = 0; i < clusterBorderPointSet->size(); i++) {
 		// If the point is not already in a different cluster and also not on the edge
 		// of the graph, we're good
-		if (pointToClusterMap.find(*borderPointSetIter) == pointToClusterMap.end() &&
+		if (pointToClusterMaps[pointToClusterMaps.size()-1].find(*borderPointSetIter) == pointToClusterMaps[pointToClusterMaps.size()-1].end() &&
 			graphDims.x > borderPointSetIter->x && graphDims.y > borderPointSetIter->y &&
 			0 <= borderPointSetIter->x && 0 <= borderPointSetIter->y) {
 			Point2D<int> pointToAdd = *borderPointSetIter;
 			clusterToAddTo->addPointToCluster(pointToAdd);
 
-			pointToClusterMap.insert(std::make_pair(pointToAdd, *clusterToAddTo));
+            pointToClusterMaps[pointToClusterMaps.size() - 1].insert(std::make_pair(pointToAdd, *clusterToAddTo));
 			return pointToAdd;
 		}
 		// Otherwise, check the next point in the set
@@ -106,58 +74,73 @@ Point2D<int> ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
 }
 
 /// <summary>
-/// Generates some random frequencies to be used be the clusters during generation (only frequency is used).
+/// Generates the clusters for a round of generation by using the given frequencies. If no frequencies are given, some will be generated.
 /// </summary>
-/// <param name="frequencies">Empty frequency vector .</param>
-std::vector<double> ClusterGreenhouse::generateRandomFrequencyVector() {
+/// <param name="frequencies">Frequencies by which the clusters are to be made.</param>
+void ClusterGreenhouse::createClustersFromFrequencies(std::vector<double> frequencies) {
+    if (!frequencies.empty()) {
+        std::multimap<Point2D<int>, Cluster > layerPointToClusterMap;
+        std::vector<Cluster> layerClusterVector;
+        double percentAdjustment = 0;
+        for (auto i = 0; i < frequencies.size(); i++) {
+            // make an origin for the cluster
+            Point2D<int> originPoint{ (int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y) };
 
-	std::vector<double> frequencies;
+            while (layerPointToClusterMap.find(originPoint) != layerPointToClusterMap.end()) {
+                // make a new one if one is already taken
+                // TODO: make sure that it is also ether not within another cluster's border here, or check to make sure that 
+                // we are not adding a point to a cluster where the said point is in a different cluster
+                originPoint = Point2D<int>{ (int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y) };
+            }
+            // adjust the frequency of the cluster
+            // when the percentages of each cluster are entered, they will be not relative to each other,
+            // ie .20, .10, .04
+            // afterwards it will be
+            // .20, .30, .34
+            // sparcity is the leftover percent, so .16
+            percentAdjustment = frequencies[i] + percentAdjustment;
+            frequencies[i] = percentAdjustment;
 
-	int numberOfClustersToMake = (int)RandomGenerator.uniDist(4, 8);
+            Cluster clusterToAdd(originPoint);
+            clusterToAdd.setClusterFrequency(frequencies[i]);
+            layerClusterVector.push_back(clusterToAdd);
+            layerPointToClusterMap.insert(std::make_pair(originPoint, clusterToAdd));
+        }
+        pointToClusterMaps.push_back(layerPointToClusterMap);
+        clusterVectors.push_back(layerClusterVector);
+        sparcity = 1 - frequencies[frequencies.size() - 1];
+    }
+    // if the frequencies veector is empty, generate a random one and then just call this function again.
+    else {
+        int numberOfClustersToMake = (int)RandomGenerator.uniDist(4, 8);
 
-	// decide the frequency of this cluster based on how much of 0 through 1 (non-discrete) is left
-	double availablePercent = .15;
-	sparcity = 1 - availablePercent;
-	double clusterFrequency = 0;
-	for (int i = 0; i < numberOfClustersToMake; i++) {
-		if (availablePercent < 0) {
-			break;
-		}
+        // decide the frequency of this cluster based on how much of 0 through 1 (non-discrete) is left
+        double availablePercent = .15;
+        double clusterFrequency = 0;
+        for (int i = 0; i < numberOfClustersToMake; i++) {
+            if (availablePercent < 0) {
+                break;
+            }
 
-	    clusterFrequency = RandomGenerator.uniDist(1 - availablePercent, 1);
-		availablePercent = 1 - clusterFrequency;
+            clusterFrequency = RandomGenerator.uniDist(0, availablePercent);
+            availablePercent -= clusterFrequency;
 
-		// choose a starting point for cluster then make cluster
-		Point2D<int> originPoint{(int)RandomGenerator.uniDist(0, graphDims.x),(int)RandomGenerator.uniDist(0, graphDims.y)};
-		Cluster cluster(originPoint);
-
-		// create the generation options for cluster made
-		double newGenerationOption = clusterFrequency;
-		frequencies.push_back(newGenerationOption);
-
-		cluster.setClusterFrequency(newGenerationOption);
-		clusterVector.push_back(cluster);
-		pointToClusterMap.insert(std::make_pair(originPoint, cluster)); // always be sure to insert you're origin point kids! :>
-	}
-	// whatever percent is left over will be added to sparsity
-	if (availablePercent > 0) {
-		sparcity += availablePercent;
-	}
-
-	return frequencies;
+            // add the frequency
+            frequencies.push_back(clusterFrequency);
+        }
+        // call again with the newly generated percents
+        createClustersFromFrequencies(frequencies);
+    }
 }
 
 /// <summary>
 /// Generates the clusters for an Array2D
 /// </summary>
 /// <param name="frequencies">The frequencies which will be used in generating the clusters.</param>
-/// <returns>A vector of sets.  A single set represents a single cluster, the items in said said being the Point2D's in the Cluster.</returns>
-std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(std::vector<double>& frequencies) {
-	if (frequencies.empty()) {
-		// If there is no input cluster generation options, then we'll just generate some
-		// frequencies should be empty
-		frequencies = generateRandomFrequencyVector();
-	}
+/// <returns>A vector of sets.  A single set represents a single cluster, the items in said set being the Point2D's in the Cluster.</returns>
+std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(std::vector<double> frequencies) {
+    createClustersFromFrequencies(frequencies);
+
 	int Array2DArea = graphDims.x*graphDims.y;
 	for (int i = 0; i < Array2DArea; i++) {
 		Cluster* clusterToAddTo = chooseClusterToAddTo();
@@ -167,7 +150,7 @@ std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(st
 			Point2D<int> pointAdded = growCluster(clusterToAddTo); // In the future, maybe do something if the cluster isn't grown (pointAdded.x != -1).
 	}
 	std::vector<std::set<Point2D<int>>> vectorOfPointSets;
-	for (auto cluster : this->clusterVector) {
+	for (auto cluster : this->clusterVectors[clusterVectors.size() - 1]) {
 		vectorOfPointSets.push_back(std::move(*(cluster.getClusterPoints())));
 	}
 	return vectorOfPointSets;

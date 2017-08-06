@@ -19,18 +19,18 @@ namespace GB {
 	/// </summary>
 	class libGameBackbone ClusterGreenhouse {
 	public:
-		ClusterGreenhouse(Point2D<int> dimensions, std::vector<double>& clusterFrequencies);
+		ClusterGreenhouse(Point2D<int> dimensions);
 
 		Cluster* chooseClusterToAddTo();
 
 		Point2D<int> growCluster(Cluster* clusterToAddTo);
 
-		std::vector<double> generateRandomFrequencyVector();
+		void createClustersFromFrequencies(std::vector<double> frequencies);
 
-		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double>& frequencies);
+		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double> frequencies);
 
-		std::vector<Cluster> clusterVector;
-		std::multimap<Point2D<int>, Cluster> pointToClusterMap;
+		std::vector<std::vector<Cluster>> clusterVectors;
+        std::vector<std::multimap<Point2D<int>, Cluster>> pointToClusterMaps;
 		Point2D<int> graphDims;
 		RandGen RandomGenerator;
 		double sparcity;

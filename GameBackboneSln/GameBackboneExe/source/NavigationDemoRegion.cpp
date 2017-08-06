@@ -249,13 +249,17 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
 
     std::vector<double> genOptions;
     // comment these out to make random clusters
+    genOptions.push_back(.05);
     genOptions.push_back(.10);
-    genOptions.push_back(.10);
-    genOptions.push_back(.15);
+    genOptions.push_back(.05);
 
-	ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM}, genOptions);
-	
-	std::vector<std::set<Point2D<int>>> ClusterPointSetVector = graphGenerator->generateClusteredGraph(genOptions);
+	ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
+
+    std::vector<std::set<Point2D<int>>> ClusterPointSetVector = graphGenerator->generateClusteredGraph(genOptions);
+    std::vector<std::set<Point2D<int>>> ClusterPointSetVector2 = graphGenerator->generateClusteredGraph(genOptions);
+    //merge output vectors
+    ClusterPointSetVector.insert(ClusterPointSetVector.end(), ClusterPointSetVector2.begin(), ClusterPointSetVector2.end());
+
 	std::vector<sf::Color> clusterColors;
 	for (int i = 0; i < ClusterPointSetVector.size(); i++) {
 		clusterColors.push_back(sf::Color(rand() % 250, rand() % 250, rand() % 250));
