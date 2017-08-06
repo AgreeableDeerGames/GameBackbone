@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Navigation\NavigationTools.h>
 #include <Util\DllUtil.h>
 #include <Util\Point.h>
 
@@ -21,8 +22,11 @@ namespace GB {
 		CoordinateConverter(float widthOfGridSquares, Point2D<float> offsetOfOrigin);
 		virtual ~CoordinateConverter() = default;
 
-		sf::Vector2<float> ConvertCoordToWindow(const Point2D<int>& navGridCoord);
-		Point2D<int> ConvertCoordToNavGrid(const sf::Vector2<float>& windowCoord);
+		sf::Vector2<float> convertCoordToWindow(const Point2D<int>& navGridCoord);
+		Point2D<int> convertCoordToNavGrid(const sf::Vector2<float>& windowCoord);
+		WindowCoordinatePath convertPathToWindow(const NavGridCoordinatePath& navGridPath);
+		NavGridCoordinatePath convertPathToNavGrid(const WindowCoordinatePath& windowPath);
+
 
 		void setGridSquareWidth(float newWidth);
 		void setOriginOffset(const Point2D<float>& newOffset);

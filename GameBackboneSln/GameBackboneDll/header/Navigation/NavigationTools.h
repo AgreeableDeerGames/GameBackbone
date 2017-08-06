@@ -9,21 +9,37 @@
 #include <SFML\Graphics.hpp>
 
 #include <list>
-#include <vector>
 #include <memory>
+#include <vector>
 
 
 namespace GB {
 	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
 	libGameBackbone typedef std::list<sf::Vector2f> WindowCoordinatePath;
 	libGameBackbone typedef std::shared_ptr<WindowCoordinatePath> WindowCoordinatePathPtr;
+	libGameBackbone typedef std::list<Point2D<int>> NavGridCoordinatePath;
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// NavigationGrid memory
 
 
-	libGameBackbone extern void initAllNavigationGridValues(NavigationGrid & navGrid, NavigationGridData & gridData);
-	libGameBackbone extern void freeAllNavigationGridData(NavigationGrid & navGrid);
+	/// <summary>
+	/// Initializes all navigation grid values to the passed value.
+	/// </summary>
+	/// <param name="navGrid">The navigation grid to fill with values</param>
+	/// <param name="gridData">The NavigationGridData to copy into each index of the Navigation Grid.</param>
+	template <class NavigationDataType>
+	libGameBackbone extern void initAllNavigationGridValues(NavigationGrid& navGrid, NavigationDataType& gridData) {
+		for (unsigned int ii = 0; ii < navGrid.getArraySizeX(); ++ii) {
+			for (unsigned int jj = 0; jj < navGrid.getArraySizeY(); ++jj)
+			{
+				NavigationGridData* navData = static_cast<NavigationGridData*>(new NavigationDataType(gridData));
+				navGrid[ii][jj] = navData;
+			}
+		}
+	}
+
+	libGameBackbone extern void freeAllNavigationGridData(NavigationGrid& navGrid);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement to point

@@ -341,7 +341,7 @@ BOOST_AUTO_TEST_SUITE(bulkMoveSpriteAlongPathTests)
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePathfindingObjects) {
 
 	//ensure that the sprites reach their destination in one move
-	const unsigned int MOVEMENT_SPEED = UINT64_MAX;
+	const float MOVEMENT_SPEED = FLT_MAX;
 	std::vector<float> movementSpeeds;
 	for (unsigned int  i = 0; i < NUM_SPRITES; ++i) {
 		movementSpeeds.push_back(MOVEMENT_SPEED);
@@ -370,7 +370,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePath
 // Test that the moving sprites move to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Follow_Full_Path, ReusablePathfindingObjects) {
 	//ensure that the sprites reach their destination in one move
-	const unsigned int MOVEMENT_SPEED = UINT64_MAX;
+	const float MOVEMENT_SPEED = FLT_MAX;
 	std::vector<float> movementSpeeds;
 	for (unsigned int i = 0; i < NUM_SPRITES; ++i) {
 		movementSpeeds.push_back(MOVEMENT_SPEED);
@@ -429,9 +429,9 @@ BOOST_AUTO_TEST_SUITE(moveSpriteAlongPathTests)
 // ensure that a single sprite following a path can reach its destination
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindingObjects) {
 	// move sprite to the end of the path 
-	const unsigned int NUM_STEPS = paths[2]->size();
-	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
+	const size_t NUM_STEPS = paths[2]->size();
+	for (size_t i = 0; i < NUM_STEPS; i++) {
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, FLT_MAX);
 	}
 
 	// ensure that the sprite is at the final position in the path
@@ -441,9 +441,9 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindi
 // Test that the moving sprite moves to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindingObjects) {
 	// move sprite to the end of the path 
-	const unsigned int NUM_STEPS = paths[2]->size();
-	for (unsigned int i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, INTMAX_MAX);
+	const size_t NUM_STEPS = paths[2]->size();
+	for (size_t i = 0; i < NUM_STEPS; i++) {
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, FLT_MAX);
 
 		// Test that the moving sprite moves to each consecutive point in the path in-order
 		BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
@@ -463,6 +463,41 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 }
 
 BOOST_AUTO_TEST_SUITE_END() //moveSpriteAlongPathTests
+
+
+BOOST_AUTO_TEST_SUITE(initAllNavigationGridValuesTests)
+
+struct TestNavigationData : public NavigationGridData
+{
+	sf::Sprite testDataSprite0;
+	sf::Sprite testDataSprite1;
+	sf::Sprite testDataSprite2;
+	sf::Sprite testDataSprite3;
+};
+
+// Test that NavigationGridData can be extended and that pointers 
+// to the child classes can be used in a Navigation grid without corrupting the heap.
+BOOST_AUTO_TEST_CASE(initAllNavigationGridValues_Test_Inheritance) {
+	NavigationGrid navGrid;
+
+	initAllNavigationGridValues(navGrid, TestNavigationData());
+
+	for (unsigned int i = 0; i < navGrid.getArraySizeX(); i++) {
+		for (unsigned int j = 0; j < navGrid.getArraySizeY(); j++) {
+			//these values aren't anything specific. Just changing data in a way that would corrupt the heap if
+			//the navigation grid is not populated with TestNavigationData
+			static_cast<TestNavigationData*> (navGrid.at(i, j))->testDataSprite3.setScale(1, 2);
+			static_cast<TestNavigationData*> (navGrid.at(i, j))->testDataSprite3.setRotation(100);
+			static_cast<TestNavigationData*> (navGrid.at(i, j))->testDataSprite3.setColor(sf::Color::Green);
+		}
+	}
+
+	freeAllNavigationGridData(navGrid);
+	// No assert here. Just ensure that nothing weird happens with the memory.
+}
+
+
+BOOST_AUTO_TEST_SUITE_END() // end initAllNavigationGridValuesTests
 
 // keep at end of file
 BOOST_AUTO_TEST_SUITE_END() // end NavigationToolsTests

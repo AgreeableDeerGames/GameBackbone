@@ -10,6 +10,10 @@ namespace GB {
 	struct libGameBackbone NavigationGridData {
 		int weight;
 		unsigned int blockerDist;
+
+		NavigationGridData() = default;
+		NavigationGridData(int gridWeight, unsigned int gridBlockerDist) : weight(gridWeight), blockerDist(gridBlockerDist) {}
+		virtual ~NavigationGridData() {}
 	};
 
 }
