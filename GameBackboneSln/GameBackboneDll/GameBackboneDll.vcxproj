@@ -169,6 +169,8 @@
     <ClInclude Include="header\Navigation\PathRequest.h" />
     <ClInclude Include="header\Util\Array2D.h" />
     <ClInclude Include="header\Util\Array3D.h" />
+    <ClInclude Include="header\Util\Cluster.h" />
+    <ClInclude Include="header\Util\ClusterGreenhouse.h" />
     <ClInclude Include="header\Util\DebugIncludes.h" />
     <ClInclude Include="header\Util\DllUtil.h" />
     <ClInclude Include="header\Util\FileManager.h" />
@@ -187,6 +189,8 @@
     <ClCompile Include="source\Navigation\CoordinateConverter.cpp" />
     <ClCompile Include="source\Navigation\NavigationTools.cpp" />
     <ClCompile Include="source\Navigation\PathFinder.cpp" />
+    <ClCompile Include="source\Util\Cluster.cpp" />
+    <ClCompile Include="source\Util\ClusterGreenhouse.cpp" />
     <ClCompile Include="source\Util\dllmain.cpp" />
     <ClCompile Include="source\Util\FileManager.cpp" />
     <ClCompile Include="source\Util\FileReader.cpp" />

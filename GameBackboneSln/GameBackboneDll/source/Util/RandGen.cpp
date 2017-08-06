@@ -75,10 +75,10 @@ double RandGen::uniDist(double min, double max) {
 
 
 	if (min != m_uniDistributor->a() || max != m_uniDistributor->b()) {
-		return (*m_uniDistributor)(*m_generator);
-	}
-	else {
 		double tempNumber = (*m_uniDistributor)(*m_generator);
 		return min + tempNumber * (max - min);
+	}
+	else {
+		return (*m_uniDistributor)(*m_generator);
 	}
 }

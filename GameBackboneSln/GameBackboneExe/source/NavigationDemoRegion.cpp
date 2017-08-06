@@ -4,6 +4,8 @@
 
 #include <NavigationDemoRegion.h>
 #include <Navigation\NavigationTools.h>
+#include <Util\Point.h>
+#include <Util\UtilMath.h>
 
 #include <TGUI\TGUI.hpp>
 
@@ -243,32 +245,29 @@ void GB::NavigationDemoRegion::initGUI() {
 /// Initializes the maze that the navigators will use.
 /// </summary>
 void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositions) {
-
 	initAllNavigationGridValues(*navGrid, NavigationGridData{ 1, 0 });
 
-	//block grids for maze
-	srand((unsigned int)time(NULL));
-	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
-			if (! (rand() % 5)) {//1 in 5 are blocked
-				bool blockable = true;
-				//determine if the square is non-blockable
-				for each (Point2D<int> nonBlockable in nonBlockablePositions) {
-					if (nonBlockable.x == i && nonBlockable.y == j) {
-						blockable = false;
-					}
-				}
-				//only block blockable grids	
-				if (blockable) {
-					(*navGrid)[i][j]->weight = BLOCKED_GRID_WEIGHT;
-				}
-			}
-		}
+    std::vector<double> genOptions;
+    // comment these out to make random clusters
+    genOptions.push_back(.05);
+    genOptions.push_back(.10);
+    genOptions.push_back(.05);
+
+	ClusterGreenhouse* graphGenerator = new ClusterGreenhouse(Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
+
+    std::vector<std::set<Point2D<int>>> ClusterPointSetVector = graphGenerator->generateClusteredGraph(genOptions);
+    std::vector<std::set<Point2D<int>>> ClusterPointSetVector2 = graphGenerator->generateClusteredGraph(genOptions);
+    //merge output vectors
+    ClusterPointSetVector.insert(ClusterPointSetVector.end(), ClusterPointSetVector2.begin(), ClusterPointSetVector2.end());
+
+	std::vector<sf::Color> clusterColors;
+	for (int i = 0; i < ClusterPointSetVector.size(); i++) {
+		clusterColors.push_back(sf::Color(rand() % 250, rand() % 250, rand() % 250));
 	}
 
 	//fill visual grid
-	for (unsigned int i = 0; i < navGrid->getArraySizeX(); i++) {
-		for (unsigned int j = 0; j < navGrid->getArraySizeY(); j++) {
+	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
+		for (unsigned int j = 0; j < NAV_GRID_DIM; j++) {
 			//create sprite in correct position
 			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
 			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
@@ -276,11 +275,16 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
 			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of grid
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
+			gridSquare->setColor(sf::Color::Yellow);
 
-			//shade blocked grids
-			bool blocked = (*navGrid)[i][j]->weight == BLOCKED_GRID_WEIGHT;
-			if (blocked) {
-				gridSquare->setColor(sf::Color::Red);
+            // color the graph
+			Point2D<int> clusterKey{(int)i, (int)j};
+			for (int k = 0; k < ClusterPointSetVector.size(); k++) {
+				if (ClusterPointSetVector[k].find(clusterKey) != ClusterPointSetVector[k].end()) {
+					gridSquare->setColor(clusterColors[k]);
+					(*navGrid)[i][j]->weight = BLOCKED_GRID_WEIGHT;
+					break;
+				}
 			}
 
 			//add grids to storage
