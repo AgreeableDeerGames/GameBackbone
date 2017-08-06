@@ -59,7 +59,10 @@ Point2D<float> GB::CompoundSprite::getPosition() const {
 /// </summary>
 /// <param name="val">The value.</param>
 void CompoundSprite::setPosition(GB::Point2D<float> val) {
-	position = val;
+	Point2D<float> oldPosition = position;
+	Point2D<float> positionDifference{ position.x - oldPosition.x, position.y - oldPosition.y };
+
+	move(positionDifference.x, positionDifference.y);
 }
 
 
@@ -141,6 +144,8 @@ void CompoundSprite::move(float offsetX, float offsetY) {
 	for (size_t i = 0; i < animatedSprites.size(); i++) {
 		animatedSprites[i]->move(offsetX, offsetY);
 	}
+	position.x += offsetX;
+	position.y += offsetY;
 }
 
 /// <summary>

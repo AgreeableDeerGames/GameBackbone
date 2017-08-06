@@ -28,10 +28,10 @@ namespace GB {
 		//getters
 		std::vector<sf::Sprite*>* getSfSprites();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
-		GB::Point2D<float> getPosition() const { return position; }
+		GB::Point2D<float> getPosition() const;
 		
 		//setters
-		void setPosition(GB::Point2D<float> val) { position = val; }
+		void setPosition(GB::Point2D<float> val);
 
 		//add / remove
 		void addSprite(sf::Sprite* component);
