@@ -4,7 +4,7 @@
 
 using namespace GB;
 
-//ctr / dtr
+// ctr / dtr
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the CompoundSprite 
@@ -26,7 +26,7 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 CompoundSprite::~CompoundSprite() {
 }
 
-//getters
+// getters
 
 /// <summary>
 /// returns the non animated sprite components of the CompoundSprite
@@ -44,7 +44,27 @@ std::vector<AnimatedSprite*>* CompoundSprite::getAnimatedSprites() {
 	return &animatedSprites;
 }
 
-//Add / remove
+/// <summary>
+/// Gets the position.
+/// </summary>
+/// <returns></returns>
+Point2D<float> GB::CompoundSprite::getPosition() const {
+	return position;
+}
+
+// setters
+
+/// <summary>
+/// Sets the position.
+/// </summary>
+/// <param name="val">The value.</param>
+void CompoundSprite::setPosition(GB::Point2D<float> val) {
+	position = val;
+}
+
+
+
+// Add / remove
 
 /// <summary>
 /// adds a sprite component to the CompoundSprite
@@ -93,7 +113,7 @@ void CompoundSprite::clearComponents() {
 	animatedSprites.clear();
 }
 
-//operations
+// operations
 
 /// <summary>
 /// Scales all the components of the compound sprite.
@@ -132,4 +152,3 @@ void CompoundSprite::update(sf::Time currentTime) {
 		animatedSprites[i]->update(currentTime);
 	}
 }
-

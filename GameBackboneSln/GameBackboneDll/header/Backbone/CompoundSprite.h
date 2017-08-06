@@ -3,6 +3,7 @@
 #include <Backbone\AnimatedSprite.h>
 #include <Backbone\Updatable.h>
 #include <Util\DllUtil.h>
+#include <Util\Point.h>
 
 #include <SFML\Graphics\Sprite.hpp>
 
@@ -27,6 +28,10 @@ namespace GB {
 		//getters
 		std::vector<sf::Sprite*>* getSfSprites();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
+		GB::Point2D<float> getPosition() const { return position; }
+		
+		//setters
+		void setPosition(GB::Point2D<float> val) { position = val; }
 
 		//add / remove
 		void addSprite(sf::Sprite* component);
@@ -43,6 +48,7 @@ namespace GB {
 	protected:
 		std::vector<sf::Sprite*> sprites;
 		std::vector<AnimatedSprite*> animatedSprites;
+		Point2D<float> position;
 	};
 
 }
