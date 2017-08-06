@@ -100,6 +100,40 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 }
 
 
+
+/// <summary>
+/// Moves the CompoundSprite in the direction of the destination.
+/// The sprite will never overshoot the destination.
+/// </summary>
+/// <param name="sprite">The CompoundSprite to move.</param>
+/// <param name="destination">The destination.</param>
+/// <param name="maxStepLength">Maximum length that the sprite can move.</param>
+/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
+void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
+	const sf::Vector2f& destination,
+	const float maxStepLength,
+	const bool orientSpriteToDestination = true) {
+
+}
+
+
+
+/// <summary>
+/// Moves all passed CompoundSprites towards the destination of the same index.
+/// Sprites will not overshoot their destination.
+/// </summary>
+/// <param name="sprites">The sprites.</param>
+/// <param name="destinations">The destinations.</param>
+/// <param name="maxStepLengths">The maximum distances to move the sprites.</param>
+/// <param name="orientSpritesToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
+void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
+	const std::vector<sf::Vector2f>& destinations,
+	const std::vector<float>& maxStepLength,
+	const bool orientSpritesToDestination = true) {
+
+}
+
+
 /// <summary>
 /// Moves a sprite one step forward along path.
 /// The sprite will not necessarily reach the end of the path after one call to this function.

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Backbone\CompoundSprite.h>
 #include <Navigation\NavigationGridData.h>
 #include <Util\Array2D.h>
 #include <Util\DllUtil.h>
@@ -38,6 +39,17 @@ namespace GB {
 																const std::vector<sf::Vector2f>& destinations,
 																const std::vector<float>& maxStepLength,
 																const bool orientSpritesToDestination = true);
+
+	libGameBackbone extern void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
+																   const sf::Vector2f& destination,
+																   const float maxStepLength,
+																   const bool orientSpriteToDestination = true);
+
+
+	libGameBackbone extern void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
+																	   const std::vector<sf::Vector2f>& destinations,
+																	   const std::vector<float>& maxStepLength,
+																	   const bool orientSpritesToDestination = true);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement along path
