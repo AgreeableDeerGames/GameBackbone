@@ -173,6 +173,7 @@
     <ClInclude Include="header\Util\DllUtil.h" />
     <ClInclude Include="header\Util\FileManager.h" />
     <ClInclude Include="header\Util\FileReader.h" />
+    <ClInclude Include="header\Util\FileWriter.h" />
     <ClInclude Include="header\Util\Point.h" />
     <ClInclude Include="header\Util\RandGen.h" />
     <ClInclude Include="header\Util\targetver.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="source\Util\dllmain.cpp" />
     <ClCompile Include="source\Util\FileManager.cpp" />
     <ClCompile Include="source\Util\FileReader.cpp" />
+    <ClCompile Include="source\Util\FileWriter.cpp" />
     <ClCompile Include="source\Util\RandGen.cpp" />
   </ItemGroup>
   <ItemGroup>
