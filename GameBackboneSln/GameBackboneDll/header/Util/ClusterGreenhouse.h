@@ -16,6 +16,7 @@ namespace GB {
 
 	/// <summary>
 	/// Grows existing clusters. Ensures that the sets of points added to each cluster are disjointed.
+    /// Can be used multiple times for the same Array2D, allowing for layering of graphs.
 	/// </summary>
 	class libGameBackbone ClusterGreenhouse {
 	public:
@@ -29,10 +30,18 @@ namespace GB {
 
 		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double> frequencies);
 
+        // vector holding the clusters in each layer of the graph, each layer being a vector of clusters
 		std::vector<std::vector<Cluster>> clusterVectors;
+
+        // vector holding the pointToClusterMap for each layer
         std::vector<std::multimap<Point2D<int>, Cluster>> pointToClusterMaps;
+
+        // Dimensions of the Array2D which is being built upon
 		Point2D<int> graphDims;
+
 		RandGen RandomGenerator;
-		double sparcity;
+
+        // How sparse the graph is (in the context of the current layer)
+		double sparsity;
 	};
 }
