@@ -341,7 +341,7 @@ BOOST_AUTO_TEST_SUITE(bulkMoveSpriteAlongPathTests)
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePathfindingObjects) {
 
 	//ensure that the sprites reach their destination in one move
-	const float MOVEMENT_SPEED = (float)UINT_MAX;
+	const float MOVEMENT_SPEED = FLT_MAX;
 	std::vector<float> movementSpeeds;
 	for (unsigned int  i = 0; i < NUM_SPRITES; ++i) {
 		movementSpeeds.push_back(MOVEMENT_SPEED);
@@ -370,7 +370,7 @@ BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Reach_Destinations, ReusablePath
 // Test that the moving sprites move to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(bulkMoveSpriteAlongPath_Follow_Full_Path, ReusablePathfindingObjects) {
 	//ensure that the sprites reach their destination in one move
-	const float MOVEMENT_SPEED = (float)UINT_MAX;
+	const float MOVEMENT_SPEED = FLT_MAX;
 	std::vector<float> movementSpeeds;
 	for (unsigned int i = 0; i < NUM_SPRITES; ++i) {
 		movementSpeeds.push_back(MOVEMENT_SPEED);
@@ -431,7 +431,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindi
 	// move sprite to the end of the path 
 	const size_t NUM_STEPS = paths[2]->size();
 	for (size_t i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, (float)INTMAX_MAX);
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, FLT_MAX);
 	}
 
 	// ensure that the sprite is at the final position in the path
@@ -443,7 +443,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindin
 	// move sprite to the end of the path 
 	const size_t NUM_STEPS = paths[2]->size();
 	for (size_t i = 0; i < NUM_STEPS; i++) {
-		moveSpriteAlongPath(*sprites[2], paths[2], 1, (float)INTMAX_MAX);
+		moveSpriteAlongPath(*sprites[2], paths[2], 1, FLT_MAX);
 
 		// Test that the moving sprite moves to each consecutive point in the path in-order
 		BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
