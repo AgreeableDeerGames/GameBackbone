@@ -4,7 +4,6 @@
 
 #include <NavigationDemoRegion.h>
 #include <Navigation\NavigationTools.h>
-#include <Navigation\NavigationTools.h>
 
 #include <TGUI\TGUI.hpp>
 
@@ -72,7 +71,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	}
 	case GB::NAVIGATOR_2:
 	{
-		moveSpriteAlongPath(*navigators[1], (paths[1]), msPassed, 1);
+		moveSpriteAlongPath(*navigators[1], paths[1], msPassed, 1);
 	}
 		break;
 	case GB::ALL_NAVIGATORS: 
@@ -106,7 +105,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 		}
 
 		//path-find
-		std::vector<std::list<Point2D<int>>> pathsReturn;
+		std::vector<NavGridCoordinatePath> pathsReturn;
 		pathsReturn.resize(pathRequests.size());
 		regionPathfinder.pathFind(pathRequests, &pathsReturn);
 

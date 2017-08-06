@@ -8,8 +8,8 @@
 #include <SFML\Graphics.hpp>
 
 #include <list>
-#include <vector>
 #include <memory>
+#include <vector>
 
 
 namespace GB {
@@ -28,7 +28,7 @@ namespace GB {
 	/// <param name="navGrid">The navigation grid to fill with values</param>
 	/// <param name="gridData">The NavigationGridData to copy into each index of the Navigation Grid.</param>
 	template <class NavigationDataType>
-	libGameBackbone extern void initAllNavigationGridValues(NavigationGrid & navGrid, NavigationDataType & gridData) {
+	libGameBackbone extern void initAllNavigationGridValues(NavigationGrid& navGrid, NavigationDataType& gridData) {
 		for (unsigned int ii = 0; ii < navGrid.getArraySizeX(); ++ii) {
 			for (unsigned int jj = 0; jj < navGrid.getArraySizeY(); ++jj)
 			{
@@ -38,7 +38,7 @@ namespace GB {
 		}
 	}
 
-	libGameBackbone extern void freeAllNavigationGridData(NavigationGrid & navGrid);
+	libGameBackbone extern void freeAllNavigationGridData(NavigationGrid& navGrid);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement to point

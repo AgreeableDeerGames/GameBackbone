@@ -51,33 +51,33 @@ namespace GB {
 
 	protected:
 
-		//ctr
+		// ctr
 		void init();
 
-		//helper functions
+		// helper functions
 		void initGUI();
 		void initMaze(std::vector<Point2D<int>> nonBlockablePositions);
 
-		//update logic storage
+		// update logic storage
 		sf::Time lastUpdateTime;
 
 		// sprite textures
 		sf::Texture* navigatorTexture;
 		sf::Texture* gridTexture;
 
-		//	store visual representation of maze solvers
+		// store visual representation of maze solvers
 		std::vector<sf::Sprite*> navigators;
 
-		//path-finding
+		// path-finding
 		Pathfinder regionPathfinder;
 		NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
-		std::vector<std::shared_ptr<std::list<sf::Vector2f>>> paths;
+		std::vector<WindowCoordinatePathPtr> paths;
 		CoordinateConverter coordinateConverter;
 		
 
-		//GUI handle functions
+		// GUI handle functions
 		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
 		void Navigator1CB();
 		void Navigator2CB();

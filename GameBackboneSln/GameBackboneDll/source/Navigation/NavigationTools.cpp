@@ -13,7 +13,7 @@ using namespace GB;
 /// Frees all memory stored in the NavigationGrid
 /// </summary>
 /// <param name="navGrid">The NavigationGrid.</param>
-void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
+void GB::freeAllNavigationGridData(NavigationGrid& navGrid) {
 	for (unsigned int ii = 0; ii < navGrid.getArraySizeX(); ++ii) {
 		for (unsigned int jj = 0; jj < navGrid.getArraySizeY(); ++jj)
 		{
@@ -31,7 +31,8 @@ void GB::freeAllNavigationGridData(NavigationGrid & navGrid) {
 /// <param name="destination">The destination.</param>
 /// <param name="maxStepLength">Maximum length that the sprite can move.</param>
 /// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
-void GB::moveSpriteStepTowardsPoint(sf::Sprite & sprite, const sf::Vector2f & destination,
+void GB::moveSpriteStepTowardsPoint(sf::Sprite& sprite,
+									const sf::Vector2f& destination,
 									const float maxStepLength,
 									const bool orientSpriteToDestination) {
 	std::vector<sf::Sprite*> sprites = {&sprite};
@@ -96,7 +97,7 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 /// <param name="msPassed">Time passed in ms.</param>
 /// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
 /// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
-void GB::moveSpriteAlongPath(sf::Sprite & sprite, 
+void GB::moveSpriteAlongPath(sf::Sprite& sprite, 
 							 WindowCoordinatePathPtr path,
 							 sf::Uint64 msPassed,
 							 float distPerMs,
@@ -123,7 +124,7 @@ void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
 								 const sf::Uint64 msPassed, 
 								 const std::vector<float>& distPerMs,
 								 const bool orientSpritesToDestination) {
-	// insure that the input sizes match
+	// ensure that the input sizes match
 	if (sprites.size() != paths.size() || sprites.size() != distPerMs.size()) {
 		throw Error::NavigationTools_MismatchedNavigationSizes();
 	}

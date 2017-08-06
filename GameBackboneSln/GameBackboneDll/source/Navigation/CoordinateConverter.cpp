@@ -59,9 +59,9 @@ Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>
 /// </summary>
 /// <param name="navGridPath">The nav grid path.</param>
 /// <returns></returns>
-WindowCoordinatePath GB::CoordinateConverter::convertPathToWindow(const NavGridCoordinatePath & navGridPath) {
+WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoordinatePath & navGridPath) {
 
-	//convert each coordinate and store it
+	// convert each coordinate and store it
 	WindowCoordinatePath convertedPath;
 	for (Point2D<int> coordinate : navGridPath) {
 		convertedPath.push_back(convertCoordToWindow(coordinate));
@@ -75,9 +75,9 @@ WindowCoordinatePath GB::CoordinateConverter::convertPathToWindow(const NavGridC
 /// </summary>
 /// <param name="windowPath">The window path.</param>
 /// <returns></returns>
-NavGridCoordinatePath GB::CoordinateConverter::convertPathToNavGrid(const WindowCoordinatePath & windowPath)
+NavGridCoordinatePath CoordinateConverter::convertPathToNavGrid(const WindowCoordinatePath & windowPath)
 {
-	//convert each coordinate and store it
+	// convert each coordinate and store it
 	NavGridCoordinatePath convertedPath;
 	for (sf::Vector2f coordinate : windowPath) {
 		convertedPath.push_back(convertCoordToNavGrid(coordinate));
