@@ -7,6 +7,7 @@
 
 #include <SFML\Graphics\Sprite.hpp>
 
+#include <set>
 #include <vector>
 
 namespace GB {
@@ -17,8 +18,9 @@ namespace GB {
 
 		//ctr / dtr
 		//shallow copy and move are fine for this class
-		CompoundSprite() = default;
+		CompoundSprite();
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
+		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, Point2D<float> position);
 		CompoundSprite(const CompoundSprite& other) = default;
 		CompoundSprite(CompoundSprite&& other) = default;
 		CompoundSprite& operator= (const CompoundSprite& other) = default;
@@ -32,6 +34,7 @@ namespace GB {
 		
 		//setters
 		void setPosition(GB::Point2D<float> val);
+		void setPosition(float x, float y);
 
 		//add / remove
 		void addSprite(sf::Sprite* component);
@@ -42,7 +45,20 @@ namespace GB {
 
 		//operations
 		void scale(float factorX, float factorY);
+		void scale(Point2D<float> newScale);
+
+		void rotate(float degreeOffset);
+		void setRotation(float newRotation);
+
+		void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset);
+		void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation);
+
+		void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
+		void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
+
 		void move(float offsetX, float offsetY);
+		void move(Point2D<float> offset);
+
 		virtual void update(sf::Time currentTime);
 
 	protected:
