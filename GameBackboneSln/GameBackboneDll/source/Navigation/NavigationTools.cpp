@@ -55,7 +55,7 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 										const std::vector<float>& maxStepLengths,
 										const bool orientSpritesToDestination) {
 
-	//ensure that all arrays are the same size
+	// ensure that all arrays are the same size
 	if (sprites.size() != destinations.size() || sprites.size() != maxStepLengths.size()) {
 		throw Error::NavigationTools_MismatchedNavigationSizes();
 	}
@@ -72,14 +72,14 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 		if (distanceToDestination <= maxStepLength) {
 			sprite->setPosition(destination);
 
-		} else { //Move the sprite as close as possible to the destination
+		} else { // Move the sprite as close as possible to the destination
 			float xProgress = cosf(angleToDest) * maxStepLength;
 			float yProgress = sinf(angleToDest) * maxStepLength;
 
 			sprite->move(xProgress, yProgress);
 		}
 
-		//rotate the sprite if rotation is on
+		// rotate the sprite if rotation is on
 		if (orientSpritesToDestination && distanceToDestination != 0) {
 			sprite->setRotation(angleToDest * 180.0f / (float)M_PI);
 		}
@@ -111,14 +111,20 @@ void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 /// </summary>
 /// <param name="sprites">The sprites.</param>
 /// <param name="destinations">The destinations.</param>
-/// <param name="maxStepLengths">The maximum distances to move the sprites.</param>
-/// <param name="orientSpritesToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
+/// <param name="maxStepLengths">The maximum distance to move the sprites.</param>
+/// <param name="spritesToRotate">The sprites to rotate.</param>
 void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
-	const std::vector<sf::Vector2f>& destinations,
-	const std::vector<float>& maxStepLength,
-	const bool orientSpritesToDestination = true) {
+											const std::vector<sf::Vector2f>& destinations,
+											const std::vector<float>& maxStepLengths,
+											const std::vector<std::set<unsigned int>>& spritesToRotate)
+{
+	// ensure that all arrays are the same size
+	if (sprites.size() != destinations.size() || sprites.size() != maxStepLengths.size() || sprites.size() != spritesToRotate.size()) {
+		throw Error::NavigationTools_MismatchedNavigationSizes();
+	}
 
 }
+
 
 
 /// <summary>

@@ -10,6 +10,7 @@
 
 #include <list>
 #include <memory>
+#include <set>
 #include <vector>
 
 
@@ -59,13 +60,13 @@ namespace GB {
 	libGameBackbone extern void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 																   const sf::Vector2f& destination,
 																   const float maxStepLength,
-																   const bool orientSpriteToDestination = true);
+																   const std::set<unsigned int>& spritesToRotate);
 
 
 	libGameBackbone extern void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
 																	   const std::vector<sf::Vector2f>& destinations,
-																	   const std::vector<float>& maxStepLength,
-																	   const bool orientSpritesToDestination = true);
+																	   const std::vector<float>& maxStepLengths,
+																	   const std::vector<std::set<unsigned int>>& spritesToRotate);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement along path
