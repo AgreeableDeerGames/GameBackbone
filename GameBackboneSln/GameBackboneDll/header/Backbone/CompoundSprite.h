@@ -21,6 +21,7 @@ namespace GB {
 		CompoundSprite();
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, Point2D<float> position);
+		CompoundSprite(const Point2D<float> initialPosition);
 		CompoundSprite(const CompoundSprite& other) = default;
 		CompoundSprite(CompoundSprite&& other) = default;
 		CompoundSprite& operator= (const CompoundSprite& other) = default;

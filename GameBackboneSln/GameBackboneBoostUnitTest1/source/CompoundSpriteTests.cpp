@@ -52,31 +52,86 @@ struct ReusableObjects
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_ctr)
 
+// Test that the default constructor initializes values to empty and (0,0)
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_ctr, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
+	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());
+	BOOST_CHECK(compoundSprite->getPosition().x == 0 && compoundSprite->getPosition().y == 0);
+
+	delete compoundSprite;
+}
+
+// Test that constructing the CompundSprite with its components correctly sets the components.
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite_ctr, ReusableObjects) {
+	std::vector<sf::Sprite*> spriteVector{sprite};
+	std::vector<AnimatedSprite*> animatedSpriteVector{animSpriteWithAnim1, animSpriteWithAnim2};
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+
+	//check that the internal vectors have the correct values
+	BOOST_CHECK(!compoundSprite->getSfSprites()->empty());
+	for (unsigned int i = 0; i < spriteVector.size(); ++i) {
+		BOOST_CHECK(compoundSprite->getSfSprites()->at(i) == spriteVector[i]);
+	}
+	BOOST_CHECK(!compoundSprite->getAnimatedSprites()->empty());
+	for (unsigned int i = 0; i < animatedSpriteVector.size(); ++i) {
+		BOOST_CHECK(compoundSprite->getAnimatedSprites()->at(i) == animatedSpriteVector[i]);
+	}
+
+	// check that the initial position is set correctly.
+	BOOST_CHECK(compoundSprite->getPosition().x == 0 && compoundSprite->getPosition().y == 0);
+
+	delete compoundSprite;
+}
+
+// Test that the CompoundSprite is safe to construct with empty component vectors.
+BOOST_AUTO_TEST_CASE(CompoundSprite_Empty_Component_Vector_ctr) {
+	std::vector<sf::Sprite*> spriteVector;
+	std::vector<AnimatedSprite*> animatedSpriteVector;
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
+
+	//check that the component vectors are empty
+	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());
+	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+
+
+	delete compoundSprite;
+}
+
+// Test that CompoundSprite gets its components and position correctly set.
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprites_setPosition_ctr, ReusableObjects) {
+	std::vector<sf::Sprite*> sprites{sprite};
+	std::vector<AnimatedSprite*> animSprites{animSpriteWithAnim1, animSpriteWithAnim2};
+	const Point2D<float> compoundSpritePos{ 3,3 };
+
+	CompoundSprite* compoundSprite = new CompoundSprite(sprites, animSprites, compoundSpritePos);
+
+	// check that the components of the sprite are correctly assigned.
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getSfSprites()->begin(), compoundSprite->getSfSprites()->end(), sprites.begin(), sprites.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getAnimatedSprites()->begin(), compoundSprite->getAnimatedSprites()->end(), animSprites.begin(), animSprites.end());
+
+	// check that the position is correctly assigned.
+	BOOST_CHECK(compoundSprite->getPosition().x == compoundSpritePos.x && compoundSprite->getPosition().y == compoundSpritePos.y);
+
+	delete compoundSprite;
+}
+
+
+// Test that CompoundSprite correctly sets its position.
+BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_ctr) {
+	const Point2D<float> compoundSpritePos{ 3,3 };
+
+	CompoundSprite* compoundSprite = new CompoundSprite(compoundSpritePos);
+
+	BOOST_CHECK(compoundSprite->getPosition().x == compoundSpritePos.x && compoundSprite->getPosition().y == compoundSpritePos.y);
 	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
 	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());
 
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite_ctr, ReusableObjects) {
-	std::vector<sf::Sprite*> spriteVector;
-	std::vector<AnimatedSprite*> emptyAnimatedSpriteVector;
-
-	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, emptyAnimatedSpriteVector);
-
-	for (unsigned int i = 0; i < spriteVector.size(); ++i) {
-		BOOST_CHECK(compoundSprite->getSfSprites()->at(i) == spriteVector[i]);
-	}
-
-	for (unsigned int i = 0; i < emptyAnimatedSpriteVector.size(); ++i) {
-		BOOST_CHECK(compoundSprite->getAnimatedSprites()->at(i) == emptyAnimatedSpriteVector[i]);
-	}
-
-	delete compoundSprite;
-}
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_ctr
 

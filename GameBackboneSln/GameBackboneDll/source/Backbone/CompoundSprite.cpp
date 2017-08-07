@@ -29,6 +29,13 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 	}
 }
 
+
+/// <summary>
+/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
+/// </summary>
+/// <param name="initialPosition">The initial position.</param>
+CompoundSprite::CompoundSprite(const Point2D<float> initialPosition) : position(initialPosition) {}
+
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
 /// </summary>
