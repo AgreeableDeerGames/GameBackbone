@@ -118,7 +118,6 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprites_setPosition_ctr, ReusableObjec
 	delete compoundSprite;
 }
 
-
 // Test that CompoundSprite correctly sets its position.
 BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_ctr) {
 	const Point2D<float> compoundSpritePos{ 3,3 };
@@ -448,6 +447,23 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	delete animSet1;
 	delete animSet2;
 	delete aSpriteTexture;
+}
+
+// Tests that scaling the compound sprite scales all of its components
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
+	std::vector<sf::Sprite*> sprites{ sprite };
+	std::vector<AnimatedSprite*> animSprites{ animSpriteWithAnim1, animSpriteWithAnim2 };
+	const Point2D<float> SCALE{0.5, 0.6};
+	CompoundSprite compoundSprite(sprites, animSprites);
+	compoundSprite.scale(SCALE);
+
+	//ensure that all components were scaled correctly
+	for (auto sprite : *compoundSprite.getSfSprites()) {
+		BOOST_CHECK(sprite->getScale().x == SCALE.x && sprite->getScale().y == SCALE.y);
+	}
+	for (auto sprite : *compoundSprite.getAnimatedSprites()) {
+		BOOST_CHECK(sprite->getScale().x == SCALE.x && sprite->getScale().y == SCALE.y);
+	}
 }
 
 BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
