@@ -50,6 +50,55 @@ struct ReusableObjects
 	sf::Sprite* sprite;
 };
 
+struct ReusableObjectsForOperations {
+
+	ReusableObjectsForOperations() {
+
+		aSpriteTexture = new sf::Texture();
+		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+		aSpriteTexture->loadFromFile(testTexturePath);
+
+		sprite = new sf::Sprite(*aSpriteTexture);
+		sprite->setPosition(10, 0);
+		sprite2 = new sf::Sprite(*aSpriteTexture);
+		sprite2->setPosition(0, 10);
+
+		sf::Vector2u textureDim = aSpriteTexture->getSize();
+		std::vector<std::vector<unsigned int>> aSpriteAnims;
+		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
+		aSpriteAnims.push_back(aSpriteAnim1);
+		animSet1 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+		animSet2 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+
+		animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
+		animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);
+
+		compoundSprite = new CompoundSprite({ sprite, sprite2 }, { animSpriteWithAnim1, animSpriteWithAnim2 });
+
+	}
+
+	~ReusableObjectsForOperations() {
+		delete aSpriteTexture;
+		delete animSet1;
+		delete animSet2;
+		delete animSpriteWithAnim1;
+		delete animSpriteWithAnim2;
+		delete sprite;
+		delete sprite2;
+		delete compoundSprite;
+	}
+
+	AnimatedSprite* animSpriteWithAnim1;
+	AnimatedSprite* animSpriteWithAnim2;
+	AnimationSet* animSet1;
+	AnimationSet* animSet2;
+	sf::Texture* aSpriteTexture;
+	sf::Sprite* sprite;
+	sf::Sprite* sprite2;
+	CompoundSprite* compoundSprite;
+
+};
+
 BOOST_AUTO_TEST_SUITE(CompoundSprite_ctr)
 
 // Test that the default constructor initializes values to empty and (0,0)
@@ -463,6 +512,81 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
 	}
 	for (auto sprite : *compoundSprite.getAnimatedSprites()) {
 		BOOST_CHECK(sprite->getScale().x == SCALE.x && sprite->getScale().y == SCALE.y);
+	}
+}
+
+// Tests that rotating a compound sprite rotates all of its components
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_rotate_rotate_from_zero, ReusableObjectsForOperations) {
+	const float ROTATION = 10;
+	compoundSprite->rotate(ROTATION);
+
+	// ensure all sprites were rotated
+	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
+	}
+	for (auto sprite : *compoundSprite->getSfSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
+	}
+}
+
+// Test that applying a rotation to a compound sprite is cumulative.
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Additive_Rotate, ReusableObjectsForOperations) {
+	const float ROTATION = 10;
+	const unsigned int NUM_ROTATIONS = 2;
+
+	for (unsigned int i = 0; i < NUM_ROTATIONS; i++) {
+		compoundSprite->rotate(ROTATION);
+	}
+	// ensure all sprites were rotated
+	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), NUM_ROTATIONS * ROTATION);
+	}
+	for (auto sprite : *compoundSprite->getSfSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), NUM_ROTATIONS * ROTATION);
+	}
+}
+
+// Test that rotating a compound sprite rotates all components around its position value
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Same_Relative_Position, ReusableObjectsForOperations) {
+	compoundSprite->rotate(90);
+	
+	////sprite is at 10,0 before the rotation. It is part of the compound sprite. It should now be at 0,-10
+	//BOOST_CHECK_EQUAL(sprite->getGlobalBounds().left, 0);
+	//BOOST_CHECK_EQUAL(sprite->getGlobalBounds().top, -10);
+
+	////sprite2 is at 0,10 before the rotation. It is part of the compound sprite. It should now be at 10,0
+	//BOOST_CHECK_EQUAL(sprite2->getGlobalBounds().left, 10);
+	//BOOST_CHECK_EQUAL(sprite2->getGlobalBounds().top, 0);
+}
+
+// Test that setting the rotation of a compound sprite sets the rotation for all of its components
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_rotate_from_zero, ReusableObjectsForOperations) {
+	const float ROTATION = 10;
+	compoundSprite->setRotation(10);
+
+	// ensure all sprites were rotated
+	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
+	}
+	for (auto sprite : *compoundSprite->getSfSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
+	}
+}
+
+// Test that applying a rotation to a compound sprite is not cumulative.
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_NonAdditive_Rotate, ReusableObjectsForOperations) {
+	const float ROTATION = 10;
+	const unsigned int NUM_ROTATIONS = 2;
+
+	for (unsigned int i = 0; i < NUM_ROTATIONS; i++) {
+		compoundSprite->setRotation(ROTATION);
+	}
+	// ensure all sprites were rotated
+	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
+	}
+	for (auto sprite : *compoundSprite->getSfSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
 }
 
