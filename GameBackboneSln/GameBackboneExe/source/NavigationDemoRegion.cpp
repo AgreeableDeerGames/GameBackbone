@@ -164,15 +164,18 @@ void GB::NavigationDemoRegion::init() {
 	navigator1->setColor(sf::Color::Blue);
 
 	//compound sprite
-	const float COMPOUND_SPRITE_TEST_X = 100;
-	const float COMPOUND_SPRITE_TEST_y = 100;
+	const float COMPOUND_SPRITE_TEST_X = 400;
+	const float COMPOUND_SPRITE_TEST_y = 400;
 	compComponent1 = new sf::Sprite(*navigatorTexture);
 	compComponent2 = new sf::Sprite(*navigatorTexture);
-	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, 0);
-	compComponent2->setPosition(0, COMPOUND_SPRITE_TEST_y);
+	compComponent3 = new sf::Sprite(*navigatorTexture);
+	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y / 2);
+	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X / 2, COMPOUND_SPRITE_TEST_y);
+	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent1->setColor(sf::Color::Magenta);
 	compComponent2->setColor(sf::Color::White);
-	compSprite = new CompoundSprite({ compComponent1, compComponent2 }, {}, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	compComponent3->setColor(sf::Color::Green);
+	compSprite = new CompoundSprite({ compComponent1, compComponent2, compComponent3 }, {}, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 	setDrawAndUpdateable(true, compSprite);
 
 	//set rotation point of navigators

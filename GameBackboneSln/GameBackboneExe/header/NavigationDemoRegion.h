@@ -73,6 +73,7 @@ namespace GB {
 		CompoundSprite* compSprite;
 		sf::Sprite* compComponent1;
 		sf::Sprite* compComponent2;
+		sf::Sprite* compComponent3;
 
 		//path-finding
 		Pathfinder regionPathfinder;

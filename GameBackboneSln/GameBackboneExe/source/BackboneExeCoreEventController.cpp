@@ -43,8 +43,8 @@ bool BackboneExeCoreEventController::handleCoreEvent(sf::Event & event) {
 	case sf::Event::MouseMoved:
 	{
 		//pan camera with mouse
-		window->setView(camera);
-		camera.move((float)(event.mouseMove.x - oldMouseX), (float)(event.mouseMove.y - oldMouseY));
+		/*window->setView(camera);
+		camera.move((float)(event.mouseMove.x - oldMouseX), (float)(event.mouseMove.y - oldMouseY));*/
 		oldMouseX = event.mouseMove.x;
 		oldMouseY = event.mouseMove.y;
 
