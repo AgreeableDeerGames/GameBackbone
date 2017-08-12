@@ -22,10 +22,10 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 /// <param name="position">The position.</param>
 CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, Point2D<float> initialPosition) : position(initialPosition) {
 	for (auto component : sprites) {
-		this->sprites.push_back(component);
+		addSprite(component);
 	}
 	for (auto component : animatedSprites) {
-		this->animatedSprites.push_back(component);
+		addAnimatedSprite(component);
 	}
 }
 
