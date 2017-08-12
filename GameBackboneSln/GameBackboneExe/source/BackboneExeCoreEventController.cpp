@@ -50,6 +50,7 @@ bool BackboneExeCoreEventController::handleCoreEvent(sf::Event & event) {
 
 		sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
+		static_cast<NavigationDemoRegion*>(activeRegion)->handleMouseDrag(actualPosition);
 		return true;
 	}
 	case sf::Event::MouseButtonPressed:

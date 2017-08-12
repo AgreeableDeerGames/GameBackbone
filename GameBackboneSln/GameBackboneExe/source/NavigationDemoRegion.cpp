@@ -58,6 +58,12 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 	navigatorTexture = nullptr;
 	delete gridTexture;
 	gridTexture = nullptr;
+	delete compComponent1;
+	compComponent1 = nullptr;
+	delete compComponent2;
+	compComponent2 = nullptr;
+	delete compSprite;
+	compSprite = nullptr;
 }
 
 /// <summary>
@@ -115,6 +121,17 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 	}
 }
 
+
+/// <summary>
+/// Handles the mouse drag.
+/// Rotates the compound sprite to face the mouse position
+/// </summary>
+/// <param name="mousePosition">The mouse position.</param>
+void NavigationDemoRegion::handleMouseDrag(sf::Vector2f mousePosition) {
+	float angle = atan2f(mousePosition.y - compSprite->getPosition().y, mousePosition.x - compSprite->getPosition().x) * 180 / (float)M_PI;
+	compSprite->setRotation(angle);
+}
+
 /// <summary>
 /// Initializes this instance.
 /// </summary>
@@ -146,6 +163,18 @@ void GB::NavigationDemoRegion::init() {
 	navigator2->setColor(sf::Color::Green);
 	navigator1->setColor(sf::Color::Blue);
 
+	//compound sprite
+	const float COMPOUND_SPRITE_TEST_X = 100;
+	const float COMPOUND_SPRITE_TEST_y = 100;
+	compComponent1 = new sf::Sprite(*navigatorTexture);
+	compComponent2 = new sf::Sprite(*navigatorTexture);
+	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, 0);
+	compComponent2->setPosition(0, COMPOUND_SPRITE_TEST_y);
+	compComponent1->setColor(sf::Color::Magenta);
+	compComponent2->setColor(sf::Color::White);
+	compSprite = new CompoundSprite({ compComponent1, compComponent2 }, {}, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	setDrawAndUpdateable(true, compSprite);
+
 	//set rotation point of navigators
 	for each (sf::Sprite* navigator in navigators) {
 		const sf::IntRect * const  textureRect = &navigator->getTextureRect();
@@ -167,8 +196,8 @@ void GB::NavigationDemoRegion::init() {
 	initMaze(nonBlockableGridSquares);
 
 	//draw navigators on top of maze
-	setDrawable(true, navigator1);
-	setDrawable(true, navigator2);
+	/*setDrawable(true, navigator1);
+	setDrawable(true, navigator2);*/
 
 
 	//Path-find from starting positions to end positions
@@ -287,7 +316,7 @@ void NavigationDemoRegion::initMaze(std::vector<Point2D<int>> nonBlockablePositi
 			(*visualNavigationGrid)[i][j] = gridSquare;
 
 			//ensure grids are drawn
-			setDrawable(true, gridSquare);
+			//setDrawable(true, gridSquare);
 		}
 	}
 }

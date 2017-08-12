@@ -39,6 +39,8 @@ namespace GB {
 
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
 
+		virtual void handleMouseDrag(sf::Vector2f mousePosition);
+
 
 
 	protected:
@@ -66,6 +68,11 @@ namespace GB {
 		//	store visual representation of maze and maze solvers
 		Array2D<sf::Sprite*>* visualNavigationGrid;
 		std::vector<sf::Sprite*> navigators;
+
+		//compound sprite stuff
+		CompoundSprite* compSprite;
+		sf::Sprite* compComponent1;
+		sf::Sprite* compComponent2;
 
 		//path-finding
 		Pathfinder regionPathfinder;
