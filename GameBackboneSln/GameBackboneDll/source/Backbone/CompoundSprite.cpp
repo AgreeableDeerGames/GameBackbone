@@ -106,7 +106,9 @@ void CompoundSprite::setPosition(float x, float y) {
 /// <param name="component">new sprite component of the compound sprite.</param>
 void CompoundSprite::addSprite(sf::Sprite * component) {
 	sprites.push_back(component);
-	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
+	//component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
+	component->setOrigin(position.x, position.y);
+
 	debugPrint("");
 }
 
