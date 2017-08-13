@@ -65,9 +65,12 @@
     </ClCompile>
     <ClCompile Include="source\Navigation\CoordinateConverter.cpp">
       <Filter>Source Files\Navigation</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="source\Util\FileManager.cpp">
       <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Backbone\RelativeRotationSprite.cpp">
+      <Filter>Source Files\Backbone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +136,12 @@
     </ClInclude>
     <ClInclude Include="header\Navigation\CoordinateConverter.h">
       <Filter>Header Files\Navigation</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="header\Util\FileManager.h">
       <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Backbone\RelativeRotationSprite.h">
+      <Filter>Header Files\Backbone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

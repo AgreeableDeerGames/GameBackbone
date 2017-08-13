@@ -31,15 +31,15 @@ namespace GB {
 		//getters
 		std::vector<sf::Sprite*>* getSfSprites();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
-		GB::Point2D<float> getPosition() const;
+		Point2D<float> getPosition() const;
 		
 		//setters
-		void setPosition(GB::Point2D<float> val);
+		void setPosition(Point2D<float> val);
 		void setPosition(float x, float y);
 
 		//add / remove
-		void addSprite(sf::Sprite* component);
-		void addAnimatedSprite(AnimatedSprite* component);
+		virtual void addSprite(sf::Sprite* component);
+		virtual void addAnimatedSprite(AnimatedSprite* component);
 		void removeSprite(sf::Sprite* component);
 		void removeAnimatedSprite(AnimatedSprite* component);
 		void clearComponents();
@@ -47,6 +47,8 @@ namespace GB {
 		//operations
 		virtual void scale(float factorX, float factorY);
 		virtual void scale(Point2D<float> newScale);
+		virtual void setScale(float factorX, float factorY);
+		virtual void setScale(Point2D<float> newScale);
 
 		virtual void rotate(float degreeOffset);
 		virtual void setRotation(float newRotation);

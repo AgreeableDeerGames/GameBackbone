@@ -498,6 +498,46 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	delete aSpriteTexture;
 }
 
+// Test that setting the scale of a compound sprite scales all of its component sprites
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_Two_Inputs, ReusableObjectsForOperations) {
+	const float SCALE_FACTOR_X = 0.123f;
+	const float SCALE_FACTOR_Y = 0.234f;
+	compoundSprite->setScale(SCALE_FACTOR_X, SCALE_FACTOR_Y);
+
+	// ensure that the scale of the sprite components has been set
+	for (auto sprite : *compoundSprite->getSfSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getScale().x, SCALE_FACTOR_X);
+		BOOST_CHECK_EQUAL(sprite->getScale().y, SCALE_FACTOR_Y);
+	}
+
+	// ensure that the scale of the animated sprite components has been set
+	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getScale().x, SCALE_FACTOR_X);
+		BOOST_CHECK_EQUAL(sprite->getScale().y, SCALE_FACTOR_Y);
+	}
+}
+
+// Test that setting the scale of the compound sprite sets the scale of all of its component sprites
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOperations) {
+	const float SCALE_FACTOR_X = 0.123f;
+	const float SCALE_FACTOR_Y = 0.234f;
+	const Point2D<float> SCALE_FACTOR{ SCALE_FACTOR_X, SCALE_FACTOR_Y };
+	compoundSprite->setScale(SCALE_FACTOR);
+
+	// ensure that the scale of the sprite components has been set
+	for (auto sprite : *compoundSprite->getSfSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getScale().x, SCALE_FACTOR_X);
+		BOOST_CHECK_EQUAL(sprite->getScale().y, SCALE_FACTOR_Y);
+	}
+
+	// ensure that the scale of the animated sprite components has been set
+	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
+		BOOST_CHECK_EQUAL(sprite->getScale().x, SCALE_FACTOR_X);
+		BOOST_CHECK_EQUAL(sprite->getScale().y, SCALE_FACTOR_Y);
+	}
+
+}
+
 // Tests that scaling the compound sprite scales all of its components
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
 	std::vector<sf::Sprite*> sprites{ sprite };
@@ -546,18 +586,6 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Additive_Rotate, ReusableObjectsFo
 	}
 }
 
-// Test that rotating a compound sprite rotates all components around its position value
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Same_Relative_Position, ReusableObjectsForOperations) {
-	compoundSprite->rotate(90);
-	
-	////sprite is at 10,0 before the rotation. It is part of the compound sprite. It should now be at 0,-10
-	//BOOST_CHECK_EQUAL(sprite->getGlobalBounds().left, 0);
-	//BOOST_CHECK_EQUAL(sprite->getGlobalBounds().top, -10);
-
-	////sprite2 is at 0,10 before the rotation. It is part of the compound sprite. It should now be at 10,0
-	//BOOST_CHECK_EQUAL(sprite2->getGlobalBounds().left, 10);
-	//BOOST_CHECK_EQUAL(sprite2->getGlobalBounds().top, 0);
-}
 
 // Test that setting the rotation of a compound sprite sets the rotation for all of its components
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_rotate_from_zero, ReusableObjectsForOperations) {

@@ -70,7 +70,7 @@ std::vector<AnimatedSprite*>* CompoundSprite::getAnimatedSprites() {
 /// Gets the position.
 /// </summary>
 /// <returns></returns>
-Point2D<float> GB::CompoundSprite::getPosition() const {
+Point2D<float> CompoundSprite::getPosition() const {
 	return position;
 }
 
@@ -80,7 +80,7 @@ Point2D<float> GB::CompoundSprite::getPosition() const {
 /// Sets the position.
 /// </summary>
 /// <param name="val">The value.</param>
-void CompoundSprite::setPosition(GB::Point2D<float> val) {
+void CompoundSprite::setPosition(Point2D<float> val) {
 	Point2D<float> oldPosition = position;
 	Point2D<float> positionDifference{ position.x - oldPosition.x, position.y - oldPosition.y };
 
@@ -106,7 +106,6 @@ void CompoundSprite::setPosition(float x, float y) {
 /// <param name="component">new sprite component of the compound sprite.</param>
 void CompoundSprite::addSprite(sf::Sprite * component) {
 	sprites.push_back(component);
-	component->setOrigin(position.x - component->getPosition().x, position.y - component->getPosition().y);
 }
 
 /// <summary>
@@ -115,7 +114,6 @@ void CompoundSprite::addSprite(sf::Sprite * component) {
 /// <param name="component">New Animated Sprite component of the compound sprite.</param>
 void CompoundSprite::addAnimatedSprite(AnimatedSprite * component) {
 	animatedSprites.push_back(component);
-	component->setOrigin(position.x - component->getPosition().x, position.y - component->getPosition().y);
 }
 
 /// <summary>
@@ -172,6 +170,31 @@ void CompoundSprite::scale(float factorX, float factorY) {
 void CompoundSprite::scale(Point2D<float> newScale) {
 	scale(newScale.x, newScale.y);
 }
+
+
+/// <summary>
+/// Sets the scale factor of all component sprites.
+/// </summary>
+/// <param name="factorX">The factor x.</param>
+/// <param name="factorY">The factor y.</param>
+void CompoundSprite::setScale(float factorX, float factorY) {
+	for (auto sprite : sprites) {
+		sprite->setScale(factorX, factorY);
+	}
+	for (auto sprite : animatedSprites) {
+		sprite->setScale(factorX, factorY);
+	}
+}
+
+/// <summary>
+/// Sets the scale of all component sprites.
+/// </summary>
+/// <param name="newScale">The new scale.</param>
+void CompoundSprite::setScale(Point2D<float> newScale) {
+	setScale(newScale.x, newScale.y);
+}
+
+
 
 /// <summary>
 /// Rotates all components of the compound sprite.
