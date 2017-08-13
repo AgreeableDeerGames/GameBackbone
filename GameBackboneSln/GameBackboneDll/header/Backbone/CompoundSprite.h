@@ -45,17 +45,17 @@ namespace GB {
 		void clearComponents();
 
 		//operations
-		void scale(float factorX, float factorY);
-		void scale(Point2D<float> newScale);
+		virtual void scale(float factorX, float factorY);
+		virtual void scale(Point2D<float> newScale);
 
-		void rotate(float degreeOffset);
-		void setRotation(float newRotation);
+		virtual void rotate(float degreeOffset);
+		virtual void setRotation(float newRotation);
 
-		void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset);
-		void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation);
+		virtual void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset);
+		virtual void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation);
 
-		void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
-		void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
+		virtual void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
+		virtual void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
 
 		void move(float offsetX, float offsetY);
 		void move(Point2D<float> offset);
