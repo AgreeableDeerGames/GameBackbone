@@ -40,9 +40,9 @@ namespace GB {
 		//add / remove
 		virtual void addSprite(sf::Sprite* component);
 		virtual void addAnimatedSprite(AnimatedSprite* component);
-		void removeSprite(sf::Sprite* component);
-		void removeAnimatedSprite(AnimatedSprite* component);
-		void clearComponents();
+		virtual void removeSprite(sf::Sprite* component);
+		virtual void removeAnimatedSprite(AnimatedSprite* component);
+		virtual void clearComponents();
 
 		//operations
 		virtual void scale(float factorX, float factorY);
@@ -59,8 +59,8 @@ namespace GB {
 		virtual void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
 		virtual void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
 
-		void move(float offsetX, float offsetY);
-		void move(Point2D<float> offset);
+		virtual void move(float offsetX, float offsetY);
+		virtual void move(Point2D<float> offset);
 
 		virtual void update(sf::Time currentTime);
 

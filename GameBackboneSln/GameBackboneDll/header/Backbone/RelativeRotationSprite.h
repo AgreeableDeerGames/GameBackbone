@@ -1,6 +1,7 @@
 #pragma once
 #include <Backbone\CompoundSprite.h>
 
+#include <vector>
 
 namespace GB {
 
@@ -20,34 +21,33 @@ namespace GB {
 		RelativeRotationSprite& operator= (RelativeRotationSprite&& other) = default;
 		virtual ~RelativeRotationSprite();
 
-		//getters
+		/*//getters
 		Point2D<float> getUnscaledOrigin() const;
 
 		//setters
 		void setUnscaledOrigin(Point2D<float> val);
-		void setUnscaledOrigin(float x, float y);
+		void setUnscaledOrigin(float x, float y);*/
 
 		//add / remove
 		virtual void addSprite(sf::Sprite* component) override;
+		virtual void addSprite(sf::Sprite* component, Point2D<float> relativeOffset);
 		virtual void addAnimatedSprite(AnimatedSprite* component) override;
+		virtual void addAnimatedSprite(AnimatedSprite* component, Point2D<float> relativeOffset);
+
+		virtual void removeSprite(sf::Sprite* component) override;
+		virtual void removeAnimatedSprite(AnimatedSprite* component) override;
+		virtual void clearComponents() override;
 
 		//operations
 		virtual void scale(float factorX, float factorY) override;
 		virtual void scale(Point2D<float> newScale) override;
-		virtual void setScale(float factorX, float factorY);
-		virtual void setScale(Point2D<float> newScale);
-
-		virtual void rotate(float degreeOffset) override;
-		virtual void setRotation(float newRotation) override;
-
-		virtual void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset) override;
-		virtual void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation) override;
-
-		virtual void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset) override;
-		virtual void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation) override;
 
 	protected:
-		Point2D<float> unscaledOrigin;
+		//std::vector<Point2D<float>> relativeOffsets;
+
+	private:
+		virtual void setScale(float factorX, float factorY) final;
+		virtual void setScale(Point2D<float> newScale) final;
 	};
 
 }
