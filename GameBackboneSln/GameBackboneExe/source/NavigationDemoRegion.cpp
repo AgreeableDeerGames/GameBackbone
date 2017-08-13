@@ -4,6 +4,7 @@
 
 #include <NavigationDemoRegion.h>
 #include <Navigation\NavigationTools.h>
+#include <Backbone\RelativeRotationSprite.h>
 
 #include <TGUI\TGUI.hpp>
 
@@ -175,9 +176,14 @@ void GB::NavigationDemoRegion::init() {
 	compComponent1->setColor(sf::Color::Magenta);
 	compComponent2->setColor(sf::Color::White);
 	compComponent3->setColor(sf::Color::Green);
-	compSprite = new CompoundSprite({ compComponent1, compComponent2, compComponent3 }, {}, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-	compComponent1->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X*1.25, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y);
+	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	static_cast<RelativeRotationSprite*>(compSprite)->addSprite(compComponent1, { 80, 0 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addSprite(compComponent2, { 0, 80 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addSprite(compComponent3, { 0, 0 });
+	
+	/*compComponent1->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X*1.25, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y);
 	compComponent2->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y*1.25);
+	*/
 	setDrawAndUpdateable(true, compSprite);
 
 

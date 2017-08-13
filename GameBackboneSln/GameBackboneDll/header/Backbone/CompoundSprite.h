@@ -31,34 +31,36 @@ namespace GB {
 		//getters
 		std::vector<sf::Sprite*>* getSfSprites();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
-		GB::Point2D<float> getPosition() const;
+		Point2D<float> getPosition() const;
 		
 		//setters
-		void setPosition(GB::Point2D<float> val);
+		void setPosition(Point2D<float> val);
 		void setPosition(float x, float y);
 
 		//add / remove
-		void addSprite(sf::Sprite* component);
-		void addAnimatedSprite(AnimatedSprite* component);
-		void removeSprite(sf::Sprite* component);
-		void removeAnimatedSprite(AnimatedSprite* component);
-		void clearComponents();
+		virtual void addSprite(sf::Sprite* component);
+		virtual void addAnimatedSprite(AnimatedSprite* component);
+		virtual void removeSprite(sf::Sprite* component);
+		virtual void removeAnimatedSprite(AnimatedSprite* component);
+		virtual void clearComponents();
 
 		//operations
-		void scale(float factorX, float factorY);
-		void scale(Point2D<float> newScale);
+		virtual void scale(float factorX, float factorY);
+		virtual void scale(Point2D<float> newScale);
+		virtual void setScale(float factorX, float factorY);
+		virtual void setScale(Point2D<float> newScale);
 
-		void rotate(float degreeOffset);
-		void setRotation(float newRotation);
+		virtual void rotate(float degreeOffset);
+		virtual void setRotation(float newRotation);
 
-		void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset);
-		void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation);
+		virtual void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset);
+		virtual void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation);
 
-		void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
-		void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
+		virtual void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
+		virtual void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
 
-		void move(float offsetX, float offsetY);
-		void move(Point2D<float> offset);
+		virtual void move(float offsetX, float offsetY);
+		virtual void move(Point2D<float> offset);
 
 		virtual void update(sf::Time currentTime);
 

@@ -161,6 +161,7 @@
     <ClInclude Include="header\Backbone\CompoundSprite.h" />
     <ClInclude Include="header\Backbone\CoreEventController.h" />
     <ClInclude Include="header\Backbone\GameRegion.h" />
+    <ClInclude Include="header\Backbone\RelativeRotationSprite.h" />
     <ClInclude Include="header\Backbone\Updatable.h" />
     <ClInclude Include="header\Navigation\CoordinateConverter.h" />
     <ClInclude Include="header\Navigation\NavigationGridData.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="source\Backbone\CompoundSprite.cpp" />
     <ClCompile Include="source\Backbone\CoreEventController.cpp" />
     <ClCompile Include="source\Backbone\GameRegion.cpp" />
+    <ClCompile Include="source\Backbone\RelativeRotationSprite.cpp" />
     <ClCompile Include="source\Navigation\CoordinateConverter.cpp" />
     <ClCompile Include="source\Navigation\NavigationTools.cpp" />
     <ClCompile Include="source\Navigation\PathFinder.cpp" />
