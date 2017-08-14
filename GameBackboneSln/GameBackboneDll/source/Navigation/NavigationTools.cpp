@@ -9,6 +9,9 @@
 
 using namespace GB;
 
+
+
+
 /// <summary>
 /// Frees all memory stored in the NavigationGrid
 /// </summary>
@@ -42,6 +45,45 @@ void GB::moveSpriteStepTowardsPoint(sf::Sprite& sprite,
 	bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, orientSpriteToDestination);
 }
 
+
+
+
+/// <summary>
+/// Moves any movable object a step towards a destination.
+/// </summary>
+/// <param name="movableObject">The movable object.</param>
+/// <param name="destination">The destination.</param>
+/// <param name="maxStepLength">Maximum length of the step.</param>
+/// <param name="distanceToDestination">Out Value: The distance to destination.</param>
+/// <param name="angleToDest">Out Value: The angle to the destination.</param>
+template <class T>
+static inline void moveMovableStepTowardsPoint(T* movableObject,
+											   const sf::Vector2f& destination,
+											   const float maxStepLength, 
+											   float& distanceToDestination,
+											   float& angleToDest) {
+
+	// calculate the angle to the destination
+	const sf::Vector2f currentPosition = movableObject->getPosition();
+	angleToDest = atan2f(destination.y - currentPosition.y, destination.x - currentPosition.x);
+
+	// Calculate the distance to the destination
+	distanceToDestination = CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination);
+
+	// Move directly to the destination if it's within reach
+	if (distanceToDestination <= maxStepLength) {
+		movableObject->setPosition(destination);
+	}
+	else { // Move the sprite as close as possible to the destination
+		float xProgress = cosf(angleToDest) * maxStepLength;
+		float yProgress = sinf(angleToDest) * maxStepLength;
+
+		movableObject->move(xProgress, yProgress);
+	}
+}
+
+
+
 /// <summary>
 /// Moves all passed sprites towards the destination of the same index.
 /// Sprites will not overshoot their destination.
@@ -62,22 +104,15 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 
 	for (unsigned int ii = 0; ii < sprites.size(); ii++) {
 		sf::Sprite* sprite = sprites[ii];
-		const sf::Vector2f currentPosition = sprite->getPosition();
 		sf::Vector2f destination = destinations[ii];
 		float maxStepLength = maxStepLengths[ii];
-		float angleToDest = atan2f(destination.y - currentPosition.y, destination.x - currentPosition.x);
+		
+		// move the sprite to
+		float angleToDest;
+		float distanceToDestination;
 
-		// Move directly to the destination if it's within reach
-		float distanceToDestination = CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination);
-		if (distanceToDestination <= maxStepLength) {
-			sprite->setPosition(destination);
-
-		} else { // Move the sprite as close as possible to the destination
-			float xProgress = cosf(angleToDest) * maxStepLength;
-			float yProgress = sinf(angleToDest) * maxStepLength;
-
-			sprite->move(xProgress, yProgress);
-		}
+		// Move the sprite. Find its distance to destination and its angle to the destination.
+		moveMovableStepTowardsPoint(sprite, destination, maxStepLength, distanceToDestination, angleToDest);
 
 		// rotate the sprite if rotation is on
 		if (orientSpritesToDestination && distanceToDestination != 0) {
@@ -121,6 +156,24 @@ void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& 
 	// ensure that all arrays are the same size
 	if (sprites.size() != destinations.size() || sprites.size() != maxStepLengths.size() || sprites.size() != spritesToRotate.size()) {
 		throw Error::NavigationTools_MismatchedNavigationSizes();
+	}
+
+	for (size_t ii = 0; ii < sprites.size(); ii++) {
+		CompoundSprite* sprite = sprites[ii];
+		const sf::Vector2f destination = destinations[ii];
+		const float maxStepLength = maxStepLengths[ii];
+		float angleToDestination;
+		float distanceToDestination;
+
+		// move the sprite. Calculate its distance and angle to its destination.
+		moveMovableStepTowardsPoint(sprite, destination, maxStepLength, distanceToDestination, angleToDestination);
+
+		// orient components towards destination
+		if (distanceToDestination != 0) {
+	
+			//TODO : orient components towards destination
+		}
+
 	}
 
 }

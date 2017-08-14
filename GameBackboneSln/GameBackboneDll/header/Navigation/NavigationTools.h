@@ -45,7 +45,6 @@ namespace GB {
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement to point
 
-
 	libGameBackbone extern void moveSpriteStepTowardsPoint(sf::Sprite& sprite,
 														   const sf::Vector2f& destination,
 														   const float maxStepLength,
