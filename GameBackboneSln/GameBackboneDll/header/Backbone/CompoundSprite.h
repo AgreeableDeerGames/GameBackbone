@@ -20,8 +20,8 @@ namespace GB {
 		//shallow copy and move are fine for this class
 		CompoundSprite();
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
-		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, Point2D<float> position);
-		CompoundSprite(const Point2D<float> initialPosition);
+		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, sf::Vector2f position);
+		CompoundSprite(const sf::Vector2f initialPosition);
 		CompoundSprite(const CompoundSprite& other) = default;
 		CompoundSprite(CompoundSprite&& other) = default;
 		CompoundSprite& operator= (const CompoundSprite& other) = default;
@@ -31,10 +31,10 @@ namespace GB {
 		//getters
 		std::vector<sf::Sprite*>* getSfSprites();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
-		Point2D<float> getPosition() const;
+		sf::Vector2f getPosition() const;
 		
 		//setters
-		void setPosition(Point2D<float> val);
+		void setPosition(sf::Vector2f val);
 		void setPosition(float x, float y);
 
 		//add / remove
@@ -67,7 +67,7 @@ namespace GB {
 	protected:
 		std::vector<sf::Sprite*> sprites;
 		std::vector<AnimatedSprite*> animatedSprites;
-		Point2D<float> position;
+		sf::Vector2f position;
 	};
 
 }

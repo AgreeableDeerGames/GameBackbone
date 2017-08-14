@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_Empty_Component_Vector_ctr) {
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprites_setPosition_ctr, ReusableObjects) {
 	std::vector<sf::Sprite*> sprites{sprite};
 	std::vector<AnimatedSprite*> animSprites{animSpriteWithAnim1, animSpriteWithAnim2};
-	const Point2D<float> compoundSpritePos{ 3,3 };
+	const sf::Vector2f compoundSpritePos{ 3,3 };
 
 	CompoundSprite* compoundSprite = new CompoundSprite(sprites, animSprites, compoundSpritePos);
 
@@ -169,7 +169,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprites_setPosition_ctr, ReusableObjec
 
 // Test that CompoundSprite correctly sets its position.
 BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_ctr) {
-	const Point2D<float> compoundSpritePos{ 3,3 };
+	const sf::Vector2f compoundSpritePos{ 3,3 };
 
 	CompoundSprite* compoundSprite = new CompoundSprite(compoundSpritePos);
 
@@ -542,7 +542,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOpe
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
 	std::vector<sf::Sprite*> sprites{ sprite };
 	std::vector<AnimatedSprite*> animSprites{ animSpriteWithAnim1, animSpriteWithAnim2 };
-	const Point2D<float> SCALE{0.5, 0.6};
+	const Point2D<float> SCALE{0.5f, 0.6f};
 	CompoundSprite compoundSprite(sprites, animSprites);
 	compoundSprite.scale(SCALE);
 

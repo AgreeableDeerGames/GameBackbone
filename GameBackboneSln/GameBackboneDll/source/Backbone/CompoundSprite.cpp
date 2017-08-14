@@ -20,7 +20,7 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 /// <param name="sprites">Sprite components of the new CompoundSprite.</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite.</param>
 /// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, Point2D<float> initialPosition) : position(initialPosition) {
+CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, sf::Vector2f initialPosition) : position(initialPosition) {
 	for (auto component : sprites) {
 		addSprite(component);
 	}
@@ -34,7 +34,7 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
-CompoundSprite::CompoundSprite(const Point2D<float> initialPosition) : position(initialPosition) {}
+CompoundSprite::CompoundSprite(const sf::Vector2f initialPosition) : position(initialPosition) {}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
@@ -70,7 +70,7 @@ std::vector<AnimatedSprite*>* CompoundSprite::getAnimatedSprites() {
 /// Gets the position.
 /// </summary>
 /// <returns></returns>
-Point2D<float> CompoundSprite::getPosition() const {
+sf::Vector2f CompoundSprite::getPosition() const {
 	return position;
 }
 
@@ -80,8 +80,8 @@ Point2D<float> CompoundSprite::getPosition() const {
 /// Sets the position.
 /// </summary>
 /// <param name="val">The value.</param>
-void CompoundSprite::setPosition(Point2D<float> val) {
-	Point2D<float> oldPosition = position;
+void CompoundSprite::setPosition(sf::Vector2f val) {
+	sf::Vector2f oldPosition = position;
 	Point2D<float> positionDifference{ position.x - oldPosition.x, position.y - oldPosition.y };
 
 	move(positionDifference.x, positionDifference.y);
