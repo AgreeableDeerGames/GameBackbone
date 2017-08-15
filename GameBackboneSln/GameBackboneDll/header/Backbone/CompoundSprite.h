@@ -19,8 +19,10 @@ namespace GB {
 		//ctr / dtr
 		//shallow copy and move are fine for this class
 		CompoundSprite();
+		CompoundSprite(const std::vector<sf::Sprite*>& sprites);
+		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const sf::Vector2f& position);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
-		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, sf::Vector2f position);
+		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& position);
 		CompoundSprite(const sf::Vector2f initialPosition);
 		CompoundSprite(const CompoundSprite& other) = default;
 		CompoundSprite(CompoundSprite&& other) = default;
@@ -29,7 +31,7 @@ namespace GB {
 		virtual ~CompoundSprite();
 
 		//getters
-		std::vector<sf::Sprite*>* getSfSprites();
+		std::vector<sf::Sprite*>* getSprites();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
 		sf::Vector2f getPosition() const;
 		
@@ -39,9 +41,8 @@ namespace GB {
 
 		//add / remove
 		void addSprite(sf::Sprite* component);
-		void addAnimatedSprite(AnimatedSprite* component);
+		void addSprite(AnimatedSprite* component);
 		void removeSprite(sf::Sprite* component);
-		void removeAnimatedSprite(AnimatedSprite* component);
 		void clearComponents();
 
 		//operations
@@ -53,11 +54,8 @@ namespace GB {
 		void rotate(float degreeOffset);
 		void setRotation(float newRotation);
 
-		void rotateAnimatedSprites(std::set<size_t> indiciesToRotate, float degreeOffset);
-		void setRotationAnimatedSprites(std::set<size_t> indicesToRotate, float newRotation);
-
-		void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
-		void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
+		void rotateSprites(std::set<size_t> indicesToRotate, float degreeOffset);
+		void setRotationOfSprites(std::set<size_t> indicesToRotate, float newRotation);
 
 		void move(float offsetX, float offsetY);
 		void move(Point2D<float> offset);
@@ -65,9 +63,11 @@ namespace GB {
 		virtual void update(sf::Time currentTime);
 
 	protected:
+		void removeAnimatedSprite(AnimatedSprite* component);
 		std::vector<sf::Sprite*> sprites;
 		std::vector<AnimatedSprite*> animatedSprites;
 		sf::Vector2f position;
+
 	};
 
 }
