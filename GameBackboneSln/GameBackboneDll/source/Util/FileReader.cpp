@@ -66,3 +66,26 @@ Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int tot
 
 	return fileArray;
 }
+
+std::string FileReader::readFileBinaryInput(std::string filePath) {
+	std::ifstream inFile(filePath);
+
+	// Throw an error if the file could not be opened
+	if (!inFile.good())
+	{
+		throw Error::FileReader_BadFile();
+	}
+
+	//std::string savedString((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+	std::string savedString;
+	std::string tempString = "";
+	
+	while (std::getline(inFile, tempString, '\0')) {
+		savedString += tempString;
+		tempString = "";
+		savedString += '\0';
+	}
+	savedString.pop_back();
+	
+	return savedString;
+}
