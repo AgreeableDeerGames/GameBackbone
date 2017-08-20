@@ -36,8 +36,8 @@ namespace GB {
 		sf::Vector2f getPosition() const;
 		
 		//setters
-		void setPosition(sf::Vector2f val);
-		void setPosition(float x, float y);
+		virtual void setPosition(sf::Vector2f val);
+		virtual void setPosition(float x, float y);
 
 		//add / remove
 		virtual void addComponent(sf::Sprite* component);

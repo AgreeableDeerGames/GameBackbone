@@ -51,75 +51,63 @@ RelativeRotationSprite::RelativeRotationSprite() : CompoundSprite(){}
 /// </summary>
 RelativeRotationSprite::~RelativeRotationSprite() {
 }
-/*
-Point2D<float> RelativeRotationSprite::getUnscaledOrigin() const {
-	return unscaledOrigin;
-}
-
-void RelativeRotationSprite::setUnscaledOrigin(Point2D<float> val) {
-	unscaledOrigin = val;
-}
-
-void RelativeRotationSprite::setUnscaledOrigin(float x, float y){
-	unscaledOrigin = {x, y};
-}*/
 
 
 // Add / remove
 
 /// <summary>
-/// adds a sprite component to the CompoundSprite
+/// Adds a sprite component to the CompoundSprite. This sprite's position will be set to the CompoundSprite's position, 
+/// and the sprite's origin will be set using the relative offset. 
+/// The position and origin will be updated automatically by the RelativeRotationSprite.
 /// </summary>
-/// <param name="component">new sprite component of the compound sprite.</param>
+/// <param name="component">New sprite component of the compound sprite.</param>
 void RelativeRotationSprite::addComponent(sf::Sprite * component) {
 	CompoundSprite::addComponent(component);
 
-	//TODO: Stuff with ORIGIN
 	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
-
-	//component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
-	//component->setOrigin(position.x, position.y);
+	component->setPosition(position.x, position.y);
 }
 
-void RelativeRotationSprite::addComponent(sf::Sprite* component, Point2D<float> relativeOffset) {
+/// <summary>
+/// Adds a sprite component to the CompoundSprite. This sprite's origin will be set using the passed in offset.
+/// It is expected that the position of the sprite is the same as the compound sprite.
+/// The position and origin will be updated automatically by the RelativeRotationSprite.
+/// </summary>
+/// <param name="component">The component.</param>
+/// <param name="relativeOffset">The relative offset.</param>
+void RelativeRotationSprite::addComponent(sf::Sprite* component, sf::Vector2f relativeOffset) {
 	CompoundSprite::addComponent(component);
 
-	//TODO: Stuff with ORIGIN
 	component->setOrigin(relativeOffset.x, relativeOffset.y);
 }
 
 
 /// <summary>
-/// Adds an AnimatedSprite component to the CompoundSprite
+/// Adds an AnimatedSprite component to the CompoundSprite. This sprite's position will be set to the CompoundSprite's position,
+/// and the sprite's origin will be set using the relative offset. 
+/// The position and origin will be updated automatically by the RelativeRotationSprite.
 /// </summary>
 /// <param name="component">New Animated Sprite component of the compound sprite.</param>
 void RelativeRotationSprite::addComponent(AnimatedSprite * component) {
 	CompoundSprite::addComponent(component);
 
-	//TODO: Stuff with ORIGIN
+	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
+	component->setPosition(position.x, position.y);
 }
 
-void RelativeRotationSprite::addComponent(AnimatedSprite* component, Point2D<float> relativeOffset){
+/// <summary>
+/// Adds an AnimatedSprite component to the CompoundSprite. This sprite's origin will be set using the passed in offset.
+/// It is expected that the position of the sprite is the same as the compound sprite.
+/// The position and origin will be updated automatically by the RelativeRotationSprite.
+/// </summary>
+/// <param name="component">The component.</param>
+/// <param name="relativeOffset">The relative offset.</param>
+void RelativeRotationSprite::addComponent(AnimatedSprite* component, sf::Vector2f relativeOffset){
 	CompoundSprite::addComponent(component);
 
-	//TODO: Stuff with ORIGIN
+	component->setOrigin(relativeOffset.x, relativeOffset.y);
 }
 
-
-void RelativeRotationSprite::removeComponent(sf::Sprite* component) {
-	auto it = std::find(components.begin(), components.end(), component);
-	int index = it - components.begin();
-
-	CompoundSprite::removeComponent(component);
-
-	//TODO: Remove things from vectors
-}
-
-void RelativeRotationSprite::clearComponents(){
-	CompoundSprite::clearComponents();
-
-	//TODO: Remove things from vectors
-}
 
 
 // operations
@@ -136,9 +124,6 @@ void RelativeRotationSprite::scale(float factorX, float factorY) {
 	for (size_t ii = 0; ii < components.size(); ++ii) {
 		components[ii]->setOrigin(factorX*components[ii]->getOrigin().x, factorY*components[ii]->getOrigin().y);
 	}
-	/*for (size_t ii = 0; ii < animatedSprites.size(); ++ii) {
-		animatedSprites[ii]->scale(factorX*animatedSprites[ii]->getOrigin().x, factorY*animatedSprites[ii]->getOrigin().y);
-	}*/
 }
 
 /// <summary>
@@ -147,6 +132,49 @@ void RelativeRotationSprite::scale(float factorX, float factorY) {
 /// <param name="newScale">The new scale.</param>
 void RelativeRotationSprite::scale(sf::Vector2f newScale) {
 	RelativeRotationSprite::scale(newScale.x, newScale.y);
+}
+
+
+/// <summary>
+/// Moves all the components of the compound sprite by the same offset.
+/// </summary>
+/// <param name="offset">The offset.</param>
+void RelativeRotationSprite::move(sf::Vector2f offset) {
+	RelativeRotationSprite::move(offset.x, offset.y);
+}
+
+
+/// <summary>
+/// Moves all the components of the compound sprite by the same offset.
+/// </summary>
+/// <param name="offset">The offset.</param>
+void RelativeRotationSprite::move(float x, float y) {
+	CompoundSprite::move(x, y);
+
+	// Update the origins
+	for (size_t ii = 0; ii < components.size(); ++ii) {
+		components[ii]->setOrigin(x+components[ii]->getOrigin().x, y+components[ii]->getOrigin().y);
+	}
+}
+
+/// <summary>
+/// Sets the position.
+/// </summary>
+/// <param name="x">The new x.</param>
+/// <param name="y">The new y.</param>
+void RelativeRotationSprite::setPosition(sf::Vector2f val) {
+	RelativeRotationSprite::setPosition(val.x, val.y);
+}
+
+/// <summary>
+/// Sets the position.
+/// </summary>
+/// <param name="x">The new x.</param>
+/// <param name="y">The new y.</param>
+void RelativeRotationSprite::setPosition(float x, float y) {
+	sf::Vector2f oldPosition = position;
+
+	RelativeRotationSprite::move(x - oldPosition.x, y - oldPosition.y);
 }
 
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Backbone\CoreEventController.h>
+#include <NavigationDemoREgion.h>
+#include <SwirlyDemoRegion.h>
 
 class BackboneExeCoreEventController : public GB::CoreEventController {
 public:
@@ -19,6 +21,9 @@ private:
 	sf::View camera;
 	int oldMouseX;
 	int oldMouseY;
+
+	GB::NavigationDemoRegion* navigationRegion;
+	GB::SwirlyDemoRegion* swirlyRegion;
 
 };
 

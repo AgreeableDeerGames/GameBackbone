@@ -22,28 +22,22 @@ namespace GB {
 		RelativeRotationSprite& operator= (RelativeRotationSprite&& other) = default;
 		virtual ~RelativeRotationSprite();
 
-		/*//getters
-		Point2D<float> getUnscaledOrigin() const;
-
-		//setters
-		void setUnscaledOrigin(Point2D<float> val);
-		void setUnscaledOrigin(float x, float y);*/
-
 		//add / remove
 		virtual void addComponent(sf::Sprite* component) override;
-		virtual void addComponent(sf::Sprite* component, Point2D<float> relativeOffset);
+		virtual void addComponent(sf::Sprite* component, sf::Vector2f relativeOffset);
 		virtual void addComponent(AnimatedSprite* component) override;
-		virtual void addComponent(AnimatedSprite* component, Point2D<float> relativeOffset);
-
-		virtual void removeComponent(sf::Sprite* component) override;
-		virtual void clearComponents() override;
+		virtual void addComponent(AnimatedSprite* component, sf::Vector2f relativeOffset);
 
 		//operations
 		virtual void scale(float factorX, float factorY) override;
 		virtual void scale(sf::Vector2f newScale) override;
 
+		virtual void move(float offsetX, float offsetY);
+		virtual void move(sf::Vector2f offset);
+		virtual void setPosition(sf::Vector2f val);
+		virtual void setPosition(float x, float y);
+
 	protected:
-		//std::vector<Point2D<float>> relativeOffsets;
 
 	private:
 		virtual void setScale(float factorX, float factorY) final;

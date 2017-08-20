@@ -12,7 +12,9 @@ using namespace GB;
 /// </summary>
 BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventController() {
 	//init region and camera
-	activeRegion = new GB::NavigationDemoRegion(*window);
+	navigationRegion = new NavigationDemoRegion(*window);
+	swirlyRegion = new SwirlyDemoRegion(*window);
+	activeRegion = swirlyRegion;
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 
 	//initialize the mouse origin to the center of the window.
@@ -24,7 +26,8 @@ BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventCont
 /// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
 /// </summary>
 BackboneExeCoreEventController::~BackboneExeCoreEventController() {
-	delete activeRegion;
+	delete navigationRegion;
+	delete swirlyRegion;
 }
 
 //events
@@ -50,14 +53,19 @@ bool BackboneExeCoreEventController::handleCoreEvent(sf::Event & event) {
 
 		sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
-		static_cast<NavigationDemoRegion*>(activeRegion)->handleMouseDrag(actualPosition);
+		static_cast<SwirlyDemoRegion*>(activeRegion)->handleMouseMove(actualPosition);
 		return true;
 	}
 	case sf::Event::MouseButtonPressed:
 	{
 		sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
-		static_cast<NavigationDemoRegion*>(activeRegion)->handleMouseClick(actualPosition, event.mouseButton.button);
+		static_cast<SwirlyDemoRegion*>(activeRegion)->handleMouseClick(actualPosition, event.mouseButton.button);
+		return true;
+	}
+	case sf::Event::MouseWheelScrolled:
+	{
+		static_cast<SwirlyDemoRegion*>(activeRegion)->handleWheelScroll(event.mouseWheelScroll.delta);
 		return true;
 	}
 	case sf::Event::Resized:

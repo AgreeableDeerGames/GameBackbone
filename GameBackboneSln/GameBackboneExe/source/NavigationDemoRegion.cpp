@@ -120,6 +120,14 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 		pathsReturn.resize(pathRequests.size());
 		regionPathfinder.pathFind(pathRequests, &pathsReturn);
 	}
+	else if (button == sf::Mouse::Right)
+	{
+		compSprite->scale({1.25, 1.25});
+	}
+	else if (button == sf::Mouse::Middle)
+	{
+		compSprite->scale({.75, .75});
+	}
 }
 
 
@@ -170,16 +178,31 @@ void GB::NavigationDemoRegion::init() {
 	compComponent1 = new sf::Sprite(*navigatorTexture);
 	compComponent2 = new sf::Sprite(*navigatorTexture);
 	compComponent3 = new sf::Sprite(*navigatorTexture);
+
+	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+
+	/*
+	// This is the working version of addComponent using the relative position 
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });*/
+
+	// This is the working version of addComponent using the relative position 
+	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 80, COMPOUND_SPRITE_TEST_y);
+	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y + 80);
+	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1);
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2);
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3);
+
+
+
 	compComponent1->setColor(sf::Color::Magenta);
 	compComponent2->setColor(sf::Color::White);
 	compComponent3->setColor(sf::Color::Green);
-	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
 	
 	/*compComponent1->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X*1.25, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y);
 	compComponent2->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y*1.25);
