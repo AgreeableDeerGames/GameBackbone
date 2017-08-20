@@ -130,10 +130,10 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 /// <param name="destination">The destination.</param>
 /// <param name="maxStepLength">Maximum length that the sprite can move.</param>
 /// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
-void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
-	const sf::Vector2f& destination,
-	const float maxStepLength,
-	const std::set<size_t>& spritesToRotate) {
+void GB::moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
+										const sf::Vector2f& destination,
+										const float maxStepLength,
+										const std::set<size_t>& spritesToRotate) {
 
 	const std::vector<CompoundSprite*> sprites{ &sprite };
 	const std::vector<sf::Vector2f> destinations{ destination };
@@ -151,7 +151,7 @@ void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 /// <param name="destinations">The destinations.</param>
 /// <param name="maxStepLengths">The maximum distance to move the sprites.</param>
 /// <param name="spritesToRotate">The sprites to rotate.</param>
-void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
+void GB::bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
 											const std::vector<sf::Vector2f>& destinations,
 											const std::vector<float>& maxStepLengths,
 											const std::vector<std::set<size_t>>& spritesToRotate)
