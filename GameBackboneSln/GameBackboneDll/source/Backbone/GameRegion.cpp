@@ -96,7 +96,7 @@ void GameRegion::setDrawable(bool status, sf::Sprite * object) {
 /// <param name="status">if set to <c>true</c> the object will be drawable, otherwise the object will be made non-drawable.</param>
 /// <param name="object">The object.</param>
 void GameRegion::setDrawable(bool status, CompoundSprite * object) {
-	for (sf::Sprite* sprite : *(object->getSprites()) ) {
+	for (sf::Sprite* sprite : *(object->getComponents()) ) {
 		setDrawable(status, sprite);
 	}
 }

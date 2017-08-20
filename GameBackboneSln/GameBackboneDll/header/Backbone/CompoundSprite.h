@@ -31,7 +31,7 @@ namespace GB {
 		virtual ~CompoundSprite();
 
 		//getters
-		std::vector<sf::Sprite*>* getSprites();
+		std::vector<sf::Sprite*>* getComponents();
 		std::vector<AnimatedSprite*>* getAnimatedSprites();
 		sf::Vector2f getPosition() const;
 		
@@ -42,7 +42,7 @@ namespace GB {
 		//add / remove
 		void addComponent(sf::Sprite* component);
 		void addComponent(AnimatedSprite* component);
-		void removeSprite(sf::Sprite* component);
+		void removeComponent(sf::Sprite* component);
 		void clearComponents();
 
 		//operations
@@ -54,8 +54,8 @@ namespace GB {
 		void rotate(float degreeOffset);
 		void setRotation(float newRotation);
 
-		void rotateSprites(std::set<size_t> indicesToRotate, float degreeOffset);
-		void setRotationOfSprites(std::set<size_t> indicesToRotate, float newRotation);
+		void rotateComponents(std::set<size_t> indicesToRotate, float degreeOffset);
+		void setRotationOfComponents(std::set<size_t> indicesToRotate, float newRotation);
 
 		void move(float offsetX, float offsetY);
 		void move(sf::Vector2f offset);

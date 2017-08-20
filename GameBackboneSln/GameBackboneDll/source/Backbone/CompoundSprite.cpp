@@ -86,7 +86,7 @@ CompoundSprite::~CompoundSprite() {
 /// returns the components of the CompoundSprite
 /// </summary>
 /// <returns>The non animated sprite components of the CompoundSprite.</returns>
-std::vector<sf::Sprite*>* CompoundSprite::getSprites() {
+std::vector<sf::Sprite*>* CompoundSprite::getComponents() {
 	return &components;
 }
 
@@ -155,7 +155,7 @@ void CompoundSprite::addComponent(AnimatedSprite * component) {
 /// Removes the passed component from the CompoundSprite
 /// </summary>
 /// <param name="component">The component to remove from the compound sprite</param>
-void CompoundSprite::removeSprite(sf::Sprite * component) {
+void CompoundSprite::removeComponent(sf::Sprite * component) {
 
 	// find the component and remove it from all pertinent vectors
 	auto it = std::find(components.begin(), components.end(), component);
@@ -243,7 +243,7 @@ void CompoundSprite::rotate(float degreeOffset) {
 }
 
 /// <summary>
-/// Sets the of all components in the compound sprite.
+/// Sets the rotation of all components in the compound sprite.
 /// </summary>
 /// <param name="newRotation">The new rotation.</param>
 void CompoundSprite::setRotation(float newRotation) {
@@ -257,7 +257,7 @@ void CompoundSprite::setRotation(float newRotation) {
 /// </summary>
 /// <param name="indicesToRotate">The indices to rotate.</param>
 /// <param name="degreeOffset">The offset to the current rotation.</param>
-void CompoundSprite::rotateSprites(std::set<size_t> indicesToRotate, float degreeOffset) {
+void CompoundSprite::rotateComponents(std::set<size_t> indicesToRotate, float degreeOffset) {
 	for (size_t index : indicesToRotate) {
 		components.at(index)->rotate(degreeOffset);
 	}
@@ -268,7 +268,7 @@ void CompoundSprite::rotateSprites(std::set<size_t> indicesToRotate, float degre
 /// </summary>
 /// <param name="indicesToRotate">The indices to rotate.</param>
 /// <param name="newRotation">The new rotation.</param>
-void CompoundSprite::setRotationOfSprites(std::set<size_t> indicesToRotate, float newRotation) {
+void CompoundSprite::setRotationOfComponents(std::set<size_t> indicesToRotate, float newRotation) {
 	for (size_t index : indicesToRotate) {
 		components.at(index)->setRotation(newRotation);
 	}
