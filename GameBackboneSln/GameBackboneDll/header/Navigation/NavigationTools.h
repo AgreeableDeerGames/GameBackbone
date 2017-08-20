@@ -59,13 +59,13 @@ namespace GB {
 	libGameBackbone extern void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 																   const sf::Vector2f& destination,
 																   const float maxStepLength,
-																   const std::set<unsigned int>& spritesToRotate);
+																   const std::set<size_t>& spritesToRotate);
 
 
 	libGameBackbone extern void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
 																	   const std::vector<sf::Vector2f>& destinations,
 																	   const std::vector<float>& maxStepLengths,
-																	   const std::vector<std::set<unsigned int>>& spritesToRotate);
+																	   const std::vector<std::set<size_t>>& spritesToRotate);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement along path

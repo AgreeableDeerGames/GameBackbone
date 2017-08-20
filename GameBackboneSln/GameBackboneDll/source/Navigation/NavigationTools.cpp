@@ -134,11 +134,9 @@ void GB::bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites,
 void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 	const sf::Vector2f& destination,
 	const float maxStepLength,
-	const bool orientSpriteToDestination = true) {
+	const std::set<size_t>& spritesToRotate) {
 
 }
-
-
 
 /// <summary>
 /// Moves all passed CompoundSprites towards the destination of the same index.
@@ -151,7 +149,7 @@ void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
 											const std::vector<sf::Vector2f>& destinations,
 											const std::vector<float>& maxStepLengths,
-											const std::vector<std::set<unsigned int>>& spritesToRotate)
+											const std::vector<std::set<size_t>>& spritesToRotate)
 {
 	// ensure that all arrays are the same size
 	if (sprites.size() != destinations.size() || sprites.size() != maxStepLengths.size() || sprites.size() != spritesToRotate.size()) {
@@ -170,15 +168,13 @@ void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& 
 
 		// orient components towards destination
 		if (distanceToDestination != 0) {
-	
-			//TODO : orient components towards destination
+			for (unsigned int indexToRotate : spritesToRotate[ii]) {
+				(*sprite->getSprites())[indexToRotate]->setRotation(angleToDestination);
+			}
 		}
 
 	}
-
 }
-
-
 
 /// <summary>
 /// Moves a sprite one step forward along path.
