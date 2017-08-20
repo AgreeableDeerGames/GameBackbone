@@ -105,24 +105,64 @@ BOOST_AUTO_TEST_SUITE(CompoundSprite_ctr)
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_ctr, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
-	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(compoundSprite->getSprites()->empty());
 	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());
 	BOOST_CHECK(compoundSprite->getPosition().x == 0 && compoundSprite->getPosition().y == 0);
 
 	delete compoundSprite;
 }
 
-// Test that constructing the CompundSprite with its components correctly sets the components.
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite_ctr, ReusableObjects) {
+// Test that constructing a compound sprite with a single sprite input vector correctly sets its components and position
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_ctr, ReusableObjects) {
+	std::vector<sf::Sprite*> spriteVector{ sprite, animSpriteWithAnim1, animSpriteWithAnim2 };
+	std::vector<AnimatedSprite*> animatedSpriteVector{ animSpriteWithAnim1, animSpriteWithAnim2 };
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector);
+
+	// ensure that all of the passed sprites are identified as component sprites
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getSprites()->begin(), compoundSprite->getSprites()->end(), spriteVector.begin(), spriteVector.end());
+
+	// ensure that the animated sprites from the input vector are correctly identified
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getAnimatedSprites()->begin(), compoundSprite->getAnimatedSprites()->end(), animatedSpriteVector.begin(), animatedSpriteVector.end());
+
+	// ensure that the position of the compound sprite is set correctly
+	BOOST_CHECK(compoundSprite->getPosition().x == 0 && compoundSprite->getPosition().y == 0);
+
+	delete compoundSprite;
+}
+
+
+// Test that constructing a compound sprite with a single sprite input vector correctly sets its components and position
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_setPosition_ctr, ReusableObjects) {
+	std::vector<sf::Sprite*> spriteVector{ sprite, animSpriteWithAnim1, animSpriteWithAnim2 };
+	std::vector<AnimatedSprite*> animatedSpriteVector{ animSpriteWithAnim1, animSpriteWithAnim2 };
+	const sf::Vector2f compoundSpritePos{ 3,3 };
+
+	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, compoundSpritePos);
+
+	// ensure that all of the passed sprites are identified as component sprites
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getSprites()->begin(), compoundSprite->getSprites()->end(), spriteVector.begin(), spriteVector.end());
+
+	// ensure that the animated sprites from the input vector are correctly identified
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getAnimatedSprites()->begin(), compoundSprite->getAnimatedSprites()->end(), animatedSpriteVector.begin(), animatedSpriteVector.end());
+
+	// check that the position is correctly assigned.
+	BOOST_CHECK(compoundSprite->getPosition().x == compoundSpritePos.x && compoundSprite->getPosition().y == compoundSpritePos.y);
+
+
+	delete compoundSprite;
+}
+
+// Test that constructing the CompundSprite with its components correctly sets the components
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_ctr, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector{sprite};
 	std::vector<AnimatedSprite*> animatedSpriteVector{animSpriteWithAnim1, animSpriteWithAnim2};
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
 
 	//check that the internal vectors have the correct values
-	BOOST_CHECK(!compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(!compoundSprite->getSprites()->empty());
 	for (unsigned int i = 0; i < spriteVector.size(); ++i) {
-		BOOST_CHECK(compoundSprite->getSfSprites()->at(i) == spriteVector[i]);
+		BOOST_CHECK(compoundSprite->getSprites()->at(i) == spriteVector[i]);
 	}
 	BOOST_CHECK(!compoundSprite->getAnimatedSprites()->empty());
 	for (unsigned int i = 0; i < animatedSpriteVector.size(); ++i) {
@@ -143,14 +183,14 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_Empty_Component_Vector_ctr) {
 
 	//check that the component vectors are empty
 	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());
-	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(compoundSprite->getSprites()->empty());
 
 
 	delete compoundSprite;
 }
 
 // Test that CompoundSprite gets its components and position correctly set.
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprites_setPosition_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_setPosition_ctr, ReusableObjects) {
 	std::vector<sf::Sprite*> sprites{sprite};
 	std::vector<AnimatedSprite*> animSprites{animSpriteWithAnim1, animSpriteWithAnim2};
 	const sf::Vector2f compoundSpritePos{ 3,3 };
@@ -158,7 +198,14 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprites_setPosition_ctr, ReusableObjec
 	CompoundSprite* compoundSprite = new CompoundSprite(sprites, animSprites, compoundSpritePos);
 
 	// check that the components of the sprite are correctly assigned.
-	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getSfSprites()->begin(), compoundSprite->getSfSprites()->end(), sprites.begin(), sprites.end());
+	std::vector<sf::Sprite*> combinedSpriteVector;
+	combinedSpriteVector.insert(combinedSpriteVector.end(), sprites.begin(), sprites.end());
+	combinedSpriteVector.insert(combinedSpriteVector.end(), animSprites.begin(), animSprites.end());
+
+	// check that both sprites and animated sprites are stored in the sprites vector, and that they are in the correct order
+	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getSprites()->begin(), compoundSprite->getSprites()->end(), combinedSpriteVector.begin(), combinedSpriteVector.end());
+
+	// check that the animated sprite components were correctly found
 	BOOST_CHECK_EQUAL_COLLECTIONS(compoundSprite->getAnimatedSprites()->begin(), compoundSprite->getAnimatedSprites()->end(), animSprites.begin(), animSprites.end());
 
 	// check that the position is correctly assigned.
@@ -174,7 +221,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_ctr) {
 	CompoundSprite* compoundSprite = new CompoundSprite(compoundSpritePos);
 
 	BOOST_CHECK(compoundSprite->getPosition().x == compoundSpritePos.x && compoundSprite->getPosition().y == compoundSpritePos.y);
-	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(compoundSprite->getSprites()->empty());
 	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());
 
 	delete compoundSprite;
@@ -185,7 +232,8 @@ BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_ctr
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_getter)
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSfSprites_Populated_Input_Vectors, ReusableObjects) {
+// Test that CompoundSprite correctly adds all sprites and animated sprites to its sprites vector
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Populated_Input_Vectors, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector;
 	std::vector<AnimatedSprite*> animatedSpriteVector;
 
@@ -194,55 +242,65 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSfSprites_Populated_Input_Vectors, Reu
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
 	
-	BOOST_CHECK(compoundSprite->getSfSprites()->size() == 1);
-	BOOST_CHECK(compoundSprite->getSfSprites()->at(0) == sprite);
+	// ensure that both sprites and animated sprites are added
+	BOOST_CHECK(compoundSprite->getSprites()->size() == 2);
+	BOOST_CHECK(compoundSprite->getSprites()->at(0) == sprite);
+	BOOST_CHECK(compoundSprite->getSprites()->at(1) == animSpriteWithAnim1);
 
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSfSprites_Populated_Sprite_Vector, ReusableObjects) {
+// Test that CompoundSprite correctly gets sprites when only the sprites vector is populated
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Populated_Sprite_Vector, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector;
 	std::vector<AnimatedSprite*> animatedSpriteVector;
 
 	spriteVector.push_back(sprite);
-	animatedSpriteVector.push_back(animSpriteWithAnim1);
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
 
-	BOOST_CHECK(compoundSprite->getSfSprites()->size() == 1);
-	BOOST_CHECK(compoundSprite->getSfSprites()->at(0) == sprite);
+	// check that the sprite from the input vector was correctly added
+	BOOST_CHECK(compoundSprite->getSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getSprites()->at(0) == sprite);
 
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSfSprites_Populated_Animated_Vector, ReusableObjects) {
+// Test that CompoundSprite correctly gets sprites when only the animated sprites vector was populated on construction
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Populated_Animated_Vector, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector;
 	std::vector<AnimatedSprite*> animatedSpriteVector;
 
 	animatedSpriteVector.push_back(animSpriteWithAnim1);
+	animatedSpriteVector.push_back(animSpriteWithAnim2);
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
 
-	BOOST_CHECK(compoundSprite->getSfSprites()->size() == 0);
+	// check that the correct number of sprites is found
+	BOOST_CHECK(compoundSprite->getSprites()->size() == 2);
+
+	// check that the added sprites are correct
+	BOOST_CHECK(compoundSprite->getSprites()->at(0) == animSpriteWithAnim1);
+	BOOST_CHECK(compoundSprite->getSprites()->at(1) == animSpriteWithAnim2);
 
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSfSprites_Empty_Input_Vectors, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Empty_Input_Vectors, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector;
 	std::vector<AnimatedSprite*> emptyAnimatedSpriteVector;
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, emptyAnimatedSpriteVector);
 
-	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(compoundSprite->getSprites()->empty());
 	
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSfSprites_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_default_ctr, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
-	BOOST_CHECK(compoundSprite->getSfSprites()->empty());
+	BOOST_CHECK(compoundSprite->getSprites()->empty());
 
 	delete compoundSprite;
 }
@@ -317,7 +375,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->addSprite(sprite);
-	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSprites();
 
 	auto it = std::find(spriteVector->begin(), spriteVector->end(), sprite);
 	BOOST_CHECK(it != spriteVector->end());
@@ -325,10 +383,10 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite, ReusableObjects) {
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addAnimatedSprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite_AnimatedSprite, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
-	compoundSprite->addAnimatedSprite(animSpriteWithAnim1);
+	compoundSprite->addSprite(animSpriteWithAnim1);
 	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
 
 	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), animSpriteWithAnim1);
@@ -347,7 +405,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite, ReusableObjects) {
 
 	compoundSprite->addSprite(sprite);
 	compoundSprite->removeSprite(sprite);
-	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSprites();
 
 	BOOST_CHECK(spriteVector->empty());
 
@@ -357,43 +415,37 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite, ReusableObjects) {
 	delete compoundSprite;
 }
 
+// Test that when removing an animated sprite the correct sprite is removed.
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite_AnimatedSprite, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	compoundSprite->addSprite(animSpriteWithAnim1);
+	compoundSprite->addSprite(animSpriteWithAnim2);
+	compoundSprite->removeSprite(animSpriteWithAnim1);
+	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSprites();
+
+	//Ensure that the compound sprite correctly removed the selected sprite
+	BOOST_CHECK(animatedSpriteVector->size() == 1);
+	BOOST_CHECK(spriteVector->size() == 1);
+	BOOST_CHECK(spriteVector->at(0) == animSpriteWithAnim2);
+
+	delete compoundSprite;
+}
+
+// Test that removing a sprite that was never in the compound sprite has no impact on the sprite
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite_empty, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
-	compoundSprite->removeSprite(sprite);
-	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
-
-	BOOST_CHECK(spriteVector->empty());
-
-	auto it = std::find(spriteVector->begin(), spriteVector->end(), sprite);
-	BOOST_CHECK(it == spriteVector->end());
-
-	delete compoundSprite;
-}
-
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeAnimatedSprite, ReusableObjects) {
-	CompoundSprite* compoundSprite = new CompoundSprite();
-
-	compoundSprite->addAnimatedSprite(animSpriteWithAnim1);
-	compoundSprite->removeAnimatedSprite(animSpriteWithAnim1);
+	compoundSprite->addSprite(animSpriteWithAnim1);
 	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
-
-	BOOST_CHECK(animatedSpriteVector->empty());
-	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), animSpriteWithAnim1);
-	BOOST_CHECK(it == animatedSpriteVector->end());
-
-	delete compoundSprite;
-}
-
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeAnimatedSprite_empty, ReusableObjects) {
-	CompoundSprite* compoundSprite = new CompoundSprite();
 	
 	compoundSprite->removeSprite(sprite);
-	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
 
-	BOOST_CHECK(animatedSpriteVector->empty());
-	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), animSpriteWithAnim1);
-	BOOST_CHECK(it == animatedSpriteVector->end());
+	// ensure that the state of the sprite is the same as before the removal
+	BOOST_CHECK(animatedSpriteVector->size() == 1);
+	BOOST_CHECK(compoundSprite->getSprites()->size() == 1);
+	BOOST_CHECK(compoundSprite->getSprites()->at(0) == animSpriteWithAnim1);
 
 	delete compoundSprite;
 }
@@ -402,11 +454,11 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_clearComponents, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->addSprite(sprite);
-	compoundSprite->addAnimatedSprite(animSpriteWithAnim1);
-	compoundSprite->addAnimatedSprite(animSpriteWithAnim2);
+	compoundSprite->addSprite(animSpriteWithAnim1);
+	compoundSprite->addSprite(animSpriteWithAnim2);
 
 	compoundSprite->clearComponents();
-	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSprites();
 	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
 
 	BOOST_CHECK(spriteVector->empty());
@@ -419,7 +471,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_clearComponents_empty, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->clearComponents();
-	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSfSprites();
+	std::vector<sf::Sprite*> *spriteVector = compoundSprite->getSprites();
 	std::vector<AnimatedSprite*> *animatedSpriteVector = compoundSprite->getAnimatedSprites();
 
 	BOOST_CHECK(spriteVector->empty());
@@ -476,7 +528,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	compoundSprite->scale(X_SCALE_FACTOR, Y_SCALE_FACTOR);
 
 	//ensure all sprites got the correct scale
-	for (sf::Sprite* sprite : *(compoundSprite->getSfSprites()))
+	for (sf::Sprite* sprite : *(compoundSprite->getSprites()))
 	{
 		BOOST_CHECK(sprite->getScale().x == X_SCALE_FACTOR);
 		BOOST_CHECK(sprite->getScale().y == Y_SCALE_FACTOR);
@@ -505,7 +557,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_Two_Inputs, ReusableObjectsForOp
 	compoundSprite->setScale(SCALE_FACTOR_X, SCALE_FACTOR_Y);
 
 	// ensure that the scale of the sprite components has been set
-	for (auto sprite : *compoundSprite->getSfSprites()) {
+	for (auto sprite : *compoundSprite->getSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getScale().x, SCALE_FACTOR_X);
 		BOOST_CHECK_EQUAL(sprite->getScale().y, SCALE_FACTOR_Y);
 	}
@@ -525,7 +577,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOpe
 	compoundSprite->setScale(SCALE_FACTOR);
 
 	// ensure that the scale of the sprite components has been set
-	for (auto sprite : *compoundSprite->getSfSprites()) {
+	for (auto sprite : *compoundSprite->getSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getScale().x, SCALE_FACTOR_X);
 		BOOST_CHECK_EQUAL(sprite->getScale().y, SCALE_FACTOR_Y);
 	}
@@ -547,7 +599,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
 	compoundSprite.scale(SCALE);
 
 	//ensure that all components were scaled correctly
-	for (auto sprite : *compoundSprite.getSfSprites()) {
+	for (auto sprite : *compoundSprite.getSprites()) {
 		BOOST_CHECK(sprite->getScale().x == SCALE.x && sprite->getScale().y == SCALE.y);
 	}
 	for (auto sprite : *compoundSprite.getAnimatedSprites()) {
@@ -564,7 +616,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_rotate_rotate_from_zero, ReusableObjectsF
 	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
-	for (auto sprite : *compoundSprite->getSfSprites()) {
+	for (auto sprite : *compoundSprite->getSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
 }
@@ -581,7 +633,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Additive_Rotate, ReusableObjectsFo
 	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), NUM_ROTATIONS * ROTATION);
 	}
-	for (auto sprite : *compoundSprite->getSfSprites()) {
+	for (auto sprite : *compoundSprite->getSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), NUM_ROTATIONS * ROTATION);
 	}
 }
@@ -596,7 +648,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_rotate_from_zero, ReusableObj
 	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
-	for (auto sprite : *compoundSprite->getSfSprites()) {
+	for (auto sprite : *compoundSprite->getSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
 }
@@ -613,7 +665,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_NonAdditive_Rotate, ReusableO
 	for (auto sprite : *compoundSprite->getAnimatedSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
-	for (auto sprite : *compoundSprite->getSfSprites()) {
+	for (auto sprite : *compoundSprite->getSprites()) {
 		BOOST_CHECK_EQUAL(sprite->getRotation(), ROTATION);
 	}
 }
@@ -644,7 +696,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	compoundSprite->move(X_OFFSET, Y_OFFSET);
 
 	//ensure all sprites got the correct position
-	for (sf::Sprite* sprite : *(compoundSprite->getSfSprites()))
+	for (sf::Sprite* sprite : *(compoundSprite->getSprites()))
 	{
 		BOOST_CHECK_CLOSE_FRACTION(sprite->getPosition().x, X_OFFSET, 1.0f);
 		BOOST_CHECK_CLOSE_FRACTION(sprite->getPosition().y, Y_OFFSET, 1.0f);
