@@ -73,8 +73,7 @@ static inline void moveMovableStepTowardsPoint(T* movableObject,
 	// Move directly to the destination if it's within reach
 	if (distanceToDestination <= maxStepLength) {
 		movableObject->setPosition(destination);
-	}
-	else { // Move the sprite as close as possible to the destination
+	} else { // Move the sprite as close as possible to the destination
 		float xProgress = cosf(angleToDest) * maxStepLength;
 		float yProgress = sinf(angleToDest) * maxStepLength;
 
