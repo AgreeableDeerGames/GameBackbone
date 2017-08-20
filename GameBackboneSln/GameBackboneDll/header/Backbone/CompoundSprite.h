@@ -19,11 +19,11 @@ namespace GB {
 		//ctr / dtr
 		//shallow copy and move are fine for this class
 		CompoundSprite();
-		CompoundSprite(const std::vector<sf::Sprite*>& sprites);
+		explicit CompoundSprite(const std::vector<sf::Sprite*>& sprites);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const sf::Vector2f& position);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& position);
-		CompoundSprite(const sf::Vector2f initialPosition);
+		explicit CompoundSprite(const sf::Vector2f initialPosition);
 		CompoundSprite(const CompoundSprite& other) = default;
 		CompoundSprite(CompoundSprite&& other) = default;
 		CompoundSprite& operator= (const CompoundSprite& other) = default;
