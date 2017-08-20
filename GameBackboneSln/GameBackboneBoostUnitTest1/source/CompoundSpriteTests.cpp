@@ -810,7 +810,17 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 }
 
 // Test that setting the position of the compound sprite correctly sets the position of all of the members
-BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_Vector2f) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Vector2f, ReusableObjectsForOperations) {
+	const float POSITION_X = 123.456;
+	const float POSITION_Y = 654.321;
+	const sf::Vector2f POSITION(POSITION_X, POSITION_Y);
+
+	compoundSprite->setPosition(POSITION);
+
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (sf::Sprite* sprite : *compoundSprite->getComponents()) {
+		BOOST_CHECK(sprite->getPosition().x == POSITION_X && sprite->getPosition().y == POSITION_Y);
+	}
 
 }
 
