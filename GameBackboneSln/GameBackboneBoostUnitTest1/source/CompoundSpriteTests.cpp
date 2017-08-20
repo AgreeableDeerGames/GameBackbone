@@ -809,6 +809,11 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	delete aSpriteTexture;
 }
 
+// Test that setting the position of the compound sprite correctly sets the position of all of the members
+BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_Vector2f) {
+
+}
+
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_opertaions
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSpriteTests
