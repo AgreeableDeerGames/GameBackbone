@@ -19,8 +19,8 @@ namespace GB {
 		//ctr / dtr
 		//shallow copy and move are fine for this class
 		CompoundSprite();
-		explicit CompoundSprite(const std::vector<sf::Sprite*>& sprites);
-		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const sf::Vector2f& position);
+		explicit CompoundSprite(const std::vector<sf::Sprite*>& components);
+		CompoundSprite(const std::vector<sf::Sprite*>& components, const sf::Vector2f& position);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& position);
 		explicit CompoundSprite(const sf::Vector2f initialPosition);
@@ -40,8 +40,8 @@ namespace GB {
 		void setPosition(float x, float y);
 
 		//add / remove
-		void addSprite(sf::Sprite* component);
-		void addSprite(AnimatedSprite* component);
+		void addComponent(sf::Sprite* component);
+		void addComponent(AnimatedSprite* component);
 		void removeSprite(sf::Sprite* component);
 		void clearComponents();
 
@@ -64,7 +64,7 @@ namespace GB {
 
 	protected:
 		void removeAnimatedSprite(AnimatedSprite* component);
-		std::vector<sf::Sprite*> sprites;
+		std::vector<sf::Sprite*> components;
 		std::vector<AnimatedSprite*> animatedSprites;
 		sf::Vector2f position;
 
