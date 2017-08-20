@@ -48,7 +48,7 @@ CompoundSprite::CompoundSprite() : position({ 0,0 }) {}
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed sprites become components of the compound sprite.
 /// Animated sprites from the sprites array are identified via RTTI.
 /// and will update when the compound sprite updates.
-///  The position of the sprite is (0,0).
+/// The position of the sprite is (0,0).
 /// </summary>
 /// <param name="sprites">The sprites.</param>
 CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites) : CompoundSprite(sprites, sf::Vector2f{ 0,0 }) {}
@@ -61,7 +61,7 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites) : Compou
 /// </summary>
 /// <param name="sprites">The sprites.</param>
 /// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const sf::Vector2f & position) {
+CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const sf::Vector2f & position) : position(position){
 
 	// Add any sprites that are AnimatedSprites to AnimatedSprite storage to allow them to be updated
 	for (auto sprite : sprites) {
