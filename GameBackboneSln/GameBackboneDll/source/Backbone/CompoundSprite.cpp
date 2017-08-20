@@ -114,10 +114,7 @@ sf::Vector2f CompoundSprite::getPosition() const {
 /// </summary>
 /// <param name="val">The value.</param>
 void CompoundSprite::setPosition(sf::Vector2f val) {
-	sf::Vector2f oldPosition = position;
-	Point2D<float> positionDifference{ position.x - oldPosition.x, position.y - oldPosition.y };
-
-	move(positionDifference.x, positionDifference.y);
+	setPosition(val.x, val.y);
 }
 
 /// <summary>
@@ -126,10 +123,9 @@ void CompoundSprite::setPosition(sf::Vector2f val) {
 /// <param name="x">The new x.</param>
 /// <param name="y">The new y.</param>
 void CompoundSprite::setPosition(float x, float y) {
-	setPosition({ x,y });
+	sf::Vector2f oldPosition = position;
+	move(x - oldPosition.x, y - oldPosition.y);
 }
-
-
 
 // Add / remove
 
