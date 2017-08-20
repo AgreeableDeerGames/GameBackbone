@@ -67,6 +67,11 @@ Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int tot
 	return fileArray;
 }
 
+/// <summary>
+/// Reads the file as a binary.
+/// </summary>
+/// <param name="filePath">The file path.</param>
+/// <returns></returns>
 std::string FileReader::readFileBinaryInput(std::string filePath) {
 	std::ifstream inFile(filePath);
 
@@ -76,16 +81,24 @@ std::string FileReader::readFileBinaryInput(std::string filePath) {
 		throw Error::FileReader_BadFile();
 	}
 
-	//std::string savedString((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
 	std::string savedString;
 	std::string tempString = "";
 	
+	// We need to do this line by line with a '\0' as the delimiter because normally '\0' splits the string.
 	while (std::getline(inFile, tempString, '\0')) {
 		savedString += tempString;
 		tempString = "";
+
+		// Add the '\0' that we removed back into the string
 		savedString += '\0';
 	}
-	savedString.pop_back();
+
+	// NOTWORKING: This was my (michaels) attempt at trying to fix the issue with a file ending in '\0'
+	//if (savedString[savedString.size() - 1] != '\0')
+	//{
+		// Remove the last '\0' from the string
+		savedString.pop_back();
+	//}
 	
 	return savedString;
 }
