@@ -573,7 +573,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_Two_Inputs, ReusableObjectsForOp
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOperations) {
 	const float SCALE_FACTOR_X = 0.123f;
 	const float SCALE_FACTOR_Y = 0.234f;
-	const Point2D<float> SCALE_FACTOR{ SCALE_FACTOR_X, SCALE_FACTOR_Y };
+	const sf::Vector2f SCALE_FACTOR{ SCALE_FACTOR_X, SCALE_FACTOR_Y };
 	compoundSprite->setScale(SCALE_FACTOR);
 
 	// ensure that the scale of the sprite components has been set
@@ -594,7 +594,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOpe
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
 	std::vector<sf::Sprite*> sprites{ sprite };
 	std::vector<AnimatedSprite*> animSprites{ animSpriteWithAnim1, animSpriteWithAnim2 };
-	const Point2D<float> SCALE{0.5f, 0.6f};
+	const sf::Vector2f SCALE{0.5f, 0.6f};
 	CompoundSprite compoundSprite(sprites, animSprites);
 	compoundSprite.scale(SCALE);
 

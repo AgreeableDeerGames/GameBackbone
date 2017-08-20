@@ -206,7 +206,7 @@ void CompoundSprite::scale(float factorX, float factorY) {
 /// Scales all the components of the compound sprite.
 /// </summary>
 /// <param name="newScale">The new scale.</param>
-void CompoundSprite::scale(Point2D<float> newScale) {
+void CompoundSprite::scale(sf::Vector2f newScale) {
 	scale(newScale.x, newScale.y);
 }
 
@@ -226,7 +226,7 @@ void CompoundSprite::setScale(float factorX, float factorY) {
 /// Sets the scale of all component sprites.
 /// </summary>
 /// <param name="newScale">The new scale.</param>
-void CompoundSprite::setScale(Point2D<float> newScale) {
+void CompoundSprite::setScale(sf::Vector2f newScale) {
 	setScale(newScale.x, newScale.y);
 }
 
@@ -292,7 +292,7 @@ void CompoundSprite::move(float offsetX, float offsetY) {
 /// Moves all the components of the compound sprite by the same offset.
 /// </summary>
 /// <param name="offset">The offset.</param>
-void CompoundSprite::move(Point2D<float> offset) {
+void CompoundSprite::move(sf::Vector2f offset) {
 	move(offset.x, offset.y);
 }
 

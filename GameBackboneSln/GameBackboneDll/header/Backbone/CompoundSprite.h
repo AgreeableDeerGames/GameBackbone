@@ -47,9 +47,9 @@ namespace GB {
 
 		//operations
 		void scale(float factorX, float factorY);
-		void scale(Point2D<float> newScale);
+		void scale(sf::Vector2f newScale);
 		virtual void setScale(float factorX, float factorY);
-		virtual void setScale(Point2D<float> newScale);
+		virtual void setScale(sf::Vector2f newScale);
 
 		void rotate(float degreeOffset);
 		void setRotation(float newRotation);
@@ -58,7 +58,7 @@ namespace GB {
 		void setRotationOfSprites(std::set<size_t> indicesToRotate, float newRotation);
 
 		void move(float offsetX, float offsetY);
-		void move(Point2D<float> offset);
+		void move(sf::Vector2f offset);
 
 		virtual void update(sf::Time currentTime);
 
