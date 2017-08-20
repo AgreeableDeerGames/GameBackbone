@@ -81,6 +81,8 @@ std::string FileReader::readFileBinaryInput(std::string filePath) {
 		throw Error::FileReader_BadFile();
 	}
 
+	std::string savedString((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+	/*
 	std::string savedString;
 	std::string tempString = "";
 	
@@ -98,7 +100,7 @@ std::string FileReader::readFileBinaryInput(std::string filePath) {
 	//{
 		// Remove the last '\0' from the string
 		savedString.pop_back();
-	//}
+	//}*/
 	
 	return savedString;
 }
