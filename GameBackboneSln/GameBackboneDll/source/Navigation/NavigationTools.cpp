@@ -135,6 +135,12 @@ void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 	const float maxStepLength,
 	const std::set<size_t>& spritesToRotate) {
 
+	const std::vector<CompoundSprite*> sprites{ &sprite };
+	const std::vector<sf::Vector2f> destinations{ destination };
+	const std::vector<float> maxStepLengths{ maxStepLength };
+	const std::vector<std::set<size_t>> allSpritesToRotate{ spritesToRotate };
+
+	bulkMoveCompoundSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, allSpritesToRotate);
 }
 
 /// <summary>
@@ -167,9 +173,7 @@ void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& 
 
 		// orient components towards destination
 		if (distanceToDestination != 0) {
-			for (unsigned int indexToRotate : spritesToRotate[ii]) {
-				(*sprite->getSprites())[indexToRotate]->setRotation(angleToDestination);
-			}
+			sprite->setRotationOfComponents(spritesToRotate[ii], angleToDestination);
 		}
 
 	}
