@@ -57,9 +57,6 @@ namespace GB {
 		virtual void rotateComponents(std::set<size_t> indiciesToRotate, float degreeOffset);
 		virtual void setRotationOfComponents(std::set<size_t> indicesToRotate, float newRotation);
 
-		virtual void rotateSfSprites(std::set<size_t> indicesToRotate, float degreeOffset);
-		virtual void setRotationSfSprites(std::set<size_t> indicesToRotate, float newRotation);
-
 		virtual void move(float offsetX, float offsetY);
 		virtual void move(sf::Vector2f offset);
 

@@ -177,9 +177,9 @@ void GB::NavigationDemoRegion::init() {
 	compComponent2->setColor(sf::Color::White);
 	compComponent3->setColor(sf::Color::Green);
 	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-	static_cast<RelativeRotationSprite*>(compSprite)->addSprite(compComponent1, { 80, 0 });
-	static_cast<RelativeRotationSprite*>(compSprite)->addSprite(compComponent2, { 0, 80 });
-	static_cast<RelativeRotationSprite*>(compSprite)->addSprite(compComponent3, { 0, 0 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
 	
 	/*compComponent1->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X*1.25, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y);
 	compComponent2->setOrigin(-COMPOUND_SPRITE_TEST_X + COMPOUND_SPRITE_TEST_X, -COMPOUND_SPRITE_TEST_y + COMPOUND_SPRITE_TEST_y*1.25);
