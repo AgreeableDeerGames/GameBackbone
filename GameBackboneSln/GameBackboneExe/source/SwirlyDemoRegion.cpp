@@ -64,6 +64,7 @@ void SwirlyDemoRegion::behave(sf::Time currentTime) {
 void SwirlyDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
 		// TODO: Move Sprites
+		compSprite->setPosition(newPosition);
 	}
 }
 

@@ -136,49 +136,6 @@ void RelativeRotationSprite::scale(sf::Vector2f newScale) {
 
 
 /// <summary>
-/// Moves all the components of the compound sprite by the same offset.
-/// </summary>
-/// <param name="offset">The offset.</param>
-void RelativeRotationSprite::move(sf::Vector2f offset) {
-	RelativeRotationSprite::move(offset.x, offset.y);
-}
-
-
-/// <summary>
-/// Moves all the components of the compound sprite by the same offset.
-/// </summary>
-/// <param name="offset">The offset.</param>
-void RelativeRotationSprite::move(float x, float y) {
-	CompoundSprite::move(x, y);
-
-	// Update the origins
-	for (size_t ii = 0; ii < components.size(); ++ii) {
-		components[ii]->setOrigin(x+components[ii]->getOrigin().x, y+components[ii]->getOrigin().y);
-	}
-}
-
-/// <summary>
-/// Sets the position.
-/// </summary>
-/// <param name="x">The new x.</param>
-/// <param name="y">The new y.</param>
-void RelativeRotationSprite::setPosition(sf::Vector2f val) {
-	RelativeRotationSprite::setPosition(val.x, val.y);
-}
-
-/// <summary>
-/// Sets the position.
-/// </summary>
-/// <param name="x">The new x.</param>
-/// <param name="y">The new y.</param>
-void RelativeRotationSprite::setPosition(float x, float y) {
-	sf::Vector2f oldPosition = position;
-
-	RelativeRotationSprite::move(x - oldPosition.x, y - oldPosition.y);
-}
-
-
-/// <summary>
 /// Sets the scale factor of all component sprites.
 /// </summary>
 /// <param name="factorX">The factor x.</param>

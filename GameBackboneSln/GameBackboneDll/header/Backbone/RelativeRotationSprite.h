@@ -32,11 +32,6 @@ namespace GB {
 		virtual void scale(float factorX, float factorY) override;
 		virtual void scale(sf::Vector2f newScale) override;
 
-		virtual void move(float offsetX, float offsetY);
-		virtual void move(sf::Vector2f offset);
-		virtual void setPosition(sf::Vector2f val);
-		virtual void setPosition(float x, float y);
-
 	protected:
 
 	private:
