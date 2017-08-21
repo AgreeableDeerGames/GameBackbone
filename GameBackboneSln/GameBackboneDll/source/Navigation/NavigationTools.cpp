@@ -179,6 +179,42 @@ void GB::bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite
 	}
 }
 
+
+/// <summary>
+/// Preps bulk path-finding data for use in movement helper functions.
+/// Calculates the max step lengths and destinations for each of the movable objects that will
+/// be following a path.
+/// </summary>
+/// <param name="movables">The sprites.</param>
+/// <param name="paths">The paths.</param>
+/// <param name="msPassed">The ms passed.</param>
+/// <param name="distPerMs">The dist per ms.</param>
+/// <param name="maxStepLengths"> out : The maximum step lengths.</param>
+/// <param name="destinations">out : The destinations.</param>
+template<class T>
+static inline void prepBulkPathDataForMovement(const std::vector<T*>& movables,
+											   const std::vector<WindowCoordinatePathPtr>& paths,
+											   const sf::Uint64 msPassed,
+											   const std::vector<float>& distPerMs,
+											   std::vector<float>& maxStepLengths, /*out*/
+											   std::vector<sf::Vector2f>& destinations /*out*/) {
+
+
+	for (unsigned int ii = 0; ii < paths.size(); ++ii) {
+		// determine the sprites next destination 
+		if (!paths[ii]->empty()) {
+			destinations.push_back(paths[ii]->front());
+		}
+		else {
+			destinations.push_back(movables[ii]->getPosition());
+			paths[ii]->push_back(movables[ii]->getPosition());
+		}
+		// determine the step size of the next sprite
+		maxStepLengths.push_back(msPassed*distPerMs[ii]);
+	}
+}
+
+
 /// <summary>
 /// Moves a sprite one step forward along path.
 /// The sprite will not necessarily reach the end of the path after one call to this function.
@@ -188,7 +224,7 @@ void GB::bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite
 /// <param name="path">The path.</param>
 /// <param name="msPassed">Time passed in ms.</param>
 /// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
-/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
+/// <param name="orientSpriteToDestination">Whether or not the sprites should be oriented to face their destinations.</param>
 void GB::moveSpriteAlongPath(sf::Sprite& sprite, 
 							 WindowCoordinatePathPtr path,
 							 sf::Uint64 msPassed,
@@ -201,6 +237,9 @@ void GB::moveSpriteAlongPath(sf::Sprite& sprite,
 	bulkMoveSpriteAlongPath(sprites, paths, msPassed, distPerMsVec, orientSpriteToDestination);
 }
 
+
+
+
 /// <summary>
 /// Moves all passed sprites one step forward along their respective paths.
 /// The sprites will not necessarily reach the end of their paths after one call to this function.
@@ -210,7 +249,7 @@ void GB::moveSpriteAlongPath(sf::Sprite& sprite,
 /// <param name="paths">The paths. Each sprite will follow the path with the matching index.</param>
 /// <param name="msPassed">Time passed in ms.</param>
 /// <param name="distPerMs">The maximum distance that the each sprite can move per ms. Each distance corresponds to the sprite with the matching index.</param>
-/// <param name="orientSpritesToDestination">The orient sprites to destination.</param>
+/// <param name="orientSpritesToDestination">Whether or not the sprites should be oriented to face their destinations.</param>
 void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites, 
 								 const std::vector<WindowCoordinatePathPtr>& paths,
 								 const sf::Uint64 msPassed, 
@@ -227,15 +266,7 @@ void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
 	maxStepLengths.reserve(sprites.size());
 	std::vector<sf::Vector2f> destinations;
 	destinations.reserve(sprites.size());
-	for (unsigned int ii = 0; ii < paths.size(); ++ii) {
-		if (!paths[ii]->empty()) {
-			destinations.push_back(paths[ii]->front());
-		} else {
-			destinations.push_back(sprites[ii]->getPosition());
-			paths[ii]->push_back(sprites[ii]->getPosition());
-		}
-		maxStepLengths.push_back(msPassed*distPerMs[ii]);
-	}
+	prepBulkPathDataForMovement(sprites, paths, msPassed, distPerMs, maxStepLengths, destinations);
 
 	// move the sprites
 	bulkMoveSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, orientSpritesToDestination);
@@ -247,4 +278,66 @@ void GB::bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
 			paths[ii]->pop_front();
 		}
 	}
+}
+
+/// <summary>
+/// Moves a CompoundSprite one step forward along path.
+/// The sprite will not necessarily reach the end of the path after one call to this function.
+/// The sprite will stop after reaching each point in the path even if it is capable of moving farther.
+/// </summary>
+/// <param name="sprite">The sprite.</param>
+/// <param name="path">The path.</param>
+/// <param name="msPassed">Time passed in ms.</param>
+/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
+/// <param name="spritesToRotate">The indices of the sprites that should be rotated to face their destinations.</param>
+void GB::moveCompoundSpriteAlongPath(CompoundSprite& sprite,
+									 WindowCoordinatePathPtr path,
+									 sf::Uint64 msPassed,
+									 float distPerMs,
+									 const std::set<size_t>& spritesToRotate) {
+
+	bulkMoveCompoundSpriteAlongPath({ &sprite }, { path }, msPassed, { distPerMs }, { spritesToRotate });
+
+}
+
+/// <summary>
+/// Moves all passed CompoundSprites one step forward along their respective paths.
+/// The sprites will not necessarily reach the end of their paths after one call to this function.
+/// The sprites will stop after reaching each point in the path even if they are capable of moving farther.
+/// </summary>
+/// <param name="sprites">The sprites.</param>
+/// <param name="paths">The paths. Each sprite will follow the path with the matching index.</param>
+/// <param name="msPassed">Time passed in ms.</param>
+/// <param name="distPerMs">The maximum distance that the each sprite can move per ms. Each distance corresponds to the sprite with the matching index.</param>
+/// <param name="spritesToRotate">The indices of the sprites that should be rotated to face their destinations. Each set of indices corresponds to the sprite with the matching index.</param>
+void GB::bulkMoveCompoundSpriteAlongPath(const std::vector<CompoundSprite*>& sprites,
+										 const std::vector<WindowCoordinatePathPtr>& paths,
+										 const sf::Uint64 msPassed,
+										 const std::vector<float>& distPerMs,
+										 const std::vector<std::set<size_t>>& spritesToRotate)
+{
+	// ensure that the input sizes match
+	if (sprites.size() != paths.size() || sprites.size() != distPerMs.size() || sprites.size() != spritesToRotate.size()) {
+		throw Error::NavigationTools_MismatchedNavigationSizes();
+	}
+
+
+	// determine speed and destination
+	std::vector<float> maxStepLengths;
+	maxStepLengths.reserve(sprites.size());
+	std::vector<sf::Vector2f> destinations;
+	destinations.reserve(sprites.size());
+	prepBulkPathDataForMovement(sprites, paths, msPassed, distPerMs, maxStepLengths, destinations);
+
+	// move the sprites
+	bulkMoveCompoundSpriteStepTowardsPoint(sprites, destinations, maxStepLengths, spritesToRotate);
+
+	// if the sprite has reached destination, move on to next point in path
+	for (unsigned int ii = 0; ii < sprites.size(); ii++) {
+		CompoundSprite* sprite = sprites[ii];
+		if (sprite->getPosition() == destinations[ii]) {
+			paths[ii]->pop_front();
+		}
+	}
+
 }

@@ -84,6 +84,18 @@ namespace GB {
 														 const std::vector<float>& distPerMs,
 													     const bool orientSpritesToDestination = true);
 
+	libGameBackbone extern void moveCompoundSpriteAlongPath(CompoundSprite& sprite,
+															WindowCoordinatePathPtr path,
+															sf::Uint64 msPassed,
+															float distPerMs,
+															const std::set<size_t>& spritesToRotate);
+
+	libGameBackbone extern void bulkMoveCompoundSpriteAlongPath(const std::vector<CompoundSprite*>& sprites,
+																const std::vector<WindowCoordinatePathPtr>& paths,
+																const sf::Uint64 msPassed,
+																const std::vector<float>& distPerMs,
+																const std::vector<std::set<size_t>>& spritesToRotate);
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 
