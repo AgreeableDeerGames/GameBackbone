@@ -159,19 +159,20 @@ struct ReusablePathfindingObjects
 struct ReusableCompoundPathfindingObjects {
 	ReusableCompoundPathfindingObjects() {
 
-		// sprites
-		sprite1 = new sf::Sprite();
-		sprite2 = new sf::Sprite();
-		animSprite1 = new AnimatedSprite();
-		animSprite2 = new AnimatedSprite();
-		compoundSprite1 = new CompoundSprite({ sprite1, sprite2, animSprite1, animSprite2 });
-		sprite3 = new sf::Sprite();
-		sprite4 = new sf::Sprite();
-		animSprite3 = new AnimatedSprite();
-		animSprite4 = new AnimatedSprite();
-		compoundSprite2 = new CompoundSprite({ sprite3, sprite4, animSprite3, animSprite4 });
-		compoundSprites.push_back(compoundSprite1);
-		compoundSprites.push_back(compoundSprite2);
+		// create sprites
+		for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+			sf::Sprite* sprite1 = new sf::Sprite();
+			sf::Sprite* sprite2 = new sf::Sprite();
+			AnimatedSprite* animSprite1 = new AnimatedSprite();
+			AnimatedSprite* animSprite2 = new AnimatedSprite();
+			sprites.push_back(sprite1);
+			sprites.push_back(sprite2);
+			sprites.push_back(animSprite1);
+			sprites.push_back(animSprite2);
+
+			CompoundSprite* compoundSprite = new CompoundSprite({ sprite1, sprite2, animSprite1, animSprite2 });
+			compoundSprites.push_back(compoundSprite);
+		}
 
 		//fill the path for each sprite
 		for (unsigned int ii = 0; ii < NUM_SPRITES; ii++) {
@@ -187,46 +188,21 @@ struct ReusableCompoundPathfindingObjects {
 			backupPaths.push_back(backupPath);
 		}
 	}
-	~ReusableCompoundPathfindingObjects()
-	{
-		delete sprite1;
-		sprite1 = nullptr;
-		delete sprite2;
-		sprite2 = nullptr;
-		delete animSprite1;
-		animSprite1 = nullptr;
-		delete animSprite2;
-		animSprite2 = nullptr;
-		delete compoundSprite1;
-		compoundSprite1 = nullptr;
-
-		delete sprite3;
-		sprite3 = nullptr;
-		delete sprite4;
-		sprite4 = nullptr;
-		delete animSprite1;
-		animSprite3 = nullptr;
-		delete animSprite4;
-		animSprite4 = nullptr;
-		delete compoundSprite2;
-		compoundSprite2 = nullptr;
+	~ReusableCompoundPathfindingObjects() {
+		for (sf::Sprite* sprite : sprites) {
+			delete sprite;
+		}
+		for (CompoundSprite* compoundSprite: compoundSprites) {
+			delete compoundSprite;
+		}
 
 
 	}
 
 	// sprites
-	sf::Sprite* sprite1;
-	sf::Sprite* sprite2;
-	AnimatedSprite* animSprite1;
-	AnimatedSprite* animSprite2;
-	CompoundSprite* compoundSprite1;
-	sf::Sprite* sprite3;
-	sf::Sprite* sprite4;
-	AnimatedSprite* animSprite3;
-	AnimatedSprite* animSprite4;
-	CompoundSprite* compoundSprite2;
 	std::vector<CompoundSprite*> compoundSprites;
-	const unsigned int NUM_SPRITES = 2;
+	std::vector<sf::Sprite*> sprites;
+	const unsigned int NUM_SPRITES = 3;
 
 	// paths
 	std::vector<WindowCoordinatePathPtr> paths;
