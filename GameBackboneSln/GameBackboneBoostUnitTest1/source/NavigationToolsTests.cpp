@@ -153,6 +153,40 @@ struct ReusablePathfindingObjects
 	const unsigned int BASE_PATH_LENGTH = 3;
 };
 
+/// <summary>
+/// Test fixture for moving CompoundSprite along paths
+/// </summary>
+struct ReusableCompoundPathfindingObjects {
+	ReusableCompoundPathfindingObjects() {
+		sprite1 = new sf::Sprite();
+		sprite2 = new sf::Sprite();
+		animSprite1 = new AnimatedSprite();
+		animSprite2 = new AnimatedSprite();
+		compoundSprite = new CompoundSprite({ sprite1, sprite2, animSprite1, animSprite2 });
+	}
+	~ReusableCompoundPathfindingObjects()
+	{
+		delete sprite1;
+		sprite1 = nullptr;
+		delete sprite2;
+		sprite2 = nullptr;
+		delete animSprite1;
+		animSprite1 = nullptr;
+		delete animSprite2;
+		animSprite2 = nullptr;
+		delete compoundSprite;
+		compoundSprite = nullptr;
+	}
+
+
+	sf::Sprite* sprite1;
+	sf::Sprite* sprite2;
+	AnimatedSprite* animSprite1;
+	AnimatedSprite* animSprite2;
+	CompoundSprite* compoundSprite;
+};
+
+
 BOOST_AUTO_TEST_SUITE(bulkMoveSpriteStepTowardsPointTests)
 
 // Test moving a large number of sprites to their destinations by taking small steps
