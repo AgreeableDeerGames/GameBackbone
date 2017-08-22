@@ -39,6 +39,33 @@ static bool checkBulkStepsToDestinations(std::vector<sf::Sprite*>& sprites, std:
 	return !missedTarget;
 }
 
+
+/// <summary>
+/// Moves all passed CompoundSprites a number of steps towards the destination of the same index then checks to see if they have reached
+/// their intended destination.
+/// </summary>
+/// <param name="sprites">The sprites.</param>
+/// <param name="destinations">The destinations.</param>
+/// <param name="maxStepLengths">The maximum distances to move the sprites.</param>
+/// <param name="spritesToRotate">The components of the compound sprites to rotate towards the destination of the compound sprite.</param>
+/// <param name="NUM_STEPS">The number of movements to make towards the destination.</param>
+static bool checkCompoundStepsToDestinations(std::vector<CompoundSprite*>& sprites, std::vector<sf::Vector2f>& destinations, std::vector<float>& maxMovementDistances, const std::vector<std::set<size_t>>& spritesToRotate, const unsigned int NUM_STEPS) {
+	//move the sprites
+	for (unsigned int i = 0; i < NUM_STEPS; i++) {
+		bulkMoveCompoundSpriteStepTowardsPoint(sprites, destinations, maxMovementDistances, spritesToRotate);
+	}
+
+	//ensure that all sprites reached their destinations
+	bool missedTarget = false;
+	for (unsigned int i = 0; i < sprites.size(); i++) {
+		if (sprites[i]->getPosition() != destinations[i]) {
+			missedTarget = true;
+		}
+	}
+	return !missedTarget;
+
+}
+
 // Contains all of the tests for Navigation Tools
 BOOST_AUTO_TEST_SUITE(NavigationToolsTests)
 
