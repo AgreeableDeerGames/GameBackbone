@@ -154,6 +154,60 @@ struct ReusablePathfindingObjects
 };
 
 /// <summary>
+/// Struct to store objects that can be reused for all or nearly all compound sprite tests
+/// This struct is meant to be used with fixtures at the unit test level.
+/// </summary>
+struct ReusableCompoundObjects {
+
+
+	ReusableCompoundObjects() {
+		// add sprites
+		for (unsigned int ii = 0; ii < NUM_SPRITES; ++ii) {
+
+			// build compound sprites
+			CompoundSprite* compoundSprite = new CompoundSprite();
+			for (unsigned int jj = 0; jj < NUM_COMPONENTS; ++jj) {
+				sf::Sprite* component = new sf::Sprite();
+				components.push_back(component);
+				compoundSprite->addComponent(component);
+			}
+			compoundSprites.push_back(compoundSprite);
+
+
+			destinations.push_back(sf::Vector2f(sinf((float)ii), sinf((float)(ii + 1)))); // should cover all quadrants. Max distance should be below 1.25.
+
+	  	    // initialize paths 
+			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
+				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
+
+				for (unsigned int kk = 0; kk < jj; ++kk) {
+					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
+				}
+				paths.push_back(path);
+			}
+
+		}
+	}
+
+
+	~ReusableCompoundObjects() {
+		for (sf::Sprite* component : components) {
+			delete component;
+		}
+		for (CompoundSprite* compoundSprite : compoundSprites) {
+			delete compoundSprite;
+		}
+	}
+
+	const unsigned int NUM_SPRITES = 100;
+	const unsigned int NUM_COMPONENTS = 2;
+	std::vector<CompoundSprite*> compoundSprites;
+	std::vector<sf::Sprite*> components;
+	std::vector<sf::Vector2f> destinations;
+	std::vector<std::list<sf::Vector2f>*> paths;
+};
+
+/// <summary>
 /// Test fixture for moving CompoundSprite along paths
 /// </summary>
 struct ReusableCompoundPathfindingObjects {
