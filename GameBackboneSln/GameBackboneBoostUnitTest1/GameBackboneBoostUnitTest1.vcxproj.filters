@@ -68,5 +68,8 @@
     <ClCompile Include="source\FileManagerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\NavigationToolsTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

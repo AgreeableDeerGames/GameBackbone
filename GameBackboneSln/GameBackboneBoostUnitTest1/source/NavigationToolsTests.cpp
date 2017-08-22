@@ -462,8 +462,32 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 	BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
 }
 
-BOOST_AUTO_TEST_SUITE_END() //moveSpriteAlongPathTests
+BOOST_AUTO_TEST_SUITE_END() // end moveSpriteAlongPathTests
 
+
+BOOST_AUTO_TEST_SUITE(moveCompoundSpriteAlongPathTests)
+// TODO: implement all move sprite along path tests, but for compound sprite
+
+
+
+BOOST_AUTO_TEST_SUITE_END() // end moveCompoundSpriteAlongPathTests
+
+
+BOOST_AUTO_TEST_SUITE(bulkMoveCompoundSpriteAlongPathTests)
+// TODO: implement all bulk move sprite along path tests, but for compound sprite
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(moveCompoundSpriteStepTowardsPointTests)
+// TODO: implement all move compound sprite step towards point tests, but for compound sprite
+
+BOOST_AUTO_TEST_SUITE_END() // end moveCompoundSpriteStepTowardsPointTests
+
+BOOST_AUTO_TEST_SUITE(bulkMoveCompoundSpriteStepTowardsPointTests)
+// TODO: implement all bulk move compound sprite step towards point tests, but for compound sprite
+
+BOOST_AUTO_TEST_SUITE_END() // end bulkMoveCompoundSpriteStepTowardsPointTests
 
 BOOST_AUTO_TEST_SUITE(initAllNavigationGridValuesTests)
 
