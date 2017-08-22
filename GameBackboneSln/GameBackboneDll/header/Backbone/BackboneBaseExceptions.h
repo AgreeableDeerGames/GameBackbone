@@ -53,6 +53,19 @@ namespace GB {
 				return "Encryption key is empty";
 			}
 		};
+
+		/// <summary>
+		/// Exception thrown when a function is intentionally "Not Implemented".
+		/// If a function is calling this exception, please use a different solution.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class Function_NotImplemented : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Function is Not Implemented.";
+			}
+		};
 	}
 }
 

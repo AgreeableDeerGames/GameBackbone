@@ -5,7 +5,8 @@
 
 namespace GB {
 
-	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
+	/// <summary> Special type of CompoundSprite which controls rotation of each component Sprite for the user. 
+	/// It does so using either passed in or assumed relative position offsets for each Sprite compared to the CompoundSprite's position.</summary>
 	class libGameBackbone RelativeRotationSprite : public CompoundSprite {
 	public:
 
@@ -13,9 +14,9 @@ namespace GB {
 		//shallow copy and move are fine for this class
 		RelativeRotationSprite();
 		explicit RelativeRotationSprite(const std::vector<sf::Sprite*>& components);
+		explicit RelativeRotationSprite(const sf::Vector2f& initialPosition);
 		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& initialPosition);
-		explicit RelativeRotationSprite(const sf::Vector2f& initialPosition);
 		RelativeRotationSprite(const RelativeRotationSprite& other) = default;
 		RelativeRotationSprite(RelativeRotationSprite&& other) = default;
 		RelativeRotationSprite& operator= (const RelativeRotationSprite& other) = default;
