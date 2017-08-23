@@ -642,7 +642,108 @@ BOOST_AUTO_TEST_SUITE_END() // end moveCompoundSpriteAlongPathTests
 
 
 BOOST_AUTO_TEST_SUITE(bulkMoveCompoundSpriteAlongPathTests)
-// TODO: implement all bulk move sprite along path tests, but for compound sprite
+
+// Test that the CompoundSprites reach their destinations
+BOOST_FIXTURE_TEST_CASE(bulkMoveCompoundSpriteAlongPath_Reach_Destinations, ReusableCompoundPathfindingObjects) {
+
+	//ensure that the sprites reach their destination in one move
+	const float MOVEMENT_SPEED = FLT_MAX;
+	std::vector<float> movementSpeeds;
+	for (unsigned int i = 0; i < NUM_SPRITES; ++i) {
+		movementSpeeds.push_back(MOVEMENT_SPEED);
+	}
+
+	// sprites to rotate
+	std::vector<std::set<size_t>> spritesToRotate;
+	for (size_t i = 0; i < NUM_SPRITES; i++) {
+		spritesToRotate.push_back({});
+	}
+
+	//move until each sprite should have reached its destination
+	for (unsigned int i = 0; i < NUM_SPRITES * BASE_PATH_LENGTH; i++) {
+		bulkMoveCompoundSpriteAlongPath(compoundSprites, paths, 1, movementSpeeds, spritesToRotate);
+	}
+
+	//ensure that each path is at its end;
+	for each (auto path in paths) {
+		BOOST_CHECK_EQUAL(path->size(), 0);
+	}
+
+	//ensure that each sprite has reached its correct position
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		if (!paths[i]->empty()) {
+			BOOST_CHECK(compoundSprites[i]->getPosition() == backupPaths[i]->back());
+		}
+	}
+
+	BOOST_CHECK(compoundSprites[0]->getPosition() == (sf::Vector2f{ 0.0f,0.0f }));
+}
+
+// Test that the moving CompoundSprites move to each consecutive point in the path in-order
+BOOST_FIXTURE_TEST_CASE(bulkMoveCompoundSpriteAlongPath_Follow_Full_Path, ReusableCompoundPathfindingObjects) {
+	//ensure that the sprites reach their destination in one move
+	const float MOVEMENT_SPEED = FLT_MAX;
+	std::vector<float> movementSpeeds;
+	for (unsigned int i = 0; i < NUM_SPRITES; ++i) {
+		movementSpeeds.push_back(MOVEMENT_SPEED);
+	}
+
+	// sprites to rotate
+	std::vector<std::set<size_t>> spritesToRotate;
+	for (size_t i = 0; i < NUM_SPRITES; i++) {
+		spritesToRotate.push_back({});
+	}
+
+	//move until each sprite should have reached its destination
+	for (unsigned int i = 0; i < NUM_SPRITES * BASE_PATH_LENGTH; i++) {
+		bulkMoveCompoundSpriteAlongPath(compoundSprites, paths, 1, movementSpeeds, spritesToRotate);
+		for (unsigned int j = 0; j < compoundSprites.size(); j++) {
+			if (!paths[j]->empty()) {
+				auto sprPos = compoundSprites[j]->getPosition();
+				auto pthPos = backupPaths[j]->front();
+
+				//ensure that the sprite stops along every point of the path
+				BOOST_CHECK(compoundSprites[j]->getPosition() == backupPaths[j]->front());
+				backupPaths[j]->pop_front();
+			}
+		}
+	}
+}
+
+// Ensure that when taking small steps the appropriate number of steps is required to reach a destination
+BOOST_FIXTURE_TEST_CASE(bulkMoveCompoundSpriteAlongPath_Reach_Destinations_SmallSteps, ReusableCompoundPathfindingObjects) {
+
+	//each sprite can move 1/2 of the way to its destination each step
+	std::vector<float> movementSpeeds;
+	for (unsigned int i = 0; i < NUM_SPRITES; ++i) {
+		movementSpeeds.push_back(i / 2.0f);
+	}
+
+	// sprites to rotate
+	std::vector<std::set<size_t>> spritesToRotate;
+	for (size_t i = 0; i < NUM_SPRITES; i++) {
+		spritesToRotate.push_back({});
+	}
+
+	bulkMoveCompoundSpriteAlongPath(compoundSprites, paths, 1, movementSpeeds, spritesToRotate);
+
+
+	//ensure that each sprite has not reached its final position
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		if (!paths[i]->empty()) {
+			BOOST_CHECK(compoundSprites[i]->getPosition() != backupPaths[i]->front());
+		}
+	}
+
+	bulkMoveCompoundSpriteAlongPath(compoundSprites, paths, 1, movementSpeeds, spritesToRotate);
+
+	//ensure that each sprite has reached its correct position
+	for (unsigned int i = 0; i < NUM_SPRITES; i++) {
+		if (!paths[i]->empty()) {
+			BOOST_CHECK(compoundSprites[i]->getPosition() == backupPaths[i]->front());
+		}
+	}
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 
