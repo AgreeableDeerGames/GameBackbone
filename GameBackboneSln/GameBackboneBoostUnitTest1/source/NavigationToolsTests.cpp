@@ -217,14 +217,10 @@ struct ReusableCompoundPathfindingObjects {
 		for (unsigned int i = 0; i < NUM_SPRITES; i++) {
 			sf::Sprite* sprite1 = new sf::Sprite();
 			sf::Sprite* sprite2 = new sf::Sprite();
-			AnimatedSprite* animSprite1 = new AnimatedSprite();
-			AnimatedSprite* animSprite2 = new AnimatedSprite();
 			sprites.push_back(sprite1);
 			sprites.push_back(sprite2);
-			sprites.push_back(animSprite1);
-			sprites.push_back(animSprite2);
 
-			CompoundSprite* compoundSprite = new CompoundSprite({ sprite1, sprite2, animSprite1, animSprite2 });
+			CompoundSprite* compoundSprite = new CompoundSprite({ sprite1, sprite2 });
 			compoundSprites.push_back(compoundSprite);
 		}
 
@@ -605,9 +601,42 @@ BOOST_AUTO_TEST_SUITE_END() // end moveSpriteAlongPathTests
 
 
 BOOST_AUTO_TEST_SUITE(moveCompoundSpriteAlongPathTests)
-// TODO: implement all move sprite along path tests, but for compound sprite
 
+// ensure that a single CompoundSprite following a path can reach its destination
+BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination, ReusableCompoundPathfindingObjects) {
+	// move sprite to the end of the path 
+	const size_t NUM_STEPS = paths[2]->size();
+	for (size_t i = 0; i < NUM_STEPS; i++) {
+		moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, FLT_MAX, {});
+	}
 
+	// ensure that the sprite is at the final position in the path
+	BOOST_CHECK(compoundSprites[2]->getPosition() == backupPaths[2]->back());
+}
+
+// Test that the moving CompoundSprite moves to each consecutive point in the path in-order
+BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Follow_Full_Path, ReusableCompoundPathfindingObjects) {
+	// move sprite to the end of the path 
+	const size_t NUM_STEPS = paths[2]->size();
+	for (size_t i = 0; i < NUM_STEPS; i++) {
+		moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, FLT_MAX, {});
+
+		// Test that the moving sprite moves to each consecutive point in the path in-order
+		BOOST_CHECK(compoundSprites[2]->getPosition() == backupPaths[2]->front());
+		backupPaths[2]->pop_front();
+	}
+}
+
+// Test that destinations can be reached even if it takes more than one move to get there
+BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination_SmallSteps, ReusableCompoundPathfindingObjects) {
+	// move sprite to the end of the path 
+
+	// ensure that it takes two moves to reach the first point
+	moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, 1.0f, {});
+	BOOST_CHECK(compoundSprites[2]->getPosition() != backupPaths[2]->front());
+	moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, 1.0f, {});
+	BOOST_CHECK(compoundSprites[2]->getPosition() == backupPaths[2]->front());
+}
 
 BOOST_AUTO_TEST_SUITE_END() // end moveCompoundSpriteAlongPathTests
 
