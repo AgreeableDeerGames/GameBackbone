@@ -13,7 +13,8 @@ using namespace GB;
 /// </summary>
 /// <param name="sprites">Sprite components of the new CompoundSprite</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite</param>
-CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites) : CompoundSprite(sprites, animatedSprites, {0,0}) {}
+CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites) 
+	: CompoundSprite(sprites, animatedSprites, {0,0}) {}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the CompoundSprite.
@@ -23,13 +24,9 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const st
 /// <param name="sprites">Sprite components of the new CompoundSprite.</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite.</param>
 /// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& initialPosition) : position(initialPosition) {
-	for (auto component : sprites) {
-		addComponent(component);
-	}
-	for (auto component : animatedSprites) {
-		addComponent(component);
-	}
+CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& initialPosition) 
+	: position(initialPosition) {
+	initializeComponentVector(sprites, animatedSprites);
 }
 
 
@@ -51,7 +48,8 @@ CompoundSprite::CompoundSprite() : position({ 0,0 }) {}
 /// The position of the sprite is (0,0).
 /// </summary>
 /// <param name="components">The components.</param>
-CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& components) : CompoundSprite(components, sf::Vector2f{ 0,0 }) {}
+CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& components) 
+	: CompoundSprite(components, sf::Vector2f{ 0,0 }) {}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed sprites become components of the compound sprite.
@@ -62,16 +60,7 @@ CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& components) : Com
 /// <param name="components">The components.</param>
 /// <param name="position">The position.</param>
 CompoundSprite::CompoundSprite(const std::vector<sf::Sprite*>& components, const sf::Vector2f & position) : position(position){
-
-	// Add any components that are AnimatedSprites to AnimatedSprite storage to allow them to be updated
-	for (auto sprite : components) {
-		AnimatedSprite* animSprite = dynamic_cast<AnimatedSprite*>(sprite);
-		if (animSprite) {
-			addComponent(animSprite);
-		} else {
-			addComponent(sprite);
-		}
-	}
+	initializeComponentVector(components);
 }
 
 /// <summary>
@@ -134,6 +123,7 @@ void CompoundSprite::setPosition(float x, float y) {
 /// </summary>
 /// <param name="component">new sprite component of the compound sprite.</param>
 void CompoundSprite::addComponent(sf::Sprite * component) {
+	std::cout << "Base\n";
 	components.push_back(component);
 }
 
@@ -301,3 +291,27 @@ void CompoundSprite::update(sf::Time currentTime) {
 		animatedSprites[i]->update(currentTime);
 	}
 }
+
+
+void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& components){
+	// Add any components that are AnimatedSprites to AnimatedSprite storage to allow them to be updated
+	for (auto sprite : components) {
+		AnimatedSprite* animSprite = dynamic_cast<AnimatedSprite*>(sprite);
+		if (animSprite) {
+			addComponent(animSprite);
+		}
+		else {
+			addComponent(sprite);
+		}
+	}
+}
+
+void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites) {
+	for (auto component : sprites) {
+		addComponent(component);
+	}
+	for (auto component : animatedSprites) {
+		addComponent(component);
+	}
+}
+

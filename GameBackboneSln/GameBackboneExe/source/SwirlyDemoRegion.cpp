@@ -63,7 +63,6 @@ void SwirlyDemoRegion::behave(sf::Time currentTime) {
 /// <param name="button">The mouse button clicked button.</param>
 void SwirlyDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
-		// TODO: Move Sprites
 		compSprite->setPosition(newPosition);
 	}
 }
@@ -100,7 +99,15 @@ void GB::SwirlyDemoRegion::init() {
 	compComponent2 = new sf::Sprite(*navigatorTexture);
 	compComponent3 = new sf::Sprite(*navigatorTexture);
 
-	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
+
+	//compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+
+	// This is the working version of addComponent using the ContructorLand
+	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+	compSprite = new RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 
 	/*
 	// This is the working version of addComponent using the relative position
@@ -111,13 +118,14 @@ void GB::SwirlyDemoRegion::init() {
 	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
 	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });*/
 
+	/*
 	// This is the working version of addComponent using the relative position 
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 80, COMPOUND_SPRITE_TEST_y);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y + 80);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1);
 	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2);
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3);
+	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3);*/
 
 
 

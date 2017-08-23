@@ -63,6 +63,8 @@ namespace GB {
 		virtual void update(sf::Time currentTime);
 
 	protected:
+		void initializeComponentVector(const std::vector<sf::Sprite*>& components);
+		void initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		void removeAnimatedSprite(AnimatedSprite* component);
 		std::vector<sf::Sprite*> components;
 		std::vector<AnimatedSprite*> animatedSprites;

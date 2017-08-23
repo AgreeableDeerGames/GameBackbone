@@ -15,8 +15,13 @@ namespace GB {
 		RelativeRotationSprite();
 		explicit RelativeRotationSprite(const std::vector<sf::Sprite*>& components);
 		explicit RelativeRotationSprite(const sf::Vector2f& initialPosition);
+		RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const sf::Vector2f& initialPosition);
+		RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets, const sf::Vector2f& initialPosition);
 		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& initialPosition);
+		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, const sf::Vector2f& initialPosition);
 		RelativeRotationSprite(const RelativeRotationSprite& other) = default;
 		RelativeRotationSprite(RelativeRotationSprite&& other) = default;
 		RelativeRotationSprite& operator= (const RelativeRotationSprite& other) = default;
@@ -34,6 +39,8 @@ namespace GB {
 		virtual void scale(sf::Vector2f newScale) override;
 
 	protected:
+		void initializeComponentVector(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets);
+		void initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets);
 
 	private:
 		virtual void setScale(float factorX, float factorY) final;

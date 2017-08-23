@@ -8,8 +8,7 @@ using namespace GB;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. The passed sprites become components of the RelativeRotationSprite.
-/// Animated sprites from the components array are identified via RTTI
-/// and will update when the compound sprite updates.
+/// Animated sprites from the components array are identified via RTTI and will update when the RelativeRotationSprite updates.
 /// The position of the sprite is (0,0).
 ///
 /// The RelativeRotationSprite's components' offsets will be determined
@@ -17,7 +16,62 @@ using namespace GB;
 /// </summary>
 /// <param name="components">The components of the new RelativeRotationSprite.</param>
 RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& components)
-	: CompoundSprite(components){}
+	: CompoundSprite() {
+	// RTTI
+	CompoundSprite::initializeComponentVector(components);
+}
+
+
+/// <summary>
+/// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. The passed sprites become components of the RelativeRotationSprite.
+/// Animated sprites from the components array are identified via RTTI and will update when the RelativeRotationSprite updates.
+/// Initializes the sprite to the passed position.
+///
+/// The RelativeRotationSprite's components' offsets will be determined
+/// using their current position relative to the RelativeRotationSprite's.
+/// </summary>
+/// <param name="components">The components of the new RelativeRotationSprite.</param>
+/// <param name="initialPosition">The initial position.</param>
+RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const sf::Vector2f& initialPosition)
+	: CompoundSprite(initialPosition) {
+	// RTTI
+	CompoundSprite::initializeComponentVector(components);
+}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. The passed sprites become components of the RelativeRotationSprite.
+/// Animated sprites from the components array are identified via RTTI and will update when the RelativeRotationSprite updates.
+/// Initializes the sprite to the passed position.
+///
+/// The RelativeRotationSprite's components' positions will be set to the RelativeRotationSprite's position, 
+/// and the components' origin will be set using the relative offsets.
+/// </summary>
+/// <param name="components">The components of the new RelativeRotationSprite.</param>
+/// <param name="relativeOffsets">The relative offsets of the components.</param>
+/// <returns></returns>
+RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets)
+	: CompoundSprite() {
+	// RTTI
+	initializeComponentVector(components, relativeOffsets);
+}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. The passed sprites become components of the RelativeRotationSprite.
+/// Animated sprites from the components array are identified via RTTI and will update when the RelativeRotationSprite updates.
+/// Initializes the sprite's position (0,0).
+///
+/// The RelativeRotationSprite's components' positions will be set to the RelativeRotationSprite's position, 
+/// and the components' origin will be set using the relative offsets.
+/// </summary>
+/// <param name="components">The components of the new RelativeRotationSprite.</param>
+/// <param name="relativeOffsets">The relative offsets of the components.</param>
+/// <param name="initialPosition">The initial position.</param>
+/// <returns></returns>
+RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets, const sf::Vector2f& initialPosition)
+	: CompoundSprite(initialPosition) {
+	//RTTI
+	initializeComponentVector(components, relativeOffsets);
+}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the RelativeRotationSprite. The position of the sprite is (0,0)
@@ -29,7 +83,9 @@ RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& c
 /// <param name="sprites">Sprite components of the new RelativeRotationSprite</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new RelativeRotationSprite</param>
 RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites) 
-	: CompoundSprite(sprites, animatedSprites){}
+	: CompoundSprite(){
+	CompoundSprite::initializeComponentVector(sprites, animatedSprites);
+}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the RelativeRotationSprite.
@@ -42,7 +98,42 @@ RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& s
 /// <param name="animatedSprites">AnimatedSprite components of the new RelativeRotationSprite.</param>
 /// <param name="position">The position.</param>
 RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f&  initialPosition)
-	: CompoundSprite(sprites, animatedSprites, initialPosition){}
+	: CompoundSprite(initialPosition){
+	CompoundSprite::initializeComponentVector(sprites, animatedSprites);
+
+}
+
+/// <summary>
+/// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the RelativeRotationSprite.
+/// Initializes the sprite's position to (0,0).
+///
+/// The RelativeRotationSprite's components' positions will be set to the RelativeRotationSprite's position, 
+/// and the components' origin will be set using the relative offsets.
+/// </summary>
+/// <param name="sprites">Sprite components of the new RelativeRotationSprite</param>
+/// <param name="animatedSprites">AnimatedSprite components of the new RelativeRotationSprite</param>
+/// <param name="relativeOffsets">The relative offsets of the components.</param>
+RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets)
+	: CompoundSprite() {
+	initializeComponentVector(sprites, animatedSprites, relativeOffsets);
+}
+
+
+/// <summary>
+/// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the RelativeRotationSprite.
+/// Initializes the sprite to the passed position.
+///
+/// The RelativeRotationSprite's components' positions will be set to the RelativeRotationSprite's position, 
+/// and the components' origin will be set using the relative offsets.
+/// </summary>
+/// <param name="sprites">Sprite components of the new RelativeRotationSprite</param>
+/// <param name="animatedSprites">AnimatedSprite components of the new RelativeRotationSprite</param>
+/// <param name="relativeOffsets">The relative offsets of the components.</param>
+/// <param name="initialPosition">The initial position.</param>
+RelativeRotationSprite::RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, const sf::Vector2f& initialPosition)
+	: CompoundSprite(initialPosition) {
+	initializeComponentVector(sprites, animatedSprites, relativeOffsets);
+}
 
 
 /// <summary>
@@ -73,6 +164,7 @@ RelativeRotationSprite::~RelativeRotationSprite() {
 /// </summary>
 /// <param name="component">New sprite component of the RelativeRotationSprite.</param>
 void RelativeRotationSprite::addComponent(sf::Sprite * component) {
+	std::cout << "Derived\n";
 	CompoundSprite::addComponent(component);
 
 	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
@@ -144,6 +236,43 @@ void RelativeRotationSprite::scale(float factorX, float factorY) {
 void RelativeRotationSprite::scale(sf::Vector2f newScale) {
 	RelativeRotationSprite::scale(newScale.x, newScale.y);
 }
+
+
+void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets) {
+	if (components.size() != relativeOffsets.size())
+	{
+		throw Error::RelativeRotationSprite_MismatchedSizes();
+	}
+	
+	// Add any components that are AnimatedSprites to AnimatedSprite storage to allow them to be updated
+	for (size_t ii = 0; ii < components.size(); ++ii) {
+		sf::Sprite* sprite = components[ii];
+		AnimatedSprite* animSprite = dynamic_cast<AnimatedSprite*>(sprite);
+		if (animSprite) {
+			addComponent(animSprite);
+		}
+		else {
+			addComponent(sprite);
+		}
+	}
+}
+
+void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets){
+	if (sprites.size() + animatedSprites.size() != relativeOffsets.size())
+	{
+		throw Error::RelativeRotationSprite_MismatchedSizes();
+	}
+
+
+	for (size_t ii = 0; ii < sprites.size(); ++ii) {
+		addComponent(sprites[ii], relativeOffsets[ii]);
+	}
+	for (size_t ii = sprites.size(); ii < sprites.size() + animatedSprites.size(); ++ii) {
+		addComponent(animatedSprites[ii], relativeOffsets[ii]);
+	}
+}
+
+
 
 
 /// <summary>
