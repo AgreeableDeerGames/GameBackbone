@@ -123,7 +123,6 @@ void CompoundSprite::setPosition(float x, float y) {
 /// </summary>
 /// <param name="component">new sprite component of the compound sprite.</param>
 void CompoundSprite::addComponent(sf::Sprite * component) {
-	std::cout << "Base\n";
 	components.push_back(component);
 }
 
@@ -292,8 +291,11 @@ void CompoundSprite::update(sf::Time currentTime) {
 	}
 }
 
-
-void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& components){
+/// <summary>
+/// Initializes the component vector using RTTI. 
+/// </summary>
+/// <param name="components">The components to be added.</param>
+void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& components) {
 	// Add any components that are AnimatedSprites to AnimatedSprite storage to allow them to be updated
 	for (auto sprite : components) {
 		AnimatedSprite* animSprite = dynamic_cast<AnimatedSprite*>(sprite);
@@ -306,6 +308,11 @@ void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& c
 	}
 }
 
+/// <summary>
+/// Initializes the component vector without RTTI.
+/// </summary>
+/// <param name="sprites">The sprites to be added.</param>
+/// <param name="animatedSprites">The animated sprites to be added.</param>
 void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites) {
 	for (auto component : sprites) {
 		addComponent(component);

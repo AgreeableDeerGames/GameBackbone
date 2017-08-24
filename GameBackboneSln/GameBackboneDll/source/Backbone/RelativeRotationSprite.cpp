@@ -164,7 +164,6 @@ RelativeRotationSprite::~RelativeRotationSprite() {
 /// </summary>
 /// <param name="component">New sprite component of the RelativeRotationSprite.</param>
 void RelativeRotationSprite::addComponent(sf::Sprite * component) {
-	std::cout << "Derived\n";
 	CompoundSprite::addComponent(component);
 
 	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
@@ -238,6 +237,11 @@ void RelativeRotationSprite::scale(sf::Vector2f newScale) {
 }
 
 
+/// <summary>
+/// Initializes the component vector using RTTI and the offset vector.
+/// </summary>
+/// <param name="components">The components to be added.</param>
+/// <param name="relativeOffsets">The relative offsets for each sprite.</param>
 void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets) {
 	if (components.size() != relativeOffsets.size())
 	{
@@ -249,15 +253,21 @@ void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Spr
 		sf::Sprite* sprite = components[ii];
 		AnimatedSprite* animSprite = dynamic_cast<AnimatedSprite*>(sprite);
 		if (animSprite) {
-			addComponent(animSprite);
+			addComponent(animSprite, relativeOffsets[ii]);
 		}
 		else {
-			addComponent(sprite);
+			addComponent(sprite, relativeOffsets[ii]);
 		}
 	}
 }
 
-void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets){
+/// <summary>
+/// Initializes the component vector without RTTI and uses the offset vector.
+/// </summary>
+/// <param name="sprites">The sprites to be added.</param>
+/// <param name="animatedSprites">The animated sprites to be added.</param>
+/// <param name="relativeOffsets">The relative offsets for the sprites.</param>
+void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets) {
 	if (sprites.size() + animatedSprites.size() != relativeOffsets.size())
 	{
 		throw Error::RelativeRotationSprite_MismatchedSizes();
@@ -268,7 +278,7 @@ void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Spr
 		addComponent(sprites[ii], relativeOffsets[ii]);
 	}
 	for (size_t ii = sprites.size(); ii < sprites.size() + animatedSprites.size(); ++ii) {
-		addComponent(animatedSprites[ii], relativeOffsets[ii]);
+		addComponent(animatedSprites[ii - sprites.size()], relativeOffsets[ii]);
 	}
 }
 
