@@ -108,7 +108,7 @@ void GB::moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 
 	// orient components towards destination
 	if (distanceToDestination != 0) {
-		sprite.setRotationOfComponents(spritesToRotate, angleToDestination);
+		sprite.setRotationOfComponents(spritesToRotate, angleToDestination * 180.0f / (float)M_PI);
 	}
 
 }
