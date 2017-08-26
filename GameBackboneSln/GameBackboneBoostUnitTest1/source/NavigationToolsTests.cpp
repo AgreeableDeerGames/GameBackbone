@@ -300,6 +300,31 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 	BOOST_CHECK(sprites[2]->getPosition() == backupPaths[2]->front());
 }
 
+// Ensure that sprites rotate to the destination that they are moving to when following a path
+BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Rotation, ReusableCompoundPathfindingObjects) {
+	
+	// move the sprite
+	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
+	float angleToDestination = (fmodf(360.0f + atan2f(paths[2]->front().y - sprites[2]->getPosition().y, paths[2]->front().x - sprites[2]->getPosition().x) * 180.0f / (float)M_PI, 360.0f));
+
+	// ensure that the sprite rotated
+	BOOST_CHECK_EQUAL(sprites[2]->getRotation(), angleToDestination);
+
+}
+
+// Ensure that sprites don't rotate to the destination that they are moving to when following a path if the option is off
+BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_No_Rotation, ReusableCompoundPathfindingObjects) {
+	
+	const float origionalAngle = sprites[2]->getRotation();
+
+	// move the sprite
+	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f, false);
+
+	// ensure that the sprite didn't rotate
+	BOOST_CHECK_EQUAL(sprites[2]->getRotation(), origionalAngle);
+
+}
+
 BOOST_AUTO_TEST_SUITE_END() // end moveSpriteAlongPathTests
 
 
