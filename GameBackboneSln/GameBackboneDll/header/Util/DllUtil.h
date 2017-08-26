@@ -2,10 +2,13 @@
 
 #include <Util\DebugIncludes.h>
 
-#define libGameBackbone __declspec(dllexport)
-
-#ifdef debugDefines
-#define libPvtGameBackbone __declspec(dllexport)
+#ifdef _WIN32
+	#define libGameBackbone __declspec(dllexport)
+	#ifdef debugDefines
+		#define libPvtGameBackbone __declspec(dllexport)
+	#else
+	#define libPvtGameBackbone
 #else
-#define libPvtGameBackbone
+	#define libGameBackbone
+	#define libPvtGameBackbone
 #endif // debugDefines
