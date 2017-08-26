@@ -77,7 +77,9 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	case GB::ALL_NAVIGATORS: 
 	{
 		std::vector<float> speeds(navigators.size(), 1.0f);
-		bulkMoveSpriteAlongPath(navigators, paths, msPassed, speeds);
+		for (size_t i = 0; i < navigators.size(); i++) {
+			moveSpriteAlongPath(*navigators[i], paths[i], msPassed, speeds[i]);
+		}
 		break;
 	}
 	default:

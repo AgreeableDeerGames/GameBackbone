@@ -51,21 +51,10 @@ namespace GB {
 														   const bool orientSpriteToDestination = true);
 
 
-	libGameBackbone extern void bulkMoveSpriteStepTowardsPoint(const std::vector<sf::Sprite*>& sprites, 
-																const std::vector<sf::Vector2f>& destinations,
-																const std::vector<float>& maxStepLength,
-																const bool orientSpritesToDestination = true);
-
 	libGameBackbone extern void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 																   const sf::Vector2f& destination,
 																   const float maxStepLength,
 																   const std::set<size_t>& spritesToRotate);
-
-
-	libGameBackbone extern void bulkMoveCompoundSpriteStepTowardsPoint(const std::vector<CompoundSprite*>& sprites,
-																	   const std::vector<sf::Vector2f>& destinations,
-																	   const std::vector<float>& maxStepLengths,
-																	   const std::vector<std::set<size_t>>& spritesToRotate);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// sprite movement along path
@@ -78,23 +67,11 @@ namespace GB {
 													const bool orientSpriteToDestination = true);
 
 
-	libGameBackbone extern void bulkMoveSpriteAlongPath(const std::vector<sf::Sprite*>& sprites,
-														 const std::vector<WindowCoordinatePathPtr>& paths,
-														 const sf::Uint64 msPassed,
-														 const std::vector<float>& distPerMs,
-													     const bool orientSpritesToDestination = true);
-
 	libGameBackbone extern void moveCompoundSpriteAlongPath(CompoundSprite& sprite,
 															WindowCoordinatePathPtr path,
 															sf::Uint64 msPassed,
 															float distPerMs,
 															const std::set<size_t>& spritesToRotate);
-
-	libGameBackbone extern void bulkMoveCompoundSpriteAlongPath(const std::vector<CompoundSprite*>& sprites,
-																const std::vector<WindowCoordinatePathPtr>& paths,
-																const sf::Uint64 msPassed,
-																const std::vector<float>& distPerMs,
-																const std::vector<std::set<size_t>>& spritesToRotate);
 
 	//---------------------------------------------------------------------------------------------------------------------
 
