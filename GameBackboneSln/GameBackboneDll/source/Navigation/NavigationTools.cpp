@@ -1,7 +1,7 @@
-#include <Navigation\NavigationTools.h>
-#include <Util\UtilMath.h>
+#include <Navigation/NavigationTools.h>
+#include <Util/UtilMath.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <math.h>
 #include <memory>

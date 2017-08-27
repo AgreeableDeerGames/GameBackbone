@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Util\Point.h>
+#include <Util/Point.h>
 
 namespace GB {
 	/// <summary> A request to calculate a path from the start coordinate to the end coordinate. </summary>

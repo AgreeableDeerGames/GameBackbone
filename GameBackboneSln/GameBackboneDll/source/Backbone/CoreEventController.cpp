@@ -1,5 +1,5 @@
-#include <Backbone\CoreEventController.h>
-#include <Backbone\GameRegion.h>
+#include <Backbone/CoreEventController.h>
+#include <Backbone/GameRegion.h>
 
 #include <string>
 

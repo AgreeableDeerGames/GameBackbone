@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Backbone\CompoundSprite.h>
-#include <Navigation\NavigationGridData.h>
-#include <Util\Array2D.h>
-#include <Util\DllUtil.h>
-#include <Util\Point.h>
-#include <Util\UtilMath.h>
+#include <Backbone/CompoundSprite.h>
+#include <Navigation/NavigationGridData.h>
+#include <Util/Array2D.h>
+#include <Util/DllUtil.h>
+#include <Util/Point.h>
+#include <Util/UtilMath.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <list>
 #include <memory>

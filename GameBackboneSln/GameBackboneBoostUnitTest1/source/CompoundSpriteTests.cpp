@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone\AnimatedSprite.h>
-#include <Backbone\CompoundSprite.h>
+#include <Backbone/AnimatedSprite.h>
+#include <Backbone/CompoundSprite.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <string>
 
@@ -16,7 +16,7 @@ struct ReusableObjects
 {
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+		std::string testTexturePath = "..//..//Textures//testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		sprite = new sf::Sprite(*aSpriteTexture);
@@ -241,7 +241,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Populated_Input_Vectors, Reusa
 	animatedSpriteVector.push_back(animSpriteWithAnim1);
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
-	
+
 	// ensure that both sprites and animated sprites are added
 	BOOST_CHECK(compoundSprite->getComponents()->size() == 2);
 	BOOST_CHECK(compoundSprite->getComponents()->at(0) == sprite);
@@ -293,7 +293,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Empty_Input_Vectors, ReusableO
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, emptyAnimatedSpriteVector);
 
 	BOOST_CHECK(compoundSprite->getComponents()->empty());
-	
+
 	delete compoundSprite;
 }
 
@@ -492,7 +492,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 	for (unsigned int i = 0; i < animatedSpriteVector->size(); ++i) {
 		animatedSpriteVector->at(i)->runAnimation(0);
 	}
-	
+
 	compoundSprite->update(sf::milliseconds(2));
 
 	for (unsigned int i = 0; i < animatedSpriteVector->size(); ++i) {
@@ -505,7 +505,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	//for some reason cant use reusable objects. recreate them here.
 	sf::Texture* aSpriteTexture = new sf::Texture();
-	std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+	std::string testTexturePath = "..//..//Textures//testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
@@ -764,7 +764,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotationOfComponents_NonAdditive_Rotat
 BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	//for some reason cant use reusable objects. recreate them here.
 	sf::Texture* aSpriteTexture = new sf::Texture();
-	std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+	std::string testTexturePath = "..//..//Textures//testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;

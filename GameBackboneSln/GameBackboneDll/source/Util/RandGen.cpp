@@ -1,4 +1,4 @@
-#include <Util\RandGen.h>
+#include <Util/RandGen.h>
 
 using namespace GB;
 
@@ -30,7 +30,7 @@ RandGen::RandGen(std::string* seed) {
 	m_generator = new std::mt19937;
 	m_uniDistributor = new std::uniform_real_distribution<double>(0, 1);
 
-	setSeed(seed); 
+	setSeed(seed);
 }
 
 RandGen::~RandGen() {

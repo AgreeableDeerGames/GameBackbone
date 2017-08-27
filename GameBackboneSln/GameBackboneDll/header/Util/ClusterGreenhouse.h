@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Util\Array2D.h>
-#include <Util\Cluster.h>
-#include <Util\Point.h>
-#include <Util\RandGen.h>
+#include <Util/Array2D.h>
+#include <Util/Cluster.h>
+#include <Util/Point.h>
+#include <Util/RandGen.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <set>
 #include <tuple>

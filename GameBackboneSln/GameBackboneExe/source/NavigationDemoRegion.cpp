@@ -3,13 +3,13 @@
 #define _USE_MATH_DEFINES
 
 #include <NavigationDemoRegion.h>
-#include <Navigation\NavigationTools.h>
-#include <Util\Point.h>
-#include <Util\UtilMath.h>
+#include <Navigation/NavigationTools.h>
+#include <Util/Point.h>
+#include <Util/UtilMath.h>
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <string>
 #include <math.h>
@@ -66,7 +66,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 
 	switch (selectedNavigatorOption)
 	{
-	case GB::NAVIGATOR_1: 
+	case GB::NAVIGATOR_1:
 	{
 		moveSpriteAlongPath(*navigators[0], paths[0], msPassed, 1);
 		break;
@@ -76,7 +76,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 		moveSpriteAlongPath(*navigators[1], paths[1], msPassed, 1);
 	}
 		break;
-	case GB::ALL_NAVIGATORS: 
+	case GB::ALL_NAVIGATORS:
 	{
 		std::vector<float> speeds(navigators.size(), 1.0f);
 		for (size_t i = 0; i < navigators.size(); i++) {
@@ -230,6 +230,7 @@ void GB::NavigationDemoRegion::initGUI() {
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(..\..\Textures\Backbone2.png)");
+
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);

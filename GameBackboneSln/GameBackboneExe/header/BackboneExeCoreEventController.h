@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Backbone\CoreEventController.h>
+#include <Backbone/CoreEventController.h>
 
 class BackboneExeCoreEventController : public GB::CoreEventController {
 public:

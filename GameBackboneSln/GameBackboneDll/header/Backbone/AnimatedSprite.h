@@ -1,15 +1,15 @@
 #pragma once
 
-#include <Backbone\AnimationSet.h>
-#include <Backbone\Updatable.h>
-#include <Util\DllUtil.h>
+#include <Backbone/AnimationSet.h>
+#include <Backbone/Updatable.h>
+#include <Util/DllUtil.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <vector>
 
 namespace GB {
-	
+
 	/// <summary>
 	/// Animation behaviors after animation end is reached.
 	/// </summary>
@@ -19,7 +19,7 @@ namespace GB {
 		ANIMATION_REVERSE,
 		ANIMATION_STOP
 	};
-	
+
 	/// <summary>
 	/// Sprite with the ability to display several animation states.
 	/// </summary>
@@ -51,7 +51,7 @@ namespace GB {
 		unsigned int getCurrentAnimationId();
 		unsigned int getAnimationDelay();
 		bool isAnimating();
-	
+
 		//operations
 		void runAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
