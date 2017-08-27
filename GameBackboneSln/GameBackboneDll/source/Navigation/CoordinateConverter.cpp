@@ -11,7 +11,8 @@ using namespace GB;
 /// </summary>
 CoordinateConverter::CoordinateConverter() {
 	gridSquareWidth = 50.f;
-	originOffset.x = originOffset.y = 0;
+	originOffset.x = 0;
+	originOffset.y = 0;
 }
 
 /// <summary>

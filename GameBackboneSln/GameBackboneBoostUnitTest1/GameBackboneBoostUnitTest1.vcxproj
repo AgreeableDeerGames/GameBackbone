@@ -167,6 +167,8 @@
     <ClCompile Include="source\AnimationSetTests.cpp" />
     <ClCompile Include="source\Array2DTests.cpp" />
     <ClCompile Include="source\Array3DTests.cpp" />
+    <ClCompile Include="source\ClusterGreenhouseTests.cpp" />
+    <ClCompile Include="source\ClusterTests.cpp" />
     <ClCompile Include="source\CompoundSpriteTests.cpp" />
     <ClCompile Include="source\CoordinateConverterTests.cpp" />
     <ClCompile Include="source\CoreEventControllerTests.cpp" />

@@ -198,6 +198,12 @@ private:
 
 BOOST_AUTO_TEST_SUITE(CoreEventController_ctrs)
 
+//Creating a non-overriden CEC to check that there are no intrinsic memory leaks.
+BOOST_AUTO_TEST_CASE(CoreEventController_NoOverride_Ctr){
+	CoreEventController* testController = new CoreEventController();
+	delete testController;
+}
+
 // Test the constructor and destructor for memory leaks and correctness.
 BOOST_AUTO_TEST_CASE(CoreEventController_default_ctr) {
 	TestCoreEventController testController;
