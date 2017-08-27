@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Backbone\GameRegion.h>
+#include <Navigation\CoordinateConverter.h>
 #include <Navigation\PathFinder.h>
 #include <Util\Array2D.h>
 #include <Util\Point.h>
@@ -15,6 +16,14 @@ namespace GB {
 		NAVIGATOR_1,
 		NAVIGATOR_2,
 		ALL_NAVIGATORS
+	};
+
+	struct NavigationDemoData : public NavigationGridData
+	{
+		sf::Sprite* demoSprite;
+
+		NavigationDemoData(){demoSprite = nullptr;}
+		virtual ~NavigationDemoData(){delete demoSprite;}
 	};
 
 	/// <summary>
@@ -40,41 +49,34 @@ namespace GB {
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
 
 
-
 	protected:
 
-		//ctr
+		// ctr
 		void init();
 
-		//helper functions
+		// helper functions
 		void initGUI();
 		void initMaze(std::vector<Point2D<int>> nonBlockablePositions);
-		sf::Vector2f gridCoordToWorldCoord(const Point2D<int>& gridCoordinate);
-		Point2D<int> worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
 
-		//movement functions
-		void moveSpriteTowardsPoint(sf::Sprite* sprite, sf::Vector2f destination, float distance);
-		void moveSpriteAlongPath(sf::Sprite* sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float speed);
-
-		//update logic storage
+		// update logic storage
 		sf::Time lastUpdateTime;
 
 		// sprite textures
 		sf::Texture* navigatorTexture;
 		sf::Texture* gridTexture;
 
-		//	store visual representation of maze and maze solvers
-		Array2D<sf::Sprite*>* visualNavigationGrid;
+		// store visual representation of maze solvers
 		std::vector<sf::Sprite*> navigators;
 
-		//path-finding
+		// path-finding
 		Pathfinder regionPathfinder;
 		NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
-		const float VISUAL_GRID_SCALE = .9f;
-		std::vector<std::list<Point2D<int>>> pathsReturn;
+		const float VISUAL_GRID_SCALE = 1.0f;
+		std::vector<WindowCoordinatePathPtr> paths;
+		CoordinateConverter coordinateConverter;
 
-		//GUI handle functions
+		// GUI handle functions
 		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
 		void Navigator1CB();
 		void Navigator2CB();

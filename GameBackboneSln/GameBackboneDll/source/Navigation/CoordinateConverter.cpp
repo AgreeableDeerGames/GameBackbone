@@ -54,6 +54,38 @@ Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>
 }
 
 /// <summary>
+/// Converts a paths represented in navigation grid coordinates to an equivalent
+/// path in window coordinates.
+/// </summary>
+/// <param name="navGridPath">The nav grid path.</param>
+/// <returns></returns>
+WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoordinatePath & navGridPath) {
+
+	// convert each coordinate and store it
+	WindowCoordinatePath convertedPath;
+	for (Point2D<int> coordinate : navGridPath) {
+		convertedPath.push_back(convertCoordToWindow(coordinate));
+	}
+	return convertedPath;
+}
+
+/// <summary>
+/// Converts a paths represented in window coordinates to an equivalent
+/// path in navigation grid coordinates.
+/// </summary>
+/// <param name="windowPath">The window path.</param>
+/// <returns></returns>
+NavGridCoordinatePath CoordinateConverter::convertPathToNavGrid(const WindowCoordinatePath & windowPath)
+{
+	// convert each coordinate and store it
+	NavGridCoordinatePath convertedPath;
+	for (sf::Vector2f coordinate : windowPath) {
+		convertedPath.push_back(convertCoordToNavGrid(coordinate));
+	}
+	return convertedPath;
+}
+
+/// <summary>
 /// Sets the width of the grid square.
 /// </summary>
 /// <param name="newWidth">The new width.</param>
