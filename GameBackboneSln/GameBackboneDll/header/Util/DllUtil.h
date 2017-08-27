@@ -7,7 +7,8 @@
 	#ifdef debugDefines
 		#define libPvtGameBackbone __declspec(dllexport)
 	#else
-	#define libPvtGameBackbone
+		#define libPvtGameBackbone
+	#endif
 #else
 	#define libGameBackbone
 	#define libPvtGameBackbone
