@@ -21,7 +21,8 @@ namespace GB {
 
 
 		Array2D<std::string> readFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter);
-		
+		std::string FileReader::readFileBinaryInput(std::string filePath);
+
 	private:
 
 	};
