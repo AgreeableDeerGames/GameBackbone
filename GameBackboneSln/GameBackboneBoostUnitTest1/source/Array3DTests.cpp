@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Util\Array3D.h>
+#include <Util/Array3D.h>
 
 using namespace GB;
 
@@ -8,7 +8,7 @@ BOOST_AUTO_TEST_SUITE(Array3D_Tests)
 
 BOOST_AUTO_TEST_SUITE(Array3D_ctrs)
 
-BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )  
+BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )
 {
 
 	Array3D<int>* intArray = new Array3D<int>();//sizes of all dimensions should be 100

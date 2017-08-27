@@ -1,5 +1,5 @@
-#include <Util\FileReader.h>
-#include <Backbone\BackboneBaseExceptions.h>
+#include <Util/FileReader.h>
+#include <Backbone/BackboneBaseExceptions.h>
 
 #include <iostream>
 #include <fstream>
@@ -15,7 +15,7 @@ using namespace GB;
 /// <param name="totalRows">The number of lines to be read.</param>
 /// <param name="totalColumns">The number of columns to be read.</param>
 /// <param name="delimiter">The delimiter for the table type.</param>
-/// <returns>Returns an Array2D of size totalRows by totalColumns. Each row represents a new line in the input file. 
+/// <returns>Returns an Array2D of size totalRows by totalColumns. Each row represents a new line in the input file.
 /// Each column represents a value within that row.
 /// </returns>
 Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter) {

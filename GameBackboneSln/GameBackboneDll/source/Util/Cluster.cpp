@@ -1,8 +1,8 @@
-#include <Util\Array2D.h>
-#include <Util\Cluster.h>
-#include <Util\Point.h>
+#include <Util/Array2D.h>
+#include <Util/Cluster.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <set>
 #include <tuple>
@@ -11,7 +11,7 @@
 using namespace GB;
 
 /// <summary>
-/// Constructor 
+/// Constructor
 /// </summary>
 /// <param name="firstPoint">Point which will be the origin of the cluster</param>
 Cluster::Cluster(Point2D<int> firstPoint) {

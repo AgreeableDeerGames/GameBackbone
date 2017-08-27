@@ -1,4 +1,4 @@
-#include <Backbone\CompoundSprite.h>
+#include <Backbone/CompoundSprite.h>
 
 #include<algorithm>
 
@@ -7,7 +7,7 @@ using namespace GB;
 //ctr / dtr
 
 /// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the CompoundSprite 
+/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Stores the passed groups of sf::Sprite and AnimatedSprite as components of the CompoundSprite
 /// </summary>
 /// <param name="sprites">Sprite components of the new CompoundSprite</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite</param>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Util\RandGen.h>
+#include <Util/RandGen.h>
 
 using namespace GB;
 
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(RandGen_uniDist) {
 		// Ensure that the outputs for the same seed are the same
 		double output = testRandGen->uniDist(min, max);
 		BOOST_CHECK(min <= output && output < max);
-		min = min + 1; 
+		min = min + 1;
 		max = max + 4;
 	}
 

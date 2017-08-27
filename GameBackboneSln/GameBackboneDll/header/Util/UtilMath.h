@@ -1,10 +1,10 @@
 #pragma once
-#include <Util\Cluster.h>
-#include <Util\ClusterGreenhouse.h>
-#include <Util\DllUtil.h>
-#include <Util\Point.h>
+#include <Util/Cluster.h>
+#include <Util/ClusterGreenhouse.h>
+#include <Util/DllUtil.h>
+#include <Util/Point.h>
 
-#include <SFML\System\Vector3.hpp>
+#include <SFML/System/Vector3.hpp>
 
 #include <chrono>
 #include <math.h>

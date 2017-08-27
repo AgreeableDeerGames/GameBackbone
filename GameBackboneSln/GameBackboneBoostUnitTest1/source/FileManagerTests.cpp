@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Util\Array2D.h>
-#include <Util\FileManager.h>
-#include <Backbone\BackboneBaseExceptions.h>
+#include <Util/Array2D.h>
+#include <Util/FileManager.h>
+#include <Backbone/BackboneBaseExceptions.h>
 
 using namespace GB;
 
@@ -37,8 +37,8 @@ BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_same_Key) {
 	BOOST_CHECK(outputString.size() == testString.size());
 
 	for (char character : outputString)
-	{ 
-		BOOST_CHECK(character == '\0');
+	{
+		BOOST_CHECK(character == '/0');
 	}
 
 	outputString = testManager.encryptDecryptString(outputString, key);
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_slashN) {
 
 	for (char character : outputString)
 	{
-		BOOST_CHECK(character == '\n');
+		BOOST_CHECK(character == '/n');
 	}
 
 	outputString = testManager.encryptDecryptString(outputString, key);

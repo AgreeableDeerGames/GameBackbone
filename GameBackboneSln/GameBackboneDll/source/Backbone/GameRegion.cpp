@@ -1,6 +1,6 @@
-#include <Backbone\GameRegion.h>
+#include <Backbone/GameRegion.h>
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
 #include <algorithm>
 
@@ -206,7 +206,7 @@ void GameRegion::addNeighborRegion(GameRegion * neighborToAdd) {
 
 /// <summary>
 /// Removes the neighbor association between two GameRegions.
-/// 
+///
 /// Throws GameRegion_BadDissociation if the GameRegions are not neighbors.
 /// </summary>
 /// <param name="neighborToRemove">The neighbor that is being removed from this GameRegion.</param>
@@ -230,7 +230,7 @@ void GameRegion::removeNeighborRegion(GameRegion * neighborToRemove) {
 
 /// <summary>
 /// Removes the parent child relationship between two GameRegions.
-/// 
+///
 /// Throws GameRegion_BadDissociation if childToRemove is not a child.
 /// </summary>
 /// <param name="childToRemove">The child that is being removed from the Parent Region.</param>
@@ -280,13 +280,13 @@ void GameRegion::clearNeighborRegions() {
 /// </summary>
 /// <example>
 /// <pre>
-/// \b Example
-/// \code{.cpp}
+/// /b Example
+/// /code{.cpp}
 /// void GameRegion::clearNeighborRegions() {
 ///     std::function <void(GameRegion*)> disassociator = std::bind(&aClass::FunctionWhichDisassociates, this, std::placeholders::_1);
 ///     clearAssociations(disassociator, getNeighborRegions());
 /// }
-/// \endcode
+/// /endcode
 /// </pre>
 /// </example>
 /// <param name="memberFunctionPointer">Function used to disassociate individual elements of the list</param>

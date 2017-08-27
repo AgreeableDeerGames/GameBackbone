@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Util\Point.h>
-#include <Util\UtilMath.h>
+#include <Util/Point.h>
+#include <Util/UtilMath.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace GB;
 

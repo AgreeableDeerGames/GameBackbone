@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBackboneExe", "GameBackboneExe\GameBackboneExe.vcxproj", "{B7056FFF-CA6C-4539-A149-1330C7BF4AFB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBackboneExe", "GameBackboneExe/GameBackboneExe.vcxproj", "{B7056FFF-CA6C-4539-A149-1330C7BF4AFB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBackboneDll", "GameBackboneDll\GameBackboneDll.vcxproj", "{A9D0E80D-4090-4283-BAF6-F86685A65D8A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBackboneDll", "GameBackboneDll/GameBackboneDll.vcxproj", "{A9D0E80D-4090-4283-BAF6-F86685A65D8A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBackboneBoostUnitTest1", "GameBackboneBoostUnitTest1\GameBackboneBoostUnitTest1.vcxproj", "{F986D84D-0671-410D-A18D-3045CBD29720}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBackboneBoostUnitTest1", "GameBackboneBoostUnitTest1/GameBackboneBoostUnitTest1.vcxproj", "{F986D84D-0671-410D-A18D-3045CBD29720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

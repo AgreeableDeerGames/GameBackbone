@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Util\DllUtil.h>
-#include <Util\Point.h>
+#include <Util/DllUtil.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 namespace GB {
-	
+
 	/// <summary>
 	/// Converts coordinates between sf window and navigation grid.
 	/// </summary>

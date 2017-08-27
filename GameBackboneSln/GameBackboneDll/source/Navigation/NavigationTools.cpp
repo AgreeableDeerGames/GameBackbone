@@ -1,4 +1,4 @@
-#include <Navigation\NavigationTools.h>
+#include <Navigation/NavigationTools.h>
 
 using namespace GB;
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Util\DllUtil.h>
-#include <Util\Array2D.h>
-#include <Navigation\NavigationGridData.h>
-#include <Navigation\PathRequest.h>
-#include <Navigation\NavigationTools.h>
-#include <Util\Point.h>
+#include <Util/DllUtil.h>
+#include <Util/Array2D.h>
+#include <Navigation/NavigationGridData.h>
+#include <Navigation/PathRequest.h>
+#include <Navigation/NavigationTools.h>
+#include <Util/Point.h>
 
 #include<list>
 #include<map>

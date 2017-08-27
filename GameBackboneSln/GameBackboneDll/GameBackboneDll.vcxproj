@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -24,7 +24,7 @@
     <RootNamespace>GameBackboneDll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -51,22 +51,22 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)/Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -105,7 +105,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE);..\GameBackboneDll\header</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE);../GameBackboneDll/header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,7 +140,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;GAMEBACKBONEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE);..\GameBackboneDll\header</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SFML_INCLUDE);$(TGUI_INCLUDE);../GameBackboneDll/header</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,51 +155,51 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Backbone\AnimatedSprite.h" />
-    <ClInclude Include="header\Backbone\AnimationSet.h" />
-    <ClInclude Include="header\Backbone\BackboneBaseExceptions.h" />
-    <ClInclude Include="header\Backbone\CompoundSprite.h" />
-    <ClInclude Include="header\Backbone\CoreEventController.h" />
-    <ClInclude Include="header\Backbone\GameRegion.h" />
-    <ClInclude Include="header\Backbone\Updatable.h" />
-    <ClInclude Include="header\Navigation\CoordinateConverter.h" />
-    <ClInclude Include="header\Navigation\NavigationGridData.h" />
-    <ClInclude Include="header\Navigation\NavigationTools.h" />
-    <ClInclude Include="header\Navigation\PathFinder.h" />
-    <ClInclude Include="header\Navigation\PathRequest.h" />
-    <ClInclude Include="header\Util\Array2D.h" />
-    <ClInclude Include="header\Util\Array3D.h" />
-    <ClInclude Include="header\Util\Cluster.h" />
-    <ClInclude Include="header\Util\ClusterGreenhouse.h" />
-    <ClInclude Include="header\Util\DebugIncludes.h" />
-    <ClInclude Include="header\Util\DllUtil.h" />
-    <ClInclude Include="header\Util\FileManager.h" />
-    <ClInclude Include="header\Util\FileReader.h" />
-    <ClInclude Include="header\Util\Point.h" />
-    <ClInclude Include="header\Util\RandGen.h" />
-    <ClInclude Include="header\Util\targetver.h" />
-    <ClInclude Include="header\Util\UtilMath.h" />
+    <ClInclude Include="header/Backbone/AnimatedSprite.h" />
+    <ClInclude Include="header/Backbone/AnimationSet.h" />
+    <ClInclude Include="header/Backbone/BackboneBaseExceptions.h" />
+    <ClInclude Include="header/Backbone/CompoundSprite.h" />
+    <ClInclude Include="header/Backbone/CoreEventController.h" />
+    <ClInclude Include="header/Backbone/GameRegion.h" />
+    <ClInclude Include="header/Backbone/Updatable.h" />
+    <ClInclude Include="header/Navigation/CoordinateConverter.h" />
+    <ClInclude Include="header/Navigation/NavigationGridData.h" />
+    <ClInclude Include="header/Navigation/NavigationTools.h" />
+    <ClInclude Include="header/Navigation/PathFinder.h" />
+    <ClInclude Include="header/Navigation/PathRequest.h" />
+    <ClInclude Include="header/Util/Array2D.h" />
+    <ClInclude Include="header/Util/Array3D.h" />
+    <ClInclude Include="header/Util/Cluster.h" />
+    <ClInclude Include="header/Util/ClusterGreenhouse.h" />
+    <ClInclude Include="header/Util/DebugIncludes.h" />
+    <ClInclude Include="header/Util/DllUtil.h" />
+    <ClInclude Include="header/Util/FileManager.h" />
+    <ClInclude Include="header/Util/FileReader.h" />
+    <ClInclude Include="header/Util/Point.h" />
+    <ClInclude Include="header/Util/RandGen.h" />
+    <ClInclude Include="header/Util/targetver.h" />
+    <ClInclude Include="header/Util/UtilMath.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Backbone\AnimatedSprite.cpp" />
-    <ClCompile Include="source\Backbone\AnimationSet.cpp" />
-    <ClCompile Include="source\Backbone\CompoundSprite.cpp" />
-    <ClCompile Include="source\Backbone\CoreEventController.cpp" />
-    <ClCompile Include="source\Backbone\GameRegion.cpp" />
-    <ClCompile Include="source\Navigation\CoordinateConverter.cpp" />
-    <ClCompile Include="source\Navigation\NavigationTools.cpp" />
-    <ClCompile Include="source\Navigation\PathFinder.cpp" />
-    <ClCompile Include="source\Util\Cluster.cpp" />
-    <ClCompile Include="source\Util\ClusterGreenhouse.cpp" />
-    <ClCompile Include="source\Util\dllmain.cpp" />
-    <ClCompile Include="source\Util\FileManager.cpp" />
-    <ClCompile Include="source\Util\FileReader.cpp" />
-    <ClCompile Include="source\Util\RandGen.cpp" />
+    <ClCompile Include="source/Backbone/AnimatedSprite.cpp" />
+    <ClCompile Include="source/Backbone/AnimationSet.cpp" />
+    <ClCompile Include="source/Backbone/CompoundSprite.cpp" />
+    <ClCompile Include="source/Backbone/CoreEventController.cpp" />
+    <ClCompile Include="source/Backbone/GameRegion.cpp" />
+    <ClCompile Include="source/Navigation/CoordinateConverter.cpp" />
+    <ClCompile Include="source/Navigation/NavigationTools.cpp" />
+    <ClCompile Include="source/Navigation/PathFinder.cpp" />
+    <ClCompile Include="source/Util/Cluster.cpp" />
+    <ClCompile Include="source/Util/ClusterGreenhouse.cpp" />
+    <ClCompile Include="source/Util/dllmain.cpp" />
+    <ClCompile Include="source/Util/FileManager.cpp" />
+    <ClCompile Include="source/Util/FileReader.cpp" />
+    <ClCompile Include="source/Util/RandGen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

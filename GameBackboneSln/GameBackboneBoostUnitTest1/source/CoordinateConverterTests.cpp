@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Navigation\CoordinateConverter.h>
-#include <Util\Point.h>
+#include <Navigation/CoordinateConverter.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace GB;
 

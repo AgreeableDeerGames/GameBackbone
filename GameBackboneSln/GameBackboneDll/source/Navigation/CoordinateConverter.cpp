@@ -1,7 +1,7 @@
-#include <Navigation\CoordinateConverter.h>
-#include <Util\Point.h>
+#include <Navigation/CoordinateConverter.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace GB;
 
@@ -40,7 +40,7 @@ sf::Vector2<float> CoordinateConverter::convertCoordToWindow(const Point2D<int>&
 
 /// <summary>
 /// Converts the coordinate to a navigation grid coordinate.
-/// The value of right/bottom edge is not contained by the grid square square 
+/// The value of right/bottom edge is not contained by the grid square square
 /// ei: [0, gridSquareWidth)
 /// ei: gridSquareWidth = 50; WindowCoord(49.999, 50) -> NavGridCoord(0, 1)
 /// </summary>

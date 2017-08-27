@@ -15,7 +15,7 @@ function toggleVisibility(linkObj)
    summary.hide();
    $(linkObj).removeClass('closed').addClass('opened');
    $(trigger).attr('src',src.substring(0,src.length-10)+'open.png');
- } 
+ }
  return false;
 }
 
@@ -54,7 +54,7 @@ function toggleFolder(id)
   // all rows after the clicked row
   var rows = currentRow.nextAll("tr");
 
-  var re = new RegExp('^row_'+id+'\\d+_$', "i"); //only one sub
+  var re = new RegExp('^row_'+id+'//d+_$', "i"); //only one sub
 
   // only match elements AFTER this one (can't hide elements before)
   var childRows = rows.filter(function() { return this.id.match(re); });
@@ -98,7 +98,7 @@ function toggleInherit(id)
 
 $(document).ready(function() {
   $('.code,.codeRef').each(function() {
-    $(this).data('powertip',$('#'+$(this).attr('href').replace(/.*\//,'').replace(/[^a-z_A-Z0-9]/g,'_')).html());
+    $(this).data('powertip',$('#'+$(this).attr('href').replace(/.*///,'').replace(/[^a-z_A-Z0-9]/g,'_')).html());
     $(this).powerTip({ placement: 's', smartPlacement: true, mouseOnToPopup: true });
   });
 });

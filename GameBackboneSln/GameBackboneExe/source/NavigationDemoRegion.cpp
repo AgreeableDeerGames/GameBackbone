@@ -3,13 +3,13 @@
 #define _USE_MATH_DEFINES
 
 #include <NavigationDemoRegion.h>
-#include <Navigation\NavigationTools.h>
-#include <Util\Point.h>
-#include <Util\UtilMath.h>
+#include <Navigation/NavigationTools.h>
+#include <Util/Point.h>
+#include <Util/UtilMath.h>
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <string>
 #include <math.h>
@@ -70,7 +70,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
 	switch (selectedNavigatorOption)
 	{
-	case GB::NAVIGATOR_1: 
+	case GB::NAVIGATOR_1:
 	{
 		moveSpriteAlongPath(navigators[0], &(pathsReturn[0]), msPassed, 1);
 	}
@@ -80,7 +80,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 		moveSpriteAlongPath(navigators[1], &(pathsReturn[1]), msPassed, 1);
 	}
 		break;
-	case GB::ALL_NAVIGATORS: 
+	case GB::ALL_NAVIGATORS:
 	{
 		for (size_t i = 0; i < navigators.size(); i++) {
 			moveSpriteAlongPath(navigators[i], &(pathsReturn[i]), msPassed, 1);
@@ -127,10 +127,10 @@ void GB::NavigationDemoRegion::init() {
 	visualNavigationGrid = new Array2D<sf::Sprite*>(NAV_GRID_DIM);
 
 	//init textures
-	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
+	std::string arrowPath("..//..//Textures//SmallArrow.png");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
-	std::string navigationGridPath("..\\..\\Textures\\NavigationGrid.png");
+	std::string navigationGridPath("..//..//Textures//NavigationGrid.png");
 	gridTexture = new sf::Texture();
 	gridTexture->loadFromFile(navigationGridPath);
 
@@ -211,7 +211,7 @@ void GB::NavigationDemoRegion::initGUI() {
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
+	tgui::Picture::Ptr picture = tgui::Picture::create("..//..//Textures//Backbone2.png");
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
@@ -310,12 +310,12 @@ sf::Vector2f NavigationDemoRegion::gridCoordToWorldCoord(const Point2D<int> & gr
 	sf::Vector2f offsetOrigin(0 + (gridSquareWidth / 2.0f), 0 + (gridSquareHeight / 2.0f));// bad hack
 
 	// use size of grid squares and grid origin position to calculate world coordinate
-	return sf::Vector2f(gridCoordinate.x * gridSquareWidth + offsetOrigin.x, 
+	return sf::Vector2f(gridCoordinate.x * gridSquareWidth + offsetOrigin.x,
 						gridCoordinate.y * gridSquareHeight + offsetOrigin.y);
 }
 
 /// <summary>
-/// Determine what grid square a game world coordinate lies in. 
+/// Determine what grid square a game world coordinate lies in.
 /// </summary>
 /// <param name="worldCoordinate">The world coordinate.</param>
 /// <returns>The coordinate of the grid that the game world coordinate lies in.</returns>
@@ -340,15 +340,15 @@ Point2D<int> NavigationDemoRegion::worldCoordToGridCoord(const sf::Vector2f & wo
 /// <param name="destination">The destination.</param>
 /// <param name="distance">The distance.</param>
 void NavigationDemoRegion::moveSpriteTowardsPoint(sf::Sprite * sprite, sf::Vector2f destination, float distance) {
-	
+
 	distance = 0.1f; //TODO: figure out why this isn't ever big enough
 
 	//angle between the sprite and the destination
 	const float angleToDestination = atan2(destination.y - sprite->getPosition().y, destination.x - sprite->getPosition().x);
-	const float angleToDestinationDeg = angleToDestination * (180.0f / (float)M_PI) + 90.0f;// This is offset by 90 degrees. This is because this value is only used to rotate the sprite. 
+	const float angleToDestinationDeg = angleToDestination * (180.0f / (float)M_PI) + 90.0f;// This is offset by 90 degrees. This is because this value is only used to rotate the sprite.
 																				  //The sprite is currently rotated at -90 from the games coordinate system
-	
-	//angle sprite to point at destination 
+
+	//angle sprite to point at destination
 	sprite->setRotation(angleToDestinationDeg);
 
 	//move sprite by distance towards its destination
@@ -374,7 +374,7 @@ void NavigationDemoRegion::moveSpriteAlongPath(sf::Sprite * sprite, std::list<Po
 		auto nextGrid = path->front();
 		sf::Vector2f targetPosition = ((*visualNavigationGrid)[nextGrid.x][nextGrid.y])->getPosition();
 		moveSpriteTowardsPoint(sprite, targetPosition, actualMovement);
-		
+
 		//check if the sprite is close enough to its destination
 		auto spriteCurrentPosition = sprite->getPosition();
 		auto destination = targetPosition;
