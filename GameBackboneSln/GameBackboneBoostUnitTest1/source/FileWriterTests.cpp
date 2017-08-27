@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_SUITE(FileWriter_writeStringTests)
 BOOST_FIXTURE_TEST_CASE(FileWriter_writeString, ReusableObjects) {
 
 	FileWriter testWriter;
-	testWriter.writeString("ba\nna\nna", R"(..\banana.bin)");
+	testWriter.writeString("ba\nna\nna", TestFileLocation + "banana.bin");
 
 	BOOST_CHECK(true == true);
 }
@@ -63,7 +63,7 @@ BOOST_FIXTURE_TEST_CASE(FileWriter_createWriteString, ReusableObjects) {
 	testWriter.createWritableString(&currentReusableObject.outputArray, ',', &outputString);
 
 	//write outputString into banana.bin
-	testWriter.writeString(outputString, R"(..\banana.bin)");
+	testWriter.writeString(outputString, TestFileLocation + "banana.bin");
 
 	BOOST_CHECK(true == true);
 }

@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_SUITE(FileReader_readFile)
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_test, ReusableObjects) {
 
 	FileReader testReader;
-	Array2D<std::string> testFile = testReader.readFile(R"(..\TestInFile.tsv)", 5, 4, '\t');
+	Array2D<std::string> testFile = testReader.readFile(TestFileLocation + "TestInFile.tsv", 5, 4, '\t');
 
 	// Ensure that the output array is what is in the file.
 	for (int ii = 0; ii < 5; ++ii) {
@@ -71,7 +71,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_test, ReusableObjects) {
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_csv_test, ReusableObjects) {
 
 	FileReader testReader;
-	Array2D<std::string> testFile = testReader.readFile(R"(..\TestInFile.csv)", 5, 4, ',');
+	Array2D<std::string> testFile = testReader.readFile(TestFileLocation + "TestInFile.csv", 5, 4, ',');
 
 	// Ensure that the output array is what is in the file.
 	for (int ii = 0; ii < 5; ++ii) {
@@ -85,7 +85,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_csv_test, ReusableObjects) {
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_partial_test, ReusableObjects) {
 
 	FileReader testReader;
-	Array2D<std::string> testFile = testReader.readFile(R"(..\TestInFile.tsv)", 3, 3, '\t');
+	Array2D<std::string> testFile = testReader.readFile(TestFileLocation + "TestInFile.tsv", 3, 3, '\t');
 
 	// Ensure that the output array is what is in the file.
 	for (int ii = 0; ii < 3; ++ii) {
@@ -101,7 +101,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_BadFile_test, ReusableObjects) {
 	FileReader testReader;
 
 	// Ensure that readFile throws an exception if the file doesn't exist.
-	BOOST_CHECK_THROW(testReader.readFile(R"(..\NOTAREALFILE.txt)", 3, 3, '\t'), Error::FileReader_BadFile);
+	BOOST_CHECK_THROW(testReader.readFile(TestFileLocation + "NOTAREALFILE.txt", 3, 3, '\t'), Error::FileReader_BadFile);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end FileReader_readFile
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_SUITE(FileReader_readFileBinaryInput)
 BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_tsv_test, ReusableObjects) {
 
 	FileReader testReader;
-	std::string testFile = testReader.readFileBinaryInput(R"(..\TestInFile.tsv)");
+	std::string testFile = testReader.readFileBinaryInput(TestFileLocation + "TestInFile.tsv");
 
 	// Ensure that the output string is what is in the file.
 	BOOST_CHECK(testFile == outputStringTsv);
@@ -122,7 +122,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_tsv_test, ReusableObjects
 BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_csv_test, ReusableObjects) {
 
 	FileReader testReader;
-	std::string testFile = testReader.readFileBinaryInput(R"(..\TestInFile.csv)");
+	std::string testFile = testReader.readFileBinaryInput(TestFileLocation + "TestInFile.csv");
 
 	// Ensure that the output string is what is in the file.
 	BOOST_CHECK(testFile == outputStringCsv);
@@ -132,7 +132,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_csv_test, ReusableObjects
 BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_txt_test, ReusableObjects) {
 
 	FileReader testReader;
-	std::string testFile = testReader.readFileBinaryInput(R"(..\FunnyCharacters.txt)");
+	std::string testFile = testReader.readFileBinaryInput(TestFileLocation + "FunnyCharacters.txt");
 
 	// Ensure that the output string is what is in the file.
 	BOOST_CHECK(testFile == outputStringFunnyTxt);
@@ -142,7 +142,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_txt_test, ReusableObjects
 BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_nulltxt_test, ReusableObjects) {
 
 	FileReader testReader;
-	std::string testFile = testReader.readFileBinaryInput(R"(..\null.txt)");
+	std::string testFile = testReader.readFileBinaryInput(TestFileLocation + "null.txt");
 
 	// Ensure that the output string is what is in the file.
 	BOOST_CHECK(testFile == nullTxt);
@@ -154,7 +154,7 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFileBinaryInput_BadFile_test, ReusableObj
 	FileReader testReader;
 
 	// Ensure that readFile throws an exception if the file doesn't exist.
-	BOOST_CHECK_THROW(testReader.readFileBinaryInput(R"(..\NOTAREALFILE.txt)"), Error::FileReader_BadFile);
+	BOOST_CHECK_THROW(testReader.readFileBinaryInput(TestFileLocation + "NOTAREALFILE.txt"), Error::FileReader_BadFile);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end FileReader_readFileBinaryInput
