@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_same_Key) {
 
 	for (char character : outputString)
 	{
-		BOOST_CHECK(character == '/0');
+		BOOST_CHECK(character == '\0');
 	}
 
 	outputString = testManager.encryptDecryptString(outputString, key);
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_slashN) {
 
 	for (char character : outputString)
 	{
-		BOOST_CHECK(character == '/n');
+		BOOST_CHECK(character == '\n');
 	}
 
 	outputString = testManager.encryptDecryptString(outputString, key);

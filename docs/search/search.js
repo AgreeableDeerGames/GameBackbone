@@ -5,7 +5,7 @@ function convertToId(search)
   {
     var c = search.charAt(i);
     var cn = c.charCodeAt(0);
-    if (c.match(/[a-z0-9/u0080-/uFFFF]/))
+    if (c.match(/[a-z0-9\u0080-\uFFFF]/))
     {
       result+=c;
     }
@@ -490,7 +490,7 @@ function SearchResults(name)
         if (row.className == "SRResult")
         {
           var rowMatchName = row.id.toLowerCase();
-          rowMatchName = rowMatchName.replace(/^sr/d*_/, ''); // strip 'sr123_'
+          rowMatchName = rowMatchName.replace(/^sr\d*_/, ''); // strip 'sr123_'
 
           if (search.length<=rowMatchName.length &&
              rowMatchName.substr(0, search.length)==search)

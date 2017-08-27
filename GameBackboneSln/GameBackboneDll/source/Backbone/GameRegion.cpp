@@ -280,13 +280,13 @@ void GameRegion::clearNeighborRegions() {
 /// </summary>
 /// <example>
 /// <pre>
-/// /b Example
-/// /code{.cpp}
+/// \b Example
+/// \code{.cpp}
 /// void GameRegion::clearNeighborRegions() {
 ///     std::function <void(GameRegion*)> disassociator = std::bind(&aClass::FunctionWhichDisassociates, this, std::placeholders::_1);
 ///     clearAssociations(disassociator, getNeighborRegions());
 /// }
-/// /endcode
+/// \endcode
 /// </pre>
 /// </example>
 /// <param name="memberFunctionPointer">Function used to disassociate individual elements of the list</param>
