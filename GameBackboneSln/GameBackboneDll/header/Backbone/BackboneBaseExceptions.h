@@ -68,8 +68,8 @@ namespace GB {
 		};
 
 		/// <summary>
-		/// Exception thrown when a function is intentionally "Not Implemented".
-		/// If a function is calling this exception, please use a different solution.
+		/// Exception thrown when Component and RelativeOffset vectors passed into
+		/// RelativeRotationSprite are not equal in size.
 		/// </summary>
 		/// <seealso cref="std::exception" />
 		class RelativeRotationSprite_MismatchedSizes : public std::exception
