@@ -44,9 +44,12 @@ BOOST_AUTO_TEST_SUITE(FileWriter_writeStringTests)
 BOOST_FIXTURE_TEST_CASE(FileWriter_writeString, ReusableObjects) {
 
 	FileWriter testWriter;
-	testWriter.writeString("ba\nna\nna", TestFileLocation + "banana.bin");
+
+	std::string filePath = TestFileLocation + "banana.bin";
+	testWriter.writeString("ba\nna\nna", filePath);
 
 	BOOST_CHECK(true == true);
+	remove(filePath.c_str());
 }
 
 BOOST_AUTO_TEST_SUITE_END() //end FileReader_writeStringTests
@@ -56,6 +59,7 @@ BOOST_AUTO_TEST_SUITE(FileWriter_createWriteStringTests)
 BOOST_FIXTURE_TEST_CASE(FileWriter_createWriteString, ReusableObjects) {
 	//Initialize all the necessary data
 	FileWriter testWriter;
+	std::string filePath = TestFileLocation + "banana.bin";
 	ReusableObjects currentReusableObject = ReusableObjects();
 	std::string outputString = "";
 
@@ -63,9 +67,10 @@ BOOST_FIXTURE_TEST_CASE(FileWriter_createWriteString, ReusableObjects) {
 	testWriter.createWritableString(&currentReusableObject.outputArray, ',', &outputString);
 
 	//write outputString into banana.bin
-	testWriter.writeString(outputString, TestFileLocation + "banana.bin");
+	testWriter.writeString(outputString, filePath);
 
 	BOOST_CHECK(true == true);
+	remove(filePath.c_str());
 }
 
 BOOST_AUTO_TEST_SUITE_END() //end FileWriter_createWriteStringTests
