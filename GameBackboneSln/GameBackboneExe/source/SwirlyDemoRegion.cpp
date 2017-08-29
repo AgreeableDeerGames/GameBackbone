@@ -3,12 +3,12 @@
 #define _USE_MATH_DEFINES
 
 #include <SwirlyDemoRegion.h>
-#include <Navigation\NavigationTools.h>
-#include <Backbone\RelativeRotationSprite.h>
+#include <Backbone/RelativeRotationSprite.h>
+#include <Navigation/NavigationTools.h>
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <string>
 #include <math.h>

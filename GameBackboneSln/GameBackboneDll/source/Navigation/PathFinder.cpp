@@ -1,6 +1,6 @@
-#include <Navigation\PathFinder.h>
-#include <Util\Point.h>
-#include <Util\UtilMath.h>
+#include <Navigation/PathFinder.h>
+#include <Util/Point.h>
+#include <Util/UtilMath.h>
 
 #include <set>
 #include <queue>
@@ -143,7 +143,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 }
 
 
-// private helper functions 
+// private helper functions
 
 /// <summary>
 /// Chooses the next grid square for pathFind based on the pathRequest and the available grid squares.

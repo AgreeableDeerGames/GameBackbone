@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Util\Array2D.h>
-#include <SFML\System\Vector3.hpp>
+#include <Util/Array2D.h>
+#include <SFML/System/Vector3.hpp>
 
 #include <vector>
 
@@ -35,7 +35,7 @@ namespace GB {
 		}
 
 		Array3D(const Array3D<templateClass>& other) = default;
-		Array3D(Array3D<templateClass>&& other) = default; 
+		Array3D(Array3D<templateClass>&& other) = default;
 		Array3D& operator= (const Array3D<templateClass>& other) = default;
 		Array3D& operator= (Array3D<templateClass>&& other) = default;
 

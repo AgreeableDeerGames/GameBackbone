@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone\AnimatedSprite.h>
-#include <Backbone\CompoundSprite.h>
+#include <Backbone/AnimatedSprite.h>
+#include <Backbone/CompoundSprite.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <string>
 
@@ -16,7 +16,7 @@ struct ReusableObjects
 {
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+		std::string testTexturePath = "..//..//Textures//testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		sprite = new sf::Sprite(*aSpriteTexture);
@@ -241,7 +241,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Populated_Input_Vectors, Reusa
 	animatedSpriteVector.push_back(animSpriteWithAnim1);
 
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
-	
+
 	// ensure that both sprites and animated sprites are added
 	BOOST_CHECK(compoundSprite->getComponents()->size() == 2);
 	BOOST_CHECK(compoundSprite->getComponents()->at(0) == sprite);
@@ -293,7 +293,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Empty_Input_Vectors, ReusableO
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, emptyAnimatedSpriteVector);
 
 	BOOST_CHECK(compoundSprite->getComponents()->empty());
-	
+
 	delete compoundSprite;
 }
 
@@ -492,7 +492,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 	for (unsigned int i = 0; i < animatedSpriteVector->size(); ++i) {
 		animatedSpriteVector->at(i)->runAnimation(0);
 	}
-	
+
 	compoundSprite->update(sf::milliseconds(2));
 
 	for (unsigned int i = 0; i < animatedSpriteVector->size(); ++i) {
@@ -505,7 +505,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	//for some reason cant use reusable objects. recreate them here.
 	sf::Texture* aSpriteTexture = new sf::Texture();
-	std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+	std::string testTexturePath = "..//..//Textures//testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
@@ -764,7 +764,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotationOfComponents_NonAdditive_Rotat
 BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	//for some reason cant use reusable objects. recreate them here.
 	sf::Texture* aSpriteTexture = new sf::Texture();
-	std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+	std::string testTexturePath = "..//..//Textures//testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
@@ -809,10 +809,173 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	delete aSpriteTexture;
 }
 
+// Test that moving a compound sprite correctly moves all of its components
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_move_Vector2f, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite({ sprite, animSpriteWithAnim1, animSpriteWithAnim2 });
+	const sf::Vector2f OFFSET(213.456f, 456.123f);
+
+	compoundSprite->move(OFFSET);
+
+
+	//ensure all sprites got the correct position
+	for (sf::Sprite* tempSprite : *(compoundSprite->getComponents()))
+	{
+		BOOST_CHECK_CLOSE_FRACTION(tempSprite->getPosition().x, OFFSET.x, 1.0f);
+		BOOST_CHECK_CLOSE_FRACTION(tempSprite->getPosition().y, OFFSET.y, 1.0f);
+	}
+
+	delete compoundSprite;
+}
+
 // Test that setting the position of the compound sprite correctly sets the position of all of the members
-BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_Vector2f) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Vector2f, ReusableObjectsForOperations) {
+	const float POSITION_X = 123.456f;
+	const float POSITION_Y = 654.321f;
+	const sf::Vector2f POSITION(POSITION_X, POSITION_Y);
+
+	std::vector<sf::Vector2f> oldPositions;
+	for (sf::Sprite* tempSprite : *compoundSprite->getComponents()) {
+		oldPositions.push_back(tempSprite->getPosition());
+	}
+
+	compoundSprite->setPosition(POSITION);
+
+	// ensure that all components maintain their position relative to the new position of the compound sprite
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (size_t i = 0; i < compoundSprite->getComponents()->size(); ++i) {
+		sf::Sprite* tempSprite = compoundSprite->getComponents()->at(i);
+		// can do this b/c the compound sprite started at 0,0
+		BOOST_CHECK(tempSprite->getPosition().x == POSITION_X + oldPositions[i].x && tempSprite->getPosition().y == POSITION_Y + oldPositions[i].y);
+	}
 
 }
+
+// Test that setting the position of the compound sprite to its current position does nothing
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Current_Position_Vector2f, ReusableObjectsForOperations) {
+	const float POSITION_X = 0;
+	const float POSITION_Y = 0;
+	const sf::Vector2f POSITION(POSITION_X, POSITION_Y);
+
+	std::vector<sf::Vector2f> oldPositions;
+	for (sf::Sprite* tempSprite : *compoundSprite->getComponents()) {
+		oldPositions.push_back(tempSprite->getPosition());
+	}
+
+	compoundSprite->setPosition(POSITION);
+
+	// ensure that all components maintain their position relative to the new position of the compound sprite
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (size_t i = 0; i < compoundSprite->getComponents()->size(); ++i) {
+		sf::Sprite* tempSprite = compoundSprite->getComponents()->at(i);
+		// can do this b/c the compound sprite started at 0,0
+		BOOST_CHECK(tempSprite->getPosition().x == oldPositions[i].x && tempSprite->getPosition().y == oldPositions[i].y);
+	}
+
+}
+
+// Test that setting the position of the compound sprite correctly sets the position of all of the members
+// even when the compound sprite starts at a non zero position
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Vector2f_NON_ORIGIN_START, ReusableObjects) {
+	const float STARTING_X = 10;
+	const float STARTING_Y = -20;
+	const sf::Vector2f STARTING_POS = { STARTING_X, STARTING_Y };
+	const float POSITION_X = 123.456f;
+	const float POSITION_Y = 654.321f;
+	const sf::Vector2f POSITION(POSITION_X, POSITION_Y);
+	CompoundSprite* compoundSprite = new CompoundSprite{ {sprite, animSpriteWithAnim1, animSpriteWithAnim2}, STARTING_POS };
+
+	std::vector<sf::Vector2f> oldPositions;
+	for (sf::Sprite* tempSprite : *compoundSprite->getComponents()) {
+		oldPositions.push_back(tempSprite->getPosition());
+	}
+
+	compoundSprite->setPosition(POSITION);
+
+	// ensure that all components maintain their position relative to the new position of the compound sprite
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (size_t i = 0; i < compoundSprite->getComponents()->size(); ++i) {
+		sf::Sprite* tempSprite = compoundSprite->getComponents()->at(i);
+		// can do this b/c the compound sprite started at 0,0
+		BOOST_CHECK(tempSprite->getPosition().x == POSITION_X + (oldPositions[i].x - STARTING_X) && tempSprite->getPosition().y == POSITION_Y + (oldPositions[i].y - STARTING_Y));
+	}
+
+
+	delete compoundSprite;
+}
+
+// Test that setting the position of the compound sprite correctly sets the position of all of the members
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Two_Floats, ReusableObjectsForOperations) {
+	const float POSITION_X = 123.456f;
+	const float POSITION_Y = 654.321f;
+
+	std::vector<sf::Vector2f> oldPositions;
+	for (sf::Sprite* tempSprite : *compoundSprite->getComponents()) {
+		oldPositions.push_back(tempSprite->getPosition());
+	}
+
+	compoundSprite->setPosition(POSITION_X, POSITION_Y);
+
+	// ensure that all components maintain their position relative to the new position of the compound sprite
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (size_t i = 0; i < compoundSprite->getComponents()->size(); ++i) {
+		sf::Sprite* tempSprite = compoundSprite->getComponents()->at(i);
+		// can do this b/c the compound sprite started at 0,0
+		BOOST_CHECK(tempSprite->getPosition().x == POSITION_X + oldPositions[i].x && tempSprite->getPosition().y == POSITION_Y + oldPositions[i].y);
+	}
+
+}
+
+// Test that setting the position of the compound sprite to its current position does nothing
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Current_Position_Two_Floats, ReusableObjectsForOperations) {
+	const float POSITION_X = 0;
+	const float POSITION_Y = 0;
+
+	std::vector<sf::Vector2f> oldPositions;
+	for (sf::Sprite* tempSprite : *compoundSprite->getComponents()) {
+		oldPositions.push_back(tempSprite->getPosition());
+	}
+
+	compoundSprite->setPosition(POSITION_X, POSITION_Y);
+
+	// ensure that all components maintain their position relative to the new position of the compound sprite
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (size_t i = 0; i < compoundSprite->getComponents()->size(); ++i) {
+		sf::Sprite* tempSprite = compoundSprite->getComponents()->at(i);
+		// can do this b/c the compound sprite started at 0,0
+		BOOST_CHECK(tempSprite->getPosition().x == oldPositions[i].x && tempSprite->getPosition().y == oldPositions[i].y);
+	}
+
+}
+
+// Test that setting the position of the compound sprite correctly sets the position of all of the members
+// even when the compound sprite starts at a non zero position
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Two_Floats_NON_ORIGIN_START, ReusableObjects) {
+	const float STARTING_X = 10;
+	const float STARTING_Y = -20;
+	const sf::Vector2f STARTING_POS = { STARTING_X, STARTING_Y };
+	const float POSITION_X = 123.456f;
+	const float POSITION_Y = 654.321f;
+	CompoundSprite* compoundSprite = new CompoundSprite{ { sprite, animSpriteWithAnim1, animSpriteWithAnim2 }, STARTING_POS };
+
+	std::vector<sf::Vector2f> oldPositions;
+	for (sf::Sprite* tempSprite : *compoundSprite->getComponents()) {
+		oldPositions.push_back(tempSprite->getPosition());
+	}
+
+	compoundSprite->setPosition(POSITION_X, POSITION_Y);
+
+	// ensure that all components maintain their position relative to the new position of the compound sprite
+	BOOST_CHECK(compoundSprite->getPosition().x == POSITION_X && compoundSprite->getPosition().y == POSITION_Y);
+	for (size_t i = 0; i < compoundSprite->getComponents()->size(); ++i) {
+		sf::Sprite* tempSprite = compoundSprite->getComponents()->at(i);
+		// can do this b/c the compound sprite started at 0,0
+		BOOST_CHECK(tempSprite->getPosition().x == POSITION_X + (oldPositions[i].x - STARTING_X) && tempSprite->getPosition().y == POSITION_Y + (oldPositions[i].y - STARTING_Y));
+	}
+
+
+	delete compoundSprite;
+}
+
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_opertaions
 

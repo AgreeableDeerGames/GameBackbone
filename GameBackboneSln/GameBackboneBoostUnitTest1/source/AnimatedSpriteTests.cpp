@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone\AnimatedSprite.h>
-#include <Backbone\BackboneBaseExceptions.h>
+#include <Backbone/AnimatedSprite.h>
+#include <Backbone/BackboneBaseExceptions.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <chrono>
 #include <string>
@@ -15,7 +15,7 @@ using namespace GB;
 BOOST_AUTO_TEST_SUITE(AnimatedSpriteTests)
 
 /// <summary>
-/// Struct to store objects that can be reused for all or nearly all 
+/// Struct to store objects that can be reused for all or nearly all
 /// of the unit tests in this file. This struct is meant to be used with fixtures
 /// at the unit test level.
 /// </summary>
@@ -23,7 +23,7 @@ struct ReusableObjects
 {
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+		std::string testTexturePath = "..//..//Textures//testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		//create animation set
@@ -330,7 +330,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations, ReusableObjects) {
 	animSprite->update(timeAfterDelay);
 
 	//This animation has been set with SetAnimations and run.
-	//Ensure that the frame has changed after the minimum time has passed 
+	//Ensure that the frame has changed after the minimum time has passed
 	BOOST_CHECK(animSprite->getCurrentFrame() == 1);
 
 	delete animSprite;

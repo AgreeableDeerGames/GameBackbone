@@ -1,14 +1,14 @@
 #pragma once
 
-#include <Backbone\AnimationSet.h>
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Backbone\CompoundSprite.h>
-#include <Backbone\Updatable.h>
-#include <Util\DllUtil.h>
+#include <Backbone/AnimationSet.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Backbone/CompoundSprite.h>
+#include <Backbone/Updatable.h>
+#include <Util/DllUtil.h>
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <functional>
 #include <list>

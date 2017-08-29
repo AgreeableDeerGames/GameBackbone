@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Backbone\AnimationSet.h>
+#include <Backbone/AnimationSet.h>
 
 #include <vector>
 
@@ -102,7 +102,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnim
 
 // Test that framesToRects produces the correct rectangles for a 1 by 2 sprite sheet
 BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x2_test) {
-	
+
 	Animation anim1 = { 0, 1 };
 	Animation anim2 = { 1, 0 };
 	AnimationVector numericAnimations = { anim1, anim2 };

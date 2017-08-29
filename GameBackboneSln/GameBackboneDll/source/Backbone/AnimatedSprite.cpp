@@ -1,9 +1,9 @@
-#include <Backbone\AnimatedSprite.h>
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Util\DebugIncludes.h>
+#include <Backbone/AnimatedSprite.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Util/DebugIncludes.h>
 
-#include <SFML\Graphics\Texture.hpp>
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 using namespace GB;
 
@@ -41,7 +41,7 @@ void AnimatedSprite::AnimatedSpriteInit(AnimationSet * animations) {
 	if (animations) {
 		//initialize sprite to first frame of first animation
 		setTextureRect(this->animations->at(0).at(0));
-	} 
+	}
 
 	animating = false;
 	currentFrame = 0;
@@ -137,13 +137,13 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 
 /// <summary>
 /// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends.
-/// 
+///
 /// Throws a AnimatedSprite_EmptyAnimation exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 /// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
-	
+
 	//Empty animations cannot be ran. What frame would be displayed?
 	if (animations->at(animationId).empty()) {
 		throw Error::AnimatedSprite_EmptyAnimation();
@@ -161,7 +161,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 /// </summary>
 /// <param name="currentTime">The current time.</param>
 void AnimatedSprite::update(sf::Time currentTime) {
-	
+
 	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > (int)animationDelay)) {
 		switch (animationEnd) {
 		case ANIMATION_END_TYPE::ANIMATION_LOOP:

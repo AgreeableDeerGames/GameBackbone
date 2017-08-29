@@ -1,4 +1,4 @@
-#include <Backbone\CompoundSprite.h>
+#include <Backbone/CompoundSprite.h>
 
 #include<algorithm>
 

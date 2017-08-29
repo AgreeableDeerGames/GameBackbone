@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Backbone\CoreEventController.h>
-#include <NavigationDemoREgion.h>
+#include <NavigationDemoRegion.h>
 #include <SwirlyDemoRegion.h>
 
 class BackboneExeCoreEventController : public GB::CoreEventController {

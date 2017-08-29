@@ -15,6 +15,7 @@ BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventCont
 	navigationRegion = new NavigationDemoRegion(*window);
 	swirlyRegion = new SwirlyDemoRegion(*window);
 	activeRegion = swirlyRegion;
+	//activeRegion = navigationRegion;
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 
 	//initialize the mouse origin to the center of the window.

@@ -1,9 +1,10 @@
 #include "stdafx.h"
 
-#include <Navigation\CoordinateConverter.h>
-#include <Util\Point.h>
+#include <Navigation/CoordinateConverter.h>
+#include <Navigation/NavigationTools.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace GB;
 
@@ -115,6 +116,55 @@ BOOST_AUTO_TEST_CASE(CoordinateConverter_MidPoint) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end CoordinateConverter_Locations
+
+
+BOOST_AUTO_TEST_SUITE(CoordinateConverter_Paths)
+
+// ensure accuracy when converting from NavGrid paths to window paths
+BOOST_AUTO_TEST_CASE(CoordinateConverter_NavGrid_Path_To_Window_Path) {
+	// init values
+	const float SQUARE_WIDTH = 6;
+	const Point2D<float> ORIGIN_POINT = {0,0};
+	CoordinateConverter converter(SQUARE_WIDTH, ORIGIN_POINT);
+	NavGridCoordinatePath navGridPath = { {0,0}, {0,1}, {1,1} };
+	WindowCoordinatePath handConvertedWindowPath = { {3,3}, {3, 9}, {9,9} };
+
+	// convert path
+	WindowCoordinatePath convertedPath = converter.convertPathToWindow(navGridPath);
+
+	// ensure that the generated path matches the hand converted path
+	for (unsigned int  i = 0; i < handConvertedWindowPath.size(); i++) {
+		BOOST_CHECK(handConvertedWindowPath.front().x == convertedPath.front().x
+			&& handConvertedWindowPath.front().y == convertedPath.front().y);
+		handConvertedWindowPath.pop_front();
+		convertedPath.pop_front();
+	}
+}
+
+// ensure accuracy when converting from window paths to NavGrid paths  
+BOOST_AUTO_TEST_CASE(CoordinateConverter_Window_Path_To_NavGrid_Path) {
+	// init values
+	const float SQUARE_WIDTH = 6;
+	const Point2D<float> ORIGIN_POINT = { 0,0 };
+	CoordinateConverter converter(SQUARE_WIDTH, ORIGIN_POINT);
+	NavGridCoordinatePath handConvertedNavGridPath = { { 0,0 },{ 0,1 },{ 1,1 } };
+	WindowCoordinatePath windowPath = { { 3,3 },{ 3, 9 },{ 9,9 } };
+
+	// convert path
+	NavGridCoordinatePath convertedPath = converter.convertPathToNavGrid(windowPath);
+
+	// ensure that the generated path matches the hand converted path
+	for (unsigned int i = 0; i < windowPath.size(); i++) {
+		BOOST_CHECK(handConvertedNavGridPath.front().x == convertedPath.front().x
+			&& handConvertedNavGridPath.front().y == convertedPath.front().y);
+		handConvertedNavGridPath.pop_front();
+		convertedPath.pop_front();
+	}
+}
+
+
+
+BOOST_AUTO_TEST_SUITE_END() // end CoordinateConverter_Paths
 
 // Keep at end of file
 BOOST_AUTO_TEST_SUITE_END()
