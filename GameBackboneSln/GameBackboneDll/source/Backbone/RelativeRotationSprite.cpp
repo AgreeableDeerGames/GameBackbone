@@ -222,8 +222,8 @@ void RelativeRotationSprite::addComponent(AnimatedSprite* component, sf::Vector2
 void RelativeRotationSprite::scale(float factorX, float factorY) {
 	CompoundSprite::scale(factorX, factorY);
 
-	// Scales ech of the origins to keep rotating correct.
-	for (size_t ii = 0; ii < components.size(); ++ii) {
+	// Scales each of the origins to keep rotating correct.
+	for (std::size_t ii = 0; ii < components.size(); ++ii) {
 		components[ii]->setOrigin(factorX*components[ii]->getOrigin().x, factorY*components[ii]->getOrigin().y);
 	}
 }
@@ -249,7 +249,7 @@ void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Spr
 	}
 	
 	// Add any components that are AnimatedSprites to AnimatedSprite storage to allow them to be updated
-	for (size_t ii = 0; ii < components.size(); ++ii) {
+	for (std::size_t ii = 0; ii < components.size(); ++ii) {
 		sf::Sprite* sprite = components[ii];
 		AnimatedSprite* animSprite = dynamic_cast<AnimatedSprite*>(sprite);
 		if (animSprite) {
@@ -274,10 +274,10 @@ void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Spr
 	}
 
 
-	for (size_t ii = 0; ii < sprites.size(); ++ii) {
+	for (std::size_t ii = 0; ii < sprites.size(); ++ii) {
 		addComponent(sprites[ii], relativeOffsets[ii]);
 	}
-	for (size_t ii = sprites.size(); ii < sprites.size() + animatedSprites.size(); ++ii) {
+	for (std::size_t ii = sprites.size(); ii < sprites.size() + animatedSprites.size(); ++ii) {
 		addComponent(animatedSprites[ii - sprites.size()], relativeOffsets[ii]);
 	}
 }
