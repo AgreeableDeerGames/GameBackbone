@@ -69,7 +69,7 @@ namespace GB {
 		angleToDest = atan2f(destination.y - currentPosition.y, destination.x - currentPosition.x);
 
 		// Calculate the distance to the destination
-		distanceToDestination = CalcDistance2D_2<float, sf::Vector2f>(currentPosition, destination);
+		distanceToDestination = calcDistance2D<float, sf::Vector2f>(currentPosition, destination);
 
 		// Move directly to the destination if it's within reach
 		if (distanceToDestination <= maxStepLength) {
