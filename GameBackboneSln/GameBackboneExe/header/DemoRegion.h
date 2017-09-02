@@ -19,7 +19,7 @@ namespace EXE {
 
 		virtual void handleMouseMove(sf::Vector2f mousePosition);
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
-		virtual void handleWheelScroll(int scrollDelta);
+		virtual void handleWheelScroll(float scrollDelta);
 
 	protected:
 

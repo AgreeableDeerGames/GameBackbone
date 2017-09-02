@@ -72,8 +72,8 @@ void SwirlyDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::But
 /// Handles mouse wheel scroll logic.
 /// </summary>
 /// <param name="scrollDelta">The change in the wheel.</param>
-void SwirlyDemoRegion::handleWheelScroll(int scrollDelta) {
-	compSprite->scale({powf(1.25, (float)scrollDelta) , powf(1.25, (float)scrollDelta)});
+void SwirlyDemoRegion::handleWheelScroll(float scrollDelta) {
+	compSprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
 }
 
 

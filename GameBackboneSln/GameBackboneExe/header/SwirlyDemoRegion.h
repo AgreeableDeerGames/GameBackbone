@@ -28,7 +28,7 @@ namespace EXE{
 
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
-		virtual void handleWheelScroll(int scrollDelta) override;
+		virtual void handleWheelScroll(float scrollDelta) override;
 
 
 
