@@ -13,7 +13,7 @@
 #include <string>
 #include <math.h>
 
-using namespace GB;
+using namespace EXE;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="SwirlyDemoRegion"/> class.
@@ -26,7 +26,7 @@ SwirlyDemoRegion::SwirlyDemoRegion() {
 /// Initializes a new instance of the <see cref="SwirlyDemoRegion"/> class.
 /// </summary>
 /// <param name="window">The window that will be attached to this instances GUI.</param>
-SwirlyDemoRegion::SwirlyDemoRegion(sf::RenderWindow & window) : GameRegion(window) {
+SwirlyDemoRegion::SwirlyDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
 }
 
@@ -90,7 +90,7 @@ void SwirlyDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 /// <summary>
 /// Initializes this instance.
 /// </summary>
-void GB::SwirlyDemoRegion::init() {
+void SwirlyDemoRegion::init() {
 
 	//init textures
 	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
@@ -111,11 +111,11 @@ void GB::SwirlyDemoRegion::init() {
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
-	compSprite = new RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 
 	/*
 	// This is the working version of addComponent using the relative offset
-	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
@@ -125,7 +125,7 @@ void GB::SwirlyDemoRegion::init() {
 
 	/*
 	// This is the working version of addComponent using the relative position 
-	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+	compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 80, COMPOUND_SPRITE_TEST_y);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y + 80);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);

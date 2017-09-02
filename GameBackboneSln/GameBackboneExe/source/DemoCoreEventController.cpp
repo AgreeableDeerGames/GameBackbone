@@ -1,7 +1,7 @@
 #include <NavigationDemoRegion.h>
-#include <BackboneExeCoreEventController.h>
+#include <DemoCoreEventController.h>
 
-using namespace GB;
+using namespace EXE;
 
 
 // ctr / dtr
@@ -10,12 +10,12 @@ using namespace GB;
 /// <summary>
 /// Initializes a new instance of the <see cref="BackboneExeCoreEventController"/> class. Window width, height, and name are default.
 /// </summary>
-BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventController() {
-	//init region and camera
+DemoCoreEventController::DemoCoreEventController() : CoreEventController() {
+	// init region and camera
 	navigationRegion = new NavigationDemoRegion(*window);
 	swirlyRegion = new SwirlyDemoRegion(*window);
-	activeRegion = swirlyRegion;
-	//activeRegion = navigationRegion;
+	//activeRegion = swirlyRegion;
+	activeRegion = navigationRegion;
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 
 	//initialize the mouse origin to the center of the window.
@@ -26,7 +26,7 @@ BackboneExeCoreEventController::BackboneExeCoreEventController() : CoreEventCont
 /// <summary>
 /// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
 /// </summary>
-BackboneExeCoreEventController::~BackboneExeCoreEventController() {
+DemoCoreEventController::~DemoCoreEventController() {
 	delete navigationRegion;
 	delete swirlyRegion;
 }
@@ -34,19 +34,19 @@ BackboneExeCoreEventController::~BackboneExeCoreEventController() {
 //events
 
 /// <summary>
-/// Handles non gui user / window events.
+/// Handles non gui user/window events.
 /// </summary>
 /// <param name="event">The event.</param>
 /// <returns></returns>
-bool BackboneExeCoreEventController::handleCoreEvent(sf::Event & event) {
-	//Handle events not handled by the GUI
+bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
+	// Handle events not handled by the GUI
 	switch (event.type) {
 	case sf::Event::Closed:
 		window->close();
 		return true;
 	case sf::Event::MouseMoved:
 	{
-		//pan camera with mouse
+		// pan camera with mouse
 		/*window->setView(camera);
 		camera.move((float)(event.mouseMove.x - oldMouseX), (float)(event.mouseMove.y - oldMouseY));*/
 		oldMouseX = event.mouseMove.x;
@@ -54,19 +54,19 @@ bool BackboneExeCoreEventController::handleCoreEvent(sf::Event & event) {
 
 		sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
-		static_cast<SwirlyDemoRegion*>(activeRegion)->handleMouseMove(actualPosition);
+		static_cast<DemoRegion*>(activeRegion)->handleMouseMove(actualPosition);
 		return true;
 	}
 	case sf::Event::MouseButtonPressed:
 	{
 		sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
 		sf::Vector2f actualPosition = window->mapPixelToCoords(mousePos);
-		static_cast<SwirlyDemoRegion*>(activeRegion)->handleMouseClick(actualPosition, event.mouseButton.button);
+		static_cast<DemoRegion*>(activeRegion)->handleMouseClick(actualPosition, event.mouseButton.button);
 		return true;
 	}
 	case sf::Event::MouseWheelScrolled:
 	{
-		static_cast<SwirlyDemoRegion*>(activeRegion)->handleWheelScroll(event.mouseWheelScroll.delta);
+		static_cast<DemoRegion*>(activeRegion)->handleWheelScroll(event.mouseWheelScroll.delta);
 		return true;
 	}
 	case sf::Event::Resized:

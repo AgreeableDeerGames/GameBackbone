@@ -1,19 +1,17 @@
 #pragma once
 
-#include <Backbone/GameRegion.h>
-#include <Navigation/PathFinder.h>
-#include <Util/Array2D.h>
-#include <Util/Point.h>
+#include <DemoRegion.h>
 
-#include <SFML/Graphics/Sprite.hpp>
+#include <Backbone/CompoundSprite.h>
+
 #include <SFML/Graphics.hpp>
 
-namespace GB {
+namespace EXE{
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic rotation demonstrations.
 	/// </summary>
 	/// <seealso cref="GameRegion" />
-	class libGameBackbone SwirlyDemoRegion : public GameRegion {
+	class SwirlyDemoRegion : public DemoRegion {
 	public:
 
 		// ctr / dtr
@@ -28,9 +26,9 @@ namespace GB {
 		//behavior
 		virtual void behave(sf::Time currentTime) override;
 
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
-		virtual void handleMouseMove(sf::Vector2f mousePosition);
-		virtual void handleWheelScroll(int scrollDelta);
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
+		virtual void handleWheelScroll(int scrollDelta) override;
 
 
 
@@ -49,7 +47,7 @@ namespace GB {
 		sf::Texture* navigatorTexture;
 
 		//compound sprite stuff
-		CompoundSprite* compSprite;
+		GB::CompoundSprite* compSprite;
 		sf::Sprite* compComponent1;
 		sf::Sprite* compComponent2;
 		sf::Sprite* compComponent3;
