@@ -29,13 +29,13 @@
 
 ## Getting Started (Windows)
 ### Environment
-1. Download Visual Studio 2017 or above
-2. Download all three folders from [here](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing)
-  - You must unzip the files within the sub folders
-3. Create environment variables that point to the include and lib folders of each 3rd party library used
-  - The variables __must__ have the following names and __must__ correspond to the correct subfolder
-  - Be sure to restart visual studio after setting the vars
-  - A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/)
+* Download Visual Studio 2017 or above
+* Download all three folders from [here](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing)
+  * You must unzip the files within the sub folders
+* Create environment variables that point to the include and lib folders of each 3rd party library used
+  * The variables __must__ have the following names and __must__ correspond to the correct subfolder
+  * Be sure to restart visual studio after setting the vars
+  * A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/)
 
 
  Variable Name | Variable Path                    
