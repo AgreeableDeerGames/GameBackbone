@@ -1,15 +1,14 @@
 #pragma once
 
-#include <Backbone/GameRegion.h>
+#include <DemoRegion.h>
+
 #include <Navigation/CoordinateConverter.h>
 #include <Navigation/PathFinder.h>
-#include <Util/Array2D.h>
 #include <Util/Point.h>
 
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics.hpp>
 
-namespace GB {
+namespace EXE {
 
 	enum SELECTED_NAVIGATOR_BUTTON_TYPE
 	{
@@ -18,7 +17,7 @@ namespace GB {
 		ALL_NAVIGATORS
 	};
 
-	struct NavigationDemoData : public NavigationGridData
+	struct NavigationDemoData : public GB::NavigationGridData
 	{
 		sf::Sprite* demoSprite;
 
@@ -30,7 +29,7 @@ namespace GB {
 	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
 	/// </summary>
 	/// <seealso cref="GameRegion" />
-	class libGameBackbone NavigationDemoRegion : public GameRegion {
+	class NavigationDemoRegion : public DemoRegion {
 	public:
 
 		// ctr / dtr
@@ -46,7 +45,8 @@ namespace GB {
 
 		virtual void behave(sf::Time currentTime) override;
 
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
 
 
 	protected:
@@ -56,7 +56,7 @@ namespace GB {
 
 		// helper functions
 		void initGUI();
-		void initMaze(std::vector<Point2D<int>> nonBlockablePositions);
+		void initMaze(std::vector<GB::Point2D<int>> nonBlockablePositions);
 
 		// update logic storage
 		sf::Time lastUpdateTime;
@@ -69,12 +69,12 @@ namespace GB {
 		std::vector<sf::Sprite*> navigators;
 
 		// path-finding
-		Pathfinder regionPathfinder;
-		NavigationGrid* navGrid;
+		GB::Pathfinder regionPathfinder;
+		GB::NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
-		std::vector<WindowCoordinatePathPtr> paths;
-		CoordinateConverter coordinateConverter;
+		std::vector<GB::WindowCoordinatePathPtr> paths;
+		GB::CoordinateConverter coordinateConverter;
 
 		// GUI handle functions
 		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;

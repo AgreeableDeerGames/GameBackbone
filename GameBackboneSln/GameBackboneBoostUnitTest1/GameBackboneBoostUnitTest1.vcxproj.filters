@@ -68,6 +68,9 @@
     <ClCompile Include="source\FileManagerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\RelativeRotationSpriteTests.cpp">
+	  <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\NavigationToolsTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

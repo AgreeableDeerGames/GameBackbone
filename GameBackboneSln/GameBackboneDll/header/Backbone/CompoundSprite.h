@@ -36,33 +36,35 @@ namespace GB {
 		sf::Vector2f getPosition() const;
 		
 		//setters
-		void setPosition(sf::Vector2f val);
-		void setPosition(float x, float y);
+		virtual void setPosition(sf::Vector2f val);
+		virtual void setPosition(float x, float y);
 
 		//add / remove
-		void addComponent(sf::Sprite* component);
-		void addComponent(AnimatedSprite* component);
-		void removeComponent(sf::Sprite* component);
-		void clearComponents();
+		virtual void addComponent(sf::Sprite* component);
+		virtual void addComponent(AnimatedSprite* component);
+		virtual void removeComponent(sf::Sprite* component);
+		virtual void clearComponents();
 
 		//operations
-		void scale(float factorX, float factorY);
-		void scale(sf::Vector2f newScale);
+		virtual void scale(float factorX, float factorY);
+		virtual void scale(sf::Vector2f newScale);
 		virtual void setScale(float factorX, float factorY);
 		virtual void setScale(sf::Vector2f newScale);
 
-		void rotate(float degreeOffset);
-		void setRotation(float newRotation);
+		virtual void rotate(float degreeOffset);
+		virtual void setRotation(float newRotation);
 
-		void rotateComponents(std::set<size_t> indicesToRotate, float degreeOffset);
-		void setRotationOfComponents(std::set<size_t> indicesToRotate, float newRotation);
+		virtual void rotateComponents(std::set<size_t> indiciesToRotate, float degreeOffset);
+		virtual void setRotationOfComponents(std::set<size_t> indicesToRotate, float newRotation);
 
-		void move(float offsetX, float offsetY);
-		void move(sf::Vector2f offset);
+		virtual void move(float offsetX, float offsetY);
+		virtual void move(sf::Vector2f offset);
 
 		virtual void update(sf::Time currentTime);
 
 	protected:
+		void initializeComponentVector(const std::vector<sf::Sprite*>& components);
+		void initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		void removeAnimatedSprite(AnimatedSprite* component);
 		std::vector<sf::Sprite*> components;
 		std::vector<AnimatedSprite*> animatedSprites;
