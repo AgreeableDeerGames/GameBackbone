@@ -17,7 +17,7 @@ namespace GB {
 	//vector operations
 
 	/// <summary>
-	/// Determines the square of the distance between two three dimensional points.
+	/// Determines the square of the distance between two points in a three dimensional space.
 	/// Passed points must have publicly available x, y, and z members.
 	/// </summary>
 	/// <param name="point1">The first point.</param>
@@ -30,7 +30,7 @@ namespace GB {
 
 
 	/// <summary>
-	/// Determines the distance between two points in an three dimensional space.
+	/// Determines the distance between two points in a three dimensional space.
 	/// Passed points must have publicly available x, y, and z members.
 	/// </summary>
 	/// <param name="point1">The first point</param>
@@ -42,7 +42,7 @@ namespace GB {
 	}
 
 	/// <summary>
-	/// Determines the square of the distance between two 2 dimensional points.
+	/// Determines the square of the distance between two points in a two dimensional space.
 	/// Passed points must have publicly available x and y members.
 	/// </summary>
 	/// <param name="point1">The first point.</param>
@@ -54,7 +54,7 @@ namespace GB {
 	}
 
 	/// <summary>
-	/// Determines the distance between two points in an two dimensional space.
+	/// Determines the distance between two points in a two dimensional space.
 	/// Passed points must have publicly available x and y members.
 	/// </summary>
 	/// <param name="point1">The first point</param>
