@@ -1,5 +1,5 @@
 # GameBackbone
-//TODO: describe backbone
+Open-source framework for developing 2D video games.
 
 ***
 
