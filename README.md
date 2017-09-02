@@ -10,12 +10,12 @@ Open-source framework for developing 2D video games.
 		- [Environment](#environment)
 		- [Visual Studio](#visual-studio)
 		- [Productivity Assistants](#productivity-assistants)
-		- [Getting Started (Linux)](#getting-started-linux)
-		- [Boost:](#boost)
-		- [SFML:](#sfml)
-		- [TGUI:](#tgui)
-		- [Troubleshooting:](#troubleshooting)
-		- [Building:](#building)
+	- [Getting Started (Linux)](#getting-started-linux)
+		- [Boost](#boost)
+		- [SFML](#sfml)
+		- [TGUI](#tgui)
+		- [Troubleshooting](#troubleshooting)
+		- [Building](#building)
 	- [Running Tests](#running-tests)
 		- [Windows](#windows)
 		- [~~Linux~~](#linux)
@@ -64,28 +64,28 @@ It is recommended that you download the following 3rd party apps
 
 ***
 
-### Getting Started (Linux)
-### Boost:
+## Getting Started (Linux)
+### Boost
 Preferably install boost with your package manager. There will be no need to include or link boost libraries outside of what is in the makefile if doing this.
 
 Otherwise, grab boost and compile from source. Installing should place the libraries in a location where the system can find them - http://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html
 
-### SFML:
+### SFML
 Preferably install SFML with your system's package manager. Make sure it is version 2.4.2 or above.
 
 Otherwise, compile from source, v2.4.2 or greater. This may require editing the makefile to include paths.
 https://www.sfml-dev.org/tutorials/2.0/start-linux.php
 
-### TGUI:
+### TGUI
 TGUI needs to be installed after SFML is installed as TGUI uses SFML libraries.
 Grab TGUI v0.7.4 from https://tgui.eu/download/
 Install instructions https://tgui.eu/tutorials/v0.7/linux/
 This will install toy our system
 
-### Troubleshooting:
+### Troubleshooting
 You may run into an error about not finding libtgui.so.0.7.4 while compiling. To solve this edit /etc/ld.so.conf and place the location TGUI installed to , /usr/local/lib , on a new line. Then run ldconfig as root.
 
-### Building:
+### Building
 To build the libraries and the demo, type ‘make’ at the project root. That will create the bld/ folder and an executable demo called demo. To run this, type ‘./demo’
 
 ‘Make clean’ will remove the bld folder
