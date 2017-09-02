@@ -10,7 +10,7 @@
 
 namespace GB {
 	/// <summary>
-	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
+	/// GameRegion with logic for demonstrating basic rotation demonstrations.
 	/// </summary>
 	/// <seealso cref="GameRegion" />
 	class libGameBackbone SwirlyDemoRegion : public GameRegion {

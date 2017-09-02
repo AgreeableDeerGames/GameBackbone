@@ -67,6 +67,11 @@ void SwirlyDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::But
 	}
 }
 
+
+/// <summary>
+/// Handles mouse wheel scroll logic.
+/// </summary>
+/// <param name="scrollDelta">The change in the wheel.</param>
 void SwirlyDemoRegion::handleWheelScroll(int scrollDelta) {
 	compSprite->scale({powf(1.25, (float)scrollDelta) , powf(1.25, (float)scrollDelta)});
 }
@@ -101,7 +106,6 @@ void GB::SwirlyDemoRegion::init() {
 
 	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
 
-	//compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 
 	// This is the working version of addComponent using the ContructorLand
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
@@ -110,7 +114,8 @@ void GB::SwirlyDemoRegion::init() {
 	compSprite = new RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 
 	/*
-	// This is the working version of addComponent using the relative position
+	// This is the working version of addComponent using the relative offset
+	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
@@ -120,6 +125,7 @@ void GB::SwirlyDemoRegion::init() {
 
 	/*
 	// This is the working version of addComponent using the relative position 
+	compSprite = new RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 80, COMPOUND_SPRITE_TEST_y);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y + 80);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
