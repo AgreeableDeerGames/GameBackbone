@@ -19,7 +19,11 @@ Open-source framework for developing 2D video games.
 	- [Running Tests](#running-tests)
 		- [Windows](#windows)
 		- [~~Linux~~](#linux)
-		- [Versioning](#versioning)
+	- [Coding Guidelines](#coding-guidelines)
+	- [How To Contribute](#how-to-contribute)
+		- [Submitting Issues](#submitting-issues)
+		- [Submitting Code/Fixes](#submitting-codefixes)
+	- [Versioning](#versioning)
 	- [Authors](#authors)
 	- [License](#license)
 
@@ -104,7 +108,32 @@ To build the libraries and the demo, type ‘make’ at the project root. That w
 
 ***
 
-### Versioning
+## Coding Guidelines
+
+see [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide.txt)
+
+***
+
+## How To Contribute
+
+### Submitting Issues
+1. Create an issue (here)[https://github.com/lavinrp/GameBackbone/issues]
+2. Assign Ryan Lavin
+3. Give a brief description of what is wrong and, if applicable, the steps to reproduce the error
+4. Assign one or more tags to the issue that you think best summarizes it
+5. Do not assign a project or milestone
+
+### Submitting Code/Fixes
+1. Make sure your code is compliant with our [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide.txt)
+2. Make sure your code compiles with no warnings (this includes [CppCheck](http://cppcheck.sourceforge.net/) warnings)
+3. Make sure your code passes all unit tests
+4. Make sure no memory leaks are detected in any of the unit tests
+5. Create Pull Request
+6. Assign Ryan Lavin as reviewer
+
+***
+
+## Versioning
 Major.Minor.Sprint
 * Major
   - indicates full releases with significant feature additions / changes
