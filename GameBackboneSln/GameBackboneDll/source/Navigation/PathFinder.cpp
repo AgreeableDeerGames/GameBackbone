@@ -157,7 +157,7 @@ Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, c
 	Point2D<int> bestGridSquare = {-1, -1};
 
 	for each (const Point2D<int> gridSquare in *availableGridSquares) {
-		unsigned int gridSquareDistance = GB::CalcSquaredDistance(gridSquare, pathRequest.end);
+		unsigned int gridSquareDistance = GB::calcSquaredDistance2D<int>(gridSquare, pathRequest.end);
 		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
 			bestGridSquare = gridSquare;
