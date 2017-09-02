@@ -7,11 +7,11 @@
 ### Environment
 1. Download Visual Studio 2017 or above
 2. Download all three folders from [here](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing)
- - You must unzip the files within the sub folders
+  - You must unzip the files within the sub folders
 3. Create environment variables that point to the include and lib folders of each 3rd party library used
- - The variables __must__ have the following names and __must__ correspond to the correct subfolder
- - Be sure to restart visual studio after setting the vars
- - A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/)
+  - The variables __must__ have the following names and __must__ correspond to the correct subfolder
+  - Be sure to restart visual studio after setting the vars
+  - A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/)
 
 
  Variable Name | Variable Path                    
@@ -33,10 +33,10 @@ It is recommended that you download the following additions to visual studio
 ### Productivity Assistants
 It is recommended that you download the following 3rd party apps
 * [CppCheck](http://cppcheck.sourceforge.net/)
- - Standalone app that does a better job than the visual studio plugin of the same name
- - Required to use the visual studio plugin of the same name
+  - Standalone app that does a better job than the visual studio plugin of the same name
+  - Required to use the visual studio plugin of the same name
 * [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html)
- - Used to build documentation that is output [here](https://lavinrp.github.io/GameBackbone/)
+  - Used to build documentation that is output [here](https://lavinrp.github.io/GameBackbone/)
 
 ***
 
@@ -83,11 +83,11 @@ To build the libraries and the demo, type ‘make’ at the project root. That w
 ### Versioning
 Major.Minor.Sprint
 * Major
- - indicates full releases with significant feature additions / changes
+  - indicates full releases with significant feature additions / changes
 * Minor
- - indicates a stable build
+  - indicates a stable build
 * Sprint
- - indicates a psudo-stable build at the end of each sprint
+  - indicates a psudo-stable build at the end of each sprint
 
 ***
 
