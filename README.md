@@ -3,6 +3,30 @@
 
 ***
 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [GameBackbone](#gamebackbone)
+	- [Getting Started (Windows)](#getting-started-windows)
+		- [Environment](#environment)
+		- [Visual Studio](#visual-studio)
+		- [Productivity Assistants](#productivity-assistants)
+		- [Getting Started (Linux)](#getting-started-linux)
+		- [Boost:](#boost)
+		- [SFML:](#sfml)
+		- [TGUI:](#tgui)
+		- [Troubleshooting:](#troubleshooting)
+		- [Building:](#building)
+	- [Running Tests](#running-tests)
+		- [Windows](#windows)
+		- [~~Linux~~](#linux)
+		- [Versioning](#versioning)
+	- [Authors](#authors)
+	- [License](#license)
+
+<!-- /TOC -->
+
+***
+
 ## Getting Started (Windows)
 ### Environment
 1. Download Visual Studio 2017 or above
