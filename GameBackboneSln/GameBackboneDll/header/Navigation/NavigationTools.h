@@ -32,7 +32,7 @@ namespace GB {
 	/// <param name="navGrid">The navigation grid to fill with values</param>
 	/// <param name="gridData">The NavigationGridData to copy into each index of the Navigation Grid.</param>
 	template <class NavigationDataType>
-	libGameBackbone extern void initAllNavigationGridValues(NavigationGrid& navGrid, NavigationDataType& gridData) {
+	extern void initAllNavigationGridValues(NavigationGrid& navGrid, NavigationDataType& gridData) {
 		for (unsigned int ii = 0; ii < navGrid.getArraySizeX(); ++ii) {
 			for (unsigned int jj = 0; jj < navGrid.getArraySizeY(); ++jj)
 			{
@@ -91,10 +91,10 @@ namespace GB {
 	/// <param name="destination">The destination.</param>
 	/// <param name="maxStepLength">Maximum length that the sprite can move.</param>
 	/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
-	libGameBackbone inline void moveSpriteStepTowardsPoint(sf::Sprite& sprite,
-														   const sf::Vector2f& destination,
-														   const float maxStepLength, 
-														   const bool orientSpriteToDestination = true) {
+	inline void moveSpriteStepTowardsPoint(sf::Sprite& sprite,
+										   const sf::Vector2f& destination,
+										   const float maxStepLength, 
+										   const bool orientSpriteToDestination = true) {
 
 		// move the sprite to
 		float angleToDest;
@@ -119,10 +119,10 @@ namespace GB {
 	/// <param name="destination">The destination.</param>
 	/// <param name="maxStepLength">Maximum length that the sprite can move.</param>
 	/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
-	libGameBackbone inline void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
-																   const sf::Vector2f& destination,
-																   const float maxStepLength,
-																   const std::set<size_t>& spritesToRotate) {
+	inline void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
+												   const sf::Vector2f& destination,
+												   const float maxStepLength,
+												   const std::set<size_t>& spritesToRotate) {
 
 		// move the sprite. Calculate its distance and angle to its destination.
 		float angleToDestination;
@@ -149,11 +149,11 @@ namespace GB {
 	/// <param name="msPassed">Time passed in ms.</param>
 	/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
 	/// <param name="orientSpriteToDestination">Whether or not the sprites should be oriented to face their destinations.</param>
-	libGameBackbone inline void moveSpriteAlongPath(sf::Sprite& sprite, 
-													WindowCoordinatePathPtr path,
-													sf::Uint64 msPassed,
-													float distPerMs,
-													const bool orientSpriteToDestination = true) {
+	inline void moveSpriteAlongPath(sf::Sprite& sprite, 
+									WindowCoordinatePathPtr path,
+									sf::Uint64 msPassed,
+									float distPerMs,
+									const bool orientSpriteToDestination = true) {
 
 		if (path->empty()) {
 			return;
@@ -181,11 +181,11 @@ namespace GB {
 	/// <param name="msPassed">Time passed in ms.</param>
 	/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
 	/// <param name="spritesToRotate">The indices of the sprites that should be rotated to face their destinations.</param>
-	libGameBackbone inline void moveCompoundSpriteAlongPath(CompoundSprite& sprite,
-															WindowCoordinatePathPtr path,
-															sf::Uint64 msPassed,
-															float distPerMs,
-															const std::set<size_t>& spritesToRotate) {
+	inline void moveCompoundSpriteAlongPath(CompoundSprite& sprite,
+											WindowCoordinatePathPtr path,
+											sf::Uint64 msPassed,
+											float distPerMs,
+											const std::set<size_t>& spritesToRotate) {
 
 		// do nothing if there is no path to follow
 		if (path->empty()) {
@@ -205,6 +205,4 @@ namespace GB {
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
-
-
 }
