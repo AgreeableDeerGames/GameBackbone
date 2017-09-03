@@ -134,13 +134,16 @@ see [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide
 ***
 
 ## Versioning
-Major.Minor.Sprint
+We follow [Semantic Versioning](http://semver.org/spec/v2.0.0.html)
+Major.Minor.Patch
 * Major
-  - indicates full releases with significant feature additions / changes
+  - Increments in Major version indicate backwards incompatible API changes
 * Minor
-  - indicates a stable build
-* Sprint
-  - indicates a psudo-stable build at the end of each sprint
+  - indicates one or more backwards compatible functionality additions to the API
+* Patch
+  - Indicates one or more backwards compatible bug fixes
+
+All versions before 1.0.0 are unstable and have no guarantee for backwards compatibility
 
 ***
 
