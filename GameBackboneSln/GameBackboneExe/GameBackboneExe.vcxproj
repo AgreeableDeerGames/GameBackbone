@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="header\DemoCoreEventController.h" />
     <ClInclude Include="header\DemoRegion.h" />
+    <ClInclude Include="header\DemoSelectionRegion.h" />
     <ClInclude Include="header\NavigationDemoRegion.h" />
     <ClInclude Include="header\SampleGuiInterface.h" />
     <ClInclude Include="header\SwirlyDemoRegion.h" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="source\DemoCoreEventController.cpp" />
     <ClCompile Include="source\DemoRegion.cpp" />
+    <ClCompile Include="source\DemoSelectionRegion.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\NavigationDemoRegion.cpp" />
     <ClCompile Include="source\SampleGuiInterface.cpp" />

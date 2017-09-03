@@ -1,5 +1,6 @@
 #pragma once
 
+#include <DemoSelectionRegion.h>
 #include <NavigationDemoRegion.h>
 #include <SwirlyDemoRegion.h>
 
@@ -25,6 +26,7 @@ namespace EXE {
 		int oldMouseX;
 		int oldMouseY;
 
+		DemoSelectionRegion* demoSelectionRegion;
 		NavigationDemoRegion* navigationRegion;
 		SwirlyDemoRegion* swirlyRegion;
 
