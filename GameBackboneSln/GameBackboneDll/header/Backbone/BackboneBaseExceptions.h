@@ -81,8 +81,7 @@ namespace GB {
 		};
 
 		/// <summary>
-		/// Exception thrown when Component and RelativeOffset vectors passed into
-		/// RelativeRotationSprite are not equal in size.
+		/// Exception thrown when Component an illegal or unexpected nullptr is found.
 		/// </summary>
 		/// <seealso cref="std::exception" />
 		class Pointer_IllegalNull : public std::exception
