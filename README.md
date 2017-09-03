@@ -55,7 +55,7 @@ Open-source framework for developing 2D video games.
 ### Visual Studio
 It is recommended that you download the following additions to visual studio
 * GhostDoc
-* ~~Boost unit test adapter~~ (currently does not work)
+* Test Adapter for Boost.Test https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.TestAdapterforBoostTest
 * OpenCppCoverage
 
 ### Productivity Assistants
