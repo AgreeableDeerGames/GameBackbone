@@ -30,7 +30,7 @@ namespace GB {
 	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
 	/// </summary>
 	/// <seealso cref="GameRegion" />
-	class libGameBackbone NavigationDemoRegion : public GameRegion {
+	class NavigationDemoRegion : public GameRegion {
 	public:
 
 		// ctr / dtr
