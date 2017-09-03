@@ -167,7 +167,7 @@ void NavigationDemoRegion::init() {
 
 	//set rotation point and scale of navigators
 	for each (sf::Sprite* navigator in navigators) {
-		const sf::IntRect * const  textureRect = &navigator->getTextureRect();
+		const sf::IntRect* const  textureRect = &navigator->getTextureRect();
 		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);
 		navigator->setScale(0.5, 0.5);

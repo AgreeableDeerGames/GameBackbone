@@ -162,8 +162,12 @@ RelativeRotationSprite::~RelativeRotationSprite() {
 /// and the sprite's origin will be set using the relative offset. 
 /// The position and origin will be updated automatically by the RelativeRotationSprite.
 /// </summary>
-/// <param name="component">New sprite component of the RelativeRotationSprite.</param>
-void RelativeRotationSprite::addComponent(sf::Sprite * component) {
+/// <param name="component">New sprite component of the RelativeRotationSprite. Passing nullptr is illegal.</param>
+void RelativeRotationSprite::addComponent(sf::Sprite* component) {
+	if (component == nullptr){
+		throw Error::Pointer_IllegalNull();
+	}
+
 	CompoundSprite::addComponent(component);
 
 	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
@@ -175,9 +179,13 @@ void RelativeRotationSprite::addComponent(sf::Sprite * component) {
 /// It is expected that the position of the sprite is the same as the RelativeRotationSprite.
 /// The position and origin will be updated automatically by the RelativeRotationSprite.
 /// </summary>
-/// <param name="component">The component.</param>
+/// <param name="component">The component. Passing nullptr is illegal.</param>
 /// <param name="relativeOffset">The relative offset.</param>
 void RelativeRotationSprite::addComponent(sf::Sprite* component, sf::Vector2f relativeOffset) {
+	if (component == nullptr) {
+		throw Error::Pointer_IllegalNull();
+	}
+
 	CompoundSprite::addComponent(component);
 
 	component->setOrigin(relativeOffset.x, relativeOffset.y);
@@ -189,8 +197,12 @@ void RelativeRotationSprite::addComponent(sf::Sprite* component, sf::Vector2f re
 /// and the sprite's origin will be set using the relative offset. 
 /// The position and origin will be updated automatically by the RelativeRotationSprite.
 /// </summary>
-/// <param name="component">New Animated Sprite component of the RelativeRotationSprite.</param>
-void RelativeRotationSprite::addComponent(AnimatedSprite * component) {
+/// <param name="component">New Animated Sprite component of the RelativeRotationSprite. Passing nullptr is illegal.</param>
+void RelativeRotationSprite::addComponent(AnimatedSprite* component) {
+	if (component == nullptr) {
+		throw Error::Pointer_IllegalNull();
+	}
+
 	CompoundSprite::addComponent(component);
 
 	component->setOrigin(component->getPosition().x - position.x, component->getPosition().y - position.y);
@@ -202,9 +214,13 @@ void RelativeRotationSprite::addComponent(AnimatedSprite * component) {
 /// It is expected that the position of the sprite is the same as the RelativeRotationSprite.
 /// The position and origin will be updated automatically by the RelativeRotationSprite.
 /// </summary>
-/// <param name="component">The component.</param>
+/// <param name="component">The component. Passing nullptr is illegal.</param>
 /// <param name="relativeOffset">The relative offset.</param>
 void RelativeRotationSprite::addComponent(AnimatedSprite* component, sf::Vector2f relativeOffset){
+	if (component == nullptr) {
+		throw Error::Pointer_IllegalNull();
+	}
+
 	CompoundSprite::addComponent(component);
 
 	component->setOrigin(relativeOffset.x, relativeOffset.y);
@@ -272,7 +288,6 @@ void RelativeRotationSprite::initializeComponentVector(const std::vector<sf::Spr
 	{
 		throw Error::RelativeRotationSprite_MismatchedSizes();
 	}
-
 
 	for (std::size_t ii = 0; ii < sprites.size(); ++ii) {
 		addComponent(sprites[ii], relativeOffsets[ii]);

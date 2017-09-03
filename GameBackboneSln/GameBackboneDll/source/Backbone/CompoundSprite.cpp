@@ -1,3 +1,4 @@
+#include <Backbone/BackboneBaseExceptions.h>
 #include <Backbone/CompoundSprite.h>
 
 #include<algorithm>
@@ -121,8 +122,12 @@ void CompoundSprite::setPosition(float x, float y) {
 /// <summary>
 /// adds a sprite component to the CompoundSprite
 /// </summary>
-/// <param name="component">new sprite component of the compound sprite.</param>
-void CompoundSprite::addComponent(sf::Sprite * component) {
+/// <param name="component">new sprite component of the compound sprite. Passing nullptr is illegal.</param>
+void CompoundSprite::addComponent(sf::Sprite* component) {
+	if (component == nullptr) {
+		throw Error::Pointer_IllegalNull();
+	}
+
 	components.push_back(component);
 }
 
@@ -130,8 +135,12 @@ void CompoundSprite::addComponent(sf::Sprite * component) {
 /// Adds an AnimatedSprite component to the CompoundSprite.
 /// Sets the animated sprite to be updated when the compound sprite is updated.
 /// </summary>
-/// <param name="component">New Animated Sprite component of the compound sprite.</param>
-void CompoundSprite::addComponent(AnimatedSprite * component) {
+/// <param name="component">New Animated Sprite component of the compound sprite. Passing nullptr is illegal.</param>
+void CompoundSprite::addComponent(AnimatedSprite* component) {
+	if (component == nullptr) {
+		throw Error::Pointer_IllegalNull();
+	}
+
 	animatedSprites.push_back(component);
 	components.push_back(component);
 }
@@ -140,7 +149,7 @@ void CompoundSprite::addComponent(AnimatedSprite * component) {
 /// Removes the passed component from the CompoundSprite
 /// </summary>
 /// <param name="component">The component to remove from the compound sprite</param>
-void CompoundSprite::removeComponent(sf::Sprite * component) {
+void CompoundSprite::removeComponent(sf::Sprite* component) {
 
 	// find the component and remove it from all pertinent vectors
 	auto it = std::find(components.begin(), components.end(), component);
@@ -158,7 +167,7 @@ void CompoundSprite::removeComponent(sf::Sprite * component) {
 /// Removes the passed component from the CompoundSprites animated sprite vector.
 /// </summary>
 /// <param name="component">The component to remove from the compound sprite. </param>
-void CompoundSprite::removeAnimatedSprite(AnimatedSprite * component) {
+void CompoundSprite::removeAnimatedSprite(AnimatedSprite* component) {
 	auto it = std::find(animatedSprites.begin(), animatedSprites.end(), component);
 	if (it != animatedSprites.end()) {
 		animatedSprites.erase(it);
