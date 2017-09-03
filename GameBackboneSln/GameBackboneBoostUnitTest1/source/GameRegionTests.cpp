@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 BOOST_AUTO_TEST_SUITE(GameRegion_ctrs)
 
 // Tests the default constructor
-BOOST_AUTO_TEST_CASE(GameRegion_default_ctr_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_default_ctr) {
 
     GameRegion* gameRegion = new GameRegion();
 
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_default_ctr_test) {
 }
 
 //Tests the window constructor
-BOOST_AUTO_TEST_CASE(GameRegion_window_ctr_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_window_ctr) {
 
 	const int WINDOW_HEIGHT = 700;
 	const int WINDOW_WIDTH = 700;
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_SUITE_END() // end GameRegion_ctrs
 BOOST_AUTO_TEST_SUITE(GameRegion_get_set_tests)
 
 // Tests getting Updatables with getUpdatables
-BOOST_AUTO_TEST_CASE(GameRegion_getUpdatables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getUpdatables) {
 
     GameRegion* gameRegion = new GameRegion();
     AnimatedSprite* animSpriteWithAnimVector[10];
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getUpdatables_test) {
 }
 
 // Tests adding and removing with setUpdatables
-BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables) {
     GameRegion* gameRegion = new GameRegion();
     AnimatedSprite* animSpriteWithAnim = new AnimatedSprite();
 
@@ -90,8 +90,20 @@ BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables_test) {
     delete gameRegion;
 }
 
+// Tests adding nullptr with setUpdatables
+BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables_nullptr) {
+	GameRegion* gameRegion = new GameRegion();
+	AnimatedSprite* animSpriteWithAnim = nullptr;
+
+	BOOST_CHECK_THROW(gameRegion->setUpdatable(true, animSpriteWithAnim), Error::Pointer_IllegalNull);
+
+	BOOST_CHECK_THROW(gameRegion->setUpdatable(false, animSpriteWithAnim), Error::Pointer_IllegalNull);
+
+	delete gameRegion;
+}
+
 // Tests getting Drawables with getDrawables
-BOOST_AUTO_TEST_CASE(GameRegion_getDrawables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getDrawables) {
 
     GameRegion* gameRegion = new GameRegion();
     sf::Sprite* compoundSpriteVector[10];
@@ -119,7 +131,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getDrawables_test) {
 }
 
 // Tests adding and removing with setDrawables
-BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_setDrawables) {
     GameRegion* gameRegion = new GameRegion();
     sf::Sprite* sprite = new sf::Sprite();
 
@@ -135,8 +147,20 @@ BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_test) {
     delete gameRegion;
 }
 
+// Tests adding nullptr with setDrawables
+BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_nullptr) {
+	GameRegion* gameRegion = new GameRegion();
+	sf::Sprite* sprite = nullptr;
+
+	BOOST_CHECK_THROW(gameRegion->setDrawable(true, sprite), Error::Pointer_IllegalNull);
+
+	BOOST_CHECK_THROW(gameRegion->setDrawable(false, sprite), Error::Pointer_IllegalNull);
+
+	delete gameRegion;
+}
+
 // Tests getting Parent with getParentRegion
-BOOST_AUTO_TEST_CASE(GameRegion_getParent_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getParent) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 
@@ -152,7 +176,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getParent_test) {
 }
 
 // Tests setting Parent with setParentRegion
-BOOST_AUTO_TEST_CASE(GameRegion_setParent_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_setParent) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 
@@ -175,7 +199,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParent_test) {
 }
 
 //Tests getting GUI with getGUI
-BOOST_AUTO_TEST_CASE(GameRegion_getGUI_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getGUI) {
 	GameRegion* gameRegion = new GameRegion();
 
 	BOOST_CHECK(gameRegion->getGUI() != nullptr);

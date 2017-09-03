@@ -27,7 +27,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture
 /// </summary>
 /// <param name="texture"> texture representing the animation sheet.</param>
 /// <param name="animations">The animations.</param>
-AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * animations) : sf::Sprite(texture) {
+AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet* animations) : sf::Sprite(texture) {
 	AnimatedSpriteInit(animations);
 }
 
@@ -35,7 +35,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet * anima
 /// Initializes properties to false, 0, or nullptr. Initializes animation set and sets texture to first animation frame if animation set is valid
 /// </summary>
 /// <param name="animations">animation set for the sprite. If this value is set to a valid animation then the texture of the sprite is set to the first frame of the first animation.</param>
-void AnimatedSprite::AnimatedSpriteInit(AnimationSet * animations) {
+void AnimatedSprite::AnimatedSpriteInit(AnimationSet* animations) {
 
 	setAnimations(animations);
 	if (animations) {
@@ -76,7 +76,7 @@ void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 /// sets the animations of the sprite to the passed AnimationSet.
 /// </summary>
 /// <param name="animationSet">The animation set.</param>
-void AnimatedSprite::setAnimations(AnimationSet * animationSet) {
+void AnimatedSprite::setAnimations(AnimationSet* animationSet) {
 	if (animationSet) {
 		animations = animationSet->getAnimations();
 	} else {
