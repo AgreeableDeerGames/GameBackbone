@@ -72,9 +72,6 @@ namespace GB {
 
 	protected:
 
-		//ctr
-		void init() {}
-
 		//operations
 		void clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::list<GameRegion*>* list);
 
