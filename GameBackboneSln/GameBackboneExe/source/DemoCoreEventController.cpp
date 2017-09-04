@@ -12,12 +12,8 @@ using namespace EXE;
 /// </summary>
 DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBackbone Demos") {
 	// init region and camera
-	navigationRegion = new NavigationDemoRegion(*window);
-	swirlyRegion = new SwirlyDemoRegion(*window);
 	demoSelectionRegion = new DemoSelectionRegion(*window);
 	demoSelectionRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
-	//activeRegion = swirlyRegion;
-	//activeRegion = navigationRegion;
 	activeRegion = demoSelectionRegion;
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 
@@ -30,8 +26,6 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 /// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
 /// </summary>
 DemoCoreEventController::~DemoCoreEventController() {
-	delete navigationRegion;
-	delete swirlyRegion;
 	delete demoSelectionRegion;
 }
 

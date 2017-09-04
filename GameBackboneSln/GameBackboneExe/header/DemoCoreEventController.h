@@ -27,8 +27,5 @@ namespace EXE {
 		int oldMouseY;
 
 		DemoSelectionRegion* demoSelectionRegion;
-		NavigationDemoRegion* navigationRegion;
-		SwirlyDemoRegion* swirlyRegion;
-
 	};
 }

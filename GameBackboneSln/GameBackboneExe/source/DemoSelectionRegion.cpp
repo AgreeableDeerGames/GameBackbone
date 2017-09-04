@@ -28,9 +28,11 @@ DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion
 DemoSelectionRegion::~DemoSelectionRegion() {
 	
 	// free all children
-	for (auto childRegion : childRegions) {
-		delete childRegion;
-		childRegion = nullptr;
+	auto it = childRegions.begin();
+	while (it != childRegions.end()) {
+		auto tempIt = it;
+		++it;
+		delete *tempIt;
 	}
 }
 
