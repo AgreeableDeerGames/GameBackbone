@@ -80,12 +80,12 @@ void EXE::DemoSelectionRegion::initGUI() {
 
 	// create buttons for regions
 	tgui::Layout buttonWidth = windowWidth / 4.0f;
-	tgui::Layout buttonHeight = windowHeight / 4.0f;
+	tgui::Layout buttonHeight = windowHeight / 7.0f;
 
 		// create Navigation region button
 	tgui::Button::Ptr navigationRegionButton = theme->load("Button");
 	navigationRegionButton->setSize(buttonWidth, buttonHeight);
-	navigationRegionButton->setPosition(windowWidth / 2.0f, 2.0f *windowHeight / 4.0f);
+	navigationRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 1.0f *windowHeight / 7.0f);
 	navigationRegionButton->setText("Navigation Demo");
 	navigationRegionButton->connect("pressed", &DemoSelectionRegion::navigationRegionCB, this);
 	regionGUI->add(navigationRegionButton);
@@ -93,7 +93,7 @@ void EXE::DemoSelectionRegion::initGUI() {
 		// create Swirly Sprite Demo button
 	tgui::Button::Ptr swirlyDemoButton = theme->load("Button");
 	swirlyDemoButton->setSize(buttonWidth, buttonHeight);
-	swirlyDemoButton->setPosition(windowWidth / 2.0f, 3.0f * windowHeight / 4.0f);
+	swirlyDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f * windowHeight / 7.0f);
 	swirlyDemoButton->setText("Swirly Sprite Demo");
 	swirlyDemoButton->connect("pressed", &DemoSelectionRegion::swirlyDemoCB, this);
 	regionGUI->add(swirlyDemoButton);
@@ -101,7 +101,7 @@ void EXE::DemoSelectionRegion::initGUI() {
 		// create region change demo button
 	tgui::Button::Ptr regionChangeButton = theme->load("Button");
 	regionChangeButton->setSize(buttonWidth, buttonHeight);
-	regionChangeButton->setPosition(windowWidth / 2.0f, 1.0f * windowHeight / 4.0f);
+	regionChangeButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 5.0f * windowHeight / 7.0f);
 	regionChangeButton->setText("Region Change Demo");
 	regionChangeButton->connect("pressed", &DemoSelectionRegion::regionChangeDemoCB, this);
 	regionGUI->add(regionChangeButton);
