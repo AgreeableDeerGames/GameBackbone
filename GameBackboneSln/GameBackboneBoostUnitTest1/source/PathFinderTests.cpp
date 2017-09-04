@@ -8,9 +8,9 @@ using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(Pathfinder_Tests)
 
-BOOST_AUTO_TEST_SUITE(Pathfinder_ctrs)
+BOOST_AUTO_TEST_SUITE(Pathfinder_CTRs)
 
-BOOST_AUTO_TEST_CASE(Pathfinder_default_ctr_test) {
+BOOST_AUTO_TEST_CASE(Pathfinder_default_CTR_test) {
 
 	Pathfinder* pathfinder = new Pathfinder();
 
@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_default_ctr_test) {
 	delete pathfinder;
 }
 
-BOOST_AUTO_TEST_CASE(Pathfinder_navigationGrid_ctr_test) {
+BOOST_AUTO_TEST_CASE(Pathfinder_navigationGrid_CTR_test) {
 	NavigationGrid navGrid(10);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
 
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_navigationGrid_ctr_test) {
 	delete pathfinder;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_CTRs
 
 BOOST_AUTO_TEST_CASE(Pathfinder_setNavigationGrid) {
 	NavigationGrid navGrid(10);

@@ -51,10 +51,10 @@ struct ReusableObjects
 };
 
 // Contains all of the tests for AnimatedSprite constructors
-BOOST_AUTO_TEST_SUITE(AnimatedSprite_ctrs)
+BOOST_AUTO_TEST_SUITE(AnimatedSprite_CTRs)
 
 // Tests the AnimatedSprite default constructor
-BOOST_FIXTURE_TEST_CASE(AnimatedSprite_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_default_CTR, ReusableObjects) {
 	AnimatedSprite* animSprite = new AnimatedSprite();
 
 	//ensure that everything is set to null or 0
@@ -67,7 +67,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_default_ctr, ReusableObjects) {
 }
 
 // Tests the AnimatedSprite constructor that takes in a texture
-BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_CTR, ReusableObjects) {
 	AnimatedSprite* animSprite = new AnimatedSprite(*aSpriteTexture);
 
 	//ensure that everything is set to null or 0
@@ -102,7 +102,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_and_Animations, ReusableObjects) 
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end AnimatedSprite_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end AnimatedSprite_CTRs
 
 // Contains all of the tests relating to AnimatedSprite's animations
 BOOST_AUTO_TEST_SUITE(AnimatedSprite_Animations)

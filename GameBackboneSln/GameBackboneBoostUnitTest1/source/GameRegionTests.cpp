@@ -8,10 +8,10 @@ using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
-BOOST_AUTO_TEST_SUITE(GameRegion_ctrs)
+BOOST_AUTO_TEST_SUITE(GameRegion_CTRs)
 
 // Tests the default constructor
-BOOST_AUTO_TEST_CASE(GameRegion_default_ctr) {
+BOOST_AUTO_TEST_CASE(GameRegion_default_CTR) {
 
     GameRegion* gameRegion = new GameRegion();
 
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_default_ctr) {
 }
 
 //Tests the window constructor
-BOOST_AUTO_TEST_CASE(GameRegion_window_ctr) {
+BOOST_AUTO_TEST_CASE(GameRegion_window_CTR) {
 
 	const int WINDOW_HEIGHT = 700;
 	const int WINDOW_WIDTH = 700;
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_window_ctr) {
 	delete gameRegion;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end GameRegion_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end GameRegion_CTRs
 
 BOOST_AUTO_TEST_SUITE(GameRegion_get_set_tests)
 
