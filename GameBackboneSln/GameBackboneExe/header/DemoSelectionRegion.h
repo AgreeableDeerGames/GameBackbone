@@ -21,13 +21,19 @@ namespace EXE {
 
 		~DemoSelectionRegion();
 
+		// internal behavior alteration
+		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
+	
 	private:
 
 	protected:
 
 		// initialization
-
 		void initGUI();
+
+		// gui callbacks
+		void navigationRegionCB();
+		void swirlyDemoCB();
 
 	};
 

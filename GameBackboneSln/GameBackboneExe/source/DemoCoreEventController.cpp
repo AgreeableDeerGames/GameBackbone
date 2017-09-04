@@ -15,6 +15,7 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 	navigationRegion = new NavigationDemoRegion(*window);
 	swirlyRegion = new SwirlyDemoRegion(*window);
 	demoSelectionRegion = new DemoSelectionRegion(*window);
+	demoSelectionRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
 	//activeRegion = swirlyRegion;
 	//activeRegion = navigationRegion;
 	activeRegion = demoSelectionRegion;
