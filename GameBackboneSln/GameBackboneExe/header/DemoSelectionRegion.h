@@ -44,6 +44,7 @@ namespace EXE {
 		// gui callbacks
 		void navigationRegionCB();
 		void swirlyDemoCB();
+		void regionChangeDemoCB();
 
 	};
 

@@ -1,5 +1,6 @@
 #include <DemoSelectionRegion.h>
 #include <NavigationDemoRegion.h>
+#include <RegionChangeDemoRegion.h>
 #include <SwirlyDemoRegion.h>
 
 using namespace EXE;
@@ -18,6 +19,12 @@ DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion
 	// create and link child regions
 	addChildRegion(new NavigationDemoRegion(window));
 	addChildRegion(new SwirlyDemoRegion(window));
+	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red);
+	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green);
+	regionChangeRegion1->addNeighborRegion(regionChangeRegion2);
+	addChildRegion(regionChangeRegion1);
+	addChildRegion(regionChangeRegion2);
+
 }
 
 
@@ -89,6 +96,14 @@ void EXE::DemoSelectionRegion::initGUI() {
 	swirlyDemoButton->connect("pressed", &DemoSelectionRegion::swirlyDemoCB, this);
 	regionGUI->add(swirlyDemoButton);
 
+		// create region change demo button
+	tgui::Button::Ptr regionChangeButton = theme->load("Button");
+	regionChangeButton->setSize(BUTTON_WIDTH(windowWidth), BUTTON_HEIGHT(windowHeight));
+	regionChangeButton->setPosition(windowWidth / 2.0f, 1.0f * windowHeight / 4.0f);
+	regionChangeButton->setText("Region Change Demo");
+	regionChangeButton->connect("pressed", &DemoSelectionRegion::regionChangeDemoCB, this);
+	regionGUI->add(regionChangeButton);
+
 }
 
 // gui callbacks
@@ -103,8 +118,17 @@ void DemoSelectionRegion::navigationRegionCB() {
 
 /// <summary>
 /// Callback that is fired when the swirlyDemoButton is clicked.
-/// Sets the active region to the second child of this region (which should always be a NavigationDemoRegion)
+/// Sets the active region to the second child of this region (which should always be a SwirlyDemoRegion)
 /// </summary>
 void DemoSelectionRegion::swirlyDemoCB() {
 	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::SWIRLY_DEMO]);
+}
+
+
+/// <summary>
+/// Callback that is fired when the regionChangeButton is clicked.
+/// Sets the active region to the third child of this region (which should always be a RegionChangeDemoRegion)
+/// </summary>
+void DemoSelectionRegion::regionChangeDemoCB() {
+	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO]);
 }
