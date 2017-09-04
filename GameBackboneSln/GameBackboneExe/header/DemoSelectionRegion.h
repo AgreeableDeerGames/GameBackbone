@@ -5,7 +5,7 @@
 namespace EXE {
 
 	/// <summary>
-	/// 
+	/// Menu for selecting what demo region to display
 	/// </summary>
 	class DemoSelectionRegion : public DemoRegion
 	{
@@ -27,6 +27,16 @@ namespace EXE {
 	private:
 
 	protected:
+		
+		/// <summary>
+		/// The available demo types to choose from
+		/// </summary>
+		enum DEMO_OPTIONS_TYPE
+		{
+			NAVIGATION_DEMO,
+			SWIRLY_DEMO,
+			REGION_CHANGE_DEMO
+		};
 
 		// initialization
 		void initGUI();

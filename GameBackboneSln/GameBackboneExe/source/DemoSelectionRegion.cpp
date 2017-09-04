@@ -28,11 +28,10 @@ DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion
 DemoSelectionRegion::~DemoSelectionRegion() {
 	
 	// free all children
-	auto it = childRegions.begin();
-	while (it != childRegions.end()) {
-		auto tempIt = it;
-		++it;
-		delete *tempIt;
+
+	for (size_t ii = 0; ii < childRegions.size(); ii++) {
+		delete childRegions[ii];
+		childRegions[ii] = nullptr;
 	}
 }
 
@@ -99,7 +98,7 @@ void EXE::DemoSelectionRegion::initGUI() {
 /// Sets the active region to the first child of this region (which should always be a NavigationDemoRegion)
 /// </summary>
 void DemoSelectionRegion::navigationRegionCB() {
-	setActiveRegionCB(childRegions.front());
+	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO]);
 }
 
 /// <summary>
@@ -107,5 +106,5 @@ void DemoSelectionRegion::navigationRegionCB() {
 /// Sets the active region to the second child of this region (which should always be a NavigationDemoRegion)
 /// </summary>
 void DemoSelectionRegion::swirlyDemoCB() {
-	setActiveRegionCB(*(++childRegions.begin()));
+	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::SWIRLY_DEMO]);
 }
