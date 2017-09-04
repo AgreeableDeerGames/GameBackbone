@@ -11,16 +11,16 @@ using namespace GB;
 // Contains all of the tests for CoordinateConverter
 BOOST_AUTO_TEST_SUITE(CoordinateConverter_Tests)
 
-BOOST_AUTO_TEST_SUITE(CoreEventController_ctrs)
+BOOST_AUTO_TEST_SUITE(CoreEventController_CTRs)
 
 // Tests the default constructor to ensure there are no intrinsic memory leaks.
-BOOST_AUTO_TEST_CASE(CoordinateConverter_Default_Ctr){
+BOOST_AUTO_TEST_CASE(CoordinateConverter_Default_CTR){
 	CoordinateConverter* TestConverter = new CoordinateConverter();
 	
 	delete TestConverter;
 }
 
-BOOST_AUTO_TEST_SUITE_END() //End CoreEventController_ctrs
+BOOST_AUTO_TEST_SUITE_END() //End CoreEventController_CTRs
 
 BOOST_AUTO_TEST_SUITE(CoordinateConverter_Offsets)
 

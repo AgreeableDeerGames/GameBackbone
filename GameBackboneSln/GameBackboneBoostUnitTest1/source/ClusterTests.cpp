@@ -12,10 +12,10 @@ using namespace GB;
 BOOST_AUTO_TEST_SUITE(Cluster_Tests);
 
 // Suite containing all cluster constructor tests.
-BOOST_AUTO_TEST_SUITE(Cluster_Ctrs);
+BOOST_AUTO_TEST_SUITE(Cluster_CTRs);
 
 // Testing the ctr at initial point (0,0) to make sure there are no intrinsic leaks and that points are correctly set.
-BOOST_AUTO_TEST_CASE(Cluster_ZeroPoint_Ctr) {
+BOOST_AUTO_TEST_CASE(Cluster_ZeroPoint_CTR) {
 
 	// Point at (0,0).
 	Point2D<int> testPoint{0,0};
@@ -37,6 +37,6 @@ BOOST_AUTO_TEST_CASE(Cluster_ZeroPoint_Ctr) {
 	delete testCluster;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // End Cluster_Ctrs
+BOOST_AUTO_TEST_SUITE_END() // End Cluster_CTRs
 
 BOOST_AUTO_TEST_SUITE_END() // End Cluster_Tests

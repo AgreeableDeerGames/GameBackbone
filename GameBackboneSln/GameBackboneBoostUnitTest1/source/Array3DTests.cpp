@@ -6,9 +6,9 @@ using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(Array3D_Tests)
 
-BOOST_AUTO_TEST_SUITE(Array3D_ctrs)
+BOOST_AUTO_TEST_SUITE(Array3D_CTRs)
 
-BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )
+BOOST_AUTO_TEST_CASE( Array3D_default_CTR_test )
 {
 
 	Array3D<int>* intArray = new Array3D<int>();//sizes of all dimensions should be 100
@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( Array3D_default_ctr_test )
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_CASE(Array3D_one_param_ctr_test) {
+BOOST_AUTO_TEST_CASE(Array3D_one_param_CTR_test) {
 	const int arrayDim = 10;
 	Array3D<int> intArray(arrayDim); //sizes of all dimensions should be 10
 	int arrayXSize = intArray.getArraySizeX();
@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(Array3D_one_param_ctr_test) {
 	BOOST_CHECK_EQUAL(arrayZSize, arrayDim);
 }
 
-BOOST_AUTO_TEST_CASE(Array3D_three_param_ctr_test) {
+BOOST_AUTO_TEST_CASE(Array3D_three_param_CTR_test) {
 	const int arrayDimX = 10;
 	const int arrayDimY = 11;
 	const int arrayDimZ = 12;
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(Array3D_three_param_ctr_test) {
 	BOOST_CHECK_EQUAL(arrayZSize, arrayDimZ);
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end Array3D_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end Array3D_CTRs
 
 BOOST_AUTO_TEST_SUITE(Array3D_get_set_tests)
 
