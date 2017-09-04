@@ -100,10 +100,10 @@ struct ReusableObjectsForOperations {
 
 };
 
-BOOST_AUTO_TEST_SUITE(CompoundSprite_ctr)
+BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
 // Test that the default constructor initializes values to empty and (0,0)
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_CTR, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	BOOST_CHECK(compoundSprite->getComponents()->empty());
@@ -114,7 +114,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_ctr, ReusableObjects) {
 }
 
 // Test that constructing a compound sprite with a single sprite input vector correctly sets its components and position
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_CTR, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector{ sprite, animSpriteWithAnim1, animSpriteWithAnim2 };
 	std::vector<AnimatedSprite*> animatedSpriteVector{ animSpriteWithAnim1, animSpriteWithAnim2 };
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector);
@@ -133,7 +133,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_ctr, ReusableObjects
 
 
 // Test that constructing a compound sprite with a single sprite input vector correctly sets its components and position
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_setPosition_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_setPosition_CTR, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector{ sprite, animSpriteWithAnim1, animSpriteWithAnim2 };
 	std::vector<AnimatedSprite*> animatedSpriteVector{ animSpriteWithAnim1, animSpriteWithAnim2 };
 	const sf::Vector2f compoundSpritePos{ 3,3 };
@@ -154,7 +154,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Single_Sprite_Vector_setPosition_ctr, Reu
 }
 
 // Test that constructing the CompundSprite with its components correctly sets the components
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_CTR, ReusableObjects) {
 	std::vector<sf::Sprite*> spriteVector{sprite};
 	std::vector<AnimatedSprite*> animatedSpriteVector{animSpriteWithAnim1, animSpriteWithAnim2};
 
@@ -177,7 +177,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_ctr, Re
 }
 
 // Test that the CompoundSprite is safe to construct with empty component vectors.
-BOOST_AUTO_TEST_CASE(CompoundSprite_Empty_Component_Vector_ctr) {
+BOOST_AUTO_TEST_CASE(CompoundSprite_Empty_Component_Vector_CTR) {
 	std::vector<sf::Sprite*> spriteVector;
 	std::vector<AnimatedSprite*> animatedSpriteVector;
 	CompoundSprite* compoundSprite = new CompoundSprite(spriteVector, animatedSpriteVector);
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_Empty_Component_Vector_ctr) {
 }
 
 // Test that CompoundSprite gets its components and position correctly set.
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_setPosition_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_setPosition_CTR, ReusableObjects) {
 	std::vector<sf::Sprite*> sprites{sprite};
 	std::vector<AnimatedSprite*> animSprites{animSpriteWithAnim1, animSpriteWithAnim2};
 	const sf::Vector2f compoundSpritePos{ 3,3 };
@@ -216,7 +216,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_Sprite_And_AnimatedSprite_Vectors_setPosi
 }
 
 // Test that CompoundSprite correctly sets its position.
-BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_ctr) {
+BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_CTR) {
 	const sf::Vector2f compoundSpritePos{ 3,3 };
 
 	CompoundSprite* compoundSprite = new CompoundSprite(compoundSpritePos);
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_setPosition_ctr) {
 }
 
 
-BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_ctr
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_CTR
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_getter)
 
@@ -298,7 +298,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_Empty_Input_Vectors, ReusableO
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getSprites_default_CTR, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	BOOST_CHECK(compoundSprite->getComponents()->empty());
@@ -359,7 +359,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_getAnimatedSprites_Empty_Input_Vectors, R
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_getAnimatedSprites_default_ctr, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_getAnimatedSprites_default_CTR, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	BOOST_CHECK(compoundSprite->getAnimatedSprites()->empty());

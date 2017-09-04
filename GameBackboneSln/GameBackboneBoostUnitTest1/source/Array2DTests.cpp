@@ -6,9 +6,9 @@ using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(Array2D_Tests)
 
-BOOST_AUTO_TEST_SUITE(Array2D_ctrs)
+BOOST_AUTO_TEST_SUITE(Array2D_CTRs)
 
-BOOST_AUTO_TEST_CASE(Array2D_default_ctr) {
+BOOST_AUTO_TEST_CASE(Array2D_default_CTR) {
 	Array2D<int>* intArray = new Array2D<int>();//sizes of all dimensions should be 100
 
 	int arrayXSize = intArray->getArraySizeX();
@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(Array2D_default_ctr) {
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_CASE(Array2D_one_param_ctr) {
+BOOST_AUTO_TEST_CASE(Array2D_one_param_CTR) {
 	const int arrayDim = 10;
 	Array2D<int>* intArray = new Array2D<int>(arrayDim);//sizes of all dimensions should be 10
 
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(Array2D_one_param_ctr) {
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_CASE(Array2D_all_dim_ctr) {
+BOOST_AUTO_TEST_CASE(Array2D_all_dim_CTR) {
 	const int arrayDimX = 10;
 	const int arrayDimY = 20;
 
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(Array2D_all_dim_ctr) {
 	delete intArray;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end Array2D_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end Array2D_CTRs
 
 BOOST_AUTO_TEST_SUITE(Array2D_Accessors)
 
