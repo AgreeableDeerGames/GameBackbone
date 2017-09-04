@@ -53,6 +53,44 @@ namespace GB {
 				return "Encryption key is empty";
 			}
 		};
+
+		/// <summary>
+		/// Exception thrown when a function is intentionally "Not Implemented".
+		/// If a function is calling this exception, please use a different solution.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class Function_NotImplemented : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Function is Not Implemented.";
+			}
+		};
+
+		/// <summary>
+		/// Exception thrown when Component and RelativeOffset vectors passed into
+		/// RelativeRotationSprite are not equal in size.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class RelativeRotationSprite_MismatchedSizes : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "The passed in vectors are of incompatible sizes.";
+			}
+		};
+
+		/// <summary>
+		/// Exception thrown when Component an illegal or unexpected nullptr is found.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class Pointer_IllegalNull : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Illegal nullptr.";
+			}
+		};
 	}
 }
 

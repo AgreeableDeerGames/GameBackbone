@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Util\Array2D.h>
-#include <Util\DllUtil.h>
-#include <Util\Point.h>
+#include <Util/Array2D.h>
+#include <Util/DllUtil.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <set>
 #include <tuple>
@@ -13,7 +13,7 @@
 namespace GB {
 
 	/// <summary>
-	/// A collection of unique integer coordinates. 
+	/// A collection of unique integer coordinates.
 	/// </summary>
     class libGameBackbone Cluster {
     public:

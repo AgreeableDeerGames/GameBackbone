@@ -21,10 +21,16 @@
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\BackboneExeCoreEventController.cpp">
+    <ClCompile Include="source\NavigationDemoRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\NavigationDemoRegion.cpp">
+    <ClCompile Include="source\SwirlyDemoRegion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DemoRegion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DemoCoreEventController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +41,16 @@
     <ClInclude Include="header\SampleGuiInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\BackboneExeCoreEventController.h">
+    <ClInclude Include="header\NavigationDemoRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\NavigationDemoRegion.h">
+    <ClInclude Include="header\SwirlyDemoRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\DemoRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\DemoCoreEventController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

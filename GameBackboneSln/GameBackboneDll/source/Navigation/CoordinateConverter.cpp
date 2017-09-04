@@ -1,7 +1,7 @@
-#include <Navigation\CoordinateConverter.h>
-#include <Util\Point.h>
+#include <Navigation/CoordinateConverter.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace GB;
 
@@ -41,7 +41,7 @@ sf::Vector2<float> CoordinateConverter::convertCoordToWindow(const Point2D<int>&
 
 /// <summary>
 /// Converts the coordinate to a navigation grid coordinate.
-/// The value of right/bottom edge is not contained by the grid square square 
+/// The value of right/bottom edge is not contained by the grid square square
 /// ei: [0, gridSquareWidth)
 /// ei: gridSquareWidth = 50; WindowCoord(49.999, 50) -> NavGridCoord(0, 1)
 /// </summary>
@@ -52,6 +52,38 @@ Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>
 
 	Point2D<int> navGridCoord = {(int)(windowCoordCenter.x/ gridSquareWidth), (int)(windowCoordCenter.y/ gridSquareWidth)};
 	return navGridCoord;
+}
+
+/// <summary>
+/// Converts a paths represented in navigation grid coordinates to an equivalent
+/// path in window coordinates.
+/// </summary>
+/// <param name="navGridPath">The nav grid path.</param>
+/// <returns></returns>
+WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoordinatePath & navGridPath) {
+
+	// convert each coordinate and store it
+	WindowCoordinatePath convertedPath;
+	for (Point2D<int> coordinate : navGridPath) {
+		convertedPath.push_back(convertCoordToWindow(coordinate));
+	}
+	return convertedPath;
+}
+
+/// <summary>
+/// Converts a paths represented in window coordinates to an equivalent
+/// path in navigation grid coordinates.
+/// </summary>
+/// <param name="windowPath">The window path.</param>
+/// <returns></returns>
+NavGridCoordinatePath CoordinateConverter::convertPathToNavGrid(const WindowCoordinatePath & windowPath)
+{
+	// convert each coordinate and store it
+	NavGridCoordinatePath convertedPath;
+	for (sf::Vector2f coordinate : windowPath) {
+		convertedPath.push_back(convertCoordToNavGrid(coordinate));
+	}
+	return convertedPath;
 }
 
 /// <summary>

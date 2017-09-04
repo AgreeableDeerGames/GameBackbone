@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Util\DllUtil.h>
-#include <Util\Array2D.h>
+#include <Util/DllUtil.h>
+#include <Util/Array2D.h>
 
 #include<string>
 
 namespace GB {
-	
+
 	/// <summary>
 	/// Use this to read in a file.
 	/// </summary>

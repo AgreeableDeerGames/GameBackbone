@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Navigation\NavigationTools.h>
-#include <Navigation\PathFinder.h>
-#include <Util\Point.h>
+#include <Navigation/NavigationTools.h>
+#include <Navigation/PathFinder.h>
+#include <Util/Point.h>
 
 using namespace GB;
 
@@ -269,7 +269,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 
 	//ensure the path is not empty
 	BOOST_CHECK(pathsReturn[0].size() >= 0);
-	
+
 	freeAllNavigationGridData(navGrid);
 }
 

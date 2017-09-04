@@ -15,10 +15,10 @@ sfml-network-d.lib
 sfml-system-d.lib
 
 c++ -> general -> additioinal include Directories
-..\..\..\SFML\SFML-2.4.1\include
+../../../SFML/SFML-2.4.1/include
 
 linker -> general ->Additional Library Directories
-..\..\..\SFML\SFML-2.4.1\lib
+../../../SFML/SFML-2.4.1/lib
 
 
 
@@ -28,7 +28,7 @@ TESTING paths
 ///////////////////////////////
 
 include
-..\..\..\Boost\boost_1_63_0_x64\include\boost-1_63
+../../../Boost/boost_1_63_0_x64/include/boost-1_63
 
 linker
-..\..\..\Boost\boost_1_63_0_x64\lib
+../../../Boost/boost_1_63_0_x64/lib
