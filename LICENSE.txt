@@ -1,4 +1,4 @@
-MIT License
+GameBackbone
 
 Copyright (c) 2017 AgreeableDeerGames, Ryan Lavin, Michael Gyurgyak, Brian Bauer, Matthew McClellan, Chris Ochs, Kyle Peasley
 
