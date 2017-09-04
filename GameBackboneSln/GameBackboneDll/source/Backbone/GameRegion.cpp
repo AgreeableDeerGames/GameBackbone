@@ -160,11 +160,11 @@ std::list<sf::Sprite*>const * const GameRegion::getDrawables() {
 	return drawables;
 }
 
-std::list<GameRegion*>* GameRegion::getNeighborRegions() {
+std::vector<GameRegion*>* GameRegion::getNeighborRegions() {
     return &neighborRegions;
 }
 
-std::list<GameRegion*>* GameRegion::getChildRegions() {
+std::vector<GameRegion*>* GameRegion::getChildRegions() {
     return &childRegions;
 }
 
@@ -285,7 +285,7 @@ void GameRegion::clearNeighborRegions() {
 }
 
 /// <summary>
-/// Loops through list of associations, and calls the passed in function on each.
+/// Loops through container of associations, and calls the passed in function on each.
 /// </summary>
 /// <example>
 /// <pre>
@@ -300,17 +300,12 @@ void GameRegion::clearNeighborRegions() {
 /// </example>
 /// <param name="memberFunctionPointer">Function used to disassociate individual elements of the list</param>
 /// <param name="list">List of GameRegions to clear associations from.</param>
-void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::list<GameRegion*>* list) {
-	auto iter = list->begin();
-	while (iter != list->end())
-	{
-		//Move iterator to next element before altering the list
-		auto tempIter = iter;
-		++iter;
+void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* container) {
 
-		//disassociate element and remove from the list
-        memberFunctionPointer(*tempIter);
-    }
+	std::size_t containerSize = container->size();
+	for (std::size_t ii = 0; ii < containerSize; ii++) {
+		memberFunctionPointer(container->back());
+	}
 }
 
 
