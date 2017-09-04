@@ -57,15 +57,15 @@ void DemoSelectionRegion::registerSetActiveRegionCB(std::function<void(GameRegio
 
 // initialization
 
-#define BUTTON_WIDTH(windowWidth) windowWidth / 4.0f
-#define BUTTON_HEIGHT(windowHeight) windowHeight / 4.0f
-
 /// <summary>
 /// Initializes the GUI.
 /// </summary>
 void EXE::DemoSelectionRegion::initGUI() {
 	// Load the black theme
 	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+
+	// hide parent classes button
+	returnToMenuButton->hide();
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
@@ -79,10 +79,12 @@ void EXE::DemoSelectionRegion::initGUI() {
 	regionGUI->add(background);
 
 	// create buttons for regions
+	tgui::Layout buttonWidth = windowWidth / 4.0f;
+	tgui::Layout buttonHeight = windowHeight / 4.0f;
 
 		// create Navigation region button
 	tgui::Button::Ptr navigationRegionButton = theme->load("Button");
-	navigationRegionButton->setSize(BUTTON_WIDTH(windowWidth), BUTTON_HEIGHT(windowHeight));
+	navigationRegionButton->setSize(buttonWidth, buttonHeight);
 	navigationRegionButton->setPosition(windowWidth / 2.0f, 2.0f *windowHeight / 4.0f);
 	navigationRegionButton->setText("Navigation Demo");
 	navigationRegionButton->connect("pressed", &DemoSelectionRegion::navigationRegionCB, this);
@@ -90,7 +92,7 @@ void EXE::DemoSelectionRegion::initGUI() {
 
 		// create Swirly Sprite Demo button
 	tgui::Button::Ptr swirlyDemoButton = theme->load("Button");
-	swirlyDemoButton->setSize(BUTTON_WIDTH(windowWidth), BUTTON_HEIGHT(windowHeight));
+	swirlyDemoButton->setSize(buttonWidth, buttonHeight);
 	swirlyDemoButton->setPosition(windowWidth / 2.0f, 3.0f * windowHeight / 4.0f);
 	swirlyDemoButton->setText("Swirly Sprite Demo");
 	swirlyDemoButton->connect("pressed", &DemoSelectionRegion::swirlyDemoCB, this);
@@ -98,12 +100,11 @@ void EXE::DemoSelectionRegion::initGUI() {
 
 		// create region change demo button
 	tgui::Button::Ptr regionChangeButton = theme->load("Button");
-	regionChangeButton->setSize(BUTTON_WIDTH(windowWidth), BUTTON_HEIGHT(windowHeight));
+	regionChangeButton->setSize(buttonWidth, buttonHeight);
 	regionChangeButton->setPosition(windowWidth / 2.0f, 1.0f * windowHeight / 4.0f);
 	regionChangeButton->setText("Region Change Demo");
 	regionChangeButton->connect("pressed", &DemoSelectionRegion::regionChangeDemoCB, this);
 	regionGUI->add(regionChangeButton);
-
 }
 
 // gui callbacks

@@ -6,7 +6,7 @@
 using namespace EXE;
 
 
-
+// ctr / dtr
 
 /// <summary>
 /// Initializes a new instance of the <see cref="RegionChangeDemoRegion"/> class.
@@ -30,6 +30,7 @@ RegionChangeDemoRegion::~RegionChangeDemoRegion() {
 	delete spriteTexture;
 }
 
+// handles and callbacks
 
 /// <summary>
 /// Handles the mouse click.
@@ -44,4 +45,5 @@ void RegionChangeDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mous
 		}
 	}
 }
+
 
