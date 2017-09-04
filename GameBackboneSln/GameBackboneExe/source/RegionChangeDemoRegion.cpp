@@ -5,6 +5,32 @@
 
 using namespace EXE;
 
+
+
+
+/// <summary>
+/// Initializes a new instance of the <see cref="RegionChangeDemoRegion"/> class.
+/// </summary>
+/// <param name="color">The color.</param>
+RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color) : DemoRegion(window) {
+	spriteTexture = new sf::Texture();
+	spriteTexture->loadFromFile("..//..//Textures//SmallArrow.png");
+	sprite.setTexture(*spriteTexture);
+	sprite.setColor(color);
+	sprite.setPosition(300, 300);
+	setDrawable(true, &sprite);
+}
+
+
+
+/// <summary>
+/// Finalizes an instance of the <see cref="RegionChangeDemoRegion"/> class.
+/// </summary>
+RegionChangeDemoRegion::~RegionChangeDemoRegion() {
+	delete spriteTexture;
+}
+
+
 /// <summary>
 /// Handles the mouse click.
 /// Changes regions to the first neighbor region if there is one.
@@ -19,19 +45,3 @@ void RegionChangeDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mous
 	}
 }
 
-
-/// <summary>
-/// Initializes a new instance of the <see cref="RegionChangeDemoRegion"/> class.
-/// </summary>
-/// <param name="color">The color.</param>
-RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color) : DemoRegion(window) {
-	spriteTexture = new sf::Texture();
-	spriteTexture->loadFromFile("..//..//Textures//SmallArrow.png");
-	sprite.setTexture(*spriteTexture);
-	sprite.setColor(color);
-	setDrawable(true, &sprite);
-}
-
-RegionChangeDemoRegion::~RegionChangeDemoRegion() {
-	delete spriteTexture;
-}
