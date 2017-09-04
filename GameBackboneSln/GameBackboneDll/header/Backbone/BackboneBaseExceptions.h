@@ -79,6 +79,18 @@ namespace GB {
 				return "The passed in vectors are of incompatible sizes.";
 			}
 		};
+
+		/// <summary>
+		/// Exception thrown when Component an illegal or unexpected nullptr is found.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class Pointer_IllegalNull : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Illegal nullptr.";
+			}
+		};
 	}
 }
 

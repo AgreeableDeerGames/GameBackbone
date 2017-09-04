@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include <Backbone/AnimatedSprite.h>
+#include <Backbone/BackboneBaseExceptions.h>
 #include <Backbone/CompoundSprite.h>
 
 #include <SFML/Graphics.hpp>
@@ -371,7 +372,7 @@ BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_getter
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_add)
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->addComponent(sprite);
@@ -383,7 +384,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite, ReusableObjects) {
 	delete compoundSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite_AnimatedSprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_AnimatedSprite, ReusableObjects) {
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	compoundSprite->addComponent(animSpriteWithAnim1);
@@ -391,6 +392,21 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addSprite_AnimatedSprite, ReusableObjects
 
 	auto it = std::find(animatedSpriteVector->begin(), animatedSpriteVector->end(), animSpriteWithAnim1);
 	BOOST_CHECK(it != animatedSpriteVector->end());
+
+	delete compoundSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_nullptr, ReusableObjects) {
+	CompoundSprite* compoundSprite = new CompoundSprite();
+
+	delete sprite;
+	sprite = nullptr;
+	delete animSpriteWithAnim1;
+	animSpriteWithAnim1 = nullptr;
+
+	// Ensure that CompoundSprite throws when passing a nullptr
+	BOOST_CHECK_THROW(compoundSprite->addComponent(sprite), Error::Pointer_IllegalNull);
+	BOOST_CHECK_THROW(compoundSprite->addComponent(animSpriteWithAnim1), Error::Pointer_IllegalNull);
 
 	delete compoundSprite;
 }

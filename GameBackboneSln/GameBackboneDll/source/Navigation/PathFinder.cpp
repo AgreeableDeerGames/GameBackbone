@@ -17,7 +17,7 @@ Pathfinder::Pathfinder() : Pathfinder(nullptr) {}
 
 /// <summary> Creates a PathFinder with an assigned navigation grid. </summary>
 /// <param name = "navigationGrid"> Three dimensional grid to be used when path-finding. </param>
-Pathfinder::Pathfinder(NavigationGrid * navigationGrid) {
+Pathfinder::Pathfinder(NavigationGrid* navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
@@ -36,7 +36,7 @@ Pathfinder::~Pathfinder() {
 /// Sets the navigation grid.
 /// </summary>
 /// <param name="navigationGrid">The navigation grid.</param>
-void Pathfinder::setNavigationGrid(NavigationGrid * navigationGrid) {
+void Pathfinder::setNavigationGrid(NavigationGrid* navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
@@ -46,7 +46,7 @@ void Pathfinder::setNavigationGrid(NavigationGrid * navigationGrid) {
 /// Gets the navigation grid.
 /// </summary>
 /// <returns>NavigationGrid pointer</returns>
-NavigationGrid * Pathfinder::getNavigationGrid() {
+NavigationGrid* Pathfinder::getNavigationGrid() {
 	return navigationGrid;
 }
 
@@ -55,7 +55,7 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
-void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>> * const returnedPaths) {
+void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>>* const returnedPaths) {
 
 	typedef std::pair<Point2D<int>, int> GridValuePair;
 

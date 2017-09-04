@@ -412,7 +412,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_RelativeOffset, Reusab
 	animSpriteWithAnim1->setPosition({ 0, 0 });
 	animSpriteWithAnim2->setPosition({ 0, 0 });
 
-	// Add all of the sprites without RelativeOffsets.
+	// Add all of the sprites with RelativeOffsets.
 	for (std::size_t ii = 0; ii < spriteVector.size(); ++ii)
 	{
 		rrSprite->addComponent(spriteVector[ii], initialOffsets[ii]);
@@ -437,6 +437,57 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_RelativeOffset, Reusab
 
 	delete rrSprite;
 }
+
+BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_nullptr, ReusableObjects) {
+	RelativeRotationSprite* rrSprite = new RelativeRotationSprite();
+
+	sprite1->setPosition({ 10, 0 });
+	sprite2->setPosition({ 0, 10 });
+	animSpriteWithAnim1->setPosition({ 10, 0 });
+	animSpriteWithAnim2->setPosition({ 0, 10 });
+
+	// Add all of the sprites without RelativeOffsets.
+	for (sf::Sprite* comp : spriteVector)
+	{
+		comp = nullptr;
+
+		// Ensure that RelativeRotationSprite throws when passing a nullptr
+		BOOST_CHECK_THROW(rrSprite->addComponent(comp), Error::Pointer_IllegalNull);
+	}
+	for (AnimatedSprite* comp : animSpriteVector)
+	{
+		comp = nullptr;
+
+		// Ensure that RelativeRotationSprite throws when passing a nullptr
+		BOOST_CHECK_THROW(rrSprite->addComponent(comp), Error::Pointer_IllegalNull);
+	}
+
+	delete rrSprite;
+}
+
+BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_RelativeOffsets_nullptr, ReusableObjects) {
+	RelativeRotationSprite* rrSprite = new RelativeRotationSprite();
+
+	sprite1->setPosition({ 0, 0 });
+	sprite2->setPosition({ 0, 0 });
+	animSpriteWithAnim1->setPosition({ 0, 0 });
+	animSpriteWithAnim2->setPosition({ 0, 0 });
+
+	// Add all of the sprites without RelativeOffsets.
+	for (std::size_t ii = 0; ii < spriteVector.size(); ++ii)
+	{
+		spriteVector[ii] = nullptr;
+		BOOST_CHECK_THROW(rrSprite->addComponent(spriteVector[ii], initialOffsets[ii]), Error::Pointer_IllegalNull);
+	}
+	for (std::size_t ii = 0; ii < animSpriteVector.size(); ++ii)
+	{
+		animSpriteVector[ii] = nullptr;
+		BOOST_CHECK_THROW(rrSprite->addComponent(animSpriteVector[ii], initialOffsets[ii + spriteVector.size()]), Error::Pointer_IllegalNull);
+	}
+
+	delete rrSprite;
+}
+
 
 BOOST_AUTO_TEST_SUITE_END() // END RelativeRotionSprite_add
 
