@@ -12,6 +12,7 @@
 
 #include <functional>
 #include <list>
+#include <vector>
 
 namespace GB {
 
@@ -36,8 +37,8 @@ namespace GB {
 		//getters
 		std::list<Updatable*>const * const getUpdatables();
 		std::list<sf::Sprite*>const * const getDrawables();
-		std::list<GameRegion*>* getNeighborRegions();
-		std::list<GameRegion*>* getChildRegions();
+		std::vector<GameRegion*>* getNeighborRegions();
+		std::vector<GameRegion*>* getChildRegions();
 		GameRegion* getParentRegion();
 		tgui::Gui* getGUI();
 
@@ -73,7 +74,7 @@ namespace GB {
 	protected:
 
 		//operations
-		void clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::list<GameRegion*>* list);
+		void clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* container);
 
 		//internal logic members
 		std::list<sf::Sprite*>* drawables;
@@ -81,8 +82,8 @@ namespace GB {
 
 		//associated regions
 		GameRegion* parentRegion;
-		std::list<GameRegion*> childRegions;
-		std::list<GameRegion*> neighborRegions;
+		std::vector<GameRegion*> childRegions;
+		std::vector<GameRegion*> neighborRegions;
 		std::function<void(GameRegion*)> setActiveRegionCB;
 
 		//GUI

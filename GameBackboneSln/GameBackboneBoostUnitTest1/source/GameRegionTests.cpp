@@ -309,8 +309,8 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t4) {
     region1->removeNeighborRegion(region7);
 
     //make sure region7 was removed
-    std::list<GameRegion*>* region1neighbors = region1->getNeighborRegions();
-    std::list<GameRegion*>* region7neighbors = region7->getNeighborRegions();
+    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    std::vector<GameRegion*>* region7neighbors = region7->getNeighborRegions();
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region7) == region1neighbors->end());
     BOOST_CHECK(std::find(region7neighbors->begin(), region7neighbors->end(), region1) == region7neighbors->end());
 
@@ -343,8 +343,8 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t5) {
     region1->removeNeighborRegion(region7);
 
     //make sure region7 was removed
-    std::list<GameRegion*>* region1neighbors = region1->getNeighborRegions();
-    std::list<GameRegion*>* region7neighbors = region7->getNeighborRegions();
+    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    std::vector<GameRegion*>* region7neighbors = region7->getNeighborRegions();
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region7) == region1neighbors->end());
     BOOST_CHECK(std::find(region7neighbors->begin(), region7neighbors->end(), region1) == region7neighbors->end());
     BOOST_CHECK(region1neighbors->size() == 2);
@@ -359,7 +359,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t5) {
     region5->removeNeighborRegion(region7);
 
     region3->clearNeighborRegions();
-    std::list<GameRegion*>* region3neighbors = region3->getNeighborRegions();
+    std::vector<GameRegion*>* region3neighbors = region3->getNeighborRegions();
     BOOST_CHECK(region3neighbors->size() == 0);
 
     delete region1; delete region2; delete region3; delete region5; delete region6; delete region7;
@@ -373,7 +373,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t6) {
     region1->addNeighborRegion(region2);//    3 - 1 - 2
     region1->addNeighborRegion(region3);
 
-    std::list<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
     BOOST_CHECK(region1neighbors->size() == 2);
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region2) != region1neighbors->end());
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region3) != region1neighbors->end());
@@ -505,7 +505,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_no_existing_parent) {
 	delete childRegion;
 }
 
-// Test that setting a parent will disacociate any previous parent relationship
+// Test that setting a parent will disassociate any previous parent relationship
 BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_existing_parent) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* gameRegion2 = new GameRegion();
@@ -542,12 +542,15 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_two_children) {
 	BOOST_CHECK(childRegion2->getParentRegion() == gameRegion);
 
 	// ensure that the child region is a child of the parent region
-	BOOST_CHECK(gameRegion->getChildRegions()->front() == childRegion1);
-	BOOST_CHECK(gameRegion->getChildRegions()->back() == childRegion2);
+	BOOST_CHECK(gameRegion->getChildRegions()->at(0) == childRegion1);
+	BOOST_CHECK(gameRegion->getChildRegions()->at(1) == childRegion2);
 
 	delete gameRegion;
+	gameRegion = nullptr;
 	delete childRegion1;
+	childRegion1 = nullptr;
 	delete childRegion2;
+	childRegion2 = nullptr;
 }
 
 // Test that setting a parent twice only adds the relationship once
