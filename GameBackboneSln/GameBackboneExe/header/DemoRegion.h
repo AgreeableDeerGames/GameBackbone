@@ -9,7 +9,7 @@ namespace EXE {
 	class DemoRegion : public GB::GameRegion {
 	public:
 		// ctr / dtr
-		DemoRegion() = delete;
+		DemoRegion();
 		DemoRegion(const DemoRegion& other) = delete;
 		DemoRegion(DemoRegion&& other) = delete;
 		DemoRegion& operator= (const DemoRegion& other) = delete;

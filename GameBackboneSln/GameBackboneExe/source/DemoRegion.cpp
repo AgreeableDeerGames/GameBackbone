@@ -2,8 +2,21 @@
 
 using namespace EXE;
 
+/// <summary>
+/// Initializes a new instance of the <see cref="DemoRegion"/> class.
+/// </summary>
+DemoRegion::DemoRegion() {
+	initGui();
+}
+
 // ctr
-DemoRegion::DemoRegion(sf::RenderWindow & window) : GameRegion(window){
+
+
+/// <summary>
+/// Initializes a new instance of the <see cref="DemoRegion"/> class.
+/// </summary>
+/// <param name="window">The window.</param>
+DemoRegion::DemoRegion(sf::RenderWindow & window) : GameRegion(window) {
 	initGui();
 }
 
