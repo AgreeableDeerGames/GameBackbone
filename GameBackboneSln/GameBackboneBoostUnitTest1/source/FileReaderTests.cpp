@@ -84,12 +84,12 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_partial_test, ReusableObjects) {
 }
 
 // Ensure that readFile throws an exception if the file doesn't exist.
-BOOST_FIXTURE_TEST_CASE(FileReader_BadFile_test, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(FileManager_BadFile_test, ReusableObjects) {
 
 	FileReader testReader;
 
 	// Ensure that readFile throws an exception if the file doesn't exist.
-	BOOST_CHECK_THROW(testReader.readFile(R"(../NOTAREALFILE.txt)", 3, 3, '\t'), Error::FileReader_BadFile);
+	BOOST_CHECK_THROW(testReader.readFile(R"(../NOTAREALFILE.txt)", 3, 3, '\t'), Error::FileManager_BadFile);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end FileReader_readFile

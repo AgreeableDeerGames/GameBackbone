@@ -24,7 +24,7 @@ Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int tot
 	// Throw an error if the file could not be opened
 	if (!inFile.good())
 	{
-		throw Error::FileReader_BadFile();
+		throw Error::FileManager_BadFile();
 	}
 
 	// Create the array that will be returned
