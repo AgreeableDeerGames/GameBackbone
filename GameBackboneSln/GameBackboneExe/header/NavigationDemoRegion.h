@@ -51,8 +51,10 @@ namespace EXE {
 
 	protected:
 
-		// ctr
+		// ctr / dtr
 		void init();
+		void destroy();
+		virtual void reset() override;
 
 		// helper functions
 		void initGUI();

@@ -36,23 +36,7 @@ NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : DemoRegi
 /// Finalizes an instance of the <see cref="NavigationDemoRegion"/> class.
 /// </summary>
 NavigationDemoRegion::~NavigationDemoRegion() {
-
-	//delete navigation data
-	GB::freeAllNavigationGridData(*navGrid);
-	delete navGrid;
-	navGrid = nullptr;
-
-	//delete navigators
-	for each (auto navigator in navigators) {
-		delete navigator;
-		navigator = nullptr;
-	}
-
-	//delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-	delete gridTexture;
-	gridTexture = nullptr;
+	destroy();
 }
 
 /// <summary>
@@ -225,6 +209,56 @@ void NavigationDemoRegion::init() {
 		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
 	}
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
+}
+
+/// <summary>
+/// Frees all dynamic memory allocated for this instance.
+/// Resets the state of every member of this instance.
+/// </summary>
+void NavigationDemoRegion::destroy() {
+
+
+	//delete navigation data
+	GB::freeAllNavigationGridData(*navGrid);
+	delete navGrid;
+	navGrid = nullptr;
+
+	// reset pathfinder
+	regionPathfinder.setNavigationGrid(nullptr);
+
+	// clear paths
+	paths.clear();
+
+	//delete navigators
+	for (auto navigator : navigators) {
+		delete navigator;
+		navigator = nullptr;
+	}
+	navigators.clear();
+
+	//delete textures
+	delete navigatorTexture;
+	navigatorTexture = nullptr;
+	delete gridTexture;
+	gridTexture = nullptr;
+
+	// reset time
+	lastUpdateTime = sf::Time::Zero;
+
+	// reset coordinate converter
+	GB::CoordinateConverter newConverter;
+	coordinateConverter = newConverter;
+}
+
+
+/// <summary>
+/// Resets this instance.
+/// The random clusters are regenerated and the navigators are reset.
+/// Everything else in this instance is also reset or reconstructed.
+/// </summary>
+void NavigationDemoRegion::reset() {
+	destroy();
+	init();
 }
 
 /// <summary>
