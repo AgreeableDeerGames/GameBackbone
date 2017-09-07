@@ -6,19 +6,6 @@ namespace GB {
 	namespace Error {
 
 		/// <summary>
-		/// Exception thrown when a GameRegion attempts to disassociate a
-		/// non-associated GameRegion.
-		/// </summary>
-		/// <seealso cref="std::exception" />
-		class GameRegion_BadDissociation : public std::exception
-		{
-		public:
-			virtual const char* what() const override {
-				return "Attempting to remove a non-associated object is not allowed";
-			}
-		};
-
-		/// <summary>
 		/// Exception thrown when an AnimatedSprite tries to run an empty animation.
 		/// </summary>
 		/// <seealso cref="std::exception" />
@@ -34,7 +21,7 @@ namespace GB {
 		/// Exception thrown when a FileReader fails to open a file.
 		/// </summary>
 		/// <seealso cref="std::exception" />
-		class FileReader_BadFile : public std::exception
+		class FileManager_BadFile : public std::exception
 		{
 		public:
 			virtual const char* what() const override {
@@ -68,15 +55,15 @@ namespace GB {
 		};
 
 		/// <summary>
-		/// Exception thrown when Component and RelativeOffset vectors passed into
-		/// RelativeRotationSprite are not equal in size.
+		/// Exception thrown when a GameRegion attempts to disassociate a
+		/// non-associated GameRegion.
 		/// </summary>
 		/// <seealso cref="std::exception" />
-		class RelativeRotationSprite_MismatchedSizes : public std::exception
+		class GameRegion_BadDissociation : public std::exception
 		{
 		public:
 			virtual const char* what() const override {
-				return "The passed in vectors are of incompatible sizes.";
+				return "Attempting to remove a non-associated object is not allowed";
 			}
 		};
 
@@ -89,6 +76,19 @@ namespace GB {
 		public:
 			virtual const char* what() const override {
 				return "Illegal nullptr.";
+			}
+		};
+
+		/// <summary>
+		/// Exception thrown when Component and RelativeOffset vectors passed into
+		/// RelativeRotationSprite are not equal in size.
+		/// </summary>
+		/// <seealso cref="std::exception" />
+		class RelativeRotationSprite_MismatchedSizes : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "The passed in vectors are of incompatible sizes.";
 			}
 		};
 	}
