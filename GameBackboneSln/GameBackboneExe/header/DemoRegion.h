@@ -29,12 +29,14 @@ namespace EXE {
 		// initialization
 		void initGui();
 
+		void resetRegion();
+
 		// protected handles and callbacks
 		virtual void returnToMenuCB();
 
 		// gui
 		tgui::Button::Ptr returnToMenuButton;
-
+		tgui::Button::Ptr resetButton;
 	};
 
 }

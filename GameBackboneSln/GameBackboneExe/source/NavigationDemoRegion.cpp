@@ -235,6 +235,8 @@ void NavigationDemoRegion::destroy() {
 		navigator = nullptr;
 	}
 	navigators.clear();
+	clearDrawable();
+	clearUpdatable();
 
 	//delete textures
 	delete navigatorTexture;
@@ -249,7 +251,6 @@ void NavigationDemoRegion::destroy() {
 	GB::CoordinateConverter newConverter;
 	coordinateConverter = newConverter;
 }
-
 
 /// <summary>
 /// Resets this instance.

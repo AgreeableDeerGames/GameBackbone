@@ -49,10 +49,26 @@ void DemoRegion::initGui() {
 	returnToMenuButton = theme->load("Button");
 	returnToMenuButton->setSize(buttonWidth, buttonHeight);
 	returnToMenuButton->setPosition(windowWidth - buttonWidth, 0);
-	returnToMenuButton->setText("Return to Menu");
+	returnToMenuButton->setText("  Return\n to Menu");
 	returnToMenuButton->connect("pressed", &DemoRegion::returnToMenuCB, this);
 	regionGUI->add(returnToMenuButton);
 
+	// create a button to reset a region
+	resetButton = theme->load("Button");
+	resetButton->setSize(buttonWidth, buttonHeight);
+	resetButton->setPosition(windowWidth - buttonWidth, buttonHeight + windowHeight / 10);
+	resetButton->setText("Reset");
+	resetButton->connect("pressed", &DemoRegion::resetRegion, this);
+	regionGUI->add(resetButton);
+
+}
+
+/// <summary>
+/// Resets this instance.
+/// virtually calls the correct reset for all child classes.
+/// </summary>
+void DemoRegion::resetRegion() {
+	reset();
 }
 
 // protected handles and callbacks

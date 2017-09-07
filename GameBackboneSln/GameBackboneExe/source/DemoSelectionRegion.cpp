@@ -66,6 +66,7 @@ void EXE::DemoSelectionRegion::initGUI() {
 
 	// hide parent classes button
 	returnToMenuButton->hide();
+	resetButton->hide();
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
