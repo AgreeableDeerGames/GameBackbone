@@ -17,13 +17,20 @@ DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion
 	initGUI();
 
 	// create and link child regions
-	addChildRegion(new NavigationDemoRegion(window));
-	addChildRegion(new SwirlyDemoRegion(window));
+	NavigationDemoRegion* navigationDemoRegion = new NavigationDemoRegion(window);
+	addChildRegion(navigationDemoRegion);
+	selectableRegions.push_back(navigationDemoRegion);
+
+	SwirlyDemoRegion* swirlyDemoRegion = new SwirlyDemoRegion(window);
+	addChildRegion(swirlyDemoRegion);
+	selectableRegions.push_back(swirlyDemoRegion);
+
 	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red);
 	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green);
 	regionChangeRegion1->addNeighborRegion(regionChangeRegion2);
 	addChildRegion(regionChangeRegion1);
 	addChildRegion(regionChangeRegion2);
+	selectableRegions.push_back(regionChangeRegion1);
 
 }
 
@@ -132,5 +139,5 @@ void DemoSelectionRegion::swirlyDemoCB() {
 /// Sets the active region to the third child of this region (which should always be a RegionChangeDemoRegion)
 /// </summary>
 void DemoSelectionRegion::regionChangeDemoCB() {
-	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO]);
+	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO]);
 }

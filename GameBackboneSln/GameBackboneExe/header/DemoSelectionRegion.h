@@ -46,6 +46,10 @@ namespace EXE {
 		void swirlyDemoCB();
 		void regionChangeDemoCB();
 
+
+		// storage
+		std::vector<GB::GameRegion*> selectableRegions;
+
 	};
 
 }
