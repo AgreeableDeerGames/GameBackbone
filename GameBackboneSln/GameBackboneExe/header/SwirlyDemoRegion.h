@@ -23,7 +23,7 @@ namespace EXE{
 		SwirlyDemoRegion(sf::RenderWindow & window);
 		virtual ~SwirlyDemoRegion();
 
-		//behavior
+		// behavior
 		virtual void behave(sf::Time currentTime) override;
 
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
@@ -34,23 +34,28 @@ namespace EXE{
 
 	protected:
 
-		//ctr
+		// ctr / dtr
 		void init();
+		virtual void reset() override;
 
-		//helper functions
+		// helper functions
 		void initGUI();
 
-		//update logic storage
+		// update logic storage
 		sf::Time lastUpdateTime;
 
 		// sprite textures
 		sf::Texture* navigatorTexture;
 
-		//compound sprite stuff
+		// compound sprite stuff
 		GB::CompoundSprite* compSprite;
 		sf::Sprite* compComponent1;
 		sf::Sprite* compComponent2;
 		sf::Sprite* compComponent3;
+
+	private:
+		// dtr
+		void destroy();
 	};
 
 }

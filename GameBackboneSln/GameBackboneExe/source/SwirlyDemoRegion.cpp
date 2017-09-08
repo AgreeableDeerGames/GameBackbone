@@ -20,6 +20,14 @@ using namespace EXE;
 /// </summary>
 SwirlyDemoRegion::SwirlyDemoRegion() {
 	init();
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
 }
 
 /// <summary>
@@ -28,22 +36,21 @@ SwirlyDemoRegion::SwirlyDemoRegion() {
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 SwirlyDemoRegion::SwirlyDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
 }
 
 /// <summary>
 /// Finalizes an instance of the <see cref="SwirlyDemoRegion"/> class.
 /// </summary>
 SwirlyDemoRegion::~SwirlyDemoRegion() {
-	//delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-
-	delete compComponent1;
-	compComponent1 = nullptr;
-	delete compComponent2;
-	compComponent2 = nullptr;
-	delete compSprite;
-	compSprite = nullptr;
+	destroy();
 }
 
 /// <summary>
@@ -142,14 +149,25 @@ void SwirlyDemoRegion::init() {
 	setDrawAndUpdateable(true, compSprite);
 
 
-	//initialize GUI
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
+
+}
+
+
+/// <summary>
+/// Resets this instance.
+/// frees and / or reinitializes all members of this instance that impact the demo.
+/// </summary>
+void SwirlyDemoRegion::reset() {
+	// free all dynamic memory
+	destroy();
+
+	// reset non-dynamic members
+	lastUpdateTime = sf::Time::Zero;
+	clearDrawable();
+	clearUpdatable();
+
+	// reinitialize
+	init();
 }
 
 /// <summary>
@@ -169,4 +187,22 @@ void SwirlyDemoRegion::initGUI() {
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
+}
+
+// private dtr
+
+/// <summary>
+/// Frees all dynamically allocated memory in this instance
+/// </summary>
+void SwirlyDemoRegion::destroy() {
+	//delete textures
+	delete navigatorTexture;
+	navigatorTexture = nullptr;
+
+	delete compComponent1;
+	compComponent1 = nullptr;
+	delete compComponent2;
+	compComponent2 = nullptr;
+	delete compSprite;
+	compSprite = nullptr;
 }
