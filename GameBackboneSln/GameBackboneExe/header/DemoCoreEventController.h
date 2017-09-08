@@ -3,7 +3,7 @@
 #include <NavigationDemoRegion.h>
 #include <SwirlyDemoRegion.h>
 
-#include <Backbone\CoreEventController.h>
+#include <Backbone/CoreEventController.h>
 
 
 namespace EXE {

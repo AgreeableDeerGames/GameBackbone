@@ -21,8 +21,8 @@ namespace GB {
 		Cluster(Point2D<int> firstPoint);
 
         //getter
-		std::set<Point2D<int>> const* const Cluster::getClusterPoints();
-		std::set<Point2D<int>> const* const Cluster::getBorderPointSet();
+		std::set<Point2D<int>> const* const getClusterPoints();
+		std::set<Point2D<int>> const* const getBorderPointSet();
 
 		double getClusterFrequency();
 

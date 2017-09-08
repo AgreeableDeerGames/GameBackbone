@@ -43,7 +43,7 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 	navGrid = nullptr;
 
 	//delete navigators
-	for each (auto navigator in navigators) {
+	for (auto navigator : navigators) {
 		delete navigator;
 		navigator = nullptr;
 	}
@@ -130,7 +130,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 /// </summary>
 /// <param name="mousePosition">The mouse position.</param>
 void NavigationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
-	
+
 }
 
 /// <summary>
@@ -144,10 +144,10 @@ void NavigationDemoRegion::init() {
 
 
 	//init textures
-	std::string arrowPath(R"(..\..\Textures\SmallArrow.png)");
+	std::string arrowPath(R"(../../Textures/SmallArrow.png)");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
-	std::string navigationGridPath(R"(..\..\Textures\NavigationGrid.png)");
+	std::string navigationGridPath(R"(../../Textures/NavigationGrid.png)");
 	gridTexture = new sf::Texture();
 	gridTexture->loadFromFile(navigationGridPath);
 
@@ -166,7 +166,7 @@ void NavigationDemoRegion::init() {
 	navigator1->setColor(sf::Color::Blue);
 
 	//set rotation point and scale of navigators
-	for each (sf::Sprite* navigator in navigators) {
+	for (sf::Sprite* navigator : navigators) {
 		const sf::IntRect* const  textureRect = &navigator->getTextureRect();
 		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);
@@ -240,7 +240,7 @@ void NavigationDemoRegion::initGUI() {
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr picture = tgui::Picture::create(R"(..\..\Textures\Backbone2.png)");
+	tgui::Picture::Ptr picture = tgui::Picture::create(R"(../../Textures/Backbone2.png)");
 
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
