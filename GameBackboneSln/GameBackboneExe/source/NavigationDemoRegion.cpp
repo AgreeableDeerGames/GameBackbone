@@ -22,6 +22,15 @@ using namespace EXE;
 /// </summary>
 NavigationDemoRegion::NavigationDemoRegion() {
 	init();
+
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
 }
 
 /// <summary>
@@ -30,6 +39,15 @@ NavigationDemoRegion::NavigationDemoRegion() {
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
+
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
 }
 
 /// <summary>
@@ -200,14 +218,6 @@ void NavigationDemoRegion::init() {
 		paths[i] = std::make_shared<std::list<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
 	}
 
-	//initialize GUI
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
 }
 
