@@ -12,7 +12,7 @@ namespace GB {
 		class AnimatedSprite_EmptyAnimation : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Cannot run an empty animation.";
 			}
 		};
@@ -24,7 +24,7 @@ namespace GB {
 		class FileManager_BadFile : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Cannot open the file.";
 			}
 		};
@@ -36,7 +36,7 @@ namespace GB {
 		class FileManager_EmptyKey : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Encryption key is empty";
 			}
 		};
@@ -57,7 +57,7 @@ namespace GB {
 		class Function_NotImplemented : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Function is Not Implemented.";
 			}
 		};
@@ -70,7 +70,7 @@ namespace GB {
 		class GameRegion_BadDissociation : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Attempting to remove a non-associated object is not allowed";
 			}
 		};
@@ -82,7 +82,7 @@ namespace GB {
 		class Pointer_IllegalNull : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Illegal nullptr.";
 			}
 		};
@@ -95,7 +95,7 @@ namespace GB {
 		class RelativeRotationSprite_MismatchedSizes : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "The passed in vectors are of incompatible sizes.";
 			}
 		};

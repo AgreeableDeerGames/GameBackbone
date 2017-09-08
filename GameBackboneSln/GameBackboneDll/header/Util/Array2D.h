@@ -114,7 +114,7 @@ namespace GB {
 		/// </summary>
 		/// <param name="value">The new value for every element in the array.</param>
 		void initAllValues(templateClass value) {
-			for (size_t i = 0; i < internalArray.size(); i++) {
+			for (std::size_t i = 0; i < internalArray.size(); i++) {
 				internalArray[i] = value;
 			}
 		}

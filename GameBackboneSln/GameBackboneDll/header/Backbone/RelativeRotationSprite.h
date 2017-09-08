@@ -1,11 +1,11 @@
 #pragma once
-#include <Backbone\CompoundSprite.h>
+#include <Backbone/CompoundSprite.h>
 
 #include <vector>
 
 namespace GB {
 
-	/// <summary> Special type of CompoundSprite which controls rotation of each component Sprite for the user. 
+	/// <summary> Special type of CompoundSprite which controls rotation of each component Sprite for the user.
 	/// It does so using either passed in or assumed relative position offsets for each Sprite compared to the CompoundSprite's position.</summary>
 	class libGameBackbone RelativeRotationSprite : public CompoundSprite {
 	public:

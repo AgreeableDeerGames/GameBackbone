@@ -105,7 +105,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 			//find neighbors
 			std::vector<Point2D<int>> neighbors = getNeighbors(current);
 
-			for each (Point2D<int> neighbor in neighbors) {
+			for (Point2D<int> neighbor : neighbors) {
 				if (closedSet->find(neighbor) != closedSet->end()) {
 					continue;// no need to evaluate already evaluated nodes
 				}
@@ -156,7 +156,7 @@ Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, c
 	unsigned int shortestDistance = UINT_MAX;
 	Point2D<int> bestGridSquare = {-1, -1};
 
-	for each (const Point2D<int> gridSquare in *availableGridSquares) {
+	for (const Point2D<int> gridSquare : *availableGridSquares) {
 		unsigned int gridSquareDistance = GB::calcSquaredDistance2D<int>(gridSquare, pathRequest.end);
 		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;

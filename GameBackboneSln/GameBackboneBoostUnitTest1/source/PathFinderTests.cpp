@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 
 	//ensure the blocked grid square is not in the path
 
-	for each (Point2D<int> gridSquare in pathsReturn[0]) {
+	for (Point2D<int> gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
@@ -431,7 +431,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	//ensure the blocked grid square is not in the path
-	for each (Point2D<int> gridSquare in pathsReturn[0]) {
+	for (Point2D<int> gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
@@ -480,7 +480,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	//ensure the blocked grid square is not in the path
-	for each (Point2D<int> gridSquare in pathsReturn[0]) {
+	for (Point2D<int> gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != upSquareCoord);
 	}
 

@@ -46,9 +46,9 @@ void AnimationSet::framesToRects(const std::vector<std::vector<unsigned int>>& f
 	unsigned int rectHeight = textureHeight / rows;
 
 	//find the rectangle for each frame number in each animation
-	for each (std::vector<unsigned int> frameAnimation in frameAnimations) {
+	for (std::vector<unsigned int> frameAnimation : frameAnimations) {
 		std::vector<sf::IntRect> rectAnimation;
-		for each (unsigned int frameNumber in frameAnimation) {
+		for (unsigned int frameNumber : frameAnimation) {
 			unsigned int newRectY = (frameNumber / cols) * rectHeight;
 			unsigned int newRectX = (frameNumber % cols) * rectWidth;
 			sf::IntRect frameRect(newRectX, newRectY, rectWidth, rectHeight);
