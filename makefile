@@ -1,7 +1,7 @@
 TARGET_EXEC ?= Demo
 EXEC_DIR ?= GameBackboneSln/GameBackboneExe/
 BUILD_DIR ?= ./bld
-SRC_DIRS ?= GameBackboneSln/GameBackboneDll GameBackboneSln/GameBackboneExe
+SRC_DIRS ?= GameBackboneSln/GameBackboneExe GameBackboneSln/GameBackboneDll
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -13,10 +13,10 @@ CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -std=c++17
 
 $(EXEC_DIR)/$(TARGET_EXEC): $(OBJS)
 	@$(MKDIR_P) $(dir $@)
-	$(info $ Building demo executable)
+	$(info $ Building Demo executable)
 	@#these flags assume that tgui,sfml,and boost are installed to your system
 	@$(CXX) $(OBJS) -o $@ $(LDFLAGS) -ltgui -lsfml-graphics -lsfml-window -lsfml-system -lsfml-system -lboost_system -lboost_unit_test_framework
-
+	@$(info $ Demo location: $(EXEC_DIR)$(TARGET_EXEC))
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	@$(MKDIR_P) $(dir $@)
@@ -28,7 +28,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR)
-	$(RM) -r $(EXEC_DIR)/$(TARGET_EXEC)
+	$(RM) -r $(EXEC_DIR)$(TARGET_EXEC)
 
 
 -include $(DEPS)
