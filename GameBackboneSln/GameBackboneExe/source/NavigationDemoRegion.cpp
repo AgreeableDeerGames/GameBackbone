@@ -367,6 +367,7 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 			setDrawable(true, gridSquare);
 		}
 	}
+	delete graphGenerator;
 }
 
 /// <summary>
