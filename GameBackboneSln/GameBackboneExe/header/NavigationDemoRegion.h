@@ -10,6 +10,9 @@
 
 namespace EXE {
 
+	/// <summary>
+	/// Options for selected navigator button
+	/// </summary>
 	enum SELECTED_NAVIGATOR_BUTTON_TYPE
 	{
 		NAVIGATOR_1,
@@ -17,6 +20,9 @@ namespace EXE {
 		ALL_NAVIGATORS
 	};
 
+	/// <summary>
+	/// Data stored in each NavigationGridSquare for this region.
+	/// </summary>
 	struct NavigationDemoData : public GB::NavigationGridData
 	{
 		sf::Sprite* demoSprite;
