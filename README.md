@@ -42,7 +42,7 @@ Open-source framework for developing 2D video games.
   * A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/)
 
 
- Variable Name | Variable Path                    
+ Variable Name | Variable Path
 ----------------|----------------------------------
  BOOST_INCLUDE  | yourBoostFolder__\include\boost-1_63__
  BOOST_LIB      | yourBoostFolder__\lib__
@@ -69,6 +69,10 @@ It is recommended that you download the following 3rd party apps
 ***
 
 ## Getting Started (Linux)
+
+### G++
+To be able to compile with the latest c++17 features, use GCC/G++ version 6.4.0 or above
+
 ### Boost
 Preferably install boost with your package manager. There will be no need to include or link boost libraries outside of what is in the makefile if doing this.
 

@@ -258,3 +258,7 @@ docs/latex/class_game_region.tex
 
 #Ctags files for code indexing
 *.tag*
+
+#Linux executable
+GameBackboneSln/GameBackboneExe/Demo
+
