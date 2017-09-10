@@ -227,7 +227,7 @@ void SwirlyDemoRegion::initGUI() {
 	tgui::Button::Ptr navigator1Button = theme->load("Button");
 	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
 	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	navigator1Button->setText("Relative Position Constructor");
+	navigator1Button->setText("Relative Position\n    Constructor");
 	navigator1Button->connect("pressed", &SwirlyDemoRegion::initMethod1CB, this);
 	regionGUI->add(navigator1Button);
 
