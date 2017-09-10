@@ -3,6 +3,8 @@ EXEC_DIR ?= GameBackboneSln/GameBackboneExe/
 BUILD_DIR ?= ./bld
 SRC_DIRS ?= GameBackboneSln/GameBackboneExe GameBackboneSln/GameBackboneDll
 
+OS=$(shell lsb_release -si)
+
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
@@ -10,6 +12,12 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -std=c++17
+
+ifeq ($(OS),Ubuntu)
+	CXX := g++-6
+else
+	CXX := g++
+endif
 
 $(EXEC_DIR)/$(TARGET_EXEC): $(OBJS)
 	@$(MKDIR_P) $(dir $@)
