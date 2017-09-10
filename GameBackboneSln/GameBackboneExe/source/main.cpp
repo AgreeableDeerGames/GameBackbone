@@ -1,9 +1,10 @@
-#include <BackboneExeCoreEventController.h>
+#include <DemoCoreEventController.h>
 
-using namespace GB;
+
+using namespace EXE;
 
 int main() {
-	BackboneExeCoreEventController controller;
+	DemoCoreEventController controller;
 	controller.runLoop();
 
 	return 0;

@@ -1,7 +1,7 @@
-#include <Util\FileWriter.h>
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Util\DllUtil.h>
-#include <Util\Array2D.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Util/Array2D.h>
+#include <Util/DllUtil.h>
+#include <Util/FileWriter.h>
 
 #include <iostream>
 #include <fstream>
@@ -53,12 +53,12 @@ std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray
 void FileWriter::writeString(std::string outString, std::string filePath) {
 	//Initialize File Writer in binary mode.
 	std::ofstream outFile(filePath, std::ofstream::binary);
-	size_t stringSize = outString.size();
+	std::size_t stringSize = outString.size();
 
 	// Throw an error if the file could not be opened.
 	if (!outFile.good())
 	{
-		throw Error::FileReader_BadFile();
+		throw Error::FileManager_BadFile();
 	}
 
 	//Interpret file as binary.

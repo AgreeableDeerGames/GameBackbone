@@ -1,15 +1,15 @@
 #pragma once
 
-#include <Backbone\AnimationSet.h>
-#include <Backbone\Updatable.h>
-#include <Util\DllUtil.h>
+#include <Backbone/AnimationSet.h>
+#include <Backbone/Updatable.h>
+#include <Util/DllUtil.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <vector>
 
 namespace GB {
-	
+
 	/// <summary>
 	/// Animation behaviors after animation end is reached.
 	/// </summary>
@@ -19,7 +19,7 @@ namespace GB {
 		ANIMATION_REVERSE,
 		ANIMATION_STOP
 	};
-	
+
 	/// <summary>
 	/// Sprite with the ability to display several animation states.
 	/// </summary>
@@ -32,7 +32,7 @@ namespace GB {
 		//shallow copy and move are fine for this class
 		AnimatedSprite();
 		explicit AnimatedSprite(const sf::Texture &texture);
-		AnimatedSprite(const sf::Texture &texture, AnimationSet * animations);
+		AnimatedSprite(const sf::Texture &texture, AnimationSet* animations);
 		AnimatedSprite(const AnimatedSprite& other) = default;
 		AnimatedSprite(AnimatedSprite&& other) = default;
 		AnimatedSprite& operator= (const AnimatedSprite& other) = default;
@@ -44,21 +44,21 @@ namespace GB {
 			//setters
 		void setAnimating(bool animating);
 		void setCurrentFrame(unsigned int frame);
-		void setAnimations(AnimationSet * animations);
+		void setAnimations(AnimationSet* animations);
 		void setAnimationDelay(unsigned int speed);
 			//getters
 		unsigned int getCurrentFrame();
 		unsigned int getCurrentAnimationId();
 		unsigned int getAnimationDelay();
 		bool isAnimating();
-	
+
 		//operations
 		void runAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
 		virtual void update(sf::Time currentTime);
 
 	protected:
-		std::vector<std::vector<sf::IntRect>> * animations;
+		std::vector<std::vector<sf::IntRect>>* animations;
 		bool animating;
 		ANIMATION_END_TYPE animationEnd;
 		unsigned int currentFrame;
@@ -67,7 +67,7 @@ namespace GB {
 		unsigned int animationDelay;
 		bool isReverse;
 
-		void AnimatedSpriteInit(AnimationSet * animations);
+		void AnimatedSpriteInit(AnimationSet* animations);
 
 	};
 

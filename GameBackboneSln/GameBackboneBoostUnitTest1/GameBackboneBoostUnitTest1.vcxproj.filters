@@ -68,6 +68,18 @@
     <ClCompile Include="source\FileManagerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ClusterTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ClusterGreenhouseTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\RelativeRotationSpriteTests.cpp">
+	    <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\NavigationToolsTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\FileWriterTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

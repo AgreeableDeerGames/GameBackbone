@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
-#include <Util\RandGen.h>
+#include <Util/RandGen.h>
 
 using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(RandGen_Tests)
 
-BOOST_AUTO_TEST_SUITE(RandGen_ctrs)
+BOOST_AUTO_TEST_SUITE(RandGen_CTRs)
 
-BOOST_AUTO_TEST_CASE(RandGen_default_ctr_test) {
+BOOST_AUTO_TEST_CASE(RandGen_default_CTR_test) {
 
 	RandGen* testRandGen = new RandGen();
 
@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(RandGen_default_ctr_test) {
 	delete testRandGen;
 }
 
-BOOST_AUTO_TEST_CASE(RandGen_seed_ctr_test) {
+BOOST_AUTO_TEST_CASE(RandGen_seed_CTR_test) {
 	std::string* seedString = new std::string("TestString");
 	RandGen* testRandGen = new RandGen(seedString);
 
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(RandGen_seed_ctr_test) {
 	delete testRandGen;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end RandGen_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end RandGen_CTRs
 
 
 BOOST_AUTO_TEST_SUITE(RandGen_setter)
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(RandGen_uniDist) {
 		// Ensure that the outputs for the same seed are the same
 		double output = testRandGen->uniDist(min, max);
 		BOOST_CHECK(min <= output && output < max);
-		min = min + 1; 
+		min = min + 1;
 		max = max + 4;
 	}
 

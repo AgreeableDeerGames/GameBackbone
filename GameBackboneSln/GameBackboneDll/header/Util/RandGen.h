@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Util\DllUtil.h>
+#include <Util/DllUtil.h>
 
 #include <random>
 #include <string>
 
 
 namespace GB {
-	
+
 	/// <summary>
 	/// This class is a shallow wrapper for std::random.
 	/// To use this class, make an instance of RandGen with a given seed. Call uniDist anytime you need a random number.

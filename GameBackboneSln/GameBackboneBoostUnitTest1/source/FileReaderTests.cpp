@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Util\Array2D.h>
-#include <Util\FileReader.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Util/Array2D.h>
+#include <Util/FileReader.h>
 
 using namespace GB;
 
@@ -56,7 +56,6 @@ BOOST_AUTO_TEST_SUITE(FileReader_readFile)
 
 // Ensure that readFile with a .tsv file gives correct results
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_test, ReusableObjects) {
-
 	FileReader testReader;
 	std::string testFile = testReader.readFile(TestFileLocation + "TestInFile.tsv");
 
@@ -66,7 +65,6 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_tsv_test, ReusableObjects) {
 
 // Ensure that readFile with a .csv file gives correct results
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_csv_test, ReusableObjects) {
-
 	FileReader testReader;
 	std::string testFile = testReader.readFile(TestFileLocation + "TestInFile.csv");
 
@@ -76,7 +74,6 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_csv_test, ReusableObjects) {
 
 // Ensure that readFile with a .txt file gives correct results
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_txt_test, ReusableObjects) {
-
 	FileReader testReader;
 	std::string testFile = testReader.readFile(TestFileLocation + "FunnyCharacters.txt");
 
@@ -86,7 +83,6 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_txt_test, ReusableObjects) {
 
 // Ensure that readFile with a .txt file gives correct results
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_nulltxt_test, ReusableObjects) {
-
 	FileReader testReader;
 	std::string testFile = testReader.readFile(TestFileLocation + "null.txt");
 
@@ -96,11 +92,10 @@ BOOST_FIXTURE_TEST_CASE(FileReader_readFile_nulltxt_test, ReusableObjects) {
 
 // Ensure that readFile throws an exception if the file doesn't exist.
 BOOST_FIXTURE_TEST_CASE(FileReader_readFile_BadFile_test, ReusableObjects) {
-
 	FileReader testReader;
 
 	// Ensure that readFile throws an exception if the file doesn't exist.
-	BOOST_CHECK_THROW(testReader.readFile(TestFileLocation + "NOTAREALFILE.txt"), Error::FileReader_BadFile);
+	BOOST_CHECK_THROW(testReader.readFile(TestFileLocation + "NOTAREALFILE.txt"), Error::FileManager_BadFile);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end FileReader_readFile
@@ -110,7 +105,6 @@ BOOST_AUTO_TEST_SUITE(FileReader_createArray)
 
 // Ensure that createArray with a .tsv file gives correct results.
 BOOST_FIXTURE_TEST_CASE(FileReader_createArray_tsv_test, ReusableObjects) {
-
 	FileReader testReader;
 	std::string testFile = testReader.readFile(TestFileLocation + "TestInFile.tsv");
 	Array2D<std::string> testArray = testReader.createArray2D(testFile, 5, 4, '\t');
@@ -125,8 +119,8 @@ BOOST_FIXTURE_TEST_CASE(FileReader_createArray_tsv_test, ReusableObjects) {
 
 // Ensure that createArray with a .csv file gives correct results.
 BOOST_FIXTURE_TEST_CASE(FileReader_createArray_csv_test, ReusableObjects) {
-
 	FileReader testReader;
+
 	std::string testFile = testReader.readFile(TestFileLocation + "TestInFile.csv");
 	Array2D<std::string> testArray = testReader.createArray2D(testFile, 5, 4, ',');
 
@@ -140,8 +134,8 @@ BOOST_FIXTURE_TEST_CASE(FileReader_createArray_csv_test, ReusableObjects) {
 
 // Ensure that createArray with a size that is smaller than the file gives correct results.
 BOOST_FIXTURE_TEST_CASE(FileReader_createArray_tsv_partial_test, ReusableObjects) {
-
 	FileReader testReader;
+
 	std::string testFile = testReader.readFile(TestFileLocation + "TestInFile.tsv");
 	Array2D<std::string> testArray = testReader.createArray2D(testFile, 3, 3, '\t');
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Util\DllUtil.h>
-#include <Util\FileReader.h>
+#include <Util/DllUtil.h>
+#include <Util/FileReader.h>
 
 #include<string>
 

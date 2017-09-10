@@ -1,10 +1,10 @@
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Util\Array2D.h>
-#include <Util\Cluster.h>
-#include <Util\ClusterGreenhouse.h>
-#include <Util\Point.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Util/Array2D.h>
+#include <Util/Cluster.h>
+#include <Util/ClusterGreenhouse.h>
+#include <Util/Point.h>
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <set>
 #include <tuple>

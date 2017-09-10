@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Util\DllUtil.h>
+#include <Util/DllUtil.h>
 
 #include <vector>
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 namespace GB {
 

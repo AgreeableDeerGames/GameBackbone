@@ -1,5 +1,5 @@
-#include <Util\FileReader.h>
-#include <Backbone\BackboneBaseExceptions.h>
+#include <Util/FileReader.h>
+#include <Backbone/BackboneBaseExceptions.h>
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +7,6 @@
 #include <string>
 
 using namespace GB;
-
 
 Array2D<std::string> FileReader::createArray2D(std::string inString, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
 	// Create the array that will be returned
@@ -65,7 +64,7 @@ std::string FileReader::readFile(std::string filePath) {
 	// Throw an error if the file could not be opened
 	if (!inFile.good())
 	{
-		throw Error::FileReader_BadFile();
+		throw Error::FileManager_BadFile();
 	}
 
 	std::string savedString((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
