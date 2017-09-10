@@ -7,8 +7,10 @@
 
 using namespace GB;
 
-struct ReusableObjects
-{
+
+BOOST_AUTO_TEST_SUITE(FileWriter_Tests)
+
+struct ReusableObjects {
 	ReusableObjects() {
 		outputArray = Array2D<std::string>(5, 4);
 		outputArray[0][0] = "fruit";
@@ -37,8 +39,6 @@ struct ReusableObjects
 
 	Array2D<std::string> outputArray;
 };
-
-BOOST_AUTO_TEST_SUITE(FileWriter_Tests)
 
 BOOST_AUTO_TEST_SUITE(FileWriter_writeStringTests)
 
