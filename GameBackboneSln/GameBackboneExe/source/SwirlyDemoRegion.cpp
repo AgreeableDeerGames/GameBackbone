@@ -19,7 +19,7 @@ using namespace EXE;
 /// Initializes a new instance of the <see cref="SwirlyDemoRegion"/> class.
 /// </summary>
 SwirlyDemoRegion::SwirlyDemoRegion() {
-	selectedRotationMethod = ROTATION_METHOD_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
+	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
 	try {
@@ -114,24 +114,41 @@ void SwirlyDemoRegion::init() {
 
 	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
 
-		// set the positions of the components
-	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+		
 
-	switch (selectedRotationMethod) {
-	case ROTATION_METHOD_TYPE::RELATIVE_POSITION_CONSTRUCTOR:
+	switch (selectedInitMethod) {
+	case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR:
+	{
+		// set the positions of the components
+		compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+		compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+		compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+
 		// Create the compound sprite by adding the components to the constructor
 		compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 		break;
-	case ROTATION_METHOD_TYPE::RELATIVE_OFFSET:
+	}
+	case ROTATION_INIT_TYPE::RELATIVE_OFFSET:
+	{
+		// set the positions of the components
+		compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+		compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+		compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+
 		// Create the compound sprite then add all of the components with a relative offset
 		compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
 		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
 		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
 		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
 		break;
-	case ROTATION_METHOD_TYPE::RELATIVE_POSITION:
+	}
+	case ROTATION_INIT_TYPE::RELATIVE_POSITION:
+	{
+		// set the positions of the components
+		compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+		compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+		compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+
 		// create the compound sprite then add all of the components. The components will maintain their
 		// positions relative to the compound sprite
 		compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
@@ -139,6 +156,7 @@ void SwirlyDemoRegion::init() {
 		compSprite->addComponent(compComponent2);
 		compSprite->addComponent(compComponent3);
 		break;
+	}
 	}
 
 
@@ -204,6 +222,60 @@ void SwirlyDemoRegion::initGUI() {
 	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
+
+	// create initMethod1 button
+	tgui::Button::Ptr navigator1Button = theme->load("Button");
+	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator1Button->setText("Relative Position Constructor");
+	navigator1Button->connect("pressed", &SwirlyDemoRegion::initMethod1CB, this);
+	regionGUI->add(navigator1Button);
+
+	// create initMethod2 button
+	tgui::Button::Ptr navigator2Button = theme->load("Button");
+	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator2Button->setText("Relative Offset");
+	navigator2Button->connect("pressed", &SwirlyDemoRegion::initMethod2CB, this);
+	regionGUI->add(navigator2Button);
+
+	// create initMethod3 button
+	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
+	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
+	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	allNavigatorsButton->setText("Relative Position");
+	allNavigatorsButton->connect("pressed", &SwirlyDemoRegion::initMethod3CB, this);
+	regionGUI->add(allNavigatorsButton);
+}
+
+/// <summary>
+/// Handles the button initMethod1.
+/// </summary>
+void SwirlyDemoRegion::initMethod1CB()
+{
+	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
+	debugPrint("Relative Position Constructor");
+	reset();
+}
+
+/// <summary>
+/// Handles the button initMethod2.
+/// </summary>
+void SwirlyDemoRegion::initMethod2CB()
+{
+	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_OFFSET;
+	debugPrint("Relative Offset");
+	reset();
+}
+
+/// <summary>
+/// Handles the button initMethod3.
+/// </summary>
+void SwirlyDemoRegion::initMethod3CB()
+{
+	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION;
+	debugPrint("Relative Position");
+	reset();
 }
 
 // private dtr

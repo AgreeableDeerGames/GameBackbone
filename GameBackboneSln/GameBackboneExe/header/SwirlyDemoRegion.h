@@ -11,7 +11,7 @@ namespace EXE{
 	/// <summary>
 	/// Options for how to build the compound sprite
 	/// </summary>
-	enum ROTATION_METHOD_TYPE {
+	enum ROTATION_INIT_TYPE {
 		RELATIVE_POSITION_CONSTRUCTOR,
 		RELATIVE_OFFSET,
 		RELATIVE_POSITION
@@ -64,7 +64,10 @@ namespace EXE{
 		sf::Sprite* compComponent3;
 
 		// compound sprite selection
-		ROTATION_METHOD_TYPE selectedRotationMethod;
+		ROTATION_INIT_TYPE selectedInitMethod;
+		void initMethod1CB();
+		void initMethod2CB();
+		void initMethod3CB();
 
 	private:
 		// dtr
