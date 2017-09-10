@@ -12,9 +12,9 @@ using namespace EXE;
 /// </summary>
 DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBackbone Demos") {
 	// init region and camera
-	demoSelectionRegion = new DemoSelectionRegion(*window);
-	demoSelectionRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
-	activeRegion = demoSelectionRegion;
+	mainMenuDemoRegion= new MainMenuDemoRegion(*window);
+	mainMenuDemoRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
+	activeRegion = mainMenuDemoRegion;
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 
 	//initialize the mouse origin to the center of the window.
@@ -26,7 +26,7 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 /// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
 /// </summary>
 DemoCoreEventController::~DemoCoreEventController() {
-	delete demoSelectionRegion;
+	delete mainMenuDemoRegion;
 }
 
 //events

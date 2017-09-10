@@ -21,17 +21,17 @@ namespace EXE{
 	/// GameRegion with logic for demonstrating basic rotation demonstrations.
 	/// </summary>
 	/// <seealso cref="GameRegion" />
-	class SwirlyDemoRegion : public DemoRegion {
+	class ScaleAndRotationDemoRegion : public DemoRegion {
 	public:
 
 		// ctr / dtr
-		SwirlyDemoRegion();
-		SwirlyDemoRegion(const SwirlyDemoRegion& other) = delete;
-		SwirlyDemoRegion(SwirlyDemoRegion&& other) = delete;
-		SwirlyDemoRegion& operator= (const SwirlyDemoRegion& other) = delete;
-		SwirlyDemoRegion& operator= (SwirlyDemoRegion&& other) = delete;
-		SwirlyDemoRegion(sf::RenderWindow & window);
-		virtual ~SwirlyDemoRegion();
+		ScaleAndRotationDemoRegion();
+		ScaleAndRotationDemoRegion(const ScaleAndRotationDemoRegion& other) = delete;
+		ScaleAndRotationDemoRegion(ScaleAndRotationDemoRegion&& other) = delete;
+		ScaleAndRotationDemoRegion& operator= (const ScaleAndRotationDemoRegion& other) = delete;
+		ScaleAndRotationDemoRegion& operator= (ScaleAndRotationDemoRegion&& other) = delete;
+		ScaleAndRotationDemoRegion(sf::RenderWindow & window);
+		virtual ~ScaleAndRotationDemoRegion();
 
 		// behavior
 		virtual void behave(sf::Time currentTime) override;

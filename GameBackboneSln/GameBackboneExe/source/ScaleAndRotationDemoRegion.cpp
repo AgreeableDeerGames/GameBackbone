@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include <SwirlyDemoRegion.h>
+#include <ScaleAndRotationDemoRegion.h>
 #include <Backbone/RelativeRotationSprite.h>
 #include <Navigation/NavigationTools.h>
 
@@ -16,9 +16,9 @@
 using namespace EXE;
 
 /// <summary>
-/// Initializes a new instance of the <see cref="SwirlyDemoRegion"/> class.
+/// Initializes a new instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
-SwirlyDemoRegion::SwirlyDemoRegion() {
+ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion() {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
@@ -32,10 +32,10 @@ SwirlyDemoRegion::SwirlyDemoRegion() {
 }
 
 /// <summary>
-/// Initializes a new instance of the <see cref="SwirlyDemoRegion"/> class.
+/// Initializes a new instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
 /// <param name="window">The window that will be attached to this instances GUI.</param>
-SwirlyDemoRegion::SwirlyDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
+ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
 	//initialize GUI
 	try {
@@ -48,16 +48,16 @@ SwirlyDemoRegion::SwirlyDemoRegion(sf::RenderWindow & window) : DemoRegion(windo
 }
 
 /// <summary>
-/// Finalizes an instance of the <see cref="SwirlyDemoRegion"/> class.
+/// Finalizes an instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
-SwirlyDemoRegion::~SwirlyDemoRegion() {
+ScaleAndRotationDemoRegion::~ScaleAndRotationDemoRegion() {
 	destroy();
 }
 
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void SwirlyDemoRegion::behave(sf::Time currentTime) {
+void ScaleAndRotationDemoRegion::behave(sf::Time currentTime) {
 
 	sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
 
@@ -69,7 +69,7 @@ void SwirlyDemoRegion::behave(sf::Time currentTime) {
 /// </summary>
 /// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button clicked button.</param>
-void SwirlyDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
 		compSprite->setPosition(newPosition);
 	}
@@ -80,7 +80,7 @@ void SwirlyDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::But
 /// Handles mouse wheel scroll logic.
 /// </summary>
 /// <param name="scrollDelta">The change in the wheel.</param>
-void SwirlyDemoRegion::handleWheelScroll(float scrollDelta) {
+void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
 	compSprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
 }
 
@@ -90,7 +90,7 @@ void SwirlyDemoRegion::handleWheelScroll(float scrollDelta) {
 /// Rotates the compound sprite to face the mouse position
 /// </summary>
 /// <param name="mousePosition">The mouse position.</param>
-void SwirlyDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
+void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 	float angle = atan2f(mousePosition.y - compSprite->getPosition().y, mousePosition.x - compSprite->getPosition().x) * 180 / (float)M_PI;
 	compSprite->setRotation(angle);
 }
@@ -98,7 +98,7 @@ void SwirlyDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 /// <summary>
 /// Initializes this instance.
 /// </summary>
-void SwirlyDemoRegion::init() {
+void ScaleAndRotationDemoRegion::init() {
 
 	//init textures
 	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
@@ -192,7 +192,7 @@ void SwirlyDemoRegion::init() {
 /// Resets this instance.
 /// frees and / or reinitializes all members of this instance that impact the demo.
 /// </summary>
-void SwirlyDemoRegion::reset() {
+void ScaleAndRotationDemoRegion::reset() {
 	// free all dynamic memory
 	destroy();
 
@@ -208,7 +208,7 @@ void SwirlyDemoRegion::reset() {
 /// <summary>
 /// Initializes the GUI.
 /// </summary>
-void SwirlyDemoRegion::initGUI() {
+void ScaleAndRotationDemoRegion::initGUI() {
 	// Load the black theme
 	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
 
@@ -228,7 +228,7 @@ void SwirlyDemoRegion::initGUI() {
 	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
 	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
 	navigator1Button->setText("Relative Position\n    Constructor");
-	navigator1Button->connect("pressed", &SwirlyDemoRegion::initMethod1CB, this);
+	navigator1Button->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
 	regionGUI->add(navigator1Button);
 
 	// create initMethod2 button
@@ -236,7 +236,7 @@ void SwirlyDemoRegion::initGUI() {
 	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
 	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
 	navigator2Button->setText("Relative Offset");
-	navigator2Button->connect("pressed", &SwirlyDemoRegion::initMethod2CB, this);
+	navigator2Button->connect("pressed", &ScaleAndRotationDemoRegion::initMethod2CB, this);
 	regionGUI->add(navigator2Button);
 
 	// create initMethod3 button
@@ -244,14 +244,14 @@ void SwirlyDemoRegion::initGUI() {
 	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
 	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
 	allNavigatorsButton->setText("Relative Position");
-	allNavigatorsButton->connect("pressed", &SwirlyDemoRegion::initMethod3CB, this);
+	allNavigatorsButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod3CB, this);
 	regionGUI->add(allNavigatorsButton);
 }
 
 /// <summary>
 /// Handles the button initMethod1.
 /// </summary>
-void SwirlyDemoRegion::initMethod1CB()
+void ScaleAndRotationDemoRegion::initMethod1CB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	debugPrint("Relative Position Constructor");
@@ -261,7 +261,7 @@ void SwirlyDemoRegion::initMethod1CB()
 /// <summary>
 /// Handles the button initMethod2.
 /// </summary>
-void SwirlyDemoRegion::initMethod2CB()
+void ScaleAndRotationDemoRegion::initMethod2CB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_OFFSET;
 	debugPrint("Relative Offset");
@@ -271,7 +271,7 @@ void SwirlyDemoRegion::initMethod2CB()
 /// <summary>
 /// Handles the button initMethod3.
 /// </summary>
-void SwirlyDemoRegion::initMethod3CB()
+void ScaleAndRotationDemoRegion::initMethod3CB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION;
 	debugPrint("Relative Position");
@@ -283,7 +283,7 @@ void SwirlyDemoRegion::initMethod3CB()
 /// <summary>
 /// Frees all dynamically allocated memory in this instance
 /// </summary>
-void SwirlyDemoRegion::destroy() {
+void ScaleAndRotationDemoRegion::destroy() {
 	//delete textures
 	delete navigatorTexture;
 	navigatorTexture = nullptr;
