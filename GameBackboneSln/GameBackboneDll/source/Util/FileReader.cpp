@@ -8,34 +8,20 @@
 
 using namespace GB;
 
-/// <summary>
-/// Reads the file and splits it up using the delimiter.
-/// </summary>
-/// <param name="filePath">The path to the file to be read. This can be relative or full.</param>
-/// <param name="totalRows">The number of lines to be read.</param>
-/// <param name="totalColumns">The number of columns to be read.</param>
-/// <param name="delimiter">The delimiter for the table type.</param>
-/// <returns>Returns an Array2D of size totalRows by totalColumns. Each row represents a new line in the input file.
-/// Each column represents a value within that row.
-/// </returns>
-Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
-	std::ifstream inFile(filePath);
-
-	// Throw an error if the file could not be opened
-	if (!inFile.good())
-	{
-		throw Error::FileManager_BadFile();
-	}
-
+Array2D<std::string> FileReader::createArray2D(std::string inString, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
 	// Create the array that will be returned
 	Array2D<std::string> fileArray = Array2D<std::string>(totalRows, totalColumns);
+
+	std::stringstream stringStream;
+	stringStream.str(inString);
+	
 
 	// Setup for the rows/lines
 	std::string row = "";
 	unsigned int rowIndex = 0;
 
 	// While not last line
-	while (std::getline(inFile, row)){
+	while (std::getline(stringStream, row, '\n')) {
 		// Only read until the line that the user specified
 		if (rowIndex < totalRows) {
 
@@ -59,10 +45,29 @@ Array2D<std::string> FileReader::readFile(std::string filePath, unsigned int tot
 			}
 			rowIndex++;
 		}
-		else{
+		else {
 			break;
 		}
 	}
 
 	return fileArray;
+}
+
+/// <summary>
+/// Reads the file as a binary.
+/// </summary>
+/// <param name="filePath">The file path.</param>
+/// <returns></returns>
+std::string FileReader::readFile(std::string filePath) {
+	std::ifstream inFile(filePath);
+
+	// Throw an error if the file could not be opened
+	if (!inFile.good())
+	{
+		throw Error::FileManager_BadFile();
+	}
+
+	std::string savedString((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+	
+	return savedString;
 }
