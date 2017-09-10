@@ -2,6 +2,7 @@
 
 #include <Backbone\BackboneBaseExceptions.h>
 #include <Util\Array2D.h>
+#include <Util\FileReader.h>
 #include <Util\FileWriter.h>
 
 using namespace GB;
@@ -48,7 +49,10 @@ BOOST_FIXTURE_TEST_CASE(FileWriter_writeString, ReusableObjects) {
 	std::string filePath = TestFileLocation + "banana.bin";
 	testWriter.writeString("ba\nna\nna", filePath);
 
-	BOOST_CHECK(true == true);
+	FileReader testReader;
+	std::string outFile = testReader.readFile(filePath);
+
+	BOOST_CHECK(outFile == "ba\nna\nna");
 	remove(filePath.c_str());
 }
 
@@ -61,15 +65,23 @@ BOOST_FIXTURE_TEST_CASE(FileWriter_createWriteString, ReusableObjects) {
 	FileWriter testWriter;
 	std::string filePath = TestFileLocation + "banana.bin";
 	ReusableObjects currentReusableObject = ReusableObjects();
-	std::string outputString = "";
 
 	//pass outputString into createWritableString
-	testWriter.createWritableString(&currentReusableObject.outputArray, ',', &outputString);
+	std::string outputString = testWriter.createWritableString(&currentReusableObject.outputArray, ',');
 
 	//write outputString into banana.bin
 	testWriter.writeString(outputString, filePath);
 
-	BOOST_CHECK(true == true);
+	FileReader testReader;
+	std::string outFile = testReader.readFile(filePath);
+	Array2D<std::string> testArray = testReader.createArray2D(outFile, 5, 4, ',');
+	// Ensure that the output array is what is in the file.
+	for (int ii = 0; ii < 3; ++ii) {
+		for (int jj = 0; jj < 3; ++jj) {
+			BOOST_CHECK(testArray[ii][jj] == outputArray[ii][jj]);
+		}
+	}
+
 	remove(filePath.c_str());
 }
 

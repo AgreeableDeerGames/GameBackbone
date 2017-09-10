@@ -55,7 +55,7 @@ size_t FileManager::getFileSize(const std::string& filename) {
 
 size_t FileManager::getFileHash(const std::string& filename) {
 
-	std::string file = reader->readFileBinaryInput(filename);
+	std::string file = reader->readFile(filename);
 	return getHash(file);
 }
 

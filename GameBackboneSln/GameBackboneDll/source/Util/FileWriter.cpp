@@ -17,11 +17,13 @@ using namespace GB;
 /// <param name="dataArray">The array populated with data.</param>
 /// <param name="delimiter">The delimiter for the output string.</param>
 /// <returns></returns>
-void FileWriter::createWritableString(GB::Array2D<std::string>* dataArray, char delimiter, std::string* outString) {
+std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray, char delimiter) {
 	//Ensure the 2D array exists and at least has something in it.
 	if (dataArray == nullptr || dataArray->getArraySizeX() == 0) {
 		throw Error::FileWriter_EmptyArray2D();
 	}
+	
+	std::string outString = "";
 
 	unsigned int columns = dataArray->getArraySizeX();
 	unsigned int rows = dataArray->getArraySizeY();
@@ -32,13 +34,15 @@ void FileWriter::createWritableString(GB::Array2D<std::string>* dataArray, char 
 		//And as many columns
 		for (unsigned int currentColumn = 0; currentColumn < columns; currentColumn++) {
 			//Append the array value to the string. Don't check for row end before placing delimiter becasue it's quicker to just replace the last character in one operation than check every loop.
-			outString->append( dataArray->at(currentRow, currentColumn) +  delimiter);
+			outString.append( dataArray->at(currentRow, currentColumn) +  delimiter);
 		}
 		//Once a row is completed, replace last delimiter with newline. Same non-checking rationale as above.
-		outString->replace(outString->end() - 1, outString->end(), "\n");
+		outString.replace(outString.end() - 1, outString.end(), "\n");
 	}
 	//Once the file is complete, remove the last newline.
-	outString->pop_back();
+	outString.pop_back();
+
+	return outString;
 }
 
 /// <summary>

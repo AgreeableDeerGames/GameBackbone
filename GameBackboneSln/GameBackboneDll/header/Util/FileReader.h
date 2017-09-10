@@ -20,8 +20,8 @@ namespace GB {
 		~FileReader() = default;
 
 
-		Array2D<std::string> readFile(std::string filePath, unsigned int totalRows, unsigned int totalColumns, char delimiter);
-		std::string FileReader::readFileBinaryInput(std::string filePath);
+		Array2D<std::string> createArray2D(std::string inString, unsigned int totalRows, unsigned int totalColumns, char delimiter);
+		std::string readFile(std::string filePath);
 
 	private:
 
