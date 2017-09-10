@@ -10,14 +10,6 @@ using namespace GB;
 
 
 Array2D<std::string> FileReader::createArray2D(std::string inString, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
-	/*std::ifstream inFile(filePath);
-
-	// Throw an error if the file could not be opened
-	if (!inFile.good())
-	{
-		throw Error::FileReader_BadFile();
-	}*/
-
 	// Create the array that will be returned
 	Array2D<std::string> fileArray = Array2D<std::string>(totalRows, totalColumns);
 
@@ -77,25 +69,6 @@ std::string FileReader::readFile(std::string filePath) {
 	}
 
 	std::string savedString((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
-	/*
-	std::string savedString;
-	std::string tempString = "";
-	
-	// We need to do this line by line with a '\0' as the delimiter because normally '\0' splits the string.
-	while (std::getline(inFile, tempString, '\0')) {
-		savedString += tempString;
-		tempString = "";
-
-		// Add the '\0' that we removed back into the string
-		savedString += '\0';
-	}
-
-	// NOTWORKING: This was my (michaels) attempt at trying to fix the issue with a file ending in '\0'
-	//if (savedString[savedString.size() - 1] != '\0')
-	//{
-		// Remove the last '\0' from the string
-		savedString.pop_back();
-	//}*/
 	
 	return savedString;
 }
