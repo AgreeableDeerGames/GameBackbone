@@ -41,6 +41,14 @@ namespace GB {
 			}
 		};
 
+		class FileWriter_EmptyArray2D : public std::exception
+		{
+		public:
+			virtual const char* what() const override {
+				return "Provided Array2D is empty or does not exist";
+			}
+		};
+
 		/// <summary>
 		/// Exception thrown when a function is intentionally "Not Implemented".
 		/// If a function is calling this exception, please use a different solution.
@@ -89,14 +97,6 @@ namespace GB {
 		public:
 			virtual const char* what() const override {
 				return "The passed in vectors are of incompatible sizes.";
-			}
-		};
-
-		class FileWriter_EmptyArray2D : public std::exception
-		{
-		public:
-			virtual const char* what() const override{
-				return "Provided Array2D is empty or does not exist";
 			}
 		};
 	}
