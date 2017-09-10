@@ -19,6 +19,7 @@ using namespace EXE;
 /// Initializes a new instance of the <see cref="SwirlyDemoRegion"/> class.
 /// </summary>
 SwirlyDemoRegion::SwirlyDemoRegion() {
+	selectedRotationMethod = ROTATION_METHOD_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
 	try {
@@ -104,7 +105,7 @@ void SwirlyDemoRegion::init() {
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
 	
-	//compound sprite
+	// component sprites
 	const float COMPOUND_SPRITE_TEST_X = 400;
 	const float COMPOUND_SPRITE_TEST_y = 400;
 	compComponent1 = new sf::Sprite(*navigatorTexture);
@@ -113,12 +114,33 @@ void SwirlyDemoRegion::init() {
 
 	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
 
-
-	// This is the working version of addComponent using the ContructorLand
+		// set the positions of the components
 	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
 	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
 	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
-	compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+
+	switch (selectedRotationMethod) {
+	case ROTATION_METHOD_TYPE::RELATIVE_POSITION_CONSTRUCTOR:
+		// Create the compound sprite by adding the components to the constructor
+		compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+		break;
+	case ROTATION_METHOD_TYPE::RELATIVE_OFFSET:
+		// Create the compound sprite then add all of the components with a relative offset
+		compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
+		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
+		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
+		break;
+	case ROTATION_METHOD_TYPE::RELATIVE_POSITION:
+		// create the compound sprite then add all of the components. The components will maintain their
+		// positions relative to the compound sprite
+		compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+		compSprite->addComponent(compComponent1);
+		compSprite->addComponent(compComponent2);
+		compSprite->addComponent(compComponent3);
+		break;
+	}
+
 
 	/*
 	// This is the working version of addComponent using the relative offset
@@ -140,16 +162,11 @@ void SwirlyDemoRegion::init() {
 	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2);
 	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3);*/
 
-
-
+	// assign colors and draw
 	compComponent1->setColor(sf::Color::Magenta);
 	compComponent2->setColor(sf::Color::White);
 	compComponent3->setColor(sf::Color::Green);
-
 	setDrawAndUpdateable(true, compSprite);
-
-
-
 }
 
 

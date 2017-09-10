@@ -7,6 +7,16 @@
 #include <SFML/Graphics.hpp>
 
 namespace EXE{
+
+	/// <summary>
+	/// Options for how to build the compound sprite
+	/// </summary>
+	enum ROTATION_METHOD_TYPE {
+		RELATIVE_POSITION_CONSTRUCTOR,
+		RELATIVE_OFFSET,
+		RELATIVE_POSITION
+	};
+
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic rotation demonstrations.
 	/// </summary>
@@ -52,6 +62,9 @@ namespace EXE{
 		sf::Sprite* compComponent1;
 		sf::Sprite* compComponent2;
 		sf::Sprite* compComponent3;
+
+		// compound sprite selection
+		ROTATION_METHOD_TYPE selectedRotationMethod;
 
 	private:
 		// dtr
