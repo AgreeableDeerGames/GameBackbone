@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\SampleGuiInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,9 +35,6 @@
     <ClInclude Include="header\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\SampleGuiInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\NavigationDemoRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,8 +47,5 @@
     <ClInclude Include="header\DemoCoreEventController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

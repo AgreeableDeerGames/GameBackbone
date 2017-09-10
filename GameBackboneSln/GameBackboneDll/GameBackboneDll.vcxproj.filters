@@ -71,7 +71,7 @@
     </ClCompile>
     <ClCompile Include="source\Backbone\RelativeRotationSprite.cpp">
       <Filter>Source Files\Backbone</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="source\Util\Cluster.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
@@ -155,9 +155,6 @@
     <ClInclude Include="header\Backbone\RelativeRotationSprite.h">
       <Filter>Header Files\Backbone</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

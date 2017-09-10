@@ -152,9 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="header\Backbone\AnimatedSprite.h" />
     <ClInclude Include="header\Backbone\AnimationSet.h" />
     <ClInclude Include="header\Backbone\BackboneBaseExceptions.h" />
