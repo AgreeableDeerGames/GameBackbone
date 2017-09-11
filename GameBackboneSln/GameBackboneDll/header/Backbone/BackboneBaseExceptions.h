@@ -44,7 +44,7 @@ namespace GB {
 		class FileWriter_EmptyArray2D : public std::exception
 		{
 		public:
-			virtual const char* what() const override {
+			virtual const char* what() const noexcept override {
 				return "Provided Array2D is empty or does not exist";
 			}
 		};
