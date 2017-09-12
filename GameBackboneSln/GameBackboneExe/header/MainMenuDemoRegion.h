@@ -7,19 +7,19 @@ namespace EXE {
 	/// <summary>
 	/// Menu for selecting what demo region to display
 	/// </summary>
-	class DemoSelectionRegion : public DemoRegion
+	class MainMenuDemoRegion: public DemoRegion
 	{
 	public:
 		// Ctrs / Dtr
-		DemoSelectionRegion(sf::RenderWindow & window);
+		MainMenuDemoRegion(sf::RenderWindow & window);
 
-		DemoSelectionRegion() = delete;
-		DemoSelectionRegion(const DemoSelectionRegion& other) = delete;
-		DemoSelectionRegion(DemoSelectionRegion&& other) = delete;
-		DemoSelectionRegion& operator= (const DemoSelectionRegion& other) = delete;
-		DemoSelectionRegion& operator= (DemoSelectionRegion&& other) = delete;
+		MainMenuDemoRegion() = delete;
+		MainMenuDemoRegion(const MainMenuDemoRegion& other) = delete;
+		MainMenuDemoRegion(MainMenuDemoRegion&& other) = delete;
+		MainMenuDemoRegion& operator= (const MainMenuDemoRegion& other) = delete;
+		MainMenuDemoRegion& operator= (MainMenuDemoRegion&& other) = delete;
 
-		~DemoSelectionRegion();
+		~MainMenuDemoRegion();
 
 		// internal behavior alteration
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
@@ -34,7 +34,7 @@ namespace EXE {
 		enum DEMO_OPTIONS_TYPE
 		{
 			NAVIGATION_DEMO,
-			SWIRLY_DEMO,
+			SCALE_ROTATION_DEMO,
 			REGION_CHANGE_DEMO
 		};
 
@@ -43,7 +43,7 @@ namespace EXE {
 
 		// gui callbacks
 		void navigationRegionCB();
-		void swirlyDemoCB();
+		void scaleAndRotationDemoCB();
 		void regionChangeDemoCB();
 
 

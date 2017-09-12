@@ -1,7 +1,7 @@
-#include <DemoSelectionRegion.h>
+#include <MainMenuDemoRegion.h>
 #include <NavigationDemoRegion.h>
 #include <RegionChangeDemoRegion.h>
-#include <SwirlyDemoRegion.h>
+#include <ScaleAndRotationDemoRegion.h>
 
 using namespace EXE;
 
@@ -9,11 +9,11 @@ using namespace EXE;
 
 
 /// <summary>
-/// Initializes a new instance of the <see cref="DemoSelectionRegion"/> class.
+/// Initializes a new instance of the <see cref="MainMenuDemoRegion"/> class.
 /// Creates all required child regions.
 /// </summary>
 /// <param name="window">The window.</param>
-DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion(window) {
+MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	initGUI();
 
 	// create and link child regions
@@ -21,9 +21,9 @@ DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion
 	addChildRegion(navigationDemoRegion);
 	selectableRegions.push_back(navigationDemoRegion);
 
-	SwirlyDemoRegion* swirlyDemoRegion = new SwirlyDemoRegion(window);
-	addChildRegion(swirlyDemoRegion);
-	selectableRegions.push_back(swirlyDemoRegion);
+	ScaleAndRotationDemoRegion* scaleAndRotationDemoRegion = new ScaleAndRotationDemoRegion(window);
+	addChildRegion(scaleAndRotationDemoRegion);
+	selectableRegions.push_back(scaleAndRotationDemoRegion);
 
 	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red);
 	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green);
@@ -36,10 +36,10 @@ DemoSelectionRegion::DemoSelectionRegion(sf::RenderWindow & window) : DemoRegion
 
 
 /// <summary>
-/// Finalizes an instance of the <see cref="DemoSelectionRegion"/> class.
+/// Finalizes an instance of the <see cref="MainMenuDemoRegion"/> class.
 /// Frees memory for every child region of this instance.
 /// </summary>
-DemoSelectionRegion::~DemoSelectionRegion() {
+MainMenuDemoRegion::~MainMenuDemoRegion() {
 	
 	// free all children
 
@@ -55,7 +55,7 @@ DemoSelectionRegion::~DemoSelectionRegion() {
 /// Registers the callback function for changing the active region and propagates this callback to all of its children.
 /// </summary>
 /// <param name="newSetActiveRegionCB">The new callback for changing the active region..</param>
-void DemoSelectionRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
+void MainMenuDemoRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
 	GameRegion::registerSetActiveRegionCB(newSetActiveRegionCB);
 	for (GameRegion* childRegion : childRegions) {
 		childRegion->registerSetActiveRegionCB(newSetActiveRegionCB);
@@ -67,7 +67,7 @@ void DemoSelectionRegion::registerSetActiveRegionCB(std::function<void(GameRegio
 /// <summary>
 /// Initializes the GUI.
 /// </summary>
-void EXE::DemoSelectionRegion::initGUI() {
+void EXE::MainMenuDemoRegion::initGUI() {
 	// Load the black theme
 	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
 
@@ -90,28 +90,28 @@ void EXE::DemoSelectionRegion::initGUI() {
 	tgui::Layout buttonWidth = windowWidth / 4.0f;
 	tgui::Layout buttonHeight = windowHeight / 7.0f;
 
-		// create Navigation region button
+	// create Navigation region button
 	tgui::Button::Ptr navigationRegionButton = theme->load("Button");
 	navigationRegionButton->setSize(buttonWidth, buttonHeight);
 	navigationRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 1.0f *windowHeight / 7.0f);
 	navigationRegionButton->setText("Navigation Demo");
-	navigationRegionButton->connect("pressed", &DemoSelectionRegion::navigationRegionCB, this);
+	navigationRegionButton->connect("pressed", &MainMenuDemoRegion::navigationRegionCB, this);
 	regionGUI->add(navigationRegionButton);
 
-		// create Swirly Sprite Demo button
-	tgui::Button::Ptr swirlyDemoButton = theme->load("Button");
-	swirlyDemoButton->setSize(buttonWidth, buttonHeight);
-	swirlyDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f * windowHeight / 7.0f);
-	swirlyDemoButton->setText("Swirly Sprite Demo");
-	swirlyDemoButton->connect("pressed", &DemoSelectionRegion::swirlyDemoCB, this);
-	regionGUI->add(swirlyDemoButton);
+	// create Scale and Rotation Demo button
+	tgui::Button::Ptr scaleAndRotationDemoButton = theme->load("Button");
+	scaleAndRotationDemoButton->setSize(buttonWidth, buttonHeight);
+	scaleAndRotationDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f * windowHeight / 7.0f);
+	scaleAndRotationDemoButton->setText("Scale and Rotation Demo");
+	scaleAndRotationDemoButton->connect("pressed", &MainMenuDemoRegion::scaleAndRotationDemoCB, this);
+	regionGUI->add(scaleAndRotationDemoButton);
 
-		// create region change demo button
+	// create region change demo button
 	tgui::Button::Ptr regionChangeButton = theme->load("Button");
 	regionChangeButton->setSize(buttonWidth, buttonHeight);
 	regionChangeButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 5.0f * windowHeight / 7.0f);
 	regionChangeButton->setText("Region Change Demo");
-	regionChangeButton->connect("pressed", &DemoSelectionRegion::regionChangeDemoCB, this);
+	regionChangeButton->connect("pressed", &MainMenuDemoRegion::regionChangeDemoCB, this);
 	regionGUI->add(regionChangeButton);
 }
 
@@ -121,16 +121,16 @@ void EXE::DemoSelectionRegion::initGUI() {
 /// Callback that is fired when the navigationRegionButton is clicked.
 /// Sets the active region to the first child of this region (which should always be a NavigationDemoRegion)
 /// </summary>
-void DemoSelectionRegion::navigationRegionCB() {
+void MainMenuDemoRegion::navigationRegionCB() {
 	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO]);
 }
 
 /// <summary>
 /// Callback that is fired when the swirlyDemoButton is clicked.
-/// Sets the active region to the second child of this region (which should always be a SwirlyDemoRegion)
+/// Sets the active region to the second child of this region (which should always be a ScaleAndRotationDemoRegion)
 /// </summary>
-void DemoSelectionRegion::swirlyDemoCB() {
-	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::SWIRLY_DEMO]);
+void MainMenuDemoRegion::scaleAndRotationDemoCB() {
+	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO]);
 }
 
 
@@ -138,6 +138,6 @@ void DemoSelectionRegion::swirlyDemoCB() {
 /// Callback that is fired when the regionChangeButton is clicked.
 /// Sets the active region to the third child of this region (which should always be a RegionChangeDemoRegion)
 /// </summary>
-void DemoSelectionRegion::regionChangeDemoCB() {
+void MainMenuDemoRegion::regionChangeDemoCB() {
 	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO]);
 }
