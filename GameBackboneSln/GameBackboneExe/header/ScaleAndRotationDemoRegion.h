@@ -14,7 +14,8 @@ namespace EXE{
 	enum ROTATION_INIT_TYPE {
 		RELATIVE_POSITION_CONSTRUCTOR,
 		RELATIVE_OFFSET,
-		RELATIVE_POSITION
+		RELATIVE_POSITION,
+		TEXTURE_BASED_OFFSET,
 	};
 
 	/// <summary>
@@ -56,6 +57,7 @@ namespace EXE{
 
 		// sprite textures
 		sf::Texture* navigatorTexture;
+		sf::Texture* rotationArrowCenterTexture;
 
 		// compound sprite stuff
 		GB::CompoundSprite* compSprite;

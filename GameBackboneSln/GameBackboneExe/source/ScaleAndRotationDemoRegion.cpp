@@ -102,8 +102,12 @@ void ScaleAndRotationDemoRegion::init() {
 
 	//init textures
 	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
+	std::string rotationArrowCenterPath("..//..//Textures/RotationArrowCenter.png");
+	std::string rotationArrowLowPath("..//..//Textures/RotationArrowLow.png");
+	std::string rotationArrowLeftPath("..//..//Textures/RotationArrowLeft.png");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
+	rotationArrowCenterTexture = new sf::Texture();
 	
 	// component sprites
 	const float COMPOUND_SPRITE_TEST_X = 400;
@@ -157,28 +161,9 @@ void ScaleAndRotationDemoRegion::init() {
 		compSprite->addComponent(compComponent3);
 		break;
 	}
+	case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET:
+
 	}
-
-
-	/*
-	// This is the working version of addComponent using the relative offset
-	compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });*/
-
-	/*
-	// This is the working version of addComponent using the relative position 
-	compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-	compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 80, COMPOUND_SPRITE_TEST_y);
-	compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y + 80);
-	compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent1);
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent2);
-	static_cast<RelativeRotationSprite*>(compSprite)->addComponent(compComponent3);*/
 
 	// assign colors and draw
 	compComponent1->setColor(sf::Color::Magenta);
@@ -287,6 +272,8 @@ void ScaleAndRotationDemoRegion::destroy() {
 	//delete textures
 	delete navigatorTexture;
 	navigatorTexture = nullptr;
+	delete rotationArrowCenterTexture;
+	rotationArrowCenterTexture = nullptr;
 
 	delete compComponent1;
 	compComponent1 = nullptr;
