@@ -11,8 +11,9 @@
 
 using namespace GB;
 
-struct ReusableObjects
-{
+BOOST_AUTO_TEST_SUITE(RelativeRotionSpriteTests)
+
+struct ReusableObjects{
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
 		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
@@ -61,10 +62,8 @@ struct ReusableObjects
 	std::vector<AnimatedSprite*> animSpriteVector;
 	std::vector<sf::Sprite*> combinedVector;
 	const sf::Vector2f rrSpritePos{ 3,3 };
-	std::vector<sf::Vector2f> initialOffsets{sf::Vector2f(10,0), sf::Vector2f(0,10), sf::Vector2f(10,0), sf::Vector2f(0,10)};
+	std::vector<sf::Vector2f> initialOffsets{ sf::Vector2f(10,0), sf::Vector2f(0,10), sf::Vector2f(10,0), sf::Vector2f(0,10) };
 };
-
-BOOST_AUTO_TEST_SUITE(RelativeRotionSpriteTests)
 
 BOOST_AUTO_TEST_SUITE(RelativeRotionSprite_CTR)
 

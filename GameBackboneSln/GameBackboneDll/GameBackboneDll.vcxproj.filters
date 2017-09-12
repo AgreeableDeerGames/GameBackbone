@@ -72,6 +72,9 @@
     <ClCompile Include="source\Backbone\RelativeRotationSprite.cpp">
       <Filter>Source Files\Backbone</Filter>
 	</ClCompile>
+    <ClCompile Include="source\Util\FileWriter.cpp">
+	<Filter>Source Files\Util</Filter>
+    </ClCompile>
     <ClCompile Include="source\Util\Cluster.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="header\Backbone\RelativeRotationSprite.h">
       <Filter>Header Files\Backbone</Filter>
+	</ClInclude>
+    <ClInclude Include="header\Util\FileWriter.h">
+      <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
