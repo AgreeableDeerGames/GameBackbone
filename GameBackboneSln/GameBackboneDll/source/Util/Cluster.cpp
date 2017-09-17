@@ -15,6 +15,7 @@ using namespace GB;
 /// </summary>
 /// <param name="firstPoint">Point which will be the origin of the cluster</param>
 Cluster::Cluster(Point2D<int> firstPoint) {
+	clusterFrequency = 0;
     clusterPointSet.insert(firstPoint);
     UpdateBorder(firstPoint);
 }
