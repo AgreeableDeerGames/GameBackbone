@@ -265,7 +265,7 @@ BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_No_Rotation) {
 // Test that a single sprite does not rotate if it is already at its destination.
 BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_No_Movement_No_Rotation) {
 	sf::Sprite sprite;
-	const float SPECIAL_ROTATION = 12.345;
+	const float SPECIAL_ROTATION = 12.345f;
 	sprite.setRotation(SPECIAL_ROTATION);
 	sf::Vector2f destination = sprite.getPosition();
 	moveSpriteStepTowardsPoint(sprite, destination, 11);
@@ -444,7 +444,7 @@ BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_No_Rotation) {
 BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_No_Movement_No_Rotation) {
 	sf::Sprite testSprite;
 	CompoundSprite sprite({ &testSprite });
-	const float SPECIAL_ROTATION = 12.345;
+	const float SPECIAL_ROTATION = 12.345f;
 	testSprite.setRotation(SPECIAL_ROTATION);
 	sf::Vector2f destination = sprite.getPosition();
 	moveCompoundSpriteStepTowardsPoint(sprite, destination, 11, {0});
