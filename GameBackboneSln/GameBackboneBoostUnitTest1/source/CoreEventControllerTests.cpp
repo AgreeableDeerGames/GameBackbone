@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone\CoreEventController.h>
-#include <Util\DebugIncludes.h>
+#include <Backbone/CoreEventController.h>
+#include <Util/DebugIncludes.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <thread>
 #include <chrono>
@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventControllerTests)
 class TestCoreEventController : public CoreEventController
 {
 
-public:	
+public:
 	// ctr / dtr
 	TestCoreEventController() {
 		hasFinishedCoreDraw = false;
@@ -81,7 +81,7 @@ public:
 		hasFinishedHandleGuiEvent = false;
 		hasFinishedPostHandleEvent = false;
 		hasFinishedPreHandleEvent = false;
-		
+
 	}
 
 	//draw
@@ -178,7 +178,7 @@ public:
 			delete childRegions.front();
 		}
 	}
-		
+
 	/// <summary>
 	/// change mark different region as active
 	/// </summary>
@@ -196,18 +196,24 @@ private:
 };
 
 
-BOOST_AUTO_TEST_SUITE(CoreEventController_ctrs)
+BOOST_AUTO_TEST_SUITE(CoreEventController_CTRs)
+
+// Creating a non-overriden CEC to check that there are no intrinsic memory leaks.
+BOOST_AUTO_TEST_CASE(CoreEventController_NoOverride_CTR){
+	CoreEventController* testController = new CoreEventController();
+	delete testController;
+}
 
 // Test the constructor and destructor for memory leaks and correctness.
-BOOST_AUTO_TEST_CASE(CoreEventController_default_ctr) {
+BOOST_AUTO_TEST_CASE(CoreEventController_default_CTR) {
 	TestCoreEventController testController;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end CoreEventController_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end CoreEventController_CTRs
 
 BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 
- //Tests the behavior of RunLoop when the sf window has no events
+ // Tests the behavior of RunLoop when the sf window has no events
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 	GameRegion gameRegion;
@@ -224,7 +230,7 @@ BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	BOOST_CHECK((!testController.hasFinishedHandleGuiEvent && !testController.hasFinishedHandleCoreEvent)||
 				((testController.hasFinishedHandleGuiEvent || testController.hasFinishedHandleCoreEvent) &&
 				!(testController.hasFinishedHandleGuiEvent && testController.hasFinishedHandleCoreEvent)));
-	
+
 	// if there has been a window event ensure that the pre and post event functions are called
 	if (testController.hasFinishedHandleCoreEvent || testController.hasFinishedHandleGuiEvent) {
 		BOOST_CHECK(testController.hasFinishedPreHandleEvent);
@@ -237,15 +243,15 @@ BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	BOOST_CHECK(testController.hasFinishedPostUpdate);
 }
 
-//ensure that calling setActiveRegion changes to the correct active region
+// ensure that calling setActiveRegion changes to the correct active region
 BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion) {
 	TestCoreEventController testController;
-	
-	//region constructed by TestCoreEventController is not required for this test 
+
+	//region constructed by TestCoreEventController is not required for this test
 	GameRegion* defaultRegion = testController.getActiveGameRegion();
 	delete defaultRegion;
 	testController.setActiveRegion(nullptr);
-	
+
 	GameRegion region1;
 	testController.setActiveRegion(&region1);
 	GameRegion* returnedRegion = testController.getActiveGameRegion();
@@ -254,18 +260,18 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion) {
 	BOOST_CHECK(returnedRegion == &region1);
 }
 
-//ensure that regions within the CoreEventController can correctly change the active region.
+// ensure that regions within the CoreEventController can correctly change the active region.
 BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	TestCoreEventController testController;
 
-	//region constructed by TestCoreEventController is not required for this test 
+	//region constructed by TestCoreEventController is not required for this test
 	GameRegion* defaultRegion = testController.getActiveGameRegion();
 	delete defaultRegion;
 	testController.setActiveRegion(nullptr);
 
 	//create a region with a child
 	TestGameRegion testRegion(true);
-	
+
 	//register testRegion's callback to testController
 	//this would normally be done from within testController with the "&testController" being replaced with "this"
 	testRegion.registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));

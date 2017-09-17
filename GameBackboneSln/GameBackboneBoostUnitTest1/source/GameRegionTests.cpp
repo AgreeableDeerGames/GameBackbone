@@ -1,17 +1,17 @@
 #include "stdafx.h"
 
-#include <Backbone\GameRegion.h>
+#include <Backbone/GameRegion.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
-BOOST_AUTO_TEST_SUITE(GameRegion_ctrs)
+BOOST_AUTO_TEST_SUITE(GameRegion_CTRs)
 
 // Tests the default constructor
-BOOST_AUTO_TEST_CASE(GameRegion_default_ctr_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_default_CTR) {
 
     GameRegion* gameRegion = new GameRegion();
 
@@ -24,12 +24,12 @@ BOOST_AUTO_TEST_CASE(GameRegion_default_ctr_test) {
 }
 
 //Tests the window constructor
-BOOST_AUTO_TEST_CASE(GameRegion_window_ctr_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_window_CTR) {
 
 	const int WINDOW_HEIGHT = 700;
 	const int WINDOW_WIDTH = 700;
 
-	
+
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TestWindow");
 	GameRegion* gameRegion = new GameRegion(*window);
 
@@ -42,12 +42,12 @@ BOOST_AUTO_TEST_CASE(GameRegion_window_ctr_test) {
 	delete gameRegion;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end GameRegion_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end GameRegion_CTRs
 
 BOOST_AUTO_TEST_SUITE(GameRegion_get_set_tests)
 
 // Tests getting Updatables with getUpdatables
-BOOST_AUTO_TEST_CASE(GameRegion_getUpdatables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getUpdatables) {
 
     GameRegion* gameRegion = new GameRegion();
     AnimatedSprite* animSpriteWithAnimVector[10];
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getUpdatables_test) {
 }
 
 // Tests adding and removing with setUpdatables
-BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables) {
     GameRegion* gameRegion = new GameRegion();
     AnimatedSprite* animSpriteWithAnim = new AnimatedSprite();
 
@@ -90,8 +90,20 @@ BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables_test) {
     delete gameRegion;
 }
 
+// Tests adding nullptr with setUpdatables
+BOOST_AUTO_TEST_CASE(GameRegion_setUpdatables_nullptr) {
+	GameRegion* gameRegion = new GameRegion();
+	AnimatedSprite* animSpriteWithAnim = nullptr;
+
+	BOOST_CHECK_THROW(gameRegion->setUpdatable(true, animSpriteWithAnim), Error::Pointer_IllegalNull);
+
+	BOOST_CHECK_THROW(gameRegion->setUpdatable(false, animSpriteWithAnim), Error::Pointer_IllegalNull);
+
+	delete gameRegion;
+}
+
 // Tests getting Drawables with getDrawables
-BOOST_AUTO_TEST_CASE(GameRegion_getDrawables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getDrawables) {
 
     GameRegion* gameRegion = new GameRegion();
     sf::Sprite* compoundSpriteVector[10];
@@ -119,7 +131,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getDrawables_test) {
 }
 
 // Tests adding and removing with setDrawables
-BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_setDrawables) {
     GameRegion* gameRegion = new GameRegion();
     sf::Sprite* sprite = new sf::Sprite();
 
@@ -135,8 +147,20 @@ BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_test) {
     delete gameRegion;
 }
 
+// Tests adding nullptr with setDrawables
+BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_nullptr) {
+	GameRegion* gameRegion = new GameRegion();
+	sf::Sprite* sprite = nullptr;
+
+	BOOST_CHECK_THROW(gameRegion->setDrawable(true, sprite), Error::Pointer_IllegalNull);
+
+	BOOST_CHECK_THROW(gameRegion->setDrawable(false, sprite), Error::Pointer_IllegalNull);
+
+	delete gameRegion;
+}
+
 // Tests getting Parent with getParentRegion
-BOOST_AUTO_TEST_CASE(GameRegion_getParent_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getParent) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 
@@ -152,7 +176,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getParent_test) {
 }
 
 // Tests setting Parent with setParentRegion
-BOOST_AUTO_TEST_CASE(GameRegion_setParent_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_setParent) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* childRegion = new GameRegion();
 
@@ -175,11 +199,11 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParent_test) {
 }
 
 //Tests getting GUI with getGUI
-BOOST_AUTO_TEST_CASE(GameRegion_getGUI_test) {
+BOOST_AUTO_TEST_CASE(GameRegion_getGUI) {
 	GameRegion* gameRegion = new GameRegion();
 
 	BOOST_CHECK(gameRegion->getGUI() != nullptr);
-	
+
 	sf::RenderWindow* newWindow = new sf::RenderWindow(sf::VideoMode(0, 0), "NewWindow");
 
 	//get reference to gameRegion's GUI, then change the reference's window.
@@ -201,17 +225,17 @@ BOOST_AUTO_TEST_SUITE(GameRegion_neighbor_tests)
 
 // Tests add and destructor
 BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t1) {
-    GameRegion* region1 = new GameRegion(); 
-    GameRegion* region2 = new GameRegion(); 
-    GameRegion* region3 = new GameRegion(); 
+    GameRegion* region1 = new GameRegion();
+    GameRegion* region2 = new GameRegion();
+    GameRegion* region3 = new GameRegion();
     GameRegion* region4 = new GameRegion();
-    GameRegion* region5 = new GameRegion(); 
+    GameRegion* region5 = new GameRegion();
     GameRegion* region6 = new GameRegion();
     GameRegion* region7 = new GameRegion();
 
     region1->addNeighborRegion(region2);//     1 - 2 - 3 - 6
-	region1->addNeighborRegion(region4);//     |   |   
-	region5->addNeighborRegion(region2);//     4 - 5 - 7  
+	region1->addNeighborRegion(region4);//     |   |
+	region5->addNeighborRegion(region2);//     4 - 5 - 7
 	region5->addNeighborRegion(region4);
 	region5->addNeighborRegion(region7);
     region3->addNeighborRegion(region2);
@@ -223,18 +247,18 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t1) {
 
 // Tests remove
 BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t2) {
-    GameRegion* region1 = new GameRegion(); 
-	GameRegion* region2 = new GameRegion(); 
-	GameRegion* region3 = new GameRegion(); 
-	GameRegion* region4 = new GameRegion();    
-	GameRegion* region5 = new GameRegion(); 
+    GameRegion* region1 = new GameRegion();
+	GameRegion* region2 = new GameRegion();
+	GameRegion* region3 = new GameRegion();
+	GameRegion* region4 = new GameRegion();
+	GameRegion* region5 = new GameRegion();
     GameRegion* region6 = new GameRegion();
     GameRegion* region7 = new GameRegion();
 
     region1->addNeighborRegion(region2);//     1 - 2 - 3 - 6
-	region1->addNeighborRegion(region4);//     |   |   
-	region5->addNeighborRegion(region2);//     4 - 5 - 7  
-	region5->addNeighborRegion(region4);    
+	region1->addNeighborRegion(region4);//     |   |
+	region5->addNeighborRegion(region2);//     4 - 5 - 7
+	region5->addNeighborRegion(region4);
 	region5->addNeighborRegion(region7);
     region3->addNeighborRegion(region2);
     region3->addNeighborRegion(region6);
@@ -247,11 +271,11 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t2) {
 
 // Tests delete
 BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t3) {
-    GameRegion* region1 = new GameRegion(); 
-	GameRegion* region2 = new GameRegion(); 
-	GameRegion* region3 = new GameRegion(); 
-	GameRegion* region4 = new GameRegion(); 
-	GameRegion* region5 = new GameRegion(); 
+    GameRegion* region1 = new GameRegion();
+	GameRegion* region2 = new GameRegion();
+	GameRegion* region3 = new GameRegion();
+	GameRegion* region4 = new GameRegion();
+	GameRegion* region5 = new GameRegion();
     GameRegion* region6 = new GameRegion();
     GameRegion* region7 = new GameRegion();
 
@@ -261,8 +285,8 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t3) {
     region5->addNeighborRegion(region4);
     delete region4;
     region5->addNeighborRegion(region7);//     1 - 2 - 3 - 6
-    region3->addNeighborRegion(region2);//         |   
-    region3->addNeighborRegion(region6);//         5 - 7  
+    region3->addNeighborRegion(region2);//         |
+    region3->addNeighborRegion(region6);//         5 - 7
     region5->removeNeighborRegion(region7);
 
 
@@ -271,32 +295,32 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t3) {
 
 // Tests that things are actually removed
 BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t4) {
-    GameRegion* region1 = new GameRegion();  
-	GameRegion* region2 = new GameRegion(); 
-	GameRegion* region3 = new GameRegion(); 
-	GameRegion* region4 = new GameRegion();              
-	GameRegion* region5 = new GameRegion();          
+    GameRegion* region1 = new GameRegion();
+	GameRegion* region2 = new GameRegion();
+	GameRegion* region3 = new GameRegion();
+	GameRegion* region4 = new GameRegion();
+	GameRegion* region5 = new GameRegion();
     GameRegion* region6 = new GameRegion();
     GameRegion* region7 = new GameRegion();
 
     region1->addNeighborRegion(region2);//    7 - 1 - 2
-	region1->addNeighborRegion(region4);//        | 
-	region1->addNeighborRegion(region7);//        4 
+	region1->addNeighborRegion(region4);//        |
+	region1->addNeighborRegion(region7);//        4
     region1->removeNeighborRegion(region7);
 
     //make sure region7 was removed
-    std::list<GameRegion*>* region1neighbors = region1->getNeighborRegions();
-    std::list<GameRegion*>* region7neighbors = region7->getNeighborRegions();
+    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    std::vector<GameRegion*>* region7neighbors = region7->getNeighborRegions();
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region7) == region1neighbors->end());
     BOOST_CHECK(std::find(region7neighbors->begin(), region7neighbors->end(), region1) == region7neighbors->end());
 
     region5->addNeighborRegion(region2);//     1 - 2
-	region5->addNeighborRegion(region4);//     |   |   
-	delete region4;						//     4 - 5   
+	region5->addNeighborRegion(region4);//     |   |
+	delete region4;						//     4 - 5
 
     region5->addNeighborRegion(region7);//     1 - 2 - 3 - 6
-	region3->addNeighborRegion(region2);//         |   
-	region3->addNeighborRegion(region6);//         5 - 7  
+	region3->addNeighborRegion(region2);//         |
+	region3->addNeighborRegion(region6);//         5 - 7
     region5->removeNeighborRegion(region7);
 
 
@@ -314,13 +338,13 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t5) {
     GameRegion* region7 = new GameRegion();
 
     region1->addNeighborRegion(region2);//    7 - 1 - 2
-	region1->addNeighborRegion(region4);//        | 
-	region1->addNeighborRegion(region7);//        4 
+	region1->addNeighborRegion(region4);//        |
+	region1->addNeighborRegion(region7);//        4
     region1->removeNeighborRegion(region7);
 
     //make sure region7 was removed
-    std::list<GameRegion*>* region1neighbors = region1->getNeighborRegions();
-    std::list<GameRegion*>* region7neighbors = region7->getNeighborRegions();
+    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    std::vector<GameRegion*>* region7neighbors = region7->getNeighborRegions();
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region7) == region1neighbors->end());
     BOOST_CHECK(std::find(region7neighbors->begin(), region7neighbors->end(), region1) == region7neighbors->end());
     BOOST_CHECK(region1neighbors->size() == 2);
@@ -330,12 +354,12 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t5) {
 	delete region4;						//     4 - 5
 
     region5->addNeighborRegion(region7);//     1 - 2 - 3 - 6
-	region3->addNeighborRegion(region2);//         |   
-	region3->addNeighborRegion(region6);//         5 - 7  
+	region3->addNeighborRegion(region2);//         |
+	region3->addNeighborRegion(region6);//         5 - 7
     region5->removeNeighborRegion(region7);
 
     region3->clearNeighborRegions();
-    std::list<GameRegion*>* region3neighbors = region3->getNeighborRegions();
+    std::vector<GameRegion*>* region3neighbors = region3->getNeighborRegions();
     BOOST_CHECK(region3neighbors->size() == 0);
 
     delete region1; delete region2; delete region3; delete region5; delete region6; delete region7;
@@ -349,11 +373,11 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t6) {
     region1->addNeighborRegion(region2);//    3 - 1 - 2
     region1->addNeighborRegion(region3);
 
-    std::list<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
     BOOST_CHECK(region1neighbors->size() == 2);
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region2) != region1neighbors->end());
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region3) != region1neighbors->end());
-    
+
     region1->clearNeighborRegions();
     region1neighbors = region1->getNeighborRegions();
     BOOST_CHECK(region1neighbors->size() == 0);
@@ -372,10 +396,10 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t6) {
 BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t7) {
 	GameRegion* region1 = new GameRegion();
 	GameRegion* region2 = new GameRegion();
-	
+
 	//BOOST_CHECK_THROW(region1->removeNeighborRegion(region1), GameRegion_BadDissociation);
 
-	delete region1; 
+	delete region1;
 	delete region2;
 }
 
@@ -481,7 +505,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_no_existing_parent) {
 	delete childRegion;
 }
 
-// Test that setting a parent will disacociate any previous parent relationship
+// Test that setting a parent will disassociate any previous parent relationship
 BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_existing_parent) {
 	GameRegion* gameRegion = new GameRegion();
 	GameRegion* gameRegion2 = new GameRegion();
@@ -489,7 +513,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_new_parent_existing_parent) {
 
 	childRegion->setParentRegion(gameRegion);
 	childRegion->setParentRegion(gameRegion2);
-	
+
 	// ensure that the child has the correct parent assigned
 	BOOST_CHECK(childRegion->getParentRegion() == gameRegion2);
 
@@ -518,12 +542,15 @@ BOOST_AUTO_TEST_CASE(GameRegion_setParentRegion_two_children) {
 	BOOST_CHECK(childRegion2->getParentRegion() == gameRegion);
 
 	// ensure that the child region is a child of the parent region
-	BOOST_CHECK(gameRegion->getChildRegions()->front() == childRegion1);
-	BOOST_CHECK(gameRegion->getChildRegions()->back() == childRegion2);
+	BOOST_CHECK(gameRegion->getChildRegions()->at(0) == childRegion1);
+	BOOST_CHECK(gameRegion->getChildRegions()->at(1) == childRegion2);
 
 	delete gameRegion;
+	gameRegion = nullptr;
 	delete childRegion1;
+	childRegion1 = nullptr;
 	delete childRegion2;
+	childRegion2 = nullptr;
 }
 
 // Test that setting a parent twice only adds the relationship once
@@ -574,7 +601,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_clearChildren) {
 
 	// ensure that the parent region has no children
 	BOOST_CHECK(gameRegion->getChildRegions()->empty());
-	
+
 	//ensure that the children no longer have a parent
 	BOOST_CHECK(childRegion1->getParentRegion() == nullptr);
 	BOOST_CHECK(childRegion2->getParentRegion() == nullptr);

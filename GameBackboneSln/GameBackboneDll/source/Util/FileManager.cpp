@@ -1,9 +1,9 @@
-
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Util\FileManager.h>
-#include <Util\FileReader.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Util/FileManager.h>
+#include <Util/FileReader.h>
 
 #include <string>
+#include <sys/stat.h>
 
 using namespace GB;
 
@@ -37,4 +37,39 @@ std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt
 	}
 
 	return output;
+}
+
+/// <summary>
+/// Gets the size of the file. Return 0 if the file does not exist.
+/// </summary>
+/// <param name="filename">The filepath.</param>
+/// <returns></returns>
+std::size_t FileManager::getFileSize(const std::string& filepath) {
+	struct stat st;
+	if (stat(filepath.c_str(), &st) != 0) {
+		return 0;
+	}
+	return st.st_size;
+}
+
+/// <summary>
+/// Gets a hash of the passed in file. This hash uses std::hash which only returns type std::size_t.
+/// </summary>
+/// <param name="filepath">The filepath.</param>
+/// <returns></returns>
+std::size_t FileManager::getFileHash(const std::string& filepath) {
+
+	std::string file = reader->readFile(filepath);
+	return getHash(file);
+}
+
+/// <summary>
+/// Gets a hash of the passed in string. This hash uses std::hash which only returns type std::size_t.
+/// </summary>
+/// <param name="toHash">The string to hash.</param>
+/// <returns></returns>
+size_t FileManager::getHash(const std::string& toHash) {
+
+	size_t hashed = std::hash<std::string>{}(toHash);
+	return hashed;
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <TGUI\TGUI.hpp>
+#include <TGUI/TGUI.hpp>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class SampleGuiInterface
 {
-public:	
+public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="SampleGuiInterface"/> class.
 	/// Attaches the created GUI to the passed window

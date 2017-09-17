@@ -160,16 +160,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\BackboneExeCoreEventController.h" />
+    <ClInclude Include="header\DemoCoreEventController.h" />
+    <ClInclude Include="header\DemoRegion.h" />
     <ClInclude Include="header\NavigationDemoRegion.h" />
     <ClInclude Include="header\SampleGuiInterface.h" />
+    <ClInclude Include="header\SwirlyDemoRegion.h" />
     <ClInclude Include="header\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\BackboneExeCoreEventController.cpp" />
+    <ClCompile Include="source\DemoCoreEventController.cpp" />
+    <ClCompile Include="source\DemoRegion.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\NavigationDemoRegion.cpp" />
     <ClCompile Include="source\SampleGuiInterface.cpp" />
+    <ClCompile Include="source\SwirlyDemoRegion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

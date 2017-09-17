@@ -1,6 +1,6 @@
-#include <Navigation\PathFinder.h>
-#include <Util\Point.h>
-#include <Util\UtilMath.h>
+#include <Navigation/PathFinder.h>
+#include <Util/Point.h>
+#include <Util/UtilMath.h>
 
 #include <set>
 #include <queue>
@@ -17,7 +17,7 @@ Pathfinder::Pathfinder() : Pathfinder(nullptr) {}
 
 /// <summary> Creates a PathFinder with an assigned navigation grid. </summary>
 /// <param name = "navigationGrid"> Three dimensional grid to be used when path-finding. </param>
-Pathfinder::Pathfinder(NavigationGrid * navigationGrid) {
+Pathfinder::Pathfinder(NavigationGrid* navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
@@ -36,7 +36,7 @@ Pathfinder::~Pathfinder() {
 /// Sets the navigation grid.
 /// </summary>
 /// <param name="navigationGrid">The navigation grid.</param>
-void Pathfinder::setNavigationGrid(NavigationGrid * navigationGrid) {
+void Pathfinder::setNavigationGrid(NavigationGrid* navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
@@ -46,7 +46,7 @@ void Pathfinder::setNavigationGrid(NavigationGrid * navigationGrid) {
 /// Gets the navigation grid.
 /// </summary>
 /// <returns>NavigationGrid pointer</returns>
-NavigationGrid * Pathfinder::getNavigationGrid() {
+NavigationGrid* Pathfinder::getNavigationGrid() {
 	return navigationGrid;
 }
 
@@ -55,7 +55,7 @@ NavigationGrid * Pathfinder::getNavigationGrid() {
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
-void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>> * const returnedPaths) {
+void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>>* const returnedPaths) {
 
 	typedef std::pair<Point2D<int>, int> GridValuePair;
 
@@ -143,7 +143,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 }
 
 
-// private helper functions 
+// private helper functions
 
 /// <summary>
 /// Chooses the next grid square for pathFind based on the pathRequest and the available grid squares.
@@ -157,7 +157,7 @@ Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, c
 	Point2D<int> bestGridSquare = {-1, -1};
 
 	for each (const Point2D<int> gridSquare in *availableGridSquares) {
-		unsigned int gridSquareDistance = GB::CalcSquaredDistance(gridSquare, pathRequest.end);
+		unsigned int gridSquareDistance = GB::calcSquaredDistance2D<int>(gridSquare, pathRequest.end);
 		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
 			bestGridSquare = gridSquare;

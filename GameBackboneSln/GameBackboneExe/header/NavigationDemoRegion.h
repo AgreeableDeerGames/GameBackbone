@@ -1,14 +1,14 @@
 #pragma once
 
-#include <Backbone\GameRegion.h>
-#include <Navigation\PathFinder.h>
-#include <Util\Array2D.h>
-#include <Util\Point.h>
+#include <DemoRegion.h>
 
-#include <SFML\Graphics\Sprite.hpp>
-#include <SFML\Graphics.hpp>
+#include <Navigation/CoordinateConverter.h>
+#include <Navigation/PathFinder.h>
+#include <Util/Point.h>
 
-namespace GB {
+#include <SFML/Graphics.hpp>
+
+namespace EXE {
 
 	enum SELECTED_NAVIGATOR_BUTTON_TYPE
 	{
@@ -17,11 +17,19 @@ namespace GB {
 		ALL_NAVIGATORS
 	};
 
+	struct NavigationDemoData : public GB::NavigationGridData
+	{
+		sf::Sprite* demoSprite;
+
+		NavigationDemoData(){demoSprite = nullptr;}
+		virtual ~NavigationDemoData(){delete demoSprite;}
+	};
+
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic path-finding demonstrations.
 	/// </summary>
 	/// <seealso cref="GameRegion" />
-	class libGameBackbone NavigationDemoRegion : public GameRegion {
+	class NavigationDemoRegion : public DemoRegion {
 	public:
 
 		// ctr / dtr
@@ -37,44 +45,38 @@ namespace GB {
 
 		virtual void behave(sf::Time currentTime) override;
 
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
-
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
 
 
 	protected:
 
-		//ctr
+		// ctr
 		void init();
 
-		//helper functions
+		// helper functions
 		void initGUI();
-		void initMaze(std::vector<Point2D<int>> nonBlockablePositions);
-		sf::Vector2f gridCoordToWorldCoord(const Point2D<int>& gridCoordinate);
-		Point2D<int> worldCoordToGridCoord(const sf::Vector2f& worldCoordinate);
+		void initMaze(std::vector<GB::Point2D<int>> nonBlockablePositions);
 
-		//movement functions
-		void moveSpriteTowardsPoint(sf::Sprite* sprite, sf::Vector2f destination, float distance);
-		void moveSpriteAlongPath(sf::Sprite* sprite, std::list<Point2D<int>>* path, sf::Int64 msPassed, float speed);
-
-		//update logic storage
+		// update logic storage
 		sf::Time lastUpdateTime;
 
 		// sprite textures
 		sf::Texture* navigatorTexture;
 		sf::Texture* gridTexture;
 
-		//	store visual representation of maze and maze solvers
-		Array2D<sf::Sprite*>* visualNavigationGrid;
+		// store visual representation of maze solvers
 		std::vector<sf::Sprite*> navigators;
 
-		//path-finding
-		Pathfinder regionPathfinder;
-		NavigationGrid* navGrid;
+		// path-finding
+		GB::Pathfinder regionPathfinder;
+		GB::NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
-		std::vector<std::list<Point2D<int>>> pathsReturn;
+		std::vector<GB::WindowCoordinatePathPtr> paths;
+		GB::CoordinateConverter coordinateConverter;
 
-		//GUI handle functions
+		// GUI handle functions
 		SELECTED_NAVIGATOR_BUTTON_TYPE selectedNavigatorOption;
 		void Navigator1CB();
 		void Navigator2CB();

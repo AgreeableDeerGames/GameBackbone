@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Backbone\GameRegion.h>
+#include <Backbone/GameRegion.h>
 
 #include <string>
 
 namespace GB {
-	
+
 	/// <summary>
 	/// Base class meant to be inherited. Allows standard operation order for main game loop for clients of GB.
 	/// Also provides simple and concise way to run the main game loop.

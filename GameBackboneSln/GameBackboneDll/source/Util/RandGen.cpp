@@ -1,11 +1,11 @@
-#include <Util\RandGen.h>
+#include <Util/RandGen.h>
 
 using namespace GB;
 
 
 
 /// <summary>
-/// Initializes a new instance of the <see cref="RandGen"/> class.
+/// Initializes a new instance of the <see cref="RandGen"/> class with a random seed.
 /// </summary>
 RandGen::RandGen() {
 	m_seedString = new std::string;
@@ -30,7 +30,7 @@ RandGen::RandGen(std::string* seed) {
 	m_generator = new std::mt19937;
 	m_uniDistributor = new std::uniform_real_distribution<double>(0, 1);
 
-	setSeed(seed); 
+	setSeed(seed);
 }
 
 RandGen::~RandGen() {
@@ -75,10 +75,10 @@ double RandGen::uniDist(double min, double max) {
 
 
 	if (min != m_uniDistributor->a() || max != m_uniDistributor->b()) {
-		return (*m_uniDistributor)(*m_generator);
-	}
-	else {
 		double tempNumber = (*m_uniDistributor)(*m_generator);
 		return min + tempNumber * (max - min);
+	}
+	else {
+		return (*m_uniDistributor)(*m_generator);
 	}
 }

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Backbone\AnimationSet.h>
+#include <Backbone/AnimationSet.h>
 
 #include <vector>
 
@@ -23,10 +23,10 @@ struct ReusableGenericAnimations {
 BOOST_AUTO_TEST_SUITE(AnimationSet_Tests)
 
 // All the ctrs for AnimationSet
-BOOST_AUTO_TEST_SUITE(AnimationSet_ctrs)
+BOOST_AUTO_TEST_SUITE(AnimationSet_CTRs)
 
 // Test the row and col ctr for AnimationSet
-BOOST_AUTO_TEST_CASE(AnimationSet_Default_ctr) {
+BOOST_AUTO_TEST_CASE(AnimationSet_Default_CTR) {
 	AnimationSet* animSet = new AnimationSet(2,2);
 
 	//ensure that animations initializes to empty
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(AnimationSet_Default_ctr) {
 
 // Test the ctr for AnimationSet that includes the dimensions of the animation texture
 // and the frames for each animation
-BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations) {
+BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_CTR, ReusableGenericAnimations) {
 	AnimationSet* animSet = new AnimationSet(numericAnimations, 100, 100, 2, 2);
 
 	// Ensure that animations have been produced
@@ -66,7 +66,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_Texture_Size_ctr, ReusableGenericAnimations
 	delete animSet;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_ctrs
+BOOST_AUTO_TEST_SUITE_END() // end AnimationSet_CTRs
 
 
 BOOST_AUTO_TEST_SUITE(AnimationSet_Actions)
@@ -102,7 +102,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnim
 
 // Test that framesToRects produces the correct rectangles for a 1 by 2 sprite sheet
 BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x2_test) {
-	
+
 	Animation anim1 = { 0, 1 };
 	Animation anim2 = { 1, 0 };
 	AnimationVector numericAnimations = { anim1, anim2 };

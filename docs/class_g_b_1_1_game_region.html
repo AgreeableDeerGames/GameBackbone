@@ -20,10 +20,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="Backbone2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.0.4</span>
+   &#160;<span id="projectnumber">0.0.5</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -115,12 +115,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab10a819da9cd48ea760eabaca37982f"><td class="memItemLeft" align="right" valign="top">std::list&lt; sf::Sprite * &gt; const  *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#aab10a819da9cd48ea760eabaca37982f">getDrawables</a> ()</td></tr>
 <tr class="memdesc:aab10a819da9cd48ea760eabaca37982f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the region's list of drawable objects  <a href="#aab10a819da9cd48ea760eabaca37982f">More...</a><br /></td></tr>
 <tr class="separator:aab10a819da9cd48ea760eabaca37982f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0821ffd27c8fe6a1c0e94904074d034e"><td class="memItemLeft" align="right" valign="top"><a id="a0821ffd27c8fe6a1c0e94904074d034e"></a>
-std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>getNeighborRegions</b> ()</td></tr>
-<tr class="separator:a0821ffd27c8fe6a1c0e94904074d034e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bb4838ba1cac5c541b4d384a8a3988d"><td class="memItemLeft" align="right" valign="top"><a id="a9bb4838ba1cac5c541b4d384a8a3988d"></a>
-std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>getChildRegions</b> ()</td></tr>
-<tr class="separator:a9bb4838ba1cac5c541b4d384a8a3988d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6c9cefa12f4554944e6862e4661d183"><td class="memItemLeft" align="right" valign="top"><a id="ae6c9cefa12f4554944e6862e4661d183"></a>
+std::vector&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>getNeighborRegions</b> ()</td></tr>
+<tr class="separator:ae6c9cefa12f4554944e6862e4661d183"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7298700bda505339d40287f8d429ca26"><td class="memItemLeft" align="right" valign="top"><a id="a7298700bda505339d40287f8d429ca26"></a>
+std::vector&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>getChildRegions</b> ()</td></tr>
+<tr class="separator:a7298700bda505339d40287f8d429ca26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a87bdd8a824bd426d606a4cad34add5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a6a87bdd8a824bd426d606a4cad34add5">getParentRegion</a> ()</td></tr>
 <tr class="memdesc:a6a87bdd8a824bd426d606a4cad34add5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the parent region.  <a href="#a6a87bdd8a824bd426d606a4cad34add5">More...</a><br /></td></tr>
 <tr class="separator:a6a87bdd8a824bd426d606a4cad34add5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,12 +163,9 @@ std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a5312315e51293319ce061420d1c5d6bc"><td class="memItemLeft" align="right" valign="top"><a id="a5312315e51293319ce061420d1c5d6bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> ()</td></tr>
-<tr class="separator:a5312315e51293319ce061420d1c5d6bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a609d8a4997d13eb0e67125aa6b4272ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a609d8a4997d13eb0e67125aa6b4272ee">clearAssociations</a> (std::function&lt; void(<a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *)&gt; memberFunctionPointer, std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *&gt; *list)</td></tr>
-<tr class="memdesc:a609d8a4997d13eb0e67125aa6b4272ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loops through list of associations, and calls the passed in function on each.  <a href="#a609d8a4997d13eb0e67125aa6b4272ee">More...</a><br /></td></tr>
-<tr class="separator:a609d8a4997d13eb0e67125aa6b4272ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e08c7f8a3197556ad49194a0f37d3be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a4e08c7f8a3197556ad49194a0f37d3be">clearAssociations</a> (std::function&lt; void(<a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *)&gt; memberFunctionPointer, std::vector&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *&gt; *container)</td></tr>
+<tr class="memdesc:a4e08c7f8a3197556ad49194a0f37d3be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loops through container of associations, and calls the passed in function on each.  <a href="#a4e08c7f8a3197556ad49194a0f37d3be">More...</a><br /></td></tr>
+<tr class="separator:a4e08c7f8a3197556ad49194a0f37d3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -181,12 +178,12 @@ std::list&lt; <a class="el" href="class_g_b_1_1_updatable.html">Updatable</a> * 
 <tr class="memitem:aac4dddbf4fc245d97e4535e053dd17f0"><td class="memItemLeft" align="right" valign="top"><a id="aac4dddbf4fc245d97e4535e053dd17f0"></a>
 <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parentRegion</b></td></tr>
 <tr class="separator:aac4dddbf4fc245d97e4535e053dd17f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa13cddbb808446d293c3521a0641b742"><td class="memItemLeft" align="right" valign="top"><a id="aa13cddbb808446d293c3521a0641b742"></a>
-std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>childRegions</b></td></tr>
-<tr class="separator:aa13cddbb808446d293c3521a0641b742"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa829dcbf7f02edf0d23e3cdab31f72fe"><td class="memItemLeft" align="right" valign="top"><a id="aa829dcbf7f02edf0d23e3cdab31f72fe"></a>
-std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>neighborRegions</b></td></tr>
-<tr class="separator:aa829dcbf7f02edf0d23e3cdab31f72fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a629f04e7d0a417e139ab627a221d6386"><td class="memItemLeft" align="right" valign="top"><a id="a629f04e7d0a417e139ab627a221d6386"></a>
+std::vector&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>childRegions</b></td></tr>
+<tr class="separator:a629f04e7d0a417e139ab627a221d6386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99b054cdb1046350d7142c250443647f"><td class="memItemLeft" align="right" valign="top"><a id="a99b054cdb1046350d7142c250443647f"></a>
+std::vector&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>neighborRegions</b></td></tr>
+<tr class="separator:a99b054cdb1046350d7142c250443647f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d8b6ececa68571c71affb650c5fbf9c"><td class="memItemLeft" align="right" valign="top"><a id="a4d8b6ececa68571c71affb650c5fbf9c"></a>
 std::function&lt; void(<a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>setActiveRegionCB</b></td></tr>
 <tr class="separator:a4d8b6ececa68571c71affb650c5fbf9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,7 +194,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8h_source.html#l00019">19</a> of file <a class="el" href="_game_region_8h_source.html">GameRegion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8h_source.html#l00020">20</a> of file <a class="el" href="_game_region_8h_source.html">GameRegion.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abfeb1ab81057477bd002a727f96d1e52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abfeb1ab81057477bd002a727f96d1e52">&#9670;&nbsp;</a></span>GameRegion() <span class="overload">[1/2]</span></h2>
@@ -310,7 +307,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00185">185</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00194">194</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -338,7 +335,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00200">200</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00209">209</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -368,12 +365,12 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Runs the game behaviors and logic for this instance. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8h_source.html#l00055">55</a> of file <a class="el" href="_game_region_8h_source.html">GameRegion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8h_source.html#l00056">56</a> of file <a class="el" href="_game_region_8h_source.html">GameRegion.h</a>.</p>
 
 </div>
 </div>
-<a id="a609d8a4997d13eb0e67125aa6b4272ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a609d8a4997d13eb0e67125aa6b4272ee">&#9670;&nbsp;</a></span>clearAssociations()</h2>
+<a id="a4e08c7f8a3197556ad49194a0f37d3be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e08c7f8a3197556ad49194a0f37d3be">&#9670;&nbsp;</a></span>clearAssociations()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -390,8 +387,8 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::list&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *&gt; *&#160;</td>
-          <td class="paramname"><em>list</em>&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> *&gt; *&#160;</td>
+          <td class="paramname"><em>container</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -406,9 +403,9 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 </table>
 </div><div class="memdoc">
 
-<p>Loops through list of associations, and calls the passed in function on each. </p>
+<p>Loops through container of associations, and calls the passed in function on each. </p>
 <pre>
-<b>Example</b> <div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code" href="class_g_b_1_1_game_region.html#a7b64ff96f9213fed656caed94f4f8260">GameRegion::clearNeighborRegions</a>() {</div><div class="line">    std::function &lt;void(GameRegion*)&gt; disassociator = std::bind(&amp;aClass::FunctionWhichDisassociates, <span class="keyword">this</span>, std::placeholders::_1);</div><div class="line">    <a class="code" href="class_g_b_1_1_game_region.html#a609d8a4997d13eb0e67125aa6b4272ee">clearAssociations</a>(disassociator, getNeighborRegions());</div><div class="line">}</div></div><!-- fragment -->
+<b>Example</b> <div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code" href="class_g_b_1_1_game_region.html#a7b64ff96f9213fed656caed94f4f8260">GameRegion::clearNeighborRegions</a>() {</div><div class="line">    std::function &lt;void(GameRegion*)&gt; disassociator = std::bind(&amp;aClass::FunctionWhichDisassociates, <span class="keyword">this</span>, std::placeholders::_1);</div><div class="line">    <a class="code" href="class_g_b_1_1_game_region.html#a4e08c7f8a3197556ad49194a0f37d3be">clearAssociations</a>(disassociator, getNeighborRegions());</div><div class="line">}</div></div><!-- fragment -->
 </pre> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">memberFunctionPointer</td><td>Function used to disassociate individual elements of the list</td></tr>
@@ -417,7 +414,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00294">294</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00303">303</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +435,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Orphans all children GameRegions in this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00257">257</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00266">266</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -459,7 +456,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Removes all drawable objects from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00265">265</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00274">274</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +477,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Disassociates all neighbor GameRegions from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00272">272</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00281">281</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -501,7 +498,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Removes all updatable objects from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00250">250</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00259">259</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -523,7 +520,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <p>Return the region's list of drawable objects </p>
 <dl class="section return"><dt>Returns</dt><dd>std::list of drawable objects</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00150">150</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00159">159</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -545,7 +542,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <p>Gets the GUI for this region. </p>
 <dl class="section return"><dt>Returns</dt><dd>This regions GUI.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00173">173</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00182">182</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -566,7 +563,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Gets the parent region. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00165">165</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00174">174</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -588,7 +585,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <p>Returns list of the region's updatable objects. </p>
 <dl class="section return"><dt>Returns</dt><dd>std::list of the region's updatable objects.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00142">142</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00151">151</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -645,7 +642,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00237">237</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00246">246</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -674,7 +671,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00213">213</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00222">222</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -703,7 +700,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 
 <p>Resets this instance. </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8h_source.html#l00050">50</a> of file <a class="el" href="_game_region_8h_source.html">GameRegion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8h_source.html#l00051">51</a> of file <a class="el" href="_game_region_8h_source.html">GameRegion.h</a>.</p>
 
 </div>
 </div>
@@ -737,12 +734,12 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>if set to <code>true</code> the object will be drawable, otherwise the object will be made non-drawable.</td></tr>
-    <tr><td class="paramname">object</td><td>The object.</td></tr>
+    <tr><td class="paramname">object</td><td>The object. Passing nullptr is illegal.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00081">81</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00085">85</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -776,12 +773,12 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>if set to <code>true</code> the object will be drawable, otherwise the object will be made non-drawable.</td></tr>
-    <tr><td class="paramname">object</td><td>The object.</td></tr>
+    <tr><td class="paramname">object</td><td>The object. Passing nullptr is illegal.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00098">98</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00106">106</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -815,12 +812,12 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>if set to <code>true</code> the object will be both drawable and updatable, otherwise the object will be neither drawable nor updatable. </td></tr>
-    <tr><td class="paramname">object</td><td>The object.</td></tr>
+    <tr><td class="paramname">object</td><td>The object. Passing nullptr is illegal.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00112">112</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00121">121</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -854,12 +851,12 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>if set to <code>true</code> the object will be both drawable and updatable, otherwise the object will be neither drawable nor updatable. </td></tr>
-    <tr><td class="paramname">object</td><td>The object.</td></tr>
+    <tr><td class="paramname">object</td><td>The object. Passing nullptr is illegal.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00122">122</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00131">131</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -887,7 +884,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00131">131</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_region_8cpp_source.html#l00140">140</a> of file <a class="el" href="_game_region_8cpp_source.html">GameRegion.cpp</a>.</p>
 
 </div>
 </div>
@@ -921,7 +918,7 @@ tgui::Gui *&#160;</td><td class="memItemRight" valign="bottom"><b>regionGUI</b><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>If set to <code>true</code> the object will be updatable, otherwise the object will be made not updatable. </td></tr>
-    <tr><td class="paramname">object</td><td>The object whose updatability status will be changed.</td></tr>
+    <tr><td class="paramname">object</td><td>The object whose updatability status will be changed. Passing nullptr is illegal.</td></tr>
   </table>
   </dd>
 </dl>
