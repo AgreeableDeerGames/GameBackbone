@@ -14,12 +14,11 @@
 using namespace GB;
 
 /// <summary>
-/// Constructor
+/// Initializes a new instance of the <see cref="ClusterGreenhouse"/> class.
+/// Sparsity is initialized to 0.
 /// </summary>
 /// <param name="dimensions">The dimension of the Array2D which is being used.</param>
-ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions) {
-	graphDims = dimensions;
-}
+ClusterGreenhouse::ClusterGreenhouse(Point2D<int> dimensions) : graphDims(dimensions), sparsity(0) {}
 
 /// <summary>
 /// Chooses a cluster to add a point to, based on the frequency each Cluster has been assigned.
@@ -116,13 +115,12 @@ void ClusterGreenhouse::createClustersFromFrequencies(std::vector<double> freque
 
         // decide the frequency of this cluster based on how much of 0 through 1 (non-discrete) is left
         double availablePercent = .15;
-        double clusterFrequency = 0;
         for (int i = 0; i < numberOfClustersToMake; i++) {
             if (availablePercent < 0) {
                 break;
             }
 
-            clusterFrequency = RandomGenerator.uniDist(0, availablePercent);
+            double clusterFrequency = RandomGenerator.uniDist(0, availablePercent);
             availablePercent -= clusterFrequency;
 
             // add the frequency
@@ -138,7 +136,7 @@ void ClusterGreenhouse::createClustersFromFrequencies(std::vector<double> freque
 /// </summary>
 /// <param name="frequencies">The frequencies which will be used in generating the clusters.</param>
 /// <returns>A vector of sets.  A single set represents a single cluster, the items in said set being the Point2D's in the Cluster.</returns>
-std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(std::vector<double> frequencies) {
+std::vector<std::set<Point2D<int>>> ClusterGreenhouse::generateClusteredGraph(const std::vector<double>& frequencies) {
     createClustersFromFrequencies(frequencies);
 
 	int Array2DArea = graphDims.x*graphDims.y;

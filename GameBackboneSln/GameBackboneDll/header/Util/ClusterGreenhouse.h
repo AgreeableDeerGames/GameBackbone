@@ -20,7 +20,7 @@ namespace GB {
 	/// </summary>
 	class libGameBackbone ClusterGreenhouse {
 	public:
-		ClusterGreenhouse(Point2D<int> dimensions);
+		explicit ClusterGreenhouse(Point2D<int> dimensions);
 
 		Cluster* chooseClusterToAddTo();
 
@@ -28,7 +28,7 @@ namespace GB {
 
 		void createClustersFromFrequencies(std::vector<double> frequencies);
 
-		std::vector<std::set<Point2D<int>>> generateClusteredGraph(std::vector<double> frequencies);
+		std::vector<std::set<Point2D<int>>> generateClusteredGraph(const std::vector<double>& frequencies);
 
         // vector holding the clusters in each layer of the graph, each layer being a vector of clusters
 		std::vector<std::vector<Cluster>> clusterVectors;
