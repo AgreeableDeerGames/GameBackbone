@@ -58,18 +58,22 @@ namespace EXE{
 		// sprite textures
 		sf::Texture* navigatorTexture;
 		sf::Texture* rotationArrowCenterTexture;
+		sf::Texture* rotationArrowLowTexture;
+		sf::Texture* rotationArrowLeftTexture;
 
 		// compound sprite stuff
 		GB::CompoundSprite* compSprite;
 		sf::Sprite* compComponent1;
 		sf::Sprite* compComponent2;
 		sf::Sprite* compComponent3;
+		std::vector<sf::Sprite*> textureOffsetSprites;
 
 		// compound sprite selection
 		ROTATION_INIT_TYPE selectedInitMethod;
 		void initMethod1CB();
 		void initMethod2CB();
 		void initMethod3CB();
+		void initMeghod4CB();
 
 	private:
 		// dtr

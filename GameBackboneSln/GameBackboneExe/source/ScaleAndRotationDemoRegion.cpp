@@ -101,22 +101,37 @@ void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 void ScaleAndRotationDemoRegion::init() {
 
 	//init textures
+
+	// relative rotation sprites
 	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
+	navigatorTexture = new sf::Texture();
+	navigatorTexture->loadFromFile(arrowPath);
+
+	// compound sprite with overlapping sprites
 	std::string rotationArrowCenterPath("..//..//Textures/RotationArrowCenter.png");
 	std::string rotationArrowLowPath("..//..//Textures/RotationArrowLow.png");
 	std::string rotationArrowLeftPath("..//..//Textures/RotationArrowLeft.png");
-	navigatorTexture = new sf::Texture();
-	navigatorTexture->loadFromFile(arrowPath);
 	rotationArrowCenterTexture = new sf::Texture();
+	rotationArrowCenterTexture->loadFromFile(rotationArrowCenterPath);
+	rotationArrowLeftTexture = new sf::Texture();
+	rotationArrowLeftTexture->loadFromFile(rotationArrowLowPath);
+	rotationArrowLowTexture = new sf::Texture();
+	rotationArrowLowTexture->loadFromFile(rotationArrowLowPath);
+
 	
 	// component sprites
+
+	// relative rotation sprites
 	const float COMPOUND_SPRITE_TEST_X = 400;
 	const float COMPOUND_SPRITE_TEST_y = 400;
 	compComponent1 = new sf::Sprite(*navigatorTexture);
 	compComponent2 = new sf::Sprite(*navigatorTexture);
 	compComponent3 = new sf::Sprite(*navigatorTexture);
-
 	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
+
+	// compound sprite with overlapping sprites
+	textureOffsetSprites = { new sf::Sprite(*rotationArrowCenterTexture), new sf::Sprite(*rotationArrowLeftTexture), new sf::Sprite(*rotationArrowLowTexture) };
+
 
 		
 
@@ -162,8 +177,12 @@ void ScaleAndRotationDemoRegion::init() {
 		break;
 	}
 	case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET:
-
+	{
+		compSprite = new GB::CompoundSprite(textureOffsetSprites);
+		compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 	}
+
+	} // end of switch
 
 	// assign colors and draw
 	compComponent1->setColor(sf::Color::Magenta);
@@ -208,29 +227,48 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
+
+	const int NUM_BUTTONS = 4;
+	tgui::Layout buttonWidth = windowWidth / (NUM_BUTTONS + NUM_BUTTONS + 1);
+	tgui::Layout buttonHeight = windowHeight / 20.0f;
+	int buttonIndex = 0;
+
 	// create initMethod1 button
-	tgui::Button::Ptr navigator1Button = theme->load("Button");
-	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	navigator1Button->setText("Relative Position\n    Constructor");
-	navigator1Button->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
-	regionGUI->add(navigator1Button);
+	tgui::Button::Ptr relativePositionCtrButton = theme->load("Button");
+	relativePositionCtrButton->setSize(buttonWidth, buttonHeight);
+	relativePositionCtrButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	relativePositionCtrButton->setText("Relative Position\n    Constructor");
+	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
+	regionGUI->add(relativePositionCtrButton);
+	buttonIndex++;
 
 	// create initMethod2 button
-	tgui::Button::Ptr navigator2Button = theme->load("Button");
-	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	navigator2Button->setText("Relative Offset");
-	navigator2Button->connect("pressed", &ScaleAndRotationDemoRegion::initMethod2CB, this);
-	regionGUI->add(navigator2Button);
+	tgui::Button::Ptr relativeOffsetButton = theme->load("Button");
+	relativeOffsetButton->setSize(buttonWidth, buttonHeight);
+	relativeOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	relativeOffsetButton->setText("Relative Offset");
+	relativeOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod2CB, this);
+	regionGUI->add(relativeOffsetButton);
+	buttonIndex++;
 
 	// create initMethod3 button
-	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
-	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
-	allNavigatorsButton->setText("Relative Position");
-	allNavigatorsButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod3CB, this);
-	regionGUI->add(allNavigatorsButton);
+	tgui::Button::Ptr relativePositionButton = theme->load("Button");
+	relativePositionButton->setSize(buttonWidth, buttonHeight);
+	relativePositionButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	relativePositionButton->setText("Relative Position");
+	relativePositionButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod3CB, this);
+	regionGUI->add(relativePositionButton);
+	buttonIndex++;
+
+	// create initMethod4 button
+	tgui::Button::Ptr textureBasedOffsetButton = theme->load("Button");
+	textureBasedOffsetButton->setSize(buttonWidth, buttonHeight);
+	textureBasedOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	textureBasedOffsetButton->setText("Texture Offset");
+	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMeghod4CB, this);
+	regionGUI->add(textureBasedOffsetButton);
+	buttonIndex++;
+
 }
 
 /// <summary>
@@ -263,6 +301,16 @@ void ScaleAndRotationDemoRegion::initMethod3CB()
 	reset();
 }
 
+/// <summary>
+///  Handles the button initMethod4.
+/// </summary>
+void ScaleAndRotationDemoRegion::initMeghod4CB() {
+	selectedInitMethod = ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET;
+	debugPrint("Texture Based Offset");
+	reset();
+}
+
+
 // private dtr
 
 /// <summary>
@@ -274,11 +322,21 @@ void ScaleAndRotationDemoRegion::destroy() {
 	navigatorTexture = nullptr;
 	delete rotationArrowCenterTexture;
 	rotationArrowCenterTexture = nullptr;
+	delete rotationArrowLeftTexture;
+	rotationArrowLeftTexture = nullptr;
+	delete rotationArrowLowTexture;
+	rotationArrowLowTexture = nullptr;
 
+	// delete sprites
 	delete compComponent1;
 	compComponent1 = nullptr;
 	delete compComponent2;
 	compComponent2 = nullptr;
 	delete compSprite;
 	compSprite = nullptr;
+
+	for (sf::Sprite* sprite : textureOffsetSprites) {
+		delete sprite;
+		sprite = nullptr;
+	}
 }
