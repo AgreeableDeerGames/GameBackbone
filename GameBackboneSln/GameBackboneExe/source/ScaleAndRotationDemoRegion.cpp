@@ -229,7 +229,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
-	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 

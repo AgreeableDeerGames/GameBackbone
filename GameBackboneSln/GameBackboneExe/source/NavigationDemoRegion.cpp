@@ -287,33 +287,41 @@ void NavigationDemoRegion::initGUI() {
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(..\..\Textures\Backbone2.png)");
 
-	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
+	const int NUM_BUTTONS = 3;
+	tgui::Layout buttonWidth = windowWidth / (NUM_BUTTONS + NUM_BUTTONS + 1);
+	tgui::Layout buttonHeight = windowHeight / 20.0f;
+	int buttonIndex = 0;
+
 	// create navigator 1 button
 	tgui::Button::Ptr navigator1Button = theme->load("Button");
-	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator1Button->setSize(buttonWidth, buttonHeight);
+	navigator1Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	navigator1Button->setText("Navigator1");
 	navigator1Button->connect("pressed", &NavigationDemoRegion::Navigator1CB, this);
 	regionGUI->add(navigator1Button);
+	buttonIndex++;
 
 	// create navigator 2 button
 	tgui::Button::Ptr navigator2Button = theme->load("Button");
-	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator2Button->setSize(buttonWidth, buttonHeight);
+	navigator2Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	navigator2Button->setText("Navigator2");
 	navigator2Button->connect("pressed", &NavigationDemoRegion::Navigator2CB, this);
 	regionGUI->add(navigator2Button);
+	buttonIndex++;
 
 	// create all navigators button
 	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
-	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	allNavigatorsButton->setSize(buttonWidth, buttonHeight);
+	allNavigatorsButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	allNavigatorsButton->setText("All Navigators");
 	allNavigatorsButton->connect("pressed", &NavigationDemoRegion::AllNavigatorsCB, this);
 	regionGUI->add(allNavigatorsButton);
+	buttonIndex++;
 }
 
 /// <summary>
