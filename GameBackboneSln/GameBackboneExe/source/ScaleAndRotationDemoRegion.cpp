@@ -130,7 +130,13 @@ void ScaleAndRotationDemoRegion::init() {
 	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
 
 	// compound sprite with overlapping sprites
-	textureOffsetSprites = { new sf::Sprite(*rotationArrowCenterTexture), new sf::Sprite(*rotationArrowLeftTexture), new sf::Sprite(*rotationArrowLowTexture) };
+	sf::Sprite* rotationArrowCenterSprite = new sf::Sprite(*rotationArrowCenterTexture);
+	sf::Sprite* rotationArrowLeftSprite = new sf::Sprite(*rotationArrowLeftTexture);
+	sf::Sprite* rotationArrowLowSprite = new sf::Sprite(*rotationArrowLowTexture);
+	rotationArrowCenterSprite->setColor(sf::Color::Magenta);
+	rotationArrowLeftSprite->setColor(sf::Color::White);
+	rotationArrowLowSprite->setColor(sf::Color::Green);
+	textureOffsetSprites = {rotationArrowCenterSprite, rotationArrowLeftSprite, rotationArrowLowSprite};
 
 
 		
