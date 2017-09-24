@@ -18,7 +18,7 @@ namespace GB {
     class libGameBackbone Cluster {
     public:
         // constructor
-		Cluster(Point2D<int> firstPoint);
+		explicit Cluster(Point2D<int> firstPoint);
 
         //getter
 		std::set<Point2D<int>> const* const Cluster::getClusterPoints();

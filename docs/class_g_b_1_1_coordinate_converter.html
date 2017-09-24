@@ -20,10 +20,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="Backbone2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.0.4</span>
+   &#160;<span id="projectnumber">0.0.5</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -98,12 +98,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ace6ce7aac9ac375e26f09a6193b3f3de"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#ace6ce7aac9ac375e26f09a6193b3f3de">CoordinateConverter</a> (float widthOfGridSquares, <a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; float &gt; offsetOfOrigin)</td></tr>
 <tr class="memdesc:ace6ce7aac9ac375e26f09a6193b3f3de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_coordinate_converter.html" title="Converts coordinates between sf window and navigation grid. ">CoordinateConverter</a> class.  <a href="#ace6ce7aac9ac375e26f09a6193b3f3de">More...</a><br /></td></tr>
 <tr class="separator:ace6ce7aac9ac375e26f09a6193b3f3de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82b9557cf3a784ddc6514015257b5c01"><td class="memItemLeft" align="right" valign="top">sf::Vector2&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#a82b9557cf3a784ddc6514015257b5c01">ConvertCoordToWindow</a> (const <a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt; &amp;navGridCoord)</td></tr>
-<tr class="memdesc:a82b9557cf3a784ddc6514015257b5c01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the coordinate to an sf window coordinate. This function returns the center of the sf Grid Square  <a href="#a82b9557cf3a784ddc6514015257b5c01">More...</a><br /></td></tr>
-<tr class="separator:a82b9557cf3a784ddc6514015257b5c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af98c5b2f4e2f5b58f65292e546f65ae2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#af98c5b2f4e2f5b58f65292e546f65ae2">ConvertCoordToNavGrid</a> (const sf::Vector2&lt; float &gt; &amp;windowCoord)</td></tr>
-<tr class="memdesc:af98c5b2f4e2f5b58f65292e546f65ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the coordinate to a navigation grid coordinate. The value of right/bottom edge is not contained by the grid square square ei: [0, gridSquareWidth) ei: gridSquareWidth = 50; WindowCoord(49.999, 50) -&gt; NavGridCoord(0, 1)  <a href="#af98c5b2f4e2f5b58f65292e546f65ae2">More...</a><br /></td></tr>
-<tr class="separator:af98c5b2f4e2f5b58f65292e546f65ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f237b687078f8a69bf8c9c0bb92fb6e"><td class="memItemLeft" align="right" valign="top">sf::Vector2&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#a7f237b687078f8a69bf8c9c0bb92fb6e">convertCoordToWindow</a> (const <a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt; &amp;navGridCoord)</td></tr>
+<tr class="memdesc:a7f237b687078f8a69bf8c9c0bb92fb6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the coordinate to an sf window coordinate. This function returns the center of the Grid Square  <a href="#a7f237b687078f8a69bf8c9c0bb92fb6e">More...</a><br /></td></tr>
+<tr class="separator:a7f237b687078f8a69bf8c9c0bb92fb6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20efdc54f42ff23040a7a50da68414b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#a20efdc54f42ff23040a7a50da68414b4">convertCoordToNavGrid</a> (const sf::Vector2&lt; float &gt; &amp;windowCoord)</td></tr>
+<tr class="memdesc:a20efdc54f42ff23040a7a50da68414b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the coordinate to a navigation grid coordinate. The value of right/bottom edge is not contained by the grid square square ei: [0, gridSquareWidth) ei: gridSquareWidth = 50; WindowCoord(49.999, 50) -&gt; NavGridCoord(0, 1)  <a href="#a20efdc54f42ff23040a7a50da68414b4">More...</a><br /></td></tr>
+<tr class="separator:a20efdc54f42ff23040a7a50da68414b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56f72892b4a4f4c2651686c9ca0712db"><td class="memItemLeft" align="right" valign="top">WindowCoordinatePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#a56f72892b4a4f4c2651686c9ca0712db">convertPathToWindow</a> (const NavGridCoordinatePath &amp;navGridPath)</td></tr>
+<tr class="memdesc:a56f72892b4a4f4c2651686c9ca0712db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a path represented in navigation grid coordinates to an equivalent path in window coordinates.  <a href="#a56f72892b4a4f4c2651686c9ca0712db">More...</a><br /></td></tr>
+<tr class="separator:a56f72892b4a4f4c2651686c9ca0712db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25aa6bfd022b3ae7b61c9e4e17c0250a"><td class="memItemLeft" align="right" valign="top">NavGridCoordinatePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#a25aa6bfd022b3ae7b61c9e4e17c0250a">convertPathToNavGrid</a> (const WindowCoordinatePath &amp;windowPath)</td></tr>
+<tr class="memdesc:a25aa6bfd022b3ae7b61c9e4e17c0250a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a path represented in window coordinates to an equivalent path in navigation grid coordinates.  <a href="#a25aa6bfd022b3ae7b61c9e4e17c0250a">More...</a><br /></td></tr>
+<tr class="separator:a25aa6bfd022b3ae7b61c9e4e17c0250a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11b2a623d01fd7f05573dcc55532c103"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_coordinate_converter.html#a11b2a623d01fd7f05573dcc55532c103">setGridSquareWidth</a> (float newWidth)</td></tr>
 <tr class="memdesc:a11b2a623d01fd7f05573dcc55532c103"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the width of the grid square.  <a href="#a11b2a623d01fd7f05573dcc55532c103">More...</a><br /></td></tr>
 <tr class="separator:a11b2a623d01fd7f05573dcc55532c103"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,7 +120,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Converts coordinates between sf window and navigation grid. </p>
 
-<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8h_source.html#l00013">13</a> of file <a class="el" href="_coordinate_converter_8h_source.html">CoordinateConverter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8h_source.html#l00014">14</a> of file <a class="el" href="_coordinate_converter_8h_source.html">CoordinateConverter.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab718820a37b8c184b69fc3b936ef8b67"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab718820a37b8c184b69fc3b936ef8b67">&#9670;&nbsp;</a></span>CoordinateConverter() <span class="overload">[1/2]</span></h2>
@@ -172,19 +178,19 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00022">22</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00023">23</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af98c5b2f4e2f5b58f65292e546f65ae2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af98c5b2f4e2f5b58f65292e546f65ae2">&#9670;&nbsp;</a></span>ConvertCoordToNavGrid()</h2>
+<a id="a20efdc54f42ff23040a7a50da68414b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20efdc54f42ff23040a7a50da68414b4">&#9670;&nbsp;</a></span>convertCoordToNavGrid()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt; CoordinateConverter::ConvertCoordToNavGrid </td>
+          <td class="memname"><a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt; CoordinateConverter::convertCoordToNavGrid </td>
           <td>(</td>
           <td class="paramtype">const sf::Vector2&lt; float &gt; &amp;&#160;</td>
           <td class="paramname"><em>windowCoord</em></td><td>)</td>
@@ -202,18 +208,18 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00049">49</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00050">50</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a82b9557cf3a784ddc6514015257b5c01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82b9557cf3a784ddc6514015257b5c01">&#9670;&nbsp;</a></span>ConvertCoordToWindow()</h2>
+<a id="a7f237b687078f8a69bf8c9c0bb92fb6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f237b687078f8a69bf8c9c0bb92fb6e">&#9670;&nbsp;</a></span>convertCoordToWindow()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sf::Vector2&lt; float &gt; CoordinateConverter::ConvertCoordToWindow </td>
+          <td class="memname">sf::Vector2&lt; float &gt; CoordinateConverter::convertCoordToWindow </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="struct_g_b_1_1_point2_d.html">Point2D</a>&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>navGridCoord</em></td><td>)</td>
@@ -222,7 +228,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Converts the coordinate to an sf window coordinate. This function returns the center of the sf Grid Square </p>
+<p>Converts the coordinate to an sf window coordinate. This function returns the center of the Grid Square </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">NavGridCoord</td><td>The navigation grid coordinate.</td></tr>
@@ -231,7 +237,65 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00032">32</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00033">33</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a25aa6bfd022b3ae7b61c9e4e17c0250a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25aa6bfd022b3ae7b61c9e4e17c0250a">&#9670;&nbsp;</a></span>convertPathToNavGrid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NavGridCoordinatePath CoordinateConverter::convertPathToNavGrid </td>
+          <td>(</td>
+          <td class="paramtype">const WindowCoordinatePath &amp;&#160;</td>
+          <td class="paramname"><em>windowPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts a path represented in window coordinates to an equivalent path in navigation grid coordinates. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">windowPath</td><td>The window path.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00079">79</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a56f72892b4a4f4c2651686c9ca0712db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56f72892b4a4f4c2651686c9ca0712db">&#9670;&nbsp;</a></span>convertPathToWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">WindowCoordinatePath CoordinateConverter::convertPathToWindow </td>
+          <td>(</td>
+          <td class="paramtype">const NavGridCoordinatePath &amp;&#160;</td>
+          <td class="paramname"><em>navGridPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts a path represented in navigation grid coordinates to an equivalent path in window coordinates. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">navGridPath</td><td>The nav grid path.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00063">63</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
 
 </div>
 </div>
@@ -259,7 +323,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00060">60</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00093">93</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
 
 </div>
 </div>
@@ -287,7 +351,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00068">68</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_coordinate_converter_8cpp_source.html#l00101">101</a> of file <a class="el" href="_coordinate_converter_8cpp_source.html">CoordinateConverter.cpp</a>.</p>
 
 </div>
 </div>

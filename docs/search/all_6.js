@@ -2,19 +2,26 @@ var searchData=
 [
   ['gameregion',['GameRegion',['../class_g_b_1_1_game_region.html',1,'GB::GameRegion'],['../class_g_b_1_1_game_region.html#abfeb1ab81057477bd002a727f96d1e52',1,'GB::GameRegion::GameRegion()'],['../class_g_b_1_1_game_region.html#a98e0e5df965999a9a4875f1feac5e446',1,'GB::GameRegion::GameRegion(sf::RenderWindow &amp;window)']]],
   ['gameregion_5fbaddissociation',['GameRegion_BadDissociation',['../class_g_b_1_1_error_1_1_game_region___bad_dissociation.html',1,'GB::Error']]],
+  ['generateclusteredgraph',['generateClusteredGraph',['../class_g_b_1_1_cluster_greenhouse.html#add0c7a2ea7a3b94c6273ecd22f1d0b32',1,'GB::ClusterGreenhouse']]],
   ['getanimatedsprites',['getAnimatedSprites',['../class_g_b_1_1_compound_sprite.html#a92708d498fd818aea2c0a1df015ee906',1,'GB::CompoundSprite']]],
   ['getanimationdelay',['getAnimationDelay',['../class_g_b_1_1_animated_sprite.html#a23593d75ebc15e0e9969480239ae7830',1,'GB::AnimatedSprite']]],
   ['getanimations',['getAnimations',['../class_g_b_1_1_animation_set.html#ae523b9c1f7702b1ebe02662078a8f701',1,'GB::AnimationSet']]],
   ['getarraysizex',['getArraySizeX',['../class_g_b_1_1_array2_d.html#aeab98d0da4aba48c76caadca43f8e897',1,'GB::Array2D::getArraySizeX()'],['../class_g_b_1_1_array3_d.html#a8365e786555fa1c2da31f5b922e863e6',1,'GB::Array3D::getArraySizeX()']]],
   ['getarraysizey',['getArraySizeY',['../class_g_b_1_1_array2_d.html#a12c656cc6bd2226eecd73b3bc4303dba',1,'GB::Array2D::getArraySizeY()'],['../class_g_b_1_1_array3_d.html#a486221f7f507d5f39414f0bb39c272e4',1,'GB::Array3D::getArraySizeY()']]],
+  ['getcomponents',['getComponents',['../class_g_b_1_1_compound_sprite.html#a80cf4301d91f43cfb5d4e700c097115c',1,'GB::CompoundSprite']]],
   ['getcurrentanimationid',['getCurrentAnimationId',['../class_g_b_1_1_animated_sprite.html#abd64b160fdfae1d1eec67e017af5f375',1,'GB::AnimatedSprite']]],
   ['getcurrentframe',['getCurrentFrame',['../class_g_b_1_1_animated_sprite.html#a4d7dc2868007f5b15d3b25f7ab918155',1,'GB::AnimatedSprite']]],
   ['getdrawables',['getDrawables',['../class_g_b_1_1_game_region.html#aab10a819da9cd48ea760eabaca37982f',1,'GB::GameRegion']]],
+  ['getfilehash',['getFileHash',['../class_g_b_1_1_file_manager.html#a82ed2c2aaf7c423a4eb72729713a4ef6',1,'GB::FileManager']]],
+  ['getfilesize',['getFileSize',['../class_g_b_1_1_file_manager.html#a957cee5599cad3237fc1c34f60b2f081',1,'GB::FileManager']]],
   ['getgui',['getGUI',['../class_g_b_1_1_game_region.html#a88ebd8850e24b217232f858e7dc8d952',1,'GB::GameRegion']]],
+  ['gethash',['getHash',['../class_g_b_1_1_file_manager.html#ac385f59bacc9fb27cb4edfe68e03d057',1,'GB::FileManager']]],
   ['getnavigationgrid',['getNavigationGrid',['../class_g_b_1_1_pathfinder.html#ab8d678b30e172c242923fb55f0a7a028',1,'GB::Pathfinder']]],
+  ['getnumberborderpoints',['getNumberBorderPoints',['../class_g_b_1_1_cluster.html#a9d1c7722b48884164263bdf3070a2f49',1,'GB::Cluster']]],
   ['getparentregion',['getParentRegion',['../class_g_b_1_1_game_region.html#a6a87bdd8a824bd426d606a4cad34add5',1,'GB::GameRegion']]],
+  ['getposition',['getPosition',['../class_g_b_1_1_compound_sprite.html#a8d6083539982464ea9562506605be130',1,'GB::CompoundSprite']]],
   ['getseed',['getSeed',['../class_g_b_1_1_rand_gen.html#a282479909ca4eb935a48ee15a5d6903c',1,'GB::RandGen']]],
-  ['getsfsprites',['getSfSprites',['../class_g_b_1_1_compound_sprite.html#ad52cfe65b36ff363698377b115c142e1',1,'GB::CompoundSprite']]],
   ['getupdatables',['getUpdatables',['../class_g_b_1_1_game_region.html#a5441b49360252400544b8c7cd5d84bcb',1,'GB::GameRegion']]],
-  ['getvalueat',['getValueAt',['../class_g_b_1_1_array3_d.html#a5f816899d3a1930f6b51c19c71b5aed2',1,'GB::Array3D::getValueAt(unsigned int x, unsigned int y, unsigned int z)'],['../class_g_b_1_1_array3_d.html#ae54fa037e8dbbbe81c21ea0bf94c2b29',1,'GB::Array3D::getValueAt(sf::Vector3i coordinate)']]]
+  ['getvalueat',['getValueAt',['../class_g_b_1_1_array3_d.html#a5f816899d3a1930f6b51c19c71b5aed2',1,'GB::Array3D::getValueAt(unsigned int x, unsigned int y, unsigned int z)'],['../class_g_b_1_1_array3_d.html#ae54fa037e8dbbbe81c21ea0bf94c2b29',1,'GB::Array3D::getValueAt(sf::Vector3i coordinate)']]],
+  ['growcluster',['growCluster',['../class_g_b_1_1_cluster_greenhouse.html#af5de4d50692c2b2677ffcfddd55ec01b',1,'GB::ClusterGreenhouse']]]
 ];

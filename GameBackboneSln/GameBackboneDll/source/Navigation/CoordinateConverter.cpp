@@ -26,7 +26,7 @@ CoordinateConverter::CoordinateConverter(float widthOfGridSquares, Point2D<float
 
 /// <summary>
 /// Converts the coordinate to an sf window coordinate.
-/// This function returns the center of the sf Grid Square
+/// This function returns the center of the Grid Square
 /// </summary>
 /// <param name="NavGridCoord">The navigation grid coordinate.</param>
 /// <returns></returns>
@@ -55,7 +55,7 @@ Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>
 }
 
 /// <summary>
-/// Converts a paths represented in navigation grid coordinates to an equivalent
+/// Converts a path represented in navigation grid coordinates to an equivalent
 /// path in window coordinates.
 /// </summary>
 /// <param name="navGridPath">The nav grid path.</param>
@@ -71,7 +71,7 @@ WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoord
 }
 
 /// <summary>
-/// Converts a paths represented in window coordinates to an equivalent
+/// Converts a path represented in window coordinates to an equivalent
 /// path in navigation grid coordinates.
 /// </summary>
 /// <param name="windowPath">The window path.</param>

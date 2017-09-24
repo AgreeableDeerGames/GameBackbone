@@ -5,7 +5,7 @@ using namespace GB;
 
 
 /// <summary>
-/// Initializes a new instance of the <see cref="RandGen"/> class.
+/// Initializes a new instance of the <see cref="RandGen"/> class with a random seed.
 /// </summary>
 RandGen::RandGen() {
 	m_seedString = new std::string;
