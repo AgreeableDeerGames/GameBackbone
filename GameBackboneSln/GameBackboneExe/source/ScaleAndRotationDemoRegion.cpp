@@ -138,57 +138,50 @@ void ScaleAndRotationDemoRegion::init() {
 	rotationArrowLowSprite->setColor(sf::Color::Green);
 	textureOffsetSprites = {rotationArrowCenterSprite, rotationArrowLeftSprite, rotationArrowLowSprite};
 
-
-		
-
 	switch (selectedInitMethod) {
-	case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR:
-	{
-		// set the positions of the components
-		compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-		compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-		compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
+			// set the positions of the components
+			compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+			compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
 
-		// Create the compound sprite by adding the components to the constructor
-		compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-		break;
-	}
-	case ROTATION_INIT_TYPE::RELATIVE_OFFSET:
-	{
-		// set the positions of the components
-		compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-		compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-		compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			// Create the compound sprite by adding the components to the constructor
+			compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+			break;
+		}
+		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
+			// set the positions of the components
+			compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 
-		// Create the compound sprite then add all of the components with a relative offset
-		compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
-		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
-		static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
-		break;
-	}
-	case ROTATION_INIT_TYPE::RELATIVE_POSITION:
-	{
-		// set the positions of the components
-		compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-		compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-		compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+			// Create the compound sprite then add all of the components with a relative offset
+			compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+			static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
+			static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
+			static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
+			break;
+		}
+		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
+			// set the positions of the components
+			compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+			compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
 
-		// create the compound sprite then add all of the components. The components will maintain their
-		// positions relative to the compound sprite
-		compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-		compSprite->addComponent(compComponent1);
-		compSprite->addComponent(compComponent2);
-		compSprite->addComponent(compComponent3);
-		break;
+			// create the compound sprite then add all of the components. The components will maintain their
+			// positions relative to the compound sprite
+			compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+			compSprite->addComponent(compComponent1);
+			compSprite->addComponent(compComponent2);
+			compSprite->addComponent(compComponent3);
+			break;
+		}
+		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
+			compSprite = new GB::CompoundSprite(textureOffsetSprites);
+			compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			break;
+		}
 	}
-	case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET:
-	{
-		compSprite = new GB::CompoundSprite(textureOffsetSprites);
-		compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-	}
-
-	} // end of switch
 
 	// assign colors and draw
 	compComponent1->setColor(sf::Color::Magenta);
