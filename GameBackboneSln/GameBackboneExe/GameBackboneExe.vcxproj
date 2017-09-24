@@ -152,9 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\GameBackboneDll\GameBackboneDll.vcxproj">
       <Project>{a9d0e80d-4090-4283-baf6-f86685a65d8a}</Project>
     </ProjectReference>
@@ -165,7 +162,6 @@
     <ClInclude Include="header\MainMenuDemoRegion.h" />
     <ClInclude Include="header\NavigationDemoRegion.h" />
     <ClInclude Include="header\RegionChangeDemoRegion.h" />
-    <ClInclude Include="header\SampleGuiInterface.h" />
     <ClInclude Include="header\ScaleAndRotationDemoRegion.h" />
     <ClInclude Include="header\targetver.h" />
   </ItemGroup>
@@ -176,7 +172,6 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\NavigationDemoRegion.cpp" />
     <ClCompile Include="source\RegionChangeDemoRegion.cpp" />
-    <ClCompile Include="source\SampleGuiInterface.cpp" />
     <ClCompile Include="source\ScaleAndRotationDemoRegion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
