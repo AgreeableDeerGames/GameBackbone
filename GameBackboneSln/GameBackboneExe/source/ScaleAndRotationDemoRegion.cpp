@@ -114,7 +114,7 @@ void ScaleAndRotationDemoRegion::init() {
 	rotationArrowCenterTexture = new sf::Texture();
 	rotationArrowCenterTexture->loadFromFile(rotationArrowCenterPath);
 	rotationArrowLeftTexture = new sf::Texture();
-	rotationArrowLeftTexture->loadFromFile(rotationArrowLowPath);
+	rotationArrowLeftTexture->loadFromFile(rotationArrowLeftPath);
 	rotationArrowLowTexture = new sf::Texture();
 	rotationArrowLowTexture->loadFromFile(rotationArrowLowPath);
 
