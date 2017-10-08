@@ -1,7 +1,6 @@
 #pragma once
 
-#include <NavigationDemoRegion.h>
-#include <SwirlyDemoRegion.h>
+#include <MainMenuDemoRegion.h>
 
 #include <Backbone\CoreEventController.h>
 
@@ -25,8 +24,6 @@ namespace EXE {
 		int oldMouseX;
 		int oldMouseY;
 
-		NavigationDemoRegion* navigationRegion;
-		SwirlyDemoRegion* swirlyRegion;
-
+		MainMenuDemoRegion* mainMenuDemoRegion;
 	};
 }

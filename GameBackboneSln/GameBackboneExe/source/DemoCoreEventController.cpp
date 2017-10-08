@@ -10,12 +10,11 @@ using namespace EXE;
 /// <summary>
 /// Initializes a new instance of the <see cref="BackboneExeCoreEventController"/> class. Window width, height, and name are default.
 /// </summary>
-DemoCoreEventController::DemoCoreEventController() : CoreEventController() {
+DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBackbone Demos") {
 	// init region and camera
-	navigationRegion = new NavigationDemoRegion(*window);
-	swirlyRegion = new SwirlyDemoRegion(*window);
-	//activeRegion = swirlyRegion;
-	activeRegion = navigationRegion;
+	mainMenuDemoRegion= new MainMenuDemoRegion(*window);
+	mainMenuDemoRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
+	activeRegion = mainMenuDemoRegion;
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 
 	//initialize the mouse origin to the center of the window.
@@ -27,8 +26,7 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController() {
 /// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
 /// </summary>
 DemoCoreEventController::~DemoCoreEventController() {
-	delete navigationRegion;
-	delete swirlyRegion;
+	delete mainMenuDemoRegion;
 }
 
 //events

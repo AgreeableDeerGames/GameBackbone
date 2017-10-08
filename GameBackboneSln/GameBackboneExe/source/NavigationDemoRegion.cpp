@@ -22,6 +22,15 @@ using namespace EXE;
 /// </summary>
 NavigationDemoRegion::NavigationDemoRegion() {
 	init();
+
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
 }
 
 /// <summary>
@@ -30,29 +39,22 @@ NavigationDemoRegion::NavigationDemoRegion() {
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
+
+	//initialize GUI
+	try {
+		// Load the widgets
+		initGUI();
+	}
+	catch (const tgui::Exception& e) {
+		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
+	}
 }
 
 /// <summary>
 /// Finalizes an instance of the <see cref="NavigationDemoRegion"/> class.
 /// </summary>
 NavigationDemoRegion::~NavigationDemoRegion() {
-
-	//delete navigation data
-	GB::freeAllNavigationGridData(*navGrid);
-	delete navGrid;
-	navGrid = nullptr;
-
-	//delete navigators
-	for each (auto navigator in navigators) {
-		delete navigator;
-		navigator = nullptr;
-	}
-
-	//delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-	delete gridTexture;
-	gridTexture = nullptr;
+	destroy();
 }
 
 /// <summary>
@@ -216,15 +218,58 @@ void NavigationDemoRegion::init() {
 		paths[i] = std::make_shared<std::list<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
 	}
 
-	//initialize GUI
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
+}
+
+/// <summary>
+/// Frees all dynamic memory allocated for this instance.
+/// Resets the state of every member of this instance.
+/// </summary>
+void NavigationDemoRegion::destroy() {
+
+
+	//delete navigation data
+	GB::freeAllNavigationGridData(*navGrid);
+	delete navGrid;
+	navGrid = nullptr;
+
+	// reset pathfinder
+	regionPathfinder.setNavigationGrid(nullptr);
+
+	// clear paths
+	paths.clear();
+
+	//delete navigators
+	for (auto navigator : navigators) {
+		delete navigator;
+		navigator = nullptr;
+	}
+	navigators.clear();
+	clearDrawable();
+	clearUpdatable();
+
+	//delete textures
+	delete navigatorTexture;
+	navigatorTexture = nullptr;
+	delete gridTexture;
+	gridTexture = nullptr;
+
+	// reset time
+	lastUpdateTime = sf::Time::Zero;
+
+	// reset coordinate converter
+	GB::CoordinateConverter newConverter;
+	coordinateConverter = newConverter;
+}
+
+/// <summary>
+/// Resets this instance.
+/// The random clusters are regenerated and the navigators are reset.
+/// Everything else in this instance is also reset or reconstructed.
+/// </summary>
+void NavigationDemoRegion::reset() {
+	destroy();
+	init();
 }
 
 /// <summary>
@@ -242,33 +287,41 @@ void NavigationDemoRegion::initGUI() {
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(..\..\Textures\Backbone2.png)");
 
-	picture->setSize(tgui::bindMax(800, windowWidth), tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
+	const int NUM_BUTTONS = 3;
+	tgui::Layout buttonWidth = windowWidth / (NUM_BUTTONS + NUM_BUTTONS + 1);
+	tgui::Layout buttonHeight = windowHeight / 20.0f;
+	int buttonIndex = 0;
+
 	// create navigator 1 button
 	tgui::Button::Ptr navigator1Button = theme->load("Button");
-	navigator1Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	navigator1Button->setPosition(4 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator1Button->setSize(buttonWidth, buttonHeight);
+	navigator1Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	navigator1Button->setText("Navigator1");
 	navigator1Button->connect("pressed", &NavigationDemoRegion::Navigator1CB, this);
 	regionGUI->add(navigator1Button);
+	buttonIndex++;
 
 	// create navigator 2 button
 	tgui::Button::Ptr navigator2Button = theme->load("Button");
-	navigator2Button->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	navigator2Button->setPosition(5 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	navigator2Button->setSize(buttonWidth, buttonHeight);
+	navigator2Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	navigator2Button->setText("Navigator2");
 	navigator2Button->connect("pressed", &NavigationDemoRegion::Navigator2CB, this);
 	regionGUI->add(navigator2Button);
+	buttonIndex++;
 
 	// create all navigators button
 	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
-	allNavigatorsButton->setSize(windowWidth / 10.0f, windowHeight / 20.0f);
-	allNavigatorsButton->setPosition(6 * windowWidth / 10.0f, windowHeight * 9 / 10.0f);
+	allNavigatorsButton->setSize(buttonWidth, buttonHeight);
+	allNavigatorsButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	allNavigatorsButton->setText("All Navigators");
 	allNavigatorsButton->connect("pressed", &NavigationDemoRegion::AllNavigatorsCB, this);
 	regionGUI->add(allNavigatorsButton);
+	buttonIndex++;
 }
 
 /// <summary>
@@ -322,6 +375,7 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 			setDrawable(true, gridSquare);
 		}
 	}
+	delete graphGenerator;
 }
 
 /// <summary>

@@ -21,13 +21,19 @@
     <ClCompile Include="source\NavigationDemoRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\SwirlyDemoRegion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\DemoRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\DemoCoreEventController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\RegionChangeDemoRegion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ScaleAndRotationDemoRegion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MainMenuDemoRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +44,19 @@
     <ClInclude Include="header\NavigationDemoRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\SwirlyDemoRegion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\DemoRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\DemoCoreEventController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\RegionChangeDemoRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ScaleAndRotationDemoRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MainMenuDemoRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

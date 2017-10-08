@@ -221,11 +221,13 @@ void GameRegion::addNeighborRegion(GameRegion* neighborToAdd) {
 /// <param name="neighborToRemove">The neighbor that is being removed from this GameRegion.</param>
 void GameRegion::removeNeighborRegion(GameRegion* neighborToRemove) {
     //remove this from neighbor->neighborRegions
-    auto nit = std::find(neighborToRemove->neighborRegions.begin(), neighborToRemove->neighborRegions.end(), this);
-    if (nit != neighborToRemove->neighborRegions.end()) {
-		neighborToRemove->neighborRegions.erase(nit);
-	} else {
-		throw Error::GameRegion_BadDissociation();
+	if (neighborToRemove != nullptr) {
+		auto nit = std::find(neighborToRemove->neighborRegions.begin(), neighborToRemove->neighborRegions.end(), this);
+		if (nit != neighborToRemove->neighborRegions.end()) {
+			neighborToRemove->neighborRegions.erase(nit);
+		} else {
+			throw Error::GameRegion_BadDissociation();
+		}
 	}
 
 	//remove neighbor from this.neighborRegions
@@ -247,7 +249,9 @@ void GameRegion::removeChildRegion(GameRegion* childToRemove) {
 	auto it = std::find(childRegions.begin(), childRegions.end(), childToRemove);
 	if (it != childRegions.end()) {
 		childRegions.erase(it);
-		childToRemove->parentRegion = nullptr;
+		if (childToRemove != nullptr) {
+			childToRemove->parentRegion = nullptr;
+		}
 	} else {
 		throw Error::GameRegion_BadDissociation();
 	}

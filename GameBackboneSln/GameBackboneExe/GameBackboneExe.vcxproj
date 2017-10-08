@@ -159,16 +159,20 @@
   <ItemGroup>
     <ClInclude Include="header\DemoCoreEventController.h" />
     <ClInclude Include="header\DemoRegion.h" />
+    <ClInclude Include="header\MainMenuDemoRegion.h" />
     <ClInclude Include="header\NavigationDemoRegion.h" />
-    <ClInclude Include="header\SwirlyDemoRegion.h" />
+    <ClInclude Include="header\RegionChangeDemoRegion.h" />
+    <ClInclude Include="header\ScaleAndRotationDemoRegion.h" />
     <ClInclude Include="header\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\DemoCoreEventController.cpp" />
     <ClCompile Include="source\DemoRegion.cpp" />
+    <ClCompile Include="source\MainMenuDemoRegion.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\NavigationDemoRegion.cpp" />
-    <ClCompile Include="source\SwirlyDemoRegion.cpp" />
+    <ClCompile Include="source\RegionChangeDemoRegion.cpp" />
+    <ClCompile Include="source\ScaleAndRotationDemoRegion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
