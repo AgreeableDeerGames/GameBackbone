@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project("GameBackbone" CXX)
+project("GameBackbone")
 
 # project wide output directories
 set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
@@ -26,4 +26,3 @@ ENDFUNCTION(PREPEND)
 
 
 add_subdirectory("GameBackboneDll")
-#add_subdirectory("GameBackboneExe")

@@ -4,10 +4,10 @@ cmake_minimum_required (VERSION 3.8)
 
 set(SOURCE_FILES "")
 
-add_subdirectory("header")
 add_subdirectory("source")
+add_subdirectory("header")
 
-message("SOURCE_FILES: "${SOURCE_FILES})
+message("SOURCE_FILES: " ${SOURCE_FILES})
 
 add_library(GameBackboneDll SHARED ${SOURCE_FILES})
 find_package(SFML 2 REQUIRED network audio graphics window system)
