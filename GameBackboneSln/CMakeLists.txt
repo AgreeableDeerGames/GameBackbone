@@ -13,10 +13,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "E:/Programing/Programing/Cpp/GameBackbone/Ga
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "E:/Programing/Programing/Cpp/GameBackbone/GameBackboneSln/build/lib")
 
 # SFML install path
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "E:/Programing/Programing/Cpp/SFML/SFML-2.4.1/cmake/Modules")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "E:/Programing/Programing/Cpp/TGUI/TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2/TGUI-0.7/cmake/Modules")
-set(SFML_ROOT "E:/Programing/Programing/Cpp/SFML/SFML-2.4.1")
-set(TGUI_ROOT "E:/Programing/Programing/Cpp/TGUI/TGUI-0.7.4-vc14-64bit-for-SFML-2.4.2/TGUI-0.7")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "E:/Programing/Programing/Cpp/SFML/SFML-2.4.2/cmake/Modules")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "E:/Programing/Programing/Cpp/TGUI/TGUI-0.7.7-vc15-64bit-for-SFML-2.4.2/TGUI-0.7/cmake/Modules")
+set(SFML_ROOT "E:/Programing/Programing/Cpp/SFML/SFML-2.4.2")
+set(TGUI_ROOT "E:/Programing/Programing/Cpp/TGUI/TGUI-0.7.7-vc15-64bit-for-SFML-2.4.2/TGUI-0.7")
 
 # prepend function from https://stackoverflow.com/a/27630120
 FUNCTION(PREPEND var prefix)

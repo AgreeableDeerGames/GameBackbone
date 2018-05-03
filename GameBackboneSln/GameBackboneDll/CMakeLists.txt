@@ -16,9 +16,10 @@ if(SFML_FOUND)
   target_link_libraries(GameBackboneDll ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
 endif()
 
-
 find_package(TGUI REQUIRED)
 if(TGUI_FOUND)
   include_directories(${TGUI_INCLUDE_DIR})
-  target_link_libraries(GameBackboneDll ${TGUI_LIBRARIES} ${TGUI_DEPENDENCIES})
+  target_link_libraries(GameBackboneDll ${TGUI_LIBRARY}})
 endif()
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header)
