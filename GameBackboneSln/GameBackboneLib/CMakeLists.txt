@@ -7,8 +7,6 @@ set(SOURCE_FILES "")
 add_subdirectory("source")
 add_subdirectory("header")
 
-message("SOURCE_FILES: " ${SOURCE_FILES})
-
 add_library(GameBackbone SHARED ${SOURCE_FILES})
 find_package(SFML 2 REQUIRED network audio graphics window system)
 if(SFML_FOUND)

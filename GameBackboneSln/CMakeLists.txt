@@ -6,6 +6,9 @@ set (CMAKE_CXX_STANDARD 17)
 
 project("GameBackbone")
 
+# top project folder
+set(GAMEBACKBONE_TOP_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
+
 # project wide output directories
 set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
@@ -33,3 +36,4 @@ ENDFUNCTION(PREPEND)
 
 
 add_subdirectory("GameBackboneLib")
+add_subdirectory("GameBackboneExe")
