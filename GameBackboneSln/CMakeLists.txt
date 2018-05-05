@@ -32,4 +32,4 @@ FUNCTION(PREPEND var prefix)
 ENDFUNCTION(PREPEND)
 
 
-add_subdirectory("GameBackboneDll")
+add_subdirectory("GameBackboneLib")
