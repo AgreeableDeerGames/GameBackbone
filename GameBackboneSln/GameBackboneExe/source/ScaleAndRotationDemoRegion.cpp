@@ -36,6 +36,7 @@ ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion() {
 /// </summary>
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
+	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
 	try {
@@ -103,14 +104,14 @@ void ScaleAndRotationDemoRegion::init() {
 	//init textures
 
 	// relative rotation sprites
-	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
+	std::string arrowPath("..\\..\\..\\Textures\\SmallArrow.png");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
 
 	// compound sprite with overlapping sprites
-	std::string rotationArrowCenterPath("..//..//Textures/RotationArrowCenter.png");
-	std::string rotationArrowLowPath("..//..//Textures/RotationArrowLow.png");
-	std::string rotationArrowLeftPath("..//..//Textures/RotationArrowLeft.png");
+	std::string rotationArrowCenterPath("..//..//..//Textures/RotationArrowCenter.png");
+	std::string rotationArrowLowPath("..//..//..//Textures/RotationArrowLow.png");
+	std::string rotationArrowLeftPath("..//..//..//Textures/RotationArrowLeft.png");
 	rotationArrowCenterTexture = new sf::Texture();
 	rotationArrowCenterTexture->loadFromFile(rotationArrowCenterPath);
 	rotationArrowLeftTexture = new sf::Texture();
@@ -181,6 +182,9 @@ void ScaleAndRotationDemoRegion::init() {
 			compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 			break;
 		}
+		default: {
+			std::cout << "this should not print" << std::endl;
+		}
 	}
 
 	// assign colors and draw
@@ -221,7 +225,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
+	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\..\\Textures\\Backbone2.png");
 	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);

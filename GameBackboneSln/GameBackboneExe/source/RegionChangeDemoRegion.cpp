@@ -14,7 +14,7 @@ using namespace EXE;
 /// <param name="color">The color.</param>
 RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color) : DemoRegion(window) {
 	spriteTexture = new sf::Texture();
-	spriteTexture->loadFromFile("..//..//Textures//SmallArrow.png");
+	spriteTexture->loadFromFile("..//..//..//Textures//SmallArrow.png");
 	sprite.setTexture(*spriteTexture);
 	sprite.setColor(color);
 	sprite.setPosition(300, 300);
