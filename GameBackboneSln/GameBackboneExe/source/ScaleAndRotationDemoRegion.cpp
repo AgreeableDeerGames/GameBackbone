@@ -19,7 +19,6 @@ using namespace EXE;
 /// Initializes a new instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
 ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion() {
-	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
 	try {
@@ -36,7 +35,6 @@ ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion() {
 /// </summary>
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
-	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
 	try {
@@ -183,7 +181,7 @@ void ScaleAndRotationDemoRegion::init() {
 			break;
 		}
 		default: {
-			std::cout << "this should not print" << std::endl;
+			throw new std::out_of_range("Invalid ROTATION_INIT_TYPE");
 		}
 	}
 
