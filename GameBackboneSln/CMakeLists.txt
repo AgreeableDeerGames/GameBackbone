@@ -37,3 +37,4 @@ ENDFUNCTION(PREPEND)
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
+add_subdirectory("GameBackboneBoostUnitTest1")

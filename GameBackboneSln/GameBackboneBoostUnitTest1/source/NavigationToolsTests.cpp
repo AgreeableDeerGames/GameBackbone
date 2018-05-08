@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <Backbone\BackboneBaseExceptions.h>
-#include <Navigation\NavigationTools.h>
-#include <util\DebugIncludes.h>
+#include <Backbone/BackboneBaseExceptions.h>
+#include <Navigation/NavigationTools.h>
+#include <util/DebugIncludes.h>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #define _USE_MATH_DEFINES
 #include <math.h>

@@ -17,7 +17,7 @@ struct ReusableObjects
 {
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..//..//Textures//testSprite.png";
+		std::string testTexturePath = "..//..//..//Textures//testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		sprite = new sf::Sprite(*aSpriteTexture);
@@ -56,7 +56,7 @@ struct ReusableObjectsForOperations {
 	ReusableObjectsForOperations() {
 
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+		std::string testTexturePath = "..//..//..//Textures//testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		sprite = new sf::Sprite(*aSpriteTexture);
@@ -521,7 +521,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	//for some reason cant use reusable objects. recreate them here.
 	sf::Texture* aSpriteTexture = new sf::Texture();
-	std::string testTexturePath = "..//..//Textures//testSprite.png";
+	std::string testTexturePath = "..//..//..//Textures//testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
@@ -780,7 +780,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotationOfComponents_NonAdditive_Rotat
 BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	//for some reason cant use reusable objects. recreate them here.
 	sf::Texture* aSpriteTexture = new sf::Texture();
-	std::string testTexturePath = "..//..//Textures//testSprite.png";
+	std::string testTexturePath = "..//..//..//Textures//testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
 	std::vector<std::vector<unsigned int>> aSpriteAnims;
