@@ -285,11 +285,11 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	testController.setActiveRegion(&testRegion);
 
 	//change to child region
-	testController.getActiveGameRegion()->behave(sf::Time::Time());
+	testController.getActiveGameRegion()->behave(sf::Time());
 	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.getChildRegions()->front());
 
 	//change back to parent region
-	testController.getActiveGameRegion()->behave(sf::Time::Time());
+	testController.getActiveGameRegion()->behave(sf::Time());
 	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
 
 }

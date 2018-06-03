@@ -132,7 +132,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 /// </summary>
 /// <param name="mousePosition">The mouse position.</param>
 void NavigationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
-	
+
 }
 
 /// <summary>
@@ -168,7 +168,7 @@ void NavigationDemoRegion::init() {
 	navigator1->setColor(sf::Color::Blue);
 
 	//set rotation point and scale of navigators
-	for each (sf::Sprite* navigator in navigators) {
+	for (sf::Sprite* navigator : navigators) {
 		const sf::IntRect* const  textureRect = &navigator->getTextureRect();
 		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);

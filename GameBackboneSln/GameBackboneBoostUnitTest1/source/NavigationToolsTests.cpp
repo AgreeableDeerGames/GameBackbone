@@ -9,6 +9,7 @@
 #include <math.h>
 #include <memory>
 #include <vector>
+#include <cfloat>
 
 
 using namespace GB;
@@ -17,7 +18,7 @@ using namespace GB;
 BOOST_AUTO_TEST_SUITE(NavigationToolsTests)
 
 /// <summary>
-/// Struct to store objects that can be reused for all or nearly all 
+/// Struct to store objects that can be reused for all or nearly all
 /// of the unit tests in this file. This struct is meant to be used with fixtures
 /// at the unit test level.
 /// </summary>
@@ -28,8 +29,8 @@ struct ReusableObjects
 		for (unsigned int ii = 0; ii < NUM_SPRITES; ++ii) {
 			sprites.push_back(new sf::Sprite());
 			destinations.push_back(sf::Vector2f(sinf((float)ii), sinf((float)(ii + 1)))); // should cover all quadrants. Max distance should be below 1.25.
-			
-			// initialize paths 
+
+			// initialize paths
 			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
 				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
 
@@ -123,7 +124,7 @@ struct ReusableCompoundObjects {
 
 			destinations.push_back(sf::Vector2f(sinf((float)ii), sinf((float)(ii + 1)))); // should cover all quadrants. Max distance should be below 1.25.
 
-	  	    // initialize paths 
+	  	    // initialize paths
 			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
 				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
 
@@ -219,7 +220,7 @@ BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPointTests_Large_Step) {
 	BOOST_CHECK(sprite.getPosition() == destination);
 }
 
-// Test that a single sprite can reach its destination 
+// Test that a single sprite can reach its destination
 BOOST_AUTO_TEST_CASE(moveSpriteStepTowardsPoint_Small_Step) {
 	sf::Sprite sprite;
 	const float DIST_FROM_SPRITE = 10;
@@ -280,7 +281,7 @@ BOOST_AUTO_TEST_SUITE(moveSpriteAlongPathTests)
 
 // ensure that a single sprite following a path can reach its destination
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindingObjects) {
-	// move sprite to the end of the path 
+	// move sprite to the end of the path
 	const size_t NUM_STEPS = paths[2]->size();
 	for (size_t i = 0; i < NUM_STEPS; i++) {
 		moveSpriteAlongPath(*sprites[2], paths[2], 1, FLT_MAX);
@@ -292,7 +293,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination, ReusablePathfindi
 
 // Test that the moving sprite moves to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindingObjects) {
-	// move sprite to the end of the path 
+	// move sprite to the end of the path
 	const size_t NUM_STEPS = paths[2]->size();
 	for (size_t i = 0; i < NUM_STEPS; i++) {
 		moveSpriteAlongPath(*sprites[2], paths[2], 1, FLT_MAX);
@@ -305,7 +306,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Follow_Full_Path, ReusablePathfindin
 
 // Test that destinations can be reached even if it takes more than one move to get there
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, ReusablePathfindingObjects) {
-	// move sprite to the end of the path 
+	// move sprite to the end of the path
 
 	// ensure that it takes two moves to reach the first point
 	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
@@ -316,7 +317,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Reach_Destination_SmallSteps, Reusab
 
 // Ensure that sprites rotate to the destination that they are moving to when following a path
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Rotation, ReusableCompoundPathfindingObjects) {
-	
+
 	// move the sprite
 	moveSpriteAlongPath(*sprites[2], paths[2], 1, 1.0f);
 	float angleToDestination = (fmodf(360.0f + atan2f(paths[2]->front().y - sprites[2]->getPosition().y, paths[2]->front().x - sprites[2]->getPosition().x) * 180.0f / (float)M_PI, 360.0f));
@@ -328,7 +329,7 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_Rotation, ReusableCompoundPathfindin
 
 // Ensure that sprites don't rotate to the destination that they are moving to when following a path if the option is off
 BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_No_Rotation, ReusableCompoundPathfindingObjects) {
-	
+
 	const float origionalAngle = sprites[2]->getRotation();
 
 	// move the sprite
@@ -346,7 +347,7 @@ BOOST_AUTO_TEST_SUITE(moveCompoundSpriteAlongPathTests)
 
 // ensure that a single CompoundSprite following a path can reach its destination
 BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination, ReusableCompoundPathfindingObjects) {
-	// move sprite to the end of the path 
+	// move sprite to the end of the path
 	const size_t NUM_STEPS = paths[2]->size();
 	for (size_t i = 0; i < NUM_STEPS; i++) {
 		moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, FLT_MAX, {});
@@ -358,7 +359,7 @@ BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination, ReusableC
 
 // Test that the moving CompoundSprite moves to each consecutive point in the path in-order
 BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Follow_Full_Path, ReusableCompoundPathfindingObjects) {
-	// move sprite to the end of the path 
+	// move sprite to the end of the path
 	const size_t NUM_STEPS = paths[2]->size();
 	for (size_t i = 0; i < NUM_STEPS; i++) {
 		moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, FLT_MAX, {});
@@ -371,7 +372,7 @@ BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Follow_Full_Path, ReusableCo
 
 // Test that destinations can be reached even if it takes more than one move to get there
 BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination_SmallSteps, ReusableCompoundPathfindingObjects) {
-	// move sprite to the end of the path 
+	// move sprite to the end of the path
 
 	// ensure that it takes two moves to reach the first point
 	moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, 1.0f, {});
@@ -395,7 +396,7 @@ BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_Large_Step) {
 	BOOST_CHECK(sprite.getPosition() == destination);
 }
 
-// Test that a single compoundSprite can reach its destination 
+// Test that a single compoundSprite can reach its destination
 BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPoint_Small_Step) {
 	CompoundSprite sprite;
 	const float DIST_FROM_SPRITE = 10;
@@ -466,7 +467,7 @@ struct TestNavigationData : public NavigationGridData
 	sf::Sprite testDataSprite3;
 };
 
-// Test that NavigationGridData can be extended and that pointers 
+// Test that NavigationGridData can be extended and that pointers
 // to the child classes can be used in a Navigation grid without corrupting the heap.
 BOOST_AUTO_TEST_CASE(initAllNavigationGridValues_Test_Inheritance) {
 	NavigationGrid navGrid;

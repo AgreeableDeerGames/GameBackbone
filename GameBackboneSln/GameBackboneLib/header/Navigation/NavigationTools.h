@@ -32,7 +32,7 @@ namespace GB {
 	/// <param name="navGrid">The navigation grid to fill with values</param>
 	/// <param name="gridData">The NavigationGridData to copy into each index of the Navigation Grid.</param>
 	template <class NavigationDataType>
-	extern void initAllNavigationGridValues(NavigationGrid& navGrid, NavigationDataType& gridData) {
+	extern void initAllNavigationGridValues(NavigationGrid& navGrid, const NavigationDataType& gridData) {
 		for (unsigned int ii = 0; ii < navGrid.getArraySizeX(); ++ii) {
 			for (unsigned int jj = 0; jj < navGrid.getArraySizeY(); ++jj)
 			{
@@ -93,7 +93,7 @@ namespace GB {
 	/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
 	inline void moveSpriteStepTowardsPoint(sf::Sprite& sprite,
 										   const sf::Vector2f& destination,
-										   const float maxStepLength, 
+										   const float maxStepLength,
 										   const bool orientSpriteToDestination = true) {
 
 		// move the sprite to
@@ -149,7 +149,7 @@ namespace GB {
 	/// <param name="msPassed">Time passed in ms.</param>
 	/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
 	/// <param name="orientSpriteToDestination">Whether or not the sprites should be oriented to face their destinations.</param>
-	inline void moveSpriteAlongPath(sf::Sprite& sprite, 
+	inline void moveSpriteAlongPath(sf::Sprite& sprite,
 									WindowCoordinatePathPtr path,
 									sf::Uint64 msPassed,
 									float distPerMs,
