@@ -21,6 +21,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+[Bb]uild/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -255,3 +256,7 @@ DoxygenWorkDir/
 CodeCheck/
 DoxygenOutputDir/
 docs/latex/class_game_region.tex
+
+GameBackboneSln/cmake-build-debug/
+
+GameBackboneSln/GameBackboneExe/cmake-build-debug/

@@ -81,7 +81,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr background = tgui::Picture::create(R"(../../Textures/Backbone2.png)");
+	tgui::Picture::Ptr background = tgui::Picture::create(R"(../../../Textures/Backbone2.png)");
 	background->setSize(windowWidth, windowHeight);
 	background->setPosition(0,0);
 	regionGUI->add(background);
