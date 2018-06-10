@@ -1,7 +1,7 @@
 #include "../header/RegionChangeDemoRegion.h"
 
-#include <sfml/Graphics.hpp>
-#include <sfml/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 using namespace EXE;
 
