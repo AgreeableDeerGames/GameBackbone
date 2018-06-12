@@ -2,7 +2,7 @@
 # and include sub-projects here.
 #
 cmake_minimum_required (VERSION 3.8)
-#set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 17)
 
 project("GameBackbone")
 
@@ -14,6 +14,13 @@ set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
+
+set(GB_BUILD_VARS_FILE "${GAMEBACKBONE_TOP_FOLDER}/GB_BuildVars.txt")
+if (EXISTS ${GB_BUILD_VARS_FILE})
+    message("it exists")
+    file(READ ${GB_BUILD_VARS_FILE} FILE_LINES)
+
+endif()
 
 # SFML and TGUI install path
 if (NOT $ENV{SFML_ROOT} STREQUAL "")
@@ -37,4 +44,4 @@ ENDFUNCTION(PREPEND)
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
-add_subdirectory("GameBackboneBoostUnitTest1")
+# add_subdirectory("GameBackboneBoostUnitTest1")
