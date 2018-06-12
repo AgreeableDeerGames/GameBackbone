@@ -17,20 +17,45 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
 
 set(GB_BUILD_VARS_FILE "${GAMEBACKBONE_TOP_FOLDER}/GB_BuildVars.txt")
 if (EXISTS ${GB_BUILD_VARS_FILE})
-    message("it exists")
-    file(READ ${GB_BUILD_VARS_FILE} FILE_LINES)
+    # setup keys
+    set(SFML_ROOT_INDEX 4)
+    set(TGUI_ROOT_INDEX 6)
+    set(BOOST_ROOT_INDEX 8)
 
+    # read file
+    file(STRINGS ${GB_BUILD_VARS_FILE} FILE_LINES)
+
+    # search for sfml key
+    list(GET FILE_LINES ${SFML_ROOT_INDEX} INPUT_SFML_ROOT)
+    if(NOT ${INPUT_SFML_ROOT} STREQUAL "" AND NOT ${INPUT_SFML_ROOT} STREQUAL "<SFML_ROOT_PATH>")
+        SET(SFML_ROOT ${INPUT_SFML_ROOT})
+        message("SFML_ROOT set to: ${SFML_ROOT}")
+    endif()
+    # search for tgui key
+    list(GET FILE_LINES ${TGUI_ROOT_INDEX} INPUT_TGUI_ROOT)
+    if(NOT ${INPUT_TGUI_ROOT} STREQUAL "" AND NOT ${INPUT_TGUI_ROOT} STREQUAL "<TGUI_ROOT_PATH>")
+        SET(TGUI_ROOT ${INPUT_TGUI_ROOT})
+        message("TGUI_ROOT set to: ${TGUI_ROOT}")
+    endif()
+    # search for boost key
+    list(GET FILE_LINES ${BOOST_ROOT_INDEX} INPUT_BOOST_ROOT)
+    if(NOT ${INPUT_BOOST_ROOT} STREQUAL "" AND NOT ${INPUT_BOOST_ROOT} STREQUAL "<BOOST_ROOT_PATH>")
+        SET(BOOST_ROOT ${INPUT_TGUI_ROOT})
+        message("SFML_ROOT set to: ${BOOST_ROOT}")
+    endif()
 endif()
 
-# SFML and TGUI install path
-if (NOT $ENV{SFML_ROOT} STREQUAL "")
-	set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} $ENV{SFML_ROOT}/cmake/Modules)
-	set(SFML_ROOT $ENV{SFML_ROOT})
+# SFML and TGUI install path from environment
+if (NOT $ENV{SFML_ROOT} STREQUAL "" AND NOT ${SFML_ROOT})
+    set(SFML_ROOT $ENV{SFML_ROOT})
 endif()
-if (NOT $ENV{TGUI_ROOT} STREQUAL "")
-	set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} $ENV{TGUI_ROOT}/cmake/Modules)
-	set(TGUI_ROOT $ENV{TGUI_ROOT})
+if (NOT $ENV{TGUI_ROOT} STREQUAL "" AND NOT ${TGUI_ROOT})
+    set(TGUI_ROOT $ENV{TGUI_ROOT})
 endif()
+
+# add dependencies to cmake module path adfad
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SFML_ROOT}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${TGUI_ROOT}/cmake/Modules)
 
 # prepend function from https://stackoverflow.com/a/27630120
 FUNCTION(PREPEND var prefix)
