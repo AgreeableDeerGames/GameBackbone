@@ -29,28 +29,30 @@ if (EXISTS ${GB_BUILD_VARS_FILE})
     list(GET FILE_LINES ${SFML_ROOT_INDEX} INPUT_SFML_ROOT)
     if(NOT ${INPUT_SFML_ROOT} STREQUAL "" AND NOT ${INPUT_SFML_ROOT} STREQUAL "<SFML_ROOT_PATH>")
         SET(SFML_ROOT ${INPUT_SFML_ROOT})
-        message("SFML_ROOT set to: ${SFML_ROOT}")
+        message("SFML_ROOT set to: ${SFML_ROOT} via GB_BuildVars.txt")
     endif()
     # search for tgui key
     list(GET FILE_LINES ${TGUI_ROOT_INDEX} INPUT_TGUI_ROOT)
     if(NOT ${INPUT_TGUI_ROOT} STREQUAL "" AND NOT ${INPUT_TGUI_ROOT} STREQUAL "<TGUI_ROOT_PATH>")
         SET(TGUI_ROOT ${INPUT_TGUI_ROOT})
-        message("TGUI_ROOT set to: ${TGUI_ROOT}")
+        message("TGUI_ROOT set to: ${TGUI_ROOT} via GB_BuildVars.txt")
     endif()
     # search for boost key
     list(GET FILE_LINES ${BOOST_ROOT_INDEX} INPUT_BOOST_ROOT)
     if(NOT ${INPUT_BOOST_ROOT} STREQUAL "" AND NOT ${INPUT_BOOST_ROOT} STREQUAL "<BOOST_ROOT_PATH>")
         SET(BOOST_ROOT ${INPUT_TGUI_ROOT})
-        message("SFML_ROOT set to: ${BOOST_ROOT}")
+        message("BOOST_ROOT set to: ${BOOST_ROOT} via GB_BuildVars.txt")
     endif()
 endif()
 
 # SFML and TGUI install path from environment
 if (NOT $ENV{SFML_ROOT} STREQUAL "" AND NOT ${SFML_ROOT})
     set(SFML_ROOT $ENV{SFML_ROOT})
+    message("SFML_ROOT set to: ${SFML_ROOT} via environment variable")
 endif()
 if (NOT $ENV{TGUI_ROOT} STREQUAL "" AND NOT ${TGUI_ROOT})
     set(TGUI_ROOT $ENV{TGUI_ROOT})
+    message("TGUI_ROOT set to: ${TGUI_ROOT} via environment variable")
 endif()
 
 # add dependencies to cmake module path adfad
