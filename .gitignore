@@ -262,3 +262,5 @@ GameBackboneSln/cmake-build-debug/
 GameBackboneSln/GameBackboneExe/cmake-build-debug/
 
 GameBackboneSln/\.vscode/
+
+GameBackboneSln/GB_BuildVars\.txt
