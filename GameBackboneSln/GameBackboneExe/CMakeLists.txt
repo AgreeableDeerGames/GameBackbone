@@ -22,6 +22,12 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackboneDemo ${TGUI_LIBRARY})
 endif()
 
+find_package(GameBackbone REQUIRED)
+if(GB_FOUND)
+  include_directories(${GB_INCLUDE_DIR})
+  target_link_libraries(GameBackboneDemo ${GB_LIBRARY})
+endif()
+
 # link to GB
 include_directories(${GAMEBACKBONE_TOP_FOLDER}/GameBackboneLib/header)
 target_link_libraries(GameBackboneDemo ${GAMEBACKBONE_TOP_FOLDER}/build/lib/GameBackbone.lib)

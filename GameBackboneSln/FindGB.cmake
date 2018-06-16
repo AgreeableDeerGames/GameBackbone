@@ -11,6 +11,10 @@ set(FIND_GB_PATHS
     /opt/csw
     /opt)
 
+# find the GB include directory
+find_path(GB_INCLUDE_DIR Backbone/GameRegion.h
+        PATH_SUFFIXES include
+        PATHS ${FIND_GB_PATHS})
 
 find_library(GB_LIBRARY_DYNAMIC_RELEASE
              NAMES GameBackbone
