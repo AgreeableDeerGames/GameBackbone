@@ -11,7 +11,7 @@ set(GAMEBACKBONE_TOP_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
 
 # project wide output directories
 set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
-set(GB_ROOT ${BUILD_DIR})
+set(GB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
@@ -56,9 +56,11 @@ if (NOT $ENV{TGUI_ROOT} STREQUAL "" AND NOT ${TGUI_ROOT})
     message("TGUI_ROOT set to: ${TGUI_ROOT} via environment variable")
 endif()
 
-# add dependencies to cmake module path adfad
+# add dependencies to cmake module path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SFML_ROOT}/cmake/Modules)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${TGUI_ROOT}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GB_ROOT}/cmake/Modules)
+message("cmake module path: ${CMAKE_MODULE_PATH}")
 
 # prepend function from https://stackoverflow.com/a/27630120
 FUNCTION(PREPEND var prefix)

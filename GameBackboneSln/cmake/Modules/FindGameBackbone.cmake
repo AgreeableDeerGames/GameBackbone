@@ -36,7 +36,7 @@ if (GB_LIBRARY_RELEASE OR GB_LIBRARY_DEBUG)
     set(GB_FOUND TRUE)
 
     # if both are found, set TGUI_LIBRARY to contain both
-    if (GB_LIBRARY_DEBUG and GB_LIBRARY_RELEASE)
+    if (GB_LIBRARY_DEBUG AND GB_LIBRARY_RELEASE)
         set(GB_LIBRARY 
             debug ${GB_LIBRARY_DEBUG} 
             optimized ${GB_LIBRARY_RELEASE})
