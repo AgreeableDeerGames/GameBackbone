@@ -68,6 +68,10 @@ FUNCTION(PREPEND var prefix)
    SET(${var} "${listVar}" PARENT_SCOPE)
 ENDFUNCTION(PREPEND)
 
+# set posfix
+if(NOT CMAKE_DEBUG_POSTFIX)
+  set(CMAKE_DEBUG_POSTFIX -d)
+endif()
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
