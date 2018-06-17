@@ -1,6 +1,7 @@
 
 set(FIND_GB_PATHS
     ${GB_ROOT}
+    ${GB_ROOT}/GameBackboneLib
     $ENV{GB_ROOT}
     ~/Library/Frameworks
     /Library/Frameworks
@@ -13,7 +14,7 @@ set(FIND_GB_PATHS
 
 # find the GB include directory
 find_path(GB_INCLUDE_DIR Backbone/GameRegion.h
-        PATH_SUFFIXES include
+        PATH_SUFFIXES header
         PATHS ${FIND_GB_PATHS})
 
 find_library(GB_LIBRARY_DYNAMIC_RELEASE
