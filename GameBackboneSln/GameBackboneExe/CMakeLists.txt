@@ -28,9 +28,5 @@ if(GB_FOUND)
   target_link_libraries(GameBackboneDemo ${GB_LIBRARY})
 endif()
 
-# link to GB
-include_directories(${GAMEBACKBONE_TOP_FOLDER}/GameBackboneLib/header)
-target_link_libraries(GameBackboneDemo ${GAMEBACKBONE_TOP_FOLDER}/build/lib/GameBackbone.lib)
-
 # Include own header files
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header)
