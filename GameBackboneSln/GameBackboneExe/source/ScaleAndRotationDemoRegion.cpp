@@ -266,7 +266,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	textureBasedOffsetButton->setSize(buttonWidth, buttonHeight);
 	textureBasedOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	textureBasedOffsetButton->setText("Texture Offset");
-	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMeghod4CB, this);
+	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod4CB, this);
 	regionGUI->add(textureBasedOffsetButton);
 	buttonIndex++;
 
@@ -305,7 +305,7 @@ void ScaleAndRotationDemoRegion::initMethod3CB()
 /// <summary>
 ///  Handles the button initMethod4.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMeghod4CB() {
+void ScaleAndRotationDemoRegion::initMethod4CB() {
 	selectedInitMethod = ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET;
 	debugPrint("Texture Based Offset");
 	reset();

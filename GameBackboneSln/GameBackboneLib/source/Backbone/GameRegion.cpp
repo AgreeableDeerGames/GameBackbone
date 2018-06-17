@@ -302,13 +302,13 @@ void GameRegion::clearNeighborRegions() {
 /// \endcode
 /// </pre>
 /// </example>
-/// <param name="memberFunctionPointer">Function used to disassociate individual elements of the list</param>
+/// <param name="dissociationFunction">Function used to dissociate individual elements of the list</param>
 /// <param name="list">List of GameRegions to clear associations from.</param>
-void GameRegion::clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* container) {
+void GameRegion::clearAssociations(std::function<void(GameRegion*)> dissociationFunction, std::vector<GameRegion*>* container) {
 
 	std::size_t containerSize = container->size();
 	for (std::size_t ii = 0; ii < containerSize; ii++) {
-		memberFunctionPointer(container->back());
+		dissociationFunction(container->back());
 	}
 }
 
