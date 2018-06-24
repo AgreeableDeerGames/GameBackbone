@@ -8,6 +8,7 @@ add_subdirectory("source")
 add_subdirectory("header")
 
 add_library(GameBackbone SHARED ${SOURCE_FILES})
+set_target_properties(GameBackbone PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 find_package(SFML 2 REQUIRED network audio graphics window system)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})

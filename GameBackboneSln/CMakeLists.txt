@@ -2,7 +2,7 @@
 # and include sub-projects here.
 #
 cmake_minimum_required (VERSION 3.8)
-#set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 17)
 
 project("GameBackbone")
 
@@ -11,19 +11,56 @@ set(GAMEBACKBONE_TOP_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
 
 # project wide output directories
 set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+set(GB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
 
-# SFML and TGUI install path
-if (NOT $ENV{SFML_ROOT} STREQUAL "")
-	set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} $ENV{SFML_ROOT}/cmake/Modules)
-	set(SFML_ROOT $ENV{SFML_ROOT})
+set(GB_BUILD_VARS_FILE "${GAMEBACKBONE_TOP_FOLDER}/GB_BuildVars.txt")
+if (EXISTS ${GB_BUILD_VARS_FILE})
+    # setup keys
+    set(SFML_ROOT_INDEX 1)
+    set(TGUI_ROOT_INDEX 3)
+    set(BOOST_INCLUDE_DIR_INDEX 5)
+
+    # read file
+    file(STRINGS ${GB_BUILD_VARS_FILE} FILE_LINES)
+
+    # search for sfml key
+    list(GET FILE_LINES ${SFML_ROOT_INDEX} INPUT_SFML_ROOT)
+    if(NOT ${INPUT_SFML_ROOT} STREQUAL "" AND NOT ${INPUT_SFML_ROOT} STREQUAL "<SFML_ROOT_PATH>")
+        SET(SFML_ROOT ${INPUT_SFML_ROOT})
+        message("SFML_ROOT set to: ${SFML_ROOT} via GB_BuildVars.txt")
+    endif()
+    # search for tgui key
+    list(GET FILE_LINES ${TGUI_ROOT_INDEX} INPUT_TGUI_ROOT)
+    if(NOT ${INPUT_TGUI_ROOT} STREQUAL "" AND NOT ${INPUT_TGUI_ROOT} STREQUAL "<TGUI_ROOT_PATH>")
+        SET(TGUI_ROOT ${INPUT_TGUI_ROOT})
+        message("TGUI_ROOT set to: ${TGUI_ROOT} via GB_BuildVars.txt")
+    endif()
+    # search for boost key
+    list(GET FILE_LINES ${BOOST_INCLUDE_DIR_INDEX} INPUT_BOOST_INCLUDE_DIR)
+    if(NOT ${INPUT_BOOST_INCLUDE_DIR} STREQUAL "" AND NOT ${INPUT_BOOST_INCLUDE_DIR} STREQUAL "<BOOST_INCLUDE_DIR>")
+        SET(BOOST_INCLUDEDIR ${INPUT_BOOST_INCLUDE_DIR})
+        message("BOOST_INCLUDEDIR set to: ${BOOST_INCLUDE_DIR} via GB_BuildVars.txt")
+    endif()
 endif()
-if (NOT $ENV{TGUI_ROOT} STREQUAL "")
-	set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} $ENV{TGUI_ROOT}/cmake/Modules)
-	set(TGUI_ROOT $ENV{TGUI_ROOT})
+
+# SFML and TGUI install path from environment
+if (NOT $ENV{SFML_ROOT} STREQUAL "" AND NOT ${SFML_ROOT})
+    set(SFML_ROOT $ENV{SFML_ROOT})
+    message("SFML_ROOT set to: ${SFML_ROOT} via environment variable")
 endif()
+if (NOT $ENV{TGUI_ROOT} STREQUAL "" AND NOT ${TGUI_ROOT})
+    set(TGUI_ROOT $ENV{TGUI_ROOT})
+    message("TGUI_ROOT set to: ${TGUI_ROOT} via environment variable")
+endif()
+
+# add dependencies to cmake module path
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SFML_ROOT}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${TGUI_ROOT}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GB_ROOT}/cmake/Modules)
+message("cmake module path: ${CMAKE_MODULE_PATH}")
 
 # prepend function from https://stackoverflow.com/a/27630120
 FUNCTION(PREPEND var prefix)
@@ -34,6 +71,10 @@ FUNCTION(PREPEND var prefix)
    SET(${var} "${listVar}" PARENT_SCOPE)
 ENDFUNCTION(PREPEND)
 
+# set posfix
+if(NOT CMAKE_DEBUG_POSTFIX)
+  set(CMAKE_DEBUG_POSTFIX -d)
+endif()
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
