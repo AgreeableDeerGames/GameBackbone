@@ -146,10 +146,10 @@ void NavigationDemoRegion::init() {
 
 
 	//init textures
-	std::string arrowPath(R"(..\..\..\Textures\SmallArrow.png)");
+	std::string arrowPath(R"(../../../Textures/SmallArrow.png)");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
-	std::string navigationGridPath(R"(..\..\..\Textures\NavigationGrid.png)");
+	std::string navigationGridPath(R"(../../../Textures/NavigationGrid.png)");
 	gridTexture = new sf::Texture();
 	gridTexture->loadFromFile(navigationGridPath);
 
@@ -285,7 +285,7 @@ void NavigationDemoRegion::initGUI() {
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr picture = tgui::Picture::create(R"(..\..\..\Textures\Backbone2.png)");
+	tgui::Picture::Ptr picture = tgui::Picture::create(R"(../../../Textures/Backbone2.png)");
 
 	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);

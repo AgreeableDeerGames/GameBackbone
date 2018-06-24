@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <Backbone/BackboneBaseExceptions.h>
 #include <Navigation/NavigationTools.h>
-#include <util/DebugIncludes.h>
+#include <Util/DebugIncludes.h>
 
 #include <SFML/Graphics.hpp>
 
