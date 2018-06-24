@@ -25,9 +25,9 @@ namespace EXE {
 	/// </summary>
 	struct NavigationDemoData : public GB::NavigationGridData
 	{
-		sf::Sprite* demoSprite;
+		sf::Sprite* demoSprite = nullptr;
 
-		NavigationDemoData(){demoSprite = nullptr;}
+		NavigationDemoData() = default;
 		virtual ~NavigationDemoData(){delete demoSprite;}
 	};
 
