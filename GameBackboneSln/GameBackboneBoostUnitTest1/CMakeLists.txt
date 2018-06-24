@@ -29,7 +29,7 @@ if(GB_FOUND)
 endif()
 
 set(Boost_USE_STATIC_LIBS   ON)
-find_package(Boost COMPONENTS unit_test_framework test_exec_monitor REQUIRED)
+find_package(Boost 1.67 COMPONENTS unit_test_framework test_exec_monitor REQUIRED)
 if(Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
 	target_link_libraries(GameBackboneUnitTest ${Boost_LIBRARIES})

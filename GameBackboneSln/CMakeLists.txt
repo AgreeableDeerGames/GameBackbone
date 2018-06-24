@@ -21,7 +21,7 @@ if (EXISTS ${GB_BUILD_VARS_FILE})
     # setup keys
     set(SFML_ROOT_INDEX 1)
     set(TGUI_ROOT_INDEX 3)
-    set(BOOST_INCLUDE_DIR_INDEX 5)
+    set(BOOST_ROOT_INDEX 5)
 
     # read file
     file(STRINGS ${GB_BUILD_VARS_FILE} FILE_LINES)
@@ -39,10 +39,10 @@ if (EXISTS ${GB_BUILD_VARS_FILE})
         message("TGUI_ROOT set to: ${TGUI_ROOT} via GB_BuildVars.txt")
     endif()
     # search for boost key
-    list(GET FILE_LINES ${BOOST_INCLUDE_DIR_INDEX} INPUT_BOOST_INCLUDE_DIR)
-    if(NOT ${INPUT_BOOST_INCLUDE_DIR} STREQUAL "" AND NOT ${INPUT_BOOST_INCLUDE_DIR} STREQUAL "<BOOST_INCLUDE_DIR>")
-        SET(BOOST_INCLUDEDIR ${INPUT_BOOST_INCLUDE_DIR})
-        message("BOOST_INCLUDEDIR set to: ${BOOST_INCLUDE_DIR} via GB_BuildVars.txt")
+    list(GET FILE_LINES ${BOOST_ROOT_INDEX} INPUT_BOOST_ROOT)
+    if(NOT ${INPUT_BOOST_ROOT} STREQUAL "" AND NOT ${INPUT_BOOST_ROOT} STREQUAL "<BOOST_ROOT>")
+        SET(BOOST_ROOT ${INPUT_BOOST_ROOT})
+        message("BOOST_ROOT set to: ${BOOST_ROOT} via GB_BuildVars.txt")
     endif()
 endif()
 
