@@ -22,16 +22,18 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackboneUnitTest ${TGUI_LIBRARY})
 endif()
 
+find_package(GameBackbone REQUIRED)
+if(GB_FOUND)
+  include_directories(${GB_INCLUDE_DIR})
+  target_link_libraries(GameBackboneUnitTest ${GB_LIBRARY})
+endif()
+
 set(Boost_USE_STATIC_LIBS   ON)
 find_package(Boost COMPONENTS unit_test_framework test_exec_monitor REQUIRED)
 if(Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
 	target_link_libraries(GameBackboneUnitTest ${Boost_LIBRARIES})
 endif()
-
-# link to GB
-target_include_directories(GameBackboneUnitTest PRIVATE ${GAMEBACKBONE_TOP_FOLDER}/GameBackboneLib/header)
-target_link_libraries(GameBackboneUnitTest ${GAMEBACKBONE_TOP_FOLDER}/build/lib/GameBackbone.lib)
 
 # declares a test with our executable
 add_test(NAME test1 COMMAND GameBackboneUnitTest)
