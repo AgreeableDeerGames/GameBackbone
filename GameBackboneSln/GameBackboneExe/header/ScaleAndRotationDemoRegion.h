@@ -73,7 +73,7 @@ namespace EXE{
 		void initMethod1CB();
 		void initMethod2CB();
 		void initMethod3CB();
-		void initMeghod4CB();
+		void initMethod4CB();
 
 	private:
 		// dtr

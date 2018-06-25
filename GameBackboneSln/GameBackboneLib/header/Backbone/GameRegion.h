@@ -74,7 +74,7 @@ namespace GB {
 	protected:
 
 		//operations
-		void clearAssociations(std::function<void(GameRegion*)> memberFunctionPointer, std::vector<GameRegion*>* container);
+		void clearAssociations(std::function<void(GameRegion*)> dissociationFunction, std::vector<GameRegion*>* container);
 
 		//internal logic members
 		std::list<sf::Sprite*>* drawables;

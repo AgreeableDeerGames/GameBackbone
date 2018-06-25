@@ -8,8 +8,8 @@ namespace GB {
 
 	/// <summary> Information stored in each navigation grid square. </summary>
 	struct libGameBackbone NavigationGridData {
-		int weight;
-		unsigned int blockerDist;
+		int weight = 0;
+		unsigned int blockerDist = 0;
 
 		NavigationGridData() = default;
 		NavigationGridData(int gridWeight, unsigned int gridBlockerDist) : weight(gridWeight), blockerDist(gridBlockerDist) {}
