@@ -107,9 +107,9 @@ void ScaleAndRotationDemoRegion::init() {
 	navigatorTexture->loadFromFile(arrowPath);
 
 	// compound sprite with overlapping sprites
-	std::string rotationArrowCenterPath("..//..//..//Textures/RotationArrowCenter.png");
-	std::string rotationArrowLowPath("..//..//..//Textures/RotationArrowLow.png");
-	std::string rotationArrowLeftPath("..//..//..//Textures/RotationArrowLeft.png");
+	std::string rotationArrowCenterPath("../Textures/RotationArrowCenter.png");
+	std::string rotationArrowLowPath("../Textures/RotationArrowLow.png");
+	std::string rotationArrowLeftPath("../Textures/RotationArrowLeft.png");
 	rotationArrowCenterTexture = new sf::Texture();
 	rotationArrowCenterTexture->loadFromFile(rotationArrowCenterPath);
 	rotationArrowLeftTexture = new sf::Texture();
