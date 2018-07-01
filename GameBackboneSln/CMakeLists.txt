@@ -47,20 +47,19 @@ if (EXISTS ${GB_BUILD_VARS_FILE})
 endif()
 
 # SFML and TGUI install path from environment
-if (NOT $ENV{SFML_ROOT} STREQUAL "" AND NOT ${SFML_ROOT})
-    set(SFML_ROOT $ENV{SFML_ROOT})
-    message("SFML_ROOT set to: ${SFML_ROOT} via environment variable")
-endif()
-if (NOT $ENV{TGUI_ROOT} STREQUAL "" AND NOT ${TGUI_ROOT})
-    set(TGUI_ROOT $ENV{TGUI_ROOT})
-    message("TGUI_ROOT set to: ${TGUI_ROOT} via environment variable")
-endif()
+#if (NOT $ENV{SFML_ROOT} STREQUAL "" AND NOT ${SFML_ROOT})
+#    set(SFML_ROOT $ENV{SFML_ROOT})
+#    message("SFML_ROOT set to: ${SFML_ROOT} via environment variable")
+#endif()
+#if (NOT $ENV{TGUI_ROOT} STREQUAL "" AND NOT ${TGUI_ROOT})
+#    set(TGUI_ROOT $ENV{TGUI_ROOT})
+#    message("TGUI_ROOT set to: ${TGUI_ROOT} via environment variable")
+#endif()
+
+set(SFML_DIR "${SFML_ROOT}/lib/cmake/SFML")
 
 # add dependencies to cmake module path
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SFML_ROOT}/cmake/Modules)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${TGUI_ROOT}/cmake/Modules)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GB_ROOT}/cmake/Modules)
-message("cmake module path: ${CMAKE_MODULE_PATH}")
 
 # prepend function from https://stackoverflow.com/a/27630120
 FUNCTION(PREPEND var prefix)
@@ -78,4 +77,4 @@ endif()
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
-add_subdirectory("GameBackboneBoostUnitTest1")
+#add_subdirectory("GameBackboneBoostUnitTest1")
