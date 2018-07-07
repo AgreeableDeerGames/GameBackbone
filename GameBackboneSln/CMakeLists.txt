@@ -57,6 +57,10 @@ endif()
 #endif()
 
 set(SFML_DIR "${SFML_ROOT}/lib/cmake/SFML")
+set(CMAKE_PREFIX_PATH 
+    ${TGUI_ROOT}
+    ${SFML_ROOT}
+)
 
 # add dependencies to cmake module path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GB_ROOT}/cmake/Modules)
@@ -77,4 +81,4 @@ endif()
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
-#add_subdirectory("GameBackboneBoostUnitTest1")
+# add_subdirectory("GameBackboneBoostUnitTest1")
