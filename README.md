@@ -1,24 +1,37 @@
 # GameBackbone
-Open-source framework for developing 2D video games.
+GameBackbone (GB) is a small, low-level, library meant to accelerate the
+production of 2D video games. GB provides little to no gameplay logic and is
+simply meant to help remove long overhead times when starting a new 2D game.
+This narrow scope allows GB to maintain high performance and allows users of
+GB to maintain total control over their codebase.
+<br>
+<br>
+A good understanding of C++ is required to make use of GB. Game developers
+who want to quickly make a game without a background in software development
+should look into other solutions.
 
 ***
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [GameBackbone](#gamebackbone)
-	- [Getting Started (Windows)](#getting-started-windows)
-		- [Environment](#environment)
-		- [Visual Studio](#visual-studio)
-		- [Productivity Assistants](#productivity-assistants)
-	- [Getting Started (Linux)](#getting-started-linux)
-		- [Boost](#boost)
-		- [SFML](#sfml)
-		- [TGUI](#tgui)
-		- [Troubleshooting](#troubleshooting)
-		- [Building](#building)
-	- [Running Tests](#running-tests)
+	- [Getting Started](#getting-started)
 		- [Windows](#windows)
-		- [~~Linux~~](#linux)
+		- [Linux](#linux)
+	- [Environment](#environment)
+		- [GB_BuildVars.txt (preferred)](#gb_buildvarstxt-preferred)
+		- [Environment Variables](#environment-variables)
+	- [IDE Setup](#ide-setup)
+		- [Visual Studio](#visual-studio)
+			- [Download C++](#download-c)
+			- [Download Extensions](#download-extensions)
+		- [Visual Studio Code](#visual-studio-code)
+			- [Download Extensions](#download-extensions-1)
+			- [Misc Setup](#misc-setup)
+		- [Productivity Assistants](#productivity-assistants)
+	- [Running Tests](#running-tests)
+		- [Visual Studio](#visual-studio-1)
+		- [Visual Studio Code](#visual-studio-code-1)
 	- [Coding Guidelines](#coding-guidelines)
 	- [How To Contribute](#how-to-contribute)
 		- [Submitting Issues](#submitting-issues)
@@ -31,32 +44,96 @@ Open-source framework for developing 2D video games.
 
 ***
 
-## Getting Started (Windows)
-### Environment
-* Download Visual Studio 2017 or above
-* Download all three folders from [here](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing)
+## Getting Started
+
+### Windows
+* [Download](https://visualstudio.microsoft.com/downloads/) Visual Studio 2017 or Visual Studio Code
+  * If ensure that you have the correct version of the msvc compiler (14.0)
+* [Download](http://releases.llvm.org/download.html) LLVM/clang
+* [Download](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing) pre-built dependencies
   * You must unzip the files within the sub folders
+
+### Linux
+* [Download](http://releases.llvm.org/download.html) LLVM/clang
+* [Download](https://cmake.org/download/) CMake 3.8 or above
+* [Download](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing) pre-built dependencies or build them on your own
+  * You must unzip the files within the sub folders
+* [Download](https://code.visualstudio.com/) Visual Studio Code
+
+**Warning:** Many (if not all) of the packages used in GB are not compatible with the versions in most package managers. It is likely that you will need to download / install the libraries and tools on your own.
+
+***
+
+## Environment
+
+You can either set system wide **environment variables** or use **GB_BuildVars.txt**
+
+### GB_BuildVars.txt (preferred)
+GB_BuildVars.txt.example is included in the git repository. This file provides an example of how to format GB_BuildVars.txt. It is recommended that you just copy GB_BuildVars.txt.example to GB_BuildVars.txt.
+
+Inside GB_BuildVars.txt replace the lines with <LIB_ROOT_PATH> with the path to the root folder of that lib.
+
+Example: **<SFML_ROOT_PATH>** should be replaced with **/path/to/SFML**
+The end of the path should be one level above the **/include** and **/lib** folders of each library.
+
+### Environment Variables
+
 * Create environment variables that point to the include and lib folders of each 3rd party library used
   * The variables __must__ have the following names and __must__ correspond to the correct subfolder
-  * Be sure to restart visual studio after setting the vars
-  * A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/)
+  * Be sure to restart visual studio / CMake after setting the vars
+  * A tutorial on how to set the vars can be found [here](https://www.techjunkie.com/environment-variables-windows-10/) (windows) or [here](https://askubuntu.com/a/849954) (linux)
 
 
  Variable Name | Variable Path
-----------------|----------------------------------
- BOOST_INCLUDE  | yourBoostFolder__\include\boost-1_63__
- BOOST_LIB      | yourBoostFolder__\lib__
- SFML_INCLUDE   | yourSfmlFolder__\include__
- SFML_LIB       | yourSfmlFolder__\lib__
- TGUI_INCLUDE   | yourTguiFolder__\include__
- TGUI_LIB       | yourTguiFolder__\lib__
+---------------|----------------------------------
+ BOOST_ROOT    | your/path/to/BOOST
+ SFML_ROOT     | your/path/to/SFML
+ TGUI_ROOT     | your/path/to/TGUI
 
 
+***
+
+## IDE Setup
 ### Visual Studio
+
+#### Download C++
+Download the MSVC 14.0 toolset 
+
+#### Download Extensions 
 It is recommended that you download the following additions to visual studio
-* GhostDoc
-* Test Adapter for Boost.Test https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.TestAdapterforBoostTest
-* OpenCppCoverage
+* [Download](https://marketplace.visualstudio.com/items?itemName=sergeb.GhostDoc) GhostDoc
+* [Download](https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.TestAdapterforBoostTest) Test Adapter for Boost.Test
+* [Download](https://marketplace.visualstudio.com/items?itemName=OpenCppCoverage.OpenCppCoveragePlugin) OpenCppCoverage
+
+### Visual Studio Code
+
+#### Download Extensions
+Download the following extensions
+* [cpp tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) from microsoft
+* [CMake Tools](https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools) from vector-of-bool
+* [CMake Tools Helper](https://marketplace.visualstudio.com/items?itemName=maddouri.cmake-tools-helper) from Yassine MADDOURI
+
+#### Misc Setup
+
+*SET WORKING DIRECTORY*
+
+Create a debug profile for the GameBackbone demo and/or unit tests by pointing the "Program" variable in launch.json to the respective executable file.
+Set the current working directory of this profile to the folder where the executable files were generated.
+
+*SET LINUX ENVIRONMENT*
+
+If you are on **linux** you must set your environment to load the correct .so files at runtime. 
+
+Do this by setting the environment variable in your debug configuration to:
+
+    "environment": 
+    [
+	    {
+	        "name": "LD_LIBRARY_PATH",
+	        "value": "path/to/SFML/lib:path/to/TGUI/lib"
+	    }
+    ],
+
 
 ### Productivity Assistants
 It is recommended that you download the following 3rd party apps
@@ -67,48 +144,15 @@ It is recommended that you download the following 3rd party apps
   - Used to build documentation that is output [here](https://lavinrp.github.io/GameBackbone/)
 
 ***
-
-## Getting Started (Linux)
-
-### G++
-To be able to compile with the latest c++17 features, use GCC/G++ version 6.4.0 or above
-
-### Boost
-Preferably install boost with your package manager. There will be no need to include or link boost libraries outside of what is in the makefile if doing this.
-
-Otherwise, grab boost and compile from source. Installing should place the libraries in a location where the system can find them - http://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html
-
-### SFML
-Preferably install SFML with your system's package manager. Make sure it is version 2.4.2 or above.
-
-Otherwise, compile from source, v2.4.2 or greater. This may require editing the makefile to include paths.
-https://www.sfml-dev.org/tutorials/2.0/start-linux.php
-
-### TGUI
-TGUI needs to be installed after SFML is installed as TGUI uses SFML libraries.
-Grab TGUI v0.7.4 from https://tgui.eu/download/
-Install instructions https://tgui.eu/tutorials/v0.7/linux/
-This will install toy our system
-
-### Troubleshooting
-You may run into an error about not finding libtgui.so.0.7.4 while compiling. To solve this edit /etc/ld.so.conf and place the location TGUI installed to , /usr/local/lib , on a new line. Then run ldconfig as root.
-
-### Building
-To build the libraries and the demo, type ‘make’ at the project root. That will create the bld/ folder and an executable demo called demo. To run this, type ‘./demo’
-
-‘Make clean’ will remove the bld folder
-
-***
-
 ## Running Tests
-### Windows
-1. build the solution
-2. right click the __GameBackboneBoostUnitTests1__ project
-3. select "Set as startup project"
-4. Run without debugging (ctrl + f5)
+Tests should be run before every push to the develop branch. No branch will be merged into develop if any new tests are failing.
 
-### ~~Linux~~
-1. Not currently supported
+### Visual Studio
+* Download the boost test adapter and run the tests from there
+* Run the tests by launching the test project
+* Open a developer command prompt in the bin folder for the solution and launch the test executable from the command prompt
+### Visual Studio Code
+* Create a new debug profile to launch the test executable in the launch.json file
 
 ***
 
@@ -121,7 +165,7 @@ see [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide
 ## How To Contribute
 
 ### Submitting Issues
-1. Create an issue (here)[https://github.com/lavinrp/GameBackbone/issues]
+1. Create an issue [here](https://github.com/lavinrp/GameBackbone/issues)
 2. Assign Ryan Lavin
 3. Give a brief description of what is wrong and, if applicable, the steps to reproduce the error
 4. Assign one or more tags to the issue that you think best summarizes it
@@ -162,4 +206,5 @@ All versions before 1.0.0 are unstable and have no guarantee for backwards compa
 ***
 
 ## License
-This project is licensed under the MIT license
+See the license [here](https://github.com/lavinrp/GameBackbone/blob/master/LICENSE.txt)
+
