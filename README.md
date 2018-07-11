@@ -28,6 +28,8 @@ should look into other solutions.
 		- [Visual Studio Code](#visual-studio-code)
 			- [Download Extensions](#download-extensions-1)
 			- [Misc Setup](#misc-setup)
+				- [Set Working Directory](#set-working-directory)
+				- [Set Environment (Linux Only)](#set-environment-linux-only)
 		- [Productivity Assistants](#productivity-assistants)
 	- [Running Tests](#running-tests)
 		- [Visual Studio](#visual-studio-1)
@@ -54,11 +56,11 @@ should look into other solutions.
   * You must unzip the files within the sub folders
 
 ### Linux
+* [Download](https://code.visualstudio.com/) Visual Studio Code
 * [Download](http://releases.llvm.org/download.html) LLVM/clang
 * [Download](https://cmake.org/download/) CMake 3.8 or above
 * [Download](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing) pre-built dependencies or build them on your own
   * You must unzip the files within the sub folders
-* [Download](https://code.visualstudio.com/) Visual Studio Code
 
 **Warning:** Many (if not all) of the packages used in GB are not compatible with the versions in most package managers. It is likely that you will need to download / install the libraries and tools on your own.
 
@@ -66,7 +68,7 @@ should look into other solutions.
 
 ## Environment
 
-You can either set system wide **environment variables** or use **GB_BuildVars.txt**
+You can either set **environment variables** or use **GB_BuildVars.txt**
 
 ### GB_BuildVars.txt (preferred)
 GB_BuildVars.txt.example is included in the git repository. This file provides an example of how to format GB_BuildVars.txt. It is recommended that you just copy GB_BuildVars.txt.example to GB_BuildVars.txt.
@@ -115,12 +117,12 @@ Download the following extensions
 
 #### Misc Setup
 
-*SET WORKING DIRECTORY*
+##### Set Working Directory
 
 Create a debug profile for the GameBackbone demo and/or unit tests by pointing the "Program" variable in launch.json to the respective executable file.
 Set the current working directory of this profile to the folder where the executable files were generated.
 
-*SET LINUX ENVIRONMENT*
+##### Set Environment (Linux Only)
 
 If you are on **linux** you must set your environment to load the correct .so files at runtime. 
 
