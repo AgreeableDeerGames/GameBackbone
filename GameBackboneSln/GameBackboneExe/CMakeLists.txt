@@ -23,6 +23,13 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackboneDemo ${TGUI_LIBRARY})
 endif()
 
+# This is how to link to GB if it was being built from a different CMake process
+# find_package(GameBackbone REQUIRED) 
+# if(GB_FOUND) 
+#   include_directories(${GB_INCLUDE_DIR}) 
+#   target_link_libraries(GameBackboneDemo ${GB_LIBRARY}) 
+# endif() 
+
 include_directories(${GB_INCLUDE_DIR})
 target_link_libraries(GameBackboneDemo GameBackbone)
 
