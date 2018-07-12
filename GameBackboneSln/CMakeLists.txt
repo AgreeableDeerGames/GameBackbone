@@ -62,6 +62,7 @@ set(SFML_DIR "${SFML_ROOT}/lib/cmake/SFML")
 set(CMAKE_PREFIX_PATH 
     ${TGUI_ROOT}
     ${SFML_ROOT}
+    ${BOOST_ROOT}
 )
 
 # add dependencies to cmake module path
