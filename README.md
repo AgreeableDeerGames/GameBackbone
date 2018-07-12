@@ -15,47 +15,53 @@ should look into other solutions.
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [GameBackbone](#gamebackbone)
-	- [Getting Started](#getting-started)
-		- [Windows](#windows)
-		- [Linux](#linux)
-	- [Environment](#environment)
-		- [GB_BuildVars.txt (preferred)](#gb_buildvarstxt-preferred)
-		- [Environment Variables](#environment-variables)
-	- [IDE Setup](#ide-setup)
-		- [Visual Studio](#visual-studio)
-			- [Download C++](#download-c)
-			- [Download Extensions](#download-extensions)
-		- [Visual Studio Code](#visual-studio-code)
-			- [Download Extensions](#download-extensions-1)
-			- [Misc Setup](#misc-setup)
-				- [Set Working Directory](#set-working-directory)
-				- [Set Environment (Linux Only)](#set-environment-linux-only)
-		- [Productivity Assistants](#productivity-assistants)
-	- [Running Tests](#running-tests)
-		- [Visual Studio](#visual-studio-1)
-		- [Visual Studio Code](#visual-studio-code-1)
-	- [Coding Guidelines](#coding-guidelines)
-	- [How To Contribute](#how-to-contribute)
-		- [Submitting Issues](#submitting-issues)
-		- [Submitting Code/Fixes](#submitting-codefixes)
-	- [Versioning](#versioning)
-	- [Authors](#authors)
-	- [License](#license)
+- [1: GB User Guide](#1-gb-user-guide)
+- [2: GB Developer Guide](#2-gb-developer-guide)
+	- [2.1: Getting Started](#21-getting-started)
+		- [2.1.1: Windows](#211-windows)
+		- [2.1.2 Linux](#212-linux)
+	- [2.2: Environment](#22-environment)
+		- [2.2.1: GB_BuildVars.txt (preferred)](#221-gb_buildvarstxt-preferred)
+		- [2.2.2: Environment Variables](#222-environment-variables)
+	- [2.3: IDE Setup](#23-ide-setup)
+		- [2.3.1: Visual Studio](#231-visual-studio)
+			- [2.3.1.1: Download C++](#2311-download-c)
+			- [2.3.1.2: Download Extensions](#2312-download-extensions)
+		- [2.3.2: Visual Studio Code](#232-visual-studio-code)
+			- [2.3.2.1: Download Extensions](#2321-download-extensions)
+			- [2.3.2.1: Misc Setup](#2321-misc-setup)
+				- [2.3.2.1.1: Set Working Directory](#23211-set-working-directory)
+				- [2.3.2.1.1: Set Environment (Linux Only)](#23211-set-environment-linux-only)
+		- [2.3.3: Productivity Assistants](#233-productivity-assistants)
+	- [2.4: Running Tests](#24-running-tests)
+		- [2.4.1: Visual Studio](#241-visual-studio)
+		- [2.4.2: Visual Studio Code](#242-visual-studio-code)
+	- [2.5: Coding Guidelines](#25-coding-guidelines)
+	- [2.6: How To Contribute](#26-how-to-contribute)
+		- [2.6.1: Submitting Issues](#261-submitting-issues)
+		- [2.6.2: Submitting Code/Fixes](#262-submitting-codefixes)
+	- [2.7: Versioning](#27-versioning)
+	- [2.8 Authors](#28-authors)
+	- [2.9 License](#29-license)
 
 <!-- /TOC -->
 
 ***
 
-## Getting Started
+# 1: GB User Guide
 
-### Windows
+# 2: GB Developer Guide
+
+## 2.1: Getting Started
+
+### 2.1.1: Windows
 * [Download](https://visualstudio.microsoft.com/downloads/) Visual Studio 2017 or Visual Studio Code
   * If ensure that you have the correct version of the msvc compiler (14.0)
 * [Download](http://releases.llvm.org/download.html) LLVM/clang
 * [Download](https://drive.google.com/drive/folders/0B8DpBZPTQCGia21wUVl2MnFHRk0?usp=sharing) pre-built dependencies
   * You must unzip the files within the sub folders
 
-### Linux
+### 2.1.2 Linux
 * [Download](https://code.visualstudio.com/) Visual Studio Code
 * [Download](http://releases.llvm.org/download.html) LLVM/clang
 * [Download](https://cmake.org/download/) CMake 3.8 or above
@@ -66,11 +72,11 @@ should look into other solutions.
 
 ***
 
-## Environment
+## 2.2: Environment
 
 You can either set **environment variables** or use **GB_BuildVars.txt**
 
-### GB_BuildVars.txt (preferred)
+### 2.2.1: GB_BuildVars.txt (preferred)
 GB_BuildVars.txt.example is included in the git repository. This file provides an example of how to format GB_BuildVars.txt. It is recommended that you just copy GB_BuildVars.txt.example to GB_BuildVars.txt.
 
 Inside GB_BuildVars.txt replace the lines with <LIB_ROOT_PATH> with the path to the root folder of that lib.
@@ -78,7 +84,7 @@ Inside GB_BuildVars.txt replace the lines with <LIB_ROOT_PATH> with the path to 
 Example: **<SFML_ROOT_PATH>** should be replaced with **/path/to/SFML**
 The end of the path should be one level above the **/include** and **/lib** folders of each library.
 
-### Environment Variables
+### 2.2.2: Environment Variables
 
 * Create environment variables that point to the include and lib folders of each 3rd party library used
   * The variables __must__ have the following names and __must__ correspond to the correct subfolder
@@ -95,34 +101,34 @@ The end of the path should be one level above the **/include** and **/lib** fold
 
 ***
 
-## IDE Setup
-### Visual Studio
+## 2.3: IDE Setup
+### 2.3.1: Visual Studio
 
-#### Download C++
+#### 2.3.1.1: Download C++
 Download the MSVC 14.0 toolset 
 
-#### Download Extensions 
+#### 2.3.1.2: Download Extensions 
 It is recommended that you download the following additions to visual studio
 * [Download](https://marketplace.visualstudio.com/items?itemName=sergeb.GhostDoc) GhostDoc
 * [Download](https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.TestAdapterforBoostTest) Test Adapter for Boost.Test
 * [Download](https://marketplace.visualstudio.com/items?itemName=OpenCppCoverage.OpenCppCoveragePlugin) OpenCppCoverage
 
-### Visual Studio Code
+### 2.3.2: Visual Studio Code
 
-#### Download Extensions
+#### 2.3.2.1: Download Extensions
 Download the following extensions
 * [cpp tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) from microsoft
 * [CMake Tools](https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools) from vector-of-bool
 * [CMake Tools Helper](https://marketplace.visualstudio.com/items?itemName=maddouri.cmake-tools-helper) from Yassine MADDOURI
 
-#### Misc Setup
+#### 2.3.2.1: Misc Setup
 
-##### Set Working Directory
+##### 2.3.2.1.1: Set Working Directory
 
 Create a debug profile for the GameBackbone demo and/or unit tests by pointing the "Program" variable in launch.json to the respective executable file.
 Set the current working directory of this profile to the folder where the executable files were generated.
 
-##### Set Environment (Linux Only)
+##### 2.3.2.1.1: Set Environment (Linux Only)
 
 If you are on **linux** you must set your environment to load the correct .so files at runtime. 
 
@@ -137,7 +143,7 @@ Do this by setting the environment variable in your debug configuration to:
     ],
 
 
-### Productivity Assistants
+### 2.3.3: Productivity Assistants
 It is recommended that you download the following 3rd party apps
 * [CppCheck](http://cppcheck.sourceforge.net/)
   - Standalone app that does a better job than the visual studio plugin of the same name
@@ -146,34 +152,34 @@ It is recommended that you download the following 3rd party apps
   - Used to build documentation that is output [here](https://lavinrp.github.io/GameBackbone/)
 
 ***
-## Running Tests
+## 2.4: Running Tests
 Tests should be run before every push to the develop branch. No branch will be merged into develop if any new tests are failing.
 
-### Visual Studio
+### 2.4.1: Visual Studio
 * Download the boost test adapter and run the tests from there
 * Run the tests by launching the test project
 * Open a developer command prompt in the bin folder for the solution and launch the test executable from the command prompt
-### Visual Studio Code
+### 2.4.2: Visual Studio Code
 * Create a new debug profile to launch the test executable in the launch.json file
 
 ***
 
-## Coding Guidelines
+## 2.5: Coding Guidelines
 
 see [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide.txt)
 
 ***
 
-## How To Contribute
+## 2.6: How To Contribute
 
-### Submitting Issues
+### 2.6.1: Submitting Issues
 1. Create an issue [here](https://github.com/lavinrp/GameBackbone/issues)
 2. Assign Ryan Lavin
 3. Give a brief description of what is wrong and, if applicable, the steps to reproduce the error
 4. Assign one or more tags to the issue that you think best summarizes it
 5. Do not assign a project or milestone
 
-### Submitting Code/Fixes
+### 2.6.2: Submitting Code/Fixes
 1. Make sure your code is compliant with our [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide.txt)
 2. Make sure your code compiles with no warnings (this includes [CppCheck](http://cppcheck.sourceforge.net/) warnings)
 3. Make sure your code passes all unit tests
@@ -183,7 +189,7 @@ see [style guide](https://github.com/lavinrp/GameBackbone/blob/master/StyleGuide
 
 ***
 
-## Versioning
+## 2.7: Versioning
 We follow [Semantic Versioning](http://semver.org/spec/v2.0.0.html)
 Major.Minor.Patch
 * Major
@@ -197,7 +203,7 @@ All versions before 1.0.0 are unstable and have no guarantee for backwards compa
 
 ***
 
-## Authors
+## 2.8 Authors
 * Ryan Lavin
 * Michael Gyurgyak
 * Brian Bauer
@@ -207,6 +213,6 @@ All versions before 1.0.0 are unstable and have no guarantee for backwards compa
 
 ***
 
-## License
+## 2.9 License
 See the license [here](https://github.com/lavinrp/GameBackbone/blob/master/LICENSE.txt)
 
