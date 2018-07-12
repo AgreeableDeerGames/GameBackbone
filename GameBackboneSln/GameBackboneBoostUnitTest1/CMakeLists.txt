@@ -13,7 +13,7 @@ add_executable(GameBackboneUnitTest ${SOURCE_FILES})
 find_package(SFML 2 REQUIRED network audio graphics window system)
 if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
-  target_link_libraries(GameBackboneUnitTest ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+  target_link_libraries(GameBackboneUnitTest sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
 endif()
 
 find_package(TGUI REQUIRED)
