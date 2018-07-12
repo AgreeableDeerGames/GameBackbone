@@ -23,11 +23,8 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackboneDemo ${TGUI_LIBRARY})
 endif()
 
-find_package(GameBackbone REQUIRED)
-if(GB_FOUND)
-  include_directories(${GB_INCLUDE_DIR})
-  target_link_libraries(GameBackboneDemo ${GB_LIBRARY})
-endif()
+include_directories(${GB_INCLUDE_DIR})
+target_link_libraries(GameBackboneDemo GameBackbone)
 
 # Include own header files
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header)

@@ -22,11 +22,8 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackboneUnitTest ${TGUI_LIBRARY})
 endif()
 
-find_package(GameBackbone REQUIRED)
-if(GB_FOUND)
-  include_directories(${GB_INCLUDE_DIR})
-  target_link_libraries(GameBackboneUnitTest ${GB_LIBRARY})
-endif()
+include_directories(${GB_INCLUDE_DIR})
+target_link_libraries(GameBackboneUnitTest GameBackbone)
 
 set(Boost_USE_STATIC_LIBS   ON)
 find_package(Boost 1.67 COMPONENTS unit_test_framework test_exec_monitor REQUIRED)
