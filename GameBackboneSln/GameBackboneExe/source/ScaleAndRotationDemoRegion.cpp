@@ -19,7 +19,6 @@ using namespace EXE;
 /// Initializes a new instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
 ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion() {
-	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	init();
 	//initialize GUI
 	try {
@@ -103,14 +102,14 @@ void ScaleAndRotationDemoRegion::init() {
 	//init textures
 
 	// relative rotation sprites
-	std::string arrowPath("..\\..\\Textures\\SmallArrow.png");
+	std::string arrowPath("Textures/SmallArrow.png");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
 
 	// compound sprite with overlapping sprites
-	std::string rotationArrowCenterPath("..//..//Textures/RotationArrowCenter.png");
-	std::string rotationArrowLowPath("..//..//Textures/RotationArrowLow.png");
-	std::string rotationArrowLeftPath("..//..//Textures/RotationArrowLeft.png");
+	std::string rotationArrowCenterPath("Textures/RotationArrowCenter.png");
+	std::string rotationArrowLowPath("Textures/RotationArrowLow.png");
+	std::string rotationArrowLeftPath("Textures/RotationArrowLeft.png");
 	rotationArrowCenterTexture = new sf::Texture();
 	rotationArrowCenterTexture->loadFromFile(rotationArrowCenterPath);
 	rotationArrowLeftTexture = new sf::Texture();
@@ -181,6 +180,9 @@ void ScaleAndRotationDemoRegion::init() {
 			compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 			break;
 		}
+		default: {
+			throw new std::out_of_range("Invalid ROTATION_INIT_TYPE");
+		}
 	}
 
 	// assign colors and draw
@@ -221,7 +223,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr picture = tgui::Picture::create("..\\..\\Textures\\Backbone2.png");
+	tgui::Picture::Ptr picture = tgui::Picture::create("Textures/Backbone2.png");
 	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
@@ -264,7 +266,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	textureBasedOffsetButton->setSize(buttonWidth, buttonHeight);
 	textureBasedOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	textureBasedOffsetButton->setText("Texture Offset");
-	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMeghod4CB, this);
+	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod4CB, this);
 	regionGUI->add(textureBasedOffsetButton);
 	buttonIndex++;
 
@@ -303,7 +305,7 @@ void ScaleAndRotationDemoRegion::initMethod3CB()
 /// <summary>
 ///  Handles the button initMethod4.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMeghod4CB() {
+void ScaleAndRotationDemoRegion::initMethod4CB() {
 	selectedInitMethod = ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET;
 	debugPrint("Texture Based Offset");
 	reset();

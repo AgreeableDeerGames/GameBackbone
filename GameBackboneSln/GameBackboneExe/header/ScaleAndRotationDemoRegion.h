@@ -69,11 +69,11 @@ namespace EXE{
 		std::vector<sf::Sprite*> textureOffsetSprites;
 
 		// compound sprite selection
-		ROTATION_INIT_TYPE selectedInitMethod;
+		ROTATION_INIT_TYPE selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 		void initMethod1CB();
 		void initMethod2CB();
 		void initMethod3CB();
-		void initMeghod4CB();
+		void initMethod4CB();
 
 	private:
 		// dtr

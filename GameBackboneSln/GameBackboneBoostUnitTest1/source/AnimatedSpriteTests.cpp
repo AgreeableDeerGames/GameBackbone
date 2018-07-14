@@ -23,7 +23,7 @@ struct ReusableObjects
 {
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..//..//Textures//testSprite.png";
+		std::string testTexturePath = "../Textures/testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		//create animation set
