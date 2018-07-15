@@ -43,12 +43,13 @@ void AnimatedSprite::AnimatedSpriteInit(AnimationSet* animations) {
 		setTextureRect(this->animations->at(0).at(0));
 	}
 
-	animating = false;
-	currentFrame = 0;
-	currentAnimationId = 0;
-	currentAnimation = nullptr;
-	lastUpdate = lastUpdate.Zero;
-	animationDelay = 0;
+	this->animating = false;
+	this->currentFrame = 0;
+	this->currentAnimationId = 0;
+	this->currentAnimation = nullptr;
+	this->framesSpentInCurrentAnimation = 0;
+	this->lastUpdate = lastUpdate.Zero;
+	this->animationDelay = 0;
 }
 
 AnimatedSprite::~AnimatedSprite() {
@@ -116,6 +117,14 @@ unsigned int AnimatedSprite::getAnimationDelay() {
 }
 
 /// <summary>
+/// returns the number of frames that have been displayed since the current animation has started.
+/// </summary>
+/// <returns> The minimum time (in ms) between two animation frames.</returns>
+unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() {
+	return framesSpentInCurrentAnimation;
+}
+
+/// <summary>
 /// Determines whether this instance is animating.
 /// </summary>
 /// <returns>
@@ -154,6 +163,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 	this->currentAnimationId = animationId;
 	this->currentAnimation = &animations->at(animationId);
 	this->currentFrame = 0;
+	this->framesSpentInCurrentAnimation = 0;
 }
 
 /// <summary>
@@ -189,7 +199,7 @@ void AnimatedSprite::update(sf::Time currentTime) {
 			break;
 		}
 
-
+		framesSpentInCurrentAnimation++;
 		setTextureRect(currentAnimation->at(currentFrame));
 		lastUpdate = currentTime;
 	}
