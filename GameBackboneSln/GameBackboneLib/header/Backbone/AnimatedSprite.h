@@ -50,6 +50,7 @@ namespace GB {
 		unsigned int getCurrentFrame();
 		unsigned int getCurrentAnimationId();
 		unsigned int getAnimationDelay();
+		unsigned int getFramesSpentInCurrentAnimation();
 		bool isAnimating();
 
 		//operations
@@ -59,13 +60,16 @@ namespace GB {
 
 	protected:
 		std::vector<std::vector<sf::IntRect>>* animations;
+		unsigned int currentAnimationId;
+
 		bool animating;
 		ANIMATION_END_TYPE animationEnd;
-		unsigned int currentFrame;
-		unsigned int currentAnimationId;
-		std::vector<sf::IntRect>* currentAnimation;
-		unsigned int animationDelay;
 		bool isReverse;
+		unsigned int animationDelay;
+		
+		std::vector<sf::IntRect>* currentAnimation;
+		unsigned int currentFrame;
+		unsigned int framesSpentInCurrentAnimation;
 
 		void AnimatedSpriteInit(AnimationSet* animations);
 
