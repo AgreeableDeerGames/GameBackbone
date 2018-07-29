@@ -18,7 +18,7 @@ should look into other solutions.
 - [1: GB User Guide](#1-gb-user-guide)
 	- [1.1 Getting Started](#11-getting-started)
 	- [1.2: Environment](#12-environment)
-		- [1.2.1: GB_BuildVars.txt (preferred)](#121-gbbuildvarstxt-preferred)
+		- [1.2.1: GB_BuildVars.txt (preferred)](#121-gb_buildvarstxt-preferred)
 		- [1.2.2: Environment Variables](#122-environment-variables)
 	- [1.3: Versioning](#13-versioning)
 	- [1.4 License](#14-license)
@@ -118,7 +118,7 @@ See the license [here](https://github.com/lavinrp/GameBackbone/blob/master/LICEN
 ### 1.5.1: Submitting Issues
 1. Create an issue [here](https://github.com/lavinrp/GameBackbone/issues)
 2. Assign Ryan Lavin
-3. Give a brief description of what is wrong and, if applicable, the steps to reproduce the error
+3. Give a brief description of what is wrong and the steps to reproduce the error
 4. Assign one or more tags to the issue that you think best summarizes it
 5. Do not assign a project or milestone
 
