@@ -10,6 +10,9 @@
 
 namespace EXE {
 
+	/// <summary>
+	/// Options for selected navigator button
+	/// </summary>
 	enum SELECTED_NAVIGATOR_BUTTON_TYPE
 	{
 		NAVIGATOR_1,
@@ -17,11 +20,14 @@ namespace EXE {
 		ALL_NAVIGATORS
 	};
 
+	/// <summary>
+	/// Data stored in each NavigationGridSquare for this region.
+	/// </summary>
 	struct NavigationDemoData : public GB::NavigationGridData
 	{
-		sf::Sprite* demoSprite;
+		sf::Sprite* demoSprite = nullptr;
 
-		NavigationDemoData(){demoSprite = nullptr;}
+		NavigationDemoData() = default;
 		virtual ~NavigationDemoData(){delete demoSprite;}
 	};
 
@@ -51,8 +57,10 @@ namespace EXE {
 
 	protected:
 
-		// ctr
+		// ctr / dtr
 		void init();
+		void destroy();
+		virtual void reset() override;
 
 		// helper functions
 		void initGUI();

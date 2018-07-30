@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_SUITE(RelativeRotionSpriteTests)
 struct ReusableObjects{
 	ReusableObjects() {
 		aSpriteTexture = new sf::Texture();
-		std::string testTexturePath = "..\\..\\Textures\\testSprite.png";
+		std::string testTexturePath = "Textures/testSprite.png";
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		sprite1 = new sf::Sprite(*aSpriteTexture);

@@ -204,7 +204,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_getGUI) {
 
 	BOOST_CHECK(gameRegion->getGUI() != nullptr);
 
-	sf::RenderWindow* newWindow = new sf::RenderWindow(sf::VideoMode(0, 0), "NewWindow");
+	sf::RenderWindow* newWindow = new sf::RenderWindow(sf::VideoMode(1, 1), "NewWindow");
 
 	//get reference to gameRegion's GUI, then change the reference's window.
 	tgui::Gui* regionGUI = gameRegion->getGUI();
