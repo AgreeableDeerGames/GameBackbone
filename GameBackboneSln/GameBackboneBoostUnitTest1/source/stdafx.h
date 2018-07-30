@@ -18,4 +18,4 @@
 #include <boost/test/unit_test.hpp>
 #include <string>
 
-const std::string TestFileLocation = R"(TestFiles\)";
+const std::string TestFileLocation = R"(TestFiles/)";

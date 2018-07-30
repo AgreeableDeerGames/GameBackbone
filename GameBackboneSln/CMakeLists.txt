@@ -91,4 +91,6 @@ endif()
 
 add_subdirectory("GameBackboneLib")
 add_subdirectory("GameBackboneExe")
+
+enable_testing()
 add_subdirectory("GameBackboneBoostUnitTest1")
