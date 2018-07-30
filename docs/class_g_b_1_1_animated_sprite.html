@@ -9,6 +9,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -20,10 +27,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="Backbone2.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.0.5</span>
+   &#160;<span id="projectnumber">0.1.0</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -45,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('class_g_b_1_1_animated_sprite.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><b>GB</b></li><li class="navelem"><a class="el" href="class_g_b_1_1_animated_sprite.html">AnimatedSprite</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -133,6 +150,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a23593d75ebc15e0e9969480239ae7830"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animated_sprite.html#a23593d75ebc15e0e9969480239ae7830">getAnimationDelay</a> ()</td></tr>
 <tr class="memdesc:a23593d75ebc15e0e9969480239ae7830"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the minimum time (in ms) between two animation frames.  <a href="#a23593d75ebc15e0e9969480239ae7830">More...</a><br /></td></tr>
 <tr class="separator:a23593d75ebc15e0e9969480239ae7830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7003c0fed9190a6bc33a3fbc12cff93d"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animated_sprite.html#a7003c0fed9190a6bc33a3fbc12cff93d">getFramesSpentInCurrentAnimation</a> ()</td></tr>
+<tr class="memdesc:a7003c0fed9190a6bc33a3fbc12cff93d"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the number of frames that have been displayed since the current animation has started.  <a href="#a7003c0fed9190a6bc33a3fbc12cff93d">More...</a><br /></td></tr>
+<tr class="separator:a7003c0fed9190a6bc33a3fbc12cff93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40beb8105603bf726270fb38400fe6bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animated_sprite.html#a40beb8105603bf726270fb38400fe6bf">isAnimating</a> ()</td></tr>
 <tr class="memdesc:a40beb8105603bf726270fb38400fe6bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether this instance is animating.  <a href="#a40beb8105603bf726270fb38400fe6bf">More...</a><br /></td></tr>
 <tr class="separator:a40beb8105603bf726270fb38400fe6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,27 +177,30 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a601824336cde42f2d752919ff5fd93a6"><td class="memItemLeft" align="right" valign="top"><a id="a601824336cde42f2d752919ff5fd93a6"></a>
 std::vector&lt; std::vector&lt; sf::IntRect &gt; &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>animations</b></td></tr>
 <tr class="separator:a601824336cde42f2d752919ff5fd93a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afed7dd4092b43559efe1cc0a8b2e4237"><td class="memItemLeft" align="right" valign="top"><a id="afed7dd4092b43559efe1cc0a8b2e4237"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimationId</b></td></tr>
+<tr class="separator:afed7dd4092b43559efe1cc0a8b2e4237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a675b880dbcdc5eeeccc1fe4202b8c677"><td class="memItemLeft" align="right" valign="top"><a id="a675b880dbcdc5eeeccc1fe4202b8c677"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>animating</b></td></tr>
 <tr class="separator:a675b880dbcdc5eeeccc1fe4202b8c677"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a14935b8a531c56912bf5339da2203"><td class="memItemLeft" align="right" valign="top"><a id="ad0a14935b8a531c56912bf5339da2203"></a>
 ANIMATION_END_TYPE&#160;</td><td class="memItemRight" valign="bottom"><b>animationEnd</b></td></tr>
 <tr class="separator:ad0a14935b8a531c56912bf5339da2203"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab25378f94e0b5de6479ca3d55017fd03"><td class="memItemLeft" align="right" valign="top"><a id="ab25378f94e0b5de6479ca3d55017fd03"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>currentFrame</b></td></tr>
-<tr class="separator:ab25378f94e0b5de6479ca3d55017fd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afed7dd4092b43559efe1cc0a8b2e4237"><td class="memItemLeft" align="right" valign="top"><a id="afed7dd4092b43559efe1cc0a8b2e4237"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimationId</b></td></tr>
-<tr class="separator:afed7dd4092b43559efe1cc0a8b2e4237"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba6e4fd027554ee6330ec71f8b636064"><td class="memItemLeft" align="right" valign="top"><a id="aba6e4fd027554ee6330ec71f8b636064"></a>
-std::vector&lt; sf::IntRect &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimation</b></td></tr>
-<tr class="separator:aba6e4fd027554ee6330ec71f8b636064"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4e122de49b5717913e44e68bccc1344"><td class="memItemLeft" align="right" valign="top"><a id="ad4e122de49b5717913e44e68bccc1344"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>animationDelay</b></td></tr>
-<tr class="separator:ad4e122de49b5717913e44e68bccc1344"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af329765324c1cce11d5f7c201ed34317"><td class="memItemLeft" align="right" valign="top"><a id="af329765324c1cce11d5f7c201ed34317"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isReverse</b></td></tr>
 <tr class="separator:af329765324c1cce11d5f7c201ed34317"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4e122de49b5717913e44e68bccc1344"><td class="memItemLeft" align="right" valign="top"><a id="ad4e122de49b5717913e44e68bccc1344"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>animationDelay</b></td></tr>
+<tr class="separator:ad4e122de49b5717913e44e68bccc1344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba6e4fd027554ee6330ec71f8b636064"><td class="memItemLeft" align="right" valign="top"><a id="aba6e4fd027554ee6330ec71f8b636064"></a>
+std::vector&lt; sf::IntRect &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimation</b></td></tr>
+<tr class="separator:aba6e4fd027554ee6330ec71f8b636064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab25378f94e0b5de6479ca3d55017fd03"><td class="memItemLeft" align="right" valign="top"><a id="ab25378f94e0b5de6479ca3d55017fd03"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>currentFrame</b></td></tr>
+<tr class="separator:ab25378f94e0b5de6479ca3d55017fd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a620a8018685aaf5d12bba175f09129d8"><td class="memItemLeft" align="right" valign="top"><a id="a620a8018685aaf5d12bba175f09129d8"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>framesSpentInCurrentAnimation</b></td></tr>
+<tr class="separator:a620a8018685aaf5d12bba175f09129d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_g_b_1_1_updatable"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_g_b_1_1_updatable')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_g_b_1_1_updatable.html">GB::Updatable</a></td></tr>
 <tr class="memitem:a0a0534adda2c52124478334ae458d804 inherit pro_attribs_class_g_b_1_1_updatable"><td class="memItemLeft" align="right" valign="top"><a id="a0a0534adda2c52124478334ae458d804"></a>
 sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></td></tr>
@@ -340,7 +363,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
 <p>returns the minimum time (in ms) between two animation frames. </p>
 <dl class="section return"><dt>Returns</dt><dd>The minimum time (in ms) between two animation frames.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00114">114</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00115">115</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -362,7 +385,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
 <p>returns the ID of the current animation </p>
 <dl class="section return"><dt>Returns</dt><dd>ID of the current animation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00106">106</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00107">107</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -383,7 +406,29 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
 
 <p>returns the current frame of the current animation</p>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00098">98</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00099">99</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7003c0fed9190a6bc33a3fbc12cff93d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7003c0fed9190a6bc33a3fbc12cff93d">&#9670;&nbsp;</a></span>getFramesSpentInCurrentAnimation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>returns the number of frames that have been displayed since the current animation has started. </p>
+<dl class="section return"><dt>Returns</dt><dd>The minimum time (in ms) between two animation frames.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00123">123</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -405,7 +450,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
 <p>Determines whether this instance is animating. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if this instance is animating; otherwise, <code>false</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00124">124</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00133">133</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -433,7 +478,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00134">134</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00143">143</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -473,7 +518,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00145">145</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00154">154</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -495,7 +540,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
 
 <p>Whether or not the animated sprite is currently playing an animation</p>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00063">63</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00064">64</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -523,7 +568,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00091">91</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00092">92</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -551,7 +596,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00079">79</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00080">80</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -579,7 +624,7 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00071">71</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00072">72</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
@@ -617,20 +662,24 @@ sf::Time&#160;</td><td class="memItemRight" valign="bottom"><b>lastUpdate</b></t
 
 <p>Implements <a class="el" href="class_g_b_1_1_updatable.html">GB::Updatable</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00163">163</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_animated_sprite_8cpp_source.html#l00173">173</a> of file <a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/Programing/Programing/Cpp/GameBackbone/GameBackboneSln/GameBackboneDll/header/Backbone/<a class="el" href="_animated_sprite_8h_source.html">AnimatedSprite.h</a></li>
-<li>E:/Programing/Programing/Cpp/GameBackbone/GameBackboneSln/GameBackboneDll/source/Backbone/<a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a></li>
+<li>/opt/hdd/programming/cpp/GameBackbone/GameBackboneSln/GameBackboneLib/header/Backbone/<a class="el" href="_animated_sprite_8h_source.html">AnimatedSprite.h</a></li>
+<li>/opt/hdd/programming/cpp/GameBackbone/GameBackboneSln/GameBackboneLib/source/Backbone/<a class="el" href="_animated_sprite_8cpp_source.html">AnimatedSprite.cpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>GB</b></li><li class="navelem"><a class="el" href="class_g_b_1_1_animated_sprite.html">AnimatedSprite</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

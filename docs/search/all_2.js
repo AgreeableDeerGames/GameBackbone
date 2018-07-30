@@ -2,7 +2,7 @@ var searchData=
 [
   ['chooseclustertoaddto',['chooseClusterToAddTo',['../class_g_b_1_1_cluster_greenhouse.html#ab09d6a016406b6297e5c27cfdf807e56',1,'GB::ClusterGreenhouse']]],
   ['clearanimations',['clearAnimations',['../class_g_b_1_1_animation_set.html#a6c48243cd06f90f7b21c792f7f092a83',1,'GB::AnimationSet']]],
-  ['clearassociations',['clearAssociations',['../class_g_b_1_1_game_region.html#a4e08c7f8a3197556ad49194a0f37d3be',1,'GB::GameRegion']]],
+  ['clearassociations',['clearAssociations',['../class_g_b_1_1_game_region.html#a022b1ee6ef0b621ae4ed1cb5d1e24ba0',1,'GB::GameRegion']]],
   ['clearchildren',['clearChildren',['../class_g_b_1_1_game_region.html#a1686b8a8b480ee89dcf3fdf8df7d757b',1,'GB::GameRegion']]],
   ['clearcomponents',['clearComponents',['../class_g_b_1_1_compound_sprite.html#a5425526371c2c00586b757f93770edc4',1,'GB::CompoundSprite']]],
   ['cleardrawable',['clearDrawable',['../class_g_b_1_1_game_region.html#a172d9fe151436379944caf0d747ec29e',1,'GB::GameRegion']]],
