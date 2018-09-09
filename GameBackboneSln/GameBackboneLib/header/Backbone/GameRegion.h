@@ -35,10 +35,10 @@ namespace GB {
 		void setParentRegion(GameRegion* newParent);
 
 		//getters
-		std::list<Updatable*>const * const getUpdatables();
-		std::list<sf::Sprite*>const * const getDrawables();
-		std::vector<GameRegion*>* getNeighborRegions();
-		std::vector<GameRegion*>* getChildRegions();
+		const std::list<Updatable*>* getUpdatables();
+		const std::list<sf::Sprite*>* getDrawables();
+		const std::vector<GameRegion*>* getNeighborRegions();
+		const std::vector<GameRegion*>* getChildRegions();
 		GameRegion* getParentRegion();
 		tgui::Gui* getGUI();
 

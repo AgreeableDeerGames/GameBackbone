@@ -148,7 +148,7 @@ void GameRegion::setParentRegion(GameRegion* newParent) {
 /// Returns list of the region's updatable objects.
 /// </summary>
 /// <returns>std::list of the region's updatable objects.</returns>
-std::list<Updatable*>const * const GameRegion::getUpdatables() {
+const std::list<Updatable*>* GameRegion::getUpdatables() {
 	return updatables;
 }
 
@@ -156,15 +156,15 @@ std::list<Updatable*>const * const GameRegion::getUpdatables() {
 /// Return the region's list of drawable objects
 /// </summary>
 /// <returns>std::list of drawable objects</returns>
-std::list<sf::Sprite*>const * const GameRegion::getDrawables() {
+const std::list<sf::Sprite*>* GameRegion::getDrawables() {
 	return drawables;
 }
 
-std::vector<GameRegion*>* GameRegion::getNeighborRegions() {
+const std::vector<GameRegion*>* GameRegion::getNeighborRegions() {
     return &neighborRegions;
 }
 
-std::vector<GameRegion*>* GameRegion::getChildRegions() {
+const std::vector<GameRegion*>* GameRegion::getChildRegions() {
     return &childRegions;
 }
 
@@ -269,7 +269,7 @@ void GameRegion::clearUpdatable() {
 /// </summary>
 void GameRegion::clearChildren() {
 	std::function<void(GameRegion*)> disassociator = std::bind(&GameRegion::removeChildRegion, this, std::placeholders::_1);
-	clearAssociations(disassociator, getChildRegions());
+	clearAssociations(disassociator, &childRegions);
 }
 
 /// <summary>
@@ -285,7 +285,7 @@ void GameRegion::clearDrawable() {
 void GameRegion::clearNeighborRegions() {
 
     std::function<void(GameRegion*)> disassociator = std::bind(&GameRegion::removeNeighborRegion, this, std::placeholders::_1);
-    clearAssociations(disassociator, getNeighborRegions());
+    clearAssociations(disassociator, &neighborRegions);
 }
 
 /// <summary>
