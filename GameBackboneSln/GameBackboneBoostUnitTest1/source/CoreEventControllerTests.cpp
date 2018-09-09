@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventControllerTests)
 /// Fake CoreEventRontroller for testing functionality
 /// </summary>
 /// <seealso cref="CoreEventController" />
-class TestCoreEventController : public CoreEventController
+class TestCoreEventController : public CoreEventController<TestCoreEventController>
 {
 
 public:
@@ -39,7 +39,7 @@ public:
 	// test event functions
 
 	/// pretend to handle the gui event if its a LostFocus event
-	virtual bool handleGuiEvent(sf::Event& event) override {
+	virtual bool handleGuiEvent(sf::Event& event) {
 		//ensure that preHandleEvent has been called and the postHandleEvent has not
 		BOOST_CHECK(hasFinishedPreHandleEvent);
 		BOOST_CHECK(!hasFinishedPostHandleEvent);
@@ -51,7 +51,7 @@ public:
 	}
 
 	/// always handle core events
-	virtual bool handleCoreEvent(sf::Event& event) override {
+	virtual bool handleCoreEvent(sf::Event& event) {
 		//ensure that preHandleEvent has been called and the postHandleEvent has not
 		BOOST_CHECK(hasFinishedPreHandleEvent);
 		BOOST_CHECK(!hasFinishedPostHandleEvent);
@@ -61,7 +61,7 @@ public:
 		hasFinishedHandleCoreEvent = true;
 		return true;
 	}
-	virtual void preHandleEvent(sf::Event& event) override {
+	virtual void preHandleEvent(sf::Event& event) {
 		hasFinishedPreHandleEvent = true;
 
 		//ensure that preHandleEvent first before handleGuiEvent, handleCoreEvent and postHandleEvent
@@ -69,7 +69,7 @@ public:
 		BOOST_CHECK(!hasFinishedPostHandleEvent);
 	}
 
-	virtual void postHandleEvent(sf::Event& event) override {
+	virtual void postHandleEvent(sf::Event& event) {
 		hasFinishedPostHandleEvent = true;
 
 		//ensure that postHandleEvent happens after preHandleEvent and either handleGuiEvent or handleCoreEvent
@@ -85,21 +85,21 @@ public:
 	}
 
 	//draw
-	virtual void preDraw() override {
+	virtual void preDraw() {
 		hasFinishedPreDraw = true;
 
 		//ensure preDraw happens before coreDraw and postDraw
 		BOOST_CHECK(!hasFinishedCoreDraw);
 		BOOST_CHECK(!hasFinishedPostDraw);
 	}
-	virtual void coreDraw() override {
+	virtual void coreDraw() {
 		hasFinishedCoreDraw = true;
 
 		//ensure that coreDraw happens after preDraw and before postDraw
 		BOOST_CHECK(hasFinishedPreDraw);
 		BOOST_CHECK(!hasFinishedPostDraw);
 	}
-	virtual void postDraw() override {
+	virtual void postDraw() {
 		hasFinishedPostDraw = true;
 
 		//ensure that post draw happens after both preDraw and coreDraw
@@ -108,14 +108,14 @@ public:
 	}
 
 	//update
-	virtual void preUpdate() override {
+	virtual void preUpdate() {
 		hasFinishedPreUpdate = true;
 
 		//ensure that preUpdate happens before coreUpdate and postUpdate
 		BOOST_CHECK(!hasFinishedCoreUpdate);
 		BOOST_CHECK(!hasFinishedPostUpdate);
 	}
-	virtual void coreUpdate() override {
+	virtual void coreUpdate() {
 		hasFinishedCoreUpdate = true;
 
 		//ensure that coreUpdate happens after preUpdate and before postUpdate
@@ -123,7 +123,7 @@ public:
 		BOOST_CHECK(hasFinishedPreUpdate);
 	}
 
-	virtual void postUpdate() override {
+	virtual void postUpdate() {
 		hasFinishedPostUpdate = true;
 
 		//ensure that postUpdate happens after both preUpdate and coreUpdate
@@ -198,18 +198,13 @@ private:
 
 BOOST_AUTO_TEST_SUITE(CoreEventController_CTRs)
 
-// Creating a non-overriden CEC to check that there are no intrinsic memory leaks.
-BOOST_AUTO_TEST_CASE(CoreEventController_NoOverride_CTR){
-	CoreEventController* testController = new CoreEventController();
-	delete testController;
-}
-
 // Test the constructor and destructor for memory leaks and correctness.
 BOOST_AUTO_TEST_CASE(CoreEventController_default_CTR) {
 	TestCoreEventController testController;
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end CoreEventController_CTRs
+
 
 BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 
