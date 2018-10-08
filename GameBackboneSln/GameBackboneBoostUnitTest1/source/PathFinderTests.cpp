@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	pathRequests.push_back(pathRequest);
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
 	pathRequests.push_back(pathRequest);
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	pathRequests.push_back(PathRequest{ startPoint, goalPoint, 1, 0 });
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -294,7 +294,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -327,7 +327,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 	pathRequests.push_back(pathRequest2);
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -384,7 +384,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -421,7 +421,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -470,7 +470,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
