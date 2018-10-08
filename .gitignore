@@ -260,10 +260,11 @@ docs/latex/class_game_region.tex
 GameBackboneSln/cmake-build-debug/
 
 GameBackboneSln/GameBackboneExe/cmake-build-debug/
-GameBackboneSln/GameBackboneExe/cmake-build-release/
 
 GameBackboneSln/\.vscode/
 
 GameBackboneSln/GB_BuildVars\.txt
 
 GameBackboneSln/CMakeSettings\.json
+
+GameBackboneSln/cmake-build-release/
