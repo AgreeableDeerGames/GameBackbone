@@ -35,13 +35,11 @@ namespace GB {
 		}
 
 		Array3D(const Array3D<templateClass>& other) = default;
-		Array3D(Array3D<templateClass>&& other) = default;
+		Array3D(Array3D<templateClass>&& other) noexcept = default;
 		Array3D& operator= (const Array3D<templateClass>& other) = default;
-		Array3D& operator= (Array3D<templateClass>&& other) = default;
+		Array3D& operator= (Array3D<templateClass>&& other) noexcept = default;
 
-		~Array3D() {
-
-		}
+		~Array3D() = default;
 
 
 
@@ -65,7 +63,7 @@ namespace GB {
 ///<param name = "y">y position of the element to return</param>
 ///<param name = "z">z position of the element to return</param>
 /// <returns>The element stored at the passed coordinates</returns>
-		templateClass getValueAt(unsigned int x, unsigned int y, unsigned int z) {
+		templateClass getValueAt(unsigned int x, unsigned int y, unsigned int z) const {
 			return 	internalArray[Flatten3dCoordinate(x, y, z)];
 		}
 
@@ -74,22 +72,22 @@ namespace GB {
 		/// </summary>
 		/// <param name="coordinate">The 3d position of the element to return.</param>
 		/// <returns>The element stored at the passed coordinates</returns>
-		templateClass getValueAt(sf::Vector3i coordinate) {
+		templateClass getValueAt(sf::Vector3i coordinate) const {
 			return internalArray[Flatten3dCoordinate(coordinate.x, coordinate.y, coordinate.z)];
 		}
 
 		///<summary> returns the x dimension of the array</summary>
-		unsigned int getArraySizeX() {
+		unsigned int getArraySizeX() const {
 			return xLength;
 		}
 
 		///<summary> returns the y dimension of the array</summary>
-		unsigned int getArraySizeY() {
+		unsigned int getArraySizeY() const {
 			return yLength;
 		}
 
 		///<summary> returns the z dimension of the grid</summary>
-		unsigned int getArraySizeZ() {
+		unsigned int getArraySizeZ() const {
 			return zLength;
 		}
 
@@ -114,7 +112,7 @@ namespace GB {
 		///<param name = "x"> x position of the 3d coordinate</param>
 		///<param name = "y"> y position of the 3d coordinate</param>
 		///<param name = "z"> z position of the 3d coordinate</param>
-		unsigned int Flatten3dCoordinate(unsigned int x, unsigned int y, unsigned int z) {
+		unsigned int Flatten3dCoordinate(unsigned int x, unsigned int y, unsigned int z) const {
 			return z*xLength*yLength + y*zLength + x;
 
 		}
