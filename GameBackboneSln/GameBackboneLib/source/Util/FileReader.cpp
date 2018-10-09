@@ -8,7 +8,7 @@
 
 using namespace GB;
 
-Array2D<std::string> FileReader::createArray2D(std::string inString, unsigned int totalRows, unsigned int totalColumns, char delimiter) {
+Array2D<std::string> FileReader::createArray2D(const std::string& inString, unsigned int totalRows, unsigned int totalColumns, char delimiter) const {
 	// Create the array that will be returned
 	Array2D<std::string> fileArray = Array2D<std::string>(totalRows, totalColumns);
 
@@ -58,7 +58,7 @@ Array2D<std::string> FileReader::createArray2D(std::string inString, unsigned in
 /// </summary>
 /// <param name="filePath">The file path.</param>
 /// <returns></returns>
-std::string FileReader::readFile(std::string filePath) {
+std::string FileReader::readFile(const std::string& filePath) const {
 	std::ifstream inFile(filePath);
 
 	// Throw an error if the file could not be opened

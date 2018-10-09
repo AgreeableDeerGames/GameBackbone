@@ -20,8 +20,8 @@ namespace GB {
 		~FileWriter() = default;
 
 
-		std::string createWritableString(Array2D<std::string>* dataArray, char delimiter);
-		void writeString(std::string inString, std::string filePath);
+		std::string createWritableString(Array2D<std::string>* dataArray, char delimiter) const;
+		void writeString(const std::string& inString, const std::string& filePath) const;
 
 
 	private:

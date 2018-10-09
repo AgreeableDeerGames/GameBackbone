@@ -23,7 +23,7 @@ FileManager::~FileManager()
 /// <param name="stringToChange">The string to be encrypted.</param>
 /// <param name="key">The key for the encryption.</param>
 /// <returns></returns>
-std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt, const std::string& key) {
+std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt, const std::string& key) const {
 	if (key.empty()){
 		throw Error::FileManager_EmptyKey();
 	}
@@ -44,7 +44,7 @@ std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt
 /// </summary>
 /// <param name="filename">The filepath.</param>
 /// <returns></returns>
-std::size_t FileManager::getFileSize(const std::string& filepath) {
+std::size_t FileManager::getFileSize(const std::string& filepath) const {
 	struct stat st;
 	if (stat(filepath.c_str(), &st) != 0) {
 		return 0;
@@ -57,7 +57,7 @@ std::size_t FileManager::getFileSize(const std::string& filepath) {
 /// </summary>
 /// <param name="filepath">The filepath.</param>
 /// <returns></returns>
-std::size_t FileManager::getFileHash(const std::string& filepath) {
+std::size_t FileManager::getFileHash(const std::string& filepath) const {
 
 	std::string file = reader->readFile(filepath);
 	return getHash(file);
@@ -68,7 +68,7 @@ std::size_t FileManager::getFileHash(const std::string& filepath) {
 /// </summary>
 /// <param name="toHash">The string to hash.</param>
 /// <returns></returns>
-size_t FileManager::getHash(const std::string& toHash) {
+size_t FileManager::getHash(const std::string& toHash) const {
 
 	size_t hashed = std::hash<std::string>{}(toHash);
 	return hashed;
