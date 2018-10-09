@@ -21,13 +21,6 @@ Pathfinder::Pathfinder(NavigationGrid* navigationGrid) {
 	this->navigationGrid = navigationGrid;
 }
 
-/// <summary>
-/// Finalizes an instance of the <see cref="Pathfinder"/> class.
-/// </summary>
-Pathfinder::~Pathfinder() {
-}
-
-
 //getters / setters
 
 //setters
@@ -55,7 +48,7 @@ NavigationGrid* Pathfinder::getNavigationGrid() {
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
-void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>>* const returnedPaths) {
+void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>>* const returnedPaths) const {
 
 	typedef std::pair<Point2D<int>, int> GridValuePair;
 
@@ -151,7 +144,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 /// <param name="pathRequest">The path request.</param>
 /// <param name="gridSquares">The available gridSquares.</param>
 /// <returns>coordinates of the best available grid square for the passed pathRequest.</returns>
-Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>* const availableGridSquares) {
+Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>* const availableGridSquares) const {
 
 	unsigned int shortestDistance = UINT_MAX;
 	Point2D<int> bestGridSquare = {-1, -1};
@@ -172,7 +165,7 @@ Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, c
 /// </summary>
 /// <param name="gridSquareCoordinate">The coordinate of the grid square to get neighbors for.</param>
 /// <returns>Vector containing all valid neighbors of the grid square at the passed coordinate.</returns>
-std::vector<Point2D<int>> Pathfinder::getNeighbors(const Point2D<int> & gridSquareCoordinate) {
+std::vector<Point2D<int>> Pathfinder::getNeighbors(const Point2D<int> & gridSquareCoordinate) const {
 
 	//find the bounds of the active navigation grid
 	int maxX = navigationGrid->getArraySizeX();
@@ -208,7 +201,7 @@ std::vector<Point2D<int>> Pathfinder::getNeighbors(const Point2D<int> & gridSqua
 /// <param name="endPoint">The end point.</param>
 /// <param name="cameFrom">A map containing each grid square's predecessor from.</param>
 /// <returns>A vector of grid square indexes representing an in-order path to the passed endPoint.</returns>
-std::list<Point2D<int>> Pathfinder::reconstructPath(const Point2D<int> & endPoint, std::map<Point2D<int>, Point2D<int>> const * const cameFrom) {
+std::list<Point2D<int>> Pathfinder::reconstructPath(const Point2D<int> & endPoint, const std::map<Point2D<int>, Point2D<int>>* cameFrom) const {
 
 	std::list<Point2D<int>> inOrderPath;
 

@@ -30,7 +30,7 @@ CoordinateConverter::CoordinateConverter(float widthOfGridSquares, Point2D<float
 /// </summary>
 /// <param name="NavGridCoord">The navigation grid coordinate.</param>
 /// <returns></returns>
-sf::Vector2<float> CoordinateConverter::convertCoordToWindow(const Point2D<int>& navGridCoord) {
+sf::Vector2<float> CoordinateConverter::convertCoordToWindow(const Point2D<int>& navGridCoord) const {
 	sf::Vector2<float> windowCoordTopLeft = { navGridCoord.x*gridSquareWidth, navGridCoord.y*gridSquareWidth };
 
 	sf::Vector2<float> windowCoordCenter = { windowCoordTopLeft.x + (gridSquareWidth /2), windowCoordTopLeft.y + (gridSquareWidth / 2)};
@@ -47,7 +47,7 @@ sf::Vector2<float> CoordinateConverter::convertCoordToWindow(const Point2D<int>&
 /// </summary>
 /// <param name="WindowCoord">The sf window coordinate.</param>
 /// <returns></returns>
-Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>& windowCoord) {
+Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>& windowCoord) const {
 	sf::Vector2<float> windowCoordCenter = { windowCoord.x - originOffset.x, windowCoord.y - originOffset.y};
 
 	Point2D<int> navGridCoord = {(int)(windowCoordCenter.x/ gridSquareWidth), (int)(windowCoordCenter.y/ gridSquareWidth)};
@@ -60,7 +60,7 @@ Point2D<int> CoordinateConverter::convertCoordToNavGrid(const sf::Vector2<float>
 /// </summary>
 /// <param name="navGridPath">The nav grid path.</param>
 /// <returns></returns>
-WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoordinatePath & navGridPath) {
+WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoordinatePath & navGridPath) const {
 
 	// convert each coordinate and store it
 	WindowCoordinatePath convertedPath;
@@ -76,7 +76,7 @@ WindowCoordinatePath CoordinateConverter::convertPathToWindow(const NavGridCoord
 /// </summary>
 /// <param name="windowPath">The window path.</param>
 /// <returns></returns>
-NavGridCoordinatePath CoordinateConverter::convertPathToNavGrid(const WindowCoordinatePath & windowPath)
+NavGridCoordinatePath CoordinateConverter::convertPathToNavGrid(const WindowCoordinatePath & windowPath) const
 {
 	// convert each coordinate and store it
 	NavGridCoordinatePath convertedPath;
