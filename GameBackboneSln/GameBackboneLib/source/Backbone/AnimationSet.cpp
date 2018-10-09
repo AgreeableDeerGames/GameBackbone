@@ -2,6 +2,67 @@
 
 using namespace GB;
 
+AnimationSet::AnimationSet(sf::Vector2u animationFrameDimensions)
+    : animationFrameDimensions(animationFrameDimensions) {}
+
+AnimationSet::AnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+                           sf::Vector2u textureSize,
+                           sf::Vector2u animationFrameDimensions)
+                           : animationFrameIndices(std::move(animationFrameIndices)),
+                           textureSize(textureSize),
+                           animationFrameDimensions(animationFrameDimensions) {}
+
+AnimationSet::AnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+                           const sf::Texture &texture,
+                           sf::Vector2u animationFrameDimensions)
+
+                           : AnimationSet(std::move(animationFrameIndices),
+                                   texture.getSize(),
+                                   animationFrameDimensions) {}
+
+// Getters and setters
+
+
+
+void AnimationSet::setAnimationFrameDimensions(sf::Vector2u dimensions) {
+    this->animationFrameDimensions = dimensions;
+}
+
+void AnimationSet::setTextureSize(sf::Vector2u size) {
+    this->textureSize = size;
+}
+
+void AnimationSet::setAnimationFrameIndices(AnimationFrameIndexVectorPtr animationFrames) {
+    this->animationFrameIndices = animationFrames;
+}
+
+AnimationVectorPtr AnimationSet::getAnimations() {
+    return animations;
+}
+
+sf::Vector2u AnimationSet::getTextureSize() {
+    return this->textureSize;
+}
+
+sf::Vector2u AnimationSet::getAnimationFrameDimensions() {
+    return this->animationFrameDimensions;
+}
+
+AnimationFrameIndexVectorPtr AnimationSet::getAnimationFrameIndices() {
+    return this->animationFrameIndices;
+}
+
+
+// internal operations
+
+
+
+
+
+
+
+/*
+
 /// <summary>
 /// Initializes a new instance of the <see cref="AnimationSet"/> class.
 /// </summary>
@@ -70,7 +131,8 @@ void AnimationSet::clearAnimations() {
 /// returns a pointer to the vector of animations
 /// </summary>
 /// <returns></returns>
-std::vector<std::vector<sf::IntRect>>* AnimationSet::getAnimations() {
-	return animations;
+std::shared_ptr<std::vector<std::vector<sf::IntRect>>> AnimationSet::getAnimations() {
+	// return animations;
 }
 
+*/
