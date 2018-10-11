@@ -11,23 +11,33 @@
 
 namespace GB {
 
+    /// <summary> A series of frames that can be displayed from a single texture.</summary>
 	using Animation = std::vector<sf::IntRect>;
+	/// <summary> A vector of Animations </summary>
 	using AnimationVector = std::vector<Animation>;
-	using AnimationVectorPtr = std::shared_ptr<AnimationVector>;
+    /// <summary> A Pointer to a vector of Animations </summary>
+    using AnimationVectorPtr = std::shared_ptr<AnimationVector>;
 
-	using AnimationFrameIndex = std::vector<unsigned int>;
-	using AnimationFrameIndexVector = std::vector<AnimationFrameIndex>;
-	using AnimationFrameIndexVectorPtr = std::shared_ptr<const AnimationFrameIndexVector>;
+    /// <summary>
+    /// A series of indices representing the frames that compose an animation.
+    /// The indices correspond to a row major order grid laid on top of a sprite sheet, then flattened.
+    /// The same indices can be used for multiple sprite sheets.
+    /// </summary>
+    using FrameIndexAnimation = std::vector<unsigned int>;
+    /// <summary> A vector of FrameIndexAnimation </summary>
+    using FrameIndexAnimationVector = std::vector<FrameIndexAnimation>;
+    /// <summary> A Pointer to a vector of FrameIndexAnimation </summary>
+    using FrameIndexAnimationVectorPtr = std::shared_ptr<FrameIndexAnimationVector>;
 
 
     class libGameBackbone AnimationSet {
     public:
 
         // ctrs / dtr
-        AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
+        AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
                      sf::Vector2u textureSize,
                      sf::Vector2u animationFrameDimensions);
-        AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
+        AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
                      const sf::Texture& texture,
                      sf::Vector2u animationFrameDimensions);
         AnimationSet() = delete;
@@ -43,12 +53,12 @@ namespace GB {
 
     protected:
         // internal operations
-        void calculateAnimations(AnimationFrameIndexVectorPtr animationFrameIndices,
+        void calculateAnimations(FrameIndexAnimationVectorPtr frameIndexAnimations,
                                  sf::Vector2u textureSize,
                                  sf::Vector2u animationFrameDimensions);
 
         // internal storage
-        AnimationVectorPtr animations;
+        AnimationVectorPtr animations = std::make_shared<AnimationVector>();
     };
 
 
@@ -59,11 +69,11 @@ namespace GB {
 		// ctrs / dtr
 		explicit DynamicAnimationSet(sf::Vector2u animationFrameDimensions);
 
-        DynamicAnimationSet(AnimationFrameIndexVectorPtr animationFrameIndices,
+        DynamicAnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
 				     sf::Vector2u textureSize,
 				     sf::Vector2u animationFrameDimensions);
 
-        DynamicAnimationSet(AnimationFrameIndexVectorPtr animationFrameIndices,
+        DynamicAnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
 					 const sf::Texture& texture,
 					 sf::Vector2u animationFrameDimensions);
 
@@ -79,18 +89,18 @@ namespace GB {
 		// setters
 		void setAnimationFrameDimensions(sf::Vector2u dimensions);
 		void setTextureSize(sf::Vector2u size);
-		void setAnimationFrameIndices(AnimationFrameIndexVectorPtr animationFrames);
+		void setFrameIndexAnimations(FrameIndexAnimationVectorPtr frameIindexAnimations);
 
 		// getters
 		sf::Vector2u getAnimationFrameDimensions() const;
 		sf::Vector2u getTextureSize() const;
-		AnimationFrameIndexVectorPtr getAnimationFrameIndices() const;
+		const FrameIndexAnimationVectorPtr getFrameIndexAnimations() const;
 
 	private:
 
 		// internal storage
 		sf::Vector2u textureSize;
 		sf::Vector2u animationFrameDimensions;
-		AnimationFrameIndexVectorPtr animationFrameIndices;
+		FrameIndexAnimationVectorPtr animationFrameIndices;
 	};
 }

@@ -8,32 +8,32 @@ using namespace GB;
 /// <summary>
 /// Initializes a new instance of the <see cref="AnimationSet"/> class.
 /// </summary>
-/// <param name="animationFrames">The consecutive frame indices for each animation.</param>
+/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
 /// <param name="textureSize">The size of the texture that the animation set will be using.</param>
 /// <param name="animationFrameDimensions">The dimensions of the frames (rows, cols) in the sprite sheet.</param>
-AnimationSet::AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
+AnimationSet::AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
                            sf::Vector2u textureSize,
                            sf::Vector2u animationFrameDimensions) {
-    calculateAnimations(std::move(animationFrames), textureSize, animationFrameDimensions);
+    calculateAnimations(std::move(frameIndexAnimations), textureSize, animationFrameDimensions);
 }
 
 /// <summary>
 /// Initializes a new instance of the <see cref="AnimationSet"/> class.
 /// </summary>
-/// <param name="animationFrames">The consecutive frame indices for each animation.</param>
+/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
 /// <param name="texture">The texture that the animation set will be using.</param>
 /// <param name="animationFrameDimensions">The dimensions of the frames (rows, cols) in the sprite sheet.</param>
-AnimationSet::AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
+AnimationSet::AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
                            const sf::Texture& texture,
                            sf::Vector2u animationFrameDimensions) {
-    calculateAnimations(std::move(animationFrames), texture.getSize(), animationFrameDimensions);
+    calculateAnimations(std::move(frameIndexAnimations), texture.getSize(), animationFrameDimensions);
 }
 
 /// <summary>
 /// Returns all of the animations in this AnimationSet.
 /// </summary>
 AnimationVectorPtr AnimationSet::getAnimations() const {
-    return AnimationVectorPtr();
+    return animations;
 }
 
 /// <summary>
@@ -51,7 +51,7 @@ void AnimationSet::clearAnimations() {
 /// <param name="animationFrameIndicies">The consecutive frame indices for each animation.</param>
 /// <param name="textureSize"> The pixel size of the sprite sheet.</param>
 /// <param name="animationFrameDimensions"> The dimensions of the sprite sheet (in frames) rows X cols</param>
-void AnimationSet::calculateAnimations(AnimationFrameIndexVectorPtr animationFrameIndices,
+void AnimationSet::calculateAnimations(FrameIndexAnimationVectorPtr animationFrameIndices,
                                        sf::Vector2u textureSize,
                                        sf::Vector2u animationFrameDimensions)  {
 
@@ -70,7 +70,7 @@ void AnimationSet::calculateAnimations(AnimationFrameIndexVectorPtr animationFra
     unsigned int rectHeight = textureHeight / animationFrameRows;
 
     //find the rectangle for each frame number in each animation
-    for (const AnimationFrameIndex& frameAnimation : *animationFrameIndices) {
+    for (const FrameIndexAnimation& frameAnimation : *animationFrameIndices) {
         Animation rectAnimation;
         for (unsigned int frameNumber : frameAnimation) {
             const unsigned int newRectY = (frameNumber / animationFrameCols) * rectHeight;
@@ -105,10 +105,10 @@ DynamicAnimationSet::DynamicAnimationSet(sf::Vector2u animationFrameDimensions)
 /// <summary>
 /// Initializes a new instance of the <see cref="DynamicAnimationSet"/> class.
 /// </summary>
-/// <param name="animationFrames">The consecutive frame indices for each animation.</param>
+/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
 /// <param name="textureSize">The size of the texture that the animation set will be using.</param>
 /// <param name="animationFrameDimensions">The dimensions of the frames (rows, cols) in the sprite sheet.</param>
-DynamicAnimationSet::DynamicAnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+DynamicAnimationSet::DynamicAnimationSet(GB::FrameIndexAnimationVectorPtr animationFrameIndices,
                                          sf::Vector2u textureSize,
                                          sf::Vector2u animationFrameDimensions)
 
@@ -119,10 +119,10 @@ DynamicAnimationSet::DynamicAnimationSet(GB::AnimationFrameIndexVectorPtr animat
 /// <summary>
 /// Initializes a new instance of the <see cref="DynamicAnimationSet"/> class.
 /// </summary>
-/// <param name="animationFrames">The consecutive frame indices for each animation.</param>
+/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
 /// <param name="texture">The texture that the animation set will be using.</param>
 /// <param name="animationFrameDimensions">The dimensions of the frames (rows, cols) in the sprite sheet.</param>
-DynamicAnimationSet::DynamicAnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+DynamicAnimationSet::DynamicAnimationSet(GB::FrameIndexAnimationVectorPtr animationFrameIndices,
                                          const sf::Texture &texture,
                                          sf::Vector2u animationFrameDimensions)
 
@@ -150,9 +150,9 @@ void DynamicAnimationSet::setTextureSize(sf::Vector2u size) {
 }
 
 /// <summary> Sets the consecutive frame indicies for each animation. </summary>
-/// <param name="animationFrames">The consecutive frame indices for each animation.</param>
-void DynamicAnimationSet::setAnimationFrameIndices(AnimationFrameIndexVectorPtr animationFrames) {
-    this->animationFrameIndices = std::move(animationFrames);
+/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
+void DynamicAnimationSet::setFrameIndexAnimations(FrameIndexAnimationVectorPtr frameIindexAnimations) {
+    this->animationFrameIndices = std::move(frameIindexAnimations);
     calculateAnimations(animationFrameIndices, textureSize, animationFrameDimensions);
 }
 
@@ -171,8 +171,8 @@ sf::Vector2u DynamicAnimationSet::getTextureSize() const {
 }
 
 
-/// <summary> Returns the consecutive frame indicies for each animation. </summary>
-AnimationFrameIndexVectorPtr DynamicAnimationSet::getAnimationFrameIndices() const {
+/// <summary> Returns the consecutive frame indices for each animation. </summary>
+const FrameIndexAnimationVectorPtr DynamicAnimationSet::getFrameIndexAnimations() const {
     return this->animationFrameIndices;
 }
 
