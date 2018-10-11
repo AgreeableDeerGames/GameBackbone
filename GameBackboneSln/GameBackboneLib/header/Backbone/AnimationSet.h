@@ -22,14 +22,23 @@ namespace GB {
 
     class libGameBackbone AnimationSet {
     public:
+
+        // ctrs / dtr
         AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
                      sf::Vector2u textureSize,
                      sf::Vector2u animationFrameDimensions);
         AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
-                     sf::Texture texture,
+                     const sf::Texture& texture,
                      sf::Vector2u animationFrameDimensions);
+        AnimationSet() = delete;
+        AnimationSet(const AnimationSet& other) = default;
+        AnimationSet(AnimationSet&& other) noexcept = default;
+        AnimationSet& operator=(const AnimationSet& other) = default;
+        AnimationSet& operator=(AnimationSet&& other) noexcept = default;
         virtual ~AnimationSet() = default;
-        virtual AnimationVectorPtr getAnimations();
+
+        // operations
+        AnimationVectorPtr getAnimations() const;
         void clearAnimations();
 
     protected:
@@ -60,7 +69,7 @@ namespace GB {
 
         DynamicAnimationSet();
         DynamicAnimationSet(const DynamicAnimationSet& other) = default;
-        DynamicAnimationSet(DynamicAnimationSet&& other) = default;
+        DynamicAnimationSet(DynamicAnimationSet&& other) noexcept = default;
         DynamicAnimationSet& operator= (const DynamicAnimationSet& other) = default;
         DynamicAnimationSet& operator= (DynamicAnimationSet&& other) noexcept = default;
 		~DynamicAnimationSet() override = default;
@@ -73,10 +82,9 @@ namespace GB {
 		void setAnimationFrameIndices(AnimationFrameIndexVectorPtr animationFrames);
 
 		// getters
-		AnimationVectorPtr getAnimations() override;
-		sf::Vector2u getTextureSize();
-		sf::Vector2u getAnimationFrameDimensions();
-		AnimationFrameIndexVectorPtr getAnimationFrameIndices();
+		sf::Vector2u getAnimationFrameDimensions() const;
+		sf::Vector2u getTextureSize() const;
+		AnimationFrameIndexVectorPtr getAnimationFrameIndices() const;
 
 	private:
 
@@ -84,10 +92,5 @@ namespace GB {
 		sf::Vector2u textureSize;
 		sf::Vector2u animationFrameDimensions;
 		AnimationFrameIndexVectorPtr animationFrameIndices;
-		AnimationVectorPtr animations;
 	};
-
-	// todo: AnimationSet should probably inherit from LightAnimationSet
-
-
 }
