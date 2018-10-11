@@ -59,7 +59,7 @@ namespace GB {
 		virtual void update(sf::Time currentTime);
 
 	protected:
-		std::vector<std::vector<sf::IntRect>>* animations;
+		AnimationVectorPtr animations;
 		unsigned int currentAnimationId;
 
 		bool animating;

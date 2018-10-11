@@ -13,44 +13,59 @@ namespace GB {
 
 	using Animation = std::vector<sf::IntRect>;
 	using AnimationVector = std::vector<Animation>;
-	using AnimationVectorPtr = std::shared_ptr<const AnimationVector>;
+	using AnimationVectorPtr = std::shared_ptr<AnimationVector>;
 
 	using AnimationFrameIndex = std::vector<unsigned int>;
 	using AnimationFrameIndexVector = std::vector<AnimationFrameIndex>;
 	using AnimationFrameIndexVectorPtr = std::shared_ptr<const AnimationFrameIndexVector>;
 
 
-	///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
-	class libGameBackbone GenericAnimationSet {
-	public:
-		virtual ~GenericAnimationSet() = default;
-		virtual AnimationVectorPtr getAnimations() = 0;
-	};
+    class libGameBackbone AnimationSet {
+    public:
+        AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
+                     sf::Vector2u textureSize,
+                     sf::Vector2u animationFrameDimensions);
+        AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
+                     sf::Texture texture,
+                     sf::Vector2u animationFrameDimensions);
+        virtual ~AnimationSet() = default;
+        virtual AnimationVectorPtr getAnimations();
+        void clearAnimations();
+
+    protected:
+        // internal operations
+        void calculateAnimations(AnimationFrameIndexVectorPtr animationFrameIndices,
+                                 sf::Vector2u textureSize,
+                                 sf::Vector2u animationFrameDimensions);
+
+        // internal storage
+        AnimationVectorPtr animations;
+    };
+
 
 	///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
-	class libGameBackbone AnimationSet : public GenericAnimationSet {
+	class libGameBackbone DynamicAnimationSet : public AnimationSet {
 	public:
 
 		// ctrs / dtr
-		explicit AnimationSet(sf::Vector2u animationFrameDimensions);
+		explicit DynamicAnimationSet(sf::Vector2u animationFrameDimensions);
 
-		AnimationSet(AnimationFrameIndexVectorPtr animationFrameIndices,
+        DynamicAnimationSet(AnimationFrameIndexVectorPtr animationFrameIndices,
 				     sf::Vector2u textureSize,
 				     sf::Vector2u animationFrameDimensions);
 
-		AnimationSet(AnimationFrameIndexVectorPtr animationFrameIndices,
+        DynamicAnimationSet(AnimationFrameIndexVectorPtr animationFrameIndices,
 					 const sf::Texture& texture,
 					 sf::Vector2u animationFrameDimensions);
 
-		AnimationSet() = default;
-		AnimationSet(const AnimationSet& other) = default;
-		AnimationSet(AnimationSet&& other) = default;
-		AnimationSet& operator= (const AnimationSet& other) = default;
-		AnimationSet& operator= (AnimationSet&& other) noexcept = default;
-		~AnimationSet() override = default;
+        DynamicAnimationSet();
+        DynamicAnimationSet(const DynamicAnimationSet& other) = default;
+        DynamicAnimationSet(DynamicAnimationSet&& other) = default;
+        DynamicAnimationSet& operator= (const DynamicAnimationSet& other) = default;
+        DynamicAnimationSet& operator= (DynamicAnimationSet&& other) noexcept = default;
+		~DynamicAnimationSet() override = default;
 
-		// reset
-		void clearAnimations();
+
 
 		// setters
 		void setAnimationFrameDimensions(sf::Vector2u dimensions);
@@ -64,8 +79,6 @@ namespace GB {
 		AnimationFrameIndexVectorPtr getAnimationFrameIndices();
 
 	private:
-		// internal operations
-		void calculateAnimations();
 
 		// internal storage
 		sf::Vector2u textureSize;
@@ -75,16 +88,6 @@ namespace GB {
 	};
 
 	// todo: AnimationSet should probably inherit from LightAnimationSet
-	class libGameBackbone LightAnimationSet : public GenericAnimationSet{
-	public:
-		LightAnimationSet(sf::Vector2u animationFrameDimensions);
-		LightAnimationSet(AnimationFrameIndexVectorPtr animationFrames,
-		sf::Vector2u textureSize,
-				sf::Vector2u animationFrameDimensions);
-		AnimationVectorPtr getAnimations() override;
 
-	private:
-		AnimationVectorPtr animations;
-	};
 
 }

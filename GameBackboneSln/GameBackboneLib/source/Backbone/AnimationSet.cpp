@@ -2,137 +2,124 @@
 
 using namespace GB;
 
-AnimationSet::AnimationSet(sf::Vector2u animationFrameDimensions)
-    : animationFrameDimensions(animationFrameDimensions) {}
 
-AnimationSet::AnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~AnimationSet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+AnimationSet::AnimationSet(AnimationFrameIndexVectorPtr animationFrames,
                            sf::Vector2u textureSize,
-                           sf::Vector2u animationFrameDimensions)
-                           : animationFrameIndices(std::move(animationFrameIndices)),
-                           textureSize(textureSize),
-                           animationFrameDimensions(animationFrameDimensions) {}
+                           sf::Vector2u animationFrameDimensions) {
+    calculateAnimations(std::move(animationFrames), textureSize, animationFrameDimensions);
+}
 
-AnimationSet::AnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
-                           const sf::Texture &texture,
-                           sf::Vector2u animationFrameDimensions)
+AnimationSet::AnimationSet(AnimationFrameIndexVectorPtr animationFrames, sf::Texture texture,
+                           sf::Vector2u animationFrameDimensions) {
+    calculateAnimations(std::move(animationFrames), texture.getSize(), animationFrameDimensions);
+}
 
-                           : AnimationSet(std::move(animationFrameIndices),
-                                   texture.getSize(),
-                                   animationFrameDimensions) {}
+AnimationVectorPtr AnimationSet::getAnimations() {
+    return AnimationVectorPtr();
+}
+
+
+void AnimationSet::clearAnimations() {
+    animations->clear();
+}
+
+void AnimationSet::calculateAnimations(AnimationFrameIndexVectorPtr animationFrameIndices,
+                                       sf::Vector2u textureSize,
+                                       sf::Vector2u animationFrameDimensions)  {
+
+    // start fresh
+    clearAnimations();
+
+    // cant create animations if no indices are provided
+    if (animationFrameIndices == nullptr) {
+        return;
+    }
+    auto [textureWidth, textureHeight] = textureSize;
+
+    //find the dimensions of the rectangles
+    auto [animationFrameRows, animationFrameCols] = animationFrameDimensions;
+    unsigned int rectWidth = textureWidth / animationFrameCols;
+    unsigned int rectHeight = textureHeight / animationFrameRows;
+
+    //find the rectangle for each frame number in each animation
+    for (const AnimationFrameIndex& frameAnimation : *animationFrameIndices) {
+        Animation rectAnimation;
+        for (unsigned int frameNumber : frameAnimation) {
+            const unsigned int newRectY = (frameNumber / animationFrameCols) * rectHeight;
+            const unsigned int newRectX = (frameNumber % animationFrameRows) * rectWidth;
+            rectAnimation.emplace_back(sf::IntRect(newRectX, newRectY, rectWidth, rectHeight));
+        }
+        animations->emplace_back(std::move(rectAnimation));
+    }
+}
+
+
+
+//  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~AnimationSet End~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DynamicAnimationSet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DynamicAnimationSet::DynamicAnimationSet() : AnimationSet(nullptr, {0,0}, {0,0}) {}
+
+DynamicAnimationSet::DynamicAnimationSet(sf::Vector2u animationFrameDimensions)
+    : AnimationSet(nullptr, {0, 0}, animationFrameDimensions){}
+
+DynamicAnimationSet::DynamicAnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+                                         sf::Vector2u textureSize,
+                                         sf::Vector2u animationFrameDimensions)
+
+                                         : AnimationSet(std::move(animationFrameIndices),
+                                                        textureSize,
+                                                        animationFrameDimensions) {}
+
+DynamicAnimationSet::DynamicAnimationSet(GB::AnimationFrameIndexVectorPtr animationFrameIndices,
+                                         const sf::Texture &texture,
+                                         sf::Vector2u animationFrameDimensions)
+
+                                         : DynamicAnimationSet(std::move(animationFrameIndices),
+                                                               texture.getSize(),
+                                                               animationFrameDimensions) {}
 
 // Getters and setters
 
 
-
-void AnimationSet::setAnimationFrameDimensions(sf::Vector2u dimensions) {
+    // setters
+void DynamicAnimationSet::setAnimationFrameDimensions(sf::Vector2u dimensions) {
     this->animationFrameDimensions = dimensions;
+    calculateAnimations(animationFrameIndices, textureSize, animationFrameDimensions);
 }
 
-void AnimationSet::setTextureSize(sf::Vector2u size) {
+void DynamicAnimationSet::setTextureSize(sf::Vector2u size) {
     this->textureSize = size;
+    calculateAnimations(animationFrameIndices, textureSize, animationFrameDimensions);
 }
 
-void AnimationSet::setAnimationFrameIndices(AnimationFrameIndexVectorPtr animationFrames) {
-    this->animationFrameIndices = animationFrames;
+void DynamicAnimationSet::setAnimationFrameIndices(AnimationFrameIndexVectorPtr animationFrames) {
+    this->animationFrameIndices = std::move(animationFrames);
+    calculateAnimations(animationFrameIndices, textureSize, animationFrameDimensions);
 }
 
-AnimationVectorPtr AnimationSet::getAnimations() {
+AnimationVectorPtr DynamicAnimationSet::getAnimations() {
     return animations;
 }
 
-sf::Vector2u AnimationSet::getTextureSize() {
+
+    // getters
+sf::Vector2u DynamicAnimationSet::getTextureSize() {
     return this->textureSize;
 }
 
-sf::Vector2u AnimationSet::getAnimationFrameDimensions() {
+sf::Vector2u DynamicAnimationSet::getAnimationFrameDimensions() {
     return this->animationFrameDimensions;
 }
 
-AnimationFrameIndexVectorPtr AnimationSet::getAnimationFrameIndices() {
+AnimationFrameIndexVectorPtr DynamicAnimationSet::getAnimationFrameIndices() {
     return this->animationFrameIndices;
 }
-
 
 // internal operations
 
 
-
-
-
-
-
-/*
-
-/// <summary>
-/// Initializes a new instance of the <see cref="AnimationSet"/> class.
-/// </summary>
-/// <param name="rows">The number of rows in the sprite sheet.</param>
-/// <param name="cols">The number of columns in the sprite sheet.</param>
-AnimationSet::AnimationSet(unsigned int rows, unsigned int cols) {
-	this->rows = rows;
-	this->cols = cols;
-	this->animations = new std::vector<std::vector<sf::IntRect>>;
-}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="AnimationSet"/> class.
-/// </summary>
-/// <param name="frameAnimations">Arrays of frame numbers for each animation in the set. Each array corresponds to the animation of the same index.</param>
-/// <param name="textureWidth">Width of the texture.</param>
-/// <param name="textureHeight">Height of the texture.</param>
-/// <param name="rows">The number of rows in the sprite sheet.</param>
-/// <param name="cols">The number of columns in the sprite sheet.</param>
-AnimationSet::AnimationSet(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight, unsigned int rows, unsigned int cols) {
-	this->rows = rows;
-	this->cols = cols;
-	this->animations = new std::vector<std::vector<sf::IntRect>>;
-	framesToRects(frameAnimations, textureWidth, textureHeight);
-}
-
-AnimationSet::~AnimationSet() {
-	delete this->animations;
-	this->animations = nullptr;
-}
-
-/// <summary>
-/// Converts a full set of animations in the frame number format to the textureRect format
-/// </summary>
-/// <param name="frameAnimations">Animation represented by frame numbers.</param>
-/// <param name="textureWidth">Width of the sprite sheet texture.</param>
-/// <param name="textureHeight">Height of the sprite sheet texture.</param>
-void AnimationSet::framesToRects(const std::vector<std::vector<unsigned int>>& frameAnimations, unsigned int textureWidth, unsigned int textureHeight) {
-
-	//find the dimensions of the rectangles
-	unsigned int rectWidth = textureWidth / cols;
-	unsigned int rectHeight = textureHeight / rows;
-
-	//find the rectangle for each frame number in each animation
-	for (std::vector<unsigned int> frameAnimation : frameAnimations) {
-		std::vector<sf::IntRect> rectAnimation;
-		for (unsigned int frameNumber : frameAnimation) {
-			unsigned int newRectY = (frameNumber / cols) * rectHeight;
-			unsigned int newRectX = (frameNumber % cols) * rectWidth;
-			sf::IntRect frameRect(newRectX, newRectY, rectWidth, rectHeight);
-			rectAnimation.push_back(frameRect);
-		}
-		animations->push_back(rectAnimation);
-	}
-}
-
-
-/// <summary>
-/// Clears all animations.
-/// </summary>
-void AnimationSet::clearAnimations() {
-	animations->clear();
-}
-
-/// <summary>
-/// returns a pointer to the vector of animations
-/// </summary>
-/// <returns></returns>
-std::shared_ptr<std::vector<std::vector<sf::IntRect>>> AnimationSet::getAnimations() {
-	// return animations;
-}
-
-*/
+//  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DynamicAnimationSet End~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
