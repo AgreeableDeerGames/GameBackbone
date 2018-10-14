@@ -65,9 +65,8 @@ void AnimationSet::calculateAnimations(FrameIndexAnimationVectorPtr animationFra
     auto [textureWidth, textureHeight] = textureSize;
 
     //find the dimensions of the rectangles
-    // auto [animationFrameRows, animationFrameCols] = animationFrameDimensions;
-    const unsigned int animationFrameRows = animationFrameDimensions.x;
-    const unsigned int animationFrameCols = animationFrameDimensions.y;
+    auto [animationFrameRows, animationFrameCols] = animationFrameDimensions;
+
     const unsigned int rectWidth = textureWidth / animationFrameCols;
     const unsigned int rectHeight = textureHeight / animationFrameRows;
 
@@ -76,7 +75,7 @@ void AnimationSet::calculateAnimations(FrameIndexAnimationVectorPtr animationFra
         Animation rectAnimation;
         for (unsigned int frameNumber : frameAnimation) {
             const unsigned int newRectY = (frameNumber / animationFrameCols) * rectHeight;
-            const unsigned int newRectX = (frameNumber % animationFrameRows) * rectWidth;
+            const unsigned int newRectX = (frameNumber % animationFrameCols) * rectWidth;
             rectAnimation.emplace_back(sf::IntRect(newRectX, newRectY, rectWidth, rectHeight));
         }
         animations->emplace_back(std::move(rectAnimation));
