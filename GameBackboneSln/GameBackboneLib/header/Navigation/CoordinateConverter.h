@@ -22,10 +22,10 @@ namespace GB {
 		CoordinateConverter(float widthOfGridSquares, Point2D<float> offsetOfOrigin);
 		virtual ~CoordinateConverter() = default;
 
-		sf::Vector2<float> convertCoordToWindow(const Point2D<int>& navGridCoord);
-		Point2D<int> convertCoordToNavGrid(const sf::Vector2<float>& windowCoord);
-		WindowCoordinatePath convertPathToWindow(const NavGridCoordinatePath& navGridPath);
-		NavGridCoordinatePath convertPathToNavGrid(const WindowCoordinatePath& windowPath);
+		sf::Vector2<float> convertCoordToWindow(const Point2D<int>& navGridCoord) const;
+		Point2D<int> convertCoordToNavGrid(const sf::Vector2<float>& windowCoord) const;
+		WindowCoordinatePath convertPathToWindow(const NavGridCoordinatePath& navGridPath) const;
+		NavGridCoordinatePath convertPathToNavGrid(const WindowCoordinatePath& windowPath) const;
 
 
 		void setGridSquareWidth(float newWidth);
