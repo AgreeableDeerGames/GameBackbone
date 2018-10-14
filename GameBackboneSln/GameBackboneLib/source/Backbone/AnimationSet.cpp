@@ -65,9 +65,11 @@ void AnimationSet::calculateAnimations(FrameIndexAnimationVectorPtr animationFra
     auto [textureWidth, textureHeight] = textureSize;
 
     //find the dimensions of the rectangles
-    auto [animationFrameRows, animationFrameCols] = animationFrameDimensions;
-    unsigned int rectWidth = textureWidth / animationFrameCols;
-    unsigned int rectHeight = textureHeight / animationFrameRows;
+    // auto [animationFrameRows, animationFrameCols] = animationFrameDimensions;
+    const unsigned int animationFrameRows = animationFrameDimensions.x;
+    const unsigned int animationFrameCols = animationFrameDimensions.y;
+    const unsigned int rectWidth = textureWidth / animationFrameCols;
+    const unsigned int rectHeight = textureHeight / animationFrameRows;
 
     //find the rectangle for each frame number in each animation
     for (const FrameIndexAnimation& frameAnimation : *animationFrameIndices) {

@@ -23,7 +23,7 @@ struct ReusableObjects
 		sprite = new sf::Sprite(*aSpriteTexture);
 
 		sf::Vector2u textureDim = aSpriteTexture->getSize();
-		FrameIndexAnimationVectorPtr aSpriteAnims;
+		FrameIndexAnimationVectorPtr aSpriteAnims = std::make_shared<FrameIndexAnimationVector >();
 		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
 		aSpriteAnims->push_back(aSpriteAnim1);
 		animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});

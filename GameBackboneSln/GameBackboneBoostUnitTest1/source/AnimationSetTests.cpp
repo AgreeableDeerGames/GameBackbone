@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_SUITE(AnimationSet_Actions)
 
 // Test that framesToRects produces the correct rectangles for a 2 by 2 sprite sheet
 BOOST_FIXTURE_TEST_CASE(AnimationSet_framesToRects_2x2_test, ReusableGenericAnimations) {
-	AnimationSet* animSet = new AnimationSet(numericAnimations, {2, 2}, {100, 100});
+	AnimationSet* animSet = new AnimationSet(numericAnimations, {100, 100}, {2, 2});
 
 	sf::IntRect rect0(0, 0, 50, 50);
 	sf::IntRect rect1(50, 0, 50, 50);
@@ -108,9 +108,9 @@ BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x2_test) {
 	FrameIndexAnimation anim2 = { 1, 0 };
 	auto numericAnimations = std::make_shared<FrameIndexAnimationVector>();
 	numericAnimations->push_back(anim1);
-	numericAnimations->push_back(anim1);
+	numericAnimations->push_back(anim2);
 
-	AnimationSet* animSet = new AnimationSet(numericAnimations, {1, 2}, {100, 100});
+	AnimationSet* animSet = new AnimationSet(numericAnimations, {100, 100}, {1, 2});
 
 	//check that produced animations are logical
 	auto rectAnims = animSet->getAnimations();
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(AnimationSet_framesToRects_1x1_test) {
 	auto numericAnimations = std::make_shared<FrameIndexAnimationVector>();
 	numericAnimations->push_back(anim1);
 
-	AnimationSet* animSet = new AnimationSet(numericAnimations, {1, 1}, {100, 100});
+	AnimationSet* animSet = new AnimationSet(numericAnimations, {100, 100}, {1, 1});
 
 	//check that produced animations are logical
 	auto rectAnims = animSet->getAnimations();
