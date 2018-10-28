@@ -108,7 +108,7 @@ void GameRegion::setDrawable(bool status, CompoundSprite* object) {
 		throw Error::Pointer_IllegalNull();
 	}
 
-	for (sf::Sprite* sprite : *(object->getComponents()) ) {
+	for (sf::Sprite* sprite :object->getComponents() ) {
 		setDrawable(status, sprite);
 	}
 }

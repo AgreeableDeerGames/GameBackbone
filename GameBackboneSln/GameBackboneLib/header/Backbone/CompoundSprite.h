@@ -31,8 +31,8 @@ namespace GB {
 		virtual ~CompoundSprite();
 
 		//getters
-		std::vector<sf::Sprite*>* getComponents();
-		std::vector<AnimatedSprite*>* getAnimatedSprites();
+		const std::vector<sf::Sprite*>& getComponents();
+		const std::vector<AnimatedSprite*>& getAnimatedSprites();
 		sf::Vector2f getPosition() const;
 		
 		//setters
@@ -60,7 +60,7 @@ namespace GB {
 		virtual void move(float offsetX, float offsetY);
 		virtual void move(sf::Vector2f offset);
 
-		virtual void update(sf::Time currentTime);
+		virtual void update(sf::Time currentTime) override;
 
 	protected:
 		void initializeComponentVector(const std::vector<sf::Sprite*>& components);

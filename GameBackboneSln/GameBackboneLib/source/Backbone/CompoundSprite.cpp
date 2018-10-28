@@ -76,16 +76,16 @@ CompoundSprite::~CompoundSprite() {
 /// returns the components of the CompoundSprite
 /// </summary>
 /// <returns>The non animated sprite components of the CompoundSprite.</returns>
-std::vector<sf::Sprite*>* CompoundSprite::getComponents() {
-	return &components;
+const std::vector<sf::Sprite*>& CompoundSprite::getComponents() {
+	return components;
 }
 
 /// <summary>
 /// Returns the animated sprite components of the CompoundSprite
 /// </summary>
 /// <returns>The animated sprite components of the CompoundSprite.</returns>
-std::vector<AnimatedSprite*>* CompoundSprite::getAnimatedSprites() {
-	return &animatedSprites;
+const std::vector<AnimatedSprite*>& CompoundSprite::getAnimatedSprites() {
+	return animatedSprites;
 }
 
 
