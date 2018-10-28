@@ -266,3 +266,5 @@ GameBackboneSln/\.vscode/
 GameBackboneSln/GB_BuildVars\.txt
 
 GameBackboneSln/CMakeSettings\.json
+
+GameBackboneSln/cmake-build-release/
