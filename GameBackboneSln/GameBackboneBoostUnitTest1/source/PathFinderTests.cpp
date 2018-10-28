@@ -548,9 +548,9 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_many_long_paths) {
 
 	//create return value
 	std::vector<std::deque<Point2D<int>>> pathsReturn;
-	auto startTime = std::chrono::high_resolution_clock::now();
 	pathsReturn.resize(pathRequests.size());
 	//find the path
+	auto startTime = std::chrono::high_resolution_clock::now();
 	pathfinder->pathFind(pathRequests, &pathsReturn);
 	auto endTime = std::chrono::high_resolution_clock::now();
 
