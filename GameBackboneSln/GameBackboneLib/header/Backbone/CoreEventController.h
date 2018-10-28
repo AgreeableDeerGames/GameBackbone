@@ -20,7 +20,7 @@ namespace GB {
 	///
 	/// </summary>
 	template <class Child>
-	class libGameBackbone CoreEventController {
+	class CoreEventController {
 	public:
 		//ctr / dtr
 
