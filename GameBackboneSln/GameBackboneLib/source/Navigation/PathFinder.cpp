@@ -2,11 +2,11 @@
 #include <Util/Point.h>
 #include <Util/UtilMath.h>
 
-#include <set>
-#include <queue>
-#include <map>
+#include <deque>
 #include <limits.h>
-#include <list>
+#include <map>
+#include <queue>
+#include <set>
 
 using namespace GB;
 
@@ -48,7 +48,8 @@ NavigationGrid* Pathfinder::getNavigationGrid() {
 /// </summary>
 /// <param name="pathRequests">vector containing the requirements for each path.</param>
 /// <param name="returnedPaths">vector containing the found path for each PathRequest. The path is found at the same index as its corresponding request.</param>
-void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::list<Point2D<int>>>* const returnedPaths) const {
+
+void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::deque<Point2D<int>>>* const returnedPaths) const {
 
 	typedef std::pair<Point2D<int>, int> GridValuePair;
 
@@ -81,14 +82,14 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 		std::map<Point2D<int>, Point2D<int>>* cameFrom = new std::map<Point2D<int>, Point2D<int>>();
 
 		//search for path
-		(*returnedPaths)[i] = std::list<Point2D<int>>(); //initialize path as empty
+		(*returnedPaths)[i] = std::deque<Point2D<int>>(); //initialize path as empty
 		while (!openSet->empty()) {
 			//check current grid square
 			Point2D<int> current = chooseNextGridSquare(pathRequest, openSet);
 			if (current == endPoint) {
 				//reconstruct path, and add to output vector
 
-				std::list<Point2D<int>> inOrderPath = reconstructPath(endPoint, cameFrom);
+				std::deque<Point2D<int>> inOrderPath = reconstructPath(endPoint, cameFrom);
 				(*returnedPaths)[i] = inOrderPath;
 				break;
 			}
@@ -201,9 +202,10 @@ std::vector<Point2D<int>> Pathfinder::getNeighbors(const Point2D<int> & gridSqua
 /// <param name="endPoint">The end point.</param>
 /// <param name="cameFrom">A map containing each grid square's predecessor from.</param>
 /// <returns>A vector of grid square indexes representing an in-order path to the passed endPoint.</returns>
-std::list<Point2D<int>> Pathfinder::reconstructPath(const Point2D<int> & endPoint, const std::map<Point2D<int>, Point2D<int>>* cameFrom) const {
 
-	std::list<Point2D<int>> inOrderPath;
+std::deque<Point2D<int>> Pathfinder::reconstructPath(const Point2D<int> & endPoint, std::map<Point2D<int>, Point2D<int>> const * const cameFrom) const {
+	
+	std::deque<Point2D<int>> inOrderPath;
 
 	//add grid squares until the beginning (grid square that did not come from anywhere) is found
 	// do not add first grid square. the path-finding object is already there.

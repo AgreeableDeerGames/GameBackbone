@@ -11,7 +11,6 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <functional>
-#include <list>
 #include <vector>
 
 namespace GB {
@@ -35,8 +34,8 @@ namespace GB {
 		void setParentRegion(GameRegion* newParent);
 
 		//getters
-		std::list<Updatable*>const * const getUpdatables();
-		std::list<sf::Sprite*>const * const getDrawables();
+		std::vector<Updatable*>const * const getUpdatables();
+		std::vector<sf::Sprite*>const * const getDrawables();
 		std::vector<GameRegion*>* getNeighborRegions();
 		std::vector<GameRegion*>* getChildRegions();
 		GameRegion* getParentRegion();
@@ -77,8 +76,8 @@ namespace GB {
 		void clearAssociations(std::function<void(GameRegion*)> dissociationFunction, std::vector<GameRegion*>* container);
 
 		//internal logic members
-		std::list<sf::Sprite*>* drawables;
-		std::list<Updatable*>* updatables;
+		std::vector<sf::Sprite*>* drawables;
+		std::vector<Updatable*>* updatables;
 
 		//associated regions
 		GameRegion* parentRegion;

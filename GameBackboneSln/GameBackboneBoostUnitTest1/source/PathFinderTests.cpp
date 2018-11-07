@@ -4,6 +4,9 @@
 #include <Navigation/PathFinder.h>
 #include <Util/Point.h>
 
+#include <chrono>
+#include <sstream>
+
 using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(Pathfinder_Tests)
@@ -64,7 +67,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -92,7 +95,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -128,7 +131,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -163,7 +166,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	pathRequests.push_back(pathRequest);
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -195,7 +198,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
 	pathRequests.push_back(pathRequest);
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -261,7 +264,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	pathRequests.push_back(PathRequest{ startPoint, goalPoint, 1, 0 });
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -294,7 +297,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -327,7 +330,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 	pathRequests.push_back(pathRequest2);
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -384,7 +387,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -421,7 +424,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -470,7 +473,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 
 
 	//create return value
-	std::vector<std::list<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -489,5 +492,80 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_pathFind_Tests
+
+
+BOOST_AUTO_TEST_SUITE(Pathfinder_perf_Tests)
+
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_many_long_paths) {
+	const int SQUARE_DIM = 1000;
+	const int NUM_REQUESTS = 1000;
+
+	NavigationGrid navGrid(SQUARE_DIM);
+	Pathfinder* pathfinder = new Pathfinder(&navGrid);
+
+	//ensure all grid squares are not clear
+	initAllNavigationGridValues(navGrid, NavigationGridData{ BLOCKED_GRID_WEIGHT,0 });
+
+	//clean perimeter
+	for (int i = 0; i < SQUARE_DIM; ++i) {
+		// clear top row
+		navGrid.at(0, i)->weight = 0;
+		// clear left col
+		navGrid.at(i, 0)->weight = 0;
+		// clear right col
+		navGrid.at(i, SQUARE_DIM - 1)->weight = 0;
+		// clear bottom row
+		navGrid.at(SQUARE_DIM - 1, i)->weight = 0;
+	}
+	// reblock short path
+	navGrid.at(0, 1)->weight = BLOCKED_GRID_WEIGHT;
+
+	/*
+	representation of the maze
+	Key:
+	0: clear
+	1: blocked
+	S: start
+	F: finish
+
+	S   1  F    0  0
+	0   1  ...  1  0
+	0   1  ...  1  0
+    ... 1  ...  1  ...
+    0  ... 0 ...   0
+	*/
+
+	//create requests
+	Point2D<int> startPoint{ 0, 0 };
+	Point2D<int> endPoint{ 0, 2 };
+
+	PathRequest pathRequest{ startPoint, endPoint };
+	std::vector<PathRequest> pathRequests;
+	
+	for (int i = 0; i < NUM_REQUESTS; ++i) {
+		pathRequests.push_back(pathRequest);
+	}
+
+	//create return value
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	pathsReturn.resize(pathRequests.size());
+	//find the path
+	auto startTime = std::chrono::high_resolution_clock::now();
+	pathfinder->pathFind(pathRequests, &pathsReturn);
+	auto endTime = std::chrono::high_resolution_clock::now();
+
+	BOOST_CHECK(pathsReturn[0].size() > 0);
+
+	std::chrono::duration<double> elapsedTime = std::chrono::duration_cast<std::chrono::duration<double>>(endTime - startTime);
+	std::stringstream strStream;
+	strStream << "Pathfinding time of: " << elapsedTime.count() << " seconds for pathfinding perf test";
+	BOOST_TEST_MESSAGE(strStream.str());
+
+	freeAllNavigationGridData(navGrid);
+	delete pathfinder;
+}
+
+BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_perf_Tests
+
 
 BOOST_AUTO_TEST_SUITE_END() // end Pathfinder_tests

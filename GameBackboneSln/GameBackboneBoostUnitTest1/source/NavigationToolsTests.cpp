@@ -32,7 +32,7 @@ struct ReusableObjects
 
 			// initialize paths
 			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
-				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
+				std::deque<sf::Vector2f>* path = new std::deque<sf::Vector2f>;
 
 				for (unsigned int kk = 0; kk < jj; ++kk) {
 					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
@@ -55,7 +55,7 @@ struct ReusableObjects
 	const unsigned int NUM_SPRITES = 100;
 	std::vector<sf::Sprite*> sprites;
 	std::vector<sf::Vector2f> destinations;
-	std::vector<std::list<sf::Vector2f>*> paths;
+	std::vector<std::deque<sf::Vector2f>*> paths;
 };
 
 /// <summary>
@@ -126,7 +126,7 @@ struct ReusableCompoundObjects {
 
 	  	    // initialize paths
 			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
-				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
+				std::deque<sf::Vector2f>* path = new std::deque<sf::Vector2f>;
 
 				for (unsigned int kk = 0; kk < jj; ++kk) {
 					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
@@ -152,7 +152,7 @@ struct ReusableCompoundObjects {
 	std::vector<CompoundSprite*> compoundSprites;
 	std::vector<sf::Sprite*> components;
 	std::vector<sf::Vector2f> destinations;
-	std::vector<std::list<sf::Vector2f>*> paths;
+	std::vector<std::deque<sf::Vector2f>*> paths;
 };
 
 /// <summary>
