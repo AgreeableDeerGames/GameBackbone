@@ -30,6 +30,7 @@ namespace GB {
     using FrameIndexAnimationVectorPtr = std::shared_ptr<FrameIndexAnimationVector>;
 
 
+    /// <summary> Creates and owns a set of animations comprised of several frames. </summary>
     class libGameBackbone AnimationSet {
     public:
 
@@ -60,47 +61,4 @@ namespace GB {
         // internal storage
         AnimationVectorPtr animations = std::make_shared<AnimationVector>();
     };
-
-
-	///<summary>A groups of Animation frames used by animated sprites to determine animation loops</summary>
-	class libGameBackbone DynamicAnimationSet : public AnimationSet {
-	public:
-
-		// ctrs / dtr
-		explicit DynamicAnimationSet(sf::Vector2u animationFrameDimensions);
-
-        DynamicAnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
-				     sf::Vector2u textureSize,
-				     sf::Vector2u animationFrameDimensions);
-
-        DynamicAnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
-					 const sf::Texture& texture,
-					 sf::Vector2u animationFrameDimensions);
-
-        DynamicAnimationSet();
-        DynamicAnimationSet(const DynamicAnimationSet& other) = default;
-        DynamicAnimationSet(DynamicAnimationSet&& other) noexcept = default;
-        DynamicAnimationSet& operator= (const DynamicAnimationSet& other) = default;
-        DynamicAnimationSet& operator= (DynamicAnimationSet&& other) noexcept = default;
-		~DynamicAnimationSet() override = default;
-
-
-
-		// setters
-		void setAnimationFrameDimensions(sf::Vector2u dimensions);
-		void setTextureSize(sf::Vector2u size);
-		void setFrameIndexAnimations(FrameIndexAnimationVectorPtr frameIindexAnimations);
-
-		// getters
-		sf::Vector2u getAnimationFrameDimensions() const;
-		sf::Vector2u getTextureSize() const;
-		const FrameIndexAnimationVectorPtr getFrameIndexAnimations() const;
-
-	private:
-
-		// internal storage
-		sf::Vector2u textureSize;
-		sf::Vector2u animationFrameDimensions;
-		FrameIndexAnimationVectorPtr animationFrameIndices;
-	};
 }

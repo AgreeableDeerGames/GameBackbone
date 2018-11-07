@@ -28,15 +28,6 @@ BOOST_AUTO_TEST_SUITE(AnimationSet_Tests)
 // All the ctrs for AnimationSet
 BOOST_AUTO_TEST_SUITE(AnimationSet_CTRs)
 
-/*// Test the row and col ctr for AnimationSet
-BOOST_AUTO_TEST_CASE(AnimationSet_Default_CTR) {
-	AnimationSet* animSet = new AnimationSet(2,2);
-
-	//ensure that animations initializes to empty
-	BOOST_CHECK(animSet->getAnimations()->empty());
-
-	delete animSet;
-}*/
 
 // Test the ctr for AnimationSet that includes the dimensions of the animation texture
 // and the frames for each animation
