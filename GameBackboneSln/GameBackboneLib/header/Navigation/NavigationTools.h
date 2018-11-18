@@ -9,7 +9,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <list>
+#include <deque>
 #include <memory>
 #include <math.h>
 #include <set>
@@ -18,9 +18,9 @@
 
 namespace GB {
 	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
-	libGameBackbone typedef std::list<sf::Vector2f> WindowCoordinatePath;
+	libGameBackbone typedef std::deque<sf::Vector2f> WindowCoordinatePath;
 	libGameBackbone typedef std::shared_ptr<WindowCoordinatePath> WindowCoordinatePathPtr;
-	libGameBackbone typedef std::list<Point2D<int>> NavGridCoordinatePath;
+	libGameBackbone typedef std::deque<Point2D<int>> NavGridCoordinatePath;
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// NavigationGrid memory

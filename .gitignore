@@ -266,3 +266,13 @@ GameBackboneSln/\.vscode/
 GameBackboneSln/GB_BuildVars\.txt
 
 GameBackboneSln/CMakeSettings\.json
+
+GameBackboneSln/cmake-build-release/
+
+GameBackboneSln/conanbuildinfo\.cmake
+
+GameBackboneSln/conanbuildinfo\.txt
+
+GameBackboneSln/conaninfo\.txt
+
+GameBackboneSln/GB_ConanProfile\.txt

@@ -120,7 +120,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse:
 		paths.clear();
 		paths.resize(pathsReturn.size());
 		for (unsigned int i = 0; i < navigators.size(); i++) {
-			paths[i] = std::make_shared<std::list<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
+			paths[i] = std::make_shared<std::deque<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
 		}
 	}
 }
@@ -208,14 +208,14 @@ void NavigationDemoRegion::init() {
 	pathRequests.push_back(pathRequest2);
 
 	//find the path
-	std::vector<std::list<GB::Point2D<int>>> pathsReturn;
+	std::vector<std::deque<GB::Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	regionPathfinder.pathFind(pathRequests, &pathsReturn);
 
 	//convert paths to window coordinates
 	paths.resize(pathsReturn.size());
 	for (unsigned int i = 0; i < navigators.size(); i++) {
-		paths[i] = std::make_shared<std::list<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
+		paths[i] = std::make_shared<std::deque<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
 	}
 
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;

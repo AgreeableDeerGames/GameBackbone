@@ -32,7 +32,7 @@ struct ReusableObjects
 
 			// initialize paths
 			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
-				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
+				std::deque<sf::Vector2f>* path = new std::deque<sf::Vector2f>;
 
 				for (unsigned int kk = 0; kk < jj; ++kk) {
 					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
@@ -55,7 +55,7 @@ struct ReusableObjects
 	const unsigned int NUM_SPRITES = 100;
 	std::vector<sf::Sprite*> sprites;
 	std::vector<sf::Vector2f> destinations;
-	std::vector<std::list<sf::Vector2f>*> paths;
+	std::vector<std::deque<sf::Vector2f>*> paths;
 };
 
 /// <summary>
@@ -126,7 +126,7 @@ struct ReusableCompoundObjects {
 
 	  	    // initialize paths
 			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
-				std::list<sf::Vector2f>* path = new std::list<sf::Vector2f>;
+				std::deque<sf::Vector2f>* path = new std::deque<sf::Vector2f>;
 
 				for (unsigned int kk = 0; kk < jj; ++kk) {
 					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
@@ -152,7 +152,7 @@ struct ReusableCompoundObjects {
 	std::vector<CompoundSprite*> compoundSprites;
 	std::vector<sf::Sprite*> components;
 	std::vector<sf::Vector2f> destinations;
-	std::vector<std::list<sf::Vector2f>*> paths;
+	std::vector<std::deque<sf::Vector2f>*> paths;
 };
 
 /// <summary>
@@ -424,7 +424,7 @@ BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_Rotation) {
 	float angleToDestination = (fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / (float)M_PI, 360.0f));
 
 	// ensure that the sprite is rotated correctly
-	BOOST_CHECK_CLOSE(sprite.getComponents()->at(0)->getRotation(), angleToDestination, 0.01);
+	BOOST_CHECK_CLOSE(sprite.getComponents().at(0)->getRotation(), angleToDestination, 0.01);
 }
 
 // Test that a single CompoundSprite is not rotated when the option is off.
@@ -433,11 +433,11 @@ BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_No_Rotation) {
 	CompoundSprite sprite({ &testSprite });
 	sf::Vector2f destination{ 0, 10 };
 	sf::Vector2f currentPos = sprite.getPosition();
-	const float origionalRotation = sprite.getComponents()->at(0)->getRotation();
+	const float origionalRotation = sprite.getComponents().at(0)->getRotation();
 	moveCompoundSpriteStepTowardsPoint(sprite, destination, 11, {});
 
 	// ensure that the component has its original rotation.
-	BOOST_CHECK_EQUAL(sprite.getComponents()->at(0)->getRotation(), origionalRotation);
+	BOOST_CHECK_EQUAL(sprite.getComponents().at(0)->getRotation(), origionalRotation);
 }
 
 

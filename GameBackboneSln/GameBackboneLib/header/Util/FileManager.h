@@ -21,11 +21,11 @@ namespace GB {
 		~FileManager();
 
 
-		std::string encryptDecryptString(const std::string& stringToEncrypt, const std::string& key);
-		size_t getFileSize(const std::string& filename);
-		size_t getFileHash(const std::string& filename);
+		std::string encryptDecryptString(const std::string& stringToEncrypt, const std::string& key) const;
+		size_t getFileSize(const std::string& filename) const;
+		size_t getFileHash(const std::string& filename) const;
 
-		size_t getHash(const std::string& toHash);
+		size_t getHash(const std::string& toHash) const;
 	private:
 
 		// Store the FileReader and FileWriter as pointers so clients can inherit from them

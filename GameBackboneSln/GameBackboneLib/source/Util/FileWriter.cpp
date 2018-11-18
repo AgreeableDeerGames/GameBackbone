@@ -17,7 +17,7 @@ using namespace GB;
 /// <param name="dataArray">The array populated with data.</param>
 /// <param name="delimiter">The delimiter for the output string.</param>
 /// <returns></returns>
-std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray, char delimiter) {
+std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray, char delimiter) const {
 	//Ensure the 2D array exists and at least has something in it.
 	if (dataArray == nullptr || dataArray->getArraySizeX() == 0) {
 		throw Error::FileWriter_EmptyArray2D();
@@ -50,7 +50,7 @@ std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray
 /// </summary>
 /// <param name="inString">The formatted string to be written.</param>
 /// <param name="filePath">The file path to write to.</param>
-void FileWriter::writeString(std::string outString, std::string filePath) {
+void FileWriter::writeString(const std::string& outString, const std::string& filePath) const{
 	//Initialize File Writer in binary mode.
 	std::ofstream outFile(filePath, std::ofstream::binary);
 	std::size_t stringSize = outString.size();

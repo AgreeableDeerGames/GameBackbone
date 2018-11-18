@@ -20,8 +20,8 @@ namespace GB {
 		~FileReader() = default;
 
 
-		Array2D<std::string> createArray2D(std::string inString, unsigned int totalRows, unsigned int totalColumns, char delimiter);
-		std::string readFile(std::string filePath);
+		Array2D<std::string> createArray2D(const std::string& inString, unsigned int totalRows, unsigned int totalColumns, char delimiter) const;
+		std::string readFile(const std::string& filePath) const;
 
 	private:
 

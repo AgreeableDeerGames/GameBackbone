@@ -5,7 +5,6 @@ SET(LOCAL_SOURCE_FILES
   "AnimatedSprite.cpp"
   "AnimationSet.cpp"
   "CompoundSprite.cpp"
-  "CoreEventController.cpp"
   "GameRegion.cpp"
   "RelativeRotationSprite.cpp"
 )

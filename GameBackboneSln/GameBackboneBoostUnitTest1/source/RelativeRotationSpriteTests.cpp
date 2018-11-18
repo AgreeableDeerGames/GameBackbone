@@ -71,8 +71,8 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_default_CTR, ReusableObjects) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite();
 
 	// Ensure that the components are empty
-	BOOST_CHECK(rrSprite->getComponents()->empty());
-	BOOST_CHECK(rrSprite->getAnimatedSprites()->empty());
+	BOOST_CHECK(rrSprite->getComponents().empty());
+	BOOST_CHECK(rrSprite->getAnimatedSprites().empty());
 
 	// Ensure that the position was set to (0, 0)
 	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
@@ -88,16 +88,16 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_CTR, ReusableObj
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(combinedVector);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 	// Ensure that the position was set to (0, 0)
 	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -111,8 +111,8 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_PositionOnly_CTR, ReusableObjects) 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(rrSpritePos);
 
 	// Ensure that the components are empty
-	BOOST_CHECK(rrSprite->getComponents()->empty());
-	BOOST_CHECK(rrSprite->getAnimatedSprites()->empty());
+	BOOST_CHECK(rrSprite->getComponents().empty());
+	BOOST_CHECK(rrSprite->getAnimatedSprites().empty());
 
 	// Ensure that the position was set to rrSpritePos
 	BOOST_CHECK(rrSprite->getPosition().x == rrSpritePos.x && rrSprite->getPosition().y == rrSpritePos.y);
@@ -129,17 +129,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_Position_CTR, Re
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(combinedVector, rrSpritePos);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to rrSpritePos
 	BOOST_CHECK(rrSprite->getPosition().x == rrSpritePos.x && rrSprite->getPosition().y == rrSpritePos.y);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the relative position
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -158,17 +158,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(combinedVector, initialOffsets);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to (0, 0)
 	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -186,17 +186,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(combinedVector, initialOffsets, rrSpritePos);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to rrSpritePos
 	BOOST_CHECK(rrSprite->getPosition().x == rrSpritePos.x && rrSprite->getPosition().y == rrSpritePos.y);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -215,17 +215,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_CTR, ReusableObjec
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to (0, 0)
 	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the relative position
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -244,17 +244,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Position_CTR, Reus
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, rrSpritePos);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to rrSpritePos
 	BOOST_CHECK(rrSprite->getPosition().x == rrSpritePos.x && rrSprite->getPosition().y == rrSpritePos.y);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the relative position
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -273,17 +273,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_CT
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to (0, 0)
 	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -302,17 +302,17 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Po
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets, rrSpritePos);
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
 
 	// Ensure that the position was set to rrSpritePos
 	BOOST_CHECK(rrSprite->getPosition().x == rrSpritePos.x && rrSprite->getPosition().y == rrSpritePos.y);
 
 	// For each Sprite on the RelativeRotationSprite
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -329,8 +329,8 @@ BOOST_AUTO_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Empty_CTR) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animatedSpriteVector);
 
 	//check that the component vectors are empty
-	BOOST_CHECK(rrSprite->getAnimatedSprites()->empty());
-	BOOST_CHECK(rrSprite->getComponents()->empty());
+	BOOST_CHECK(rrSprite->getAnimatedSprites().empty());
+	BOOST_CHECK(rrSprite->getComponents().empty());
 
 	delete rrSprite;
 }
@@ -388,12 +388,12 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent, ReusableObjects) {
 	}
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -422,12 +422,12 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_RelativeOffset, Reusab
 	}
 
 	// Ensure that all of the passed components are identified as component sprites
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents()->begin(), rrSprite->getComponents()->end(), combinedVector.begin(), combinedVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getComponents().begin(), rrSprite->getComponents().end(), combinedVector.begin(), combinedVector.end());
 
 	// Ensure that the animated sprites from the input vector are correctly identified
-	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites()->begin(), rrSprite->getAnimatedSprites()->end(), animSpriteVector.begin(), animSpriteVector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(rrSprite->getAnimatedSprites().begin(), rrSprite->getAnimatedSprites().end(), animSpriteVector.begin(), animSpriteVector.end());
 
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -506,7 +506,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_scale_TwoInputs, ReusableObjects) {
 
 	rrSprite->scale(scaleFactor, scaleFactor);
 
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
@@ -527,7 +527,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_scale_OneInput, ReusableObjects) {
 
 	rrSprite->scale(scaleFactor);
 
-	for (sf::Sprite* comp : *(rrSprite->getComponents()))
+	for (sf::Sprite* comp : rrSprite->getComponents())
 	{
 		// Ensure that the position is the same position as the rrSprite and the origin was set using the offsets
 		BOOST_CHECK(comp->getPosition().x == rrSprite->getPosition().x && comp->getPosition().y == rrSprite->getPosition().y);
