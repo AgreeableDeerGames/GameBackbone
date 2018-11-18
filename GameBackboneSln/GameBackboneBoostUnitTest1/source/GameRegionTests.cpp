@@ -309,8 +309,8 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t4) {
     region1->removeNeighborRegion(region7);
 
     //make sure region7 was removed
-    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
-    std::vector<GameRegion*>* region7neighbors = region7->getNeighborRegions();
+    auto region1neighbors = region1->getNeighborRegions();
+    auto region7neighbors = region7->getNeighborRegions();
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region7) == region1neighbors->end());
     BOOST_CHECK(std::find(region7neighbors->begin(), region7neighbors->end(), region1) == region7neighbors->end());
 
@@ -343,8 +343,8 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t5) {
     region1->removeNeighborRegion(region7);
 
     //make sure region7 was removed
-    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
-    std::vector<GameRegion*>* region7neighbors = region7->getNeighborRegions();
+    auto region1neighbors = region1->getNeighborRegions();
+    auto region7neighbors = region7->getNeighborRegions();
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region7) == region1neighbors->end());
     BOOST_CHECK(std::find(region7neighbors->begin(), region7neighbors->end(), region1) == region7neighbors->end());
     BOOST_CHECK(region1neighbors->size() == 2);
@@ -359,7 +359,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t5) {
     region5->removeNeighborRegion(region7);
 
     region3->clearNeighborRegions();
-    std::vector<GameRegion*>* region3neighbors = region3->getNeighborRegions();
+    auto region3neighbors = region3->getNeighborRegions();
     BOOST_CHECK(region3neighbors->size() == 0);
 
     delete region1; delete region2; delete region3; delete region5; delete region6; delete region7;
@@ -373,7 +373,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_neighbor_t6) {
     region1->addNeighborRegion(region2);//    3 - 1 - 2
     region1->addNeighborRegion(region3);
 
-    std::vector<GameRegion*>* region1neighbors = region1->getNeighborRegions();
+    auto region1neighbors = region1->getNeighborRegions();
     BOOST_CHECK(region1neighbors->size() == 2);
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region2) != region1neighbors->end());
     BOOST_CHECK(std::find(region1neighbors->begin(), region1neighbors->end(), region3) != region1neighbors->end());
