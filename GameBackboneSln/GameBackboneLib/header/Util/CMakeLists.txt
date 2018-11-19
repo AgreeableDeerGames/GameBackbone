@@ -12,7 +12,6 @@ SET(LOCAL_SOURCE_FILES
 	"FileReader.h"
 	"FileWriter.h"
 	"Point.h"
-	"Point2D.h"
 	"RandGen.h"
 	"targetver.h"
 	"UtilMath.h"

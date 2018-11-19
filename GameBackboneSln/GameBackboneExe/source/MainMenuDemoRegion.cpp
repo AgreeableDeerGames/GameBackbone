@@ -40,12 +40,9 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 /// Frees memory for every child region of this instance.
 /// </summary>
 MainMenuDemoRegion::~MainMenuDemoRegion() {
-	
 	// free all children
-
-	for (size_t ii = 0; ii < childRegions.size(); ii++) {
+	for (int ii = childRegions.size() - 1; ii >= 0; ii--) {
 		delete childRegions[ii];
-		childRegions[ii] = nullptr;
 	}
 }
 

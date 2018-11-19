@@ -96,7 +96,7 @@ void AnimatedSprite::setAnimationDelay(unsigned int delay) {
 	//getters
 
 ///<summary>returns the current frame of the current animation</summary>
-unsigned int AnimatedSprite::getCurrentFrame() {
+unsigned int AnimatedSprite::getCurrentFrame() const {
 	return currentFrame;
 }
 
@@ -104,7 +104,7 @@ unsigned int AnimatedSprite::getCurrentFrame() {
 /// returns the ID of the current animation
 /// </summary>
 /// <returns>ID of the current animation.</returns>
-unsigned int AnimatedSprite::getCurrentAnimationId() {
+unsigned int AnimatedSprite::getCurrentAnimationId() const {
 	return currentAnimationId;
 }
 
@@ -112,7 +112,7 @@ unsigned int AnimatedSprite::getCurrentAnimationId() {
 /// returns the minimum time (in ms) between two animation frames.
 /// </summary>
 /// <returns> The minimum time (in ms) between two animation frames.</returns>
-unsigned int AnimatedSprite::getAnimationDelay() {
+unsigned int AnimatedSprite::getAnimationDelay() const {
 	return animationDelay;
 }
 
@@ -120,7 +120,7 @@ unsigned int AnimatedSprite::getAnimationDelay() {
 /// returns the number of frames that have been displayed since the current animation has started.
 /// </summary>
 /// <returns> The minimum time (in ms) between two animation frames.</returns>
-unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() {
+unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() const {
 	return framesSpentInCurrentAnimation;
 }
 
@@ -130,7 +130,7 @@ unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() {
 /// <returns>
 ///   <c>true</c> if this instance is animating; otherwise, <c>false</c>.
 /// </returns>
-bool AnimatedSprite::isAnimating() {
+bool AnimatedSprite::isAnimating() const {
 	return animating;
 }
 

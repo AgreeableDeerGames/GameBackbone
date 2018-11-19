@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <memory>
+
 using namespace EXE;
 
 
@@ -19,6 +21,14 @@ RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Col
 	sprite.setColor(color);
 	sprite.setPosition(300, 300);
 	setDrawable(true, &sprite);
+
+	std::vector<std::shared_ptr<tgui::Widget>> widgets = regionGUI->getWidgets();
+	for (auto& widget : widgets) {
+		auto button = std::dynamic_pointer_cast<tgui::Button>(widget);
+		if (button != nullptr && button->getText() == "Reset") {
+			regionGUI->remove(widget);
+		}
+	}
 }
 
 
@@ -45,5 +55,3 @@ void RegionChangeDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mous
 		}
 	}
 }
-
-

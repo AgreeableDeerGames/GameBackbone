@@ -22,9 +22,9 @@ find_library(GB_LIBRARY_DYNAMIC_RELEASE
              PATH_SUFFIXES lib64 lib lib/GB build/lib build/lib/Release
              PATHS ${FIND_GB_PATHS})
 
-find_library(GB_LIBRARY_DYNAMIC_RELEASE
+find_library(GB_LIBRARY_DYNAMIC_DEBUG
             NAMES GameBackbone-d
-            PATH_SUFFIXES lib64 lib lib/GB build/lib build/lib/Release
+            PATH_SUFFIXES lib64 lib lib/GB build/lib build/lib/Debug
             PATHS ${FIND_GB_PATHS})
 
 

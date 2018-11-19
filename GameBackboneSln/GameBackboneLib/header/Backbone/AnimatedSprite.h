@@ -47,11 +47,11 @@ namespace GB {
 		void setAnimations(AnimationSet* animations);
 		void setAnimationDelay(unsigned int speed);
 			//getters
-		unsigned int getCurrentFrame();
-		unsigned int getCurrentAnimationId();
-		unsigned int getAnimationDelay();
-		unsigned int getFramesSpentInCurrentAnimation();
-		bool isAnimating();
+		unsigned int getCurrentFrame() const;
+		unsigned int getCurrentAnimationId() const;
+		unsigned int getAnimationDelay() const;
+		unsigned int getFramesSpentInCurrentAnimation() const;
+		bool isAnimating() const;
 
 		//operations
 		void runAnimation(unsigned int animationId);

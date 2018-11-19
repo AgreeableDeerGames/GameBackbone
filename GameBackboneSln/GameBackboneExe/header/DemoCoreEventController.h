@@ -6,7 +6,7 @@
 
 
 namespace EXE {
-	class DemoCoreEventController : public GB::CoreEventController {
+	class DemoCoreEventController : public GB::CoreEventController<DemoCoreEventController> {
 	public:
 		// ctr / dtr
 		DemoCoreEventController();
@@ -17,7 +17,7 @@ namespace EXE {
 		virtual ~DemoCoreEventController();
 
 		//events
-		bool handleCoreEvent(sf::Event& event) override;
+		bool handleCoreEvent(sf::Event& event);
 
 	private:
 		sf::View camera;

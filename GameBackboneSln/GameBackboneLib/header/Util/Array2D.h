@@ -37,12 +37,11 @@ namespace GB {
 		}
 
 		Array2D(const Array2D<templateClass>& other) = default;
-		Array2D(Array2D<templateClass>&& other) = default;
+		Array2D(Array2D<templateClass>&& other) noexcept = default;
 		Array2D& operator= (const Array2D<templateClass>& other) = default;
-		Array2D& operator= (Array2D<templateClass>&& other) = default;
+		Array2D& operator= (Array2D<templateClass>&& other) noexcept = default;
 
-		~Array2D() {
-		}
+		~Array2D() = default;
 
 		//getters / setters
 
@@ -69,12 +68,12 @@ namespace GB {
 
 		//accessors
 
-	/// <summary>
-	/// Accesses the element at the passed index.
-	/// </summary>
-	/// <param name="x">The x position of the element.</param>
-	/// <param name="y">The y position of the element.</param>
-	/// <returns>Returns a reference to the element at the passed index.</returns>
+        /// <summary>
+        /// Accesses the element at the passed index.
+        /// </summary>
+        /// <param name="x">The x position of the element.</param>
+        /// <param name="y">The y position of the element.</param>
+        /// <returns>Returns a reference to the element at the passed index.</returns>
 		templateClass& at(unsigned int x, unsigned int y) {
 			return (*this)(x, y);
 		}
@@ -91,11 +90,11 @@ namespace GB {
 
 		//getters
 
-	/// <summary>
-	/// Gets the array size in the x dimension.
-	/// </summary>
-	/// <returns></returns>
-		unsigned int getArraySizeX() {
+        /// <summary>
+        /// Gets the array size in the x dimension.
+        /// </summary>
+        /// <returns></returns>
+		unsigned int getArraySizeX() const {
 			return xLength;
 		}
 
@@ -103,7 +102,7 @@ namespace GB {
 		/// Gets the array size in the y dimension.
 		/// </summary>
 		/// <returns></returns>
-		unsigned int getArraySizeY() {
+		unsigned int getArraySizeY() const {
 			return yLength;
 		}
 
@@ -125,7 +124,7 @@ namespace GB {
 	    /// <param name="x">The x position of the element.</param>
 	    /// <param name="y">The y position of the element.</param>
 	    /// <returns>Returns true if in the Array2D, false if not.</returns>
-        bool isInArray(unsigned int x, unsigned int y) {
+        bool isInArray(unsigned int x, unsigned int y) const {
             if (x < getArraySizeX() && y < getArraySizeY()) {
                 return true;
             }
@@ -135,13 +134,13 @@ namespace GB {
 	private:
 		//internal helper functions
 
-	/// <summary>
-	/// Flattens the 2d coordinate into a 1d position.
-	/// </summary>
-	/// <param name="x">The x position of the 2d coordinate.</param>
-	/// <param name="y">The y position of the 2d coordinate.</param>
-	/// <returns>The position of the 2d coordinate in a 1d format.</returns>
-		unsigned int flatten2dCoordinate(unsigned int x, unsigned int y) {
+        /// <summary>
+        /// Flattens the 2d coordinate into a 1d position.
+        /// </summary>
+        /// <param name="x">The x position of the 2d coordinate.</param>
+        /// <param name="y">The y position of the 2d coordinate.</param>
+        /// <returns>The position of the 2d coordinate in a 1d format.</returns>
+		unsigned int flatten2dCoordinate(unsigned int x, unsigned int y) const {
 			//return y * xLength + x;
 			return x * yLength + y;
 		}
