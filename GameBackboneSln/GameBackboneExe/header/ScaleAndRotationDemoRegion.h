@@ -6,6 +6,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+
 namespace EXE{
 
 	/// <summary>
@@ -56,16 +58,16 @@ namespace EXE{
 		sf::Time lastUpdateTime;
 
 		// sprite textures
-		sf::Texture* navigatorTexture;
-		sf::Texture* rotationArrowCenterTexture;
-		sf::Texture* rotationArrowLowTexture;
-		sf::Texture* rotationArrowLeftTexture;
+		std::unique_ptr<sf::Texture> navigatorTexture;
+		std::unique_ptr<sf::Texture> rotationArrowCenterTexture;
+		std::unique_ptr<sf::Texture> rotationArrowLowTexture;
+		std::unique_ptr<sf::Texture> rotationArrowLeftTexture;
 
 		// compound sprite stuff
-		GB::CompoundSprite* compSprite;
-		sf::Sprite* compComponent1;
-		sf::Sprite* compComponent2;
-		sf::Sprite* compComponent3;
+		std::unique_ptr<GB::CompoundSprite> compSprite;
+		std::unique_ptr<sf::Sprite> compComponent1;
+		std::unique_ptr<sf::Sprite> compComponent2;
+		std::unique_ptr<sf::Sprite> compComponent3;
 		std::vector<sf::Sprite*> textureOffsetSprites;
 
 		// compound sprite selection
