@@ -74,7 +74,6 @@ void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::
 	}
 }
 
-
 /// <summary>
 /// Handles mouse wheel scroll logic.
 /// </summary>
@@ -82,7 +81,6 @@ void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::
 void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
 	compSprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
 }
-
 
 /// <summary>
 /// Handles the mouse drag.
@@ -103,18 +101,18 @@ void ScaleAndRotationDemoRegion::init() {
 
 	// relative rotation sprites
 	std::string arrowPath("Textures/SmallArrow.png");
-	navigatorTexture = new sf::Texture();
+	navigatorTexture = std::make_unique<sf::Texture>();
 	navigatorTexture->loadFromFile(arrowPath);
 
 	// compound sprite with overlapping sprites
 	std::string rotationArrowCenterPath("Textures/RotationArrowCenter.png");
 	std::string rotationArrowLowPath("Textures/RotationArrowLow.png");
 	std::string rotationArrowLeftPath("Textures/RotationArrowLeft.png");
-	rotationArrowCenterTexture = new sf::Texture();
+	rotationArrowCenterTexture = std::make_unique<sf::Texture>();
 	rotationArrowCenterTexture->loadFromFile(rotationArrowCenterPath);
-	rotationArrowLeftTexture = new sf::Texture();
+	rotationArrowLeftTexture = std::make_unique<sf::Texture>();
 	rotationArrowLeftTexture->loadFromFile(rotationArrowLeftPath);
-	rotationArrowLowTexture = new sf::Texture();
+	rotationArrowLowTexture = std::make_unique<sf::Texture>();
 	rotationArrowLowTexture->loadFromFile(rotationArrowLowPath);
 
 	
@@ -123,10 +121,10 @@ void ScaleAndRotationDemoRegion::init() {
 	// relative rotation sprites
 	const float COMPOUND_SPRITE_TEST_X = 400;
 	const float COMPOUND_SPRITE_TEST_y = 400;
-	compComponent1 = new sf::Sprite(*navigatorTexture);
-	compComponent2 = new sf::Sprite(*navigatorTexture);
-	compComponent3 = new sf::Sprite(*navigatorTexture);
-	std::vector<sf::Sprite*> spriteVector = {compComponent1 , compComponent2, compComponent3 };
+	compComponent1 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	compComponent2 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	compComponent3 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	std::vector<sf::Sprite*> spriteVector = { compComponent1.get() , compComponent2.get(), compComponent3.get() };
 
 	// compound sprite with overlapping sprites
 	sf::Sprite* rotationArrowCenterSprite = new sf::Sprite(*rotationArrowCenterTexture);
@@ -145,7 +143,7 @@ void ScaleAndRotationDemoRegion::init() {
 			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
 
 			// Create the compound sprite by adding the components to the constructor
-			compSprite = new GB::RelativeRotationSprite(spriteVector, { COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
+			compSprite = std::make_unique<GB::RelativeRotationSprite>(spriteVector, sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
@@ -155,10 +153,10 @@ void ScaleAndRotationDemoRegion::init() {
 			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 
 			// Create the compound sprite then add all of the components with a relative offset
-			compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-			static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent1, { 80, 0 });
-			static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent2, { 0, 80 });
-			static_cast<GB::RelativeRotationSprite*>(compSprite)->addComponent(compComponent3, { 0, 0 });
+			compSprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			static_cast<GB::RelativeRotationSprite*>(compSprite.get())->addComponent(compComponent1.get(), { 80, 0 });
+			static_cast<GB::RelativeRotationSprite*>(compSprite.get())->addComponent(compComponent2.get(), { 0, 80 });
+			static_cast<GB::RelativeRotationSprite*>(compSprite.get())->addComponent(compComponent3.get(), { 0, 0 });
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
@@ -169,14 +167,14 @@ void ScaleAndRotationDemoRegion::init() {
 
 			// create the compound sprite then add all of the components. The components will maintain their
 			// positions relative to the compound sprite
-			compSprite = new GB::RelativeRotationSprite({ COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y });
-			compSprite->addComponent(compComponent1);
-			compSprite->addComponent(compComponent2);
-			compSprite->addComponent(compComponent3);
+			compSprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			compSprite->addComponent(compComponent1.get());
+			compSprite->addComponent(compComponent2.get());
+			compSprite->addComponent(compComponent3.get());
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
-			compSprite = new GB::CompoundSprite(textureOffsetSprites);
+			compSprite = std::make_unique<GB::CompoundSprite>(textureOffsetSprites);
 			compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 			break;
 		}
@@ -189,9 +187,8 @@ void ScaleAndRotationDemoRegion::init() {
 	compComponent1->setColor(sf::Color::Magenta);
 	compComponent2->setColor(sf::Color::White);
 	compComponent3->setColor(sf::Color::Green);
-	setDrawAndUpdateable(true, compSprite);
+	setDrawAndUpdateable(true, compSprite.get());
 }
-
 
 /// <summary>
 /// Resets this instance.
@@ -311,31 +308,13 @@ void ScaleAndRotationDemoRegion::initMethod4CB() {
 	reset();
 }
 
-
 // private dtr
 
 /// <summary>
 /// Frees all dynamically allocated memory in this instance
 /// </summary>
 void ScaleAndRotationDemoRegion::destroy() {
-	//delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-	delete rotationArrowCenterTexture;
-	rotationArrowCenterTexture = nullptr;
-	delete rotationArrowLeftTexture;
-	rotationArrowLeftTexture = nullptr;
-	delete rotationArrowLowTexture;
-	rotationArrowLowTexture = nullptr;
-
-	// delete sprites
-	delete compComponent1;
-	compComponent1 = nullptr;
-	delete compComponent2;
-	compComponent2 = nullptr;
-	delete compSprite;
-	compSprite = nullptr;
-
+	//delete sprites
 	for (sf::Sprite* sprite : textureOffsetSprites) {
 		delete sprite;
 		sprite = nullptr;

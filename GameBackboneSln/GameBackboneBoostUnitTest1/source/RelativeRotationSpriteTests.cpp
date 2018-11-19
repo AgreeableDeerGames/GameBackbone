@@ -24,12 +24,11 @@ struct ReusableObjects{
 		spriteVector.push_back(sprite1);
 		spriteVector.push_back(sprite2);
 
-		sf::Vector2u textureDim = aSpriteTexture->getSize();
-		std::vector<std::vector<unsigned int>> aSpriteAnims;
+		auto aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
 		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-		aSpriteAnims.push_back(aSpriteAnim1);
-		animSet1 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-		animSet2 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+		aSpriteAnims->push_back(aSpriteAnim1);
+		animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+		animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
 
 		animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
 		animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);

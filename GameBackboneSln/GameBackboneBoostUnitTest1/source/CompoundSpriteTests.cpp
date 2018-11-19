@@ -23,11 +23,11 @@ struct ReusableObjects
 		sprite = new sf::Sprite(*aSpriteTexture);
 
 		sf::Vector2u textureDim = aSpriteTexture->getSize();
-		std::vector<std::vector<unsigned int>> aSpriteAnims;
+		FrameIndexAnimationVectorPtr aSpriteAnims = std::make_shared<FrameIndexAnimationVector >();
 		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-		aSpriteAnims.push_back(aSpriteAnim1);
-		animSet1 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-		animSet2 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+		aSpriteAnims->push_back(aSpriteAnim1);
+		animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+		animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
 
 		animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
 		animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);
@@ -64,12 +64,11 @@ struct ReusableObjectsForOperations {
 		sprite2 = new sf::Sprite(*aSpriteTexture);
 		sprite2->setPosition(0, 10);
 
-		sf::Vector2u textureDim = aSpriteTexture->getSize();
-		std::vector<std::vector<unsigned int>> aSpriteAnims;
+		auto aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
 		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-		aSpriteAnims.push_back(aSpriteAnim1);
-		animSet1 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-		animSet2 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+		aSpriteAnims->push_back(aSpriteAnim1);
+		animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+		animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
 
 		animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
 		animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);
@@ -524,11 +523,11 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_scale) {
 	std::string testTexturePath = "Textures/testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
-	std::vector<std::vector<unsigned int>> aSpriteAnims;
+	auto aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
 	std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-	aSpriteAnims.push_back(aSpriteAnim1);
-	AnimationSet* animSet1 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-	AnimationSet* animSet2 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+	aSpriteAnims->push_back(aSpriteAnim1);
+	AnimationSet* animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+	AnimationSet* animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
 
 	AnimatedSprite* animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
 	AnimatedSprite* animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);
@@ -783,11 +782,11 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_move) {
 	std::string testTexturePath = "Textures/testSprite.png";
 	aSpriteTexture->loadFromFile(testTexturePath);
 	sf::Vector2u textureDim = aSpriteTexture->getSize();
-	std::vector<std::vector<unsigned int>> aSpriteAnims;
-	std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-	aSpriteAnims.push_back(aSpriteAnim1);
-	AnimationSet* animSet1 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
-	AnimationSet* animSet2 = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+	auto aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
+	FrameIndexAnimation aSpriteAnim1 = { 0, 1, 2, 3 };
+	aSpriteAnims->push_back(aSpriteAnim1);
+	AnimationSet* animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+	AnimationSet* animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
 
 	AnimatedSprite* animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
 	AnimatedSprite* animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);

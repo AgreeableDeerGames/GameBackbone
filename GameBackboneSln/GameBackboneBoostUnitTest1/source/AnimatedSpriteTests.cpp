@@ -27,11 +27,10 @@ struct ReusableObjects
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		//create animation set
-		sf::Vector2u textureDim = aSpriteTexture->getSize();
-		std::vector<std::vector<unsigned int>> aSpriteAnims;
-		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-		aSpriteAnims.push_back(aSpriteAnim1);
-		animSet = new AnimationSet(aSpriteAnims, textureDim.x, textureDim.y, 2, 2);
+		FrameIndexAnimationVectorPtr aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
+		FrameIndexAnimation aSpriteAnim1 = { 0, 1, 2, 3 };
+		aSpriteAnims->push_back(aSpriteAnim1);
+		animSet = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
 
 		//create animatedSprite
 		animSpriteWithAnim = new AnimatedSprite(*aSpriteTexture, animSet);
@@ -175,8 +174,10 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End_Default, Reusabl
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
 	std::vector<unsigned int> singleFrameAnim = {0};
 	std::vector<unsigned int> emptyAnim;
-	std::vector<std::vector<unsigned int>> animVector = {singleFrameAnim, emptyAnim};
-	AnimationSet animSetEmptyAnim(animVector, 1, 1, 1, 1);
+	auto animVector = std::make_shared<FrameIndexAnimationVector>();
+	animVector->push_back(singleFrameAnim);
+	animVector->push_back(emptyAnim);
+	AnimationSet animSetEmptyAnim(animVector, {1, 1}, {1, 1});
 	AnimatedSprite emptyAnimSprite(*aSpriteTexture, &animSetEmptyAnim);
 
 	// ensure that an empty animation can be ran
@@ -185,9 +186,10 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
 
 // Test running an animation with one frame
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Loop_After_End, ReusableObjects) {
-	std::vector<unsigned int> singleFrameAnim = { 0 };
-	std::vector<std::vector<unsigned int>> animVector = { singleFrameAnim };
-	AnimationSet animSetSingleFrameAnim(animVector, 1, 1, 1, 1);
+	FrameIndexAnimation singleFrameAnim = { 0 };
+	auto animVector = std::make_shared<FrameIndexAnimationVector>();
+	animVector->push_back(singleFrameAnim);
+	AnimationSet animSetSingleFrameAnim(animVector, {1, 1}, {1, 1});
 	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
 
 	singleFrameAnimSprite.setAnimationDelay(1);
@@ -216,8 +218,9 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Loop_After_End
 // Test running an animation with one frame and reversing directions
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Reverse_After_End, ReusableObjects) {
 	std::vector<unsigned int> singleFrameAnim = { 0 };
-	std::vector<std::vector<unsigned int>> animVector = { singleFrameAnim };
-	AnimationSet animSetSingleFrameAnim(animVector, 1, 1, 1, 1);
+	auto animVector = std::make_shared<FrameIndexAnimationVector> ();
+	animVector->push_back(singleFrameAnim);
+	AnimationSet animSetSingleFrameAnim(animVector, {1, 1}, {1, 1});
 	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
 
 	singleFrameAnimSprite.setAnimationDelay(1);
@@ -246,8 +249,9 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Reverse_After_
 // Test running an animation with one frame and stopping
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Stop_After_End, ReusableObjects) {
 	std::vector<unsigned int> singleFrameAnim = { 0 };
-	std::vector<std::vector<unsigned int>> animVector = { singleFrameAnim };
-	AnimationSet animSetSingleFrameAnim(animVector, 1, 1, 1, 1);
+	auto animVector = std::make_shared<FrameIndexAnimationVector>();
+	animVector->push_back(singleFrameAnim);
+	AnimationSet animSetSingleFrameAnim(animVector, {1, 1}, {1, 1});
 	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
 
 	singleFrameAnimSprite.setAnimationDelay(1);
