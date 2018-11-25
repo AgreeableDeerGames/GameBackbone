@@ -163,7 +163,7 @@ protected:
 		/// </summary>
 		void coreDraw() {
 			//draw every drawable object in the active region.
-			for (sf::Sprite*  drawObject : *(activeRegion->getDrawables())) {
+			for (sf::Drawable* drawObject : *(activeRegion->getDrawables())) {
 				window->draw(*drawObject);
 			}
 

@@ -11,7 +11,7 @@ using namespace GB;
 /// </summary>
 GameRegion::GameRegion() {
 	updatables = new std::vector<Updatable*>();
-	drawables = new std::vector<sf::Sprite*>();
+	drawables = new std::vector<sf::Drawable*>();
 	parentRegion = nullptr;
 	regionGUI = new tgui::Gui();
 }
@@ -82,7 +82,7 @@ void GameRegion::setUpdatable(bool status, Updatable* object) {
 /// </summary>
 /// <param name="status">if set to <c>true</c> the object will be drawable, otherwise the object will be made non-drawable.</param>
 /// <param name="object">The object. Passing nullptr is illegal.</param>
-void GameRegion::setDrawable(bool status, sf::Sprite* object) {
+void GameRegion::setDrawable(bool status, sf::Drawable* object) {
 	if (object == nullptr) {
 		throw Error::Pointer_IllegalNull();
 	}
@@ -108,7 +108,7 @@ void GameRegion::setDrawable(bool status, CompoundSprite* object) {
 		throw Error::Pointer_IllegalNull();
 	}
 
-	for (sf::Sprite* sprite :object->getComponents() ) {
+	for (sf::Sprite* sprite : object->getComponents() ) {
 		setDrawable(status, sprite);
 	}
 }
@@ -156,7 +156,7 @@ const std::vector<Updatable*>* const GameRegion::getUpdatables() {
 /// Return the region's list of drawable objects
 /// </summary>
 /// <returns>std::vector of drawable objects</returns>
-const std::vector<sf::Sprite*>* const GameRegion::getDrawables() {
+const std::vector<sf::Drawable*>* const GameRegion::getDrawables() {
 	return drawables;
 }
 
