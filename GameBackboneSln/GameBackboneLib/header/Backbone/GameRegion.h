@@ -34,8 +34,8 @@ namespace GB {
 		void setParentRegion(GameRegion* newParent);
 
 		//getters
-		const std::vector<Updatable*>const * const getUpdatables();
-		const std::vector<sf::Sprite*>const * const getDrawables();
+		const std::vector<Updatable*>* const getUpdatables();
+		const std::vector<sf::Sprite*>* const getDrawables();
 		const std::vector<GameRegion*>* getNeighborRegions();
 		const std::vector<GameRegion*>* getChildRegions();
 
