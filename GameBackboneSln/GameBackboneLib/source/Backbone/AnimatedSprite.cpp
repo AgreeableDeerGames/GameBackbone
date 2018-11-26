@@ -50,6 +50,7 @@ void AnimatedSprite::AnimatedSpriteInit(AnimationSet* animations) {
 	this->framesSpentInCurrentAnimation = 0;
 	this->lastUpdate = lastUpdate.Zero;
 	this->animationDelay = 0;
+	this->isReverse = false;
 }
 
 AnimatedSprite::~AnimatedSprite() {
