@@ -27,7 +27,7 @@ namespace GB {
 		//getters / setters
 		//setters
 		void setUpdatable(bool status, Updatable* object);
-		void setDrawable(bool status, sf::Sprite* object);
+		void setDrawable(bool status, sf::Drawable* object);
 		void setDrawable(bool status, CompoundSprite* object);
 		void setDrawAndUpdateable(bool status, AnimatedSprite* object);
 		void setDrawAndUpdateable(bool status, CompoundSprite* object);
@@ -35,7 +35,7 @@ namespace GB {
 
 		//getters
 		const std::vector<Updatable*>* const getUpdatables();
-		const std::vector<sf::Sprite*>* const getDrawables();
+		const std::vector<sf::Drawable*>* const getDrawables();
 		const std::vector<GameRegion*>* getNeighborRegions();
 		const std::vector<GameRegion*>* getChildRegions();
 
@@ -77,7 +77,7 @@ namespace GB {
 		void clearAssociations(std::function<void(GameRegion*)> dissociationFunction, std::vector<GameRegion*>* container);
 
 		//internal logic members
-		std::vector<sf::Sprite*>* drawables;
+		std::vector<sf::Drawable*>* drawables;
 		std::vector<Updatable*>* updatables;
 
 		//associated regions

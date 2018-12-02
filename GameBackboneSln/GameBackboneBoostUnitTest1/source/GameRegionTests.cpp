@@ -130,6 +130,19 @@ BOOST_AUTO_TEST_CASE(GameRegion_getDrawables) {
     delete gameRegion;
 }
 
+// Tests SFMLs ability to draw backbones drawables.
+BOOST_AUTO_TEST_CASE(GameRegion_getDrawables_sfml_can_draw) {
+	sf::RenderWindow window(sf::VideoMode(1, 1), "windowName");
+	GameRegion gameRegion;
+
+	// if this compiles we know that sfml can draw what GameRegion stores as drawables.
+	for (auto drawable : *gameRegion.getDrawables())
+	{
+		window.draw(*drawable);
+	}
+	BOOST_CHECK(true);
+}
+
 // Tests adding and removing with setDrawables
 BOOST_AUTO_TEST_CASE(GameRegion_setDrawables) {
     GameRegion* gameRegion = new GameRegion();
