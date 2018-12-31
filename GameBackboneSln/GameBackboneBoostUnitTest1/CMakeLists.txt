@@ -22,8 +22,6 @@ endif()
 include_directories(${GB_INCLUDE_DIR})
 target_link_libraries(GameBackboneUnitTest GameBackbone)
 
-# set(Boost_USE_STATIC_LIBS ON)
-# find_package(Boost 1.68 COMPONENTS unit_test_framework test_exec_monitor REQUIRED)
 find_package(Boost 1.68 COMPONENTS unit_test_framework REQUIRED)
 if(Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
