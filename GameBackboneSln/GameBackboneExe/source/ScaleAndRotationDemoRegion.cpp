@@ -212,7 +212,7 @@ void ScaleAndRotationDemoRegion::reset() {
 /// </summary>
 void ScaleAndRotationDemoRegion::initGUI() {
 	// Load the black theme
-	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+	tgui::Theme theme("TGUI_Widgets/Black.txt");
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes

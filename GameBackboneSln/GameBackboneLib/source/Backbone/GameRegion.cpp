@@ -22,7 +22,7 @@ GameRegion::GameRegion() {
 /// </summary>
 /// <param name="window">The window.</param>
 GameRegion::GameRegion(sf::RenderWindow & window) : GameRegion() {
-	regionGUI->setWindow(window);
+	regionGUI->setTarget(window);
 }
 
 /// <summary>

@@ -12,15 +12,13 @@ find_package(SFML 2 REQUIRED network audio graphics window system)
 
 # link to SFML and TGUI
 if(SFML_FOUND)
-  include_directories(${SFML_INCLUDE_DIR})
   target_link_libraries(GameBackboneDemo sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
 endif()
 
 
-find_package(TGUI 0.7.7 REQUIRED)
+find_package(TGUI 0.8.2 REQUIRED)
 if(TGUI_FOUND)
-  include_directories(${TGUI_INCLUDE_DIR})
-  target_link_libraries(GameBackboneDemo ${TGUI_LIBRARY})
+  target_link_libraries(GameBackboneDemo tgui)
 endif()
 
 # This is how to link to GB if it was being built from a different CMake process
