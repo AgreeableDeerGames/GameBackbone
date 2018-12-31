@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_window_CTR) {
 	BOOST_CHECK(gameRegion->getDrawables()->size() == 0);
 	BOOST_CHECK(gameRegion->getUpdatables()->size() == 0);
 	BOOST_CHECK(gameRegion->getGUI() != nullptr);
-	BOOST_CHECK(gameRegion->getGUI()->getWindow() == window);
+	BOOST_CHECK(gameRegion->getGUI()->getTarget() == window);
 
 	delete window;
 	delete gameRegion;
@@ -221,10 +221,10 @@ BOOST_AUTO_TEST_CASE(GameRegion_getGUI) {
 
 	//get reference to gameRegion's GUI, then change the reference's window.
 	tgui::Gui* regionGUI = gameRegion->getGUI();
-	regionGUI->setWindow(*newWindow);
+	regionGUI->setTarget(*newWindow);
 
 	//If the GUI reference is mutable, then newWindow will be gameRegion's window
-	BOOST_CHECK(gameRegion->getGUI()->getWindow() == newWindow);
+	BOOST_CHECK(gameRegion->getGUI()->getTarget() == newWindow);
 
 	delete newWindow;
 	delete gameRegion;

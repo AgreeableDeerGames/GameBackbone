@@ -66,11 +66,11 @@ void MainMenuDemoRegion::registerSetActiveRegionCB(std::function<void(GameRegion
 /// </summary>
 void EXE::MainMenuDemoRegion::initGUI() {
 	// Load the black theme
-	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+	tgui::Theme theme("TGUI_Widgets/Black.txt");
 
 	// hide parent classes button
-	returnToMenuButton->hide();
-	resetButton->hide();
+	returnToMenuButton->setVisible(false);
+	resetButton->setVisible(false);
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
@@ -88,7 +88,8 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	tgui::Layout buttonHeight = windowHeight / 7.0f;
 
 	// create Navigation region button
-	tgui::Button::Ptr navigationRegionButton = theme->load("Button");
+	tgui::Button::Ptr navigationRegionButton = tgui::Button::create();
+	navigationRegionButton->setRenderer(theme.getRenderer("Button"));
 	navigationRegionButton->setSize(buttonWidth, buttonHeight);
 	navigationRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 1.0f *windowHeight / 7.0f);
 	navigationRegionButton->setText("Navigation Demo");
@@ -96,7 +97,8 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	regionGUI->add(navigationRegionButton);
 
 	// create Scale and Rotation Demo button
-	tgui::Button::Ptr scaleAndRotationDemoButton = theme->load("Button");
+	tgui::Button::Ptr scaleAndRotationDemoButton = tgui::Button::create();
+	scaleAndRotationDemoButton->setRenderer(theme.getRenderer("Button"));
 	scaleAndRotationDemoButton->setSize(buttonWidth, buttonHeight);
 	scaleAndRotationDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f * windowHeight / 7.0f);
 	scaleAndRotationDemoButton->setText("Scale and Rotation Demo");
@@ -104,7 +106,8 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	regionGUI->add(scaleAndRotationDemoButton);
 
 	// create region change demo button
-	tgui::Button::Ptr regionChangeButton = theme->load("Button");
+	tgui::Button::Ptr regionChangeButton = tgui::Button::create();
+	regionChangeButton->setRenderer(theme.getRenderer("Button"));
 	regionChangeButton->setSize(buttonWidth, buttonHeight);
 	regionChangeButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 5.0f * windowHeight / 7.0f);
 	regionChangeButton->setText("Region Change Demo");

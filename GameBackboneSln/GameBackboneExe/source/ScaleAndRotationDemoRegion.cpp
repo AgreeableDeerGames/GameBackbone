@@ -221,10 +221,9 @@ void ScaleAndRotationDemoRegion::initGUI() {
 
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	tgui::Picture::Ptr picture = tgui::Picture::create("Textures/Backbone2.png");
-	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
-
 
 	const int NUM_BUTTONS = 4;
 	tgui::Layout buttonWidth = windowWidth / (NUM_BUTTONS + NUM_BUTTONS + 1);
@@ -232,7 +231,8 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	int buttonIndex = 0;
 
 	// create initMethod1 button
-	tgui::Button::Ptr relativePositionCtrButton = theme->load("Button");
+	tgui::Button::Ptr relativePositionCtrButton = tgui::Button::create();
+	relativePositionCtrButton->setRenderer(theme.getRenderer("Button"));
 	relativePositionCtrButton->setSize(buttonWidth, buttonHeight);
 	relativePositionCtrButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	relativePositionCtrButton->setText("Relative Position\n    Constructor");
@@ -241,7 +241,8 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	buttonIndex++;
 
 	// create initMethod2 button
-	tgui::Button::Ptr relativeOffsetButton = theme->load("Button");
+	tgui::Button::Ptr relativeOffsetButton = tgui::Button::create();
+	relativeOffsetButton->setRenderer(theme.getRenderer("Button"));
 	relativeOffsetButton->setSize(buttonWidth, buttonHeight);
 	relativeOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	relativeOffsetButton->setText("Relative Offset");
@@ -250,7 +251,8 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	buttonIndex++;
 
 	// create initMethod3 button
-	tgui::Button::Ptr relativePositionButton = theme->load("Button");
+	tgui::Button::Ptr relativePositionButton = tgui::Button::create();
+	relativePositionButton->setRenderer(theme.getRenderer("Button"));
 	relativePositionButton->setSize(buttonWidth, buttonHeight);
 	relativePositionButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	relativePositionButton->setText("Relative Position");
@@ -259,7 +261,8 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	buttonIndex++;
 
 	// create initMethod4 button
-	tgui::Button::Ptr textureBasedOffsetButton = theme->load("Button");
+	tgui::Button::Ptr textureBasedOffsetButton = tgui::Button::create();
+	textureBasedOffsetButton->setRenderer(theme.getRenderer("Button"));
 	textureBasedOffsetButton->setSize(buttonWidth, buttonHeight);
 	textureBasedOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	textureBasedOffsetButton->setText("Texture Offset");
