@@ -5,6 +5,7 @@ SET(LOCAL_SOURCE_FILES
   "DemoRegion.h"
   "MainMenuDemoRegion.h"
   "NavigationDemoRegion.h"
+  "PlatformDemoRegion.h"
   "RegionChangeDemoRegion.h"
   "ScaleAndRotationDemoRegion.h"
   "targetver.h"

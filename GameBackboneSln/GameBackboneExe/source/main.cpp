@@ -1,6 +1,5 @@
 #include <DemoCoreEventController.h>
 
-
 using namespace EXE;
 
 int main() {

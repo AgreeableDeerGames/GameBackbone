@@ -28,6 +28,10 @@ void DemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button bu
 
 void DemoRegion::handleWheelScroll(float scrollDelta){}
 
+void DemoRegion::handleKeyPress(sf::Event::KeyEvent key){}
+
+void DemoRegion::handleKeyRelease(sf::Event::KeyEvent key){}
+
 
 // initialization
 

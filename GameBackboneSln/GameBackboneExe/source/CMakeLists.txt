@@ -6,6 +6,7 @@ SET(LOCAL_SOURCE_FILES
   "main.cpp"
   "MainMenuDemoRegion.cpp"
   "NavigationDemoRegion.cpp"
+  "PlatformDemoRegion.cpp"
   "RegionChangeDemoRegion.cpp"
   "ScaleAndRotationDemoRegion.cpp"
 )

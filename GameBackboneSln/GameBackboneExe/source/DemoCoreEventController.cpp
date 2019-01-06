@@ -67,6 +67,16 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 		static_cast<DemoRegion*>(activeRegion)->handleWheelScroll(event.mouseWheelScroll.delta);
 		return true;
 	}
+	case sf::Event::KeyPressed:
+	{
+		static_cast<DemoRegion*>(activeRegion)->handleKeyPress(event.key);
+		return true;
+	}
+	case sf::Event::KeyReleased:
+	{
+		static_cast<DemoRegion*>(activeRegion)->handleKeyRelease(event.key);
+		return true;
+	}
 	case sf::Event::Resized:
 		camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
 		window->setView(camera);
