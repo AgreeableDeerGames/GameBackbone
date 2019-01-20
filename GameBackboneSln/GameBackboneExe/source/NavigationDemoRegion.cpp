@@ -277,7 +277,7 @@ void NavigationDemoRegion::reset() {
 /// </summary>
 void NavigationDemoRegion::initGUI() {
 	// Load the black theme
-	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+	tgui::Theme theme("TGUI_Widgets/Black.txt");
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
@@ -287,7 +287,7 @@ void NavigationDemoRegion::initGUI() {
 	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
 
-	picture->setSize(windowWidth, tgui::bindMax(200, windowHeight / 10.0f));
+	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
@@ -297,7 +297,8 @@ void NavigationDemoRegion::initGUI() {
 	int buttonIndex = 0;
 
 	// create navigator 1 button
-	tgui::Button::Ptr navigator1Button = theme->load("Button");
+	tgui::Button::Ptr navigator1Button = tgui::Button::create();
+	navigator1Button->setRenderer(theme.getRenderer("Button"));
 	navigator1Button->setSize(buttonWidth, buttonHeight);
 	navigator1Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	navigator1Button->setText("Navigator1");
@@ -306,7 +307,8 @@ void NavigationDemoRegion::initGUI() {
 	buttonIndex++;
 
 	// create navigator 2 button
-	tgui::Button::Ptr navigator2Button = theme->load("Button");
+	tgui::Button::Ptr navigator2Button = tgui::Button::create();
+	navigator2Button->setRenderer(theme.getRenderer("Button"));
 	navigator2Button->setSize(buttonWidth, buttonHeight);
 	navigator2Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	navigator2Button->setText("Navigator2");
@@ -315,7 +317,8 @@ void NavigationDemoRegion::initGUI() {
 	buttonIndex++;
 
 	// create all navigators button
-	tgui::Button::Ptr allNavigatorsButton = theme->load("Button");
+	tgui::Button::Ptr allNavigatorsButton = tgui::Button::create();
+	allNavigatorsButton->setRenderer(theme.getRenderer("Button"));
 	allNavigatorsButton->setSize(buttonWidth, buttonHeight);
 	allNavigatorsButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
 	allNavigatorsButton->setText("All Navigators");

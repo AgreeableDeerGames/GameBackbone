@@ -34,6 +34,7 @@ namespace EXE {
 		enum DEMO_OPTIONS_TYPE
 		{
 			NAVIGATION_DEMO,
+			PLATFORM_DEMO,
 			SCALE_ROTATION_DEMO,
 			REGION_CHANGE_DEMO
 		};
@@ -43,6 +44,7 @@ namespace EXE {
 
 		// gui callbacks
 		void navigationRegionCB();
+		void platformRegionCB();
 		void scaleAndRotationDemoCB();
 		void regionChangeDemoCB();
 

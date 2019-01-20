@@ -22,10 +22,11 @@ namespace EXE {
 		virtual void handleMouseMove(sf::Vector2f mousePosition);
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
 		virtual void handleWheelScroll(float scrollDelta);
+		virtual void handleKeyPress(sf::Event::KeyEvent key);
+		virtual void handleKeyRelease(sf::Event::KeyEvent key);
+
 
 	protected:
-
-
 		// initialization
 		void initGui();
 

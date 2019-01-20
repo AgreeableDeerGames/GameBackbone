@@ -1,5 +1,6 @@
 #include <MainMenuDemoRegion.h>
 #include <NavigationDemoRegion.h>
+#include <PlatformDemoRegion.h>
 #include <RegionChangeDemoRegion.h>
 #include <ScaleAndRotationDemoRegion.h>
 
@@ -20,6 +21,10 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	NavigationDemoRegion* navigationDemoRegion = new NavigationDemoRegion(window);
 	addChildRegion(navigationDemoRegion);
 	selectableRegions.push_back(navigationDemoRegion);
+
+	PlatformDemoRegion* platformDemoRegion = new PlatformDemoRegion(window);
+	addChildRegion(platformDemoRegion);
+	selectableRegions.push_back(platformDemoRegion);
 
 	ScaleAndRotationDemoRegion* scaleAndRotationDemoRegion = new ScaleAndRotationDemoRegion(window);
 	addChildRegion(scaleAndRotationDemoRegion);
@@ -66,11 +71,11 @@ void MainMenuDemoRegion::registerSetActiveRegionCB(std::function<void(GameRegion
 /// </summary>
 void EXE::MainMenuDemoRegion::initGUI() {
 	// Load the black theme
-	tgui::Theme::Ptr theme = tgui::Theme::create("TGUI_Widgets/Black.txt");
+	tgui::Theme theme("TGUI_Widgets/Black.txt");
 
 	// hide parent classes button
-	returnToMenuButton->hide();
-	resetButton->hide();
+	returnToMenuButton->setVisible(false);
+	resetButton->setVisible(false);
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
@@ -85,28 +90,40 @@ void EXE::MainMenuDemoRegion::initGUI() {
 
 	// create buttons for regions
 	tgui::Layout buttonWidth = windowWidth / 4.0f;
-	tgui::Layout buttonHeight = windowHeight / 7.0f;
+	tgui::Layout buttonHeight = windowHeight / 9.0f;
 
 	// create Navigation region button
-	tgui::Button::Ptr navigationRegionButton = theme->load("Button");
+	tgui::Button::Ptr navigationRegionButton = tgui::Button::create();
+	navigationRegionButton->setRenderer(theme.getRenderer("Button"));
 	navigationRegionButton->setSize(buttonWidth, buttonHeight);
-	navigationRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 1.0f *windowHeight / 7.0f);
+	navigationRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 1.0f *windowHeight / 9.0f);
 	navigationRegionButton->setText("Navigation Demo");
 	navigationRegionButton->connect("pressed", &MainMenuDemoRegion::navigationRegionCB, this);
 	regionGUI->add(navigationRegionButton);
 
+	// create Platform region button
+	tgui::Button::Ptr platformRegionButton = tgui::Button::create();
+	platformRegionButton->setRenderer(theme.getRenderer("Button"));
+	platformRegionButton->setSize(buttonWidth, buttonHeight);
+	platformRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f *windowHeight / 9.0f);
+	platformRegionButton->setText("Platform Demo");
+	platformRegionButton->connect("pressed", &MainMenuDemoRegion::platformRegionCB, this);
+	regionGUI->add(platformRegionButton);
+
 	// create Scale and Rotation Demo button
-	tgui::Button::Ptr scaleAndRotationDemoButton = theme->load("Button");
+	tgui::Button::Ptr scaleAndRotationDemoButton = tgui::Button::create();
+	scaleAndRotationDemoButton->setRenderer(theme.getRenderer("Button"));
 	scaleAndRotationDemoButton->setSize(buttonWidth, buttonHeight);
-	scaleAndRotationDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f * windowHeight / 7.0f);
+	scaleAndRotationDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 5.0f * windowHeight / 9.0f);
 	scaleAndRotationDemoButton->setText("Scale and Rotation Demo");
 	scaleAndRotationDemoButton->connect("pressed", &MainMenuDemoRegion::scaleAndRotationDemoCB, this);
 	regionGUI->add(scaleAndRotationDemoButton);
 
 	// create region change demo button
-	tgui::Button::Ptr regionChangeButton = theme->load("Button");
+	tgui::Button::Ptr regionChangeButton = tgui::Button::create();
+	regionChangeButton->setRenderer(theme.getRenderer("Button"));
 	regionChangeButton->setSize(buttonWidth, buttonHeight);
-	regionChangeButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 5.0f * windowHeight / 7.0f);
+	regionChangeButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 7.0f * windowHeight / 9.0f);
 	regionChangeButton->setText("Region Change Demo");
 	regionChangeButton->connect("pressed", &MainMenuDemoRegion::regionChangeDemoCB, this);
 	regionGUI->add(regionChangeButton);
@@ -123,13 +140,20 @@ void MainMenuDemoRegion::navigationRegionCB() {
 }
 
 /// <summary>
+/// Callback that is fired when the platformRegionButton is clicked.
+/// Sets the active region to the first child of this region (which should always be a PlatformDemoRegion)
+/// </summary>
+void MainMenuDemoRegion::platformRegionCB() {
+	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO]);
+}
+
+/// <summary>
 /// Callback that is fired when the swirlyDemoButton is clicked.
 /// Sets the active region to the second child of this region (which should always be a ScaleAndRotationDemoRegion)
 /// </summary>
 void MainMenuDemoRegion::scaleAndRotationDemoCB() {
 	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO]);
 }
-
 
 /// <summary>
 /// Callback that is fired when the regionChangeButton is clicked.
