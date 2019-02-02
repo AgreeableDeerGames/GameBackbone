@@ -17,10 +17,17 @@ target_link_libraries(GameBackboneDemo sfml-graphics sfml-network sfml-audio sfm
 find_package(TGUI 0.8.2 REQUIRED)
 target_link_libraries(GameBackboneDemo tgui)
 
-find_package(BOX2D REQUIRED)
-# I think we should update this to use the keyword PRIVATE. That means updating the rest of our target_link_libraries
-target_link_libraries(GameBackboneDemo ${BOX2D_LIBRARY})
-include_directories(${BOX2D_INCLUDE_DIR})
+option(USE_VCPKG_BOX2D "Use VCPKG to get Box2D" OFF)
+if(${USE_VCPKG_BOX2D})
+    find_package(unofficial-box2d CONFIG REQUIRED)
+    target_link_libraries(GameBackboneDemo unofficial::box2d::Box2D)
+else()
+    find_package(BOX2D REQUIRED)
+    # I think we should update this to use the keyword PRIVATE. That means updating the rest of our target_link_libraries
+    target_link_libraries(GameBackboneDemo ${BOX2D_LIBRARY})
+    include_directories(${BOX2D_INCLUDE_DIR})
+endif()
+
 
 # This is how to link to GB if it was being built from a different CMake process
 # find_package(GameBackbone REQUIRED) 
