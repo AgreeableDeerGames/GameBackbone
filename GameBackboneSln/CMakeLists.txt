@@ -35,7 +35,5 @@ if(NOT CMAKE_DEBUG_POSTFIX)
 endif()
 
 add_subdirectory("GameBackboneLib")
-add_subdirectory("GameBackboneExe")
-
-enable_testing()
-add_subdirectory("GameBackboneBoostUnitTest1")
+# add_subdirectory("GameBackboneExe")
+# add_subdirectory("GameBackboneBoostUnitTest1")
