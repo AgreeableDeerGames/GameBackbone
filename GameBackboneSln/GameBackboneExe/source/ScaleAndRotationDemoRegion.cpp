@@ -3,8 +3,8 @@
 #define _USE_MATH_DEFINES
 
 #include <ScaleAndRotationDemoRegion.h>
-#include <Backbone/RelativeRotationSprite.h>
-#include <Navigation/NavigationTools.h>
+#include <GameBackbone/Core/RelativeRotationSprite.h>
+#include <GameBackbone/Navigation/NavigationTools.h>
 
 #include <TGUI/TGUI.hpp>
 

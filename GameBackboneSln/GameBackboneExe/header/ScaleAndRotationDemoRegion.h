@@ -2,7 +2,7 @@
 
 #include <DemoRegion.h>
 
-#include <Backbone/CompoundSprite.h>
+#include <GameBackbone/Core/CompoundSprite.h>
 
 #include <SFML/Graphics.hpp>
 

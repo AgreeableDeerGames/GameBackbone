@@ -4,30 +4,36 @@ cmake_minimum_required (VERSION 3.8)
 
 enable_testing()
 
-set(SOURCE_FILES "")
+add_executable(GameBackboneUnitTest 
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/stdafx.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/stdafx.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimatedSpriteTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimationSetTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/Array2DTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/Array3DTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/ClusterGreenhouseTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/ClusterTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CompoundSpriteTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CoordinateConverterTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CoreEventControllerTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/FileManagerTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/FileReaderTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/FileWriterTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/GameRegionTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/NavigationToolsTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/PathFinderTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RandGenTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RelativeRotationSpriteTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UtilMathTests.cpp"
+)
 
-add_subdirectory("source")
-
-add_executable(GameBackboneUnitTest ${SOURCE_FILES})
-
-# link to SFML and TGUI
-find_package(SFML 2 REQUIRED network audio graphics window system)
-if(SFML_FOUND)
-  target_link_libraries(GameBackboneUnitTest sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
-endif()
-
-find_package(TGUI REQUIRED)
-if(TGUI_FOUND)
-  target_link_libraries(GameBackboneUnitTest tgui)
-endif()
-
-include_directories(${GB_INCLUDE_DIR})
-target_link_libraries(GameBackboneUnitTest GameBackbone)
+target_link_libraries(GameBackboneUnitTest PRIVATE GameBackbone)
 
 find_package(Boost 1.68 COMPONENTS unit_test_framework REQUIRED)
 if(Boost_FOUND)
-	include_directories(${Boost_INCLUDE_DIRS})
-	target_link_libraries(GameBackboneUnitTest ${Boost_LIBRARIES})
+	TARGET_include_directories(GameBackboneUnitTest PRIVATE ${Boost_INCLUDE_DIRS})
+	target_link_libraries(GameBackboneUnitTest PRIVATE ${Boost_LIBRARIES})
 endif()
 
 # declares a test with all boost tests

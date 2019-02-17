@@ -4,9 +4,9 @@
 
 #include <NavigationDemoRegion.h>
 
-#include <Navigation/NavigationTools.h>
-#include <Util/Point.h>
-#include <Util/UtilMath.h>
+#include <GameBackbone/Navigation/NavigationTools.h>
+#include <GameBackbone/Util/Point.h>
+#include <GameBackbone/Util/UtilMath.h>
 
 #include <TGUI/TGUI.hpp>
 

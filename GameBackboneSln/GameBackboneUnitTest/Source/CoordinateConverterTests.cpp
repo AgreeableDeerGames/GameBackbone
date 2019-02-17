@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Navigation/CoordinateConverter.h>
-#include <Navigation/NavigationTools.h>
-#include <Util/Point.h>
+#include <GameBackbone/Navigation/CoordinateConverter.h>
+#include <GameBackbone/Navigation/NavigationTools.h>
+#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics.hpp>
 

@@ -2,7 +2,7 @@
 
 #include <DemoRegion.h>
 
-#include <Util/Point.h>
+#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics.hpp>
 

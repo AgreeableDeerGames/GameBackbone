@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include <Backbone/BackboneBaseExceptions.h>
-#include <Util/Array2D.h>
-#include <Util/FileReader.h>
-#include <Util/FileWriter.h>
+#include <GameBackbone/Core/BackboneBaseExceptions.h>
+#include <GameBackbone/Util/Array2D.h>
+#include <GameBackbone/Util/FileReader.h>
+#include <GameBackbone/Util/FileWriter.h>
 
 using namespace GB;
 

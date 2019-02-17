@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <Navigation/NavigationTools.h>
-#include <Navigation/PathFinder.h>
-#include <Util/Point.h>
+#include <GameBackbone/Navigation/NavigationTools.h>
+#include <GameBackbone/Navigation/PathFinder.h>
+#include <GameBackbone/Util/Point.h>
 
 #include <chrono>
 #include <sstream>

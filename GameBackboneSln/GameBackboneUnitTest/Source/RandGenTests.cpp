@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Util/RandGen.h>
+#include <GameBackbone/Util/RandGen.h>
 
 using namespace GB;
 

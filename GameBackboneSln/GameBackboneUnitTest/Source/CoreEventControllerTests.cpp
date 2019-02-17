@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include <Backbone/CoreEventController.h>
-#include <Util/DebugIncludes.h>
+#include <GameBackbone/Core/CoreEventController.h>
+#include <GameBackbone/Util/DebugIncludes.h>
 
 #include <SFML/Graphics.hpp>
 

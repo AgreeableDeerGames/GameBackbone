@@ -2,9 +2,9 @@
 
 #include <DemoRegion.h>
 
-#include <Navigation/CoordinateConverter.h>
-#include <Navigation/PathFinder.h>
-#include <Util/Point.h>
+#include <GameBackbone/Navigation/CoordinateConverter.h>
+#include <GameBackbone/Navigation/PathFinder.h>
+#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics.hpp>
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include <Util/Point.h>
-#include <Util/UtilMath.h>
+#include <GameBackbone/Util/Point.h>
+#include <GameBackbone/Util/UtilMath.h>
 
 #include <SFML/Graphics.hpp>
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include <Backbone/BackboneBaseExceptions.h>
-#include <Navigation/NavigationTools.h>
-#include <Util/DebugIncludes.h>
+#include <GameBackbone/Core/BackboneBaseExceptions.h>
+#include <GameBackbone/Navigation/NavigationTools.h>
+#include <GameBackbone/Util/DebugIncludes.h>
 
 #include <SFML/Graphics.hpp>
 

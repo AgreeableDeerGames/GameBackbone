@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Backbone/GameRegion.h>
+#include <GameBackbone/Core/GameRegion.h>
 
 #include <SFML/Graphics.hpp>
 

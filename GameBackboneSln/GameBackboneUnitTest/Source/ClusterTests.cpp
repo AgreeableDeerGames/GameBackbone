@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include <Util/Point.h>
-#include <Util/Cluster.h>
+#include <GameBackbone/Util/Point.h>
+#include <GameBackbone/Util/Cluster.h>
 
 #include <set>
 
