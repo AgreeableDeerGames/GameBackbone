@@ -20,22 +20,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GAMEBACKBONE_TOP_FOLDER}/cmake/Modules)
 message("cmake module path :" ${CMAKE_MODULE_PATH})
 
-# prepend function from https://stackoverflow.com/a/27630120
-FUNCTION(PREPEND var prefix)
-   SET(listVar "")
-   FOREACH(f ${ARGN})
-      LIST(APPEND listVar "${prefix}/${f}")
-   ENDFOREACH(f)
-   SET(${var} "${listVar}" PARENT_SCOPE)
-ENDFUNCTION(PREPEND)
-
 # set posfix
 if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX -d)
 endif()
 
-add_subdirectory("GameBackboneLib")
-add_subdirectory("GameBackboneExe")
-
-enable_testing()
-add_subdirectory("GameBackboneBoostUnitTest1")
+add_subdirectory("GameBackbone")
+add_subdirectory("GameBackboneDemo")
+add_subdirectory("GameBackboneUnitTest")
