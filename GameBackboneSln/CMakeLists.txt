@@ -25,6 +25,6 @@ if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX -d)
 endif()
 
-add_subdirectory("GameBackboneLib")
+add_subdirectory("GameBackbone")
 add_subdirectory("GameBackboneDemo")
 add_subdirectory("GameBackboneUnitTest")
