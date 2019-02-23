@@ -2,12 +2,10 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-set(SOURCE_FILES "")
 
-add_subdirectory("source")
-add_subdirectory("header")
-
-add_executable(GameBackboneDemo ${SOURCE_FILES})
+add_executable(GameBackboneDemo
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
 
 # link to SFML and TGUI
