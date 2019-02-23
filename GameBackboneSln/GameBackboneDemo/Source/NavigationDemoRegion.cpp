@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include <NavigationDemoRegion.h>
+#include <GameBackboneDemo/NavigationDemoRegion.h>
 
 #include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Util/Point.h>

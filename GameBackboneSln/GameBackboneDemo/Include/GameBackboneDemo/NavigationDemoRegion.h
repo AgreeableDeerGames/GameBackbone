@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DemoRegion.h>
+#include <GameBackboneDemo/DemoRegion.h>
 
 #include <GameBackbone/Navigation/CoordinateConverter.h>
 #include <GameBackbone/Navigation/PathFinder.h>

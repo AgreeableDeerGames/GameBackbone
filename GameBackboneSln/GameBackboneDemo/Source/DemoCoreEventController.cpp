@@ -1,5 +1,5 @@
-#include <NavigationDemoRegion.h>
-#include <DemoCoreEventController.h>
+#include <GameBackboneDemo/NavigationDemoRegion.h>
+#include <GameBackboneDemo/DemoCoreEventController.h>
 
 using namespace EXE;
 

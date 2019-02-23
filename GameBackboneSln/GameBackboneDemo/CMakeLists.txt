@@ -4,25 +4,36 @@ cmake_minimum_required (VERSION 3.8)
 
 
 add_executable(GameBackboneDemo
-    "${CMAKE_CURRENT_SOURCE_DIR}"
+# headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoCoreEventController.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoRegion.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/MainMenuDemoRegion.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/NavigationDemoRegion.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/PlatformDemoRegion.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/RegionChangeDemoRegion.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/ScaleAndRotationDemoRegion.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/targetver.h"
+
+# source
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/DemoCoreEventController.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/DemoRegion.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/MainMenuDemoRegion.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/NavigationDemoRegion.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/PlatformDemoRegion.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/RegionChangeDemoRegion.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/ScaleAndRotationDemoRegion.cpp"
 )
 
-
-# link to SFML and TGUI
-find_package(SFML 2 REQUIRED network audio graphics window system)
-target_link_libraries(GameBackboneDemo sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
-
-find_package(TGUI 0.8.2 REQUIRED)
-target_link_libraries(GameBackboneDemo tgui)
-
+# Link TGUI
 option(USE_VCPKG_BOX2D "Use VCPKG to get Box2D" OFF)
 if(${USE_VCPKG_BOX2D})
     find_package(unofficial-box2d CONFIG REQUIRED)
-    target_link_libraries(GameBackboneDemo unofficial::box2d::Box2D)
+    target_link_libraries(GameBackboneDemo PRIVATE unofficial::box2d::Box2D)
 else()
     find_package(BOX2D REQUIRED)
     # I think we should update this to use the keyword PRIVATE. That means updating the rest of our target_link_libraries
-    target_link_libraries(GameBackboneDemo ${BOX2D_LIBRARY})
+    target_link_libraries(GameBackboneDemo PRIVATE ${BOX2D_LIBRARY})
     include_directories(${BOX2D_INCLUDE_DIR})
 endif()
 
@@ -34,8 +45,8 @@ endif()
 #   target_link_libraries(GameBackboneDemo ${GB_LIBRARY}) 
 # endif() 
 
-include_directories(${GB_INCLUDE_DIR})
-target_link_libraries(GameBackboneDemo GameBackbone)
+# link to GB
+target_link_libraries(GameBackboneDemo PRIVATE GameBackbone)
 
 # Include own header files
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header)
+target_include_directories(GameBackboneDemo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Include)

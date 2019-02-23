@@ -1,4 +1,4 @@
-#include "../header/RegionChangeDemoRegion.h"
+#include <GameBackboneDemo/RegionChangeDemoRegion.h>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>

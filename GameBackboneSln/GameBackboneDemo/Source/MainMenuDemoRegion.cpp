@@ -1,8 +1,8 @@
-#include <MainMenuDemoRegion.h>
-#include <NavigationDemoRegion.h>
-#include <PlatformDemoRegion.h>
-#include <RegionChangeDemoRegion.h>
-#include <ScaleAndRotationDemoRegion.h>
+#include <GameBackboneDemo/MainMenuDemoRegion.h>
+#include <GameBackboneDemo/NavigationDemoRegion.h>
+#include <GameBackboneDemo/PlatformDemoRegion.h>
+#include <GameBackboneDemo/RegionChangeDemoRegion.h>
+#include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
 using namespace EXE;
 
