@@ -72,7 +72,12 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackbone PUBLIC tgui)
 endif()
 
-target_include_directories(GameBackbone PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Include)
+target_include_directories(
+  GameBackbone
+    PUBLIC
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
+      $<INSTALL_INTERFACE:include>
+)
 
 # configure and install
 include("${CMAKE_SOURCE_DIR}/cmake/Utils/GBExportAndInstall.cmake")
