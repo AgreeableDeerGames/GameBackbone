@@ -74,3 +74,5 @@ endif()
 
 target_include_directories(GameBackbone PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Include)
 
+# configure and install
+include("${CMAKE_SOURCE_DIR}/cmake/Utils/GBExportAndInstall.cmake")
