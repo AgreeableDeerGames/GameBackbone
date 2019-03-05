@@ -60,7 +60,12 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/RandGen.cpp"
 )
 
-set_target_properties(GameBackbone PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+set_target_properties(
+	GameBackbone 
+	PROPERTIES
+		DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
+		VERSION 0.1.2
+)
 
 find_package(SFML 2 COMPONENTS network audio graphics window system)
 if(SFML_FOUND)

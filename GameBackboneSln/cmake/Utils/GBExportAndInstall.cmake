@@ -1,13 +1,12 @@
 #Installs and exports GameBackbone
 
-cmake_minimum_required (VERSION 3.8)
-
 set(CMAKE_INSTALL_GENERATION_DIR "${CMAKE_BINARY_DIR}/CmakeExport")
 set(GAMEBACKBONE_INSTALL_CMAKE_DIR "lib/cmake/GameBackbone")
 set(GAMEBACKBONE_PUBLIC_INCLUDE_INSTALL_DIR include)
 
 # configure config files
 include(CMakePackageConfigHelpers)
+get_target_property(GAMEBACKBONE_TARGET_VERSION GameBackbone VERSION)
 configure_package_config_file (
     "${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneConfig.cmake.in"
     "${CMAKE_INSTALL_GENERATION_DIR}/GameBackboneConfig.cmake"
@@ -17,7 +16,7 @@ configure_package_config_file (
 
 write_basic_package_version_file (
     "${CMAKE_INSTALL_GENERATION_DIR}/GameBackboneConfigVersion.cmake"
-    VERSION ${CMAKE_VERSION}
+    VERSION ${GAMEBACKBONE_TARGET_VERSION}
     COMPATIBILITY ExactVersion # We can relax this after GB is more stable
 )
 
