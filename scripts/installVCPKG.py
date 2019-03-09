@@ -76,13 +76,15 @@ def main(path, download, no_bootstrap):
     # windows
     if platform == "win32":
         print("Operating system found to be windows")
-        windows_bootstrap(vcpkgPath)
+        if no_bootstrap is False:
+            windows_bootstrap(vcpkgPath)
         bin_path = os.path.join(vcpkgPath, r"\vcpkg.exe")
 
     # linux
     elif platform == "linux":
         print("OS: linux")
-        linux_bootstrap(vcpkgPath)
+        if no_bootstrap is False:
+            linux_bootstrap(vcpkgPath)
         bin_path = os.path.join(vcpkgPath, "vcpkg")
 
     # mac
