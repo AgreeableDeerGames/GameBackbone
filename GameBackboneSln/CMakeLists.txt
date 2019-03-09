@@ -27,4 +27,9 @@ endif()
 
 add_subdirectory("GameBackbone")
 add_subdirectory("GameBackboneDemo")
-add_subdirectory("GameBackboneUnitTest")
+
+# optionally build tests
+option(GAMEBACKBONE_BUILD_TESTS "Build GameBackbone's test suite" off)
+if(${GAMEBACKBONE_BUILD_TESTS})
+	add_subdirectory("GameBackboneUnitTest")
+endif()
