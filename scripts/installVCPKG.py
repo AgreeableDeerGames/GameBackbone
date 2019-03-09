@@ -37,6 +37,17 @@ def download_vcpkg():
 	return folder_path
 
 
+def linux_bootstrap(path):
+	bootstrap_script_path = os.path.join(path, "bootstrap-vcpkg.sh")
+	os.chmod(bootstrap_script_path, 0o755)
+	os.system(bootstrap_script_path)
+	bin_path = os.path.join(path, "vcpkg")
+	if not os.path.exists(bin_path):
+		print("Binary not built correctly, exiting now")
+		exit(1)
+	return bin_path
+
+
 # Clone vcpkg from git
 def main(path, download):
 
@@ -64,6 +75,11 @@ def main(path, download):
 	# linux
 	elif platform == "linux":
 		print("linux")
+		bin_path = linux_bootstrap(vcpkgPath)
+		packages = ["boost", "sfml", "tgui", "box2d"]
+		for package in packages:
+			os.system("{:s} install {:s}".format(bin_path, package))
+			
 	# mac
 	elif platform == "darwin":
 		print("mac")
