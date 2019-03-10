@@ -43,7 +43,13 @@ It is recommended that you download the following additions to visual studio
 * [Download](https://marketplace.visualstudio.com/items?itemName=OpenCppCoverage.OpenCppCoveragePlugin) OpenCppCoverage
 
 #### 2.1.3: CMake Settings
-TODO: describe what cmake steps need to be done
+For every build configuration add a "cmakeCommandArgs" property.
+The value of this property should be the cmake command line arguments required to set the set the variables from the [Recommended CMake Options](#5-recommended-cmake-options).
+
+Sample:
+
+    "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake -DUSE_VCPKG_BOX2D=ON -DCMAKE_INSTALL_PREFIX=C:\\Some\\Temp\\install\\dir -DGAMEBACKBONE_BUILD_TESTS=ON -DGAMEBACKBONE_BUILD_DEMO=ON",
+    
 
 ### 2.2: Visual Studio Code
 * [Download](https://code.visualstudio.com/) Visual Studio Code
@@ -54,9 +60,8 @@ Download the following extensions
 * [CMake Tools](https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools) from vector-of-bool
 
 #### 2.2.2: CMake Settings
-add "cmake.configureSettings": {} to your settings.json
-For every CMake option you want to set you should add another value.
-The values follow the pattern "key":"value" where key is the CMake option that you want to set (without the -D) and value is the new value for the option. Set the recommended CMake settings.
+Add "cmake.configureSettings": {} to your settings.json
+For every CMake option you want to set you should add another property to cmake.configureSettings. The properties follow the pattern "key":"value" where key is the CMake option that you want to set (without the -D) and value is the new value for the option. create a property for each of the [Recommended CMake Options](#5-recommended-cmake-options).
 
 
 #### 2.2.3: Set Working Directory
