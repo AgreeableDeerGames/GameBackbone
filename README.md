@@ -44,7 +44,7 @@ See the license [here](https://github.com/lavinrp/GameBackbone/blob/master/LICEN
 5. Do not assign a project or milestone
 
 ## Submitting Code/Fixes
-1. Check our [developer guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/StyleGuide.txt)
+1. Check our [developer guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/DeveloperGuide.md)
 2. Make sure your code compiles with no warnings (this includes [CppCheck](http://cppcheck.sourceforge.net/) warnings)
 3. Make sure your code passes all unit tests
 4. Make sure no memory leaks are detected in any of the unit tests
