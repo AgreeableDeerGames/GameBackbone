@@ -61,10 +61,10 @@ add_library(GameBackbone SHARED
 )
 
 set_target_properties(
-	GameBackbone 
-	PROPERTIES
-		DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
-		VERSION 0.1.2
+  GameBackbone 
+  PROPERTIES
+    DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
+    VERSION 0.1.2
 )
 
 find_package(SFML 2 COMPONENTS network audio graphics window system)

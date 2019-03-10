@@ -2,7 +2,7 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include("../cmake/Utils/GameBackboneMessage.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneMessage.cmake")
 
 add_executable(GameBackboneDemo
 # headers
@@ -35,7 +35,7 @@ if(${USE_VCPKG_BOX2D})
     find_package(unofficial-box2d CONFIG REQUIRED)
     target_link_libraries(GameBackboneDemo PRIVATE unofficial::box2d::Box2D)
 else()
-	gamebackbone_message("Using custom find module for Box2D. To use vcpkg provided Box2D set USE_VCPKG_BOX2D to ON")
+	gamebackbone_message("Using custom find module for Box2D. If you want to use the unofficial Box2D package on vcpkg, set USE_VCPKG_BOX2D to ON.")
     find_package(BOX2D REQUIRED)
     target_link_libraries(GameBackboneDemo PRIVATE ${BOX2D_LIBRARY})
     include_directories(${BOX2D_INCLUDE_DIR})
