@@ -49,15 +49,15 @@ Build and install the following dependencies on your own.
 1. Run cmake with your desired options. Be sure to tell cmake where to find GameBackbone's dependencies. 
 2. run make install (or equivalent)
 
-Sample invocation using custom install of dependencies (from GameBackboneSln/build)
+Sample invocation using custom install of dependencies (from GameBackboneSln/build):
 
-    cmake .. -DBOOST_ROOT=/path/to/boost DSFML_DIR=/path/to/sfml -DTGUI_DIR=/path/to/tgui -DBOX2D_DIR=/path/to/box2d -DCMAKE_INSTALL_PREFIX=/GameBackbone/Install/Dir/ -DGAMEBACKBONE_BUILD_TESTS=ON -DGAMEBACKBONE_BUILD_DEMO=ON
+    cmake .. -DBOOST_ROOT=/path/to/boost/install -DSFML_DIR=/path/to/sfml/lib/cmake/SFML -DTGUI_DIR=/path/to/tgui/lib/cmake/TGUI -DBOX2D_DIR=/path/to/box2d/install -DCMAKE_INSTALL_PREFIX=/GameBackbone/Install/Dir/
 
     make install
 
-Sample invocation using vcpkg install of dependencies (from GameBackboneSln/build)
+Sample invocation using vcpkg install of dependencies (from GameBackboneSln/build):
 
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=/GameBackbone/Install/Dir/ -DGAMEBACKBONE_BUILD_TESTS=ON -DGAMEBACKBONE_BUILD_DEMO=ON
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=/GameBackbone/Install/Dir
 
     make install
 
