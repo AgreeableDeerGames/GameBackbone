@@ -25,7 +25,7 @@
 
 ## 1: Coding Guidelines
 
-see [style guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/StyleGuide.txt)
+See [style guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/StyleGuide.txt)
 
 ***
 
@@ -43,7 +43,7 @@ It is recommended that you download the following additions to visual studio
 * [Download](https://marketplace.visualstudio.com/items?itemName=OpenCppCoverage.OpenCppCoveragePlugin) OpenCppCoverage
 
 #### 2.1.3: CMake Settings
-For every build configuration add a "cmakeCommandArgs" property.
+For every build configuration in CMakeSettings.json add a "cmakeCommandArgs" property.
 The value of this property should be the cmake command line arguments required to set the set the variables from the [Recommended CMake Options](#5-recommended-cmake-options).
 
 Sample:
@@ -85,9 +85,10 @@ Do this by setting the environment variable in your debug configuration to:
 
 ***
 ## 3: Running Tests
-Tests should be run before every push to the develop branch. No branch will be merged into develop if any new tests are failing.
+Tests should be run before every push. No branch will be merged into develop if any new tests are failing.
 
 ### 3.1: Visual Studio
+Your options for running the unit tests from visual studio are:
 * Download the boost test adapter and run the tests from there
 * Run the tests by launching the test project
 * Open a developer command prompt in the bin folder for the solution and launch the test executable from the command prompt
@@ -111,7 +112,7 @@ It is recommended that you download the following 3rd party apps
 |CMake variable|value|
 |:---|:---|
 |GAMEBACKBONE_BUILD_TESTS|ON|
-|DGAMEBACKBONE_BUILD_DEMO|ON|
+|GAMEBACKBONE_BUILD_DEMO|ON|
 
 ### 5.2: vcpkg dependencies
 

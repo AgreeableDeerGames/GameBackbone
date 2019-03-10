@@ -1,5 +1,7 @@
 # Installing GameBackbone
 
+This guide will show you how to 
+
 - [Installing GameBackbone](#installing-gamebackbone)
   - [1: vcpkg](#1-vcpkg)
   - [2: Custom Build and Install](#2-custom-build-and-install)
@@ -11,8 +13,8 @@
 
 ## 1: vcpkg
 1. Clone ag_vcpkg (a fork of vcpkg with a GameBackbone package)
-2. follow the standard vcpkg setup
-3. run vcpkg install gamebackbone 
+2. Follow the standard vcpkg setup
+3. Run vcpkg install gamebackbone 
 
 ## 2: Custom Build and Install
 
@@ -28,13 +30,13 @@
 
 You can either install all the dependencies on your own or use the installVCPKG script to install them for you.
 
-*  installVCPKG.py
+*  Using installVCPKG.py
    * Run installVCPKG.py from the Scripts folder
-     * run with -h for help
-* manual install
+     * Run with -h for help
+* Manual install
   * vcpkg install sfml
   * vcpkg install tgui
-  * vcpkg install box2d (optional)
+  * vcpkg install boost (optional)
   * vcpkg install box2d (optional)
 
 #### 2.2.2: custom install
@@ -47,7 +49,7 @@ Build and install the following dependencies on your own.
 ### 2.3: Install GameBackbone
 
 1. Run cmake with your desired options. Be sure to tell cmake where to find GameBackbone's dependencies. 
-2. run make install (or equivalent)
+2. Run make install (or equivalent)
 
 Sample invocation using custom install of dependencies (from GameBackboneSln/build):
 
@@ -61,4 +63,4 @@ Sample invocation using vcpkg install of dependencies (from GameBackboneSln/buil
 
     make install
 
-In the above examples simply set GAMEBACKBONE_BUILD_TESTS or GAMEBACKBONE_BUILD_DEMO to 'OFF' to disable building the tests or the demo respectively.
+In the above examples simply set GAMEBACKBONE_BUILD_TESTS or GAMEBACKBONE_BUILD_DEMO to 'ON' to enable building the tests or the demo respectively. These options are OFF by default.
