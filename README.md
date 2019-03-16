@@ -17,7 +17,7 @@ should look into other solutions.
 Follow the [install guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/InstallGuide.md)
 
 ## GB User Guide
-Follow the user guide to learn the core concepts for GB
+Follow the [user guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/UserGuide.md) to learn the core concepts for GB
 
 ## Versioning
 We follow [Semantic Versioning](http://semver.org/spec/v2.0.0.html)
