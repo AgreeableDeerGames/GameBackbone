@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	navGrid.at(startPoint.x, startPoint.y)->weight = 0;
 
 	//create request
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 
 	//create request
 	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 
 	//create request
 	Point2D<int> startPoint{ 0, 0 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,0}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{2,0}};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 
 	//create request
 	Point2D<int> startPoint{ 0, 0 };
-	PathRequest pathRequest{ startPoint, startPoint, 1, 0 };
+	PathRequest pathRequest{ startPoint, startPoint};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
 
 	//create request
 	Point2D<int> startPoint{ 0, 0 };
-	PathRequest pathRequest{ startPoint, endPoint, 1, 0 };
+	PathRequest pathRequest{ startPoint, endPoint };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	Point2D<int> startPoint{ 1, 3 };
 	Point2D<int> goalPoint{ 3, 0 };
 	std::vector<PathRequest> pathRequests;
-	pathRequests.push_back(PathRequest{ startPoint, goalPoint, 1, 0 });
+	pathRequests.push_back(PathRequest{ startPoint, goalPoint });
 
 	//create return value
 	std::vector<std::deque<Point2D<int>>> pathsReturn;
@@ -286,13 +286,13 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
 
 	//create request
 	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{2,2} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
 	Point2D<int> startPoint2{ 1, 1 };
-	PathRequest pathRequest2{ startPoint2, Point2D<int>{0,0}, 1, 0 };
+	PathRequest pathRequest2{ startPoint2, Point2D<int>{0,0} };
 	pathRequests.push_back(pathRequest2);
 
 
@@ -320,13 +320,13 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 
 	//create request
 	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{2,2} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
 	Point2D<int> startPoint2{ 2, 2 };
-	PathRequest pathRequest2{ startPoint2, Point2D<int>{0,0}, 1, 0 };
+	PathRequest pathRequest2{ startPoint2, Point2D<int>{0,0} };
 	pathRequests.push_back(pathRequest2);
 
 	//create return value
@@ -376,13 +376,13 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 
 	//create request
 	Point2D<int> startPoint{ 0, 0 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,2}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{0,2} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
 	Point2D<int> startPoint2{ 2, 0 };
-	PathRequest pathRequest2{ startPoint2, Point2D<int>{2,2}, 1, 0 };
+	PathRequest pathRequest2{ startPoint2, Point2D<int>{2,2} };
 	pathRequests.push_back(pathRequest2);
 
 
@@ -410,7 +410,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 
 	//create request
 	Point2D<int> startPoint{ 2, 0 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,0}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{0,0} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
@@ -452,7 +452,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 
 	//create request
 	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,0}, 1, 0 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{0,0} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 

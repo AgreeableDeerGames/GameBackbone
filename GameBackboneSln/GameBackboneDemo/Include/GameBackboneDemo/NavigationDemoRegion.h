@@ -51,8 +51,7 @@ namespace EXE {
 
 		virtual void behave(sf::Time currentTime) override;
 
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
-		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
+		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
 
 
 	protected:

@@ -61,29 +61,29 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
 void NavigationDemoRegion::behave(sf::Time currentTime) {
-
-
-
-	//move navigators
+	// Calculate how much time has passed since the last update
 	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
 
+	// Depending on which state the Region is in, move only the appropriate naviagtor(s)
 	switch (selectedNavigatorOption)
 	{
 	case EXE::NAVIGATOR_1:
 	{
+		// Move the first navigator
 		GB::moveSpriteAlongPath(*navigators[0], paths[0], msPassed, 1);
 		break;
 	}
 	case EXE::NAVIGATOR_2:
 	{
+		// Move the second navigator
 		GB::moveSpriteAlongPath(*navigators[1], paths[1], msPassed, 1);
 		break;
 	}
 	case EXE::ALL_NAVIGATORS:
 	{
-		std::vector<float> speeds(navigators.size(), 1.0f);
+		// Loop through and move all navigators
 		for (size_t i = 0; i < navigators.size(); i++) {
-			GB::moveSpriteAlongPath(*navigators[i], paths[i], msPassed, speeds[i]);
+			GB::moveSpriteAlongPath(*navigators[i], paths[i], msPassed, 1);
 		}
 		break;
 	}
@@ -91,48 +91,48 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 		break;
 	}
 
+	// Update the lastUpdateTime to reflect this update
 	lastUpdateTime = currentTime;
 }
 
 /// <summary>
 /// Handles mouse click logic.
 /// </summary>
-/// <param name="newPosition">The position of the click.</param>
+/// <param name="clickPosition">The position of the click.</param>
 /// <param name="button">The mouse button clicked button.</param>
-void NavigationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+void NavigationDemoRegion::handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) {
+	// Check if the user left clicked
 	if (button == sf::Mouse::Left) {
+		// Create a vector to store the PathRequests that is the size of the number of navigators
 		std::vector<GB::PathRequest> pathRequests(navigators.size());
 
-		//create each path request
+		// Create each PathRequest
 		for (size_t i = 0; i < navigators.size(); i++) {
-			sf::Sprite* currentNavigator = navigators[i];
-			GB::Point2D<int> startingPos = coordinateConverter.convertCoordToNavGrid(currentNavigator->getPosition());
-			GB::Point2D<int> endingPos = coordinateConverter.convertCoordToNavGrid(newPosition);
-			pathRequests[i] = GB::PathRequest{ startingPos, endingPos, 1, 0 };
+			// Get the current sf position of the navigator's sprite
+			sf::Vector2f sfPos = navigators[i]->getPosition();
+			// Convert the sfPos to NavGrid cooridinates to use as the starting position
+			GB::Point2D<int> startingPos = coordinateConverter.convertCoordToNavGrid(sfPos);
+			// Convert the clicked position from sf to NavGrid coordinates to use as the end position
+			GB::Point2D<int> endingPos = coordinateConverter.convertCoordToNavGrid(clickPosition);
+			// Create and assign the PathRequest for the given start and end position
+			pathRequests[i] = GB::PathRequest{ startingPos, endingPos };
 		}
 
-		//path-find
-		std::vector<GB::NavGridCoordinatePath> pathsReturn;
-		pathsReturn.resize(pathRequests.size());
+		// Prepare a vector to be used as an output parameter
+		std::vector<GB::NavGridCoordinatePath> pathsReturn(pathRequests.size());
+		// Call pathFind to get the paths the navigators will use 
 		regionPathfinder.pathFind(pathRequests, &pathsReturn);
 
-		//convert paths to window coordinates
+		// Clear and resize the member variable to store the active paths
 		paths.clear();
 		paths.resize(pathsReturn.size());
 		for (unsigned int i = 0; i < navigators.size(); i++) {
-			paths[i] = std::make_shared<std::deque<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
+			// Convert the path to sf coordinates
+			GB::WindowCoordinatePath sfCoordPath = coordinateConverter.convertPathToWindow(pathsReturn[i]);
+			// Use std::move to avoid a copy when assigning the converted path to the member variable
+			paths[i] = std::make_shared<GB::WindowCoordinatePath>(std::move(sfCoordPath));
 		}
 	}
-}
-
-
-/// <summary>
-/// Handles the mouse drag.
-/// Rotates the compound sprite to face the mouse position
-/// </summary>
-/// <param name="mousePosition">The mouse position.</param>
-void NavigationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
-
 }
 
 /// <summary>
@@ -199,12 +199,12 @@ void NavigationDemoRegion::init() {
 
 	//Path-find from starting positions to end positions
 	//create request
-	GB::PathRequest pathRequest{ navigator1StartingGrid, GB::Point2D<int>{15,15}, 3, 0 };
+	GB::PathRequest pathRequest{ navigator1StartingGrid, GB::Point2D<int>{15,15} };
 	std::vector<GB::PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
-	GB::PathRequest pathRequest2{ navigator2StartingGrid, GB::Point2D<int>{0,0}, 1, 0 };
+	GB::PathRequest pathRequest2{ navigator2StartingGrid, GB::Point2D<int>{0,0} };
 	pathRequests.push_back(pathRequest2);
 
 	//find the path
@@ -226,8 +226,6 @@ void NavigationDemoRegion::init() {
 /// Resets the state of every member of this instance.
 /// </summary>
 void NavigationDemoRegion::destroy() {
-
-
 	//delete navigation data
 	GB::freeAllNavigationGridData(*navGrid);
 	delete navGrid;
@@ -386,6 +384,7 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 /// </summary>
 void NavigationDemoRegion::Navigator1CB()
 {
+	// Changes the state of the region to only move the first navigator
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_1;
 	debugPrint("navigator1");
 }
@@ -395,6 +394,7 @@ void NavigationDemoRegion::Navigator1CB()
 /// </summary>
 void NavigationDemoRegion::Navigator2CB()
 {
+	// Changes the state of the region to only move the second navigator
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::NAVIGATOR_2;
 	debugPrint("navigator2");
 }
@@ -404,6 +404,7 @@ void NavigationDemoRegion::Navigator2CB()
 /// </summary>
 void NavigationDemoRegion::AllNavigatorsCB()
 {
+	// Changes the state of the region to move both navigators
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
 	debugPrint("all navigators");
 }

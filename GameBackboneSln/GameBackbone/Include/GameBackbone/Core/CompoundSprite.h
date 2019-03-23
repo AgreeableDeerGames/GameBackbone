@@ -3,7 +3,6 @@
 #include <GameBackbone/Core/AnimatedSprite.h>
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/Util/DllUtil.h>
-#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics/Sprite.hpp>
 

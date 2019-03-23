@@ -7,8 +7,6 @@ namespace GB {
 	struct libGameBackbone PathRequest {
 		Point2D<int> start;
 		Point2D<int> end;
-		double minimumFreeSpace;
-		int aStarHeuristicNumber;
 	};
 
 }
