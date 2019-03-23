@@ -10,7 +10,7 @@ import shutil
 
 def download_vcpkg():
     print("Downloading vcpkg from github")
-    zip_url = "https://github.com/Microsoft/vcpkg/archive/master.zip"
+    zip_url = "https://github.com/lavinrp/ag_vcpkg/archive/master.zip"
     s = requests.session()
     retry_count = 3
     while retry_count > 0:
@@ -72,6 +72,8 @@ def main(path, download, no_bootstrap):
         exit(1)
 
     packages = ["boost", "sfml", "tgui", "box2d"]
+
+
     # Run .bat file
     # windows
     if platform == "win32":
@@ -79,6 +81,7 @@ def main(path, download, no_bootstrap):
         if no_bootstrap is False:
             windows_bootstrap(vcpkgPath)
         bin_path = os.path.join(vcpkgPath, r"\vcpkg.exe")
+        os.environ["VCPKG_DEFAULT_TRIPLET"] = "x64-windows"
 
     # linux
     elif platform == "linux":
@@ -104,8 +107,8 @@ if __name__ == "__main__":
     parser.add_argument("-nb", "--no-bootstrap", help="Flag to specify that bootstrap script should not be run"
                         "This option can only be used if vcpkg_path is specified", default=False, action='store_true')
     args = parser.parse_args()
-    if args.vcpkg_path == '' and args.no_bootstrap is True:
-        print("Bootstrap scripts cannot be turned off if vcpkg_path is not specified")
+    if args.vcpkg_path == '':
+        print("A vcpkg path must be provided.")
         print(parser.usage())
-        exit(0)
+        exit(1)
     main(args.vcpkg_path, args.download, args.no_bootstrap)
