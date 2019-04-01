@@ -23,7 +23,7 @@ using namespace EXE;
 NavigationDemoRegion::NavigationDemoRegion() {
 	init();
 
-	//initialize GUI
+	// Try to initialize the GUI, catch and display any errors.
 	try {
 		// Load the widgets
 		initGUI();
@@ -40,7 +40,7 @@ NavigationDemoRegion::NavigationDemoRegion() {
 NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
 
-	//initialize GUI
+	// Try to initialize the GUI, catch and display any errors.
 	try {
 		// Load the widgets
 		initGUI();
@@ -64,7 +64,7 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	// Calculate how much time has passed since the last update
 	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
 
-	// Depending on which state the Region is in, move only the appropriate naviagtor(s)
+	// Depending on which state the Region is in, move only the appropriate navigator(s)
 	switch (selectedNavigatorOption)
 	{
 	case EXE::NAVIGATOR_1:
@@ -110,7 +110,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f clickPosition, sf::Mous
 		for (size_t i = 0; i < navigators.size(); i++) {
 			// Get the current sf position of the navigator's sprite
 			sf::Vector2f sfPos = navigators[i]->getPosition();
-			// Convert the sfPos to NavGrid cooridinates to use as the starting position
+			// Convert the sfPos to NavGrid coordinates to use as the starting position
 			GB::Point2D<int> startingPos = coordinateConverter.convertCoordToNavGrid(sfPos);
 			// Convert the clicked position from sf to NavGrid coordinates to use as the end position
 			GB::Point2D<int> endingPos = coordinateConverter.convertCoordToNavGrid(clickPosition);
@@ -139,43 +139,46 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f clickPosition, sf::Mous
 /// Initializes this instance.
 /// </summary>
 void NavigationDemoRegion::init() {
-	//init storage
+	// Initialize NavigationGrid storage and set it on the Pathfinder
 	navGrid = new GB::NavigationGrid(NAV_GRID_DIM);
 	GB::initAllNavigationGridValues(*navGrid, NavigationDemoData());
 	regionPathfinder.setNavigationGrid(navGrid);
 
 
-	//init textures
+	// Initialize the arrow textures for the navigators
 	std::string arrowPath(R"(Textures/SmallArrow.png)");
 	navigatorTexture = new sf::Texture();
 	navigatorTexture->loadFromFile(arrowPath);
+
+	// Initialize the box textures on the NavigationGrid
 	std::string navigationGridPath(R"(Textures/NavigationGrid.png)");
 	gridTexture = new sf::Texture();
 	gridTexture->loadFromFile(navigationGridPath);
+	
 
-	//internal function logic
-	std::vector<GB::Point2D<int>> nonBlockableGridSquares;
-
-
-	//init navigators
-
-	//create navigators and add to respective arrays
+	// Initialize navigators
+	// Create navigators and add to respective arrays
 	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
 	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
 	navigators.push_back(navigator1);
 	navigators.push_back(navigator2);
-	navigator2->setColor(sf::Color::Green);
+	// Set the color of each navigator to tell them apart
 	navigator1->setColor(sf::Color::Blue);
+	navigator2->setColor(sf::Color::Green);
 
-	//set rotation point and scale of navigators
+	// Set rotation point and scale of navigators
 	for (sf::Sprite* navigator : navigators) {
+		// Get the texture's rectangle from SFML
 		const sf::IntRect* const  textureRect = &navigator->getTextureRect();
+		// Create a new origin in the center of the texture
 		sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
 		navigator->setOrigin(newOrigin);
 		navigator->setScale(0.5, 0.5);
 	}
 
-	//create maze
+	// TODO: we dont actually ever use this. what should we do with it?
+	// Internal function logic
+	std::vector<GB::Point2D<int>> nonBlockableGridSquares;
 	GB::Point2D<int> navigator1StartingGrid{ 0, 0 };
 	GB::Point2D<int> navigator2StartingGrid{15, 15};
 	nonBlockableGridSquares.push_back(navigator1StartingGrid);
