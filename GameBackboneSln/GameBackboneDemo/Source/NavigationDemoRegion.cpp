@@ -1,21 +1,20 @@
-#include <iostream>
 
 #define _USE_MATH_DEFINES
 
-#include <GameBackboneDemo/NavigationDemoRegion.h>
-
-#include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Navigation/NavigationGridData.h>
+#include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Util/Point.h>
-#include <GameBackbone/Util/UtilMath.h>
 #include <GameBackbone/Util/RandGen.h>
+#include <GameBackbone/Util/UtilMath.h>
+#include <GameBackboneDemo/NavigationDemoRegion.h>
 
 #include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics.hpp>
 
-#include <string>
+#include <iostream>
 #include <math.h>
+#include <string>
 
 using namespace EXE;
 
@@ -271,47 +270,70 @@ void NavigationDemoRegion::initGUI() {
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
-	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
 
+	// make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
-	const int NUM_BUTTONS = 3;
-	tgui::Layout buttonWidth = windowWidth / (NUM_BUTTONS + NUM_BUTTONS + 1);
-	tgui::Layout buttonHeight = windowHeight / 20.0f;
-	int buttonIndex = 0;
+	// temporarily track all of the buttons for controlling navigation
+	std::vector<tgui::Button::Ptr> navigationButtons;
 
-	// create navigator 1 button
+	// load what buttons will look like
+	auto buttonRenderer = theme.getRenderer("Button");
+
+	// Navigator 1 button
 	tgui::Button::Ptr navigator1Button = tgui::Button::create();
-	navigator1Button->setRenderer(theme.getRenderer("Button"));
-	navigator1Button->setSize(buttonWidth, buttonHeight);
-	navigator1Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	// Draw the button as a button
+	navigator1Button->setRenderer(buttonRenderer);
+	// The text that the button will display
 	navigator1Button->setText("Navigator1");
+	// The action that will happen when the button is pressed
+	// Note that the "this" pointer must be passed. This is because the 
+	// function being connected to the button is a member function
 	navigator1Button->connect("pressed", &NavigationDemoRegion::Navigator1CB, this);
-	regionGUI->add(navigator1Button);
-	buttonIndex++;
+	// add the button the the vector of buttons for the navigation bar
+	navigationButtons.push_back(navigator1Button);
 
-	// create navigator 2 button
+	// Navigator 2 button
+	// Everything for navigator 2 is the same as for navigator 1
 	tgui::Button::Ptr navigator2Button = tgui::Button::create();
-	navigator2Button->setRenderer(theme.getRenderer("Button"));
-	navigator2Button->setSize(buttonWidth, buttonHeight);
-	navigator2Button->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	navigator2Button->setRenderer(buttonRenderer);
 	navigator2Button->setText("Navigator2");
 	navigator2Button->connect("pressed", &NavigationDemoRegion::Navigator2CB, this);
-	regionGUI->add(navigator2Button);
-	buttonIndex++;
+	navigationButtons.push_back(navigator2Button);
 
-	// create all navigators button
+	// All Navigators button
+	// Everything for All Navigators is the same as for navigator 1 and 2
 	tgui::Button::Ptr allNavigatorsButton = tgui::Button::create();
-	allNavigatorsButton->setRenderer(theme.getRenderer("Button"));
-	allNavigatorsButton->setSize(buttonWidth, buttonHeight);
-	allNavigatorsButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
+	allNavigatorsButton->setRenderer(buttonRenderer);
 	allNavigatorsButton->setText("All Navigators");
 	allNavigatorsButton->connect("pressed", &NavigationDemoRegion::AllNavigatorsCB, this);
-	regionGUI->add(allNavigatorsButton);
-	buttonIndex++;
+	navigationButtons.push_back(allNavigatorsButton);
+
+	// Size and place the buttons
+	const std::size_t numButtons = navigationButtons.size();
+	// This will be the width of all the buttons. It gives them all room on either side.
+	tgui::Layout buttonWidth = windowWidth / (numButtons * 2 + 1);
+	// This will be the height of all of the buttons
+	tgui::Layout buttonHeight = windowHeight / 20.0f;
+	for (std::size_t i = 0; i < navigationButtons.size(); ++i)
+	{
+		// Save some repetitive typing
+		auto& currentButton = navigationButtons[i];
+
+		// Set the size of the button
+		currentButton->setSize(buttonWidth, buttonHeight);
+
+		// Place the buttons in a row along the bottom of the window
+		// They will be evenly spaced out and be in the bottom 1/10th of the window
+		currentButton->setPosition((2 * i + 1) * buttonWidth, windowHeight * 9.25 / 10.0f);
+		currentButton->setEnabled(true);
+		currentButton->setVisible(true);
+		regionGUI->add(currentButton);
+	}
 }
 
 /// <summary>
