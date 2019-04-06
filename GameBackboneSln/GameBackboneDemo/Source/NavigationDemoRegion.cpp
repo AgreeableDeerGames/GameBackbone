@@ -5,8 +5,10 @@
 #include <GameBackboneDemo/NavigationDemoRegion.h>
 
 #include <GameBackbone/Navigation/NavigationTools.h>
+#include <GameBackbone/Navigation/NavigationGridData.h>
 #include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/UtilMath.h>
+#include <GameBackbone/Util/RandGen.h>
 
 #include <TGUI/TGUI.hpp>
 
@@ -316,22 +318,52 @@ void NavigationDemoRegion::initGUI() {
 /// Initializes the maze that the navigators will use.
 /// </summary>
 void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePositions) {
+	// This vector stores the generation options for a cluster.
+	// Every element in the vector will produce a cluster with the associated weight.
+	// The weights of all the clusters should not reach 1.0.
+	// After the 1.0 - the accumulated weights of all of the clusters will be the % of
+	// empty squares.
+	// comment these out to make random clusters
     std::vector<double> genOptions;
-    // comment these out to make random clusters
-    genOptions.push_back(.05);
-    genOptions.push_back(.10);
-    genOptions.push_back(.05);
+    genOptions.push_back(0.05);
+    genOptions.push_back(0.10);
+    genOptions.push_back(0.05);
+    genOptions.push_back(0.30);
+    genOptions.push_back(0.4);
 
+	// Create a ClusterGreenhouse that will create clusters spanning the entire navigation grid.
 	GB::ClusterGreenhouse* graphGenerator = new GB::ClusterGreenhouse(GB::Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
 
-    std::vector<std::set<GB::Point2D<int>>> ClusterPointSetVector = graphGenerator->generateClusteredGraph(genOptions);
-    std::vector<std::set<GB::Point2D<int>>> ClusterPointSetVector2 = graphGenerator->generateClusteredGraph(genOptions);
-    //merge output vectors
-    ClusterPointSetVector.insert(ClusterPointSetVector.end(), ClusterPointSetVector2.begin(), ClusterPointSetVector2.end());
+	// Generate all of the clusters.
+	// Each std::set of Point2D is a cluster.
+    std::vector<std::set<GB::Point2D<int>>> clusterVector = graphGenerator->generateClusteredGraph(genOptions);
 
+	// Create a vector of navigation weights. This is the cost associated with moving through a tile.
+	// Each value in the vector corresponds to the cluster in clusterVector of the same index.
+	std::vector<double> clusterNavigationWeights;
+	GB::RandGen randGen;
+	for (auto& cluster : clusterVector)
+	{
+		randGen.uniDist(0, GB::BLOCKED_GRID_WEIGHT);
+	}
+
+	// Create a color for each cluster
+	// The color gets more red the harder it is to move through the cluster
 	std::vector<sf::Color> clusterColors;
-	for (int i = 0; i < ClusterPointSetVector.size(); i++) {
-		clusterColors.push_back(sf::Color(rand() % 250, rand() % 250, rand() % 250));
+	for (int i = 0; i < clusterVector.size(); ++i) {
+		// more red the higher the value of clusterNavigationWeights
+		sf::Uint8 red =  255 * (clusterNavigationWeights[i]/GB::BLOCKED_GRID_WEIGHT);
+		sf::Uint8 green = 0;
+		// less blue the higher the value of clusterNavigationWeights
+		sf::Uint8 blue = 255 - 255 * (clusterNavigationWeights[i]/GB::BLOCKED_GRID_WEIGHT);
+
+		// Create an SFML color withe the calculated values
+		sf::Color clusterColor(red, green, blue);
+
+		// Store the color in the clusterColors vector
+		// The index of the color in this vector matches the index of
+		// cluster that it corresponds to
+		clusterColors.emplace_back(std::move(clusterColor));
 	}
 
 	//fill visual grid
@@ -348,10 +380,10 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 
             // color the graph
 			GB::Point2D<int> clusterKey{(int)i, (int)j};
-			for (int k = 0; k < ClusterPointSetVector.size(); k++) {
-				if (ClusterPointSetVector[k].find(clusterKey) != ClusterPointSetVector[k].end()) {
+			for (int k = 0; k < clusterVector.size(); k++) {
+				if (clusterVector[k].find(clusterKey) != clusterVector[k].end()) {
 					gridSquare->setColor(clusterColors[k]);
-					(*navGrid)[i][j]->weight = BLOCKED_GRID_WEIGHT;
+					(*navGrid)[i][j]->weight = GB::BLOCKED_GRID_WEIGHT;
 					break;
 				}
 			}
