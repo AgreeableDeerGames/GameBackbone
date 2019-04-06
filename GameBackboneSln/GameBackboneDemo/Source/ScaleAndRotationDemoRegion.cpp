@@ -58,15 +58,19 @@ void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::
 /// </summary>
 /// <param name="scrollDelta">The change in the wheel.</param>
 void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
+	// Scale the displaySprite by 1.25^scrollDelta in both axes
 	displaySprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
 }
 
 /// <summary>
-/// Handles the mouse drag.
-/// Rotates the compound sprite to face the mouse position
+/// Handles the mouse move.
+/// Rotates the compound sprite to face the mouse position.
 /// </summary>
 /// <param name="mousePosition">The mouse position.</param>
 void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
+
+	//TODO: We should break this up and explain exactly what each step is doing. This is super complicated for one line.
+	// Calculates the angle that should be pointed at
 	float angle = atan2f(mousePosition.y - displaySprite->getPosition().y, mousePosition.x - displaySprite->getPosition().x) * 180 / (float)M_PI;
 	displaySprite->setRotation(angle);
 }
@@ -76,12 +80,10 @@ void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 /// </summary>
 void ScaleAndRotationDemoRegion::init() {
 
-	//init textures
-
-	// relative rotation sprites
+	// Initialize the arrow textures for the component sprites
 	std::string arrowPath("Textures/SmallArrow.png");
-	navigatorTexture = std::make_unique<sf::Texture>();
-	navigatorTexture->loadFromFile(arrowPath);
+	arrowTexture = std::make_unique<sf::Texture>();
+	arrowTexture->loadFromFile(arrowPath);
 
 	// compound sprite with overlapping sprites
 	std::string rotationArrowCenterPath("Textures/RotationArrowCenter.png");
@@ -100,9 +102,9 @@ void ScaleAndRotationDemoRegion::init() {
 	// relative rotation sprites
 	const float COMPOUND_SPRITE_TEST_X = 400;
 	const float COMPOUND_SPRITE_TEST_y = 400;
-	spriteComponent1 = std::make_unique<sf::Sprite>(*navigatorTexture);
-	spriteComponent2 = std::make_unique<sf::Sprite>(*navigatorTexture);
-	spriteComponent3 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	spriteComponent1 = std::make_unique<sf::Sprite>(*arrowTexture);
+	spriteComponent2 = std::make_unique<sf::Sprite>(*arrowTexture);
+	spriteComponent3 = std::make_unique<sf::Sprite>(*arrowTexture);
 	std::vector<sf::Sprite*> spriteVector = { spriteComponent1.get() , spriteComponent2.get(), spriteComponent3.get() };
 
 	// compound sprite with overlapping sprites
@@ -177,11 +179,11 @@ void ScaleAndRotationDemoRegion::reset() {
 	// Free all dynamic memory
 	destroy();
 
-	// reset non-dynamic members
+	// Reset all non-dynamic members
 	clearDrawable();
 	clearUpdatable();
 
-	// reinitialize
+	// Reinitialize for the user to use again
 	init();
 }
 
@@ -295,7 +297,7 @@ void ScaleAndRotationDemoRegion::initMethod4CB() {
 /// Frees all dynamically allocated memory in this instance
 /// </summary>
 void ScaleAndRotationDemoRegion::destroy() {
-	// Delete sprites stored on the ScaleAndRotationDemoRegion
+	// Delete sprites stored on the ScaleAndRotationDemoRegion and set them to nullptr
 	for (sf::Sprite* sprite : textureOffsetSprites) {
 		delete sprite;
 		sprite = nullptr;

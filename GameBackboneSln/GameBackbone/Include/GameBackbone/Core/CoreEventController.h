@@ -134,7 +134,7 @@ protected:
 		void preHandleEvent(sf::Event& event) {}
 
 		/// <summary>
-		/// Called after hendleGuiEvent and handleCoreEvent. Place logic to be executed after the main event logic here.
+		/// Called after handleGuiEvent and handleCoreEvent. Place logic to be executed after the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
 		void postHandleEvent(sf::Event& event) {}

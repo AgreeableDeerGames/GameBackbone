@@ -21,8 +21,6 @@ namespace EXE {
 
 	private:
 		sf::View camera;
-		int oldMouseX;
-		int oldMouseY;
 
 		MainMenuDemoRegion* mainMenuDemoRegion;
 	};

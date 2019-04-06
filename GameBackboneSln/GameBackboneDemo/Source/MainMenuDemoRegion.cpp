@@ -51,20 +51,18 @@ MainMenuDemoRegion::~MainMenuDemoRegion() {
 	}
 }
 
-// internal behavior modification
-
 /// <summary>
 /// Registers the callback function for changing the active region and propagates this callback to all of its children.
 /// </summary>
 /// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
 void MainMenuDemoRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
+	// Register the passed in function on this GameRegion
 	GameRegion::registerSetActiveRegionCB(newSetActiveRegionCB);
+	// Go through every childRegion and register the function with their GameRegion
 	for (GameRegion* childRegion : childRegions) {
 		childRegion->registerSetActiveRegionCB(newSetActiveRegionCB);
 	}
 }
-
-// initialization
 
 /// <summary>
 /// Initializes the GUI.
