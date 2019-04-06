@@ -16,7 +16,7 @@ namespace EXE {
 		RegionChangeDemoRegion(RegionChangeDemoRegion&& other) = delete;
 		RegionChangeDemoRegion& operator=(const RegionChangeDemoRegion& other) = delete;
 		RegionChangeDemoRegion& operator=(RegionChangeDemoRegion&& other) = delete;
-		RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color);
+		RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color, sf::Vector2f position);
 		~RegionChangeDemoRegion();
 
 		// handles and callbacks

@@ -30,8 +30,8 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	addChildRegion(scaleAndRotationDemoRegion);
 	selectableRegions.push_back(scaleAndRotationDemoRegion);
 
-	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red);
-	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green);
+	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red, { 300, 300 });
+	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green, { 200, 200 });
 	regionChangeRegion1->addNeighborRegion(regionChangeRegion2);
 	addChildRegion(regionChangeRegion1);
 	addChildRegion(regionChangeRegion2);
