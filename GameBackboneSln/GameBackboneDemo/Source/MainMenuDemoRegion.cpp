@@ -88,54 +88,67 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
-	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr background = tgui::Picture::create(R"(Textures/Backbone2.png)");
 	background->setSize(windowWidth, windowHeight);
 	background->setPosition(0,0);
 	regionGUI->add(background);
 
-	// create buttons for regions
-	tgui::Layout buttonWidth = windowWidth / 4.0f;
-	tgui::Layout buttonHeight = windowHeight / 9.0f;
+	// Add buttons for each demo region
+	std::vector<tgui::Button::Ptr> demoRegionButtons;
 
-	// create Navigation region button
+	// Areate navigation region button
+	// Create a new button
 	tgui::Button::Ptr navigationRegionButton = tgui::Button::create();
-	navigationRegionButton->setRenderer(theme.getRenderer("Button"));
-	navigationRegionButton->setSize(buttonWidth, buttonHeight);
-	navigationRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 1.0f *windowHeight / 9.0f);
+	// Give the button its text
 	navigationRegionButton->setText("Navigation Demo");
+	// Connect the button to its callback
 	navigationRegionButton->connect("pressed", &MainMenuDemoRegion::navigationRegionCB, this);
-	regionGUI->add(navigationRegionButton);
+	// Add the button to the vector of buttons for changing to demo regions
+	demoRegionButtons.push_back(navigationRegionButton);
 
-	// create Platform region button
+	// Create Platform region button
 	tgui::Button::Ptr platformRegionButton = tgui::Button::create();
-	platformRegionButton->setRenderer(theme.getRenderer("Button"));
-	platformRegionButton->setSize(buttonWidth, buttonHeight);
-	platformRegionButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 3.0f *windowHeight / 9.0f);
 	platformRegionButton->setText("Platform Demo");
 	platformRegionButton->connect("pressed", &MainMenuDemoRegion::platformRegionCB, this);
-	regionGUI->add(platformRegionButton);
+	demoRegionButtons.push_back(platformRegionButton);
 
-	// create Scale and Rotation Demo button
+	// Create Scale and Rotation Demo button
 	tgui::Button::Ptr scaleAndRotationDemoButton = tgui::Button::create();
-	scaleAndRotationDemoButton->setRenderer(theme.getRenderer("Button"));
-	scaleAndRotationDemoButton->setSize(buttonWidth, buttonHeight);
-	scaleAndRotationDemoButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 5.0f * windowHeight / 9.0f);
 	scaleAndRotationDemoButton->setText("Scale and Rotation Demo");
 	scaleAndRotationDemoButton->connect("pressed", &MainMenuDemoRegion::scaleAndRotationDemoCB, this);
-	regionGUI->add(scaleAndRotationDemoButton);
+	demoRegionButtons.push_back(scaleAndRotationDemoButton);
 
-	// create region change demo button
+	// Create region change demo button
 	tgui::Button::Ptr regionChangeButton = tgui::Button::create();
-	regionChangeButton->setRenderer(theme.getRenderer("Button"));
-	regionChangeButton->setSize(buttonWidth, buttonHeight);
-	regionChangeButton->setPosition(windowWidth / 2.0f - buttonWidth / 2.0f, 7.0f * windowHeight / 9.0f);
 	regionChangeButton->setText("Region Change Demo");
 	regionChangeButton->connect("pressed", &MainMenuDemoRegion::regionChangeDemoCB, this);
-	regionGUI->add(regionChangeButton);
-}
+	demoRegionButtons.push_back(regionChangeButton);
 
-// gui callbacks
+	// Size and place buttons
+	// The number of buttons will be needed a few times. Calculate it once.
+	const std::size_t demoRegionButtonCount = demoRegionButtons.size();
+	// The buttons should be 1/4 the width of the screen
+	tgui::Layout buttonWidth = windowWidth / 4.0f;
+	// Adjust the height of the buttons so that they can all fit on screen
+	tgui::Layout buttonHeight = windowHeight / ((float)demoRegionButtonCount * 2 + 1);
+	for (std::size_t i = 0; i < demoRegionButtonCount; ++i)
+	{
+		// Save some repetitive typing
+		auto& currentButton = demoRegionButtons.at(i);
+		// Make the button look like a button
+		currentButton->setRenderer(theme.getRenderer("Button"));
+		// Set the size of the button
+		currentButton->setSize(buttonWidth, buttonHeight);
+		// Place the button in the middle of the screen
+		auto horizontalPosition = windowWidth / 2.0f - buttonWidth / 2.0f;
+		// Space the buttons apart
+		auto verticalPosition = (2 * i + 1) * buttonHeight;
+		currentButton->setPosition(horizontalPosition, verticalPosition);
+		// Add the buttons to the gui
+		regionGUI->add(currentButton);
+	}
+}
 
 /// <summary>
 /// Callback that is fired when the navigationRegionButton is clicked.

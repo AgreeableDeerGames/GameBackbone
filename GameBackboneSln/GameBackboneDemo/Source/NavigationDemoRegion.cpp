@@ -286,8 +286,6 @@ void NavigationDemoRegion::initGUI() {
 
 	// Navigator 1 button
 	tgui::Button::Ptr navigator1Button = tgui::Button::create();
-	// Draw the button as a button
-	navigator1Button->setRenderer(buttonRenderer);
 	// The text that the button will display
 	navigator1Button->setText("Navigator1");
 	// The action that will happen when the button is pressed
@@ -300,7 +298,6 @@ void NavigationDemoRegion::initGUI() {
 	// Navigator 2 button
 	// Everything for navigator 2 is the same as for navigator 1
 	tgui::Button::Ptr navigator2Button = tgui::Button::create();
-	navigator2Button->setRenderer(buttonRenderer);
 	navigator2Button->setText("Navigator2");
 	navigator2Button->connect("pressed", &NavigationDemoRegion::Navigator2CB, this);
 	navigationButtons.push_back(navigator2Button);
@@ -308,7 +305,6 @@ void NavigationDemoRegion::initGUI() {
 	// All Navigators button
 	// Everything for All Navigators is the same as for navigator 1 and 2
 	tgui::Button::Ptr allNavigatorsButton = tgui::Button::create();
-	allNavigatorsButton->setRenderer(buttonRenderer);
 	allNavigatorsButton->setText("All Navigators");
 	allNavigatorsButton->connect("pressed", &NavigationDemoRegion::AllNavigatorsCB, this);
 	navigationButtons.push_back(allNavigatorsButton);
@@ -323,15 +319,14 @@ void NavigationDemoRegion::initGUI() {
 	{
 		// Save some repetitive typing
 		auto& currentButton = navigationButtons[i];
-
 		// Set the size of the button
 		currentButton->setSize(buttonWidth, buttonHeight);
-
 		// Place the buttons in a row along the bottom of the window
 		// They will be evenly spaced out and be in the bottom 1/10th of the window
 		currentButton->setPosition((2 * i + 1) * buttonWidth, windowHeight * 9.25 / 10.0f);
-		currentButton->setEnabled(true);
-		currentButton->setVisible(true);
+		// Draw the button as a button
+		currentButton->setRenderer(buttonRenderer);
+		// Add the button to the GUI
 		regionGUI->add(currentButton);
 	}
 }
