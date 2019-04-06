@@ -442,7 +442,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	delete pathfinder;
 }
 
-BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths) {
 	const int SQUARE_DIM = 2;
 	NavigationGrid navGrid(SQUARE_DIM);
 	Pathfinder* pathfinder = new Pathfinder(&navGrid);
@@ -467,7 +467,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	//Make square that is up have weight 2
 	Point2D<int> upSquareCoord{ 1, 0 };
 	NavigationGridData upSquareData;
-	upSquareData.weight = 2;
+	upSquareData.weight = 500;
 	upSquareData.blockerDist = 0;
 	*navGrid.at(upSquareCoord.x, upSquareCoord.y) = upSquareData;
 
@@ -485,6 +485,55 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_dfferent_weight_paths) {
 	//ensure the blocked grid square is not in the path
 	for (Point2D<int> gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != upSquareCoord);
+	}
+
+	freeAllNavigationGridData(navGrid);
+	delete pathfinder;
+}
+
+BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths_flipped_weights) {
+	const int SQUARE_DIM = 2;
+	NavigationGrid navGrid(SQUARE_DIM);
+	Pathfinder* pathfinder = new Pathfinder(&navGrid);
+
+	//ensure all grid squares are clear
+	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
+
+	//create request
+	Point2D<int> startPoint{ 1, 1 };
+	PathRequest pathRequest{ startPoint, Point2D<int>{0,0} };
+	std::vector<PathRequest> pathRequests;
+	pathRequests.push_back(pathRequest);
+
+
+	//Make square that is left have weight 2
+	Point2D<int> leftSquareCoord{ 0, 1 };
+	NavigationGridData leftSquareData;
+	leftSquareData.weight = 500;
+	leftSquareData.blockerDist = 0;
+	*navGrid.at(leftSquareCoord.x, leftSquareCoord.y) = leftSquareData;
+
+	//Make square that is up have weight 1
+	Point2D<int> upSquareCoord{ 1, 0 };
+	NavigationGridData upSquareData;
+	upSquareData.weight = 1;
+	upSquareData.blockerDist = 0;
+	*navGrid.at(upSquareCoord.x, upSquareCoord.y) = upSquareData;
+
+
+	//create return value
+	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	pathsReturn.resize(pathRequests.size());
+
+	//find the path
+	pathfinder->pathFind(pathRequests, &pathsReturn);
+
+	//ensure the returned path is not empty
+	BOOST_CHECK(pathsReturn[0].size() > 0);
+
+	//ensure the blocked grid square is not in the path
+	for (Point2D<int> gridSquare : pathsReturn[0]) {
+		BOOST_CHECK(gridSquare != leftSquareCoord);
 	}
 
 	freeAllNavigationGridData(navGrid);

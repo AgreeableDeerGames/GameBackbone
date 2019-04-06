@@ -125,7 +125,7 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f clickPosition, sf::Mous
 /// Initializes this instance.
 /// </summary>
 void NavigationDemoRegion::init() {
-	// Initialize NavigationGrid storage and set it on the Pathfinder
+	// Initialize the navigation grid and set it on Pathfinder
 	navGrid = new GB::NavigationGrid(NAV_GRID_DIM);
 	GB::initAllNavigationGridValues(*navGrid, NavigationDemoData());
 	regionPathfinder.setNavigationGrid(navGrid);
@@ -162,51 +162,51 @@ void NavigationDemoRegion::init() {
 		navigator->setScale(0.5, 0.5);
 	}
 
-	// TODO: we dont actually ever use this. what should we do with it?
-	// Internal function logic
-	std::vector<GB::Point2D<int>> nonBlockableGridSquares;
-	GB::Point2D<int> navigator1StartingGrid{ 0, 0 };
-	GB::Point2D<int> navigator2StartingGrid{15, 15};
-	nonBlockableGridSquares.push_back(navigator1StartingGrid);
-	nonBlockableGridSquares.push_back(navigator2StartingGrid);
-	initMaze(nonBlockableGridSquares);
+	initMaze();
 
-	//ensure that window / grid coordinates are converted with the correct ratio
+	// Ensure that window / grid coordinates are converted with the correct ratio
 	sf::Sprite* gridSprite = static_cast<NavigationDemoData*>(navGrid->at(0, 0))->demoSprite;
 	float gridSquareWidth = gridSprite->getLocalBounds().width;
 	coordinateConverter.setGridSquareWidth(gridSquareWidth);
 
-	//position navigators
+	// Position navigators
+	GB::Point2D<int> navigator1StartingGrid{ 0, 0 };
+	GB::Point2D<int> navigator2StartingGrid{15, 15};
 	const sf::Vector2f navigator1StartingPos = coordinateConverter.convertCoordToWindow(navigator1StartingGrid);
 	const sf::Vector2f navigator2StartingPos = coordinateConverter.convertCoordToWindow(navigator2StartingGrid);
 	navigator1->setPosition(navigator1StartingPos);
 	navigator2->setPosition(navigator2StartingPos);
 
-	//draw navigators on top of maze
+	// Draw navigators on top of maze
 	setDrawable(true, navigator1);
 	setDrawable(true, navigator2);
 
-	//Path-find from starting positions to end positions
-	//create request
-	GB::PathRequest pathRequest{ navigator1StartingGrid, GB::Point2D<int>{15,15} };
+	// Path-find from starting positions to end positions
+	// Create request
+
+	// Find a path from navigator 1's starting position to navigator2's starting position
+	GB::PathRequest pathRequest{ navigator1StartingGrid, navigator2StartingGrid };
 	std::vector<GB::PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
-	//second request
-	GB::PathRequest pathRequest2{ navigator2StartingGrid, GB::Point2D<int>{0,0} };
+	// Second request
+
+	// Find a path from navigator 2's starting position to navigator1's starting position
+	GB::PathRequest pathRequest2{ navigator2StartingGrid, navigator1StartingGrid };
 	pathRequests.push_back(pathRequest2);
 
-	//find the path
+	// Find the path
 	std::vector<std::deque<GB::Point2D<int>>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	regionPathfinder.pathFind(pathRequests, &pathsReturn);
 
-	//convert paths to window coordinates
+	// Convert paths to window coordinates
 	paths.resize(pathsReturn.size());
 	for (unsigned int i = 0; i < navigators.size(); i++) {
 		paths[i] = std::make_shared<std::deque<sf::Vector2f>>(coordinateConverter.convertPathToWindow(pathsReturn[i]));
 	}
 
+	// All navigators will move to a mouse click by default
 	selectedNavigatorOption = SELECTED_NAVIGATOR_BUTTON_TYPE::ALL_NAVIGATORS;
 }
 
@@ -215,15 +215,15 @@ void NavigationDemoRegion::init() {
 /// Resets the state of every member of this instance.
 /// </summary>
 void NavigationDemoRegion::destroy() {
-	//delete navigation data
+	// Delete navigation data
 	GB::freeAllNavigationGridData(*navGrid);
 	delete navGrid;
 	navGrid = nullptr;
 
-	// reset pathfinder
+	// Reset pathfinder
 	regionPathfinder.setNavigationGrid(nullptr);
 
-	// clear paths
+	// Clear paths
 	paths.clear();
 
 	//delete navigators
@@ -235,16 +235,16 @@ void NavigationDemoRegion::destroy() {
 	clearDrawable();
 	clearUpdatable();
 
-	//delete textures
+	//Delete textures
 	delete navigatorTexture;
 	navigatorTexture = nullptr;
 	delete gridTexture;
 	gridTexture = nullptr;
 
-	// reset time
+	// Reset time
 	lastUpdateTime = sf::Time::Zero;
 
-	// reset coordinate converter
+	// Reset coordinate converter
 	GB::CoordinateConverter newConverter;
 	coordinateConverter = newConverter;
 }
@@ -317,7 +317,7 @@ void NavigationDemoRegion::initGUI() {
 /// <summary>
 /// Initializes the maze that the navigators will use.
 /// </summary>
-void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePositions) {
+void NavigationDemoRegion::initMaze() {
 	// This vector stores the generation options for a cluster.
 	// Every element in the vector will produce a cluster with the associated weight.
 	// The weights of all the clusters should not reach 1.0.
@@ -344,6 +344,7 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 	GB::RandGen randGen;
 	for (auto& cluster : clusterVector)
 	{
+		// randomly assign a weight for each cluster
 		double weight = randGen.uniDist(0, GB::BLOCKED_GRID_WEIGHT);
 		clusterNavigationWeights.push_back(weight);
 	}
@@ -367,32 +368,54 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 		clusterColors.emplace_back(std::move(clusterColor));
 	}
 
-	//fill visual grid
+	// Fill visual grid
 	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
 		for (unsigned int j = 0; j < NAV_GRID_DIM; j++) {
-			//create sprite in correct position
+			// Create sprite to represent grid square
 			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
 			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
 			const float gridOriginOffsetY = gridSquare->getLocalBounds().height / 2;
-			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of square
-			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
-			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
-			gridSquare->setColor(sf::Color::Yellow);
-			(*navGrid)[i][j]->weight = 0;
 
-			//add grids to storage
+			// Scale the grid square sprite to be the correct size
+			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
+
+			// Set the origin of the grid square to be the center fo the square
+			// instead of the top left corner.
+			// This just makes it easier to place the squares in the correct place
+			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of square
+
+			// Put the square in its correct place
+			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
+
+			// Unblocked squares will be yellow
+			gridSquare->setColor(sf::Color::Yellow);
+
+			// Make the initial weight of the square 0 (unblocked)
+			navGrid->at(i, j)->weight = 0;
+
+			// Add grids to storage
 			static_cast<NavigationDemoData*>(navGrid->at(i, j))->demoSprite = gridSquare;
-			//ensure grids are drawn
+
+			// Tell GameRegion to draw square
 			setDrawable(true, gridSquare);
 		}
 	}
 
+	// Give each cluster the correct color and navigation weight
 	for (std::size_t i = 0; i < clusterVector.size(); ++i)
 	{
+		// Give each point the correct color and weight
 		for (auto& point : clusterVector[i])
 		{
-			(*navGrid)[point.x][point.y]->weight = clusterNavigationWeights[i];
-			static_cast<NavigationDemoData*>(navGrid->at(point.x, point.y))->demoSprite->setColor(clusterColors[i]);
+			// Set the weight of the point
+			navGrid->at(point.x, point.y)->weight = clusterNavigationWeights[i];
+
+			// The navGrid is really of type NavigationDemoData. Cast it to this so that we can
+			// access the sprite member of the grid data.
+			NavigationDemoData* gridData = static_cast<NavigationDemoData*>(navGrid->at(point.x, point.y));
+
+			// Set the color of the sprite representing the grid
+			gridData->demoSprite->setColor(clusterColors[i]);
 		}
 	}
 

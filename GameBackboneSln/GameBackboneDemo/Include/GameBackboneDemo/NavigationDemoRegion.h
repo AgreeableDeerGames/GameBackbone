@@ -64,7 +64,7 @@ namespace EXE {
 
 		// helper functions
 		void initGUI();
-		void initMaze(std::vector<GB::Point2D<int>> nonBlockablePositions);
+		void initMaze();
 
 		// update logic storage
 		sf::Time lastUpdateTime;
