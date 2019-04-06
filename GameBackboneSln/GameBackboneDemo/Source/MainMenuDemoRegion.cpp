@@ -8,7 +8,6 @@ using namespace EXE;
 
 // Ctr / Dtr
 
-
 /// <summary>
 /// Initializes a new instance of the <see cref="MainMenuDemoRegion"/> class.
 /// Creates all required child regions.
@@ -17,28 +16,37 @@ using namespace EXE;
 MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	initGUI();
 
-	// create and link child regions
+	// Create and link child regions
+
+	// Create a new NavigationDemoRegion
 	NavigationDemoRegion* navigationDemoRegion = new NavigationDemoRegion(window);
+	// Make navigationDemoRegion a child of this MainMenuDemoRegion
 	addChildRegion(navigationDemoRegion);
+	// Store NavigationDemoRegion as a selectableRegion
 	selectableRegions.push_back(navigationDemoRegion);
 
+	// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
 	PlatformDemoRegion* platformDemoRegion = new PlatformDemoRegion(window);
 	addChildRegion(platformDemoRegion);
 	selectableRegions.push_back(platformDemoRegion);
 
+	// Create and link a ScaleAndRotationDemoRegion to this MainMenuDemoRegion
 	ScaleAndRotationDemoRegion* scaleAndRotationDemoRegion = new ScaleAndRotationDemoRegion(window);
 	addChildRegion(scaleAndRotationDemoRegion);
 	selectableRegions.push_back(scaleAndRotationDemoRegion);
 
+	// Create and link two RegionChangeDemoRegions to this MainMenuDemoRegion
 	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red, { 300, 300 });
 	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green, { 200, 200 });
+	// Make the two RegionChangeDemoRegions neighbors. This allows them to access each other
+	// even though there is no parent child relation between them.
 	regionChangeRegion1->addNeighborRegion(regionChangeRegion2);
 	addChildRegion(regionChangeRegion1);
 	addChildRegion(regionChangeRegion2);
+	// Only make one of the RegionChangeDemoRegions a selectableRegion
+	// The other one will be accessable through this one
 	selectableRegions.push_back(regionChangeRegion1);
-
 }
-
 
 /// <summary>
 /// Finalizes an instance of the <see cref="MainMenuDemoRegion"/> class.

@@ -22,7 +22,7 @@ namespace EXE {
 		~MainMenuDemoRegion();
 
 		// internal behavior alteration
-		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
+		void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
 	
 	private:
 
@@ -47,7 +47,6 @@ namespace EXE {
 		void platformRegionCB();
 		void scaleAndRotationDemoCB();
 		void regionChangeDemoCB();
-
 
 		// storage
 		std::vector<GB::GameRegion*> selectableRegions;
