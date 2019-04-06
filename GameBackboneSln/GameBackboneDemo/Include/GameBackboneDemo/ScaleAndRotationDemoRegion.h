@@ -51,7 +51,7 @@ namespace EXE{
 		void initGUI();
 
 		// sprite textures
-		std::unique_ptr<sf::Texture> navigatorTexture;
+		std::unique_ptr<sf::Texture> arrowTexture;
 		std::unique_ptr<sf::Texture> rotationArrowCenterTexture;
 		std::unique_ptr<sf::Texture> rotationArrowLowTexture;
 		std::unique_ptr<sf::Texture> rotationArrowLeftTexture;
