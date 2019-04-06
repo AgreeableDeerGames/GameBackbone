@@ -63,7 +63,7 @@ def main(path, download, no_bootstrap):
     vcpkgPath = path
     bin_path = ""
     if download is True:
-        pass #download_vcpkg(path)
+        download_vcpkg(path)
     else:
         update_vcpkg(path, no_bootstrap)
 
