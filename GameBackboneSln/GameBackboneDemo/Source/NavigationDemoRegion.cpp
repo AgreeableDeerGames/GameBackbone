@@ -344,17 +344,18 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 	GB::RandGen randGen;
 	for (auto& cluster : clusterVector)
 	{
-		randGen.uniDist(0, GB::BLOCKED_GRID_WEIGHT);
+		double weight = randGen.uniDist(0, GB::BLOCKED_GRID_WEIGHT);
+		clusterNavigationWeights.push_back(weight);
 	}
 
 	// Create a color for each cluster
 	// The color gets more red the harder it is to move through the cluster
 	std::vector<sf::Color> clusterColors;
 	for (int i = 0; i < clusterVector.size(); ++i) {
-		// more red the higher the value of clusterNavigationWeights
+		// More red the higher the value of clusterNavigationWeights
 		sf::Uint8 red =  255 * (clusterNavigationWeights[i]/GB::BLOCKED_GRID_WEIGHT);
 		sf::Uint8 green = 0;
-		// less blue the higher the value of clusterNavigationWeights
+		// Less blue the higher the value of clusterNavigationWeights
 		sf::Uint8 blue = 255 - 255 * (clusterNavigationWeights[i]/GB::BLOCKED_GRID_WEIGHT);
 
 		// Create an SFML color withe the calculated values
@@ -373,7 +374,7 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 			sf::Sprite* gridSquare = new sf::Sprite(*gridTexture);
 			const float gridOriginOffsetX = gridSquare->getLocalBounds().width / 2;
 			const float gridOriginOffsetY = gridSquare->getLocalBounds().height / 2;
-			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of grid
+			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of square
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
 			gridSquare->setColor(sf::Color::Yellow);
