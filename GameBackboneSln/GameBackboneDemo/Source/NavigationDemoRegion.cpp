@@ -378,24 +378,24 @@ void NavigationDemoRegion::initMaze(std::vector<GB::Point2D<int>> nonBlockablePo
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 			gridSquare->move(i * gridSquare->getLocalBounds().width + gridOriginOffsetX, j * gridSquare->getLocalBounds().height + gridOriginOffsetY);
 			gridSquare->setColor(sf::Color::Yellow);
-
-            // color the graph
-			GB::Point2D<int> clusterKey{(int)i, (int)j};
-			for (int k = 0; k < clusterVector.size(); k++) {
-				if (clusterVector[k].find(clusterKey) != clusterVector[k].end()) {
-					gridSquare->setColor(clusterColors[k]);
-					(*navGrid)[i][j]->weight = GB::BLOCKED_GRID_WEIGHT;
-					break;
-				}
-			}
+			(*navGrid)[i][j]->weight = 0;
 
 			//add grids to storage
 			static_cast<NavigationDemoData*>(navGrid->at(i, j))->demoSprite = gridSquare;
-
 			//ensure grids are drawn
 			setDrawable(true, gridSquare);
 		}
 	}
+
+	for (std::size_t i = 0; i < clusterVector.size(); ++i)
+	{
+		for (auto& point : clusterVector[i])
+		{
+			(*navGrid)[point.x][point.y]->weight = clusterNavigationWeights[i];
+			static_cast<NavigationDemoData*>(navGrid->at(point.x, point.y))->demoSprite->setColor(clusterColors[i]);
+		}
+	}
+
 	delete graphGenerator;
 }
 
