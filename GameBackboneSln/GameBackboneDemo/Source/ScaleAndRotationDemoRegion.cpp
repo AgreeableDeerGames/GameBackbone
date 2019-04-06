@@ -18,25 +18,11 @@ using namespace EXE;
 /// <summary>
 /// Initializes a new instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
-ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion() {
-	init();
-	//initialize GUI
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
-}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
-/// </summary>
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();
-	//initialize GUI
+
+	// Try to initialize the GUI, catch and display any errors.
 	try {
 		// Load the widgets
 		initGUI();
@@ -50,27 +36,20 @@ ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window
 /// Finalizes an instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
 /// </summary>
 ScaleAndRotationDemoRegion::~ScaleAndRotationDemoRegion() {
+	// Free all memory stored on the ScaleAndRotationDemoRegion
 	destroy();
-}
-
-/// <summary>
-/// Executes a single cycle of the main logic loop for this region.
-/// </summary>
-void ScaleAndRotationDemoRegion::behave(sf::Time currentTime) {
-
-	sf::Int64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMicroseconds();
-
-	lastUpdateTime = currentTime;
 }
 
 /// <summary>
 /// Handles mouse click logic.
 /// </summary>
 /// <param name="newPosition">The position of the click.</param>
-/// <param name="button">The mouse button clicked button.</param>
+/// <param name="button">The mouse button that was clicked.</param>
 void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+	// Only handle Left Clicks
 	if (button == sf::Mouse::Left) {
-		compSprite->setPosition(newPosition);
+		// Set the position of the displaySprite
+		displaySprite->setPosition(newPosition);
 	}
 }
 
@@ -79,7 +58,7 @@ void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::
 /// </summary>
 /// <param name="scrollDelta">The change in the wheel.</param>
 void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
-	compSprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
+	displaySprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
 }
 
 /// <summary>
@@ -88,8 +67,8 @@ void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
 /// </summary>
 /// <param name="mousePosition">The mouse position.</param>
 void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
-	float angle = atan2f(mousePosition.y - compSprite->getPosition().y, mousePosition.x - compSprite->getPosition().x) * 180 / (float)M_PI;
-	compSprite->setRotation(angle);
+	float angle = atan2f(mousePosition.y - displaySprite->getPosition().y, mousePosition.x - displaySprite->getPosition().x) * 180 / (float)M_PI;
+	displaySprite->setRotation(angle);
 }
 
 /// <summary>
@@ -121,10 +100,10 @@ void ScaleAndRotationDemoRegion::init() {
 	// relative rotation sprites
 	const float COMPOUND_SPRITE_TEST_X = 400;
 	const float COMPOUND_SPRITE_TEST_y = 400;
-	compComponent1 = std::make_unique<sf::Sprite>(*navigatorTexture);
-	compComponent2 = std::make_unique<sf::Sprite>(*navigatorTexture);
-	compComponent3 = std::make_unique<sf::Sprite>(*navigatorTexture);
-	std::vector<sf::Sprite*> spriteVector = { compComponent1.get() , compComponent2.get(), compComponent3.get() };
+	spriteComponent1 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	spriteComponent2 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	spriteComponent3 = std::make_unique<sf::Sprite>(*navigatorTexture);
+	std::vector<sf::Sprite*> spriteVector = { spriteComponent1.get() , spriteComponent2.get(), spriteComponent3.get() };
 
 	// compound sprite with overlapping sprites
 	sf::Sprite* rotationArrowCenterSprite = new sf::Sprite(*rotationArrowCenterTexture);
@@ -138,44 +117,44 @@ void ScaleAndRotationDemoRegion::init() {
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
 			// set the positions of the components
-			compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-			compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+			spriteComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+			spriteComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+			spriteComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
 
 			// Create the compound sprite by adding the components to the constructor
-			compSprite = std::make_unique<GB::RelativeRotationSprite>(spriteVector, sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(spriteVector, sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
 			// set the positions of the components
-			compComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-			compComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			spriteComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			spriteComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			spriteComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 
 			// Create the compound sprite then add all of the components with a relative offset
-			compSprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
-			static_cast<GB::RelativeRotationSprite*>(compSprite.get())->addComponent(compComponent1.get(), { 80, 0 });
-			static_cast<GB::RelativeRotationSprite*>(compSprite.get())->addComponent(compComponent2.get(), { 0, 80 });
-			static_cast<GB::RelativeRotationSprite*>(compSprite.get())->addComponent(compComponent3.get(), { 0, 0 });
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent1.get(), { 80, 0 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent2.get(), { 0, 80 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent3.get(), { 0, 0 });
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
 			// set the positions of the components
-			compComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-			compComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-			compComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+			spriteComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
+			spriteComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
+			spriteComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
 
 			// create the compound sprite then add all of the components. The components will maintain their
 			// positions relative to the compound sprite
-			compSprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
-			compSprite->addComponent(compComponent1.get());
-			compSprite->addComponent(compComponent2.get());
-			compSprite->addComponent(compComponent3.get());
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			displaySprite->addComponent(spriteComponent1.get());
+			displaySprite->addComponent(spriteComponent2.get());
+			displaySprite->addComponent(spriteComponent3.get());
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
-			compSprite = std::make_unique<GB::CompoundSprite>(textureOffsetSprites);
-			compSprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			displaySprite = std::make_unique<GB::CompoundSprite>(textureOffsetSprites);
+			displaySprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
 			break;
 		}
 		default: {
@@ -184,10 +163,10 @@ void ScaleAndRotationDemoRegion::init() {
 	}
 
 	// assign colors and draw
-	compComponent1->setColor(sf::Color::Magenta);
-	compComponent2->setColor(sf::Color::White);
-	compComponent3->setColor(sf::Color::Green);
-	setDrawAndUpdateable(true, compSprite.get());
+	spriteComponent1->setColor(sf::Color::Magenta);
+	spriteComponent2->setColor(sf::Color::White);
+	spriteComponent3->setColor(sf::Color::Green);
+	setDrawAndUpdateable(true, displaySprite.get());
 }
 
 /// <summary>
@@ -195,11 +174,10 @@ void ScaleAndRotationDemoRegion::init() {
 /// frees and / or reinitializes all members of this instance that impact the demo.
 /// </summary>
 void ScaleAndRotationDemoRegion::reset() {
-	// free all dynamic memory
+	// Free all dynamic memory
 	destroy();
 
 	// reset non-dynamic members
-	lastUpdateTime = sf::Time::Zero;
 	clearDrawable();
 	clearUpdatable();
 
@@ -317,7 +295,7 @@ void ScaleAndRotationDemoRegion::initMethod4CB() {
 /// Frees all dynamically allocated memory in this instance
 /// </summary>
 void ScaleAndRotationDemoRegion::destroy() {
-	//delete sprites
+	// Delete sprites stored on the ScaleAndRotationDemoRegion
 	for (sf::Sprite* sprite : textureOffsetSprites) {
 		delete sprite;
 		sprite = nullptr;

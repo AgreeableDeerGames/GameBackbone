@@ -39,7 +39,7 @@ namespace EXE {
 	public:
 
 		// ctr / dtr
-		NavigationDemoRegion();
+		NavigationDemoRegion() = delete;
 		NavigationDemoRegion(const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion(NavigationDemoRegion&& other) = delete;
 		NavigationDemoRegion& operator= (const NavigationDemoRegion& other) = delete;
@@ -51,6 +51,7 @@ namespace EXE {
 
 		virtual void behave(sf::Time currentTime) override;
 
+		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
 
 

@@ -20,22 +20,6 @@ using namespace EXE;
 /// <summary>
 /// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
 /// </summary>
-NavigationDemoRegion::NavigationDemoRegion() {
-	init();
-
-	// Try to initialize the GUI, catch and display any errors.
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
-}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="NavigationDemoRegion"/> class.
-/// </summary>
 /// <param name="window">The window that will be attached to this instances GUI.</param>
 NavigationDemoRegion::NavigationDemoRegion(sf::RenderWindow & window) : DemoRegion(window) {
 	init();

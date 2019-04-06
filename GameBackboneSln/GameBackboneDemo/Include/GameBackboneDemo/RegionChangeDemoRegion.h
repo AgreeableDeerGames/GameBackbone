@@ -19,7 +19,7 @@ namespace EXE {
 		RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color, sf::Vector2f position);
 		~RegionChangeDemoRegion();
 
-		// handles and callbacks
+		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 
 	private:
