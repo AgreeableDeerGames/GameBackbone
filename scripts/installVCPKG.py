@@ -33,8 +33,6 @@ def update_vcpkg(path, no_bootstrap):
     # return original working dir
     os.chdir(orig_working_dir)
 
-
-
 def linux_bootstrap(path):
     bootstrap_script_path = os.path.join(path, "bootstrap-vcpkg.sh")
     os.chmod(bootstrap_script_path, 0o755)
@@ -43,7 +41,6 @@ def linux_bootstrap(path):
     if not os.path.exists(bin_path):
         print("Binary build failed, exiting now")
         exit(1)
-
 
 def windows_bootstrap(path):
     bin_path = os.path.join(path, "vcpkg.exe")
@@ -62,14 +59,15 @@ def windows_bootstrap(path):
 def main(path, download, no_bootstrap):
     vcpkgPath = path
     bin_path = ""
+    if not os.path.exists(os.path.normpath(vcpkgPath)):
+        print("vcpkg path is not valid")
+        exit(1)
     if download is True:
         download_vcpkg(path)
     else:
         update_vcpkg(path, no_bootstrap)
 
-    if not os.path.exists(os.path.normpath(vcpkgPath)):
-        print("vcpkg path is not valid")
-        exit(1)
+
 
     packages = ["boost", "sfml", "tgui", "box2d"]
 
