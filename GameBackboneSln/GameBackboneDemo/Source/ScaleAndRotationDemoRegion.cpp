@@ -1,17 +1,18 @@
-#include <iostream>
 
 #define _USE_MATH_DEFINES
 
-#include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 #include <GameBackbone/Core/RelativeRotationSprite.h>
 #include <GameBackbone/Navigation/NavigationTools.h>
+#include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
 #include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics.hpp>
 
-#include <string>
+#include <iostream>
 #include <math.h>
+#include <string>
+
 
 using namespace EXE;
 
@@ -69,10 +70,12 @@ void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
 /// <param name="mousePosition">The mouse position.</param>
 void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 
-	//TODO: We should break this up and explain exactly what each step is doing. This is super complicated for one line.
-	// Calculates the angle that should be pointed at
-	float angle = atan2f(mousePosition.y - displaySprite->getPosition().y, mousePosition.x - displaySprite->getPosition().x) * 180 / (float)M_PI;
-	displaySprite->setRotation(angle);
+	// Calculate the angle between the sprite and the mouse
+	const float radianAngle = atan2f(mousePosition.y - displaySprite->getPosition().y, mousePosition.x - displaySprite->getPosition().x);
+	// Convert the angle into degrees because SFML uses degrees
+	const float degreeAngle = radianAngle * 180 / (float)M_PI;
+	// Rotate the sprite to point at the calclated angle (at the mouse)
+	displaySprite->setRotation(degreeAngle);
 }
 
 /// <summary>
@@ -85,7 +88,7 @@ void ScaleAndRotationDemoRegion::init() {
 	arrowTexture = std::make_unique<sf::Texture>();
 	arrowTexture->loadFromFile(arrowPath);
 
-	// compound sprite with overlapping sprites
+	// Load the textures for the component sprites of the compound sprite with overlapping sprites
 	std::string rotationArrowCenterPath("Textures/RotationArrowCenter.png");
 	std::string rotationArrowLowPath("Textures/RotationArrowLow.png");
 	std::string rotationArrowLeftPath("Textures/RotationArrowLeft.png");
@@ -97,17 +100,23 @@ void ScaleAndRotationDemoRegion::init() {
 	rotationArrowLowTexture->loadFromFile(rotationArrowLowPath);
 
 	
-	// component sprites
+	// Component sprites
 
-	// relative rotation sprites
-	const float COMPOUND_SPRITE_TEST_X = 400;
-	const float COMPOUND_SPRITE_TEST_y = 400;
+	// Relative rotation sprites
+
+	// The X and Y positions for all the compound sprites
+	// Note: This is different than the X and Y positions of all of the component sprites
+	// that make up each compound sprite
+	const float compoundSpriteXPosition = 400;
+	const float compoundSpriteYPosition = 400;
+
+	// Create component sprites for the relative rotation sprite
 	spriteComponent1 = std::make_unique<sf::Sprite>(*arrowTexture);
 	spriteComponent2 = std::make_unique<sf::Sprite>(*arrowTexture);
 	spriteComponent3 = std::make_unique<sf::Sprite>(*arrowTexture);
 	std::vector<sf::Sprite*> spriteVector = { spriteComponent1.get() , spriteComponent2.get(), spriteComponent3.get() };
 
-	// compound sprite with overlapping sprites
+	// Create the component sprites for the compound sprite with overlapping sprites
 	sf::Sprite* rotationArrowCenterSprite = new sf::Sprite(*rotationArrowCenterTexture);
 	sf::Sprite* rotationArrowLeftSprite = new sf::Sprite(*rotationArrowLeftTexture);
 	sf::Sprite* rotationArrowLowSprite = new sf::Sprite(*rotationArrowLowTexture);
@@ -119,22 +128,23 @@ void ScaleAndRotationDemoRegion::init() {
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
 			// set the positions of the components
-			spriteComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-			spriteComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-			spriteComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+			spriteComponent1->setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
+			spriteComponent2->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
+			spriteComponent3->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
 
 			// Create the compound sprite by adding the components to the constructor
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(spriteVector, sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			// The component sprites maintain their position
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(spriteVector, sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
 			// set the positions of the components
-			spriteComponent1->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-			spriteComponent2->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
-			spriteComponent3->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			spriteComponent1->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
+			spriteComponent2->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
+			spriteComponent3->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 
 			// Create the compound sprite then add all of the components with a relative offset
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent1.get(), { 80, 0 });
 			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent2.get(), { 0, 80 });
 			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent3.get(), { 0, 0 });
@@ -142,13 +152,13 @@ void ScaleAndRotationDemoRegion::init() {
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
 			// set the positions of the components
-			spriteComponent1->setPosition(COMPOUND_SPRITE_TEST_X + 92, COMPOUND_SPRITE_TEST_y + 12);
-			spriteComponent2->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 92);
-			spriteComponent3->setPosition(COMPOUND_SPRITE_TEST_X + 12, COMPOUND_SPRITE_TEST_y + 12);
+			spriteComponent1->setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
+			spriteComponent2->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
+			spriteComponent3->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
 
 			// create the compound sprite then add all of the components. The components will maintain their
 			// positions relative to the compound sprite
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y));
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			displaySprite->addComponent(spriteComponent1.get());
 			displaySprite->addComponent(spriteComponent2.get());
 			displaySprite->addComponent(spriteComponent3.get());
@@ -156,7 +166,7 @@ void ScaleAndRotationDemoRegion::init() {
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
 			displaySprite = std::make_unique<GB::CompoundSprite>(textureOffsetSprites);
-			displaySprite->setPosition(COMPOUND_SPRITE_TEST_X, COMPOUND_SPRITE_TEST_y);
+			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			break;
 		}
 		default: {
@@ -191,65 +201,67 @@ void ScaleAndRotationDemoRegion::reset() {
 /// Initializes the GUI.
 /// </summary>
 void ScaleAndRotationDemoRegion::initGUI() {
-	// Load the black theme
-	tgui::Theme theme("TGUI_Widgets/Black.txt");
-
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
-	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create("Textures/Backbone2.png");
+
+	// make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
-	const int NUM_BUTTONS = 4;
-	tgui::Layout buttonWidth = windowWidth / (NUM_BUTTONS + NUM_BUTTONS + 1);
-	tgui::Layout buttonHeight = windowHeight / 20.0f;
-	int buttonIndex = 0;
+	// Vector to temporarily hold all of the initialization options
+	std::vector<tgui::Button::Ptr> initOptionButtons;
 
-	// create initMethod1 button
+	// Create initMethod1 button
 	tgui::Button::Ptr relativePositionCtrButton = tgui::Button::create();
-	relativePositionCtrButton->setRenderer(theme.getRenderer("Button"));
-	relativePositionCtrButton->setSize(buttonWidth, buttonHeight);
-	relativePositionCtrButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
-	relativePositionCtrButton->setText("Relative Position\n    Constructor");
+	// Give the Button Its Text
+	relativePositionCtrButton->setText("Relative\nPosition\nConstructor");
+	// Connect the button to its callback function
 	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
-	regionGUI->add(relativePositionCtrButton);
-	buttonIndex++;
+	// Add the button to the vector for future use
+	initOptionButtons.push_back(relativePositionCtrButton);
 
-	// create initMethod2 button
+	// Create initMethod2 button
 	tgui::Button::Ptr relativeOffsetButton = tgui::Button::create();
-	relativeOffsetButton->setRenderer(theme.getRenderer("Button"));
-	relativeOffsetButton->setSize(buttonWidth, buttonHeight);
-	relativeOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
-	relativeOffsetButton->setText("Relative Offset");
+	relativeOffsetButton->setText("Relative\nOffset");
 	relativeOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod2CB, this);
-	regionGUI->add(relativeOffsetButton);
-	buttonIndex++;
+	initOptionButtons.push_back(relativeOffsetButton);
 
-	// create initMethod3 button
+	// Create initMethod3 button
 	tgui::Button::Ptr relativePositionButton = tgui::Button::create();
-	relativePositionButton->setRenderer(theme.getRenderer("Button"));
-	relativePositionButton->setSize(buttonWidth, buttonHeight);
-	relativePositionButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
-	relativePositionButton->setText("Relative Position");
+	relativePositionButton->setText("Relative\nPosition");
 	relativePositionButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod3CB, this);
-	regionGUI->add(relativePositionButton);
-	buttonIndex++;
+	initOptionButtons.push_back(relativePositionButton);
 
-	// create initMethod4 button
+	// Create initMethod4 button
 	tgui::Button::Ptr textureBasedOffsetButton = tgui::Button::create();
-	textureBasedOffsetButton->setRenderer(theme.getRenderer("Button"));
-	textureBasedOffsetButton->setSize(buttonWidth, buttonHeight);
-	textureBasedOffsetButton->setPosition((2 * buttonIndex + 1) * buttonWidth, windowHeight * 9 / 10.0f);
-	textureBasedOffsetButton->setText("Texture Offset");
+	textureBasedOffsetButton->setText("Texture\nOffset");
 	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod4CB, this);
-	regionGUI->add(textureBasedOffsetButton);
-	buttonIndex++;
+	initOptionButtons.push_back(textureBasedOffsetButton);
 
+	// The number of buttons in this menu
+	const std::size_t numButtons = initOptionButtons.size();
+	// Size the width and height of the buttons to give them space on all sides
+	tgui::Layout buttonWidth = windowWidth / ((numButtons + 1) * 1.5 );
+	tgui::Layout buttonHeight = windowHeight / 15.0f;
+	for (std::size_t i = 0; i < numButtons; ++i)
+	{
+		// Save some repetitive typing
+		auto& currentButton = initOptionButtons[i];
+		// Set the size of the button
+		currentButton->setSize(buttonWidth, buttonHeight);
+		// Place the buttons in a row along the bottom of the window
+		// They will be evenly spaced out and be in the bottom 1/10th of the window
+		// TODO (Michael): Can you take a look at this math. I'm tired and having a hard time.
+		currentButton->setPosition((1.3 * (i + 1)) * buttonWidth, windowHeight * 9.15 / 10.0f);
+		// Add the button to the GUI
+		regionGUI->add(currentButton);
+	}
 }
 
 /// <summary>
