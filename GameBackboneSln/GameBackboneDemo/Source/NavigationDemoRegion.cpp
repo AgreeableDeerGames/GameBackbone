@@ -262,9 +262,6 @@ void NavigationDemoRegion::reset() {
 /// Initializes the GUI.
 /// </summary>
 void NavigationDemoRegion::initGUI() {
-	// Load the black theme
-	tgui::Theme theme("TGUI_Widgets/Black.txt");
-
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
@@ -280,9 +277,6 @@ void NavigationDemoRegion::initGUI() {
 
 	// temporarily track all of the buttons for controlling navigation
 	std::vector<tgui::Button::Ptr> navigationButtons;
-
-	// load what buttons will look like
-	auto buttonRenderer = theme.getRenderer("Button");
 
 	// Navigator 1 button
 	tgui::Button::Ptr navigator1Button = tgui::Button::create();
@@ -324,8 +318,6 @@ void NavigationDemoRegion::initGUI() {
 		// Place the buttons in a row along the bottom of the window
 		// They will be evenly spaced out and be in the bottom 1/10th of the window
 		currentButton->setPosition((2 * i + 1) * buttonWidth, windowHeight * 9.25 / 10.0f);
-		// Draw the button as a button
-		currentButton->setRenderer(buttonRenderer);
 		// Add the button to the GUI
 		regionGUI->add(currentButton);
 	}

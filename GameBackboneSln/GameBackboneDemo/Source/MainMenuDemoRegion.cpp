@@ -77,8 +77,15 @@ void MainMenuDemoRegion::registerSetActiveRegionCB(std::function<void(GameRegion
 /// </summary>
 void EXE::MainMenuDemoRegion::initGUI() {
 	// Load the black theme
-	tgui::Theme theme("TGUI_Widgets/Black.txt");
+	defaultTheme.load("TGUI_Widgets/Black.txt");
 
+	// By setting this as the default theme all widgets created
+	// after this point will be created with this theme.
+	// After defaultTheme deconstructs all widgets that are using the default
+	// theme will be reset to white theme.
+	// This is ok for this use case because defaultTheme
+	// wont be destructed until the end of the program.
+	tgui::Theme::setDefault(&defaultTheme);
 	// hide parent classes button
 	returnToMenuButton->setVisible(false);
 	resetButton->setVisible(false);
@@ -136,14 +143,12 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	{
 		// Save some repetitive typing
 		auto& currentButton = demoRegionButtons.at(i);
-		// Make the button look like a button
-		currentButton->setRenderer(theme.getRenderer("Button"));
 		// Set the size of the button
 		currentButton->setSize(buttonWidth, buttonHeight);
 		// Place the button in the middle of the screen
-		auto horizontalPosition = windowWidth / 2.0f - buttonWidth / 2.0f;
+		tgui::Layout horizontalPosition = windowWidth / 2.0f - buttonWidth / 2.0f;
 		// Space the buttons apart
-		auto verticalPosition = (2 * i + 1) * buttonHeight;
+		tgui::Layout verticalPosition = (2 * i + 1) * buttonHeight;
 		currentButton->setPosition(horizontalPosition, verticalPosition);
 		// Add the buttons to the gui
 		regionGUI->add(currentButton);

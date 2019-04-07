@@ -2,6 +2,8 @@
 
 #include <GameBackboneDemo/DemoRegion.h>
 
+#include <TGUI/TGUI.hpp>
+
 namespace EXE {
 
 	/// <summary>
@@ -50,6 +52,7 @@ namespace EXE {
 
 		// storage
 		std::vector<GB::GameRegion*> selectableRegions;
+		tgui::Theme defaultTheme;
 
 	};
 
