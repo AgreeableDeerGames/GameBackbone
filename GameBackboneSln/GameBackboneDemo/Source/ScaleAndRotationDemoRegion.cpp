@@ -69,7 +69,6 @@ void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
 /// </summary>
 /// <param name="mousePosition">The mouse position.</param>
 void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
-
 	// Calculate the angle between the sprite and the mouse
 	const float radianAngle = atan2f(mousePosition.y - displaySprite->getPosition().y, mousePosition.x - displaySprite->getPosition().x);
 	// Convert the angle into degrees because SFML uses degrees
@@ -127,7 +126,7 @@ void ScaleAndRotationDemoRegion::init() {
 
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
-			// set the positions of the components
+			// Set the positions of the components
 			spriteComponent1->setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
 			spriteComponent2->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
 			spriteComponent3->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
@@ -138,7 +137,7 @@ void ScaleAndRotationDemoRegion::init() {
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
-			// set the positions of the components
+			// Set the positions of the components
 			spriteComponent1->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			spriteComponent2->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			spriteComponent3->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
@@ -151,13 +150,13 @@ void ScaleAndRotationDemoRegion::init() {
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
-			// set the positions of the components
+			// Set the positions of the components
 			spriteComponent1->setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
 			spriteComponent2->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
 			spriteComponent3->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
 
-			// create the compound sprite then add all of the components. The components will maintain their
-			// positions relative to the compound sprite
+			// Create the compound sprite then add all of the components. 
+			// The components will maintain their positions relative to the compound sprite
 			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			displaySprite->addComponent(spriteComponent1.get());
 			displaySprite->addComponent(spriteComponent2.get());
@@ -174,7 +173,7 @@ void ScaleAndRotationDemoRegion::init() {
 		}
 	}
 
-	// assign colors and draw
+	// Assign colors and draw
 	spriteComponent1->setColor(sf::Color::Magenta);
 	spriteComponent2->setColor(sf::Color::White);
 	spriteComponent3->setColor(sf::Color::Green);
@@ -182,34 +181,18 @@ void ScaleAndRotationDemoRegion::init() {
 }
 
 /// <summary>
-/// Resets this instance.
-/// frees and / or reinitializes all members of this instance that impact the demo.
-/// </summary>
-void ScaleAndRotationDemoRegion::reset() {
-	// Free all dynamic memory
-	destroy();
-
-	// Reset all non-dynamic members
-	clearDrawable();
-	clearUpdatable();
-
-	// Reinitialize for the user to use again
-	init();
-}
-
-/// <summary>
 /// Initializes the GUI.
 /// </summary>
 void ScaleAndRotationDemoRegion::initGUI() {
 	// Get a bound version of the window size
-	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
+	// Passing this to setPosition or setSize will make the widget automatically update when the view of the GUI changes
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create("Textures/Backbone2.png");
 
-	// make the image 1/10th of the screen and start it 9/10ths of the way down
+	// Make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
@@ -247,7 +230,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	// The number of buttons in this menu
 	const std::size_t numButtons = initOptionButtons.size();
 	// Size the width and height of the buttons to give them space on all sides
-	tgui::Layout buttonWidth = windowWidth / ((numButtons + 1) * 1.5 );
+	tgui::Layout buttonWidth = windowWidth / ((numButtons + 1) * 1.5);
 	tgui::Layout buttonHeight = windowHeight / 15.0f;
 	for (std::size_t i = 0; i < numButtons; ++i)
 	{
@@ -262,6 +245,33 @@ void ScaleAndRotationDemoRegion::initGUI() {
 		// Add the button to the GUI
 		regionGUI->add(currentButton);
 	}
+}
+
+/// <summary>
+/// Frees all dynamically allocated memory in this instance
+/// </summary>
+void ScaleAndRotationDemoRegion::destroy() {
+	// Delete sprites stored on the ScaleAndRotationDemoRegion and set them to nullptr
+	for (sf::Sprite* sprite : textureOffsetSprites) {
+		delete sprite;
+		sprite = nullptr;
+	}
+}
+
+/// <summary>
+/// Resets this instance.
+/// frees and / or reinitializes all members of this instance that impact the demo.
+/// </summary>
+void ScaleAndRotationDemoRegion::reset() {
+	// Free all dynamic memory
+	destroy();
+
+	// Reset all non-dynamic members
+	clearDrawable();
+	clearUpdatable();
+
+	// Reinitialize for the user to use again
+	init();
 }
 
 /// <summary>
@@ -301,17 +311,4 @@ void ScaleAndRotationDemoRegion::initMethod4CB() {
 	selectedInitMethod = ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET;
 	debugPrint("Texture Based Offset");
 	reset();
-}
-
-// private dtr
-
-/// <summary>
-/// Frees all dynamically allocated memory in this instance
-/// </summary>
-void ScaleAndRotationDemoRegion::destroy() {
-	// Delete sprites stored on the ScaleAndRotationDemoRegion and set them to nullptr
-	for (sf::Sprite* sprite : textureOffsetSprites) {
-		delete sprite;
-		sprite = nullptr;
-	}
 }

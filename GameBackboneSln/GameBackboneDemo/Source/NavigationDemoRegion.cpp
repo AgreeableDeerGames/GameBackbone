@@ -210,72 +210,23 @@ void NavigationDemoRegion::init() {
 }
 
 /// <summary>
-/// Frees all dynamic memory allocated for this instance.
-/// Resets the state of every member of this instance.
-/// </summary>
-void NavigationDemoRegion::destroy() {
-	// Delete navigation data
-	GB::freeAllNavigationGridData(*navGrid);
-	delete navGrid;
-	navGrid = nullptr;
-
-	// Reset pathfinder
-	regionPathfinder.setNavigationGrid(nullptr);
-
-	// Clear paths
-	paths.clear();
-
-	//delete navigators
-	for (auto navigator : navigators) {
-		delete navigator;
-		navigator = nullptr;
-	}
-	navigators.clear();
-	clearDrawable();
-	clearUpdatable();
-
-	//Delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-	delete gridTexture;
-	gridTexture = nullptr;
-
-	// Reset time
-	lastUpdateTime = sf::Time::Zero;
-
-	// Reset coordinate converter
-	GB::CoordinateConverter newConverter;
-	coordinateConverter = newConverter;
-}
-
-/// <summary>
-/// Resets this instance.
-/// The random clusters are regenerated and the navigators are reset.
-/// Everything else in this instance is also reset or reconstructed.
-/// </summary>
-void NavigationDemoRegion::reset() {
-	destroy();
-	init();
-}
-
-/// <summary>
 /// Initializes the GUI.
 /// </summary>
 void NavigationDemoRegion::initGUI() {
 	// Get a bound version of the window size
-	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
+	// Passing this to setPosition or setSize will make the widget automatically update when the view of the GUI changes
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
 
-	// make the image 1/10th of the screen and start it 9/10ths of the way down
+	// Make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 
-	// temporarily track all of the buttons for controlling navigation
+	// Temporarily track all of the buttons for controlling navigation
 	std::vector<tgui::Button::Ptr> navigationButtons;
 
 	// Navigator 1 button
@@ -286,7 +237,7 @@ void NavigationDemoRegion::initGUI() {
 	// Note that the "this" pointer must be passed. This is because the 
 	// function being connected to the button is a member function
 	navigator1Button->connect("pressed", &NavigationDemoRegion::Navigator1CB, this);
-	// add the button the the vector of buttons for the navigation bar
+	// Add the button to the vector of buttons for the navigation bar
 	navigationButtons.push_back(navigator1Button);
 
 	// Navigator 2 button
@@ -330,22 +281,21 @@ void NavigationDemoRegion::initMaze() {
 	// This vector stores the generation options for a cluster.
 	// Every element in the vector will produce a cluster with the associated weight.
 	// The weights of all the clusters should not reach 1.0.
-	// After the 1.0 - the accumulated weights of all of the clusters will be the % of
-	// empty squares.
-	// comment these out to make random clusters
-    std::vector<double> genOptions;
-    genOptions.push_back(0.05);
-    genOptions.push_back(0.10);
-    genOptions.push_back(0.05);
-    genOptions.push_back(0.30);
-    genOptions.push_back(0.4);
+	// After the 1.0 - the accumulated weights of all of the clusters will be the % of empty squares.
+	// Comment these out to make random clusters
+	std::vector<double> genOptions;
+	genOptions.push_back(0.05);
+	genOptions.push_back(0.10);
+	genOptions.push_back(0.05);
+	genOptions.push_back(0.30);
+	genOptions.push_back(0.4);
 
 	// Create a ClusterGreenhouse that will create clusters spanning the entire navigation grid.
 	GB::ClusterGreenhouse* graphGenerator = new GB::ClusterGreenhouse(GB::Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
 
 	// Generate all of the clusters.
 	// Each std::set of Point2D is a cluster.
-    std::vector<std::set<GB::Point2D<int>>> clusterVector = graphGenerator->generateClusteredGraph(genOptions);
+	std::vector<std::set<GB::Point2D<int>>> clusterVector = graphGenerator->generateClusteredGraph(genOptions);
 
 	// Create a vector of navigation weights. This is the cost associated with moving through a tile.
 	// Each value in the vector corresponds to the cluster in clusterVector of the same index.
@@ -363,10 +313,10 @@ void NavigationDemoRegion::initMaze() {
 	std::vector<sf::Color> clusterColors;
 	for (int i = 0; i < clusterVector.size(); ++i) {
 		// More red the higher the value of clusterNavigationWeights
-		sf::Uint8 red =  255 * (clusterNavigationWeights[i]/GB::BLOCKED_GRID_WEIGHT);
+		sf::Uint8 red = 255 * (clusterNavigationWeights[i] / GB::BLOCKED_GRID_WEIGHT);
 		sf::Uint8 green = 0;
 		// Less blue the higher the value of clusterNavigationWeights
-		sf::Uint8 blue = 255 - 255 * (clusterNavigationWeights[i]/GB::BLOCKED_GRID_WEIGHT);
+		sf::Uint8 blue = 255 - 255 * (clusterNavigationWeights[i] / GB::BLOCKED_GRID_WEIGHT);
 
 		// Create an SFML color withe the calculated values
 		sf::Color clusterColor(red, green, blue);
@@ -429,6 +379,55 @@ void NavigationDemoRegion::initMaze() {
 	}
 
 	delete graphGenerator;
+}
+
+/// <summary>
+/// Frees all dynamic memory allocated for this instance.
+/// Resets the state of every member of this instance.
+/// </summary>
+void NavigationDemoRegion::destroy() {
+	// Delete navigation data
+	GB::freeAllNavigationGridData(*navGrid);
+	delete navGrid;
+	navGrid = nullptr;
+
+	// Reset pathfinder
+	regionPathfinder.setNavigationGrid(nullptr);
+
+	// Clear paths
+	paths.clear();
+
+	//delete navigators
+	for (auto navigator : navigators) {
+		delete navigator;
+		navigator = nullptr;
+	}
+	navigators.clear();
+	clearDrawable();
+	clearUpdatable();
+
+	//Delete textures
+	delete navigatorTexture;
+	navigatorTexture = nullptr;
+	delete gridTexture;
+	gridTexture = nullptr;
+
+	// Reset time
+	lastUpdateTime = sf::Time::Zero;
+
+	// Reset coordinate converter
+	GB::CoordinateConverter newConverter;
+	coordinateConverter = newConverter;
+}
+
+/// <summary>
+/// Resets this instance.
+/// The random clusters are regenerated and the navigators are reset.
+/// Everything else in this instance is also reset or reconstructed.
+/// </summary>
+void NavigationDemoRegion::reset() {
+	destroy();
+	init();
 }
 
 /// <summary>
