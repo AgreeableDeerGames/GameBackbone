@@ -1,12 +1,12 @@
-
 #define _USE_MATH_DEFINES
+
+#include <GameBackboneDemo/NavigationDemoRegion.h>
 
 #include <GameBackbone/Navigation/NavigationGridData.h>
 #include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/RandGen.h>
 #include <GameBackbone/Util/UtilMath.h>
-#include <GameBackboneDemo/NavigationDemoRegion.h>
 
 #include <TGUI/TGUI.hpp>
 

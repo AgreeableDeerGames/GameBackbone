@@ -1,5 +1,3 @@
-#include <iostream>
-
 #define _USE_MATH_DEFINES
 
 #include <GameBackboneDemo/PlatformDemoRegion.h>

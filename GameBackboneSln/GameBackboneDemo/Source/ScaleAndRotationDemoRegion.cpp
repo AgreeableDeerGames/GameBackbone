@@ -1,9 +1,9 @@
-
 #define _USE_MATH_DEFINES
+
+#include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
 #include <GameBackbone/Core/RelativeRotationSprite.h>
 #include <GameBackbone/Navigation/NavigationTools.h>
-#include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
 #include <TGUI/TGUI.hpp>
 
