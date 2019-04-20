@@ -1,7 +1,7 @@
 #pragma once
 
 // dont do anything with platform demo if user doesn't want to build it
-#ifndef GB_EXCLUDE_PLATFORM_DEMO
+#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 #include <GameBackboneDemo/DemoRegion.h>
 
@@ -69,4 +69,4 @@ namespace EXE {
 	};
 }
 
-#endif // GB_EXCLUDE_PLATFORM_DEMO
+#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO

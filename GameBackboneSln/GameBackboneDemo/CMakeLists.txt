@@ -34,9 +34,9 @@ if (${GAMEBACKBONE_BUILD_PLATFORM_DEMO})
     gamebackbone_message("Set GAMEBACKBONE_BUILD_PLATFORM_DEMO to 'OFF' to disable PlatformDemo.")
 
     # Link Box
-    # Allow users to use VCPKG and its unofficial version of Box2D if they want
+    # Allow users to use vcpkg and its unofficial version of Box2D if they want
     # Otherwise find Box2D with custom FindBOX2D
-    option(USE_VCPKG_BOX2D "Using VCPKG to get Box2D" OFF)
+    option(USE_VCPKG_BOX2D "Using vcpkg to get Box2D" OFF)
     if(${USE_VCPKG_BOX2D})
         gamebackbone_message("Using Box2D from vcpkg.")
         find_package(unofficial-box2d CONFIG REQUIRED)
@@ -48,23 +48,14 @@ if (${GAMEBACKBONE_BUILD_PLATFORM_DEMO})
         include_directories(${BOX2D_INCLUDE_DIR})
     endif()
 
-    # switch to prevent PlatformDemo from Compiling
-    target_compile_definitions(GameBackboneDemo PRIVATE "GB_INCLUDE_PLATFORM_DEMO")
+    # Define macro to prevent PlatformDemo from Compiling
+    # This macro shares the name of the cmake toggle but is a C++ macro
+    target_compile_definitions(GameBackboneDemo PRIVATE "GAMEBACKBONE_BUILD_PLATFORM_DEMO")
 else()
-    # set switch to disable PlatformDemo
     gamebackbone_message("Building demo without PlatformDemo")
-    target_compile_definitions(GameBackboneDemo PRIVATE "GB_EXCLUDE_PLATFORM_DEMO")
 endif()
 
-
-# This is how to link to GB if it was being built from a different CMake process
-# find_package(GameBackbone REQUIRED) 
-# if(GB_FOUND) 
-#   include_directories(${GB_INCLUDE_DIR}) 
-#   target_link_libraries(GameBackboneDemo ${GB_LIBRARY}) 
-# endif() 
-
-# link to GB
+# Link to GB
 target_link_libraries(GameBackboneDemo PRIVATE GameBackbone)
 
 # Include own header files

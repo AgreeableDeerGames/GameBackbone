@@ -1,5 +1,5 @@
 // dont do anything with platform demo if user doesn't want to build it
-#ifndef GB_EXCLUDE_PLATFORM_DEMO
+#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 #include <iostream>
 
@@ -371,4 +371,4 @@ void PlatformDemoRegion::initGUI() {
 	regionGUI->add(picture);
 }
 
-#endif // GB_EXCLUDE_PLATFORM_DEMO
+#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
