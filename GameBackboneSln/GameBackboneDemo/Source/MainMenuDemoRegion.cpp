@@ -25,10 +25,13 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	// Store NavigationDemoRegion as a selectableRegion
 	selectableRegions.push_back(navigationDemoRegion);
 
+// dont do anything with platform demo if user doesn't want to build it
+#ifndef GB_EXCLUDE_PLATFORM_DEMO
 	// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
 	PlatformDemoRegion* platformDemoRegion = new PlatformDemoRegion(window);
 	addChildRegion(platformDemoRegion);
 	selectableRegions.push_back(platformDemoRegion);
+#endif // GB_EXCLUDE_PLATFORM_DEMO
 
 	// Create and link a ScaleAndRotationDemoRegion to this MainMenuDemoRegion
 	ScaleAndRotationDemoRegion* scaleAndRotationDemoRegion = new ScaleAndRotationDemoRegion(window);
@@ -114,11 +117,14 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	// Add the button to the vector of buttons for changing to demo regions
 	demoRegionButtons.push_back(navigationRegionButton);
 
+// dont do anything with platform demo if user doesn't want to build it
+#ifndef GB_EXCLUDE_PLATFORM_DEMO
 	// Create Platform region button
 	tgui::Button::Ptr platformRegionButton = tgui::Button::create();
 	platformRegionButton->setText("Platform Demo");
 	platformRegionButton->connect("pressed", &MainMenuDemoRegion::platformRegionCB, this);
 	demoRegionButtons.push_back(platformRegionButton);
+#endif // GB_EXCLUDE_PLATFORM_DEMO
 
 	// Create Scale and Rotation Demo button
 	tgui::Button::Ptr scaleAndRotationDemoButton = tgui::Button::create();

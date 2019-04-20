@@ -1,3 +1,6 @@
+// dont do anything with platform demo if user doesn't want to build it
+#ifndef GB_EXCLUDE_PLATFORM_DEMO
+
 #include <iostream>
 
 #define _USE_MATH_DEFINES
@@ -367,3 +370,5 @@ void PlatformDemoRegion::initGUI() {
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 }
+
+#endif // GB_EXCLUDE_PLATFORM_DEMO

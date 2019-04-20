@@ -1,5 +1,8 @@
 #pragma once
 
+// dont do anything with platform demo if user doesn't want to build it
+#ifndef GB_EXCLUDE_PLATFORM_DEMO
+
 #include <GameBackboneDemo/DemoRegion.h>
 
 #include <GameBackbone/Util/Point.h>
@@ -65,3 +68,5 @@ namespace EXE {
 		b2Body* playerBody;
 	};
 }
+
+#endif // GB_EXCLUDE_PLATFORM_DEMO
