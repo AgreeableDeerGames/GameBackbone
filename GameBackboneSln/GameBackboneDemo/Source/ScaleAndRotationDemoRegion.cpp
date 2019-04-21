@@ -73,7 +73,7 @@ void ScaleAndRotationDemoRegion::handleMouseMove(sf::Vector2f mousePosition) {
 	const float radianAngle = atan2f(mousePosition.y - displaySprite->getPosition().y, mousePosition.x - displaySprite->getPosition().x);
 	// Convert the angle into degrees because SFML uses degrees
 	const float degreeAngle = radianAngle * 180 / (float)M_PI;
-	// Rotate the sprite to point at the calclated angle (at the mouse)
+	// Rotate the sprite to point at the calculated angle (at the mouse)
 	displaySprite->setRotation(degreeAngle);
 }
 
@@ -240,8 +240,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 		currentButton->setSize(buttonWidth, buttonHeight);
 		// Place the buttons in a row along the bottom of the window
 		// They will be evenly spaced out and be in the bottom 1/10th of the window
-		// TODO (Michael): Can you take a look at this math. I'm tired and having a hard time.
-		currentButton->setPosition((1.3 * (i + 1)) * buttonWidth, windowHeight * 9.15 / 10.0f);
+		currentButton->setPosition(((windowWidth / numButtons) * i) + buttonWidth / 2, windowHeight * 9.15 / 10.0f);
 		// Add the button to the GUI
 		regionGUI->add(currentButton);
 	}
