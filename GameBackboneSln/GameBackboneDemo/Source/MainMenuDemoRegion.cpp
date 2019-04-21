@@ -169,7 +169,9 @@ void MainMenuDemoRegion::navigationRegionCB() {
 /// Sets the active region to the first child of this region (which should always be a PlatformDemoRegion)
 /// </summary>
 void MainMenuDemoRegion::platformRegionCB() {
-	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO]);
+	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
+		setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO]);
+	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 }
 
 /// <summary>

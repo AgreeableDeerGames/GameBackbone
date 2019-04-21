@@ -1,12 +1,21 @@
 #include <GameBackboneDemo/DemoCoreEventController.h>
 #include <GameBackboneDemo/NavigationDemoRegion.h>
 
+#include <SFML/Graphics.hpp>
+
 using namespace EXE;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="BackboneExeCoreEventController"/> class. Window width, height, and name are default.
 /// </summary>
 DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBackbone Demos") {
+	// get icon image
+	sf::Image icon;
+	icon.loadFromFile(R"(Textures/Backbone2_small.png)");
+
+	// Set set the icon of the window to the loaded icon
+	this->window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
 	// Initialize the MainMenuDemoRegion
 	mainMenuDemoRegion= new MainMenuDemoRegion(*window);
 	// Register setActiveRegion with mainMenuDemoRegion so that it can swap regions when needed
