@@ -347,30 +347,5 @@ void PlatformDemoRegion::destroy() {
 void PlatformDemoRegion::reset() {
 	destroy();
 	init();
-<<<<<<< HEAD
 }
-
-/// <summary>
-/// Initializes the GUI.
-/// </summary>
-void PlatformDemoRegion::initGUI() {
-	// Load the black theme
-	tgui::Theme theme("TGUI_Widgets/Black.txt");
-
-	// Get a bound version of the window size
-	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
-
-	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
-	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
-
-	picture->setSize(windowWidth, "&.height / 10");
-	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI->add(picture);
-}
-
 #endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
-=======
-}
->>>>>>> i169-PolishExamples
