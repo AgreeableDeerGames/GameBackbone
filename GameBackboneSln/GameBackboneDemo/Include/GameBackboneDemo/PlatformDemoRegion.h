@@ -1,6 +1,6 @@
 #pragma once
 
-// dont do anything with platform demo if user doesn't want to build it
+// Don't define PlatformDemo if the user doesn't want it
 #ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 #include <GameBackboneDemo/DemoRegion.h>

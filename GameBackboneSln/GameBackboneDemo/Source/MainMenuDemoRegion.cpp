@@ -25,7 +25,7 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	// Store NavigationDemoRegion as a selectableRegion
 	selectableRegions.push_back(navigationDemoRegion);
 
-	// dont do anything with platform demo if user doesn't want to build it
+	// Don't create PlatformDemo if the user doesn't want it
 	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 		// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
 		PlatformDemoRegion* platformDemoRegion = new PlatformDemoRegion(window);
@@ -117,15 +117,6 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	// Add the button to the vector of buttons for changing to demo regions
 	demoRegionButtons.push_back(navigationRegionButton);
 
-	// dont do anything with platform demo if user doesn't want to build it
-	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
-		// Create Platform region button
-		tgui::Button::Ptr platformRegionButton = tgui::Button::create();
-		platformRegionButton->setText("Platform Demo");
-		platformRegionButton->connect("pressed", &MainMenuDemoRegion::platformRegionCB, this);
-		demoRegionButtons.push_back(platformRegionButton);
-	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
-
 	// Create Scale and Rotation Demo button
 	tgui::Button::Ptr scaleAndRotationDemoButton = tgui::Button::create();
 	scaleAndRotationDemoButton->setText("Scale and Rotation Demo");
@@ -137,6 +128,15 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	regionChangeButton->setText("Region Change Demo");
 	regionChangeButton->connect("pressed", &MainMenuDemoRegion::regionChangeDemoCB, this);
 	demoRegionButtons.push_back(regionChangeButton);
+
+	// Don't create a button for PlatformDemo if the user doesn't want it
+	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
+		// Create Platform region button
+		tgui::Button::Ptr platformRegionButton = tgui::Button::create();
+		platformRegionButton->setText("Platform Demo");
+		platformRegionButton->connect("pressed", &MainMenuDemoRegion::platformRegionCB, this);
+		demoRegionButtons.push_back(platformRegionButton);
+	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 	// Size and place buttons
 	// The number of buttons will be needed a few times. Calculate it once.

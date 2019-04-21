@@ -1,4 +1,4 @@
-// dont do anything with platform demo if user doesn't want to build it
+// Dont declare PlatformDemo functions if the user doesn't want it
 #ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 #include <iostream>
