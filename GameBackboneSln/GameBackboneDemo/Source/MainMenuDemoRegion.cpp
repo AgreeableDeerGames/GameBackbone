@@ -25,13 +25,7 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	// Store NavigationDemoRegion as a selectableRegion
 	selectableRegions.push_back(navigationDemoRegion);
 
-	// Don't create PlatformDemo if the user doesn't want it
-	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
-		// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
-		PlatformDemoRegion* platformDemoRegion = new PlatformDemoRegion(window);
-		addChildRegion(platformDemoRegion);
-		selectableRegions.push_back(platformDemoRegion);
-	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
+
 
 	// Create and link a ScaleAndRotationDemoRegion to this MainMenuDemoRegion
 	ScaleAndRotationDemoRegion* scaleAndRotationDemoRegion = new ScaleAndRotationDemoRegion(window);
@@ -49,6 +43,14 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	// Only make one of the RegionChangeDemoRegions a selectableRegion
 	// The other one will be accessable through this one
 	selectableRegions.push_back(regionChangeRegion1);
+
+		// Don't create PlatformDemo if the user doesn't want it
+	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
+		// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
+		PlatformDemoRegion* platformDemoRegion = new PlatformDemoRegion(window);
+		addChildRegion(platformDemoRegion);
+		selectableRegions.push_back(platformDemoRegion);
+	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 }
 
 /// <summary>
@@ -166,7 +168,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 /// Sets the active region to the first child of this region (which should always be a NavigationDemoRegion)
 /// </summary>
 void MainMenuDemoRegion::navigationRegionCB() {
-	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO]);
+	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO]);
 }
 
 /// <summary>
@@ -174,7 +176,7 @@ void MainMenuDemoRegion::navigationRegionCB() {
 /// Sets the active region to the first child of this region (which should always be a PlatformDemoRegion)
 /// </summary>
 void MainMenuDemoRegion::platformRegionCB() {
-	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO]);
+	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO]);
 }
 
 /// <summary>
@@ -182,7 +184,7 @@ void MainMenuDemoRegion::platformRegionCB() {
 /// Sets the active region to the second child of this region (which should always be a ScaleAndRotationDemoRegion)
 /// </summary>
 void MainMenuDemoRegion::scaleAndRotationDemoCB() {
-	setActiveRegionCB(childRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO]);
+	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO]);
 }
 
 /// <summary>
