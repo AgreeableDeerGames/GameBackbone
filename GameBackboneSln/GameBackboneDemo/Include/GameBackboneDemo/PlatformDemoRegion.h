@@ -18,34 +18,33 @@ namespace EXE {
 	/// <seealso cref="GameRegion" />
 	class PlatformDemoRegion : public DemoRegion {
 	public:
+		// Constructors
+		PlatformDemoRegion(sf::RenderWindow & window);
+		virtual ~PlatformDemoRegion();
 
-		// ctr / dtr
-		PlatformDemoRegion();
+		PlatformDemoRegion() = delete;
 		PlatformDemoRegion(const PlatformDemoRegion& other) = delete;
 		PlatformDemoRegion(PlatformDemoRegion&& other) = delete;
 		PlatformDemoRegion& operator= (const PlatformDemoRegion& other) = delete;
 		PlatformDemoRegion& operator= (PlatformDemoRegion&& other) = delete;
-		PlatformDemoRegion(sf::RenderWindow & window);
-		virtual ~PlatformDemoRegion();
 
 		// Behavior
 		virtual void behave(sf::Time currentTime) override;
 
-		// Handle Events
+		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 		virtual void handleKeyPress(sf::Event::KeyEvent key) override;
 		virtual void handleKeyRelease(sf::Event::KeyEvent key) override;
 
 
 	protected:
-
-		// ctr / dtr
+		// Initialization and Cleanup
 		void init();
+		void initGUI();
 		void destroy();
 		virtual void reset() override;
 
 		// Helper functions
-		void initGUI();
 		b2Vec2 convertToWorld(sf::Vector2f sfCoords);
 		sf::Vector2f convertToSprite(b2Vec2 worldCoords);
 		sf::Vector2f convertToSprite(double worldCoordX, double worldCoordY);

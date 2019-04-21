@@ -37,18 +37,17 @@ namespace EXE {
 	/// <seealso cref="GameRegion" />
 	class NavigationDemoRegion : public DemoRegion {
 	public:
+		// Constructors
+		NavigationDemoRegion(sf::RenderWindow & window);
+		virtual ~NavigationDemoRegion();
 
-		// ctr / dtr
 		NavigationDemoRegion() = delete;
 		NavigationDemoRegion(const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion(NavigationDemoRegion&& other) = delete;
 		NavigationDemoRegion& operator= (const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
-		NavigationDemoRegion(sf::RenderWindow & window);
-		virtual ~NavigationDemoRegion();
 
-		//behavior
-
+		// Behavior
 		virtual void behave(sf::Time currentTime) override;
 
 		// Handle sf::Events
@@ -56,27 +55,24 @@ namespace EXE {
 
 
 	protected:
-
-		// ctr / dtr
+		// Initialization and Cleanup
 		void init();
+		void initGUI();
+		void initMaze();
 		void destroy();
 		virtual void reset() override;
 
-		// helper functions
-		void initGUI();
-		void initMaze();
-
-		// update logic storage
+		// Update logic storage
 		sf::Time lastUpdateTime;
 
-		// sprite textures
+		// Sprite textures
 		sf::Texture* navigatorTexture;
 		sf::Texture* gridTexture;
 
-		// store visual representation of maze solvers
+		// Store visual representation of maze solvers
 		std::vector<sf::Sprite*> navigators;
 
-		// path-finding
+		// Pathfinding
 		GB::Pathfinder regionPathfinder;
 		GB::NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;

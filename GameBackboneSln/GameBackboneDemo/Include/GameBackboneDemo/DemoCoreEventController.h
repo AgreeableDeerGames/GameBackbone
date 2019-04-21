@@ -4,11 +4,10 @@
 
 #include <GameBackbone/Core/CoreEventController.h>
 
-
 namespace EXE {
 	class DemoCoreEventController : public GB::CoreEventController<DemoCoreEventController> {
 	public:
-		// ctr / dtr
+		// Constructors
 		DemoCoreEventController();
 		DemoCoreEventController(const DemoCoreEventController& other) = delete;
 		DemoCoreEventController(DemoCoreEventController&& other) = default;
@@ -16,7 +15,7 @@ namespace EXE {
 		DemoCoreEventController& operator=(DemoCoreEventController&& other) = default;
 		virtual ~DemoCoreEventController();
 
-		//events
+		// Event handling
 		bool handleCoreEvent(sf::Event& event);
 
 	private:

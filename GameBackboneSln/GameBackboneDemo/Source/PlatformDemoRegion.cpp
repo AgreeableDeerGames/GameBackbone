@@ -1,8 +1,6 @@
 // Dont declare PlatformDemo functions if the user doesn't want it
 #ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
-#include <iostream>
-
 #define _USE_MATH_DEFINES
 
 #include <GameBackboneDemo/PlatformDemoRegion.h>
@@ -32,22 +30,6 @@ const int32 positionIterations = 2;
 const b2Vec2 gravity(0.0f, 0.10f);
 
 const double pixelsPerMeter = 32;
-
-/// <summary>
-/// Initializes a new instance of the <see cref="PlatformDemoRegion"/> class.
-/// </summary>
-PlatformDemoRegion::PlatformDemoRegion() {
-	init();
-
-	// Initialize GUI
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
-}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="PlatformDemoRegion"/> class.
@@ -169,7 +151,6 @@ void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
 	}
 }
 
-
 b2Vec2 PlatformDemoRegion::convertToWorld(sf::Vector2f sfCoords) {
 	return b2Vec2(sfCoords.x / pixelsPerMeter, sfCoords.y / pixelsPerMeter);
 }
@@ -181,9 +162,6 @@ sf::Vector2f PlatformDemoRegion::convertToSprite(b2Vec2 worldCoords) {
 sf::Vector2f PlatformDemoRegion::convertToSprite(double worldCoordX, double worldCoordY) {
 	return sf::Vector2f(worldCoordX * pixelsPerMeter, worldCoordY * pixelsPerMeter);
 }
-
-
-
 
 /// <summary>
 /// Initializes this instance.
@@ -307,6 +285,26 @@ void PlatformDemoRegion::init() {
 }
 
 /// <summary>
+/// Initializes the GUI.
+/// </summary>
+void PlatformDemoRegion::initGUI() {
+	// Load the black theme
+	tgui::Theme theme("TGUI_Widgets/Black.txt");
+
+	// Get a bound version of the window size
+	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
+	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
+	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
+
+	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
+
+	picture->setSize(windowWidth, "&.height / 10");
+	picture->setPosition(0, 9 * windowHeight / 10.0f);
+	regionGUI->add(picture);
+}
+
+/// <summary>
 /// Frees all dynamic memory allocated for this instance.
 /// Resets the state of every member of this instance.
 /// </summary>
@@ -349,6 +347,7 @@ void PlatformDemoRegion::destroy() {
 void PlatformDemoRegion::reset() {
 	destroy();
 	init();
+<<<<<<< HEAD
 }
 
 /// <summary>
@@ -372,3 +371,6 @@ void PlatformDemoRegion::initGUI() {
 }
 
 #endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
+=======
+}
+>>>>>>> i169-PolishExamples

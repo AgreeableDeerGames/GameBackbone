@@ -6,8 +6,6 @@
 
 using namespace EXE;
 
-// Ctr / Dtr
-
 /// <summary>
 /// Initializes a new instance of the <see cref="MainMenuDemoRegion"/> class.
 /// Creates all required child regions.
@@ -35,13 +33,13 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 	// Create and link two RegionChangeDemoRegions to this MainMenuDemoRegion
 	RegionChangeDemoRegion* regionChangeRegion1 = new RegionChangeDemoRegion(window, sf::Color::Red, { 300, 300 });
 	RegionChangeDemoRegion* regionChangeRegion2 = new RegionChangeDemoRegion(window, sf::Color::Green, { 200, 200 });
-	// Make the two RegionChangeDemoRegions neighbors. This allows them to access each other
-	// even though there is no parent child relation between them.
+	// Make the two RegionChangeDemoRegions neighbors. 
+	// This allows them to access each other even though there is no parent/child relation between them.
 	regionChangeRegion1->addNeighborRegion(regionChangeRegion2);
 	addChildRegion(regionChangeRegion1);
 	addChildRegion(regionChangeRegion2);
 	// Only make one of the RegionChangeDemoRegions a selectableRegion
-	// The other one will be accessable through this one
+	// The other one will be accessible through this one
 	selectableRegions.push_back(regionChangeRegion1);
 
 		// Don't create PlatformDemo if the user doesn't want it
@@ -58,7 +56,7 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 /// Frees memory for every child region of this instance.
 /// </summary>
 MainMenuDemoRegion::~MainMenuDemoRegion() {
-	// free all children
+	// Free all children
 	for (int ii = childRegions.size() - 1; ii >= 0; ii--) {
 		delete childRegions[ii];
 	}
@@ -84,12 +82,9 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	// Load the black theme
 	defaultTheme.load("TGUI_Widgets/Black.txt");
 
-	// By setting this as the default theme all widgets created
-	// after this point will be created with this theme.
-	// After defaultTheme deconstructs all widgets that are using the default
-	// theme will be reset to white theme.
-	// This is ok for this use case because defaultTheme
-	// wont be destructed until the end of the program.
+	// By setting this as the default theme all widgets created after this point will be created with this theme.
+	// After defaultTheme deconstructs all widgets that are using the default theme will be reset to white theme.
+	// This is ok for this use case because defaultTheme wont be destructed until the end of the program.
 	tgui::Theme::setDefault(&defaultTheme);
 	// hide parent classes button
 	returnToMenuButton->setVisible(false);
@@ -109,7 +104,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	// Add buttons for each demo region
 	std::vector<tgui::Button::Ptr> demoRegionButtons;
 
-	// Areate navigation region button
+	// Create navigation region button
 	// Create a new button
 	tgui::Button::Ptr navigationRegionButton = tgui::Button::create();
 	// Give the button its text
@@ -158,7 +153,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 		// Space the buttons apart
 		tgui::Layout verticalPosition = (2 * i + 1) * buttonHeight;
 		currentButton->setPosition(horizontalPosition, verticalPosition);
-		// Add the buttons to the gui
+		// Add the buttons to the GUI
 		regionGUI->add(currentButton);
 	}
 }
