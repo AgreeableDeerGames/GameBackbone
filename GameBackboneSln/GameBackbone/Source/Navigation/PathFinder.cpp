@@ -85,7 +85,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 		(*returnedPaths)[i] = std::deque<Point2D<int>>(); //initialize path as empty
 		while (!openSet->empty()) {
 			//check current grid square
-			Point2D<int> current = chooseNextGridSquare(pathRequest, openSet);
+			Point2D<int> current = chooseNextGridSquare(pathRequest, openSet, score);
 			if (current == endPoint) {
 				//reconstruct path, and add to output vector
 
@@ -145,13 +145,14 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 /// <param name="pathRequest">The path request.</param>
 /// <param name="gridSquares">The available gridSquares.</param>
 /// <returns>coordinates of the best available grid square for the passed pathRequest.</returns>
-Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>* const availableGridSquares) const {
+Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>* const availableGridSquares, std::map<Point2D<int>, int>* score) const {
 
 	unsigned int shortestDistance = UINT_MAX;
 	Point2D<int> bestGridSquare = {-1, -1};
 
 	for (const Point2D<int> gridSquare : *availableGridSquares) {
 		unsigned int gridSquareDistance = GB::calcSquaredDistance2D<int>(gridSquare, pathRequest.end);
+		gridSquareDistance *= score->at(gridSquare);
 		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
 			bestGridSquare = gridSquare;
