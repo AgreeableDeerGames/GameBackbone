@@ -279,3 +279,5 @@ GameBackboneSln/GB_ConanProfile\.txt
 \.buildconfig
 
 GameBackboneSln/GameBackboneUnitTest/TestConsumer/\.vscode/
+
+scripts/\.vscode/
