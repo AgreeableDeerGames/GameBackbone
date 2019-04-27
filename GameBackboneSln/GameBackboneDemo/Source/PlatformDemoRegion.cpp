@@ -65,7 +65,7 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 
 	// Instruct the world to perform a single step of simulation.
 	// It is generally best to keep the time step and iterations fixed.
-	platformWorld->Step(timeStep, velocityIterations, positionIterations);
+	platformWorld->Step(msPassed/50.0f, velocityIterations, positionIterations);
 
 	for (int ii = 0; ii < objectBodies.size(); ii++)
 	{
