@@ -11,6 +11,8 @@
 
 #include <Box2D/Box2D.h>
 
+#include <memory>
+
 namespace EXE {
 	/// <summary>
 	/// GameRegion with logic for demonstrating basic platforming using Box2d for physics and SFML to represent it.
@@ -53,12 +55,12 @@ namespace EXE {
 		sf::Time lastUpdateTime;
 
 		// Sprite textures
-		sf::Texture* blockTexture;
+		std::unique_ptr<sf::Texture> blockTexture;
 
 		// Box2d world which will be used to perform physical operations
-		b2World* platformWorld;
+		std::unique_ptr<b2World> platformWorld;
 		// Visual Representation of Box2d Bodies
-		std::vector<sf::Sprite*> objectSprites;
+		std::vector<std::unique_ptr<sf::Sprite>> objectSprites;
 		// Box2d Bodies for access or delete
 		std::vector<b2Body*> objectBodies;
 
