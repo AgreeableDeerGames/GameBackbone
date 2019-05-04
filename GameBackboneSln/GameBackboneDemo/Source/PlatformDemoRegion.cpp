@@ -1,4 +1,5 @@
-#include <iostream>
+// Don't declare PlatformDemo functions if the user doesn't want it
+#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 #define _USE_MATH_DEFINES
 
@@ -29,22 +30,6 @@ const int32 positionIterations = 2;
 const b2Vec2 gravity(0.0f, 0.10f);
 
 const double pixelsPerMeter = 32;
-
-/// <summary>
-/// Initializes a new instance of the <see cref="PlatformDemoRegion"/> class.
-/// </summary>
-PlatformDemoRegion::PlatformDemoRegion() {
-	init();
-
-	// Initialize GUI
-	try {
-		// Load the widgets
-		initGUI();
-	}
-	catch (const tgui::Exception& e) {
-		std::cerr << "Failed to load GUI: " << e.what() << std::endl;
-	}
-}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="PlatformDemoRegion"/> class.
@@ -80,7 +65,7 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 
 	// Instruct the world to perform a single step of simulation.
 	// It is generally best to keep the time step and iterations fixed.
-	platformWorld->Step(timeStep, velocityIterations, positionIterations);
+	platformWorld->Step(msPassed/50.0f, velocityIterations, positionIterations);
 
 	for (int ii = 0; ii < objectBodies.size(); ii++)
 	{
@@ -94,7 +79,7 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 		// I know this can't be seen at this scale, but lets set the angle just as a demo.
 		// I'm not sure if this needs converted. You may want to check that before copying this code.
 		float32 angle = objectBody->GetAngle();
-		objectSprites[ii]->setRotation(angle * (180.0/3.141592653589793238463));
+		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
 	}
 
 	lastUpdateTime = currentTime;
@@ -166,7 +151,6 @@ void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
 	}
 }
 
-
 b2Vec2 PlatformDemoRegion::convertToWorld(sf::Vector2f sfCoords) {
 	return b2Vec2(sfCoords.x / pixelsPerMeter, sfCoords.y / pixelsPerMeter);
 }
@@ -179,20 +163,17 @@ sf::Vector2f PlatformDemoRegion::convertToSprite(double worldCoordX, double worl
 	return sf::Vector2f(worldCoordX * pixelsPerMeter, worldCoordY * pixelsPerMeter);
 }
 
-
-
-
 /// <summary>
 /// Initializes this instance.
 /// </summary>
 void PlatformDemoRegion::init() {
 	// Init textures
 	std::string blockString(R"(Textures/testSprite.png)");
-	blockTexture = new sf::Texture();
+	blockTexture = std::make_unique<sf::Texture>();
 	blockTexture->loadFromFile(blockString);
 
 	// Construct a world object, which will hold and simulate the rigid bodies.
-	platformWorld = new b2World(gravity);
+	platformWorld = std::make_unique<b2World>(gravity);
 
 
 	// Create a ground body for our player to spawn on
@@ -206,7 +187,7 @@ void PlatformDemoRegion::init() {
 	// from a pool and creates the ground box shape (also from a pool).
 	// The body is also added to the world.
 	b2Body* groundBody = platformWorld->CreateBody(&groundBodyDef);
-	objectBodies.push_back(groundBody);
+	objectBodies.emplace_back(groundBody);
 	// Define the ground box shape.
 	b2PolygonShape groundBox;
 	// The extents are the half-widths of the box.
@@ -217,8 +198,8 @@ void PlatformDemoRegion::init() {
 
 	// Create a sprite to represent the player
 	sf::Sprite* sfGroundBox = new sf::Sprite(*blockTexture);
+	objectSprites.emplace_back(std::unique_ptr<sf::Sprite>(sfGroundBox));
 	setDrawable(true, sfGroundBox);
-	objectSprites.push_back(sfGroundBox);
 
 	// size * scale = desired
 	// Set the origin, size, and position of our sprite to match that of the Box2d body
@@ -252,7 +233,7 @@ void PlatformDemoRegion::init() {
 	// Create a sprite to represent the body
 	sf::Sprite* sfGround2Box = new sf::Sprite(*blockTexture);
 	setDrawable(true, sfGround2Box);
-	objectSprites.push_back(sfGround2Box);
+	objectSprites.push_back(std::unique_ptr<sf::Sprite>(sfGround2Box));
 
 	// size * scale = desired
 	// Set the origin, size, and position of our sprite to match that of the Box2d body
@@ -291,7 +272,7 @@ void PlatformDemoRegion::init() {
 	// Create a sprite to represent the player
 	sf::Sprite* sfbodyBox = new sf::Sprite(*blockTexture);
 	setDrawable(true, sfbodyBox);
-	objectSprites.push_back(sfbodyBox);
+	objectSprites.push_back(std::unique_ptr<sf::Sprite>(sfbodyBox));
 
 	// size * scale = desired
 	// Set the origin, size, and position of our sprite to match that of the Box2d body
@@ -301,51 +282,6 @@ void PlatformDemoRegion::init() {
 	sf::Vector2f newNewScale = convertToSprite((bodyHalves.x * 2 / otherTextureRect->width), (bodyHalves.y * 2 / otherTextureRect->width));
 	sfbodyBox->setScale(newNewScale);
 	sfbodyBox->setPosition(convertToSprite(bodyPos));
-}
-
-/// <summary>
-/// Frees all dynamic memory allocated for this instance.
-/// Resets the state of every member of this instance.
-/// </summary>
-void PlatformDemoRegion::destroy() {
-	// Delete sprites
-	for (auto objectSprite : objectSprites) {
-		delete objectSprite;
-		objectSprite = nullptr;
-	}
-	objectSprites.clear();
-	clearDrawable();
-	clearUpdatable();
-
-	// Delete Bodies
-	for (auto objectBody : objectBodies) {
-		platformWorld->DestroyBody(objectBody);
-		objectBody = nullptr;
-	}
-	objectBodies.clear();
-	// playBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
-	playerBody = nullptr;
-
-	// Upon looking, I believe this also frees all of the object memory.
-	// That means that our above step is "unneeded". I think that it is ok though to explicitly do it.
-	delete platformWorld;
-
-	// Delete textures
-	delete blockTexture;
-	blockTexture = nullptr;
-
-	// Reset time
-	lastUpdateTime = sf::Time::Zero;
-}
-
-/// <summary>
-/// Resets this instance.
-/// Box2d objects and their sprites are deleted and regenerated.
-/// Everything else in this instance is also reset or reconstructed.
-/// </summary>
-void PlatformDemoRegion::reset() {
-	destroy();
-	init();
 }
 
 /// <summary>
@@ -367,3 +303,42 @@ void PlatformDemoRegion::initGUI() {
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
 }
+
+/// <summary>
+/// Frees all dynamic memory allocated for this instance.
+/// Resets the state of every member of this instance.
+/// </summary>
+void PlatformDemoRegion::destroy() {
+	// Delete sprites
+	for (auto& objectSprite : objectSprites) {
+		objectSprite.reset();
+	}
+	objectSprites.clear();
+	clearDrawable();
+	clearUpdatable();
+
+	// Upon looking, I believe this also frees all of the object memory.
+	// That means that our above step is "unneeded". I think that it is ok though to explicitly do it.
+	platformWorld.reset();
+
+	objectBodies.clear();
+	// playBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
+	playerBody = nullptr;
+
+	// Delete textures
+	blockTexture.reset();
+
+	// Reset time
+	lastUpdateTime = sf::Time::Zero;
+}
+
+/// <summary>
+/// Resets this instance.
+/// Box2d objects and their sprites are deleted and regenerated.
+/// Everything else in this instance is also reset or reconstructed.
+/// </summary>
+void PlatformDemoRegion::reset() {
+	destroy();
+	init();
+}
+#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO

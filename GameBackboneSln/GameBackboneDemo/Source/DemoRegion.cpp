@@ -5,16 +5,6 @@ using namespace EXE;
 /// <summary>
 /// Initializes a new instance of the <see cref="DemoRegion"/> class.
 /// </summary>
-DemoRegion::DemoRegion() {
-	initGui();
-}
-
-// ctr
-
-
-/// <summary>
-/// Initializes a new instance of the <see cref="DemoRegion"/> class.
-/// </summary>
 /// <param name="window">The window.</param>
 DemoRegion::DemoRegion(sf::RenderWindow & window) : GameRegion(window) {
 	initGui();
@@ -31,10 +21,6 @@ void DemoRegion::handleWheelScroll(float scrollDelta){}
 void DemoRegion::handleKeyPress(sf::Event::KeyEvent key){}
 
 void DemoRegion::handleKeyRelease(sf::Event::KeyEvent key){}
-
-
-// initialization
-
 
 /// <summary>
 /// Initializes the GUI.
@@ -71,18 +57,15 @@ void DemoRegion::initGui() {
 
 /// <summary>
 /// Resets this instance.
-/// virtually calls the correct reset for all child classes.
+/// Virtually calls the correct reset for all child classes.
 /// </summary>
 void DemoRegion::resetRegion() {
 	reset();
 }
 
-// protected handles and callbacks
-
-
 /// <summary>
-/// callback invoked when the returnToMenuButton is pressed. sets the active region to
-/// this instances parent region.
+/// Callback invoked when the returnToMenuButton is pressed.
+/// Sets the active region to this instances parent region.
 /// </summary>
 void DemoRegion::returnToMenuCB() {
 	if (parentRegion != nullptr) {

@@ -8,34 +8,32 @@ namespace EXE {
 
 	class DemoRegion : public GB::GameRegion {
 	public:
-		// ctr / dtr
-		DemoRegion();
+		// Constructors
+		DemoRegion(sf::RenderWindow & window);
+		virtual ~DemoRegion() = default;
+
+		DemoRegion() = delete;
 		DemoRegion(const DemoRegion& other) = delete;
 		DemoRegion(DemoRegion&& other) = delete;
 		DemoRegion& operator= (const DemoRegion& other) = delete;
 		DemoRegion& operator= (DemoRegion&& other) = delete;
-		DemoRegion(sf::RenderWindow & window);
-		virtual ~DemoRegion() = default;
 
-
-		// public handles and callbacks
+		// Handle sf::Events
 		virtual void handleMouseMove(sf::Vector2f mousePosition);
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
 		virtual void handleWheelScroll(float scrollDelta);
 		virtual void handleKeyPress(sf::Event::KeyEvent key);
 		virtual void handleKeyRelease(sf::Event::KeyEvent key);
 
-
 	protected:
-		// initialization
+		// Initialization and Cleanup
 		void initGui();
-
 		void resetRegion();
 
-		// protected handles and callbacks
+		// Handle TGUI Callbacks
 		virtual void returnToMenuCB();
 
-		// gui
+		// GUI Members
 		tgui::Button::Ptr returnToMenuButton;
 		tgui::Button::Ptr resetButton;
 	};

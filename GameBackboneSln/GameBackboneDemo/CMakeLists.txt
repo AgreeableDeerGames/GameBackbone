@@ -4,6 +4,7 @@ cmake_minimum_required (VERSION 3.8)
 
 include("${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneMessage.cmake")
 
+
 add_executable(GameBackboneDemo
 # headers
     "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoCoreEventController.h"
@@ -26,29 +27,35 @@ add_executable(GameBackboneDemo
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/ScaleAndRotationDemoRegion.cpp"
 )
 
-# Link Box
-# Allow users to use VCPKG and its unofficial version of Box2D if they want
-# Otherwise find Box2D with custom FindBOX2D
-option(USE_VCPKG_BOX2D "Using VCPKG to get Box2D" OFF)
-if(${USE_VCPKG_BOX2D})
-	gamebackbone_message("Using Box2D from vcpkg.")
-    find_package(unofficial-box2d CONFIG REQUIRED)
-    target_link_libraries(GameBackboneDemo PRIVATE unofficial::box2d::Box2D)
+option(GAMEBACKBONE_BUILD_PLATFORM_DEMO "Include the platform Demo in the GB Demo executable (Requires Box2D)" ON)
+if (${GAMEBACKBONE_BUILD_PLATFORM_DEMO})
+    # Warn user about Box2D
+    gamebackbone_message("Building demo with PlatformDemo. This requires Box2D.")
+    gamebackbone_message("Set GAMEBACKBONE_BUILD_PLATFORM_DEMO to 'OFF' to disable PlatformDemo.")
+
+    # Link Box
+    # Allow users to use vcpkg and its unofficial version of Box2D if they want
+    # Otherwise find Box2D with custom FindBOX2D
+    option(USE_VCPKG_BOX2D "Using vcpkg to get Box2D" OFF)
+    if(${USE_VCPKG_BOX2D})
+        gamebackbone_message("Using Box2D from vcpkg.")
+        find_package(unofficial-box2d CONFIG REQUIRED)
+        target_link_libraries(GameBackboneDemo PRIVATE unofficial::box2d::Box2D)
+    else()
+        gamebackbone_message("Using custom find module for Box2D. If you want to use the unofficial Box2D package on vcpkg, set USE_VCPKG_BOX2D to ON.")
+        find_package(BOX2D REQUIRED)
+        target_link_libraries(GameBackboneDemo PRIVATE ${BOX2D_LIBRARY})
+        include_directories(${BOX2D_INCLUDE_DIR})
+    endif()
+
+    # Define macro to prevent PlatformDemo from Compiling
+    # This macro shares the name of the cmake toggle but is a C++ macro
+    target_compile_definitions(GameBackboneDemo PRIVATE "GAMEBACKBONE_BUILD_PLATFORM_DEMO")
 else()
-	gamebackbone_message("Using custom find module for Box2D. If you want to use the unofficial Box2D package on vcpkg, set USE_VCPKG_BOX2D to ON.")
-    find_package(BOX2D REQUIRED)
-    target_link_libraries(GameBackboneDemo PRIVATE ${BOX2D_LIBRARY})
-    include_directories(${BOX2D_INCLUDE_DIR})
+    gamebackbone_message("Building demo without PlatformDemo")
 endif()
 
-# This is how to link to GB if it was being built from a different CMake process
-# find_package(GameBackbone REQUIRED) 
-# if(GB_FOUND) 
-#   include_directories(${GB_INCLUDE_DIR}) 
-#   target_link_libraries(GameBackboneDemo ${GB_LIBRARY}) 
-# endif() 
-
-# link to GB
+# Link to GB
 target_link_libraries(GameBackboneDemo PRIVATE GameBackbone)
 
 # Include own header files

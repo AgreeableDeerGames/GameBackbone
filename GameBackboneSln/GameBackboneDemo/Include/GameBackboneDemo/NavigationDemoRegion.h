@@ -37,46 +37,42 @@ namespace EXE {
 	/// <seealso cref="GameRegion" />
 	class NavigationDemoRegion : public DemoRegion {
 	public:
+		// Constructors
+		NavigationDemoRegion(sf::RenderWindow & window);
+		virtual ~NavigationDemoRegion();
 
-		// ctr / dtr
-		NavigationDemoRegion();
+		NavigationDemoRegion() = delete;
 		NavigationDemoRegion(const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion(NavigationDemoRegion&& other) = delete;
 		NavigationDemoRegion& operator= (const NavigationDemoRegion& other) = delete;
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
-		NavigationDemoRegion(sf::RenderWindow & window);
-		virtual ~NavigationDemoRegion();
 
-		//behavior
-
+		// Behavior
 		virtual void behave(sf::Time currentTime) override;
 
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
-		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
+		// Handle sf::Events
+		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
 
 
 	protected:
-
-		// ctr / dtr
+		// Initialization and Cleanup
 		void init();
+		void initGUI();
+		void initMaze();
 		void destroy();
 		virtual void reset() override;
 
-		// helper functions
-		void initGUI();
-		void initMaze(std::vector<GB::Point2D<int>> nonBlockablePositions);
-
-		// update logic storage
+		// Update logic storage
 		sf::Time lastUpdateTime;
 
-		// sprite textures
+		// Sprite textures
 		sf::Texture* navigatorTexture;
 		sf::Texture* gridTexture;
 
-		// store visual representation of maze solvers
+		// Store visual representation of maze solvers
 		std::vector<sf::Sprite*> navigators;
 
-		// path-finding
+		// Pathfinding
 		GB::Pathfinder regionPathfinder;
 		GB::NavigationGrid* navGrid;
 		const unsigned int NAV_GRID_DIM = 20;

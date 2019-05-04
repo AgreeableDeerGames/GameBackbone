@@ -9,20 +9,21 @@ namespace EXE {
 
 	class RegionChangeDemoRegion : public DemoRegion {
 	public:
+		// Constructors
+		RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color, sf::Vector2f position);
+		~RegionChangeDemoRegion();
 
-		// ctr / dtr
 		RegionChangeDemoRegion() = delete;
 		RegionChangeDemoRegion(const RegionChangeDemoRegion& other) = delete;
 		RegionChangeDemoRegion(RegionChangeDemoRegion&& other) = delete;
 		RegionChangeDemoRegion& operator=(const RegionChangeDemoRegion& other) = delete;
 		RegionChangeDemoRegion& operator=(RegionChangeDemoRegion&& other) = delete;
-		RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color);
-		~RegionChangeDemoRegion();
 
-		// handles and callbacks
+		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 
-	private:
+	protected:
+		// Storage
 		sf::Texture* spriteTexture;
 		sf::Sprite sprite;
 	};
