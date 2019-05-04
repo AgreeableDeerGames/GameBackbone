@@ -31,12 +31,12 @@ namespace EXE {
 		PlatformDemoRegion& operator= (PlatformDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time currentTime) override;
+		void behave(sf::Time currentTime) override;
 
 		// Handle sf::Events
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
-		virtual void handleKeyPress(sf::Event::KeyEvent key) override;
-		virtual void handleKeyRelease(sf::Event::KeyEvent key) override;
+		void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		void handleKeyPress(sf::Event::KeyEvent key) override;
+		void handleKeyRelease(sf::Event::KeyEvent key) override;
 
 
 	protected:
@@ -44,12 +44,13 @@ namespace EXE {
 		void init();
 		void initGUI();
 		void destroy();
-		virtual void reset() override;
+		void reset() override;
 
 		// Helper functions
 		b2Vec2 convertToWorld(sf::Vector2f sfCoords);
 		sf::Vector2f convertToSprite(b2Vec2 worldCoords);
 		sf::Vector2f convertToSprite(double worldCoordX, double worldCoordY);
+		void addGameBody(sf::Vector2f spritePosition, sf::Vector2f scale, sf::Texture& texture, bool dynamicBody, bool allowSleep);
 
 		// Update logic storage
 		sf::Time lastUpdateTime;
