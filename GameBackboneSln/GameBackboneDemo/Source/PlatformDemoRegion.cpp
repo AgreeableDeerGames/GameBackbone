@@ -1,4 +1,4 @@
-// Dont declare PlatformDemo functions if the user doesn't want it
+// Don't declare PlatformDemo functions if the user doesn't want it
 #ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 #define _USE_MATH_DEFINES
