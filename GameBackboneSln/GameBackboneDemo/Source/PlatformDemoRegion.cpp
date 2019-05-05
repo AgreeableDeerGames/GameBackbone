@@ -83,6 +83,8 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 /// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button clicked button.</param>
 void PlatformDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+
+	// 'Jump' the player by providing upward linear velocity when the mouse button is pressed
 	b2Vec2 vel = playerBody->GetLinearVelocity();
 	vel.y = -0.9;
 	playerBody->SetLinearVelocity(vel);
@@ -95,16 +97,22 @@ void PlatformDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::B
 /// </summary>
 /// <param name="mousePosition">The key pressed.</param>
 void PlatformDemoRegion::handleKeyPress(sf::Event::KeyEvent key){
+
+	// Move the player left by applying a linear velocity when the user presses
 	if (key.code == sf::Keyboard::A){
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		vel.x = -0.4;
 		playerBody->SetLinearVelocity(vel);
 	}
+
+	// Move the player right by applying a linear velocity when the user presses
 	else if(key.code == sf::Keyboard::D){
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		vel.x = 0.4;
 		playerBody->SetLinearVelocity(vel);
 	}
+
+	// 'Jump' the player by providing upward linear velocity
 	else if (key.code == sf::Keyboard::Space) {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		vel.y = -0.9;
@@ -118,6 +126,8 @@ void PlatformDemoRegion::handleKeyPress(sf::Event::KeyEvent key){
 /// </summary>
 /// <param name="mousePosition">The key released.</param>
 void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
+
+	// Stop moving left by setting the linear velocity to 0
 	if (key.code == sf::Keyboard::A) {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		// Make sure that the sprite is moving left, otherwise we could randomly stop moving right
@@ -127,6 +137,8 @@ void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
 			playerBody->SetLinearVelocity(vel);
 		}
 	}
+
+	// Stop moving right by setting the linear velocity to 0
 	else if (key.code == sf::Keyboard::D) {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		if (vel.x > 0)
@@ -136,6 +148,9 @@ void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
 			playerBody->SetLinearVelocity(vel);
 		}
 	}
+
+	// Stop jumping by setting the linear velocity to 0
+	// This allows the user to control the size of the jump
 	else if (key.code == sf::Keyboard::Space) {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		vel.y = 0;
@@ -143,27 +158,43 @@ void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
 	}
 }
 
-b2Vec2 PlatformDemoRegion::convertToWorld(sf::Vector2f sfCoords) {
+/// <summary>
+/// Convert a coordinate from the SFML coordinate system to the Box2D coordinate system.
+/// </summary>
+/// <param name="sfCoords"> </param>
+/// <return> b2Vec2 </return>
+b2Vec2 PlatformDemoRegion::convertToBox(sf::Vector2f sfCoords) {
 	return b2Vec2(sfCoords.x / pixelsPerMeter, sfCoords.y / pixelsPerMeter);
 }
 
-sf::Vector2f PlatformDemoRegion::convertToSprite(b2Vec2 worldCoords) {
-	return sf::Vector2f(worldCoords.x * pixelsPerMeter, worldCoords.y * pixelsPerMeter);
-}
-
-sf::Vector2f PlatformDemoRegion::convertToSprite(double worldCoordX, double worldCoordY) {
-	return sf::Vector2f(worldCoordX * pixelsPerMeter, worldCoordY * pixelsPerMeter);
+/// <summary>
+/// Convert a coordinate from the Box2D coordinate system to the SFML coordinate system.
+/// </summary>
+/// <param name="boxCoord"> The coordinate in the Box2D coordinate system </param>
+/// <return> The coordinate in the SFML coordinate system. </return>
+sf::Vector2f PlatformDemoRegion::convertToSprite(b2Vec2 boxCoord) {
+	return sf::Vector2f(boxCoord.x * pixelsPerMeter, boxCoord.y * pixelsPerMeter);
 }
 
 /// <summary>
+/// Convert a coordinate from the Box2D coordinate system to the SFML coordinate system.
+/// </summary>
+/// <param name="boxCoordX"> The X position in the Box2D coordinate space. </param>
+/// <param name="boxCoordY"> The Y position in the Box2D coordinate space. </param>
+/// <return> The coordinate in the SFML coordinate system. </return>
+sf::Vector2f PlatformDemoRegion::convertToSprite(double boxCoordX, double boxCoordY) {
+	return sf::Vector2f(boxCoordX * pixelsPerMeter, boxCoordY * pixelsPerMeter);
+}
+
+/// <summary>
+/// Creates a new sprite and a corresponding Box2D body to handle its collision and physics interaction.
 /// Everything created by this function will be a box. You may want to use different shapes in your own code.
 /// </summary>
-/// 
-/// <param name="spritePosition"> </param>
-/// <param name="scale"> </param>
-/// <param name="texture"> </param>
-/// <param name="dynamicBody"> </param>
-/// <param name="allowSleep"> </param>
+/// <param name="spritePosition"> The position of the sprite to create (In sprite coordinates) </param>
+/// <param name="scale"> The scaling factor applied to the sprite that will be created. </param>
+/// <param name="texture"> The texture of the sprite that will be created. </param>
+/// <param name="dynamicBody"> True if the created object should be allowed to move. False otherwise. </param>
+/// <param name="allowSleep"> (Optional: Default True) True if the created object should be allowed to sleep (optimizes collision). False to disable this optimization. </param>
 void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f scale, sf::Texture& texture, bool dynamicBody, bool allowSleep)
 {
 	// Create sprite
@@ -192,7 +223,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	b2BodyDef bodyDef;
 
 	// Move the Box2D body to a place in the Box2D coordinate system that corresponds to the sprite's position in the SFML coordinate system
-	b2Vec2 worldPosition = convertToWorld(spritePosition);
+	b2Vec2 worldPosition = convertToBox(spritePosition);
 	bodyDef.position.Set(worldPosition.x, worldPosition.y);
 
 	// Allow the body to move
@@ -201,9 +232,8 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 		bodyDef.type = b2_dynamicBody;
 	}
 
-	// TODO: tell people that the sleep thing is our fault
 	// This will prevent the body from ever falling asleep
-	// This slows things down, but prevents strange bugs where objects suddenly stop moving
+	// This slows things down, but prevents strange bugs (possibly in this demo only) where objects suddenly stop moving
 	bodyDef.allowSleep = allowSleep;
 
 	// Create a Box2D body from the provided properties and add it to the world
@@ -231,7 +261,8 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 		fixtureDef.density = 1.0f;
 		fixtureDef.friction = 0.3f;
 
-		// TODO: WHY DO WE NEED FIXTURES
+		// Add a fixture to the body with the calculated paramaters
+		// (these are the individual shapes that make up the body and actually do the collision)
 		body->CreateFixture(&fixtureDef);
 	}
 	else

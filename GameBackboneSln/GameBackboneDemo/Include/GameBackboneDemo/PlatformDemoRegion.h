@@ -47,9 +47,9 @@ namespace EXE {
 		void reset() override;
 
 		// Helper functions
-		b2Vec2 convertToWorld(sf::Vector2f sfCoords);
-		sf::Vector2f convertToSprite(b2Vec2 worldCoords);
-		sf::Vector2f convertToSprite(double worldCoordX, double worldCoordY);
+		b2Vec2 convertToBox(sf::Vector2f sfCoords);
+		sf::Vector2f convertToSprite(b2Vec2 boxCoord);
+		sf::Vector2f convertToSprite(double boxCoordX, double boxCoordY);
 		void addGameBody(sf::Vector2f spritePosition, sf::Vector2f scale, sf::Texture& texture, bool dynamicBody, bool allowSleep = true);
 
 		// Update logic storage
@@ -63,8 +63,8 @@ namespace EXE {
 		// Visual Representation of Box2d Bodies
 		std::vector<std::unique_ptr<sf::Sprite>> objectSprites;
 
-		// Box2d Bodies for access
-		// Box2D handles this memory
+		// Box2D Bodies for access
+		// Box2D owns this memory
 		std::vector<b2Body*> objectBodies;
 
 		// Stored player body for access
