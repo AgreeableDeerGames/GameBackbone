@@ -20,7 +20,7 @@ namespace EXE {
 		RegionChangeDemoRegion& operator=(RegionChangeDemoRegion&& other) = delete;
 
 		// Handle sf::Events
-		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 
 	protected:
 		// Storage
