@@ -8,6 +8,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+
 namespace EXE {
 
 	/// <summary>
@@ -48,10 +50,10 @@ namespace EXE {
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time currentTime) override;
+		void behave(sf::Time currentTime) override;
 
 		// Handle sf::Events
-		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
+		void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
 
 
 	protected:
@@ -60,21 +62,21 @@ namespace EXE {
 		void initGUI();
 		void initMaze();
 		void destroy();
-		virtual void reset() override;
+		void reset() override;
 
 		// Update logic storage
 		sf::Time lastUpdateTime;
 
 		// Sprite textures
-		sf::Texture* navigatorTexture;
-		sf::Texture* gridTexture;
+		std::unique_ptr<sf::Texture> navigatorTexture;
+		std::unique_ptr<sf::Texture> gridTexture;
 
 		// Store visual representation of maze solvers
-		std::vector<sf::Sprite*> navigators;
+		std::vector<std::unique_ptr<sf::Sprite>> navigators;
 
 		// Pathfinding
 		GB::Pathfinder regionPathfinder;
-		GB::NavigationGrid* navGrid;
+		std::unique_ptr<GB::NavigationGrid> navGrid;
 		const unsigned int NAV_GRID_DIM = 20;
 		const float VISUAL_GRID_SCALE = 1.0f;
 		std::vector<GB::WindowCoordinatePathPtr> paths;
