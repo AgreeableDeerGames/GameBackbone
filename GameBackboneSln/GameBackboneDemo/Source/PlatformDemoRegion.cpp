@@ -171,13 +171,13 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	std::unique_ptr<sf::Sprite> gameBodySprite = std::make_unique<sf::Sprite>(texture);
 	// Scale the sprite to the desired dimensions
 	gameBodySprite->setScale(scale);
-	// Move the sprite to its Intended position
-	gameBodySprite->setPosition(spritePosition);
 	// Move origin of the sprite to its center
 	// This will allow the sprite to rotate around its center instead of around its top left corner
 	float spriteHalfHeight = gameBodySprite->getGlobalBounds().height / 2.0;
 	float spriteHalfWidth = gameBodySprite->getGlobalBounds().width / 2.0;
-	gameBodySprite->setOrigin(spriteHalfHeight, spriteHalfWidth);
+	gameBodySprite->setOrigin(spriteHalfWidth, spriteHalfHeight);
+	// Move the sprite to its Intended position
+	gameBodySprite->setPosition(spritePosition);
 
 	// Mark the sprite to be displayed
 	setDrawable(true, gameBodySprite.get());
@@ -209,10 +209,8 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	b2PolygonShape shape;
 
 	// You must pass the half width and half height to Box2D to create a box shape
-	float box2dFullWidth = (gameBodySprite->getGlobalBounds().width / pixelsPerMeter);
-	float box2dHalfWidth = box2dFullWidth / 2.0;
-	float box2dFullHeight = (gameBodySprite->getGlobalBounds().height / pixelsPerMeter);
-	float box2dHalfHeight = box2dFullHeight / 2.0;
+	float box2dHalfWidth = spriteHalfWidth / pixelsPerMeter;
+	float box2dHalfHeight = spriteHalfHeight / pixelsPerMeter;
 	
 	// Give the shape the dimensions of the sprite (converted to the Box2D coordinate system)
 	shape.SetAsBox(box2dHalfWidth, box2dHalfHeight);
@@ -289,18 +287,21 @@ void PlatformDemoRegion::initGUI() {
 /// </summary>
 void PlatformDemoRegion::destroy() {
 	// Delete sprites
-	for (auto& objectSprite : objectSprites) {
-		objectSprite.reset();
-	}
+	// Because these are unique_ptr clearing the vector also frees the memory
 	objectSprites.clear();
+
+	// Clear all of GameRegion's references to drawables or updatables
 	clearDrawable();
 	clearUpdatable();
 
 	// Destroy the world and all of its memory
 	platformWorld.reset();
 
+	// These were deleted when platformWorld was deleted
+	// Just remove the pointers from the vector here
 	objectBodies.clear();
-	// PlayBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
+
+	// PlayerBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
 	playerBody = nullptr;
 
 	// Delete textures
