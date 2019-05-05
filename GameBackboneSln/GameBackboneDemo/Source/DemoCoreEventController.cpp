@@ -17,21 +17,14 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 	this->window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	// Initialize the MainMenuDemoRegion
-	mainMenuDemoRegion= new MainMenuDemoRegion(*window);
+	mainMenuDemoRegion = std::make_unique<MainMenuDemoRegion>(*window);
 	// Register setActiveRegion with mainMenuDemoRegion so that it can swap regions when needed
 	mainMenuDemoRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
 	// Set mainMenuDemoRegion as the activeRegion on DemoCoreEventController
-	activeRegion = mainMenuDemoRegion;
+	activeRegion = mainMenuDemoRegion.get();
 
 	// Set the camera to the same as the window
 	camera.reset(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
-}
-
-/// <summary>
-/// Finalizes an instance of the <see cref="BackboneExeCoreEventController"/> class.
-/// </summary>
-DemoCoreEventController::~DemoCoreEventController() {
-	delete mainMenuDemoRegion;
 }
 
 //events
