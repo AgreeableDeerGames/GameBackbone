@@ -68,8 +68,8 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 		b2Vec2 pos = objectBody->GetPosition();
 		objectSprites[ii]->setPosition(convertToSprite(pos));
 
-		// I know this can't be seen at this scale, but lets set the angle just as a demo.
-		// I'm not sure if this needs converted. You may want to check that before copying this code.
+		// Update the angle of the sprite to match the angle of the Box2D body.
+		// Converting from radians to degrees because Box2D uses radians and SFML uses degrees. 
 		float32 angle = objectBody->GetAngle();
 		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
 	}
@@ -156,6 +156,8 @@ sf::Vector2f PlatformDemoRegion::convertToSprite(double worldCoordX, double worl
 }
 
 /// <summary>
+
+/// Everything created by this function will be a box. You may want to use different shapes in your own code.
 /// </summary>
 /// 
 /// <param name="spritePosition"> </param>
@@ -172,8 +174,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// Move the sprite to its Intended position
 	gameBodySprite->setPosition(spritePosition);
 	// Move origin of the sprite to its center
-	// This will allow the sprite to rotate around its center
-	// instead of around its top left corner
+	// This will allow the sprite to rotate around its center instead of around its top left corner
 	float spriteHalfHeight = gameBodySprite->getGlobalBounds().height / 2.0;
 	float spriteHalfWidth = gameBodySprite->getGlobalBounds().width / 2.0;
 	gameBodySprite->setOrigin(spriteHalfHeight, spriteHalfWidth);
@@ -186,21 +187,17 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// This defines the properties of body that the Box2D will operate on
 	b2BodyDef bodyDef;
 
-	// Move the Box2D body to a place in the Box2D coordinate system that coresponds to the
-	// sprite's position in the SFML coordinate system
+	// Move the Box2D body to a place in the Box2D coordinate system that corresponds to the sprite's position in the SFML coordinate system
 	b2Vec2 worldPosition = convertToWorld(spritePosition);
 	bodyDef.position.Set(worldPosition.x, worldPosition.y);
 
+	// TODO: tell people that the sleep thing is our fault
 	// This will prevent the body from ever falling asleep
-	// This slows things down, but prevents strange bugs where 
-	// objects suddenly stop moving
+	// This slows things down, but prevents strange bugs where objects suddenly stop moving
 	bodyDef.allowSleep = allowSleep;
 
 	// Create a Box2D body from the provided properties and add it to the world
 	b2Body* body = platformWorld->CreateBody(&bodyDef);
-
-	// Add to body to internal vector of bodies
-	objectBodies.push_back(body);
 
 	// Define the shape of the Box2D body.
 	b2PolygonShape shape;
@@ -223,7 +220,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 		// These change the way that the object behaves in the world
 		fixtureDef.density = 1.0f;
 		fixtureDef.friction = 0.3f;
-		// Tell the 
+		// TODO: WHY DO WE NEED FIXTURES
 		body->CreateFixture(&fixtureDef);
 	}
 	else
@@ -233,7 +230,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 		body->CreateFixture(&shape, 0.0f);
 	}
 
-	// Add the sprite and the Box2D body to corresponding indicies in their vectors
+	// Add the sprite and the Box2D body to corresponding indices in their vectors
 	objectSprites.emplace_back(std::move(gameBodySprite));
 	objectBodies.push_back(body);
 }
@@ -251,113 +248,13 @@ void PlatformDemoRegion::init() {
 	// Construct a world object, which will hold and simulate the rigid bodies.
 	platformWorld = std::make_unique<b2World>(gravity);
 
-	// Create a ground body for our player to spawn on
-	//-----------------------------------------------------------
-	// Define the ground body.
-	b2BodyDef groundBodyDef;
-	b2Vec2 groundPos(1.5f, 15.0f);
-	groundBodyDef.position.Set(groundPos.x, groundPos.y);
+	// Create the player
+	addGameBody({125, 200}, {0.09f, 0.09f}, *blockTexture, true, false);
+	playerBody = objectBodies[0];
 
-	// // Call the body factory which allocates memory for the ground body
-	// // from a pool and creates the ground box shape (also from a pool).
-	// // The body is also added to the world.
-	// b2Body* groundBody = platformWorld->CreateBody(&groundBodyDef);
-	// objectBodies.emplace_back(groundBody);
-	// // Define the ground box shape.
-	// b2PolygonShape groundBox;
-	// // The extents are the half-widths of the box.
-	// b2Vec2 groundHalves(1.0f, 0.25f);
-	// groundBox.SetAsBox(groundHalves.x, groundHalves.y);
-	// // Add the ground fixture to the ground body.
-	// groundBody->CreateFixture(&groundBox, 0.0f);
-
-	// // Create a sprite to represent the player
-	// sf::Sprite* sfGroundBox = new sf::Sprite(*blockTexture);
-	// objectSprites.emplace_back(std::unique_ptr<sf::Sprite>(sfGroundBox));
-	// setDrawable(true, sfGroundBox);
-
-	// // size * scale = desired
-	// // Set the origin, size, and position of our sprite to match that of the Box2d body
-	// const sf::IntRect* const textureRect = &sfGroundBox->getTextureRect();
-	// sf::Vector2f newOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
-	// sfGroundBox->setOrigin(newOrigin);
-	// sf::Vector2f newScale = convertToSprite((groundHalves.x * 2 / textureRect->width), (groundHalves.y * 2 / textureRect->width));
-	// sfGroundBox->setScale(newScale);
-	// sfGroundBox->setPosition(convertToSprite(groundPos));
-
-	// // Create a ground body for our player to jump to
-	// //-----------------------------------------------------------
-	// // Define the ground body.
-	// b2BodyDef ground2BodyDef;
-	// b2Vec2 ground2Pos(6.25f, 15.0f);
-	// ground2BodyDef.position.Set(ground2Pos.x, ground2Pos.y);
-
-	// // Call the body factory which allocates memory for the ground body
-	// // from a pool and creates the ground box shape (also from a pool).
-	// // The body is also added to the world.
-	// b2Body* ground2Body = platformWorld->CreateBody(&ground2BodyDef);
-	// objectBodies.push_back(ground2Body);
-	// // Define the ground box shape.
-	// b2PolygonShape ground2Box;
-	// // The extents are the half-widths of the box.
-	// b2Vec2 ground2Halves(1.0f, 0.25f);
-	// ground2Box.SetAsBox(ground2Halves.x, ground2Halves.y);
-	// // Add the ground fixture to the ground body.
-	// ground2Body->CreateFixture(&ground2Box, 0.0f);
-
-	// // Create a sprite to represent the body
-	// sf::Sprite* sfGround2Box = new sf::Sprite(*blockTexture);
-	// setDrawable(true, sfGround2Box);
-	// objectSprites.push_back(std::unique_ptr<sf::Sprite>(sfGround2Box));
-
-	// // size * scale = desired
-	// // Set the origin, size, and position of our sprite to match that of the Box2d body
-	// const sf::IntRect* const texture2Rect = &sfGround2Box->getTextureRect();
-	// sf::Vector2f new2Origin(texture2Rect->width / 2.0f, texture2Rect->height / 2.0f);
-	// sfGround2Box->setOrigin(new2Origin);
-	// sf::Vector2f new2Scale = convertToSprite((ground2Halves.x * 2 / texture2Rect->width), (ground2Halves.y * 2 / texture2Rect->width));
-	// sfGround2Box->setScale(new2Scale);
-	// sfGround2Box->setPosition(convertToSprite(ground2Pos));
-
-	// // Create the player to be controlled.
-	// //-----------------------------------------------------------
-	// // Define the dynamic body. We set its position and call the body factory.
-	// b2BodyDef bodyDef;
-	// // bodyDef.allowSleep = false;
-	// b2Vec2 bodyPos(1.0f, 1.0f);
-	// bodyDef.type = b2_dynamicBody;
-	// bodyDef.position.Set(bodyPos.x, bodyPos.y);
-	// b2Body* body = platformWorld->CreateBody(&bodyDef);
-	// playerBody = body;
-	// objectBodies.push_back(body);
-
-	// // Define another box shape for our dynamic body.
-	// b2PolygonShape dynamicBox;
-	// b2Vec2 bodyHalves(0.25, 0.25);
-	// dynamicBox.SetAsBox(bodyHalves.x, bodyHalves.y);
-	// // Define the dynamic body fixture.
-	// b2FixtureDef fixtureDef;
-	// fixtureDef.shape = &dynamicBox;
-	// // Set the box density to be non-zero, so it will be dynamic.
-	// fixtureDef.density = 1.0f;
-	// // Override the default friction.
-	// fixtureDef.friction = 0.3f;
-	// // Add the shape to the body.
-	// body->CreateFixture(&fixtureDef);
-
-	// // Create a sprite to represent the player
-	// sf::Sprite* sfbodyBox = new sf::Sprite(*blockTexture);
-	// setDrawable(true, sfbodyBox);
-	// objectSprites.push_back(std::unique_ptr<sf::Sprite>(sfbodyBox));
-
-	// // size * scale = desired
-	// // Set the origin, size, and position of our sprite to match that of the Box2d body
-	// const sf::IntRect* const otherTextureRect = &sfbodyBox->getTextureRect();
-	// sf::Vector2f newNewOrigin(textureRect->width / 2.0f, textureRect->height / 2.0f);
-	// sfbodyBox->setOrigin(newOrigin);
-	// sf::Vector2f newNewScale = convertToSprite((bodyHalves.x * 2 / otherTextureRect->width), (bodyHalves.y * 2 / otherTextureRect->width));
-	// sfbodyBox->setScale(newNewScale);
-	// sfbodyBox->setPosition(convertToSprite(bodyPos));
+	// Create the ground for the player
+	addGameBody({100, 400}, {0.3f, 0.2f}, *blockTexture, false);
+	addGameBody({400, 400}, {0.3f, 0.2f}, *blockTexture, false);
 }
 
 /// <summary>
@@ -393,12 +290,11 @@ void PlatformDemoRegion::destroy() {
 	clearDrawable();
 	clearUpdatable();
 
-	// Upon looking, I believe this also frees all of the object memory.
-	// That means that our above step is "unneeded". I think that it is ok though to explicitly do it.
+	// Destroy the world and all of its memory
 	platformWorld.reset();
 
 	objectBodies.clear();
-	// playBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
+	// PlayBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
 	playerBody = nullptr;
 
 	// Delete textures
