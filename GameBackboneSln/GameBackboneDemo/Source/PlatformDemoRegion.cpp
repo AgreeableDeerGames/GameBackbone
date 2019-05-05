@@ -191,6 +191,12 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	b2Vec2 worldPosition = convertToWorld(spritePosition);
 	bodyDef.position.Set(worldPosition.x, worldPosition.y);
 
+	// Allow the body to move
+	if (dynamicBody)
+	{
+		bodyDef.type = b2_dynamicBody;
+	}
+
 	// TODO: tell people that the sleep thing is our fault
 	// This will prevent the body from ever falling asleep
 	// This slows things down, but prevents strange bugs where objects suddenly stop moving
