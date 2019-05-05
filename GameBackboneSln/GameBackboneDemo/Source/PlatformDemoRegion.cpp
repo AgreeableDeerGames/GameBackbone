@@ -173,9 +173,9 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// This will allow the sprite to rotate around its center instead of around its top left corner
 	// The function getLocalBounds is used instead of getGlobalBounds as the origin is always calculated before
 	// other transformations (though it won't matter in this case since we apply this operation before any transformations)
-	float spriteHalfHeight = gameBodySprite->getLocalBounds().height / 2.0;
-	float spriteHalfWidth = gameBodySprite->getLocalBounds().width / 2.0;
-	gameBodySprite->setOrigin(spriteHalfWidth, spriteHalfHeight);
+	float spriteLocalHalfHeight = gameBodySprite->getLocalBounds().height / 2.0;
+	float spriteLocalHalfWidth = gameBodySprite->getLocalBounds().width / 2.0;
+	gameBodySprite->setOrigin(spriteLocalHalfWidth, spriteLocalHalfHeight);
 
 	// Scale the sprite to the desired dimensions
 	gameBodySprite->setScale(scale);
@@ -212,12 +212,12 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// Define the shape of the Box2D body.
 	b2PolygonShape shape;
 
-	// You must pass the half width and half height to Box2D to create a box shape
-	float box2dHalfWidth = spriteHalfWidth / pixelsPerMeter;
-	float box2dHalfHeight = spriteHalfHeight / pixelsPerMeter;
-	
 	// Give the shape the dimensions of the sprite (converted to the Box2D coordinate system)
-	shape.SetAsBox(box2dHalfWidth, box2dHalfHeight);
+	float bodyWidth = gameBodySprite->getGlobalBounds().width / pixelsPerMeter;
+	float bodyHeight = gameBodySprite->getGlobalBounds().height / pixelsPerMeter;
+
+	// You must pass the half width and half height to Box2D to create a box shape
+	shape.SetAsBox(bodyWidth / 2.0f, bodyHeight / 2.0f);
 
 	if (dynamicBody)
 	{
