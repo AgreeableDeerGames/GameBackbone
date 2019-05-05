@@ -156,7 +156,6 @@ sf::Vector2f PlatformDemoRegion::convertToSprite(double worldCoordX, double worl
 }
 
 /// <summary>
-
 /// Everything created by this function will be a box. You may want to use different shapes in your own code.
 /// </summary>
 /// 
@@ -169,13 +168,18 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 {
 	// Create sprite
 	std::unique_ptr<sf::Sprite> gameBodySprite = std::make_unique<sf::Sprite>(texture);
-	// Scale the sprite to the desired dimensions
-	gameBodySprite->setScale(scale);
+
 	// Move origin of the sprite to its center
 	// This will allow the sprite to rotate around its center instead of around its top left corner
-	float spriteHalfHeight = gameBodySprite->getGlobalBounds().height / 2.0;
-	float spriteHalfWidth = gameBodySprite->getGlobalBounds().width / 2.0;
+	// The function getLocalBounds is used instead of getGlobalBounds as the origin is always calculated before
+	// other transformations (though it won't matter in this case since we apply this operation before any transformations)
+	float spriteHalfHeight = gameBodySprite->getLocalBounds().height / 2.0;
+	float spriteHalfWidth = gameBodySprite->getLocalBounds().width / 2.0;
 	gameBodySprite->setOrigin(spriteHalfWidth, spriteHalfHeight);
+
+	// Scale the sprite to the desired dimensions
+	gameBodySprite->setScale(scale);
+
 	// Move the sprite to its Intended position
 	gameBodySprite->setPosition(spritePosition);
 
@@ -219,11 +223,14 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	{
 		// Properties for the dynamic body
 		b2FixtureDef fixtureDef;
+
 		// The Shape
 		fixtureDef.shape = &shape;
+
 		// These change the way that the object behaves in the world
 		fixtureDef.density = 1.0f;
 		fixtureDef.friction = 0.3f;
+
 		// TODO: WHY DO WE NEED FIXTURES
 		body->CreateFixture(&fixtureDef);
 	}
@@ -273,9 +280,10 @@ void PlatformDemoRegion::initGUI() {
 	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
 	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
 
-	// Create the background image (picture is of type tgui::Picture::Ptr or std::shared_widget<Picture>)
+	// Create the background image
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
 
+	// Place the image at the bottom 1/10th of the screen
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
 	regionGUI->add(picture);
@@ -301,7 +309,7 @@ void PlatformDemoRegion::destroy() {
 	// Just remove the pointers from the vector here
 	objectBodies.clear();
 
-	// PlayerBody is also in objectBodies, so DON'T DOUBLE DELETE IT.
+	// PlayerBody is a non-owning pointer so no need to delete
 	playerBody = nullptr;
 
 	// Delete textures
