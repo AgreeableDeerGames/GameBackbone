@@ -291,12 +291,30 @@ void PlatformDemoRegion::init() {
 	platformWorld = std::make_unique<b2World>(gravity);
 
 	// Create the player
-	addGameBody({125, 200}, {0.09f, 0.09f}, *blockTexture, true, false);
+	// The player will need to move (dynamic body) and should always be simulated (disallow sleep)
+	const sf::Vector2f playerPosition(125, 200);
+	const sf::Vector2f playerScale(0.09f, 0.09f);
+	const bool dynamicPlayerBody = true;
+	const bool allowPlayerSimulationToSleep = false;
+	addGameBody(playerPosition, playerScale, *blockTexture, dynamicPlayerBody, allowPlayerSimulationToSleep);
+
+	// The player will always be the first body added
 	playerBody = objectBodies[0];
 
-	// Create the ground for the player
-	addGameBody({100, 400}, {0.3f, 0.2f}, *blockTexture, false);
-	addGameBody({400, 400}, {0.3f, 0.2f}, *blockTexture, false);
+	// Create some ground for the player to platform on
+	const unsigned int numSteps = 5;
+	for (unsigned int i = 1; i <= numSteps; ++i)
+	{
+		// Arbitrary spacing and sizing logic for the ground
+		const sf::Vector2f groundPosition(75.0f * i, 1000.0f / i);
+		const sf::Vector2f groundScale(0.3f, 0.2f);
+
+		// The ground should not be allowed to move
+		const bool dynamicGroundBody = false;
+
+		// Create a body to serve as the ground
+		addGameBody(groundPosition, groundScale, *blockTexture, dynamicGroundBody);
+	}
 }
 
 /// <summary>
