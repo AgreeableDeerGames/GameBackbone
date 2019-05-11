@@ -50,10 +50,10 @@ namespace EXE {
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
 
 		// Behavior
-		void behave(sf::Time currentTime) override;
+		virtual void behave(sf::Time currentTime) override;
 
 		// Handle sf::Events
-		void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
+		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
 
 
 	protected:
@@ -62,7 +62,7 @@ namespace EXE {
 		void initGUI();
 		void initMaze();
 		void destroy();
-		void reset() override;
+		virtual void reset() override;
 
 		// Update logic storage
 		sf::Time lastUpdateTime;

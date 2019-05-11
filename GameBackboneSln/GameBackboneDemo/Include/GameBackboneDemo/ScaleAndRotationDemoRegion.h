@@ -37,16 +37,16 @@ namespace EXE{
 		ScaleAndRotationDemoRegion& operator= (ScaleAndRotationDemoRegion&& other) = delete;
 
 		// Handle sf::Events
-		void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
-		void handleMouseMove(sf::Vector2f mousePosition) override;
-		void handleWheelScroll(float scrollDelta) override;
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
+		virtual void handleWheelScroll(float scrollDelta) override;
 		
 	protected:
 		// Initialization and Cleanup
 		void init();
 		void initGUI();
 		void destroy();
-		void reset() override;
+		virtual void reset() override;
 
 		// Sprite textures
 		std::unique_ptr<sf::Texture> arrowTexture;

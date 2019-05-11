@@ -31,12 +31,12 @@ namespace EXE {
 		PlatformDemoRegion& operator= (PlatformDemoRegion&& other) = delete;
 
 		// Behavior
-		void behave(sf::Time currentTime) override;
+		virtual void behave(sf::Time currentTime) override;
 
 		// Handle sf::Events
-		void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
-		void handleKeyPress(sf::Event::KeyEvent key) override;
-		void handleKeyRelease(sf::Event::KeyEvent key) override;
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+		virtual void handleKeyPress(sf::Event::KeyEvent key) override;
+		virtual void handleKeyRelease(sf::Event::KeyEvent key) override;
 
 
 	protected:
@@ -44,7 +44,7 @@ namespace EXE {
 		void init();
 		void initGUI();
 		void destroy();
-		void reset() override;
+		virtual void reset() override;
 
 		// Helper functions
 		b2Vec2 convertToBox(sf::Vector2f sfCoords);

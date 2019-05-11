@@ -183,7 +183,7 @@ public:
 	/// change mark different region as active
 	/// </summary>
 	/// <param name="currentTime">The current time.</param>
-	void behave(sf::Time currentTime) override {
+	virtual void behave(sf::Time currentTime) override {
 		if (parentRegion) {
 			setActiveRegionCB(parentRegion);
 		} else if (childRegions.front()){

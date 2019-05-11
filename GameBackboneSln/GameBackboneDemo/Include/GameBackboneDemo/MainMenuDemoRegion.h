@@ -23,7 +23,7 @@ namespace EXE {
 		MainMenuDemoRegion& operator= (MainMenuDemoRegion&& other) = delete;
 
 		// Behavior
-		void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
+		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
 	
 	protected:
 		/// <summary>
