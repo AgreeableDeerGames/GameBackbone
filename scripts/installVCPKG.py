@@ -3,39 +3,35 @@ from sys import platform
 import os
 from subprocess import Popen, PIPE, STDOUT
 import argparse
-import requests
 import zipfile
 import shutil
 
 
-def download_vcpkg():
+def download_vcpkg(path):
     print("Downloading vcpkg from github")
-    zip_url = "https://github.com/Microsoft/vcpkg/archive/master.zip"
-    s = requests.session()
-    retry_count = 3
-    while retry_count > 0:
-        r = s.get(zip_url)
-        if r.status_code == 200:
-            break
-        print("Unable to download, retrying")
-        retry_count -= 1
-    if retry_count == 0:
-        print("Unable to retrieve vcpkg, exiting now")
-        exit(1)
-    zip_file_path = os.path.join(os.path.abspath(os.getcwd()), "vcpkg_zip.zip")
+    os.system("git clone https://github.com/lavinrp/ag_vcpkg.git {:s}".format(path))
 
-    with open(zip_file_path, "wb") as f:
-        f.write(r.content)
-    zip_folder_path = os.path.join(os.path.dirname(zip_file_path), "vcpkg_zip")
-    zip_ref = zipfile.ZipFile(zip_file_path, "r")
-    zip_ref.extractall(zip_folder_path)
-    zip_ref.close()
-    folder_path = os.path.join(os.path.dirname(zip_folder_path), "vcpkg")
-    shutil.move(os.path.join(zip_folder_path, "vcpkg-master"), folder_path)
-    shutil.rmtree(zip_folder_path)
-    os.remove(zip_file_path)
-    return folder_path
+def update_vcpkg(path, no_bootstrap):
+    print("Updating vcpkg")
+    orig_working_dir = os.getcwd()
+    os.chdir(path)
 
+    # calc vcpkg path
+    # windows
+    if platform == "win32":
+        bin_path = os.path.join(path, "vcpkg.exe")
+    # linux
+    elif platform == "linux":
+        bin_path = os.path.join(path, "vcpkg")
+    elif platform == "darwin":
+        pass # we might support mac later
+
+    # Run update and upgrade
+    os.system("git pull origin master")
+    os.system("{:s} upgrade --no-dry-run".format(bin_path))
+
+    # return original working dir
+    os.chdir(orig_working_dir)
 
 def linux_bootstrap(path):
     bootstrap_script_path = os.path.join(path, "bootstrap-vcpkg.sh")
@@ -46,12 +42,11 @@ def linux_bootstrap(path):
         print("Binary build failed, exiting now")
         exit(1)
 
-
 def windows_bootstrap(path):
-    bin_path = os.path.join(path, r"\vcpkg.exe")
+    bin_path = os.path.join(path, "vcpkg.exe")
     print(bin_path)
     print("Could not find vcpkg.exe. Running bootstrap-vcpkg.bat")
-    script_path = os.path.join(path, r"\bootstrap-vcpkg.bat")
+    script_path = os.path.join(path, "bootstrap-vcpkg.bat")
     print(script_path)
     p = Popen(script_path)
     stdout, stderr = p.communicate()
@@ -64,21 +59,26 @@ def windows_bootstrap(path):
 def main(path, download, no_bootstrap):
     vcpkgPath = path
     bin_path = ""
-    if download is True:
-        vcpkgPath = download_vcpkg()
-
-    if not os.path.exists(vcpkgPath):
+    if not os.path.exists(os.path.normpath(vcpkgPath)):
         print("vcpkg path is not valid")
         exit(1)
+    if download is True:
+        download_vcpkg(path)
+    else:
+        update_vcpkg(path, no_bootstrap)
+
+
 
     packages = ["boost", "sfml", "tgui", "box2d"]
+
     # Run .bat file
     # windows
     if platform == "win32":
         print("Operating system found to be windows")
         if no_bootstrap is False:
             windows_bootstrap(vcpkgPath)
-        bin_path = os.path.join(vcpkgPath, r"\vcpkg.exe")
+        bin_path = os.path.join(vcpkgPath, "vcpkg.exe")
+        os.environ["VCPKG_DEFAULT_TRIPLET"] = "x64-windows"
 
     # linux
     elif platform == "linux":
@@ -98,14 +98,14 @@ def main(path, download, no_bootstrap):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="This script runs vcpkg setup for multiple platforms")
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("-p", "--vcpkg-path", help="Path to vcpkg", type=str, default="")
+    group = parser.add_mutually_exclusive_group(required=False)
+    parser.add_argument("-p", "--vcpkg-path", help="Path to vcpkg", type=str, default="")
     group.add_argument("-d", "--download", help="Flag to choose to download vcpkg", default=False, action='store_true')
-    parser.add_argument("-nb", "--no-bootstrap", help="Flag to specify that bootstrap script should not be run"
+    group.add_argument("-nb", "--no-bootstrap", help="Flag to specify that bootstrap script should not be run"
                         "This option can only be used if vcpkg_path is specified", default=False, action='store_true')
     args = parser.parse_args()
-    if args.vcpkg_path == '' and args.no_bootstrap is True:
-        print("Bootstrap scripts cannot be turned off if vcpkg_path is not specified")
+    if args.vcpkg_path == '':
+        print("A vcpkg path must be provided.")
         print(parser.usage())
-        exit(0)
+        exit(1)
     main(args.vcpkg_path, args.download, args.no_bootstrap)
