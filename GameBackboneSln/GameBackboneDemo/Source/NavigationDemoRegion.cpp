@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <memory>
 #include <string>
 
 using namespace EXE;
@@ -125,34 +126,33 @@ void NavigationDemoRegion::handleMouseClick(sf::Vector2f clickPosition, sf::Mous
 /// </summary>
 void NavigationDemoRegion::init() {
 	// Initialize the navigation grid and set it on Pathfinder
-	navGrid = new GB::NavigationGrid(NAV_GRID_DIM);
+	navGrid = std::make_unique<GB::NavigationGrid>(NAV_GRID_DIM);
 	GB::initAllNavigationGridValues(*navGrid, NavigationDemoData());
-	regionPathfinder.setNavigationGrid(navGrid);
+	regionPathfinder.setNavigationGrid(navGrid.get());
 
 
 	// Initialize the arrow textures for the navigators
 	std::string arrowPath(R"(Textures/SmallArrow.png)");
-	navigatorTexture = new sf::Texture();
+	navigatorTexture = std::make_unique<sf::Texture>();
 	navigatorTexture->loadFromFile(arrowPath);
 
 	// Initialize the box textures on the NavigationGrid
 	std::string navigationGridPath(R"(Textures/NavigationGrid.png)");
-	gridTexture = new sf::Texture();
+	gridTexture = std::make_unique<sf::Texture>();
 	gridTexture->loadFromFile(navigationGridPath);
 	
 
 	// Initialize navigators
 	// Create navigators and add to respective arrays
-	sf::Sprite* navigator1 = new sf::Sprite(*navigatorTexture);
-	sf::Sprite* navigator2 = new sf::Sprite(*navigatorTexture);
-	navigators.push_back(navigator1);
-	navigators.push_back(navigator2);
+	sf::Sprite* navigator1 = navigators.emplace_back(std::make_unique<sf::Sprite>(*navigatorTexture)).get();
+	sf::Sprite* navigator2 = navigators.emplace_back(std::make_unique<sf::Sprite>(*navigatorTexture)).get();
+
 	// Set the color of each navigator to tell them apart
 	navigator1->setColor(sf::Color::Blue);
 	navigator2->setColor(sf::Color::Green);
 
 	// Set rotation point and scale of navigators
-	for (sf::Sprite* navigator : navigators) {
+	for (std::unique_ptr<sf::Sprite>& navigator : navigators) {
 		// Get the texture's rectangle from SFML
 		const sf::IntRect* const  textureRect = &navigator->getTextureRect();
 		// Create a new origin in the center of the texture
@@ -291,11 +291,11 @@ void NavigationDemoRegion::initMaze() {
 	genOptions.push_back(0.4);
 
 	// Create a ClusterGreenhouse that will create clusters spanning the entire navigation grid.
-	GB::ClusterGreenhouse* graphGenerator = new GB::ClusterGreenhouse(GB::Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
+	GB::ClusterGreenhouse graphGenerator(GB::Point2D<int>{(int)NAV_GRID_DIM, (int)NAV_GRID_DIM});
 
 	// Generate all of the clusters.
 	// Each std::set of Point2D is a cluster.
-	std::vector<std::set<GB::Point2D<int>>> clusterVector = graphGenerator->generateClusteredGraph(genOptions);
+	std::vector<std::set<GB::Point2D<int>>> clusterVector = graphGenerator.generateClusteredGraph(genOptions);
 
 	// Create a vector of navigation weights. This is the cost associated with moving through a tile.
 	// Each value in the vector corresponds to the cluster in clusterVector of the same index.
@@ -377,8 +377,6 @@ void NavigationDemoRegion::initMaze() {
 			gridData->demoSprite->setColor(clusterColors[i]);
 		}
 	}
-
-	delete graphGenerator;
 }
 
 /// <summary>
@@ -388,8 +386,9 @@ void NavigationDemoRegion::initMaze() {
 void NavigationDemoRegion::destroy() {
 	// Delete navigation data
 	GB::freeAllNavigationGridData(*navGrid);
-	delete navGrid;
-	navGrid = nullptr;
+
+	// Free the navigation grid memory and prepare it for a future call to init
+	navGrid.reset();
 
 	// Reset pathfinder
 	regionPathfinder.setNavigationGrid(nullptr);
@@ -397,20 +396,17 @@ void NavigationDemoRegion::destroy() {
 	// Clear paths
 	paths.clear();
 
-	//delete navigators
-	for (auto navigator : navigators) {
-		delete navigator;
-		navigator = nullptr;
-	}
+	// Delete navigators
+	// The navigators are managed by the vector
+	// Clearing the vector is sufficient to free the memory for the navigators
 	navigators.clear();
+
 	clearDrawable();
 	clearUpdatable();
 
-	//Delete textures
-	delete navigatorTexture;
-	navigatorTexture = nullptr;
-	delete gridTexture;
-	gridTexture = nullptr;
+	//Delete textures and prepare them for future calls to init
+	navigatorTexture.reset();
+	gridTexture.reset();
 
 	// Reset time
 	lastUpdateTime = sf::Time::Zero;
