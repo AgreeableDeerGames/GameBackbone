@@ -1,0 +1,13 @@
+set(GAMEBACKBONE_VERSION @GAMEBACKBONE_TARGET_VERSION@)
+
+@PACKAGE_INIT@
+
+if (NOT TARGET GameBackbone)
+    include("${CMAKE_CURRENT_LIST_DIR}/GameBackbonePublicTargets.cmake")
+else()
+    message( WARNING "Attempting to add target GameBackbone when GameBackbone already exists as a target.")
+endif()
+
+set_and_check(GAMEBACKBONE_INCLUDE_DIR "@PACKAGE_GAMEBACKBONE_PUBLIC_INCLUDE_INSTALL_DIR@")
+
+check_required_components(GameBackbone)
