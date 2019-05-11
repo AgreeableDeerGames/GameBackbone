@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="GB::FileManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_g_b_1_1_file_manager.html",tooltip="Used to hold File Readers and Writers as well as any file management functions such as: encryption..."];
+}
