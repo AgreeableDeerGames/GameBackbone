@@ -1,6 +1,8 @@
 #include <GameBackbone/Core/BackboneBaseExceptions.h>
 #include <GameBackbone/Core/CompoundSprite.h>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include <algorithm>
 
 using namespace GB;
@@ -328,6 +330,14 @@ void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& s
 	}
 	for (auto component : animatedSprites) {
 		addComponent(component);
+	}
+}
+
+void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (sf::Sprite* component : components) {
+		// Draw m_objectSprite that is stored on the GameObject
+		target.draw(*component, states);
 	}
 }
 

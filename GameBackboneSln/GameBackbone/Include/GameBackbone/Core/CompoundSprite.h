@@ -4,6 +4,7 @@
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/Util/DllUtil.h>
 
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <set>
@@ -12,7 +13,7 @@
 namespace GB {
 
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
-	class libGameBackbone CompoundSprite : public virtual Updatable {
+	class libGameBackbone CompoundSprite : public virtual Updatable, public virtual sf::Drawable {
 	public:
 
 		//ctr / dtr
@@ -65,6 +66,9 @@ namespace GB {
 		void initializeComponentVector(const std::vector<sf::Sprite*>& components);
 		void initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
 		void removeAnimatedSprite(AnimatedSprite* component);
+
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
 		std::vector<sf::Sprite*> components;
 		std::vector<AnimatedSprite*> animatedSprites;
 		sf::Vector2f position;

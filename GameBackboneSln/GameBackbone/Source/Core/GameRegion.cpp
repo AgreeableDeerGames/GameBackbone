@@ -97,22 +97,6 @@ void GameRegion::setDrawable(bool status, sf::Drawable* object) {
 	}
 }
 
-
-/// <summary>
-/// Adds or removes all drawable object from a CompoundSprite to the list of drawable objects.
-/// </summary>
-/// <param name="status">if set to <c>true</c> the object will be drawable, otherwise the object will be made non-drawable.</param>
-/// <param name="object">The object. Passing nullptr is illegal.</param>
-void GameRegion::setDrawable(bool status, CompoundSprite* object) {
-	if (object == nullptr) {
-		throw Error::Pointer_IllegalNull();
-	}
-
-	for (sf::Sprite* sprite : object->getComponents() ) {
-		setDrawable(status, sprite);
-	}
-}
-
 /// <summary>
 /// Adds or removes a drawable and updatable object from the lists of drawable and updatable objects
 /// </summary>
