@@ -13,7 +13,7 @@
 namespace GB {
 
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
-	class libGameBackbone CompoundSprite : public virtual Updatable, public virtual sf::Drawable {
+	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable {
 	public:
 
 		//ctr / dtr

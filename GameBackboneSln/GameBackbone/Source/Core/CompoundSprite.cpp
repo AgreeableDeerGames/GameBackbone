@@ -333,10 +333,14 @@ void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& s
 	}
 }
 
+/// <summary>
+/// Draw all the component sprites of the compound sprite.
+/// </summary>
+/// <param name="target"> The render target to be drawn to. </param>
+/// <param name="states"> Current render states. </param>
 void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (sf::Sprite* component : components) {
-		// Draw m_objectSprite that is stored on the GameObject
 		target.draw(*component, states);
 	}
 }
