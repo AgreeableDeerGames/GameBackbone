@@ -52,8 +52,8 @@ PlatformDemoRegion::~PlatformDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void PlatformDemoRegion::behave(sf::Time currentTime) {
-	// Calculate how much time has passed since the previous behave call.
+void PlatformDemoRegion::update(sf::Time currentTime) {
+	// Calculate how much time has passed since the previous update call.
 	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
 
 	// Instruct the world to perform a single step of simulation.

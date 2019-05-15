@@ -162,10 +162,8 @@ protected:
 		/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
 		/// </summary>
 		void coreDraw() {
-			//draw every drawable object in the active region.
-			for (sf::Drawable* drawObject : *(activeRegion->getDrawables())) {
-				window->draw(*drawObject);
-			}
+			// Draw the activeRegion so it can draw its drawables.
+			window->draw(*activeRegion);
 
 			activeRegion->getGUI()->draw();
 		}
@@ -196,7 +194,7 @@ protected:
 		/// </summary>
 		void coreUpdate() {
 
-			activeRegion->behave(updateClock.getElapsedTime());
+			activeRegion->update(updateClock.getElapsedTime());
 
 			for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
 				updateObject->update(updateClock.getElapsedTime());

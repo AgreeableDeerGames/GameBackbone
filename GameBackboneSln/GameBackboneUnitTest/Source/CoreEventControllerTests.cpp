@@ -160,7 +160,7 @@ public:
 
 /// <summary>
 /// GameRegion that creates a child region.
-/// Changes active region to child/parent region on behave call.
+/// Changes active region to child/parent region on update call.
 /// </summary>
 class TestGameRegion : public GB::GameRegion
 {
@@ -183,7 +183,7 @@ public:
 	/// change mark different region as active
 	/// </summary>
 	/// <param name="currentTime">The current time.</param>
-	void behave(sf::Time currentTime) {
+	void update(sf::Time currentTime) {
 		if (parentRegion) {
 			setActiveRegionCB(parentRegion);
 		} else if (childRegions.front()){
@@ -280,11 +280,11 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	testController.setActiveRegion(&testRegion);
 
 	//change to child region
-	testController.getActiveGameRegion()->behave(sf::Time());
+	testController.getActiveGameRegion()->update(sf::Time());
 	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.getChildRegions()->front());
 
 	//change back to parent region
-	testController.getActiveGameRegion()->behave(sf::Time());
+	testController.getActiveGameRegion()->update(sf::Time());
 	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
 
 }
