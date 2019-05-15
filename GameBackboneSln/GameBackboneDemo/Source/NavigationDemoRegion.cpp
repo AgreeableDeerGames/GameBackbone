@@ -46,7 +46,7 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void NavigationDemoRegion::behave(sf::Time currentTime) {
+void NavigationDemoRegion::update(sf::Time currentTime) {
 	// Calculate how much time has passed since the last update
 	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
 

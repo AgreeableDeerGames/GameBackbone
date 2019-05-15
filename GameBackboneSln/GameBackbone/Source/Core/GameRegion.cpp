@@ -2,6 +2,8 @@
 
 #include <TGUI/TGUI.hpp>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include <algorithm>
 
 using namespace GB;
@@ -312,4 +314,16 @@ void GameRegion::clearAssociations(std::function<void(GameRegion*)> dissociation
 	}
 }
 
+/// <summary>
+/// Draws every drawable on the region.
+/// </summary>
+/// <param name="target"> The SFML render target to draw on. </param>
+/// <param name="states"> Current render states </param>
+void GameRegion::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (sf::Drawable* drawable : *drawables) {
+		// Draw m_objectSprite that is stored on the GameObject
+		target.draw(*drawable, states);
+	}
+}
 

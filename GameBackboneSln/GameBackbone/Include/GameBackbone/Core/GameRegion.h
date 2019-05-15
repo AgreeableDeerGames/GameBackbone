@@ -8,6 +8,7 @@
 
 #include <TGUI/TGUI.hpp>
 
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <functional>
@@ -16,7 +17,7 @@
 namespace GB {
 
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
-	class libGameBackbone GameRegion {
+	class libGameBackbone GameRegion : public sf::Drawable, public Updatable {
 	public:
 		//ctr / dtr
 		GameRegion();
@@ -53,7 +54,7 @@ namespace GB {
 		/// <summary>
 		/// Runs the game behaviors and logic for this instance.
 		/// </summary>
-		virtual void behave(sf::Time currentTime) {}
+		virtual void update(sf::Time currentTime) override {}
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
 
@@ -75,6 +76,8 @@ namespace GB {
 
 		//operations
 		void clearAssociations(std::function<void(GameRegion*)> dissociationFunction, std::vector<GameRegion*>* container);
+
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 		//internal logic members
 		std::vector<sf::Drawable*>* drawables;

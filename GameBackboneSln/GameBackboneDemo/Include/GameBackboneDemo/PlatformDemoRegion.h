@@ -31,7 +31,7 @@ namespace EXE {
 		PlatformDemoRegion& operator= (PlatformDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time currentTime) override;
+		virtual void update(sf::Time currentTime) override;
 
 		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
