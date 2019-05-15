@@ -50,7 +50,7 @@ namespace EXE {
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time currentTime) override;
+		virtual void behave(sf::Time elapsedTime) override;
 
 		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;

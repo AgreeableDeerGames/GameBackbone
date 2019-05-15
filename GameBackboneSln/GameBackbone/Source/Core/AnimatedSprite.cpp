@@ -170,10 +170,9 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 /// <summary>
 /// Moves the next frame of the active animation if the sprite is animating
 /// </summary>
-/// <param name="currentTime">The current time.</param>
-void AnimatedSprite::update(sf::Time currentTime) {
-
-	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > (int)animationDelay)) {
+/// <param name="elapsedTime">The elapsed time.</param>
+void AnimatedSprite::update(sf::Time elapsedTime) {
+	if (animating && (elapsedTime.asMilliseconds() > (int)animationDelay)) {
 		switch (animationEnd) {
 		case ANIMATION_END_TYPE::ANIMATION_LOOP:
 			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
@@ -202,6 +201,5 @@ void AnimatedSprite::update(sf::Time currentTime) {
 
 		framesSpentInCurrentAnimation++;
 		setTextureRect(currentAnimation->at(currentFrame));
-		lastUpdate = currentTime;
 	}
 }

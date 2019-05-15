@@ -52,12 +52,12 @@ PlatformDemoRegion::~PlatformDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void PlatformDemoRegion::behave(sf::Time currentTime) {
+void PlatformDemoRegion::behave(sf::Time elapsedTime) {
 	// Calculate how much time has passed since the previous behave call.
-	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
+	sf::Uint64 msPassed = elapsedTime.asMicroseconds();
 
 	// Instruct the world to perform a single step of simulation.
-	float stepTime = msPassed/50.0f;
+	float stepTime = msPassed/50000.0f;
  	platformWorld->Step(stepTime, velocityIterations, positionIterations);
 	for (int ii = 0; ii < objectBodies.size(); ii++)
 	{
@@ -73,8 +73,6 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 		float32 angle = objectBody->GetAngle();
 		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
 	}
-
-	lastUpdateTime = currentTime;
 }
 
 /// <summary>

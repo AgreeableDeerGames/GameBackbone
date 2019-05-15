@@ -16,10 +16,7 @@ namespace GB {
 		virtual ~Updatable() {
 		}
 
-		virtual void update(sf::Time currentTime) = 0;
-
-	protected:
-		sf::Time lastUpdate;
+		virtual void update(sf::Time elapsedTime) = 0;
 	};
 
 }

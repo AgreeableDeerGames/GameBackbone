@@ -195,11 +195,12 @@ protected:
 		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every updatable object in the active GameRegion.
 		/// </summary>
 		void coreUpdate() {
+			sf::Time elapsedTime = updateClock.restart();
 
-			activeRegion->behave(updateClock.getElapsedTime());
+			activeRegion->behave(elapsedTime);
 
 			for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
-				updateObject->update(updateClock.getElapsedTime());
+				updateObject->update(elapsedTime);
 			}
 		}
 

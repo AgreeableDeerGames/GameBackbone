@@ -182,8 +182,8 @@ public:
 	/// <summary>
 	/// change mark different region as active
 	/// </summary>
-	/// <param name="currentTime">The current time.</param>
-	void behave(sf::Time currentTime) {
+	/// <param name="elapsedTime">The elapsed time.</param>
+	void behave(sf::Time elapsedTime) {
 		if (parentRegion) {
 			setActiveRegionCB(parentRegion);
 		} else if (childRegions.front()){

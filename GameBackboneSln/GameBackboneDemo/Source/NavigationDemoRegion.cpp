@@ -46,9 +46,9 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void NavigationDemoRegion::behave(sf::Time currentTime) {
+void NavigationDemoRegion::behave(sf::Time elapsedTime) {
 	// Calculate how much time has passed since the last update
-	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
+	sf::Uint64 msPassed = elapsedTime.asMilliseconds();
 
 	// Depending on which state the Region is in, move only the appropriate navigator(s)
 	switch (selectedNavigatorOption)
@@ -76,9 +76,6 @@ void NavigationDemoRegion::behave(sf::Time currentTime) {
 	default:
 		break;
 	}
-
-	// Update the lastUpdateTime to reflect this update
-	lastUpdateTime = currentTime;
 }
 
 /// <summary>

@@ -56,7 +56,7 @@ namespace GB {
 		//operations
 		void runAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
-		virtual void update(sf::Time currentTime);
+		virtual void update(sf::Time elapsedTime);
 
 	protected:
 		AnimationVectorPtr animations;

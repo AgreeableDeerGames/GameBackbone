@@ -53,7 +53,7 @@ namespace GB {
 		/// <summary>
 		/// Runs the game behaviors and logic for this instance.
 		/// </summary>
-		virtual void behave(sf::Time currentTime) {}
+		virtual void behave(sf::Time elapsedTime) {}
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
 
