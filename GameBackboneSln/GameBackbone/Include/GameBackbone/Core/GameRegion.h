@@ -17,7 +17,7 @@
 namespace GB {
 
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
-	class libGameBackbone GameRegion : public virtual sf::Drawable, public virtual Updatable {
+	class libGameBackbone GameRegion : public sf::Drawable, public Updatable {
 	public:
 		//ctr / dtr
 		GameRegion();
@@ -54,7 +54,7 @@ namespace GB {
 		/// <summary>
 		/// Runs the game behaviors and logic for this instance.
 		/// </summary>
-		virtual void update(sf::Time currentTime) {}
+		virtual void update(sf::Time currentTime) override {}
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
 
