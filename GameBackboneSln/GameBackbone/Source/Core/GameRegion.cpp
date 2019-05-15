@@ -314,8 +314,9 @@ void GameRegion::clearAssociations(std::function<void(GameRegion*)> dissociation
 	}
 }
 
-/// <summary>Draws every drawable on the region.</summary>
-/// 
+/// <summary>
+/// Draws every drawable on the region.
+/// </summary>
 /// <param name="target"> The SFML render target to draw on. </param>
 /// <param name="states"> Current render states </param>
 void GameRegion::draw(sf::RenderTarget& target, sf::RenderStates states) const
