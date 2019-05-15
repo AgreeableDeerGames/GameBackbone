@@ -1,6 +1,8 @@
 #include <GameBackbone/Core/BackboneBaseExceptions.h>
 #include <GameBackbone/Core/CompoundSprite.h>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include <algorithm>
 
 using namespace GB;
@@ -328,6 +330,18 @@ void CompoundSprite::initializeComponentVector(const std::vector<sf::Sprite*>& s
 	}
 	for (auto component : animatedSprites) {
 		addComponent(component);
+	}
+}
+
+/// <summary>
+/// Draw all the component sprites of the compound sprite.
+/// </summary>
+/// <param name="target"> The render target to be drawn to. </param>
+/// <param name="states"> Current render states. </param>
+void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for (sf::Sprite* component : components) {
+		target.draw(*component, states);
 	}
 }
 

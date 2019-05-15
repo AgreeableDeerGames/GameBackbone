@@ -29,7 +29,6 @@ namespace GB {
 		//setters
 		void setUpdatable(bool status, Updatable* object);
 		void setDrawable(bool status, sf::Drawable* object);
-		void setDrawable(bool status, CompoundSprite* object);
 		void setDrawAndUpdateable(bool status, AnimatedSprite* object);
 		void setDrawAndUpdateable(bool status, CompoundSprite* object);
 		void setParentRegion(GameRegion* newParent);
