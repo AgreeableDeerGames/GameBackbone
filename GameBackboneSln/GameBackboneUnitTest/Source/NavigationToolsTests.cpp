@@ -165,7 +165,7 @@ struct ReusableCompoundPathfindingObjects {
 			sprites.push_back(sprite1);
 			sprites.push_back(sprite2);
 
-			CompoundSprite* compoundSprite = new CompoundSprite({ sprite1, sprite2 });
+			CompoundSprite* compoundSprite = new CompoundSprite({ *sprite1, *sprite2 });
 			compoundSprites.push_back(compoundSprite);
 		}
 
@@ -190,8 +190,6 @@ struct ReusableCompoundPathfindingObjects {
 		for (CompoundSprite* compoundSprite: compoundSprites) {
 			delete compoundSprite;
 		}
-
-
 	}
 
 	// sprites
