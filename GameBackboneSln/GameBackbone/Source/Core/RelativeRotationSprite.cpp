@@ -14,7 +14,8 @@ using namespace GB;
 /// using their current position relative to the RelativeRotationSprite's.
 /// </summary>
 /// <param name="components">The components of the new RelativeRotationSprite.</param>
-RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components) : RelativeRotationSprite(std::move(components), {0, 0}) {
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components) 
+	: RelativeRotationSprite(std::move(components), {0, 0}) {
 }
 
 /// <summary>
@@ -26,9 +27,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// </summary>
 /// <param name="components">The components of the new RelativeRotationSprite.</param>
 /// <param name="position">The initial position.</param>
-RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, sf::Vector2f position) :
-	RelativeRotationSprite(std::move(components), std::vector<AnimatedSprite>(), position)
-{
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, sf::Vector2f position) 
+	: RelativeRotationSprite(std::move(components), std::vector<AnimatedSprite>(), position){
 }
 
 
@@ -41,11 +41,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// </summary>
 /// <param name="components">Sprite components of the new RelativeRotationSprite</param>
 /// <param name="animatedComponents">AnimatedSprite components of the new RelativeRotationSprite</param>
-RelativeRotationSprite::RelativeRotationSprite(
-	std::vector<sf::Sprite> components,
-	std::vector<AnimatedSprite> animatedComponents
-) : RelativeRotationSprite(std::move((components)), std::move(animatedComponents), {0, 0})
-{
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents) 
+	: RelativeRotationSprite(std::move((components)), std::move(animatedComponents), {0, 0}){
 }
 
 /// <summary>
@@ -58,12 +55,8 @@ RelativeRotationSprite::RelativeRotationSprite(
 /// <param name="components">Sprite components of the new RelativeRotationSprite.</param>
 /// <param name="animatedComponents">AnimatedSprite components of the new RelativeRotationSprite.</param>
 /// <param name="position">The position.</param>
-RelativeRotationSprite::RelativeRotationSprite (
-	std::vector<sf::Sprite> components,
-	std::vector<AnimatedSprite> animatedComponents,
-	sf::Vector2f position
-) : CompoundSprite(position)
-{
+RelativeRotationSprite::RelativeRotationSprite (std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents,	sf::Vector2f position) 
+	: CompoundSprite(position){
 	// function for adding a component to the RelativeRotationSprite
 	auto addComponentFunction = [this] (auto& component) {
 		this->addComponent(component);
@@ -78,8 +71,7 @@ RelativeRotationSprite::RelativeRotationSprite (
 /// Initializes a new instance of the <see cref="RelativeRotationSprite"/> class. Sets the initial position of the RelativeRotationSprite to the passed value.
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
-RelativeRotationSprite::RelativeRotationSprite(sf::Vector2f initialPosition) : CompoundSprite(initialPosition)
-{
+RelativeRotationSprite::RelativeRotationSprite(sf::Vector2f initialPosition) : CompoundSprite(initialPosition){
 }
 
 /// <summary>
@@ -108,8 +100,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// <param name="relativeOffsets">The relative offsets of the components.</param>
 /// <param name="initialPosition">The initial position.</param>
 /// <returns></returns>
-RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition) :
-	CompoundSprite(initialPosition) {
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition) 
+	: CompoundSprite(initialPosition) {
 	initializeComponentVector(std::move(components), relativeOffsets);
 }
 
@@ -123,8 +115,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// <param name="sprites">Sprite components of the new RelativeRotationSprite</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new RelativeRotationSprite</param>
 /// <param name="relativeOffsets">The relative offsets of the components.</param>
-RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets) :
-	CompoundSprite() {
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets) 
+	: CompoundSprite() {
 	initializeComponentVector(std::move(sprites), std::move(animatedSprites), relativeOffsets);
 }
 
@@ -139,8 +131,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, 
 /// <param name="animatedSprites">AnimatedSprite components of the new RelativeRotationSprite</param>
 /// <param name="relativeOffsets">The relative offsets of the components.</param>
 /// <param name="initialPosition">The initial position.</param>
-RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition) :
-	CompoundSprite(initialPosition) {
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition) 
+	: CompoundSprite(initialPosition) {
 	initializeComponentVector(std::move(sprites), std::move(animatedSprites), relativeOffsets);
 }
 
@@ -153,7 +145,6 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, 
 /// </summary>
 /// <param name="component">New sprite component of the RelativeRotationSprite.</param>
 std::size_t RelativeRotationSprite::addComponent(sf::Sprite component) {
-
 	// Fix the position and origin of the new component
 	component.setOrigin(component.getPosition().x - position.x, component.getPosition().y - position.y);
 	component.setPosition(position.x, position.y);
@@ -171,7 +162,6 @@ std::size_t RelativeRotationSprite::addComponent(sf::Sprite component) {
 /// <param name="component">The component.</param>
 /// <param name="relativeOffset">The relative offset.</param>
 std::size_t RelativeRotationSprite::addComponent(sf::Sprite component, sf::Vector2f relativeOffset) {
-
 	// Fix the position and origin of the new component
 	component.setPosition(position.x, position.y);
 	component.setOrigin(relativeOffset.x, relativeOffset.y);
@@ -188,7 +178,6 @@ std::size_t RelativeRotationSprite::addComponent(sf::Sprite component, sf::Vecto
 /// </summary>
 /// <param name="component">New Animated Sprite component of the RelativeRotationSprite. Passing nullptr is illegal.</param>
 std::size_t RelativeRotationSprite::addComponent(AnimatedSprite component) {
-
 	// Fix origin and position of component 
 	component.setOrigin(component.getPosition().x - position.x, component.getPosition().y - position.y);
 	component.setPosition(position.x, position.y);

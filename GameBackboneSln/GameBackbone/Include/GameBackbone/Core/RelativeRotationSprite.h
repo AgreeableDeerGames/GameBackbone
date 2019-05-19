@@ -18,48 +18,17 @@ namespace GB {
 
 		//ctr / dtr
 		RelativeRotationSprite() = default;
-
 		explicit RelativeRotationSprite(std::vector<sf::Sprite> components);
-
 		RelativeRotationSprite(std::vector<sf::Sprite> components, sf::Vector2f position);
-
-		RelativeRotationSprite(
-			std::vector<sf::Sprite> components,
-			std::vector<AnimatedSprite> animatedComponents
-		);
-
-		RelativeRotationSprite(
-			std::vector<sf::Sprite> components,
-			std::vector<AnimatedSprite> animatedComponents,
-			sf::Vector2f position
-		);
-
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position);
 		explicit RelativeRotationSprite(sf::Vector2f initialPosition);
-
-		RelativeRotationSprite(
-			std::vector<sf::Sprite> components,
-			const std::vector<sf::Vector2f>& relativeOffsets
-		);
-
-		RelativeRotationSprite(
-			std::vector<sf::Sprite> components,
-			const std::vector<sf::Vector2f>& relativeOffsets,
-			sf::Vector2f initialPosition
-		);
-
-		RelativeRotationSprite(
-			std::vector<sf::Sprite> components,
-			std::vector<AnimatedSprite> animatedSprites,
-			const std::vector<sf::Vector2f>& relativeOffsets
-		);
-
-		RelativeRotationSprite(
-			std::vector<sf::Sprite> components,
-			std::vector<AnimatedSprite> animatedSprites,
-			const std::vector<sf::Vector2f>& relativeOffsets,
-			sf::Vector2f initialPosition
-		);
-
+		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites,
+			const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites, 
+			const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
 		virtual ~RelativeRotationSprite() = default;
 
 		//add / remove

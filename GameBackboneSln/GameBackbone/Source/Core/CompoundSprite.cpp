@@ -149,8 +149,7 @@ void CompoundSprite::setPosition(float x, float y) {
 /// <param name="component"> The component to add to the CompoundSprite. </param>
 /// <return> The index of the added sprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(sf::Sprite component) {
-
-	// Add the component the the vector of Sprite components
+	// Add the component the vector of Sprite components
 	components.emplace_back(std::move(component));
 
 	// Return the place in the components vector that the new component was placed.
@@ -164,8 +163,7 @@ std::size_t CompoundSprite::addComponent(sf::Sprite component) {
 /// <param name="component"> The component to add to the CompoundSprite. </param>
 /// <return> The index of the added AnimatedSprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
-
-	// Add the component the the vector of AnimatedSprite components
+	// Add the component the vector of AnimatedSprite components
 	animatedComponents.emplace_back(std::move(component));
 
 	// Return the place in the components vector that the new component was placed.
@@ -175,11 +173,10 @@ std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
 /// <summary>
 /// Removes the Sprite component at the passed index from the CompoundSprite.
 /// Throws std::out_of_range exception if the component index is out of bounds.
-/// This invalidates all indicies returned by addComponent(sf::sprite)
+/// This invalidates all indices returned by addComponent(sf::sprite)
 /// </summary>
 /// <param name="component">The component to remove from the CompoundSprite</param>
 void CompoundSprite::removeSpriteComponent(std::size_t componentIndex) {
-
 	if (componentIndex < components.size()) {
 		components.erase(components.begin() + componentIndex);
 	} else {
@@ -190,11 +187,10 @@ void CompoundSprite::removeSpriteComponent(std::size_t componentIndex) {
 /// <summary>
 /// Removes the AnimatedSprite component at the passed index from the CompoundSprite.
 /// Throws std::out_of_range exception if the component index is out of bounds.
-/// This invalidates all indicies returned by addComponent(AnimatedSprite)
+/// This invalidates all indices returned by addComponent(AnimatedSprite)
 /// </summary>
 /// <param name="component">The component to remove from the CompoundSprite</param>
 void CompoundSprite::removeAnimatedComponent(std::size_t componentIndex) {
-
 	if (componentIndex < animatedComponents.size()) {
 		animatedComponents.erase(animatedComponents.begin() + componentIndex);
 	} else {
@@ -218,7 +214,6 @@ void CompoundSprite::clearComponents() {
 /// <param name="factorX">The new horizontal scale factor.</param>
 /// <param name="factorY">The new vertical scale factor.</param>
 void CompoundSprite::scale(float factorX, float factorY) {
-
 	// lambda function for scaling components
 	auto scaleFunction = [factorX, factorY] (auto& component) {
 		component.scale(factorX, factorY);
@@ -243,7 +238,6 @@ void CompoundSprite::scale(sf::Vector2f newScale) {
 /// <param name="factorX">The factor x.</param>
 /// <param name="factorY">The factor y.</param>
 void CompoundSprite::setScale(float factorX, float factorY) {
-
 	// lambda function for scaling components
 	auto scaleFunction = [factorX, factorY] (auto& component) {
 		component.setScale(factorX, factorY);
@@ -269,8 +263,7 @@ void CompoundSprite::setScale(sf::Vector2f newScale) {
 /// </summary>
 /// <param name="degreeOffset">The offset to the current rotation.</param>
 void CompoundSprite::rotate(float degreeOffset) {
-
-	// lambda for ratating components
+	// lambda for rotating components
 	auto rotateFunction = [degreeOffset] (auto& component) {
 		component.rotate(degreeOffset);
 	};
@@ -286,8 +279,7 @@ void CompoundSprite::rotate(float degreeOffset) {
 /// </summary>
 /// <param name="newRotation">The new rotation.</param>
 void CompoundSprite::setRotation(float newRotation) {
-
-	// lambda for ratating components
+	// lambda for rotating components
 	auto rotateFunction = [newRotation] (auto& component) {
 		component.setRotation(newRotation);
 	};
@@ -303,7 +295,6 @@ void CompoundSprite::setRotation(float newRotation) {
 /// <param name="offsetX">The offset x.</param>
 /// <param name="offsetY">The offset y.</param>
 void CompoundSprite::move(float offsetX, float offsetY) {
-
 	// function for moving a component
 	auto moveFunction = [offsetX, offsetY](auto& component) {
 		component.move(offsetX, offsetY);
@@ -343,8 +334,7 @@ void CompoundSprite::update(sf::Time currentTime) {
 /// </summary>
 /// <param name="target"> The render target to be drawn to. </param>
 /// <param name="states"> Current render states. </param>
-void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
+void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	// lambda function to draw a component
 	auto drawFunction = [&target, &states](auto& drawable) {
 		target.draw(drawable, states);

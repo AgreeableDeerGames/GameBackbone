@@ -19,24 +19,11 @@ namespace GB {
 
 		//ctr / dtr
 		CompoundSprite();
-
 		explicit CompoundSprite(std::vector<sf::Sprite> components);
-
 		CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f position);
-
-		CompoundSprite(
-			std::vector<sf::Sprite> drawableComponents,
-			std::vector<AnimatedSprite> animatedComponents
-		);
-
-		CompoundSprite(
-			std::vector<sf::Sprite> drawableComponents,
-			std::vector<AnimatedSprite> animatedComponents,
-			sf::Vector2f position
-		);
-
+		CompoundSprite(std::vector<sf::Sprite> drawableComponents, std::vector<AnimatedSprite> animatedComponents);
+		CompoundSprite(std::vector<sf::Sprite> drawableComponents, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position);
 		explicit CompoundSprite(sf::Vector2f initialPosition);
-		
 		virtual ~CompoundSprite() = default;
 
 		//getters
