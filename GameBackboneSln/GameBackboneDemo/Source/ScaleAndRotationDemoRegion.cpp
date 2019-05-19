@@ -133,7 +133,7 @@ void ScaleAndRotationDemoRegion::init() {
 
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(relativeRotationComponents, sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(std::move(relativeRotationComponents), sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
@@ -145,9 +145,9 @@ void ScaleAndRotationDemoRegion::init() {
 			// Create the compound sprite then add all of the components with a relative offset
 			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			// Cast the sprite to RelativeRotationSprite here so that we can access its special addComponent member function
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(relativeRotationComponents[0], { 80, 0 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(relativeRotationComponents[1], { 0, 80 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(relativeRotationComponents[2], { 0, 0 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[0]), { 80, 0 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[1]), { 0, 80 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[2]), { 0, 0 });
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
@@ -159,16 +159,16 @@ void ScaleAndRotationDemoRegion::init() {
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
 			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			displaySprite->addComponent(relativeRotationComponents[0]);
-			displaySprite->addComponent(relativeRotationComponents[1]);
-			displaySprite->addComponent(relativeRotationComponents[2]);
+			displaySprite->addComponent(std::move(relativeRotationComponents[0]));
+			displaySprite->addComponent(std::move(relativeRotationComponents[1]));
+			displaySprite->addComponent(std::move(relativeRotationComponents[2]));
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
 			// Create a CompoundSprite That overlays its component sprite on top of each other.
 			// This allows them to rotate in sync.
 			// The differences in the textures creates the appearance that the components are in different places.
-			displaySprite = std::make_unique<GB::CompoundSprite>(textureOffsetSprites);
+			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(textureOffsetSprites));
 			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			break;
 		}
