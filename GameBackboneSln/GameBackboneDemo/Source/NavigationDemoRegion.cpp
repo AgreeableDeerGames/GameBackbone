@@ -46,30 +46,27 @@ NavigationDemoRegion::~NavigationDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void NavigationDemoRegion::behave(sf::Time elapsedTime) {
-	// Calculate how much time has passed since the last update
-	sf::Uint64 msPassed = elapsedTime.asMilliseconds();
-
+void NavigationDemoRegion::behave(sf::Int64 elapsedTime) {
 	// Depending on which state the Region is in, move only the appropriate navigator(s)
 	switch (selectedNavigatorOption)
 	{
 	case EXE::NAVIGATOR_1:
 	{
 		// Move the first navigator
-		GB::moveSpriteAlongPath(*navigators[0], paths[0], msPassed, 1);
+		GB::moveSpriteAlongPath(*navigators[0], paths[0], elapsedTime, 0.0005);
 		break;
 	}
 	case EXE::NAVIGATOR_2:
 	{
 		// Move the second navigator
-		GB::moveSpriteAlongPath(*navigators[1], paths[1], msPassed, 1);
+		GB::moveSpriteAlongPath(*navigators[1], paths[1], elapsedTime, 0.0005);
 		break;
 	}
 	case EXE::ALL_NAVIGATORS:
 	{
 		// Loop through and move all navigators
 		for (size_t i = 0; i < navigators.size(); i++) {
-			GB::moveSpriteAlongPath(*navigators[i], paths[i], msPassed, 1);
+			GB::moveSpriteAlongPath(*navigators[i], paths[i], elapsedTime, 0.0005);
 		}
 		break;
 	}
@@ -404,9 +401,6 @@ void NavigationDemoRegion::destroy() {
 	//Delete textures and prepare them for future calls to init
 	navigatorTexture.reset();
 	gridTexture.reset();
-
-	// Reset time
-	lastUpdateTime = sf::Time::Zero;
 
 	// Reset coordinate converter
 	GB::CoordinateConverter newConverter;

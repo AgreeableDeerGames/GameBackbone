@@ -50,7 +50,7 @@ namespace EXE {
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time elapsedTime) override;
+		virtual void behave(sf::Int64 elapsedTime) override;
 
 		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
@@ -63,9 +63,6 @@ namespace EXE {
 		void initMaze();
 		void destroy();
 		virtual void reset() override;
-
-		// Update logic storage
-		sf::Time lastUpdateTime;
 
 		// Sprite textures
 		std::unique_ptr<sf::Texture> navigatorTexture;

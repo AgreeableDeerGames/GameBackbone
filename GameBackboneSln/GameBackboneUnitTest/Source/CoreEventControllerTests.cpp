@@ -183,7 +183,7 @@ public:
 	/// change mark different region as active
 	/// </summary>
 	/// <param name="elapsedTime">The elapsed time.</param>
-	void behave(sf::Time elapsedTime) {
+	void behave(sf::Int64 elapsedTime) {
 		if (parentRegion) {
 			setActiveRegionCB(parentRegion);
 		} else if (childRegions.front()){
@@ -280,11 +280,11 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	testController.setActiveRegion(&testRegion);
 
 	//change to child region
-	testController.getActiveGameRegion()->behave(sf::Time());
+	testController.getActiveGameRegion()->behave(0);
 	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.getChildRegions()->front());
 
 	//change back to parent region
-	testController.getActiveGameRegion()->behave(sf::Time());
+	testController.getActiveGameRegion()->behave(0);
 	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
 
 }

@@ -294,7 +294,7 @@ void CompoundSprite::move(sf::Vector2f offset) {
 /// Updates each animated sprite in the compound sprite.
 /// </summary>
 /// <param name="elapsedTime">The elapsed time.</param>
-void CompoundSprite::update(sf::Time elapsedTime) {
+void CompoundSprite::update(sf::Int64 elapsedTime) {
 	for (size_t i = 0; i < animatedSprites.size(); i++) {
 		animatedSprites[i]->update(elapsedTime);
 	}

@@ -52,12 +52,9 @@ PlatformDemoRegion::~PlatformDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void PlatformDemoRegion::behave(sf::Time elapsedTime) {
-	// Calculate how much time has passed since the previous behave call.
-	sf::Uint64 msPassed = elapsedTime.asMicroseconds();
-
+void PlatformDemoRegion::behave(sf::Int64 elapsedTime) {
 	// Instruct the world to perform a single step of simulation.
-	float stepTime = msPassed/50000.0f;
+	float stepTime = elapsedTime /50000.0f;
  	platformWorld->Step(stepTime, velocityIterations, positionIterations);
 	for (int ii = 0; ii < objectBodies.size(); ii++)
 	{
@@ -279,7 +276,6 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 /// Initializes this instance.
 /// </summary>
 void PlatformDemoRegion::init() {
-	lastUpdateTime = sf::Time::Zero;
 	// Init textures
 	std::string blockString(R"(Textures/testSprite.png)");
 	blockTexture = std::make_unique<sf::Texture>();
@@ -361,9 +357,6 @@ void PlatformDemoRegion::destroy() {
 
 	// Delete textures
 	blockTexture.reset();
-
-	// Reset time
-	lastUpdateTime = sf::Time::Zero;
 }
 
 /// <summary>

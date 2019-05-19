@@ -45,18 +45,18 @@ namespace GB {
 		void setAnimating(bool animating);
 		void setCurrentFrame(unsigned int frame);
 		void setAnimations(AnimationSet* animations);
-		void setAnimationDelay(unsigned int speed);
+		void setAnimationDelay(sf::Time delay);
 			//getters
 		unsigned int getCurrentFrame() const;
 		unsigned int getCurrentAnimationId() const;
-		unsigned int getAnimationDelay() const;
+		sf::Time getAnimationDelay() const;
 		unsigned int getFramesSpentInCurrentAnimation() const;
 		bool isAnimating() const;
 
 		//operations
 		void runAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
-		virtual void update(sf::Time elapsedTime);
+		virtual void update(sf::Int64 elapsedTime);
 
 	protected:
 		AnimationVectorPtr animations;
@@ -65,7 +65,8 @@ namespace GB {
 		bool animating;
 		ANIMATION_END_TYPE animationEnd;
 		bool isReverse;
-		unsigned int animationDelay;
+		sf::Time animationDelay;
+		sf::Time lastUpdate;
 		
 		std::vector<sf::IntRect>* currentAnimation;
 		unsigned int currentFrame;

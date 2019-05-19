@@ -16,7 +16,7 @@ namespace GB {
 		virtual ~Updatable() {
 		}
 
-		virtual void update(sf::Time elapsedTime) = 0;
+		virtual void update(sf::Int64 elapsedTime) = 0;
 	};
 
 }
