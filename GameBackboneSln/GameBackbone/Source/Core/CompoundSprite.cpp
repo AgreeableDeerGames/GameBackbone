@@ -322,7 +322,6 @@ void CompoundSprite::move(sf::Vector2f offset) {
 /// </summary>
 /// <param name="currentTime">The current time.</param>
 void CompoundSprite::update(sf::Time currentTime) {
-
 	// Forward the update to each component
 	for (auto& animatedComponent : animatedComponents) {
 		animatedComponent.update(currentTime);
