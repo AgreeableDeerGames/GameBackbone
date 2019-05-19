@@ -120,7 +120,7 @@ std::size_t CompoundSprite::getAnimatedComponentCount() const {
 
 /// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
 bool CompoundSprite::isEmpty() const {
-	return !(components.empty() && animatedComponents.empty());
+	return components.empty() && animatedComponents.empty();
 }
 
 // setters
@@ -154,7 +154,7 @@ std::size_t CompoundSprite::addComponent(sf::Sprite component) {
 	components.emplace_back(std::move(component));
 
 	// Return the place in the components vector that the new component was placed.
-	return components.size();
+	return components.size() - 1;
 }
 
 /// <summary>
@@ -169,7 +169,7 @@ std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
 	animatedComponents.emplace_back(std::move(component));
 
 	// Return the place in the components vector that the new component was placed.
-	return animatedComponents.size();
+	return animatedComponents.size() - 1;
 }
 
 /// <summary>

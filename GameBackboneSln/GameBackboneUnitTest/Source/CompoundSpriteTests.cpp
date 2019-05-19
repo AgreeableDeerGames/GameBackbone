@@ -679,7 +679,6 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_NonAdditive_Rotate, ReusableO
 	{
 		auto& temp = compoundSprite.getSpriteComponent(i);
 		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-
 	}
 	//ensure all animated sprites got the correct rotation
 	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
@@ -772,7 +771,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Vector2f, ReusableObjectsForO
 	}
 	for (std::size_t i = compoundSprite.getSpriteComponentCount(); i < compoundSprite.getAnimatedComponentCount() + compoundSprite.getSpriteComponentCount(); i++)
 	{
-		auto& temp = compoundSprite.getAnimatedComponent(i);
+		auto& temp = compoundSprite.getAnimatedComponent(i - compoundSprite.getSpriteComponentCount());
 		BOOST_CHECK(temp.getPosition().x == POSITION_X + oldPositions[i].x && temp.getPosition().y == POSITION_Y + oldPositions[i].y);
 	}
 }
@@ -813,7 +812,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Current_Position_Vector2f, Re
 	}
 	for (std::size_t i = compoundSprite.getSpriteComponentCount(); i < compoundSprite.getAnimatedComponentCount() + compoundSprite.getSpriteComponentCount(); i++)
 	{
-		auto& temp = compoundSprite.getAnimatedComponent(i);
+		auto& temp = compoundSprite.getAnimatedComponent(i - compoundSprite.getSpriteComponentCount());
 		BOOST_CHECK(temp.getPosition().x == oldPositions[i].x && temp.getPosition().y == oldPositions[i].y);
 	}
 
@@ -853,14 +852,15 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Vector2f_NON_ORIGIN_START, Re
 	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
 	{
 		auto& temp = compoundSprite.getSpriteComponent(i);
-		BOOST_CHECK(temp.getPosition().x == POSITION_X && temp.getPosition().y == POSITION_Y );
+		BOOST_CHECK_CLOSE(temp.getPosition().x, (POSITION_X - STARTING_X) + oldPositions[i].x, 0.001);
+		BOOST_CHECK_CLOSE(temp.getPosition().y, (POSITION_Y - STARTING_Y) + oldPositions[i].y, 0.001);
 
 	}
 	for (std::size_t i = compoundSprite.getSpriteComponentCount(); i < compoundSprite.getAnimatedComponentCount() + compoundSprite.getSpriteComponentCount(); i++)
 	{
-		auto& temp = compoundSprite.getAnimatedComponent(i);
-		BOOST_CHECK(temp.getPosition().x == POSITION_X && temp.getPosition().y == POSITION_Y );
-		
+		auto& temp = compoundSprite.getAnimatedComponent(i - compoundSprite.getSpriteComponentCount());
+		BOOST_CHECK_CLOSE(temp.getPosition().x, (POSITION_X - STARTING_X) + oldPositions[i].x, 0.001);
+		BOOST_CHECK_CLOSE(temp.getPosition().y, (POSITION_Y - STARTING_Y) + oldPositions[i].y, 0.001);
 	}
 }
 
@@ -890,17 +890,18 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Two_Floats, ReusableObjectsFo
 	// ensure that all components maintain their position relative to the new position of the compound sprite
 	BOOST_CHECK(compoundSprite.getPosition().x == POSITION_X && compoundSprite.getPosition().y == POSITION_Y);
 
-	// ensure the new positions are correct
 	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
 	{
 		auto& temp = compoundSprite.getSpriteComponent(i);
-		BOOST_CHECK(temp.getPosition().x == POSITION_X && temp.getPosition().y == POSITION_Y);
+		BOOST_CHECK_CLOSE(temp.getPosition().x, (POSITION_X) + oldPositions[i].x, 0.001);
+		BOOST_CHECK_CLOSE(temp.getPosition().y, (POSITION_Y) + oldPositions[i].y, 0.001);
 
 	}
 	for (std::size_t i = compoundSprite.getSpriteComponentCount(); i < compoundSprite.getAnimatedComponentCount() + compoundSprite.getSpriteComponentCount(); i++)
 	{
-		auto& temp = compoundSprite.getAnimatedComponent(i);
-		BOOST_CHECK(temp.getPosition().x == POSITION_X && temp.getPosition().y == POSITION_Y);
+		auto& temp = compoundSprite.getAnimatedComponent(i - compoundSprite.getSpriteComponentCount());
+		BOOST_CHECK_CLOSE(temp.getPosition().x, (POSITION_X) + oldPositions[i].x, 0.001);
+		BOOST_CHECK_CLOSE(temp.getPosition().y, (POSITION_Y) + oldPositions[i].y, 0.001);
 	}
 
 }
@@ -940,7 +941,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Current_Position_Two_Floats, 
 	}
 	for (std::size_t i = compoundSprite.getSpriteComponentCount(); i < compoundSprite.getAnimatedComponentCount() + compoundSprite.getSpriteComponentCount(); i++)
 	{
-		auto& temp = compoundSprite.getAnimatedComponent(i);
+		auto& temp = compoundSprite.getAnimatedComponent(i - compoundSprite.getSpriteComponentCount());
 		BOOST_CHECK(temp.getPosition().x == oldPositions[i].x && temp.getPosition().y == oldPositions[i].y);
 	}
 
@@ -977,13 +978,15 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_setPosition_Two_Floats_NON_ORIGIN_START, 
 	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
 	{
 		auto& temp = compoundSprite.getSpriteComponent(i);
-		BOOST_CHECK(temp.getPosition().x == POSITION_X && temp.getPosition().y == POSITION_Y);
+		BOOST_CHECK_CLOSE(temp.getPosition().x, (POSITION_X - STARTING_X) + oldPositions[i].x, 0.001);
+		BOOST_CHECK_CLOSE(temp.getPosition().y, (POSITION_Y - STARTING_Y) + oldPositions[i].y, 0.001);
 
 	}
 	for (std::size_t i = compoundSprite.getSpriteComponentCount(); i < compoundSprite.getAnimatedComponentCount() + compoundSprite.getSpriteComponentCount(); i++)
 	{
-		auto& temp = compoundSprite.getAnimatedComponent(i);
-		BOOST_CHECK(temp.getPosition().x == POSITION_X && temp.getPosition().y == POSITION_Y);
+		auto& temp = compoundSprite.getAnimatedComponent(i - compoundSprite.getSpriteComponentCount());
+		BOOST_CHECK_CLOSE(temp.getPosition().x, (POSITION_X - STARTING_X) + oldPositions[i].x, 0.001);
+		BOOST_CHECK_CLOSE(temp.getPosition().y, (POSITION_Y - STARTING_Y) + oldPositions[i].y, 0.001);
 	}
 }
 
