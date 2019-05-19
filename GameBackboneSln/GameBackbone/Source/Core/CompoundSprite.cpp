@@ -88,7 +88,7 @@ sf::Vector2f CompoundSprite::getPosition() const {
 /// </summary>
 /// <param name="componentIndex"> </param>
 /// <return> sf::Sprite& </return>
-sf::Sprite& CompoundSprite::GetSpriteComponent(std::size_t componentIndex) {
+sf::Sprite& CompoundSprite::getSpriteComponent(std::size_t componentIndex) {
 	return components.at(componentIndex);
 }
 
@@ -98,8 +98,29 @@ sf::Sprite& CompoundSprite::GetSpriteComponent(std::size_t componentIndex) {
 /// </summary>
 /// <param name="componentIndex"> </param>
 /// <return> sf::Sprite& </return>
-AnimatedSprite& CompoundSprite::GetAnimatedComponent(std::size_t componentIndex) {
+AnimatedSprite& CompoundSprite::getAnimatedComponent(std::size_t componentIndex) {
 	return animatedComponents.at(componentIndex);
+}
+
+/// <summary>
+/// Gets the count of Sprite components.
+/// </summary>
+/// <return> The count of sprite components. </return>
+std::size_t CompoundSprite::getSpriteComponentCount() const {
+	return components.size();
+}
+
+/// <summary>
+/// Gets the count of AnimatedSprite components.
+/// </summary>
+/// <return> The count of AnimatedSprite components. </return>
+std::size_t CompoundSprite::getAnimatedComponentCount() const {
+	return animatedComponents.size();
+}
+
+/// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
+bool CompoundSprite::isEmpty() const {
+	return !(components.empty() && animatedComponents.empty());
 }
 
 // setters
@@ -154,6 +175,7 @@ std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
 /// <summary>
 /// Removes the Sprite component at the passed index from the CompoundSprite.
 /// Throws std::out_of_range exception if the component index is out of bounds.
+/// This invalidates all indicies returned by addComponent(sf::sprite)
 /// </summary>
 /// <param name="component">The component to remove from the CompoundSprite</param>
 void CompoundSprite::removeSpriteComponent(std::size_t componentIndex) {
@@ -168,6 +190,7 @@ void CompoundSprite::removeSpriteComponent(std::size_t componentIndex) {
 /// <summary>
 /// Removes the AnimatedSprite component at the passed index from the CompoundSprite.
 /// Throws std::out_of_range exception if the component index is out of bounds.
+/// This invalidates all indicies returned by addComponent(AnimatedSprite)
 /// </summary>
 /// <param name="component">The component to remove from the CompoundSprite</param>
 void CompoundSprite::removeAnimatedComponent(std::size_t componentIndex) {

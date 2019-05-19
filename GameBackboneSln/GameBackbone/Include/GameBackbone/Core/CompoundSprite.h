@@ -41,8 +41,11 @@ namespace GB {
 
 		//getters
 		sf::Vector2f getPosition() const;
-		virtual sf::Sprite& GetSpriteComponent(std::size_t componentIndex);
-		virtual AnimatedSprite& GetAnimatedComponent(std::size_t componentIndex);
+		virtual sf::Sprite& getSpriteComponent(std::size_t componentIndex);
+		virtual AnimatedSprite& getAnimatedComponent(std::size_t componentIndex);
+		virtual std::size_t getSpriteComponentCount() const;
+		virtual std::size_t getAnimatedComponentCount() const;
+		virtual bool isEmpty() const;
 
 		//setters
 		virtual void setPosition(sf::Vector2f val);
