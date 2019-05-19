@@ -60,7 +60,7 @@ namespace GB {
 		virtual void move(float offsetX, float offsetY);
 		virtual void move(sf::Vector2f offset);
 
-		virtual void update(sf::Time currentTime) override;
+		virtual void update(sf::Int64 elapsedTime) override;
 
 	protected:
 		void initializeComponentVector(const std::vector<sf::Sprite*>& components);

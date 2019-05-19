@@ -508,7 +508,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 		animatedSpriteVector.at(i)->runAnimation(0);
 	}
 
-	compoundSprite->update(sf::milliseconds(2));
+	compoundSprite->update(2);
 
 	for (unsigned int i = 0; i < animatedSpriteVector.size(); ++i) {
 		BOOST_CHECK(animatedSpriteVector.at(i)->getCurrentFrame() == 1);

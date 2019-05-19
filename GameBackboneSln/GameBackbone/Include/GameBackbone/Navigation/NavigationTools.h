@@ -146,13 +146,13 @@ namespace GB {
 	/// </summary>
 	/// <param name="sprite">The sprite.</param>
 	/// <param name="path">The path.</param>
-	/// <param name="msPassed">Time passed in ms.</param>
-	/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
+	/// <param name="usPassed">Time passed in microseconds.</param>
+	/// <param name="distPerUs">The maximum distance that the sprite can move per microseconds.</param>
 	/// <param name="orientSpriteToDestination">Whether or not the sprites should be oriented to face their destinations.</param>
 	inline void moveSpriteAlongPath(sf::Sprite& sprite,
 									WindowCoordinatePathPtr path,
-									sf::Uint64 msPassed,
-									float distPerMs,
+									sf::Int64 usPassed,
+									float distPerUs,
 									const bool orientSpriteToDestination = true) {
 
 		if (path->empty()) {
@@ -160,7 +160,7 @@ namespace GB {
 		}
 
 		const sf::Vector2f destination = path->front();
-		const float maxStepLength = msPassed*distPerMs;
+		const float maxStepLength = usPassed * distPerUs;
 
 		moveSpriteStepTowardsPoint(sprite, destination, maxStepLength, orientSpriteToDestination);
 
@@ -178,13 +178,13 @@ namespace GB {
 	/// </summary>
 	/// <param name="sprite">The sprite.</param>
 	/// <param name="path">The path.</param>
-	/// <param name="msPassed">Time passed in ms.</param>
-	/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
+	/// <param name="usPassed">Time passed in microseconds.</param>
+	/// <param name="distPerUs">The maximum distance that the sprite can move per microseconds.</param>
 	/// <param name="spritesToRotate">The indices of the sprites that should be rotated to face their destinations.</param>
 	inline void moveCompoundSpriteAlongPath(CompoundSprite& sprite,
 											WindowCoordinatePathPtr path,
-											sf::Uint64 msPassed,
-											float distPerMs,
+											sf::Int64 usPassed,
+											float distPerUs,
 											const std::set<size_t>& spritesToRotate) {
 
 		// do nothing if there is no path to follow
@@ -194,7 +194,7 @@ namespace GB {
 
 		// discover and move to the next destination
 		const sf::Vector2f destination = path->front();
-		const float maxStepLength = msPassed*distPerMs;
+		const float maxStepLength = usPassed * distPerUs;
 		moveCompoundSpriteStepTowardsPoint(sprite, destination, maxStepLength, spritesToRotate);
 
 		// if the sprite has reached destination, move on to next point in path
