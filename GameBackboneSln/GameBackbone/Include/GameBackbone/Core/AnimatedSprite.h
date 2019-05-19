@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <memory>
 #include <vector>
 
 namespace GB {
@@ -74,4 +75,7 @@ namespace GB {
 
 	};
 
+	/// <summary>unique_ptr to AnimatedSprite</summary>
+	/// 
+	using UPtr = std::unique_ptr<AnimatedSprite>;
 }

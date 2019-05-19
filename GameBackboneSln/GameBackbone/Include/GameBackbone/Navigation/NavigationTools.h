@@ -110,19 +110,20 @@ namespace GB {
 
 	}
 
-
 	/// <summary>
 	/// Moves the CompoundSprite in the direction of the destination.
 	/// The sprite will never overshoot the destination.
 	/// </summary>
-	/// <param name="sprite">The CompoundSprite to move.</param>
-	/// <param name="destination">The destination.</param>
-	/// <param name="maxStepLength">Maximum length that the sprite can move.</param>
-	/// <param name="orientSpriteToDestination">Orients sprites towards their destination if true. Does not orient sprites otherwise.</param>
+	/// <param name="sprite"> The CompoundSprite to move. </param>
+	/// <param name="destination"> The destination. </param>
+	/// <param name="maxStepLength"> Maximum length that the sprite can move. </param>
+	/// <param name="spritesToRotate"> The component Sprites of the compound sprite that should be rotated to face the destination. </param>
+	/// <param name="animatedSpriteToRotate"> The component AnimatedSprites of the compound sprite that should be rotated to face the destination. </param>
 	inline void moveCompoundSpriteStepTowardsPoint(CompoundSprite& sprite,
 												   const sf::Vector2f& destination,
 												   const float maxStepLength,
-												   const std::set<size_t>& spritesToRotate) {
+												   const std::set<size_t>& spritesToRotate,
+												   const std::set<size_t>& animatedSpriteToRotate) {
 
 		// move the sprite. Calculate its distance and angle to its destination.
 		float angleToDestination;
@@ -131,9 +132,13 @@ namespace GB {
 
 		// orient components towards destination
 		if (distanceToDestination != 0) {
-			sprite.setRotationOfComponents(spritesToRotate, angleToDestination * 180.0f / (float)M_PI);
+			for (std::size_t spriteIndex : spritesToRotate) {
+				sprite.GetSpriteComponent(spriteIndex).setRotation(angleToDestination * 180.0f / (float)M_PI);
+			}
+			for (std::size_t animatedSpriteIndex : animatedSpriteToRotate) {
+				sprite.GetAnimatedComponent(animatedSpriteIndex).setRotation(angleToDestination * 180.0f / (float)M_PI);
+			}
 		}
-
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -180,12 +185,14 @@ namespace GB {
 	/// <param name="path">The path.</param>
 	/// <param name="msPassed">Time passed in ms.</param>
 	/// <param name="distPerMs">The maximum distance that the sprite can move per ms.</param>
-	/// <param name="spritesToRotate">The indices of the sprites that should be rotated to face their destinations.</param>
+	/// <param name="spritesToRotate">The indices of the Sprites that should be rotated to face their destinations.</param>
+	/// <param name="animatedSpritesToRotate">The indices of the AnimatedSprites that should be rotated to face their destinations.</param>
 	inline void moveCompoundSpriteAlongPath(CompoundSprite& sprite,
 											WindowCoordinatePathPtr path,
 											sf::Uint64 msPassed,
 											float distPerMs,
-											const std::set<size_t>& spritesToRotate) {
+											const std::set<size_t>& spritesToRotate,
+											const std::set<size_t>& animatedSpritesToRotate) {
 
 		// do nothing if there is no path to follow
 		if (path->empty()) {
@@ -195,13 +202,12 @@ namespace GB {
 		// discover and move to the next destination
 		const sf::Vector2f destination = path->front();
 		const float maxStepLength = msPassed*distPerMs;
-		moveCompoundSpriteStepTowardsPoint(sprite, destination, maxStepLength, spritesToRotate);
+		moveCompoundSpriteStepTowardsPoint(sprite, destination, maxStepLength, spritesToRotate, animatedSpritesToRotate);
 
 		// if the sprite has reached destination, move on to next point in path
 		if (sprite.getPosition() == destination) {
 			path->pop_front();
 		}
-
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

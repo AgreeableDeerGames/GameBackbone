@@ -2,6 +2,11 @@
 
 #include <GameBackbone/Core/CompoundSprite.h>
 
+#include <GameBackbone/Core/AnimatedSprite.h>
+
+#include <SFML/Graphics/Sprite.hpp>
+
+#include <cstddef>
 #include <vector>
 
 namespace GB {
@@ -12,36 +17,26 @@ namespace GB {
 	public:
 
 		//ctr / dtr
-		//shallow copy and move are fine for this class
-		RelativeRotationSprite();
-		explicit RelativeRotationSprite(const std::vector<sf::Sprite*>& components);
-		explicit RelativeRotationSprite(const sf::Vector2f& initialPosition);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const sf::Vector2f& initialPosition);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets, const sf::Vector2f& initialPosition);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const sf::Vector2f& initialPosition);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets);
-		RelativeRotationSprite(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, const sf::Vector2f& initialPosition);
-		RelativeRotationSprite(const RelativeRotationSprite& other) = default;
-		RelativeRotationSprite(RelativeRotationSprite&& other) = default;
-		RelativeRotationSprite& operator= (const RelativeRotationSprite& other) = default;
-		RelativeRotationSprite& operator= (RelativeRotationSprite&& other) = default;
-		virtual ~RelativeRotationSprite();
+		using CompoundSprite::CompoundSprite; // inherit constructors
+		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
+		virtual ~RelativeRotationSprite() = default;
 
 		//add / remove
-		virtual void addComponent(sf::Sprite* component) override;
-		virtual void addComponent(sf::Sprite* component, sf::Vector2f relativeOffset);
-		virtual void addComponent(AnimatedSprite* component) override;
-		virtual void addComponent(AnimatedSprite* component, sf::Vector2f relativeOffset);
+		virtual std::size_t addComponent(sf::Sprite component) override;
+		virtual std::size_t addComponent(sf::Sprite component, sf::Vector2f relativeOffset);
+		virtual std::size_t addComponent(AnimatedSprite component) override;
+		virtual std::size_t addComponent(AnimatedSprite component, sf::Vector2f relativeOffset);
 
 		//operations
 		virtual void scale(float factorX, float factorY) override;
 		virtual void scale(sf::Vector2f newScale) override;
 
 	protected:
-		void initializeComponentVector(const std::vector<sf::Sprite*>& components, const std::vector<sf::Vector2f>& relativeOffsets);
-		void initializeComponentVector(const std::vector<sf::Sprite*>& sprites, const std::vector<AnimatedSprite*>& animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets);
+		void initializeComponentVector(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets);
+		void initializeComponentVector(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, const std::vector<sf::Vector2f>& relativeOffsets);
 
 	private:
 		virtual void setScale(float factorX, float factorY) final;
