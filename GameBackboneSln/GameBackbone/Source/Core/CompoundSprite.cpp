@@ -41,7 +41,8 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f 
 }
 
 /// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed instances of sf::Sprite and AnimatedSprite become components of the CompoundSprite.
+/// Initializes a new instance of the <see cref="CompoundSprite"/> class.
+/// The passed instances of sf::Sprite and AnimatedSprite become components of the CompoundSprite.
 /// The animated sprites will update when the compound sprite updates.
 /// The position of the sprite is (0,0).
 /// </summary>
@@ -51,7 +52,8 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<A
 	CompoundSprite(std::move(components), std::move(animatedComponents), {0,0}) {}
 
 /// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed instance of sf::Sprite and AnimatedSprite as components of the CompoundSprite.
+/// Initializes a new instance of the <see cref="CompoundSprite"/> class.
+/// The passed instance of sf::Sprite and AnimatedSprite as components of the CompoundSprite.
 /// The animated sprites will update when the compound sprite updates.
 /// Initializes the CompoundSprite to the passed position.
 /// </summary>
