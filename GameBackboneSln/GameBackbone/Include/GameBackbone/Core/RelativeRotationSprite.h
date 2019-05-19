@@ -17,6 +17,7 @@ namespace GB {
 	public:
 
 		//ctr / dtr
+		RelativeRotationSprite() = default;
 
 		explicit RelativeRotationSprite(std::vector<sf::Sprite> components);
 
