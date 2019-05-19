@@ -133,10 +133,10 @@ namespace GB {
 		// orient components towards destination
 		if (distanceToDestination != 0) {
 			for (std::size_t spriteIndex : spritesToRotate) {
-				sprite.GetSpriteComponent(spriteIndex).setRotation(angleToDestination * 180.0f / (float)M_PI);
+				sprite.getSpriteComponent(spriteIndex).setRotation(angleToDestination * 180.0f / (float)M_PI);
 			}
 			for (std::size_t animatedSpriteIndex : animatedSpriteToRotate) {
-				sprite.GetAnimatedComponent(animatedSpriteIndex).setRotation(angleToDestination * 180.0f / (float)M_PI);
+				sprite.getAnimatedComponent(animatedSpriteIndex).setRotation(angleToDestination * 180.0f / (float)M_PI);
 			}
 		}
 	}
