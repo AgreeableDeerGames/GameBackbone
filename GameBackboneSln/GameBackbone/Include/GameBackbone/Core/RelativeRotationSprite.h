@@ -17,7 +17,23 @@ namespace GB {
 	public:
 
 		//ctr / dtr
-		using CompoundSprite::CompoundSprite; // inherit constructors
+
+		explicit RelativeRotationSprite(std::vector<sf::Sprite> components);
+
+		RelativeRotationSprite(std::vector<sf::Sprite> components, sf::Vector2f position);
+
+		RelativeRotationSprite(
+			std::vector<sf::Sprite> components,
+			std::vector<AnimatedSprite> animatedComponents
+		);
+
+		RelativeRotationSprite(
+			std::vector<sf::Sprite> components,
+			std::vector<AnimatedSprite> animatedComponents,
+			sf::Vector2f position
+		);
+
+		explicit RelativeRotationSprite(sf::Vector2f initialPosition);
 
 		RelativeRotationSprite(
 			std::vector<sf::Sprite> components,

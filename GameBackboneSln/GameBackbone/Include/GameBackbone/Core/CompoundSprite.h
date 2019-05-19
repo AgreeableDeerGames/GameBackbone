@@ -18,7 +18,6 @@ namespace GB {
 	public:
 
 		//ctr / dtr
-		//shallow copy and move are fine for this class
 		CompoundSprite();
 
 		explicit CompoundSprite(std::vector<sf::Sprite> components);
