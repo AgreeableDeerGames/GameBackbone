@@ -74,8 +74,4 @@ namespace GB {
 		void AnimatedSpriteInit(AnimationSet* animations);
 
 	};
-
-	/// <summary>unique_ptr to AnimatedSprite</summary>
-	/// 
-	using UPtr = std::unique_ptr<AnimatedSprite>;
 }
