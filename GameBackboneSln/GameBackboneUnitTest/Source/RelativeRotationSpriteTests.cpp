@@ -70,6 +70,7 @@ struct ReusableObjects{
 	std::vector<AnimatedSprite> animSpriteVector;
 	const sf::Vector2f rrSpritePos{ 3,3 };
 	std::vector<sf::Vector2f> initialOffsets{ sf::Vector2f(10,0), sf::Vector2f(0,10), sf::Vector2f(10,0), sf::Vector2f(0,10) };
+	std::vector<sf::Vector2f> spriteOffsets{ sf::Vector2f(10,0), sf::Vector2f(0,10) };
 };
 
 BOOST_AUTO_TEST_SUITE(RelativeRotionSprite_CTR)
@@ -137,8 +138,9 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_Position_CTR, Re
 
 	// ensure the position and origin of the components is correct
 	applyPredicateToRRSprites(*rrSprite, [this, rrSprite] (sf::Sprite& component) mutable {
-		BOOST_CHECK(component.getPosition().x == rrSprite->getPosition().x && component.getPosition().y == rrSprite->getPosition().y);
-		BOOST_CHECK((component.getOrigin().x == 10 && component.getOrigin().y == 0) || (component.getOrigin().x == 0 && component.getOrigin().y == 10));
+		BOOST_CHECK(component.getPosition().x == rrSprite->getPosition().x);
+		BOOST_CHECK(component.getPosition().y == rrSprite->getPosition().y);
+		BOOST_CHECK((component.getOrigin().x == 7 && component.getOrigin().y == -3) || (component.getOrigin().x == -3 && component.getOrigin().y == 7));
 	});
 
 	delete rrSprite;
@@ -146,7 +148,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_Position_CTR, Re
 
 BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_CTR, ReusableObjects) {
 
-	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, initialOffsets);
+	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, spriteOffsets);
 
 	// Ensure that the components are not empty
 	BOOST_CHECK(rrSprite->getSpriteComponentCount() == 2);
@@ -166,10 +168,8 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_
 }
 
 BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_Position_CTR, ReusableObjects) {
-	// sprite1->setPosition(rrSpritePos);
-	// sprite2->setPosition(rrSpritePos);
 
-	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, initialOffsets, rrSpritePos);
+	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, spriteOffsets, rrSpritePos);
 
 	// Ensure that the components are not empty
 	BOOST_CHECK(rrSprite->getSpriteComponentCount() == 2);
@@ -226,12 +226,12 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Position_CTR, Reus
 	BOOST_CHECK(rrSprite->getAnimatedComponentCount() == 2 );
 	BOOST_CHECK(rrSprite->isEmpty() == false );
 
-	// Ensure that the position was set to (0, 0)
-	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
+	// Ensure that the position was set to (3, 3)
+	BOOST_CHECK(rrSprite->getPosition().x == 3 && rrSprite->getPosition().y == 3);
 
 	auto predicate = [this, rrSprite] (sf::Sprite& component) mutable {
 		BOOST_CHECK(component.getPosition().x == rrSprite->getPosition().x && component.getPosition().y == rrSprite->getPosition().y);
-		BOOST_CHECK((component.getOrigin().x == 10 && component.getOrigin().y == 0) || (component.getOrigin().x == 0 && component.getOrigin().y == 10));
+		BOOST_CHECK((component.getOrigin().x == 7 && component.getOrigin().y == -3) || (component.getOrigin().x == -3 && component.getOrigin().y == 7));
 	};
 
 	// ensure the position and origin of the components is correct
@@ -285,8 +285,8 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Po
 	BOOST_CHECK(rrSprite->getAnimatedComponentCount() == 2 );
 	BOOST_CHECK(rrSprite->isEmpty() == false );
 
-	// Ensure that the position was set to (0, 0)
-	BOOST_CHECK(rrSprite->getPosition().x == 0 && rrSprite->getPosition().y == 0);
+	// Ensure that the position was set to (3, 3)
+	BOOST_CHECK(rrSprite->getPosition().x == 3 && rrSprite->getPosition().y == 3);
 
 	auto predicate = [this, rrSprite] (sf::Sprite& component) mutable {
 		BOOST_CHECK(component.getPosition().x == rrSprite->getPosition().x && component.getPosition().y == rrSprite->getPosition().y);

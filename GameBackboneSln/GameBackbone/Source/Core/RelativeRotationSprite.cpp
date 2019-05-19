@@ -14,7 +14,7 @@ using namespace GB;
 /// using their current position relative to the RelativeRotationSprite's.
 /// </summary>
 /// <param name="components">The components of the new RelativeRotationSprite.</param>
-RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components) {
+RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components) : RelativeRotationSprite(std::move(components), {0, 0}) {
 }
 
 /// <summary>

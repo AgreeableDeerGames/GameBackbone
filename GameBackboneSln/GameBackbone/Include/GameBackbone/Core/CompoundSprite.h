@@ -53,7 +53,7 @@ namespace GB {
 
 		//add / remove
 		virtual std::size_t addComponent(sf::Sprite component);
-		virtual	std::size_t addComponent(AnimatedSprite component);
+		virtual std::size_t addComponent(AnimatedSprite component);
 		virtual void removeSpriteComponent(std::size_t componentIndex);
 		virtual void removeAnimatedComponent(std::size_t componentIndex);
 		virtual void clearComponents();
