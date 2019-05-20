@@ -6,7 +6,6 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
-#include <memory>
 #include <vector>
 
 namespace GB {
