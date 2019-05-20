@@ -320,11 +320,11 @@ void CompoundSprite::move(sf::Vector2f offset) {
 /// <summary>
 /// Updates each animated sprite in the compound sprite.
 /// </summary>
-/// <param name="currentTime">The current time.</param>
-void CompoundSprite::update(sf::Time currentTime) {
+/// <param name="elapsedTime">The elapsed time.</param>
+void CompoundSprite::update(sf::Int64 elapsedTime) {
 	// Forward the update to each component
 	for (auto& animatedComponent : animatedComponents) {
-		animatedComponent.update(currentTime);
+		animatedComponent.update(elapsedTime);
 	}
 }
 

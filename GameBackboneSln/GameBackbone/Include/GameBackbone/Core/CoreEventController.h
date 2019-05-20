@@ -3,6 +3,7 @@
 #include <GameBackbone/Core/GameRegion.h>
 
 #include <string>
+#include <iostream>
 
 namespace GB {
 
@@ -190,17 +191,17 @@ protected:
 		void preUpdate() {}
 
 		/// <summary>
-		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every updatable object in the active GameRegion.
+		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every Updatable object in the active GameRegion.
 		/// </summary>
 		void coreUpdate() {
-
-			activeRegion->update(updateClock.getElapsedTime());
+			sf::Time elapsedTime = updateClock.restart();
+			
+			activeRegion->update(elapsedTime.asMicroseconds());
 
 			for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
-				updateObject->update(updateClock.getElapsedTime());
+				updateObject->update(elapsedTime.asMicroseconds());
 			}
 		}
-
 
 		/// <summary>
 		/// Executes after coreUpdate. Place logic meant to update after the main update logic here.

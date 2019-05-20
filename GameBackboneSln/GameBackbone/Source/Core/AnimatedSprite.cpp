@@ -48,8 +48,7 @@ void AnimatedSprite::AnimatedSpriteInit(AnimationSet* animations) {
 	this->currentAnimationId = 0;
 	this->currentAnimation = nullptr;
 	this->framesSpentInCurrentAnimation = 0;
-	this->lastUpdate = lastUpdate.Zero;
-	this->animationDelay = 0;
+	this->animationDelay = sf::Time::Zero;
 	this->isReverse = false;
 }
 
@@ -87,10 +86,10 @@ void AnimatedSprite::setAnimations(AnimationSet* animationSet) {
 }
 
 /// <summary>
-///Sets the minimum time (in ms) between two animation frames.
+///Sets the minimum time (as sf::Time) between two animation frames.
 /// </summary>
-/// <param name="delay">Minimum time (in ms) between two animation frames.</param>
-void AnimatedSprite::setAnimationDelay(unsigned int delay) {
+/// <param name="delay">Minimum time (as sf::Time) between two animation frames.</param>
+void AnimatedSprite::setAnimationDelay(sf::Time delay) {
 	animationDelay = delay;
 }
 
@@ -110,17 +109,17 @@ unsigned int AnimatedSprite::getCurrentAnimationId() const {
 }
 
 /// <summary>
-/// returns the minimum time (in ms) between two animation frames.
+/// returns the minimum time (as sf::Time ) between two animation frames.
 /// </summary>
-/// <returns> The minimum time (in ms) between two animation frames.</returns>
-unsigned int AnimatedSprite::getAnimationDelay() const {
+/// <returns> The minimum time (as sf::Time) between two animation frames.</returns>
+sf::Time  AnimatedSprite::getAnimationDelay() const {
 	return animationDelay;
 }
 
 /// <summary>
 /// returns the number of frames that have been displayed since the current animation has started.
 /// </summary>
-/// <returns> The minimum time (in ms) between two animation frames.</returns>
+/// <returns> The minimum time (as sf::Time) between two animation frames.</returns>
 unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() const {
 	return framesSpentInCurrentAnimation;
 }
@@ -170,10 +169,10 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 /// <summary>
 /// Moves the next frame of the active animation if the sprite is animating
 /// </summary>
-/// <param name="currentTime">The current time.</param>
-void AnimatedSprite::update(sf::Time currentTime) {
-
-	if (animating && (currentTime.asMilliseconds() - lastUpdate.asMilliseconds() > (int)animationDelay)) {
+/// <param name="elapsedTime">The elapsed time.</param>
+void AnimatedSprite::update(sf::Int64 elapsedTime) {
+	lastUpdate = lastUpdate + sf::microseconds(elapsedTime);
+	if (animating && (lastUpdate.asMicroseconds() > animationDelay.asMicroseconds())) {
 		switch (animationEnd) {
 		case ANIMATION_END_TYPE::ANIMATION_LOOP:
 			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
@@ -202,6 +201,5 @@ void AnimatedSprite::update(sf::Time currentTime) {
 
 		framesSpentInCurrentAnimation++;
 		setTextureRect(currentAnimation->at(currentFrame));
-		lastUpdate = currentTime;
 	}
 }

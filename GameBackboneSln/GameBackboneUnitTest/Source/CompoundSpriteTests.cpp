@@ -494,7 +494,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
 		compoundSprite->getAnimatedComponent(i).runAnimation(0);
 	}
 
-	compoundSprite->update(sf::milliseconds(2));
+	compoundSprite->update(2);
 
 	for (std::size_t i = 0; i < compoundSprite->getAnimatedComponentCount(); i++) {
 		BOOST_CHECK(compoundSprite->getAnimatedComponent(i).getCurrentFrame() == 1);
