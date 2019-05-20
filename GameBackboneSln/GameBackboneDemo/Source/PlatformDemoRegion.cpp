@@ -70,6 +70,10 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 		float32 angle = objectBody->GetAngle();
 		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
 	}
+
+	// Cascade the update call to GameRegion. This further cascades the update call to all of the GameRegion's updatables.
+	// If no updatable was passed to setUpdatable, this call really only calls the function and then does nothing else.
+	GameRegion::update(elapsedTime);
 }
 
 /// <summary>

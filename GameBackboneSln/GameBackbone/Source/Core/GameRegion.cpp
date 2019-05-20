@@ -46,11 +46,20 @@ GameRegion::~GameRegion() {
 
 //internal behavior alteration
 
+/// <summary>
+/// Cascade the update call down to the rest of the updatables on the GameRegion.
+/// </summary>
+/// <param name="elapsedTime">The elapsed time.</param>
+void GameRegion::update(sf::Int64 elapsedTime){
+	for (Updatable* updateObject : *(updatables)) {
+		updateObject->update(elapsedTime);
+	}
+}
 
 /// <summary>
-/// Registers the callback function for changing the active region .
+/// Registers the callback function for changing the active region.
 /// </summary>
-/// <param name="newSetActiveRegionCB">The new callback for changing the active region..</param>
+/// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
 void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
 	setActiveRegionCB = newSetActiveRegionCB;
 }

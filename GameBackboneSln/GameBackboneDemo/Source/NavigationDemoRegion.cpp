@@ -73,6 +73,10 @@ void NavigationDemoRegion::update(sf::Int64 elapsedTime) {
 	default:
 		break;
 	}
+
+	// Cascade the update call to GameRegion. This further cascades the update call to all of the GameRegion's updatables.
+	// If no updatable was passed to setUpdatable, this call really only calls the function and then does nothing else.
+	GameRegion::update(elapsedTime);
 }
 
 /// <summary>
@@ -332,7 +336,7 @@ void NavigationDemoRegion::initMaze() {
 			// Scale the grid square sprite to be the correct size
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 
-			// Set the origin of the grid square to be the center fo the square
+			// Set the origin of the grid square to be the center of the square
 			// instead of the top left corner.
 			// This just makes it easier to place the squares in the correct place
 			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of square

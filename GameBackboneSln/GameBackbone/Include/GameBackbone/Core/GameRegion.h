@@ -53,7 +53,7 @@ namespace GB {
 		/// <summary>
 		/// Runs the game behaviors and logic for this instance.
 		/// </summary>
-		virtual void update(sf::Int64 elapsedTime) override {}
+		virtual void update(sf::Int64 elapsedTime) override;
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
 

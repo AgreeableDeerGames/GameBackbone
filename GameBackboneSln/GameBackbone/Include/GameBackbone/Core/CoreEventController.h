@@ -195,12 +195,7 @@ protected:
 		/// </summary>
 		void coreUpdate() {
 			sf::Time elapsedTime = updateClock.restart();
-			
 			activeRegion->update(elapsedTime.asMicroseconds());
-
-			for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
-				updateObject->update(elapsedTime.asMicroseconds());
-			}
 		}
 
 		/// <summary>
