@@ -34,14 +34,6 @@ ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window
 }
 
 /// <summary>
-/// Finalizes an instance of the <see cref="ScaleAndRotationDemoRegion"/> class.
-/// </summary>
-ScaleAndRotationDemoRegion::~ScaleAndRotationDemoRegion() {
-	// Free all memory stored on the ScaleAndRotationDemoRegion
-	destroy();
-}
-
-/// <summary>
 /// Handles mouse click logic.
 /// </summary>
 /// <param name="newPosition">The position of the click.</param>
@@ -110,61 +102,73 @@ void ScaleAndRotationDemoRegion::init() {
 	const float compoundSpriteYPosition = 400;
 
 	// Create component sprites for the relative rotation sprite
-	spriteComponent1 = std::make_unique<sf::Sprite>(*arrowTexture);
-	spriteComponent2 = std::make_unique<sf::Sprite>(*arrowTexture);
-	spriteComponent3 = std::make_unique<sf::Sprite>(*arrowTexture);
-	std::vector<sf::Sprite*> spriteVector = { spriteComponent1.get() , spriteComponent2.get(), spriteComponent3.get() };
+	// Create three sprites with an arrow texture
+	std::vector<sf::Sprite> relativeRotationComponents = {
+		sf::Sprite(*arrowTexture),
+		sf::Sprite(*arrowTexture),
+		sf::Sprite(*arrowTexture)
+	};
+	// Give them different colors
+	relativeRotationComponents[0].setColor(sf::Color::Magenta);
+	relativeRotationComponents[1].setColor(sf::Color::White);
+	relativeRotationComponents[2].setColor(sf::Color::Green);
 
 	// Create the component sprites for the compound sprite with overlapping sprites
-	sf::Sprite* rotationArrowCenterSprite = new sf::Sprite(*rotationArrowCenterTexture);
-	sf::Sprite* rotationArrowLeftSprite = new sf::Sprite(*rotationArrowLeftTexture);
-	sf::Sprite* rotationArrowLowSprite = new sf::Sprite(*rotationArrowLowTexture);
-	rotationArrowCenterSprite->setColor(sf::Color::Magenta);
-	rotationArrowLeftSprite->setColor(sf::Color::White);
-	rotationArrowLowSprite->setColor(sf::Color::Green);
-	textureOffsetSprites = {rotationArrowCenterSprite, rotationArrowLeftSprite, rotationArrowLowSprite};
+	std::vector<sf::Sprite> textureOffsetSprites = {
+		sf::Sprite(*rotationArrowCenterTexture),
+		sf::Sprite(*rotationArrowLeftTexture),
+		sf::Sprite(*rotationArrowLowTexture)
+	};
+	// Give them different colors
+	textureOffsetSprites[0].setColor(sf::Color::Magenta);
+	textureOffsetSprites[1].setColor(sf::Color::White);
+	textureOffsetSprites[2].setColor(sf::Color::Green);
 
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
 			// Set the positions of the components
-			spriteComponent1->setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
-			spriteComponent2->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
-			spriteComponent3->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
+			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
+			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
+			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
 
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(spriteVector, sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
+			displaySprite = std::make_unique<GB::RelativeRotationSprite>(std::move(relativeRotationComponents), sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
 			// Set the positions of the components
-			spriteComponent1->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			spriteComponent2->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			spriteComponent3->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
+			relativeRotationComponents[0].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
+			relativeRotationComponents[1].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
+			relativeRotationComponents[2].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 
 			// Create the compound sprite then add all of the components with a relative offset
 			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent1.get(), { 80, 0 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent2.get(), { 0, 80 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(spriteComponent3.get(), { 0, 0 });
+			// Cast the sprite to RelativeRotationSprite here so that we can access its special addComponent member function
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[0]), { 80, 0 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[1]), { 0, 80 });
+			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[2]), { 0, 0 });
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
 			// Set the positions of the components
-			spriteComponent1->setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
-			spriteComponent2->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
-			spriteComponent3->setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
+			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
+			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
+			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
 
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
 			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			displaySprite->addComponent(spriteComponent1.get());
-			displaySprite->addComponent(spriteComponent2.get());
-			displaySprite->addComponent(spriteComponent3.get());
+			displaySprite->addComponent(std::move(relativeRotationComponents[0]));
+			displaySprite->addComponent(std::move(relativeRotationComponents[1]));
+			displaySprite->addComponent(std::move(relativeRotationComponents[2]));
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
-			displaySprite = std::make_unique<GB::CompoundSprite>(textureOffsetSprites);
+			// Create a CompoundSprite That overlays its component sprite on top of each other.
+			// This allows them to rotate in sync.
+			// The differences in the textures creates the appearance that the components are in different places.
+			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(textureOffsetSprites));
 			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			break;
 		}
@@ -173,10 +177,7 @@ void ScaleAndRotationDemoRegion::init() {
 		}
 	}
 
-	// Assign colors and draw
-	spriteComponent1->setColor(sf::Color::Magenta);
-	spriteComponent2->setColor(sf::Color::White);
-	spriteComponent3->setColor(sf::Color::Green);
+	// Set displaySprite to be drawn
 	setDrawAndUpdateable(true, displaySprite.get());
 }
 
@@ -247,23 +248,10 @@ void ScaleAndRotationDemoRegion::initGUI() {
 }
 
 /// <summary>
-/// Frees all dynamically allocated memory in this instance
-/// </summary>
-void ScaleAndRotationDemoRegion::destroy() {
-	// Delete sprites stored on the ScaleAndRotationDemoRegion and set them to nullptr
-	for (sf::Sprite* sprite : textureOffsetSprites) {
-		delete sprite;
-		sprite = nullptr;
-	}
-}
-
-/// <summary>
 /// Resets this instance.
 /// frees and / or reinitializes all members of this instance that impact the demo.
 /// </summary>
 void ScaleAndRotationDemoRegion::reset() {
-	// Free all dynamic memory
-	destroy();
 
 	// Reset all non-dynamic members
 	clearDrawable();

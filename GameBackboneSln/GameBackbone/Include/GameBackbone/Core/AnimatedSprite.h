@@ -74,5 +74,4 @@ namespace GB {
 		void AnimatedSpriteInit(AnimationSet* animations);
 
 	};
-
 }
