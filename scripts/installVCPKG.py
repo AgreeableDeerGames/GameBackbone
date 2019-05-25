@@ -69,7 +69,7 @@ def main(path, download, no_bootstrap):
 
 
 
-    packages = ["boost", "sfml", "tgui", "box2d"]
+    packages = ["boost-test", "sfml", "tgui", "box2d"]
 
     # Run .bat file
     # windows
