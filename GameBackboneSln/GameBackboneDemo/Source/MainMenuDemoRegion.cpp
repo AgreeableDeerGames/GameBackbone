@@ -5,13 +5,11 @@
 #include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
 using namespace EXE;
-
+/// <summary>
+/// Create and associate child regions.
+/// </summary>
+/// <param name="window"> </param>
 void MainMenuDemoRegion::init(sf::RenderWindow & window) {
-	// Create and link child regions
-
-	// Initialize the GUI
-	initGUI();
-
 	// Create a new NavigationDemoRegion
 	DemoRegion::Ptr navigationDemoRegion = std::make_shared<NavigationDemoRegion>(window);
 	// Make navigationDemoRegion a child of this MainMenuDemoRegion
@@ -54,6 +52,9 @@ void MainMenuDemoRegion::init(sf::RenderWindow & window) {
 /// <param name="window">The window.</param>
 MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(window)
 {
+	// Initialize the GUI
+	initGUI();
+	// Initialize children and selectables
 	init(window);
 }
 
