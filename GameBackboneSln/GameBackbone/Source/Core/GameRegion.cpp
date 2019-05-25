@@ -18,9 +18,9 @@ GameRegion::GameRegion(sf::RenderWindow & window) : regionGUI(window) {
 }
 
 /// <summary>
-/// Registers the callback function for changing the active region .
+/// Registers the callback function for changing the active region.
 /// </summary>
-/// <param name="newSetActiveRegionCB">The new callback for changing the active region..</param>
+/// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
 void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
 	setActiveRegionCB = newSetActiveRegionCB;
 }
