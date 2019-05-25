@@ -23,17 +23,12 @@ namespace GB {
 		/// <summary>shared_ptr to GameRegion</summary>
 		using Ptr = std::shared_ptr<GameRegion>;
 		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GameRegion"/> class. All members are initialized empty.
-		/// </summary>
 		GameRegion() = default;
-
-
 		explicit GameRegion(sf::RenderWindow & window);
-
-		/// <summary>
-		/// Finalizes an instance of the <see cref="GameRegion"/> class.
-		/// </summary>
+		GameRegion(const GameRegion&) = default;
+		GameRegion& operator=(const GameRegion&) = default;
+		GameRegion(GameRegion&&) = default;
+		GameRegion& operator=(GameRegion&&) = default;
 		virtual ~GameRegion() = default;
 
 		//getters / setters
@@ -60,14 +55,5 @@ namespace GB {
 
 		//GUI
 		tgui::Gui regionGUI;
-
-	private:
-		//deleted copy and assignment ctr
-		GameRegion(const GameRegion&) = delete;
-		GameRegion& operator=(const GameRegion&) = delete;
-		GameRegion(GameRegion&&) = delete;
-		GameRegion& operator=(GameRegion&&) = delete;
-
 	};
-
 }

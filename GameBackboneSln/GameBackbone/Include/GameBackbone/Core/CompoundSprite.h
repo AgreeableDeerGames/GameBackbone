@@ -16,7 +16,6 @@ namespace GB {
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable {
 	public:
-
 		//ctr / dtr
 		CompoundSprite();
 		explicit CompoundSprite(std::vector<sf::Sprite> components);
@@ -24,6 +23,10 @@ namespace GB {
 		CompoundSprite(std::vector<sf::Sprite> drawableComponents, std::vector<AnimatedSprite> animatedComponents);
 		CompoundSprite(std::vector<sf::Sprite> drawableComponents, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position);
 		explicit CompoundSprite(sf::Vector2f initialPosition);
+		CompoundSprite(const CompoundSprite&) = default;
+		CompoundSprite& operator=(const CompoundSprite&) = default;
+		CompoundSprite(CompoundSprite&&) noexcept = default;
+		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
 		virtual ~CompoundSprite() = default;
 
 		//getters

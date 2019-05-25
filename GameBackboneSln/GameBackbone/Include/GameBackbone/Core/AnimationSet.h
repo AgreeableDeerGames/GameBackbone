@@ -43,8 +43,8 @@ namespace GB {
                      sf::Vector2u animationFrameDimensions);
         AnimationSet() = delete;
         AnimationSet(const AnimationSet& other) = default;
+		AnimationSet& operator=(const AnimationSet& other) = default;
         AnimationSet(AnimationSet&& other) noexcept = default;
-        AnimationSet& operator=(const AnimationSet& other) = default;
         AnimationSet& operator=(AnimationSet&& other) noexcept = default;
         virtual ~AnimationSet() = default;
 

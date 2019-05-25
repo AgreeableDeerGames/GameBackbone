@@ -29,6 +29,10 @@ namespace GB {
 			const std::vector<sf::Vector2f>& relativeOffsets);
 		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites, 
 			const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
+		RelativeRotationSprite(const RelativeRotationSprite&) = default;
+		RelativeRotationSprite& operator=(const RelativeRotationSprite&) = default;
+		RelativeRotationSprite(RelativeRotationSprite&&) noexcept = default;
+		RelativeRotationSprite& operator=(RelativeRotationSprite&&) noexcept = default;
 		virtual ~RelativeRotationSprite() = default;
 
 		//add / remove

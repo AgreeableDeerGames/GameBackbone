@@ -62,9 +62,9 @@ namespace GB {
 		}
 
 		CoreEventController(const CoreEventController& other) = delete;
-		CoreEventController(CoreEventController&& other) = default;
 		CoreEventController& operator=(const CoreEventController& other) = delete;
-		CoreEventController& operator=(CoreEventController&& other) = default;
+		CoreEventController(CoreEventController&& other) noexcept = default;
+		CoreEventController& operator=(CoreEventController&& other) noexcept = default;
 
 		//operations
 		void runLoop() {
