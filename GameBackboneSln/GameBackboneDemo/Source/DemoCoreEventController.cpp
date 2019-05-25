@@ -101,5 +101,5 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 }
 
 void DemoCoreEventController::postHandleEvent(sf::Event& event) {
-	activeRegion->getGUI()->unfocusAllWidgets();
+	activeRegion->getGUI().unfocusAllWidgets();
 }
