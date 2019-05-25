@@ -33,9 +33,9 @@ namespace GB {
 		explicit AnimatedSprite(const sf::Texture &texture);
 		AnimatedSprite(const sf::Texture &texture, AnimationSet* animations);
 		AnimatedSprite(const AnimatedSprite& other) = default;
-		AnimatedSprite(AnimatedSprite&& other) = default;
 		AnimatedSprite& operator= (const AnimatedSprite& other) = default;
-		AnimatedSprite& operator= (AnimatedSprite&& other) = default;
+		AnimatedSprite(AnimatedSprite&& other) noexcept = default;
+		AnimatedSprite& operator= (AnimatedSprite&& other) noexcept = default;
 		virtual ~AnimatedSprite();
 
 

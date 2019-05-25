@@ -22,7 +22,10 @@ namespace GB {
 		//ctr / dtr
 		GameRegion();
 		explicit GameRegion(sf::RenderWindow & window);
-
+		GameRegion(const GameRegion&) = default;
+		GameRegion& operator=(const GameRegion&) = default;
+		GameRegion(GameRegion&&) noexcept = default;
+		GameRegion& operator=(GameRegion&&) noexcept = default;
 		virtual ~GameRegion();
 
 		//getters / setters
@@ -92,11 +95,6 @@ namespace GB {
 		tgui::Gui* regionGUI;
 
 	private:
-		//deleted copy and assignment ctr
-		GameRegion(const GameRegion&) = delete;
-		GameRegion& operator=(const GameRegion&) = delete;
-		GameRegion(GameRegion&&) = delete;
-		GameRegion& operator=(GameRegion&&) = delete;
 
 	};
 
