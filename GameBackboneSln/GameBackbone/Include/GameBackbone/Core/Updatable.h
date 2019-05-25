@@ -16,6 +16,8 @@ namespace GB {
 		virtual ~Updatable() {
 		}
 
+		/// <summary>Updates the instance.</summary>
+		/// <param name="elapsedTime"> </param>
 		virtual void update(sf::Int64 elapsedTime) = 0;
 	};
 

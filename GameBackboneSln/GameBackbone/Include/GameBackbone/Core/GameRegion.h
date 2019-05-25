@@ -12,6 +12,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <functional>
+#include <memory>
 #include <vector>
 
 namespace GB {
@@ -19,77 +20,46 @@ namespace GB {
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	class libGameBackbone GameRegion : public sf::Drawable, public Updatable {
 	public:
-		//ctr / dtr
-		GameRegion();
+		/// <summary>shared_ptr to GameRegion</summary>
+		using Ptr = std::shared_ptr<GameRegion>;
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GameRegion"/> class. All members are initialized empty.
+		/// </summary>
+		GameRegion() = default;
+
+
 		explicit GameRegion(sf::RenderWindow & window);
 
-		virtual ~GameRegion();
+		/// <summary>
+		/// Finalizes an instance of the <see cref="GameRegion"/> class.
+		/// </summary>
+		virtual ~GameRegion() = default;
 
 		//getters / setters
-		//setters
-		void setUpdatable(bool status, Updatable* object);
 		void setDrawable(bool status, sf::Drawable* object);
-		void setDrawAndUpdateable(bool status, AnimatedSprite* object);
-		void setDrawAndUpdateable(bool status, CompoundSprite* object);
-		void setParentRegion(GameRegion* newParent);
-
-		//getters
-		const std::vector<Updatable*>* const getUpdatables();
-		const std::vector<sf::Drawable*>* const getDrawables();
-		const std::vector<GameRegion*>* getNeighborRegions();
-		const std::vector<GameRegion*>* getChildRegions();
-
-		GameRegion* getParentRegion();
-		tgui::Gui* getGUI();
-
-
-		//internal behavior alteration
-
-		/// <summary>
-		/// Resets this instance.
-		/// </summary>
-		virtual void reset() {}
-
-		/// <summary>
-		/// Runs the game behaviors and logic for this instance.
-		/// </summary>
-		virtual void update(sf::Int64 elapsedTime) override {}
+		const std::vector<sf::Drawable*>& getDrawables() const;
+		tgui::Gui& getGUI();
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
-
-		//general operations
-
-		//additions
-		void addChildRegion(GameRegion* childToAdd);
-		void addNeighborRegion(GameRegion* neighborToAdd);
-		//removals
-		void removeNeighborRegion(GameRegion* neighborToRemove);
-		void removeChildRegion(GameRegion* childToRemove);
-		//clears
-		void clearUpdatable();
-		void clearChildren();
 		void clearDrawable();
-		void clearNeighborRegions();
+
+		/// <summary>
+		/// Implements Updatable::update as a no-op.
+		/// </summary>
+		/// <param name="elapsedTime"> </param>
+		virtual void update(sf::Int64 elapsedTime) override {}
 
 	protected:
-
-		//operations
-		void clearAssociations(std::function<void(GameRegion*)> dissociationFunction, std::vector<GameRegion*>* container);
-
+		// Drawing
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
-		//internal logic members
-		std::vector<sf::Drawable*>* drawables;
-		std::vector<Updatable*>* updatables;
+		std::vector<sf::Drawable*> drawables;
 
 		//associated regions
-		GameRegion* parentRegion;
-		std::vector<GameRegion*> childRegions;
-		std::vector<GameRegion*> neighborRegions;
 		std::function<void(GameRegion*)> setActiveRegionCB;
 
 		//GUI
-		tgui::Gui* regionGUI;
+		tgui::Gui regionGUI;
 
 	private:
 		//deleted copy and assignment ctr

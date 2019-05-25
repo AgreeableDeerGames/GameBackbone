@@ -4,10 +4,17 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+#include <vector>
+
 namespace EXE {
 
 	class DemoRegion : public GB::GameRegion {
 	public:
+
+		/// <summary>A shared_ptr to DemoRegion</summary>
+		using Ptr = std::shared_ptr<DemoRegion>;
+
 		// Constructors
 		DemoRegion(sf::RenderWindow & window);
 		virtual ~DemoRegion() = default;
@@ -25,13 +32,20 @@ namespace EXE {
 		virtual void handleKeyPress(sf::Event::KeyEvent key);
 		virtual void handleKeyRelease(sf::Event::KeyEvent key);
 
+		// Relations
+		void setChild(DemoRegion::Ptr child);
+
 	protected:
 		// Initialization and Cleanup
 		void initGui();
-		void resetRegion();
+		virtual void reset();
 
 		// Handle TGUI Callbacks
 		virtual void returnToMenuCB();
+
+		// region relations
+		DemoRegion* parent;
+		std::vector<DemoRegion::Ptr> children;
 
 		// GUI Members
 		tgui::Button::Ptr returnToMenuButton;

@@ -116,7 +116,7 @@ protected:
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
 		bool handleGuiEvent(sf::Event& event) {
-			return activeRegion->getGUI()->handleEvent(event);
+			return activeRegion->getGUI().handleEvent(event);
 		}
 
 		/// <summary>
@@ -166,7 +166,7 @@ protected:
 			// Draw the activeRegion so it can draw its drawables.
 			window->draw(*activeRegion);
 
-			activeRegion->getGUI()->draw();
+			activeRegion->getGUI().draw();
 		}
 
 		/// <summary>
@@ -195,12 +195,7 @@ protected:
 		/// </summary>
 		void coreUpdate() {
 			sf::Time elapsedTime = updateClock.restart();
-			
 			activeRegion->update(elapsedTime.asMicroseconds());
-
-			for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
-				updateObject->update(elapsedTime.asMicroseconds());
-			}
 		}
 
 		/// <summary>

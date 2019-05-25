@@ -17,9 +17,12 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 	this->window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	// Initialize the MainMenuDemoRegion
-	mainMenuDemoRegion = std::make_unique<MainMenuDemoRegion>(*window);
+	mainMenuDemoRegion = std::make_shared<MainMenuDemoRegion>(*window);
 	// Register setActiveRegion with mainMenuDemoRegion so that it can swap regions when needed
-	mainMenuDemoRegion->registerSetActiveRegionCB(std::bind(&DemoCoreEventController::setActiveRegion, this, std::placeholders::_1));
+	// Pass a lambda 
+	mainMenuDemoRegion->registerSetActiveRegionCB([this](GB::GameRegion* activeRegion){
+		setActiveRegion(activeRegion);
+	});
 	// Set mainMenuDemoRegion as the activeRegion on DemoCoreEventController
 	activeRegion = mainMenuDemoRegion.get();
 
@@ -86,7 +89,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 		// Set the view on the window to be the reset camera
 		window->setView(camera);
 		// Set the view on the GUI to be the reset camera
-		activeRegion->getGUI()->setView(camera);
+		activeRegion->getGUI().setView(camera);
 		return true;
 	}
 	default:

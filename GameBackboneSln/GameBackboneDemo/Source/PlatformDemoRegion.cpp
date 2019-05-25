@@ -320,8 +320,8 @@ void PlatformDemoRegion::initGUI() {
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
+	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
 
 	// Create the background image
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
@@ -329,7 +329,7 @@ void PlatformDemoRegion::initGUI() {
 	// Place the image at the bottom 1/10th of the screen
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI->add(picture);
+	regionGUI.add(picture);
 }
 
 /// <summary>
@@ -343,7 +343,6 @@ void PlatformDemoRegion::destroy() {
 
 	// Clear all of GameRegion's references to drawables or updatables
 	clearDrawable();
-	clearUpdatable();
 
 	// Destroy the world and all of its memory
 	platformWorld.reset();

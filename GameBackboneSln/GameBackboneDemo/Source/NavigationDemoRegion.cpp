@@ -209,8 +209,8 @@ void NavigationDemoRegion::init() {
 void NavigationDemoRegion::initGUI() {
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the GUI changes
-	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
+	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
 
 	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
@@ -218,7 +218,7 @@ void NavigationDemoRegion::initGUI() {
 	// Make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI->add(picture);
+	regionGUI.add(picture);
 
 	// Temporarily track all of the buttons for controlling navigation
 	std::vector<tgui::Button::Ptr> navigationButtons;
@@ -264,7 +264,7 @@ void NavigationDemoRegion::initGUI() {
 		// They will be evenly spaced out and be in the bottom 1/10th of the window
 		currentButton->setPosition((2 * i + 1) * buttonWidth, windowHeight * 9.25 / 10.0f);
 		// Add the button to the GUI
-		regionGUI->add(currentButton);
+		regionGUI.add(currentButton);
 	}
 }
 
@@ -396,7 +396,6 @@ void NavigationDemoRegion::destroy() {
 	navigators.clear();
 
 	clearDrawable();
-	clearUpdatable();
 
 	//Delete textures and prepare them for future calls to init
 	navigatorTexture.reset();

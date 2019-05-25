@@ -23,6 +23,6 @@ namespace EXE {
 	private:
 		sf::View camera;
 
-		std::unique_ptr<MainMenuDemoRegion> mainMenuDemoRegion;
+		std::shared_ptr<MainMenuDemoRegion> mainMenuDemoRegion;
 	};
 }
