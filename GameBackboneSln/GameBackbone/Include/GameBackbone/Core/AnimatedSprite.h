@@ -67,7 +67,7 @@ namespace GB {
 		sf::Time animationDelay;
 		sf::Time lastUpdate;
 		
-		std::vector<sf::IntRect>* currentAnimation;
+		Animation* currentAnimation;
 		unsigned int currentFrame;
 		unsigned int framesSpentInCurrentAnimation;
 

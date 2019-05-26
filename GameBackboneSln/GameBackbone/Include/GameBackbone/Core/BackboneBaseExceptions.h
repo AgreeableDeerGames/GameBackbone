@@ -63,19 +63,6 @@ namespace GB {
 		};
 
 		/// <summary>
-		/// Exception thrown when a GameRegion attempts to disassociate a
-		/// non-associated GameRegion.
-		/// </summary>
-		/// <seealso cref="std::exception" />
-		class GameRegion_BadDissociation : public std::exception
-		{
-		public:
-			virtual const char* what() const noexcept override {
-				return "Attempting to remove a non-associated object is not allowed";
-			}
-		};
-
-		/// <summary>
 		/// Exception thrown when Component an illegal or unexpected nullptr is found.
 		/// </summary>
 		/// <seealso cref="std::exception" />
