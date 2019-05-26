@@ -24,7 +24,6 @@ add_library(GameBackbone SHARED
 
   # util
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Array2D.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Array3D.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Cluster.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/ClusterGreenhouse.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/DebugIncludes.h"
