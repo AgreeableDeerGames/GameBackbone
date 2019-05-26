@@ -203,7 +203,7 @@ public:
 	std::vector<TestGameRegion::Ptr> children;
 
 private:
-	GB::GameRegion* parent;
+	GB::GameRegion* parent = nullptr;
 };
 
 
@@ -279,12 +279,13 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	TestGameRegion testRegion(true);
 
 	//register testRegion's callback to testController
-	//this would normally be done from within testController with the "&testController" being replaced with "this"
-	testRegion.registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
-
-	for (auto child : testRegion.children)
+	auto setActiveRegionLambda = [&testController](GB::GameRegion* region) {
+		testController.setActiveRegion(region);
+	};
+	testRegion.registerSetActiveRegionCB(setActiveRegionLambda);
+	for (auto& child : testRegion.children)
 	{
-		child->registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
+		child->registerSetActiveRegionCB(setActiveRegionLambda);
 	}
 
 	//setup the first active region
