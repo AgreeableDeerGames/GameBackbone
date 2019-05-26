@@ -27,7 +27,7 @@ void DemoRegion::handleKeyRelease(sf::Event::KeyEvent key){}
 /// Sets this as the parent of the child.
 /// </summary>
 /// <param name="child"> </param>
-void DemoRegion::setChild(DemoRegion::Ptr child) {
+void DemoRegion::addChild(DemoRegion::Ptr child) {
 	child->parent = this;
 	children.emplace_back(std::move(child));
 }

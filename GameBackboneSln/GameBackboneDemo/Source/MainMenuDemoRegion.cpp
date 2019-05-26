@@ -13,7 +13,7 @@ void MainMenuDemoRegion::init(sf::RenderWindow & window) {
 	// Create a new NavigationDemoRegion
 	DemoRegion::Ptr navigationDemoRegion = std::make_shared<NavigationDemoRegion>(window);
 	// Make navigationDemoRegion a child of this MainMenuDemoRegion
-	setChild(navigationDemoRegion);
+	addChild(navigationDemoRegion);
 	// Store NavigationDemoRegion as a selectableRegion
 	selectableRegions.push_back(navigationDemoRegion);
 
@@ -21,13 +21,13 @@ void MainMenuDemoRegion::init(sf::RenderWindow & window) {
 	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 		// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
 		DemoRegion::Ptr platformDemoRegion =  std::make_shared<PlatformDemoRegion>(window);
-		setChild(platformDemoRegion);
+		addChild(platformDemoRegion);
 		selectableRegions.push_back(platformDemoRegion);
 	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 
 	// Create and link a ScaleAndRotationDemoRegion to this MainMenuDemoRegion
 	DemoRegion::Ptr scaleAndRotationDemoRegion = std::make_shared<ScaleAndRotationDemoRegion>(window);
-	setChild(scaleAndRotationDemoRegion);
+	addChild(scaleAndRotationDemoRegion);
 	selectableRegions.push_back(scaleAndRotationDemoRegion);
 
 	// Create and link two RegionChangeDemoRegions to this MainMenuDemoRegion
@@ -37,8 +37,8 @@ void MainMenuDemoRegion::init(sf::RenderWindow & window) {
 	// This allows them to access each other even though there is no parent/child relation between them.
 	regionChangeRegion1->setNeighbor(regionChangeRegion2);
 	regionChangeRegion2->setNeighbor(regionChangeRegion1);
-	setChild(regionChangeRegion1);
-	setChild(regionChangeRegion2);
+	addChild(regionChangeRegion1);
+	addChild(regionChangeRegion2);
 	// Only make one of the RegionChangeDemoRegions a selectableRegion
 	// The other one will be accessible through this one
 	selectableRegions.push_back(regionChangeRegion1);

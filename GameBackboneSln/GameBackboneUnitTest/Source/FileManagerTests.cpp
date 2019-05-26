@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(FileManager_fileVerification_null) {
 
 	std::string filePath = TestFileLocation + "null.txt";
 	std::size_t testFileSize = 3;
-	std::size_t testFileHash = 15658191375538532279;
+	std::size_t testFileHash = 15658191375538532279ULL;
 
 	std::size_t outputSize = testManager.getFileSize(filePath);
 	BOOST_CHECK(outputSize == testFileSize);

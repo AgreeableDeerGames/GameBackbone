@@ -33,7 +33,7 @@ namespace EXE {
 		virtual void handleKeyRelease(sf::Event::KeyEvent key);
 
 		// Relations
-		void setChild(DemoRegion::Ptr child);
+		void addChild(DemoRegion::Ptr child);
 
 	protected:
 		// Initialization and Cleanup
