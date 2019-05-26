@@ -33,8 +33,6 @@ if(Boost_FOUND)
 	target_link_libraries(GameBackboneUnitTest PRIVATE ${Boost_LIBRARIES})
 endif()
 
-message("I'm here")
-
 # declares a test with all boost tests
 add_test(NAME AnimatedSpriteTests COMMAND GameBackboneUnitTest --run_test=AnimatedSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME AnimationSetTests COMMAND GameBackboneUnitTest --run_test=AnimationSet_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
