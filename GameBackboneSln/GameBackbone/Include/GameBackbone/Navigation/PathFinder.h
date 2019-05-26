@@ -42,9 +42,9 @@ namespace GB {
 	private:
 
 		//helper functions
-		Point2D<int> chooseNextGridSquare(const PathRequest& pathRequest, const std::set<Point2D<int>>* const availableGridSquares, std::map<Point2D<int>, int>* score) const;
+		Point2D<int> chooseNextGridSquare(const PathRequest& pathRequest, const std::set<Point2D<int>>& availableGridSquares, std::map<Point2D<int>, int>& score) const;
 		std::vector<Point2D<int>> getNeighbors(const Point2D<int>& gridCoordinate) const;
-		std::deque<Point2D<int>> reconstructPath(const Point2D<int>& endPoint, std::map<Point2D<int>, Point2D<int>> const * const cameFrom) const;
+		std::deque<Point2D<int>> reconstructPath(const Point2D<int>& endPoint, const std::map<Point2D<int>, Point2D<int>>& cameFrom) const;
 
 		//data
 		NavigationGrid* navigationGrid;

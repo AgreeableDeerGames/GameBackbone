@@ -66,24 +66,24 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 		Point2D<int> endPoint = pathRequest.end;
 
 		// the set of nodes already evaluated
-		std::set<Point2D<int>>* closedSet = new std::set<Point2D<int>>();
+		std::set<Point2D<int>> closedSet;
 
 		//the set of currently discovered nodes that are already evaluated.
-		std::set<Point2D<int>>* openSet = new std::set<Point2D<int>>();
-		openSet->insert(startPoint);
+		std::set<Point2D<int>> openSet;
+		openSet.insert(startPoint);
 
 		//cost to move to a point from the start
-		std::map<Point2D<int>, int>* score = new std::map<Point2D<int>, int>();
-		score->insert(GridValuePair(startPoint, 0));
+		std::map<Point2D<int>, int> score;
+		score.insert(GridValuePair(startPoint, 0));
 
 		// For each node, which node it can most efficiently be reached from.
 		// If a node can be reached from many nodes, cameFrom will eventually contain the
 		// most efficient previous step.
-		std::map<Point2D<int>, Point2D<int>>* cameFrom = new std::map<Point2D<int>, Point2D<int>>();
+		std::map<Point2D<int>, Point2D<int>> cameFrom;
 
 		//search for path
 		(*returnedPaths)[i] = std::deque<Point2D<int>>(); //initialize path as empty
-		while (!openSet->empty()) {
+		while (!openSet.empty()) {
 			//check current grid square
 			Point2D<int> current = chooseNextGridSquare(pathRequest, openSet, score);
 			if (current == endPoint) {
@@ -93,46 +93,40 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 				(*returnedPaths)[i] = inOrderPath;
 				break;
 			}
-			openSet->erase(openSet->find(current));
-			closedSet->insert(current);
+			openSet.erase(openSet.find(current));
+			closedSet.insert(current);
 
 			//find neighbors
 			std::vector<Point2D<int>> neighbors = getNeighbors(current);
 
 			for (Point2D<int> neighbor : neighbors) {
-				if (closedSet->find(neighbor) != closedSet->end()) {
+				if (closedSet.find(neighbor) != closedSet.end()) {
 					continue;// no need to evaluate already evaluated nodes
 				}
 				//cost of reaching neighbor using current path
 				int transitionCost = (navigationGrid->at(current.x, current.y)->weight + navigationGrid->at(neighbor.x, neighbor.y)->weight) / 2;
-				int tentativeScore = score->at(current) + transitionCost;
+				int tentativeScore = score.at(current) + transitionCost;
 
 				//discover new node
-				if (openSet->find(neighbor) == openSet->end()) {
+				if (openSet.find(neighbor) == openSet.end()) {
 					//add blocked to closed set and unblocked to open set
 					if (navigationGrid->at(neighbor.x, neighbor.y)->weight >= BLOCKED_GRID_WEIGHT) {
-						closedSet->insert(neighbor);
+						closedSet.insert(neighbor);
 						continue;
 					}
 					else {
-						openSet->insert(neighbor);
+						openSet.insert(neighbor);
 					}
 				}
-				else if (tentativeScore >= score->at(neighbor)) {
+				else if (tentativeScore >= score.at(neighbor)) {
 					continue; // found a worse path
 				}
 
 				//update or insert values for node
-				cameFrom->insert_or_assign(neighbor, current);
-				score->insert_or_assign(neighbor, tentativeScore);
+				cameFrom.insert_or_assign(neighbor, current);
+				score.insert_or_assign(neighbor, tentativeScore);
 			}
 		}
-
-		//free memory
-		delete closedSet;
-		delete openSet;
-		delete cameFrom;
-		delete score;
 	}
 }
 
@@ -145,14 +139,14 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 /// <param name="pathRequest">The path request.</param>
 /// <param name="gridSquares">The available gridSquares.</param>
 /// <returns>coordinates of the best available grid square for the passed pathRequest.</returns>
-Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>* const availableGridSquares, std::map<Point2D<int>, int>* score) const {
+Point2D<int> Pathfinder::chooseNextGridSquare(const PathRequest & pathRequest, const std::set<Point2D<int>>& availableGridSquares, std::map<Point2D<int>, int>& score) const {
 
 	unsigned int shortestDistance = UINT_MAX;
 	Point2D<int> bestGridSquare = {-1, -1};
 
-	for (const Point2D<int> gridSquare : *availableGridSquares) {
+	for (const Point2D<int>& gridSquare : availableGridSquares) {
 		unsigned int gridSquareDistance = GB::calcSquaredDistance2D<int>(gridSquare, pathRequest.end);
-		gridSquareDistance *= score->at(gridSquare);
+		gridSquareDistance *= score.at(gridSquare);
 		if (gridSquareDistance < shortestDistance) {
 			shortestDistance = gridSquareDistance;
 			bestGridSquare = gridSquare;
@@ -204,16 +198,16 @@ std::vector<Point2D<int>> Pathfinder::getNeighbors(const Point2D<int> & gridSqua
 /// <param name="cameFrom">A map containing each grid square's predecessor from.</param>
 /// <returns>A vector of grid square indexes representing an in-order path to the passed endPoint.</returns>
 
-std::deque<Point2D<int>> Pathfinder::reconstructPath(const Point2D<int> & endPoint, std::map<Point2D<int>, Point2D<int>> const * const cameFrom) const {
+std::deque<Point2D<int>> Pathfinder::reconstructPath(const Point2D<int> & endPoint, const std::map<Point2D<int>, Point2D<int>>& cameFrom) const {
 	
 	std::deque<Point2D<int>> inOrderPath;
 
 	//add grid squares until the beginning (grid square that did not come from anywhere) is found
 	// do not add first grid square. the path-finding object is already there.
-	auto foundSquare = cameFrom->find(endPoint);
-	while (foundSquare != cameFrom->end()) {
+	auto foundSquare = cameFrom.find(endPoint);
+	while (foundSquare != cameFrom.end()) {
 		inOrderPath.push_front(foundSquare->first);
-		foundSquare = cameFrom->find(foundSquare->second);
+		foundSquare = cameFrom.find(foundSquare->second);
 	}
 	return inOrderPath;
 }
