@@ -2,6 +2,7 @@
 #include <GameBackbone/Util/FileManager.h>
 #include <GameBackbone/Util/FileReader.h>
 
+#include <exception>
 #include <string>
 #include <sys/stat.h>
 
@@ -21,11 +22,11 @@ FileManager::~FileManager()
 /// Encrypts or decrypts a string.
 /// </summary>
 /// <param name="stringToChange">The string to be encrypted.</param>
-/// <param name="key">The key for the encryption.</param>
+/// <param name="key">The key for the encryption. Throws std::invalid_argument if the key is empty.</param>
 /// <returns></returns>
 std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt, const std::string& key) const {
 	if (key.empty()){
-		throw Error::FileManager_EmptyKey();
+		throw std::invalid_argument("The key passed to FileManager::encryptDecryptString must not be empty.");
 	}
 
 	std::string output = stringToEncrypt;

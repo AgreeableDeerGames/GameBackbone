@@ -2,6 +2,8 @@
 #include <GameBackbone/Core/CompoundSprite.h>
 #include <GameBackbone/Core/RelativeRotationSprite.h>
 
+#include <exception>
+
 using namespace GB;
 
 // ctr / dtr
@@ -233,12 +235,13 @@ void RelativeRotationSprite::scale(sf::Vector2f newScale) {
 
 /// <summary>
 /// Initializes the component vector using the offset vector.
+/// Throws std::invalid_argument exception if the components and relativeOffsets vectors are not the same size.
 /// </summary>
 /// <param name="components">The components to be added.</param>
 /// <param name="relativeOffsets">The relative offsets for each sprite.</param>
 void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets) {
 	if (components.size() != relativeOffsets.size()) {
-		throw Error::RelativeRotationSprite_MismatchedSizes();
+		throw std::invalid_argument("The vector inputs to RelativeRotationSprite::initializeComponentVector must be the same size.");
 	}
 
 	// add the components to the CompoundSprite
@@ -249,6 +252,7 @@ void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> c
 
 /// <summary>
 /// Initializes the component vectors for Sprite and AnimatedSprite.
+/// Throws std::invalid_argument exception if the components and relativeOffsets vectors are not the same size.
 /// </summary>
 /// <param name="sprites">The sprites to be added.</param>
 /// <param name="animatedSprites">The animated sprites to be added.</param>
@@ -256,7 +260,7 @@ void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> c
 void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedComponents, const std::vector<sf::Vector2f>& relativeOffsets) {
 	if (sprites.size() + animatedComponents.size() != relativeOffsets.size())
 	{
-		throw Error::RelativeRotationSprite_MismatchedSizes();
+		throw std::invalid_argument("The vector inputs to RelativeRotationSprite::initializeComponentVector must be the same size.");
 	}
 
 	// add the components to the CompoundSprite

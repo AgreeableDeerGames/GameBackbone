@@ -316,32 +316,32 @@ BOOST_AUTO_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Empty_CTR) {
 	delete rrSprite;
 }
 
-// Test that Error::RelativeRotationSprite_MismatchedSizes throws when the vector sizes are not equal
+// Test that std::invalid_argument is thrown when the vector sizes are not equal
 BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Mismatched_CTR, ReusableObjects) {
 	initialOffsets.pop_back();
 
 	// Ensure that RelativeRotationSprite throws an error when the components have more elements
-	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets), Error::RelativeRotationSprite_MismatchedSizes);
+	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets), std::invalid_argument);
 
 	initialOffsets.push_back(sf::Vector2f(10, 0));
 	initialOffsets.push_back(sf::Vector2f(10, 0));
 
 	// Ensure that RelativeRotationSprite throws an error when the offsets have more elements
-	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets), Error::RelativeRotationSprite_MismatchedSizes);
+	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets), std::invalid_argument);
 }
 
-// Test that Error::RelativeRotationSprite_MismatchedSizes throws when the vector sizes are not equal
+// Test that std::invalid_argument throws when the vector sizes are not equal
 BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_OneSpriteVectors_RelativeOffsets_Mismatched_CTR, ReusableObjects) {
 	initialOffsets.pop_back();
 
 	// Ensure that RelativeRotationSprite throws an error when the components have more elements
-	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, initialOffsets), Error::RelativeRotationSprite_MismatchedSizes);
+	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, initialOffsets), std::invalid_argument);
 
 	initialOffsets.push_back(sf::Vector2f(10, 0));
 	initialOffsets.push_back(sf::Vector2f(10, 0));
 
 	// Ensure that RelativeRotationSprite throws an error when the offsets have more elements
-	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, initialOffsets), Error::RelativeRotationSprite_MismatchedSizes);
+	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, initialOffsets), std::invalid_argument);
 }
 
 

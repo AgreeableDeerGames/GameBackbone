@@ -1,8 +1,9 @@
 #include <GameBackbone/Util/FileReader.h>
 #include <GameBackbone/Core/BackboneBaseExceptions.h>
 
-#include <iostream>
+#include <exception>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 

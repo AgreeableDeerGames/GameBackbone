@@ -3,8 +3,9 @@
 #include <GameBackbone/Util/DllUtil.h>
 #include <GameBackbone/Util/FileWriter.h>
 
-#include <iostream>
+#include <exception>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -14,13 +15,13 @@ using namespace GB;
 /// <summary>
 /// Creates the writable string from an existing GB::Array2D populated with data.
 /// </summary>
-/// <param name="dataArray">The array populated with data.</param>
+/// <param name="dataArray">The array populated with data. std::invalid_argument exception thrown if null or empty.</param>
 /// <param name="delimiter">The delimiter for the output string.</param>
 /// <returns></returns>
 std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray, char delimiter) const {
 	//Ensure the 2D array exists and at least has something in it.
 	if (dataArray == nullptr || dataArray->getArraySizeX() == 0) {
-		throw Error::FileWriter_EmptyArray2D();
+		throw std::invalid_argument("FileWriter::createWritableString data array null or empty.");
 	}
 	
 	std::string outString = "";
@@ -47,6 +48,7 @@ std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray
 
 /// <summary>
 /// Writes the string to a file.
+/// Throws a GB::Error::FileManager_BadFile exception if the file cannot be opened.
 /// </summary>
 /// <param name="inString">The formatted string to be written.</param>
 /// <param name="filePath">The file path to write to.</param>

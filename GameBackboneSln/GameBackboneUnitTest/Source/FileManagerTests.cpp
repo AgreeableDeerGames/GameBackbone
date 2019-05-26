@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_EmptyKey) {
 	std::string testString = "Test String with Some Form of Stuff...";
 	std::string key = "";
 
-	BOOST_CHECK_THROW(testManager.encryptDecryptString(testString, key), GB::Error::FileManager_EmptyKey);
+	BOOST_CHECK_THROW(testManager.encryptDecryptString(testString, key), std::invalid_argument);
 }
 
 // Ensure that encryptDecryptString gives correct results.
