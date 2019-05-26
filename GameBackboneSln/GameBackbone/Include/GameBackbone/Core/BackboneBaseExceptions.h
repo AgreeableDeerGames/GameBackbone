@@ -63,18 +63,6 @@ namespace GB {
 		};
 
 		/// <summary>
-		/// Exception thrown when Component an illegal or unexpected nullptr is found.
-		/// </summary>
-		/// <seealso cref="std::exception" />
-		class Pointer_IllegalNull : public std::exception
-		{
-		public:
-			virtual const char* what() const noexcept override {
-				return "Illegal nullptr.";
-			}
-		};
-
-		/// <summary>
 		/// Exception thrown when Component and RelativeOffset vectors passed into
 		/// RelativeRotationSprite are not equal in size.
 		/// </summary>
