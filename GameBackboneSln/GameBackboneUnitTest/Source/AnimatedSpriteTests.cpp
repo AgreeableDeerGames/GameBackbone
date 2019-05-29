@@ -27,10 +27,16 @@ struct ReusableObjects
 		aSpriteTexture->loadFromFile(testTexturePath);
 
 		//create animation set
-		FrameIndexAnimationVectorPtr aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
-		FrameIndexAnimation aSpriteAnim1 = { 0, 1, 2, 3 };
-		aSpriteAnims->push_back(aSpriteAnim1);
-		animSet = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+		int halfTextureWidth = aSpriteTexture->getSize().x / 2;
+		int halfTextureHeight = aSpriteTexture->getSize().y / 2;
+
+		animSet = std::make_shared<AnimationSet>();
+		animSet->addAnimation ({
+			sf::IntRect(0, 0, halfTextureWidth, halfTextureHeight),
+			sf::IntRect(halfTextureWidth, 0, halfTextureWidth, halfTextureHeight),
+			sf::IntRect(halfTextureWidth, halfTextureHeight, halfTextureWidth, halfTextureHeight),
+			sf::IntRect(0, halfTextureHeight, halfTextureWidth, halfTextureHeight)
+		});
 
 		//create animatedSprite
 		animSpriteWithAnim = new AnimatedSprite(*aSpriteTexture, animSet);
@@ -39,13 +45,11 @@ struct ReusableObjects
 	~ReusableObjects() {
 
 		delete animSpriteWithAnim;
-		delete animSet;
 		delete aSpriteTexture;
-
 	}
 
 	AnimatedSprite* animSpriteWithAnim;
-	AnimationSet* animSet;
+	AnimationSet::Ptr animSet;
 	sf::Texture* aSpriteTexture;
 };
 
@@ -173,7 +177,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End_Default, Reusabl
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	for (int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		// fake sleep for 1ms longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -182,18 +186,17 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End_Default, Reusabl
 	// ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 	// ensure the framesSpentInCurrentAnimation are correct and were not reset
-	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->getAnimations()->at(0).size());
+	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->at(0).size());
 }
 
 // Test running an empty animation
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
-	std::vector<unsigned int> singleFrameAnim = {0};
-	std::vector<unsigned int> emptyAnim;
-	auto animVector = std::make_shared<FrameIndexAnimationVector>();
-	animVector->push_back(singleFrameAnim);
-	animVector->push_back(emptyAnim);
-	AnimationSet animSetEmptyAnim(animVector, {1, 1}, {1, 1});
-	AnimatedSprite emptyAnimSprite(*aSpriteTexture, &animSetEmptyAnim);
+
+	// create an animation set with two empty animations
+	AnimationSet::Ptr animSetEmptyAnim = std::make_shared<AnimationSet>();
+	animSetEmptyAnim->addAnimation({});
+	animSetEmptyAnim->addAnimation({});
+	AnimatedSprite emptyAnimSprite(*aSpriteTexture, animSetEmptyAnim);
 
 	// ensure that an empty animation can be ran
 	BOOST_CHECK_THROW(emptyAnimSprite.runAnimation(1), Error::AnimatedSprite_EmptyAnimation);
@@ -201,11 +204,9 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
 
 // Test running an animation with one frame
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Loop_After_End, ReusableObjects) {
-	FrameIndexAnimation singleFrameAnim = { 0 };
-	auto animVector = std::make_shared<FrameIndexAnimationVector>();
-	animVector->push_back(singleFrameAnim);
-	AnimationSet animSetSingleFrameAnim(animVector, {1, 1}, {1, 1});
-	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
+	AnimationSet::Ptr animSetSingleFrameAnim = std::make_shared<AnimationSet>();
+	animSetSingleFrameAnim->addAnimation({sf::IntRect()});
+	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, animSetSingleFrameAnim);
 
 	singleFrameAnimSprite.setAnimationDelay(sf::microseconds(1));
 
@@ -231,11 +232,10 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Loop_After_End
 
 // Test running an animation with one frame and reversing directions
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Reverse_After_End, ReusableObjects) {
-	std::vector<unsigned int> singleFrameAnim = { 0 };
-	auto animVector = std::make_shared<FrameIndexAnimationVector> ();
-	animVector->push_back(singleFrameAnim);
-	AnimationSet animSetSingleFrameAnim(animVector, {1, 1}, {1, 1});
-	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
+	AnimationSet::Ptr animSetSingleFrameAnim = std::make_shared<AnimationSet>();
+	animSetSingleFrameAnim->addAnimation({sf::IntRect()});
+	animSetSingleFrameAnim->addAnimation({sf::IntRect()});
+	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, animSetSingleFrameAnim);
 
 	singleFrameAnimSprite.setAnimationDelay(sf::microseconds(1));
 
@@ -261,11 +261,10 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Reverse_After_
 
 // Test running an animation with one frame and stopping
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Stop_After_End, ReusableObjects) {
-	std::vector<unsigned int> singleFrameAnim = { 0 };
-	auto animVector = std::make_shared<FrameIndexAnimationVector>();
-	animVector->push_back(singleFrameAnim);
-	AnimationSet animSetSingleFrameAnim(animVector, {1, 1}, {1, 1});
-	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, &animSetSingleFrameAnim);
+	AnimationSet::Ptr animSetSingleFrameAnim = std::make_shared<AnimationSet>();
+	animSetSingleFrameAnim->addAnimation({sf::IntRect()});
+	animSetSingleFrameAnim->addAnimation({sf::IntRect()});
+	AnimatedSprite singleFrameAnimSprite(*aSpriteTexture, animSetSingleFrameAnim);
 
 	singleFrameAnimSprite.setAnimationDelay(sf::microseconds(1));
 
@@ -294,13 +293,13 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	for (int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		//fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
 
 		// ensure that the frame increments with each loop
-		BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == i % animSet->getAnimations()->at(0).size());
+		BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == i % animSet->at(0).size());
 		// ensure the framesSpentInCurrentAnimation increment up
 		BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == i);
 	}
@@ -308,7 +307,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects
 	// ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 	// ensure the framesSpentInCurrentAnimation are correct and were not reset
-	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->getAnimations()->at(0).size());
+	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->at(0).size());
 }
 
 // Tests AnimatedSprite reversing its animations
@@ -317,7 +316,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_End, ReusableObje
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	for (int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		// fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -329,7 +328,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_End, ReusableObje
 	// ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 2);
 	// ensure the framesSpentInCurrentAnimation are correct and were not reset
-	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->getAnimations()->at(0).size());
+	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->at(0).size());
 }
 
 // Tests AnimatedSprite reversing its animations
@@ -338,7 +337,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_Begin, ReusableOb
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->getAnimations()->at(0).size()*2; i++)
+	for (int i = 0; i < animSet->at(0).size()*2; i++)
 	{
 		// fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -350,7 +349,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_Begin, ReusableOb
 	// ensure that the animation has looped
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 	// ensure the framesSpentInCurrentAnimation increment up
-	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->getAnimations()->at(0).size() * 2 - 1);
+	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->at(0).size() * 2 - 1);
 }
 
 // Tests AnimatedSprite stopping its animations
@@ -359,7 +358,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Stop_After_End, ReusableObjects
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->getAnimations()->at(0).size() + 1; i++)
+	for (int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		// fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -369,9 +368,9 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Stop_After_End, ReusableObjects
 	}
 
 	// ensure that the animation has looped
-	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == animSet->getAnimations()->at(0).size() - 1);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == animSet->at(0).size() - 1);
 	// ensure the framesSpentInCurrentAnimation are correct and were not reset
-	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->getAnimations()->at(0).size());
+	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->at(0).size());
 }
 
 // Ensures that animations set with setAnimations can be successfully run

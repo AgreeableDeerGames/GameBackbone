@@ -6,6 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <cstddef>
+#include <memory>
 #include <vector>
 
 namespace GB {
@@ -24,6 +25,10 @@ namespace GB {
         using const_iterator = InternalContainer::const_iterator;
         using reverse_iterator = InternalContainer::reverse_iterator;
         using const_reverse_iterator = InternalContainer::const_reverse_iterator;
+
+        // Pointer type
+        /// <summary>shared_ptr to AnimationSet.</summary>
+        using Ptr = std::shared_ptr<AnimationSet>;
 
         // ctrs / dtr
         AnimationSet() = default;

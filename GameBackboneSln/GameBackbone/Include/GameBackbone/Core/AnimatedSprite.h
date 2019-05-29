@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <cstddef>
 #include <vector>
 
 namespace GB {
@@ -30,20 +31,19 @@ namespace GB {
 		//ctr and dtr
 		//shallow copy and move are fine for this class
 		AnimatedSprite();
-		explicit AnimatedSprite(const sf::Texture &texture);
-		AnimatedSprite(const sf::Texture &texture, AnimationSet* animations);
+		explicit AnimatedSprite(const sf::Texture& texture);
+		AnimatedSprite(const sf::Texture& texture, AnimationSet::Ptr animations);
 		AnimatedSprite(const AnimatedSprite& other) = default;
 		AnimatedSprite& operator= (const AnimatedSprite& other) = default;
 		AnimatedSprite(AnimatedSprite&& other) noexcept = default;
 		AnimatedSprite& operator= (AnimatedSprite&& other) noexcept = default;
 		virtual ~AnimatedSprite();
 
-
 		//getters and setters
 			//setters
 		void setAnimating(bool animating);
 		void setCurrentFrame(unsigned int frame);
-		void setAnimations(AnimationSet* animations);
+		void setAnimations(AnimationSet::Ptr animations);
 		void setAnimationDelay(sf::Time delay);
 			//getters
 		unsigned int getCurrentFrame() const;
@@ -58,8 +58,8 @@ namespace GB {
 		virtual void update(sf::Int64 elapsedTime);
 
 	protected:
-		AnimationVectorPtr animations;
-		unsigned int currentAnimationId;
+		AnimationSet::Ptr animations;
+		std::size_t currentAnimationId;
 
 		bool animating;
 		ANIMATION_END_TYPE animationEnd;
@@ -67,11 +67,10 @@ namespace GB {
 		sf::Time animationDelay;
 		sf::Time lastUpdate;
 		
-		Animation* currentAnimation;
+		const Animation* currentAnimation;
 		unsigned int currentFrame;
 		unsigned int framesSpentInCurrentAnimation;
 
-		void AnimatedSpriteInit(AnimationSet* animations);
-
+		void AnimatedSpriteInit(AnimationSet::Ptr animations);
 	};
 }
