@@ -306,7 +306,7 @@ void NavigationDemoRegion::initMaze() {
 	std::vector<sf::Color> clusterColors;
 	for (int i = 0; i < clusterVector.size(); ++i) {
 		// More red the higher the value of clusterNavigationWeights
-		sf::Uint8 red = 255 * (sf::Uint8)(255 * ((double)clusterNavigationWeights[i] / GB::BLOCKED_GRID_WEIGHT));
+		sf::Uint8 red = (sf::Uint8)(255 * ((double)clusterNavigationWeights[i] / GB::BLOCKED_GRID_WEIGHT));
 		sf::Uint8 green = 0;
 		// Less blue the higher the value of clusterNavigationWeights
 		sf::Uint8 blue = 255 - (sf::Uint8)(255 * ((double)clusterNavigationWeights[i] / GB::BLOCKED_GRID_WEIGHT));
