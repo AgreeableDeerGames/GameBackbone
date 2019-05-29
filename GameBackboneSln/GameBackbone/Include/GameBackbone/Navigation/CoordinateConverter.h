@@ -2,7 +2,6 @@
 
 #include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Util/DllUtil.h>
-#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics.hpp>
 
@@ -19,21 +18,21 @@ namespace GB {
 		CoordinateConverter(CoordinateConverter&& other) = default;
 		CoordinateConverter& operator= (const CoordinateConverter& other) = default;
 		CoordinateConverter& operator= (CoordinateConverter&& other) = default;
-		CoordinateConverter(float widthOfGridSquares, Point2D<float> offsetOfOrigin);
+		CoordinateConverter(float widthOfGridSquares, sf::Vector2f offsetOfOrigin);
 		virtual ~CoordinateConverter() = default;
 
-		sf::Vector2<float> convertCoordToWindow(const Point2D<int>& navGridCoord) const;
-		Point2D<int> convertCoordToNavGrid(const sf::Vector2<float>& windowCoord) const;
+		sf::Vector2f convertCoordToWindow(const sf::Vector2i& navGridCoord) const;
+		sf::Vector2i convertCoordToNavGrid(const sf::Vector2f& windowCoord) const;
 		WindowCoordinatePath convertPathToWindow(const NavGridCoordinatePath& navGridPath) const;
 		NavGridCoordinatePath convertPathToNavGrid(const WindowCoordinatePath& windowPath) const;
 
 
 		void setGridSquareWidth(float newWidth);
-		void setOriginOffset(const Point2D<float>& newOffset);
+		void setOriginOffset(const sf::Vector2f& newOffset);
 
 	private:
 		float gridSquareWidth;
-		Point2D<float> originOffset;
+		sf::Vector2f originOffset;
 
 	};
 }

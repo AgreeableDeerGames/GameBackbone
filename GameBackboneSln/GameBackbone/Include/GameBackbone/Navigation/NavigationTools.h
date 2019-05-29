@@ -4,10 +4,10 @@
 #include <GameBackbone/Navigation/NavigationGridData.h>
 #include <GameBackbone/Util/Array2D.h>
 #include <GameBackbone/Util/DllUtil.h>
-#include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/UtilMath.h>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include <deque>
 #include <memory>
@@ -20,7 +20,7 @@ namespace GB {
 	libGameBackbone typedef Array2D<NavigationGridData*> NavigationGrid;
 	libGameBackbone typedef std::deque<sf::Vector2f> WindowCoordinatePath;
 	libGameBackbone typedef std::shared_ptr<WindowCoordinatePath> WindowCoordinatePathPtr;
-	libGameBackbone typedef std::deque<Point2D<int>> NavGridCoordinatePath;
+	libGameBackbone typedef std::deque<sf::Vector2i> NavGridCoordinatePath;
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// NavigationGrid memory

@@ -12,7 +12,7 @@
 
 using namespace GB;
 
-BOOST_AUTO_TEST_SUITE(RelativeRotionSpriteTests)
+BOOST_AUTO_TEST_SUITE(RelativeRotationSpriteTests)
 
 struct ReusableObjects{
 	ReusableObjects() {
@@ -73,9 +73,9 @@ struct ReusableObjects{
 	std::vector<sf::Vector2f> spriteOffsets{ sf::Vector2f(10,0), sf::Vector2f(0,10) };
 };
 
-BOOST_AUTO_TEST_SUITE(RelativeRotionSprite_CTR)
+BOOST_AUTO_TEST_SUITE(RelativeRotationSprite_CTR)
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_default_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_default_CTR, ReusableObjects) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite();
 
 	// Ensure that the components are empty
@@ -89,7 +89,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_default_CTR, ReusableObjects) {
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_SingleSpriteVector_CTR, ReusableObjects) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector);
 
 	// Ensure that the components are not empty
@@ -110,7 +110,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_CTR, ReusableObj
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_PositionOnly_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_PositionOnly_CTR, ReusableObjects) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(rrSpritePos);
 
 	// Ensure that the components are empty
@@ -124,7 +124,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_PositionOnly_CTR, ReusableObjects) 
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_Position_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_SingleSpriteVector_Position_CTR, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, rrSpritePos);
 
@@ -146,7 +146,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_Position_CTR, Re
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_SingleSpriteVector_RelativeOffsets_CTR, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, spriteOffsets);
 
@@ -167,7 +167,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_Position_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_SingleSpriteVector_RelativeOffsets_Position_CTR, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, spriteOffsets, rrSpritePos);
 
@@ -188,7 +188,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_SingleSpriteVector_RelativeOffsets_
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_TwoSpriteVectors_CTR, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector);
 
@@ -214,7 +214,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_CTR, ReusableObjec
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Position_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_TwoSpriteVectors_Position_CTR, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, rrSpritePos);
 
@@ -243,7 +243,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Position_CTR, Reus
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_TwoSpriteVectors_RelativeOffsets_CTR, ReusableObjects) {
 
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets);
@@ -273,7 +273,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_CT
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Position_CTR, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_TwoSpriteVectors_RelativeOffsets_Position_CTR, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets, rrSpritePos);
 
@@ -303,7 +303,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Po
 }
 
 // Test that the RelativeRotationSprite is safe to construct with empty component vectors.
-BOOST_AUTO_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Empty_CTR) {
+BOOST_AUTO_TEST_CASE(RelativeRotationSprite_TwoSpriteVectors_Empty_CTR) {
 	std::vector<sf::Sprite> spriteVector;
 	std::vector<AnimatedSprite> animatedSpriteVector;
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animatedSpriteVector);
@@ -316,8 +316,8 @@ BOOST_AUTO_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_Empty_CTR) {
 	delete rrSprite;
 }
 
-// Test that std::invalid_argument is thrown when the vector sizes are not equal
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Mismatched_CTR, ReusableObjects) {
+// Test that Error::RelativeRotationSprite_MismatchedSizes throws when the vector sizes are not equal
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_TwoSpriteVectors_RelativeOffsets_Mismatched_CTR, ReusableObjects) {
 	initialOffsets.pop_back();
 
 	// Ensure that RelativeRotationSprite throws an error when the components have more elements
@@ -330,8 +330,8 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_TwoSpriteVectors_RelativeOffsets_Mi
 	BOOST_CHECK_THROW(RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets), std::invalid_argument);
 }
 
-// Test that std::invalid_argument throws when the vector sizes are not equal
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_OneSpriteVectors_RelativeOffsets_Mismatched_CTR, ReusableObjects) {
+// Test that Error::RelativeRotationSprite_MismatchedSizes throws when the vector sizes are not equal
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_OneSpriteVectors_RelativeOffsets_Mismatched_CTR, ReusableObjects) {
 	initialOffsets.pop_back();
 
 	// Ensure that RelativeRotationSprite throws an error when the components have more elements
@@ -345,12 +345,12 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_OneSpriteVectors_RelativeOffsets_Mi
 }
 
 
-BOOST_AUTO_TEST_SUITE_END() // END RelativeRotionSprite_CTR
+BOOST_AUTO_TEST_SUITE_END() // END RelativeRotationSprite_CTR
 
 
-BOOST_AUTO_TEST_SUITE(RelativeRotionSprite_add)
+BOOST_AUTO_TEST_SUITE(RelativeRotationSprite_add)
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_addComponent, ReusableObjects) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite();
 
 	// Add all of the sprites without RelativeOffsets.
@@ -382,7 +382,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent, ReusableObjects) {
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_RelativeOffset, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_addComponent_RelativeOffset, ReusableObjects) {
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite();
 
 	// Add all of the sprites with RelativeOffsets.
@@ -414,11 +414,11 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_addComponent_RelativeOffset, Reusab
 	delete rrSprite;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // END RelativeRotionSprite_add
+BOOST_AUTO_TEST_SUITE_END() // END RelativeRotationSprite_add
 
-BOOST_AUTO_TEST_SUITE(RelativeRotionSprite_operations)
+BOOST_AUTO_TEST_SUITE(RelativeRotationSprite_operations)
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_scale_TwoInputs, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_scale_TwoInputs, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets);
 
@@ -441,7 +441,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_scale_TwoInputs, ReusableObjects) {
 	delete rrSprite;
 }
 
-BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_scale_OneInput, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(RelativeRotationSprite_scale_OneInput, ReusableObjects) {
 
 	RelativeRotationSprite* rrSprite = new RelativeRotationSprite(spriteVector, animSpriteVector, initialOffsets);
 
@@ -465,7 +465,7 @@ BOOST_FIXTURE_TEST_CASE(RelativeRotionSprite_scale_OneInput, ReusableObjects) {
 	delete rrSprite;
 }
 
-BOOST_AUTO_TEST_SUITE_END() // END RelativeRotionSprite_operations
+BOOST_AUTO_TEST_SUITE_END() // END RelativeRotationSprite_operations
 
 
-BOOST_AUTO_TEST_SUITE_END() // END RelativeRotionSpriteTests
+BOOST_AUTO_TEST_SUITE_END() // END RelativeRotationSpriteTests

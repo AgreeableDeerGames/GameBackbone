@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
-#include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/ClusterGreenhouse.h>
+
+#include <SFML/System/Vector2.hpp>
 
 #include <set>
 
@@ -18,7 +19,7 @@ BOOST_AUTO_TEST_SUITE(ClusterGreenhouse_CTRs);
 BOOST_AUTO_TEST_CASE(ClusterGreenhouse_ZeroDimensions_CTR) {
 
 	// Dimensions of 0 by 0.
-	Point2D<int> testPoint{ 0,0 };
+	sf::Vector2i testPoint{ 0,0 };
 
 	// ClusterGreenhouse created with dimensions 0,0.
 	ClusterGreenhouse* testCluster = new ClusterGreenhouse(testPoint);
