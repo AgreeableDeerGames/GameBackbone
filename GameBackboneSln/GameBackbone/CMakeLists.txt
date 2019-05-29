@@ -6,6 +6,7 @@ add_library(GameBackbone SHARED
 # include
 
   # core
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/Animation.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/AnimatedSprite.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/AnimationSet.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/BackboneBaseExceptions.h"
@@ -38,6 +39,7 @@ add_library(GameBackbone SHARED
 # source
 
   # core
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Animation.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/AnimatedSprite.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/AnimationSet.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/CompoundSprite.cpp"
