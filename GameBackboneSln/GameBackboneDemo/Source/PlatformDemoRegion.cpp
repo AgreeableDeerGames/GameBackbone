@@ -5,7 +5,6 @@
 
 #include <GameBackboneDemo/PlatformDemoRegion.h>
 
-#include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/UtilMath.h>
 
 #include <TGUI/TGUI.hpp>
