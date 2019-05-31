@@ -189,17 +189,29 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End_Default, Reusabl
 	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == animSet->at(0).size());
 }
 
-// Test running an empty animation
-BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
+// Test constructing an AnimatedSprite with an empty animation
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Construct_Empty_Animation, ReusableObjects) {
 
 	// create an animation set with two empty animations
 	AnimationSet::Ptr animSetEmptyAnim = std::make_shared<AnimationSet>();
 	animSetEmptyAnim->addAnimation({});
 	animSetEmptyAnim->addAnimation({});
-	AnimatedSprite emptyAnimSprite(*aSpriteTexture, animSetEmptyAnim);
 
 	// ensure that an empty animation can be ran
-	BOOST_CHECK_THROW(emptyAnimSprite.runAnimation(1), Error::AnimatedSprite_EmptyAnimation);
+	BOOST_CHECK_THROW(AnimatedSprite(*aSpriteTexture, animSetEmptyAnim), std::out_of_range);
+}
+
+// Test running an empty animation
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Start_Empty_Animation, ReusableObjects) {
+
+	// create an animation set with two empty animations
+	AnimationSet::Ptr animSetEmptyAnim = std::make_shared<AnimationSet>();
+	animSetEmptyAnim->addAnimation({sf::IntRect()});
+	AnimatedSprite emptyAnimSprite(*aSpriteTexture, animSetEmptyAnim);
+	animSetEmptyAnim->clearAnimations();
+
+	// ensure that an empty animation can be ran
+	BOOST_CHECK_THROW(emptyAnimSprite.runAnimation(1), std::out_of_range);
 }
 
 // Test running an animation with one frame

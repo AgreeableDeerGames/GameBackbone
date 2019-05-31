@@ -1,13 +1,15 @@
 #include "stdafx.h"
 
 #include <GameBackbone/Core/AnimatedSprite.h>
+#include <GameBackbone/Core/AnimationSet.h>
+#include <GameBackbone/Core/BackboneBaseExceptions.h>
 #include <GameBackbone/Core/CompoundSprite.h>
 #include <GameBackbone/Core/RelativeRotationSprite.h>
-#include <GameBackbone/Core/BackboneBaseExceptions.h>
 
 #include <SFML/Graphics.hpp>
 
 #include <functional>
+#include <memory>
 #include <vector>
 
 using namespace GB;
@@ -27,11 +29,25 @@ struct ReusableObjects{
 		spriteVector.push_back(sprite1);
 		spriteVector.push_back(sprite2);
 
-		auto aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
-		std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-		aSpriteAnims->push_back(aSpriteAnim1);
-		animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
-		animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
+		int halfTextureWidth = aSpriteTexture->getSize().x / 2;
+		int textureHeight = aSpriteTexture->getSize().y;
+
+		animSet1 = std::make_shared<AnimationSet>(
+			std::vector<Animation> {
+				Animation {
+					sf::IntRect(0, 0, halfTextureWidth, textureHeight),
+					sf::IntRect(halfTextureWidth, 0, halfTextureWidth, textureHeight)
+				}
+			}
+		);
+		animSet2 = std::make_shared<AnimationSet>(
+			std::vector<Animation> {
+				GB::Animation{
+					sf::IntRect(0, 0, halfTextureWidth, textureHeight),
+					sf::IntRect(halfTextureWidth, 0, halfTextureWidth, textureHeight)
+				}
+			}
+		);
 
 		animSpriteWithAnim1 = AnimatedSprite(*aSpriteTexture, animSet1);
 		animSpriteWithAnim1.setPosition(10, 0);
@@ -55,14 +71,12 @@ struct ReusableObjects{
 
 	~ReusableObjects() {
 		delete aSpriteTexture;
-		delete animSet1;
-		delete animSet2;
 	}
 
 	AnimatedSprite animSpriteWithAnim1;
 	AnimatedSprite animSpriteWithAnim2;
-	AnimationSet* animSet1;
-	AnimationSet* animSet2;
+	AnimationSet::Ptr animSet1;
+	AnimationSet::Ptr animSet2;
 	sf::Texture* aSpriteTexture;
 	sf::Sprite sprite1;
 	sf::Sprite sprite2;

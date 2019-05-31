@@ -6,18 +6,6 @@ namespace GB {
 	namespace Error {
 
 		/// <summary>
-		/// Exception thrown when an AnimatedSprite tries to run an empty animation.
-		/// </summary>
-		/// <seealso cref="std::exception" />
-		class AnimatedSprite_EmptyAnimation : public std::exception
-		{
-		public:
-			virtual const char* what() const noexcept override {
-				return "Cannot run an empty animation.";
-			}
-		};
-
-		/// <summary>
 		/// Exception thrown when a FileReader fails to open a file.
 		/// </summary>
 		/// <seealso cref="std::exception" />

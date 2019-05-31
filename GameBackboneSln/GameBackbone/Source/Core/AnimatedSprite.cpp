@@ -34,7 +34,10 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr an
 /// <summary>
 /// Initializes properties to false, 0, or nullptr. Initializes animation set and sets texture to first animation frame if animation set is valid
 /// </summary>
-/// <param name="animations">animation set for the sprite. If this value is set to a valid animation then the texture of the sprite is set to the first frame of the first animation.</param>
+/// <param name="animations">
+/// AnimationSet for the sprite. If this value is set to a valid animation then the texture of the sprite is set to the first frame of the first animation.
+/// Throws std::out_of_range exception if the set is empty
+/// </param>
 void AnimatedSprite::AnimatedSpriteInit(AnimationSet::Ptr animations) {
 
 	setAnimations(animations);
@@ -143,7 +146,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 /// <summary>
 /// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends.
 ///
-/// Throws a AnimatedSprite_EmptyAnimation exception if the requested animation is empty.
+/// Throws a std::out_of_range exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 /// <param name="endStyle">What happens when the animation reaches the end.</param>
@@ -151,7 +154,7 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 
 	//Empty animations cannot be ran. What frame would be displayed?
 	if (animations->at(animationId).empty()) {
-		throw Error::AnimatedSprite_EmptyAnimation();
+		throw std::out_of_range("AnimatedSprite cannot run an empty animation.");
 	}
 
 	this->animating = true;
