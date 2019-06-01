@@ -1,0 +1,51 @@
+
+#include <GameBackbone/Core/AnimationSet.h>
+#include <GameBackbone/Core/UniformAnimationSet.h>
+
+#include <SFML/System/Vector2.hpp>
+
+#include <vector>
+#include <exception>
+
+using namespace GB;
+
+/// <summary>
+/// Construct a new UniformAnimationSet object.
+/// </summary>
+/// <param name="frameSize"> The default frame size for an animation. </param>
+UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize) : defaultFrameSize(std::move(frameSize)){
+}
+
+/// <summary>
+/// Construct a new UniformAnimationSet object.
+/// The provided animations will all be added to the animation set.
+/// </summary>
+/// <param name="frameSize"> The default frame size for an animation. </param>
+/// <param name="animations"> The animations to add. </param>
+UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize, const std::vector<UniformAnimation>& animations)
+	: defaultFrameSize(std::move(frameSize)){
+	for (auto animation : animations){
+		addAnimation(animation);
+	}
+}
+
+/// <summary>
+/// Adds the UniformAnimation to the UniformAnimationSet.
+/// </summary>
+/// <param name="animation"> The animation to add. </param>
+void UniformAnimationSet::addAnimation(const UniformAnimation& animation){
+	Animation baseAnimation;
+	for (auto frameIndex : animation){
+		const sf::Vector2i animationPosition(frameIndex.x*defaultFrameSize.x, frameIndex.y*defaultFrameSize.y);
+		baseAnimation.emplace_back(sf::IntRect(animationPosition, defaultFrameSize));
+	}
+
+	addAnimation(std::move(baseAnimation));
+}
+
+/// <summary>
+/// Returns the default size of UniformAnimation frames
+/// </summary>
+sf::Vector2i UniformAnimationSet::getDefaultFrameSize() const {
+	return defaultFrameSize;
+}

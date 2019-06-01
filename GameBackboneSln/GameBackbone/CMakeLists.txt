@@ -14,6 +14,7 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/CoreEventController.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/GameRegion.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/RelativeRotationSprite.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/UniformAnimationSet.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/Updatable.h"
 
   # navigation
@@ -45,6 +46,7 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/CompoundSprite.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/GameRegion.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/RelativeRotationSprite.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/UniformAnimationSet.cpp"
 
   # navigation
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Navigation/CoordinateConverter.cpp"

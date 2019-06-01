@@ -12,7 +12,7 @@ using namespace GB;
 /// Construct a new AnimationSet object.
 /// The provided animations will all be added to the animation set.
 /// </summary>
-/// <param name="animations"> </param>
+/// <param name="animations"> The animations to add. </param>
 AnimationSet::AnimationSet(std::vector<Animation> animations) {
     this->animations = std::move(animations);
 }
