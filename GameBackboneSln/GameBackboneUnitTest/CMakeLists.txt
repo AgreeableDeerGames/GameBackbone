@@ -22,7 +22,9 @@ add_executable(GameBackboneUnitTest
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RandGenTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RelativeRotationSpriteTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UniformAnimationSetTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UtilMathTests.cpp"
+	
 )
 
 target_link_libraries(GameBackboneUnitTest PRIVATE GameBackbone)

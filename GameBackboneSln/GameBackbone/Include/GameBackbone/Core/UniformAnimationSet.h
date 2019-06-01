@@ -21,9 +21,9 @@ namespace GB {
 		using Ptr = std::shared_ptr<UniformAnimationSet>;
 
 		// ctrs / dtr
-		UniformAnimationSet() = default;
-		UniformAnimationSet(sf::Vector2i frameSize);
-		UniformAnimationSet(sf::Vector2i frameSize, const std::vector<UniformAnimation>& animations);
+		UniformAnimationSet() = delete;
+		explicit UniformAnimationSet(sf::Vector2i frameSize);
+		explicit UniformAnimationSet(sf::Vector2i frameSize, const std::vector<UniformAnimation>& animations);
 		UniformAnimationSet(const UniformAnimationSet&) = default;
 		UniformAnimationSet(UniformAnimationSet&&) = default;
 		UniformAnimationSet& operator=(const UniformAnimationSet&) = default;
