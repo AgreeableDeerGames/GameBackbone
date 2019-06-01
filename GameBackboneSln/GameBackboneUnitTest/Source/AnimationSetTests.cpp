@@ -112,7 +112,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_erase_remove_animation, ReusableObjects)
 BOOST_FIXTURE_TEST_CASE(AnimationSet_erase_remove_multiple_animations, ReusableObjects)
 {
 	fixtureAnimSet.addAnimation({frame3, frame2, frame1});
-	fixtureAnimSet.eraseAnimations(fixtureAnimSet.begin(), fixtureAnimSet.begin() + 1);
+	fixtureAnimSet.eraseAnimations(fixtureAnimSet.begin(), fixtureAnimSet.begin() + 2);
 	// make sure the remaining animation was the second one
 	BOOST_CHECK(fixtureAnimSet[0][0] == frame3);
 	BOOST_CHECK(fixtureAnimSet.getSize() == 1);
@@ -125,11 +125,70 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_clear_removes_all_animations, ReusableObjec
 	fixtureAnimSet.addAnimation({frame3, frame2, frame1});
 	fixtureAnimSet.clearAnimations();
 	BOOST_CHECK(fixtureAnimSet.isEmpty());
-	
 }
 
-// Ensure that iterators are usable with std algorithms
+// Ensure forward iterator works
+BOOST_FIXTURE_TEST_CASE(AnimationSet_forward_iterator_works_with_algorithms, ReusableObjects)
+{
+	const AnimationSet constSet = fixtureAnimSet;
+	int randomAccessPosition = 0;
+	for (auto it = constSet.begin(); it != constSet.end(); ++it) {
+		BOOST_CHECK(it->size() == constSet[randomAccessPosition].size());
+		randomAccessPosition++;
+	}
+}
 
+// Ensure forward iterator works in non const environment
+BOOST_FIXTURE_TEST_CASE(AnimationSet_non_const_forward_iterator_works_with_algorithms, ReusableObjects)
+{
+	int randomAccessPosition = 0;
+	for (auto it = fixtureAnimSet.begin(); it != fixtureAnimSet.end(); ++it) {
+		BOOST_CHECK(it->size() == fixtureAnimSet[randomAccessPosition].size());
+		randomAccessPosition++;
+	}
+}
 
+// Ensure const forward iterator works
+BOOST_FIXTURE_TEST_CASE(AnimationSet_const_forward_iterator_works_with_algorithms, ReusableObjects)
+{
+	const AnimationSet constSet = fixtureAnimSet;
+	int randomAccessPosition = 0;
+	for (auto it = constSet.cbegin(); it != constSet.cend(); ++it) {
+		BOOST_CHECK(it->size() == constSet[randomAccessPosition].size());
+		randomAccessPosition++;
+	}
+}
+
+// Ensure reverse iterator works
+BOOST_FIXTURE_TEST_CASE(AnimationSet_reverse_iterator_works_with_algorithms, ReusableObjects)
+{
+	const AnimationSet constSet = fixtureAnimSet;
+	int randomAccessPosition = constSet.getSize() - 1;
+	for (auto it = constSet.rbegin(); it != constSet.rend(); ++it) {
+		BOOST_CHECK(it->size() == constSet[randomAccessPosition].size());
+		randomAccessPosition--;
+	}
+}
+
+// Ensure reverse iterator works in non const environment
+BOOST_FIXTURE_TEST_CASE(AnimationSet_reverse_non_const_forward_iterator_works_with_algorithms, ReusableObjects)
+{
+	int randomAccessPosition = fixtureAnimSet.getSize() - 1;
+	for (auto it = fixtureAnimSet.rbegin(); it != fixtureAnimSet.rend(); ++it) {
+		BOOST_CHECK(it->size() == fixtureAnimSet[randomAccessPosition].size());
+		randomAccessPosition--;
+	}
+}
+
+// Ensure const reverse iterator works
+BOOST_FIXTURE_TEST_CASE(AnimationSet_const_reverse_iterator_works_with_algorithms, ReusableObjects)
+{
+	const AnimationSet constSet = fixtureAnimSet;
+	int randomAccessPosition = constSet.getSize() - 1;
+	for (auto it = constSet.crbegin(); it != constSet.crend(); ++it) {
+		BOOST_CHECK(it->size() == constSet[randomAccessPosition].size());
+		randomAccessPosition--;
+	}
+}
 
 BOOST_AUTO_TEST_SUITE_END()// End AnimationSetTests
