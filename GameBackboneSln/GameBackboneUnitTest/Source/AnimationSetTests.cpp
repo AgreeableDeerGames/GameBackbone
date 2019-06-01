@@ -30,6 +30,7 @@ struct ReusableObjects {
 	AnimationSet fixtureAnimSet;
 };
 
+BOOST_AUTO_TEST_SUITE(AnimationSet_constructors)
 
 // Ensure that a default constructed animation set is empty
 BOOST_AUTO_TEST_CASE(AnimationSet_default_constructor)
@@ -66,6 +67,10 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_full_vector_constructor_correct_frames, Reu
 	BOOST_CHECK(animSet[1][1] == frame1);
 }
 
+BOOST_AUTO_TEST_SUITE_END() // AnimationSet_constructors
+
+BOOST_AUTO_TEST_SUITE(AnimationSet_getters)
+
 // Ensure that [] gets the right animation
 BOOST_FIXTURE_TEST_CASE(AnimationSet_operator_square_bracket_returns_correct_animation, ReusableObjects)
 {
@@ -99,6 +104,42 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_at_throws_when_out_of_bounds, ReusableObjec
 	BOOST_CHECK_THROW(animSet.at(99).size(), std::out_of_range);
 }
 
+BOOST_AUTO_TEST_SUITE_END() // AnimationSet_getters
+
+BOOST_AUTO_TEST_SUITE(AnimationSet_additions)
+
+// Ensure that an AnimationSet can correctly add animations
+BOOST_FIXTURE_TEST_CASE(AnimationSet_add_to_empty, ReusableObjects)
+{
+    AnimationSet animSet;
+	// anim sets start as empty
+    BOOST_CHECK(animSet.isEmpty());
+
+	// animation set adds a single animation
+    animSet.addAnimation(anim1);
+    BOOST_CHECK(animSet[0].size() == anim1.size());
+    BOOST_CHECK(animSet[0][0] == frame1);
+    BOOST_CHECK(animSet[0][1] == frame2);
+    BOOST_CHECK(animSet[0][2] == frame3);
+    BOOST_CHECK(!animSet.isEmpty());
+    BOOST_CHECK(animSet.getSize() == 1);
+
+	// animation adds another animation and still has all of its data
+    animSet.addAnimation(anim2);
+    BOOST_CHECK(animSet[0].size() == anim1.size());
+    BOOST_CHECK(animSet[0][0] == frame1);
+    BOOST_CHECK(animSet[0][1] == frame2);
+    BOOST_CHECK(animSet[0][2] == frame3);
+    BOOST_CHECK(animSet[1].size() == anim2.size());
+    BOOST_CHECK(animSet[1][0] == frame2);
+    BOOST_CHECK(animSet[1][1] == frame1);
+    BOOST_CHECK(animSet.getSize() == 2);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // AnimationSet_additions
+
+BOOST_AUTO_TEST_SUITE(AnimationSet_removals)
+
 // Ensure that eraseAnimation remove correct animation
 BOOST_FIXTURE_TEST_CASE(AnimationSet_erase_remove_animation, ReusableObjects)
 {
@@ -116,7 +157,6 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_erase_remove_multiple_animations, ReusableO
 	// make sure the remaining animation was the second one
 	BOOST_CHECK(fixtureAnimSet[0][0] == frame3);
 	BOOST_CHECK(fixtureAnimSet.getSize() == 1);
-
 }
 
 // Ensure that clear animations removes all animations
@@ -126,6 +166,10 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_clear_removes_all_animations, ReusableObjec
 	fixtureAnimSet.clearAnimations();
 	BOOST_CHECK(fixtureAnimSet.isEmpty());
 }
+
+BOOST_AUTO_TEST_SUITE_END() // AnimationSet_removals
+
+BOOST_AUTO_TEST_SUITE(AnimationSet_iterators)
 
 // Ensure forward iterator works
 BOOST_FIXTURE_TEST_CASE(AnimationSet_forward_iterator_works_with_algorithms, ReusableObjects)
@@ -190,5 +234,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_const_reverse_iterator_works_with_algorithm
 		randomAccessPosition--;
 	}
 }
+
+BOOST_AUTO_TEST_SUITE_END() // AnimationSet_iterators
 
 BOOST_AUTO_TEST_SUITE_END()// End AnimationSetTests
