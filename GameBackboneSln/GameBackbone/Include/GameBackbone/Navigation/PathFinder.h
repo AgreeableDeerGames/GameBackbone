@@ -41,9 +41,9 @@ namespace GB {
 	private:
 
 		//helper functions
-		sf::Vector2i chooseNextGridSquare(const PathRequest& pathRequest, const std::set<sf::Vector2i, Vec2Compare<int>>& availableGridSquares, std::map<sf::Vector2i, int, Vec2Compare<int>>& score) const;
+		sf::Vector2i chooseNextGridSquare(const PathRequest& pathRequest, const std::set<sf::Vector2i, IsVector2Less<int>>& availableGridSquares, std::map<sf::Vector2i, int, IsVector2Less<int>>& score) const;
 		std::vector<sf::Vector2i> getNeighbors(const sf::Vector2i& gridCoordinate) const;
-		std::deque<sf::Vector2i> reconstructPath(const sf::Vector2i& endPoint, const std::map<sf::Vector2i, sf::Vector2i, Vec2Compare<int>>& cameFrom) const;
+		std::deque<sf::Vector2i> reconstructPath(const sf::Vector2i& endPoint, const std::map<sf::Vector2i, sf::Vector2i, IsVector2Less<int>>& cameFrom) const;
 
 		//data
 		NavigationGrid* navigationGrid;

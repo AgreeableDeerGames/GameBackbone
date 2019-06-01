@@ -45,7 +45,7 @@ Cluster* ClusterGreenhouse::chooseClusterToAddTo() {
 /// <return> The Point which was added to the cluster. </return>
 sf::Vector2i ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
     // Create and iterator and put it to some random Point2D of the cluster's border
-	const std::set<sf::Vector2i, Vec2Compare<int>>* clusterBorderPointSet = clusterToAddTo->getBorderPointSet();
+	const std::set<sf::Vector2i, IsVector2Less<int>>* clusterBorderPointSet = clusterToAddTo->getBorderPointSet();
 	auto borderPointSetIter = clusterBorderPointSet->begin();
 	std::advance(borderPointSetIter, RandomGenerator.uniDist(0, (double)clusterBorderPointSet->size()));
 
@@ -80,7 +80,7 @@ sf::Vector2i ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
 void ClusterGreenhouse::createClustersFromFrequencies(std::vector<double> frequencies) {
     // If the input frequency vector is not empty...
     if (!frequencies.empty()) {
-        std::multimap<sf::Vector2i, Cluster, Vec2Compare<int>> layerPointToClusterMap;
+        std::multimap<sf::Vector2i, Cluster, IsVector2Less<int>> layerPointToClusterMap;
         std::vector<Cluster> layerClusterVector;
         double percentAdjustment = 0;
         for (auto i = 0; i < frequencies.size(); i++) {
@@ -136,7 +136,7 @@ void ClusterGreenhouse::createClustersFromFrequencies(std::vector<double> freque
 /// </summary>
 /// <param name="frequencies">The frequencies which will be used in generating the clusters.</param>
 /// <returns>A vector of sets.  A single set represents a single cluster, the items in said set being the Point2D's in the Cluster.</returns>
-std::vector<std::set<sf::Vector2i, Vec2Compare<int>>> ClusterGreenhouse::generateClusteredGraph(const std::vector<double>& frequencies) {
+std::vector<std::set<sf::Vector2i, IsVector2Less<int>>> ClusterGreenhouse::generateClusteredGraph(const std::vector<double>& frequencies) {
     createClustersFromFrequencies(frequencies);
 
 	int Array2DArea = graphDims.x*graphDims.y;
@@ -147,7 +147,7 @@ std::vector<std::set<sf::Vector2i, Vec2Compare<int>>> ClusterGreenhouse::generat
 		if (clusterToAddTo != nullptr)
 			sf::Vector2i pointAdded = growCluster(clusterToAddTo); // In the future, maybe do something if the cluster isn't grown (pointAdded.x != -1).
 	}
-	std::vector<std::set<sf::Vector2i, Vec2Compare<int>>> Point2DVectorSet;
+	std::vector<std::set<sf::Vector2i, IsVector2Less<int>>> Point2DVectorSet;
     // move the clusters' points to the output vector of Point2D sets
 	for (auto cluster : this->clusterVectors[clusterVectors.size() - 1]) {
 		Point2DVectorSet.push_back(std::move(*(cluster.getClusterPoints())));

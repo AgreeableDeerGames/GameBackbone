@@ -22,8 +22,8 @@ namespace GB {
 		explicit Cluster(sf::Vector2i firstPoint);
 
         //getter
-		std::set<sf::Vector2i, Vec2Compare<int>> const* const getClusterPoints();
-		std::set<sf::Vector2i, Vec2Compare<int>> const* const getBorderPointSet();
+		std::set<sf::Vector2i, IsVector2Less<int>> const* const getClusterPoints();
+		std::set<sf::Vector2i, IsVector2Less<int>> const* const getBorderPointSet();
 
 		double getClusterFrequency();
 
@@ -39,10 +39,10 @@ namespace GB {
 		void UpdateBorder(sf::Vector2i pointToAdd);
 
         // Set of all points of the Array2D which are owned by this cluster
-        std::set<sf::Vector2i, Vec2Compare<int>> clusterPointSet;
+        std::set<sf::Vector2i, IsVector2Less<int>> clusterPointSet;
 
         // Set of all points in the cluster's border. Used as potential points to be added.
-        std::set<sf::Vector2i, Vec2Compare<int>> borderPointSet;
+        std::set<sf::Vector2i, IsVector2Less<int>> borderPointSet;
 
         // Determines the amount of the map which will be of this cluster.
         double clusterFrequency;

@@ -288,7 +288,7 @@ void NavigationDemoRegion::initMaze() {
 
 	// Generate all of the clusters.
 	// Each std::set of Point2D is a cluster.
-	std::vector<std::set<sf::Vector2i, GB::Vec2Compare<int>>> clusterVector = graphGenerator.generateClusteredGraph(genOptions);
+	std::vector<std::set<sf::Vector2i, GB::IsVector2Less<int>>> clusterVector = graphGenerator.generateClusteredGraph(genOptions);
 
 	// Create a vector of navigation weights. This is the cost associated with moving through a tile.
 	// Each value in the vector corresponds to the cluster in clusterVector of the same index.

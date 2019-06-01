@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(Cluster_ZeroPoint_CTR) {
 	sf::Vector2i testPoint{0,0};
 
 	// Create border points to compare against.
-	std::set<sf::Vector2i, Vec2Compare<int>>* testBorderPoints = new std::set<sf::Vector2i, Vec2Compare<int>>;
+	std::set<sf::Vector2i, IsVector2Less<int>>* testBorderPoints = new std::set<sf::Vector2i, IsVector2Less<int>>;
 	testBorderPoints->insert(sf::Vector2i{0, 1});
 	testBorderPoints->insert(sf::Vector2i{1, 0});
 	testBorderPoints->insert(sf::Vector2i{-1, 0});

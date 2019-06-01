@@ -29,13 +29,13 @@ namespace GB {
 
 		void createClustersFromFrequencies(std::vector<double> frequencies);
 
-		std::vector<std::set<sf::Vector2i, Vec2Compare<int>>> generateClusteredGraph(const std::vector<double>& frequencies);
+		std::vector<std::set<sf::Vector2i, IsVector2Less<int>>> generateClusteredGraph(const std::vector<double>& frequencies);
 
         // vector holding the clusters in each layer of the graph, each layer being a vector of clusters
 		std::vector<std::vector<Cluster>> clusterVectors;
 
         // vector holding the pointToClusterMap for each layer
-        std::vector<std::multimap<sf::Vector2i, Cluster, Vec2Compare<int>>> pointToClusterMaps;
+        std::vector<std::multimap<sf::Vector2i, Cluster, IsVector2Less<int>>> pointToClusterMaps;
 
         // Dimensions of the Array2D which is being built upon
 		sf::Vector2i graphDims;

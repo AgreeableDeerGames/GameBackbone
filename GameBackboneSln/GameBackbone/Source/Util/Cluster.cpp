@@ -26,7 +26,7 @@ Cluster::Cluster(sf::Vector2i firstPoint) {
 /// Returns the points contained by this clusters.
 /// </summary>
 /// <returns></returns>
-std::set<sf::Vector2i, Vec2Compare<int>> const* const Cluster::getClusterPoints() {
+std::set<sf::Vector2i, IsVector2Less<int>> const* const Cluster::getClusterPoints() {
     return &clusterPointSet;
 }
 
@@ -72,6 +72,6 @@ unsigned int Cluster::getNumberBorderPoints() {
 /// Gets the set of points that are in this cluster's border.
 /// </summary>
 /// <returns>the borderPointSet</returns>
-std::set<sf::Vector2i, Vec2Compare<int>> const* const Cluster::getBorderPointSet() {
+std::set<sf::Vector2i, IsVector2Less<int>> const* const Cluster::getBorderPointSet() {
 	return &borderPointSet;
 }
