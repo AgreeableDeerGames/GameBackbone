@@ -17,7 +17,9 @@ struct ReusableObjects {
 		frame2(0, 1, 1, 1),
 		frame3(1, 1, 2, 2),
 		anim1({frame1, frame2, frame3}),
-		anim2({frame2, frame1}) {
+		anim2({frame2, frame1}),
+		fixtureAnimSet({anim1, anim2}) {
+		
 	}
 
 	sf::IntRect frame1;
@@ -25,6 +27,7 @@ struct ReusableObjects {
 	sf::IntRect frame3;
 	Animation anim1;
 	Animation anim2;
+	AnimationSet fixtureAnimSet;
 };
 
 
@@ -77,14 +80,53 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_operator_square_bracket_returns_correct_ani
 }
 
 // Ensure that at gets the right animation
+BOOST_FIXTURE_TEST_CASE(AnimationSet_at_returns_correct_animation, ReusableObjects)
+{
+	AnimationSet animSet({anim1, anim2});
+	BOOST_CHECK(animSet.at(0).size() == anim1.size());
+	BOOST_CHECK(animSet.at(0)[0] == frame1);
+	BOOST_CHECK(animSet.at(0)[1] == frame2);
+	BOOST_CHECK(animSet.at(0)[2] == frame3);
+	BOOST_CHECK(animSet.at(1).size() == anim2.size());
+	BOOST_CHECK(animSet.at(1)[0] == frame2);
+	BOOST_CHECK(animSet.at(1)[1] == frame1);
+}
 
 // Ensure that at throws if out of bound 
+BOOST_FIXTURE_TEST_CASE(AnimationSet_at_throws_when_out_of_bounds, ReusableObjects)
+{
+	AnimationSet animSet({anim1, anim2});
+	BOOST_CHECK_THROW(animSet.at(99).size(), std::out_of_range);
+}
 
 // Ensure that eraseAnimation remove correct animation
+BOOST_FIXTURE_TEST_CASE(AnimationSet_erase_remove_animation, ReusableObjects)
+{
+	fixtureAnimSet.eraseAnimation(fixtureAnimSet.begin());
+	// make sure the remaining animation was the second one
+	BOOST_CHECK(fixtureAnimSet[0][0] == frame2);
+	BOOST_CHECK(fixtureAnimSet.getSize() == 1);
+}
 
 // Ensure that eraseAnimations remove correct animations
+BOOST_FIXTURE_TEST_CASE(AnimationSet_erase_remove_multiple_animations, ReusableObjects)
+{
+	fixtureAnimSet.addAnimation({frame3, frame2, frame1});
+	fixtureAnimSet.eraseAnimations(fixtureAnimSet.begin(), fixtureAnimSet.begin() + 1);
+	// make sure the remaining animation was the second one
+	BOOST_CHECK(fixtureAnimSet[0][0] == frame3);
+	BOOST_CHECK(fixtureAnimSet.getSize() == 1);
+
+}
 
 // Ensure that clear animations removes all animations
+BOOST_FIXTURE_TEST_CASE(AnimationSet_clear_removes_all_animations, ReusableObjects)
+{
+	fixtureAnimSet.addAnimation({frame3, frame2, frame1});
+	fixtureAnimSet.clearAnimations();
+	BOOST_CHECK(fixtureAnimSet.isEmpty());
+	
+}
 
 // Ensure that iterators are usable with std algorithms
 
