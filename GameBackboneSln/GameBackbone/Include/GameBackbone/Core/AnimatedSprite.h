@@ -33,7 +33,6 @@ namespace GB {
 		AnimatedSprite();
 		explicit AnimatedSprite(const sf::Texture& texture);
 		AnimatedSprite(const sf::Texture& texture, AnimationSet::Ptr animations);
-		AnimatedSprite(const sf::Texture& texture, AnimationSet::Ptr animations, bool shouldFitToFrame);
 		AnimatedSprite(const AnimatedSprite& other) = default;
 		AnimatedSprite& operator=(const AnimatedSprite& other) = default;
 		AnimatedSprite(AnimatedSprite&& other) noexcept = default;
@@ -45,7 +44,6 @@ namespace GB {
 		void setAnimating(bool animating);
 		void setCurrentFrame(unsigned int frame);
 		void setAnimations(AnimationSet::Ptr animations);
-		void setAnimations(AnimationSet::Ptr animations, bool shouldFitToFrame);
 		void setAnimationDelay(sf::Time delay);
 
 			//getters
@@ -57,23 +55,21 @@ namespace GB {
 		bool willFitToFrame() const;
 
 		//operations
-		void runAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
+		void runAnimation(unsigned int animationId);
 		virtual void update(sf::Int64 elapsedTime);
 
 	protected:
-		AnimationSet::Ptr animations;
-		std::size_t currentAnimationId;
-
-		bool shouldFitToFrame;
 		bool animating;
-		ANIMATION_END_TYPE animationEnd;
 		bool isReverse;
+		ANIMATION_END_TYPE animationEnd;
 		sf::Time animationDelay;
 		sf::Time lastUpdate;
 		
-		const Animation* currentAnimation;
 		unsigned int currentFrame;
 		unsigned int framesSpentInCurrentAnimation;
+		std::size_t currentAnimationId;
+		const Animation* currentAnimation;
+		AnimationSet::Ptr animations;
 	};
 }

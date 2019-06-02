@@ -27,30 +27,19 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture) :
 /// <param name="texture"> texture representing the animation sheet.</param>
 /// <param name="animations">The animations.</param>
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr animations) : 
-	AnimatedSprite(texture, std::move(animations), false) {
-}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="AnimatedSprite"/> class. Initializes texture to first frame of first animation.
-/// </summary>
-/// <param name="texture"> A texture representing the animation sheet.</param>
-/// <param name="animations">The animations.</param>
-/// <param name="shouldFitToFrame">Should the AnimatedSprite always match the relative dimensions of its current Frame.</param>
-AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr animations,  bool shouldFitToFrame) : sf::Sprite(texture) {
+	sf::Sprite(texture),
+	animating(false),
+	isReverse(false),
+	animationEnd(ANIMATION_END_TYPE::ANIMATION_LOOP),
+	animationDelay(sf::Time::Zero),
+	lastUpdate(sf::Time::Zero),
+	currentFrame(0),
+	framesSpentInCurrentAnimation(0),
+	currentAnimationId(0),
+	currentAnimation(nullptr),
+	animations(nullptr)
+{
 	setAnimations(animations);
-	if (animations) {
-		//initialize sprite to first frame of first animation
-		setTextureRect(this->animations->at(0).at(0));
-	}
-
-	this->animating = false;
-	this->currentFrame = 0;
-	this->currentAnimationId = 0;
-	this->currentAnimation = nullptr;
-	this->framesSpentInCurrentAnimation = 0;
-	this->animationDelay = sf::Time::Zero;
-	this->isReverse = false;
-	this->shouldFitToFrame = shouldFitToFrame;
 }
 
 //getters and setters
@@ -71,21 +60,18 @@ void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 }
 
 /// <summary>
-/// sets the animations of the sprite to the passed AnimationSet.
+/// Updates the sprite to use the provided AnimationSet.
+/// The current frame of the sprite is set to the first frame of the first
+/// Animation if the provided AnimationSet.
+/// If the provided AnimationSet is empty an out_of_bounds exception is thrown.
 /// </summary>
-/// <param name="animationSet">The animation set.</param>
+/// <param name="animationSet">The new AnimationSet to use.</param>
 void AnimatedSprite::setAnimations(AnimationSet::Ptr animationSet) {
-	this->animations = std::move(animationSet);
-}
-
-/// <summary>
-/// sets the animations of the sprite to the passed AnimationSet.
-/// </summary>
-/// <param name="animationSet">The animation set.</param>
-/// <param name="shouldFitToFrame">Should the AnimatedSprite always match the relative dimensions of its current Frame.</param>
-void AnimatedSprite::setAnimations(AnimationSet::Ptr animationSet, bool shouldFitToFrame) {
-	setAnimations(animationSet);
-	this->shouldFitToFrame = shouldFitToFrame;
+	if (animationSet) {
+		this->animations = std::move(animationSet);
+		//initialize sprite to first frame of first animation
+		setTextureRect(this->animations->at(0).at(0));
+	}
 }
 
 /// <summary>
@@ -135,13 +121,6 @@ unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() const {
 /// </returns>
 bool AnimatedSprite::isAnimating() const {
 	return animating;
-}
-
-/// <summary>
-/// True if the AnimatedSprite always match the relative dimensions of its current Frame.
-/// </summary>
-bool AnimatedSprite::willFitToFrame() const {
-	return shouldFitToFrame;
 }
 
 //operations
@@ -213,11 +192,5 @@ void AnimatedSprite::update(sf::Int64 elapsedTime) {
 
 		// Update the displayed frame
 		setTextureRect(currentAnimation->at(currentFrame));
-		if (shouldFitToFrame) {
-			// Resize the sprite to fit the new frame
-			float scaleFactorX = getTextureRect().width / getLocalBounds().width;
-			float scaleFactory = getTextureRect().height / getLocalBounds().height;
-			scale(scaleFactorX, scaleFactory);
-		}
 	}
 }

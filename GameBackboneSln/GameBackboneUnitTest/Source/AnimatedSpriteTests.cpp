@@ -108,6 +108,24 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_and_Animations, ReusableObjects) 
 	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == 1);
 }
 
+// Tests the AnimatedSprite constructor that fits the sprite to its frames
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_and_Animations_and_ShouldFitToFrame, ReusableObjects) {
+	// build AnimatedSprite with irregular animation
+	auto irregularAnimationSet = std::make_shared<AnimationSet>(std::vector<Animation>{Animation{sf::IntRect(0, 0, 1, 1), sf::IntRect(0, 0, 2, 2)}});
+	AnimatedSprite animSpriteUpdateWithFrames(*aSpriteTexture, irregularAnimationSet);
+
+	// check that the animated sprite will update its size on initialization
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().width == 1);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == 1);
+
+	// check that the animated sprite will update its size after being updated
+	animSpriteUpdateWithFrames.runAnimation(0);
+	animSpriteUpdateWithFrames.setAnimationDelay(sf::microseconds(2));
+	animSpriteUpdateWithFrames.update(3);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().width == 2);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == 2);
+}
+
 BOOST_AUTO_TEST_SUITE_END() // end AnimatedSprite_CTRs
 
 // Contains all of the tests relating to AnimatedSprite's animations
@@ -402,6 +420,50 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations, ReusableObjects) {
 	BOOST_CHECK(animSprite->getFramesSpentInCurrentAnimation() == 1);
 
 	delete animSprite;
+}
+
+// Ensures that animations set with setAnimations can be successfully run and that it can update the size of the sprite
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations_fit_to_frame, ReusableObjects) {
+	AnimatedSprite animSpriteUpdateWithFrames = AnimatedSprite(*aSpriteTexture);
+
+	// build AnimatedSprite with irregular animation
+	auto irregularAnimationSet = std::make_shared<AnimationSet>(std::vector<Animation>{Animation{sf::IntRect(0, 0, 1, 1), sf::IntRect(0, 0, 2, 2)}});
+
+	// set the animation on the sprite
+	animSpriteUpdateWithFrames.setAnimations(irregularAnimationSet);
+
+	// check that the animated sprite will update its size on initialization
+	BOOST_CHECK_EQUAL(animSpriteUpdateWithFrames.getLocalBounds().width, 1.0f);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == 1);
+
+	// check that the animated sprite will update its size after being updated
+	animSpriteUpdateWithFrames.runAnimation(0);
+	animSpriteUpdateWithFrames.setAnimationDelay(sf::microseconds(2));
+	animSpriteUpdateWithFrames.update(3);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().width == 2);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == 2);
+}
+
+// Ensures that animations set with setAnimations can be successfully run and that it does update the size of the sprite if the option is false
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations_fit_to_frame_false, ReusableObjects) {
+	AnimatedSprite animSpriteUpdateWithFrames = AnimatedSprite(*aSpriteTexture);
+
+	// build AnimatedSprite with irregular animation
+	auto irregularAnimationSet = std::make_shared<AnimationSet>(std::vector<Animation>{Animation{sf::IntRect(0, 0, 1, 1), sf::IntRect(0, 0, 2, 2)}});
+
+	// set the animation on the sprite
+	animSpriteUpdateWithFrames.setAnimations(irregularAnimationSet);
+
+	// check that the animated sprite will update its size on initialization
+	BOOST_CHECK_EQUAL(animSpriteUpdateWithFrames.getLocalBounds().width, aSpriteTexture->getSize().x);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == aSpriteTexture->getSize().y);
+
+	// check that the animated sprite will update its size after being updated
+	animSpriteUpdateWithFrames.runAnimation(0);
+	animSpriteUpdateWithFrames.setAnimationDelay(sf::microseconds(2));
+	animSpriteUpdateWithFrames.update(3);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().width == aSpriteTexture->getSize().x);
+	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == aSpriteTexture->getSize().y);
 }
 
 // ensure that the minimum animation delay is stored correctly
