@@ -32,29 +32,29 @@ struct ReusableObjects {
 
 BOOST_AUTO_TEST_SUITE(AnimationSet_constructors)
 
-// Ensure that a default constructed animation set is empty
+// Ensure that a default constructed AnimationSet is empty
 BOOST_AUTO_TEST_CASE(AnimationSet_default_constructor)
 {
     AnimationSet animSet;
     BOOST_CHECK(animSet.isEmpty());
 }
 
-// Ensure that a animation set constructed with an empty vector is empty
+// Ensure that an AnimationSet constructed with an empty vector is empty
 BOOST_AUTO_TEST_CASE(AnimationSet_empty_vector_constructor)
 {
     AnimationSet animSet(std::vector<Animation>{});
     BOOST_CHECK(animSet.isEmpty());
 }
 
-// Ensure that a animation set constructed with an full vector has the right number of animations
+// Ensure that an AnimationSet constructed with an full vector has the right number of animations
 BOOST_AUTO_TEST_CASE(AnimationSet_full_vector_constructor)
 {
-    AnimationSet animSet(std::vector{Animation{}, Animation{}});
+    AnimationSet animSet(std::vector<Animation>{Animation{}, Animation{}});
     BOOST_CHECK(!animSet.isEmpty());
 	BOOST_CHECK(animSet.getSize() == 2);
 }
 
-// Ensure that a animation set constructed with an full vector has the right number of animations
+// Ensure that an AnimationSet constructed with an full vector has the right number of animations
 BOOST_FIXTURE_TEST_CASE(AnimationSet_full_vector_constructor_correct_frames, ReusableObjects)
 {
 	AnimationSet animSet({anim1, anim2});

@@ -24,7 +24,7 @@ UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize) : defaultFrameS
 /// <param name="animations"> The animations to add. </param>
 UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize, const std::vector<UniformAnimation>& animations)
 	: defaultFrameSize(std::move(frameSize)){
-	for (auto animation : animations){
+	for (const UniformAnimation& animation : animations){
 		addAnimation(animation);
 	}
 }
@@ -35,7 +35,7 @@ UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize, const std::vect
 /// <param name="animation"> The animation to add. </param>
 void UniformAnimationSet::addAnimation(const UniformAnimation& animation){
 	Animation baseAnimation;
-	for (auto frameIndex : animation){
+	for (const sf::Vector2i& frameIndex : animation){
 		const sf::Vector2i animationPosition(frameIndex.x*defaultFrameSize.x, frameIndex.y*defaultFrameSize.y);
 		baseAnimation.emplace_back(sf::IntRect(animationPosition, defaultFrameSize));
 	}
