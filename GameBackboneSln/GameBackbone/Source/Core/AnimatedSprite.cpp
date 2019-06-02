@@ -9,17 +9,16 @@ using namespace GB;
 
 //ctr and dtr
 
-/// <summary>Default Constructor. All values are initialized to 0 or nullptr.</summary>
-AnimatedSprite::AnimatedSprite() {
-	AnimatedSpriteInit(nullptr);
+/// <summary>Create a new animated sprite with an empty texture. All values are initialized to 0, nullptr, or false.</summary>
+AnimatedSprite::AnimatedSprite() : AnimatedSprite(sf::Texture{}) {
 }
 
 /// <summary>
 /// Initializes a new instance of the <see cref="AnimatedSprite"/> class. Texture set to passed value. Position set to 0.
 /// </summary>
 /// <param name="texture">The texture.</param>
-AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture) {
-	AnimatedSpriteInit(nullptr);
+AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : 
+	AnimatedSprite(texture, nullptr) {
 }
 
 /// <summary>
@@ -27,19 +26,17 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : sf::Sprite(texture
 /// </summary>
 /// <param name="texture"> texture representing the animation sheet.</param>
 /// <param name="animations">The animations.</param>
-AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr animations) : sf::Sprite(texture) {
-	AnimatedSpriteInit(animations);
+AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr animations) : 
+	AnimatedSprite(texture, std::move(animations), false) {
 }
 
 /// <summary>
-/// Initializes properties to false, 0, or nullptr. Initializes animation set and sets texture to first animation frame if animation set is valid
+/// Initializes a new instance of the <see cref="AnimatedSprite"/> class. Initializes texture to first frame of first animation.
 /// </summary>
-/// <param name="animations">
-/// AnimationSet for the sprite. If this value is set to a valid animation then the texture of the sprite is set to the first frame of the first animation.
-/// Throws std::out_of_range exception if the set is empty
-/// </param>
-void AnimatedSprite::AnimatedSpriteInit(AnimationSet::Ptr animations) {
-
+/// <param name="texture"> A texture representing the animation sheet.</param>
+/// <param name="animations">The animations.</param>
+/// <param name="shouldFitToFrame">Should the AnimatedSprite always match the relative dimensions of its current Frame.</param>
+AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr animations,  bool shouldFitToFrame) : sf::Sprite(texture) {
 	setAnimations(animations);
 	if (animations) {
 		//initialize sprite to first frame of first animation
@@ -53,11 +50,8 @@ void AnimatedSprite::AnimatedSpriteInit(AnimationSet::Ptr animations) {
 	this->framesSpentInCurrentAnimation = 0;
 	this->animationDelay = sf::Time::Zero;
 	this->isReverse = false;
+	this->shouldFitToFrame = shouldFitToFrame;
 }
-
-AnimatedSprite::~AnimatedSprite() {
-}
-
 
 //getters and setters
 
@@ -85,7 +79,17 @@ void AnimatedSprite::setAnimations(AnimationSet::Ptr animationSet) {
 }
 
 /// <summary>
-///Sets the minimum time (as sf::Time) between two animation frames.
+/// sets the animations of the sprite to the passed AnimationSet.
+/// </summary>
+/// <param name="animationSet">The animation set.</param>
+/// <param name="shouldFitToFrame">Should the AnimatedSprite always match the relative dimensions of its current Frame.</param>
+void AnimatedSprite::setAnimations(AnimationSet::Ptr animationSet, bool shouldFitToFrame) {
+	setAnimations(animationSet);
+	this->shouldFitToFrame = shouldFitToFrame;
+}
+
+/// <summary>
+/// Sets the minimum time (as sf::Time) between two animation frames.
 /// </summary>
 /// <param name="delay">Minimum time (as sf::Time) between two animation frames.</param>
 void AnimatedSprite::setAnimationDelay(sf::Time delay) {
@@ -131,6 +135,13 @@ unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() const {
 /// </returns>
 bool AnimatedSprite::isAnimating() const {
 	return animating;
+}
+
+/// <summary>
+/// True if the AnimatedSprite always match the relative dimensions of its current Frame.
+/// </summary>
+bool AnimatedSprite::willFitToFrame() const {
+	return shouldFitToFrame;
 }
 
 //operations
@@ -199,6 +210,14 @@ void AnimatedSprite::update(sf::Int64 elapsedTime) {
 		}
 
 		framesSpentInCurrentAnimation++;
+
+		// Update the displayed frame
 		setTextureRect(currentAnimation->at(currentFrame));
+		if (shouldFitToFrame) {
+			// Resize the sprite to fit the new frame
+			float scaleFactorX = getTextureRect().width / getLocalBounds().width;
+			float scaleFactory = getTextureRect().height / getLocalBounds().height;
+			scale(scaleFactorX, scaleFactory);
+		}
 	}
 }
