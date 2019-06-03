@@ -67,7 +67,7 @@ namespace GB {
 		bool isReverse;
 		ANIMATION_END_TYPE animationEnd;
 		sf::Time animationDelay;
-		sf::Time lastUpdate;
+		sf::Time timeSinceLastUpdate;
 		
 		unsigned int currentFrame;
 		unsigned int framesSpentInCurrentAnimation;

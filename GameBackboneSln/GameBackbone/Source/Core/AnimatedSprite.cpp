@@ -32,7 +32,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr an
 	isReverse(false),
 	animationEnd(ANIMATION_END_TYPE::ANIMATION_LOOP),
 	animationDelay(sf::Time::Zero),
-	lastUpdate(sf::Time::Zero),
+	timeSinceLastUpdate(sf::Time::Zero),
 	currentFrame(0),
 	framesSpentInCurrentAnimation(0),
 	currentAnimationId(0),
@@ -160,8 +160,9 @@ void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE e
 /// </summary>
 /// <param name="elapsedTime">The elapsed time.</param>
 void AnimatedSprite::update(sf::Int64 elapsedTime) {
-	lastUpdate = lastUpdate + sf::microseconds(elapsedTime);
-	if (animating && (lastUpdate.asMicroseconds() > animationDelay.asMicroseconds())) {
+	timeSinceLastUpdate = timeSinceLastUpdate + sf::microseconds(elapsedTime);
+	if (animating && (timeSinceLastUpdate.asMicroseconds() > animationDelay.asMicroseconds())) {
+		timeSinceLastUpdate = sf::Time::Zero;
 		switch (animationEnd) {
 		case ANIMATION_END_TYPE::ANIMATION_LOOP:
 			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
