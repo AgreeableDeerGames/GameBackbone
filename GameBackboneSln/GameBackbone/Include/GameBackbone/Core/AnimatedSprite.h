@@ -28,6 +28,9 @@ namespace GB {
 	/// <seealso cref="Updatable" />
 	class libGameBackbone AnimatedSprite : public sf::Sprite, public Updatable {
 	public:
+		/// <summary>shared_ptr to an AnimatedSprite</summary>
+		using Ptr = std::shared_ptr<AnimatedSprite>;
+
 		//ctr and dtr
 		//shallow copy and move are fine for this class
 		AnimatedSprite();

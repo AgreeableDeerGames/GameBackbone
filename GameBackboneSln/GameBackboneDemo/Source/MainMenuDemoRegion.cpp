@@ -1,3 +1,4 @@
+#include <GameBackboneDemo/AnimationDemoRegion.h>
 #include <GameBackboneDemo/MainMenuDemoRegion.h>
 #include <GameBackboneDemo/NavigationDemoRegion.h>
 #include <GameBackboneDemo/PlatformDemoRegion.h>
@@ -43,6 +44,10 @@ void MainMenuDemoRegion::init(sf::RenderWindow & window) {
 	// The other one will be accessible through this one
 	selectableRegions.push_back(regionChangeRegion1);
 
+	// Create and link an AnimationDemoRegion to this MainMenuDemoRegion
+	AnimationDemoRegion::Ptr animationDemoRegion = std::make_shared<AnimationDemoRegion>(window);
+	addChild(animationDemoRegion);
+	selectableRegions.push_back(animationDemoRegion);
 }
 
 /// <summary>
@@ -131,6 +136,12 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	regionChangeButton->connect("pressed", &MainMenuDemoRegion::regionChangeDemoCB, this);
 	demoRegionButtons.push_back(regionChangeButton);
 
+	// Create region change demo button
+	tgui::Button::Ptr animationDemoButton = tgui::Button::create();
+	animationDemoButton->setText("Animation Demo");
+	animationDemoButton->connect("pressed", &MainMenuDemoRegion::animationDemoCB, this);
+	demoRegionButtons.push_back(animationDemoButton);
+
 	// Size and place buttons
 	// The number of buttons will be needed a few times. Calculate it once.
 	const std::size_t demoRegionButtonCount = demoRegionButtons.size();
@@ -156,7 +167,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 
 /// <summary>
 /// Callback that is fired when the navigationRegionButton is clicked.
-/// Sets the active region to the first child of this region (which should always be a NavigationDemoRegion)
+/// Sets the active region to the NavigationDemoRegion
 /// </summary>
 void MainMenuDemoRegion::navigationRegionCB() {
 	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO].get());
@@ -164,7 +175,7 @@ void MainMenuDemoRegion::navigationRegionCB() {
 
 /// <summary>
 /// Callback that is fired when the platformRegionButton is clicked.
-/// Sets the active region to the first child of this region (which should always be a PlatformDemoRegion)
+/// Sets the active region to the PlatformDemoRegion
 /// </summary>
 void MainMenuDemoRegion::platformRegionCB() {
 	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
@@ -174,7 +185,7 @@ void MainMenuDemoRegion::platformRegionCB() {
 
 /// <summary>
 /// Callback that is fired when the swirlyDemoButton is clicked.
-/// Sets the active region to the second child of this region (which should always be a ScaleAndRotationDemoRegion)
+/// Sets the active region to the ScaleAndRotationDemoRegion
 /// </summary>
 void MainMenuDemoRegion::scaleAndRotationDemoCB() {
 	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO].get());
@@ -182,8 +193,16 @@ void MainMenuDemoRegion::scaleAndRotationDemoCB() {
 
 /// <summary>
 /// Callback that is fired when the regionChangeButton is clicked.
-/// Sets the active region to the third child of this region (which should always be a RegionChangeDemoRegion)
+/// Sets the active region to the RegionChangeDemoRegion
 /// </summary>
 void MainMenuDemoRegion::regionChangeDemoCB() {
 	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO].get());
+}
+
+/// <summary>
+/// Callback that is fired when the animationDemoButton is clicked.
+/// Sets the active region to the AnimationDemoRegion
+/// </summary>
+void MainMenuDemoRegion::animationDemoCB() {
+	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::ANIMATION_DEMO].get());
 }

@@ -40,7 +40,8 @@ namespace EXE {
 				PLATFORM_DEMO,
 			#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 			SCALE_ROTATION_DEMO,
-			REGION_CHANGE_DEMO
+			REGION_CHANGE_DEMO,
+			ANIMATION_DEMO
 		};
 
 		// Initialization
@@ -52,6 +53,7 @@ namespace EXE {
 		void platformRegionCB();
 		void scaleAndRotationDemoCB();
 		void regionChangeDemoCB();
+		void animationDemoCB();
 
 		// Storage
 		std::vector<GB::GameRegion::Ptr> selectableRegions;
