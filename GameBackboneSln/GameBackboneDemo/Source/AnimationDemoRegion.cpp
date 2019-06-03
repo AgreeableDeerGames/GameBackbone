@@ -42,24 +42,50 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
     // The animation is coppied into the AnimationSet
     animationSet->addAnimation(simpleAnim);
 
+    // Add another animation to the AnimationSet
+    animationSet->addAnimation({
+        sf::IntRect(0, 0, frameDimX, frameDimY),                // Top left of the texture
+        sf::IntRect(0, 0, spriteSheet.getSize().x, frameDimY),  // Top row of the texture
+        sf::IntRect(0, 0, frameDimX, spriteSheet.getSize().y)   // Left column of the texture
+    });
+
     // Create an AnimatedSprite using the sprite sheet and the AnimationSet we constructed above
     GB::AnimatedSprite::Ptr animatedSprite = std::make_shared<GB::AnimatedSprite>(spriteSheet, animationSet);
-
     // Move the AnimatedSprite
-    animatedSprite->move(400, 400);
-
+    animatedSprite->move(150, 150);
     // Tell the AnimatedSprite to update every second
     animatedSprite->setAnimationDelay(sf::seconds(1));
-
     // Tell the AnimatedSprite to begin running its first animation
     // The animation will reverse directions every time it reaches the beginning or end
     animatedSprite->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_REVERSE);
-
     // Tell the region to draw the AnimatedSprite
     setDrawable(true, animatedSprite.get());
-
     // Store the animatedSprite in the animatedSprites vector
     animatedSprites.push_back(animatedSprite);
+
+    // Create another animated sprite to display the other animation
+    GB::AnimatedSprite::Ptr animatedSprite2 = std::make_shared<GB::AnimatedSprite>(spriteSheet, animationSet);
+    // Move the AnimatedSprite
+    animatedSprite2->move(300, 300);
+    // Tell the AnimatedSprite to update every two seconds
+    animatedSprite2->setAnimationDelay(sf::seconds(2));
+    // Tell the AnimatedSprite to begin running its second animation
+    // The animation will reverse directions every time it reaches the beginning or end
+    animatedSprite2->runAnimation(1, GB::ANIMATION_END_TYPE::ANIMATION_LOOP);
+    // Tell the region to draw the AnimatedSprite
+    setDrawable(true, animatedSprite2.get());
+    // Store the animatedSprite in the animatedSprites vector
+    animatedSprites.push_back(animatedSprite2);
+
+    // Remove the "Reset" button from Animation Demo, since there is nothing to reset
+	// Loop through all tgui Widgets and remove any with the text "Reset"
+	const std::vector<tgui::Widget::Ptr>& widgets = regionGUI.getWidgets();
+	for (auto& widget : widgets) {
+		auto button = std::dynamic_pointer_cast<tgui::Button>(widget);
+		if (button != nullptr && button->getText() == "Reset") {
+			regionGUI.remove(widget);
+		}
+	}
 }
 
 /// <summary>
