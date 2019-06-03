@@ -444,28 +444,6 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations_fit_to_frame, ReusableObjec
 	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == 2);
 }
 
-// Ensures that animations set with setAnimations can be successfully run and that it does update the size of the sprite if the option is false
-BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimations_fit_to_frame_false, ReusableObjects) {
-	AnimatedSprite animSpriteUpdateWithFrames = AnimatedSprite(*aSpriteTexture);
-
-	// build AnimatedSprite with irregular animation
-	auto irregularAnimationSet = std::make_shared<AnimationSet>(std::vector<Animation>{Animation{sf::IntRect(0, 0, 1, 1), sf::IntRect(0, 0, 2, 2)}});
-
-	// set the animation on the sprite
-	animSpriteUpdateWithFrames.setAnimations(irregularAnimationSet);
-
-	// check that the animated sprite will update its size on initialization
-	BOOST_CHECK_EQUAL(animSpriteUpdateWithFrames.getLocalBounds().width, aSpriteTexture->getSize().x);
-	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == aSpriteTexture->getSize().y);
-
-	// check that the animated sprite will update its size after being updated
-	animSpriteUpdateWithFrames.runAnimation(0);
-	animSpriteUpdateWithFrames.setAnimationDelay(sf::microseconds(2));
-	animSpriteUpdateWithFrames.update(3);
-	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().width == aSpriteTexture->getSize().x);
-	BOOST_CHECK(animSpriteUpdateWithFrames.getLocalBounds().height == aSpriteTexture->getSize().y);
-}
-
 // ensure that the minimum animation delay is stored correctly
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimationDelay, ReusableObjects) {
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
@@ -477,6 +455,24 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame, ReusableObjects) {
 	animSpriteWithAnim->runAnimation(0);
 	animSpriteWithAnim->setCurrentFrame(3);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 3);
+}
+
+// Tests AnimatedSprite reversing its animations
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_multiple_updates_require_time_to_pass, ReusableObjects) {
+	animSpriteWithAnim->runAnimation(0, ANIMATION_REVERSE);
+	animSpriteWithAnim->setAnimationDelay(sf::microseconds(10));
+
+	// fake sleep long enough for the next frame
+	animSpriteWithAnim->update(11);
+
+	// ensure that the animation is on frame 1
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
+
+	// fake sleep, but not enough for the next frame
+	animSpriteWithAnim->update(5);
+
+	// Ensure that the frame has not changed
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 }
 
 
