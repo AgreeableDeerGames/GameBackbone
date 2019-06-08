@@ -11,7 +11,7 @@ namespace GB {
 	template <typename T>
 	class IsVector2Less {
 	public:
-		bool operator()(const sf::Vector2<T>& lhs, const sf::Vector2<T>& rhs) const {
+		constexpr bool operator()(const sf::Vector2<T>& lhs, const sf::Vector2<T>& rhs) const {
 			return lhs.x < rhs.x || (!(rhs.x < lhs.x) && lhs.y < rhs.y);
 		}
 	};
