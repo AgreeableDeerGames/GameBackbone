@@ -140,7 +140,6 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 
 /// <summary>
 /// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends.
-///
 /// Throws a std::out_of_range exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>

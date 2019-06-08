@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <algorithm>
+#include <exception>
 
 using namespace GB;
 
@@ -29,10 +30,10 @@ void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newS
 /// Adds or removes a drawable object from the list of drawable objects.
 /// </summary>
 /// <param name="status">if set to <c>true</c> the object will be drawable, otherwise the object will be made non-drawable.</param>
-/// <param name="object">The object. Passing nullptr is illegal.</param>
+/// <param name="object">The object. Passing nullptr results in an std::invalid_argument exception.</param>
 void GameRegion::setDrawable(bool status, sf::Drawable* object) {
 	if (object == nullptr) {
-		throw Error::Pointer_IllegalNull();
+		throw std::invalid_argument("Cannot invoke GameRegion::setDrawable on nullptr");
 	}
 
 	if (status) {

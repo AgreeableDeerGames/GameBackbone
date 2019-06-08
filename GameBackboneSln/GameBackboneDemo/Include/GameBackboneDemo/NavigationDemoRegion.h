@@ -4,9 +4,9 @@
 
 #include <GameBackbone/Navigation/CoordinateConverter.h>
 #include <GameBackbone/Navigation/PathFinder.h>
-#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include <memory>
 

@@ -5,8 +5,6 @@
 
 #include <GameBackboneDemo/DemoRegion.h>
 
-#include <GameBackbone/Util/Point.h>
-
 #include <SFML/Graphics.hpp>
 
 #include <Box2D/Box2D.h>

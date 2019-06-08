@@ -102,9 +102,9 @@ BOOST_AUTO_TEST_CASE(GameRegion_setDrawables_nullptr) {
 	GameRegion* gameRegion = new GameRegion();
 	sf::Sprite* sprite = nullptr;
 
-	BOOST_CHECK_THROW(gameRegion->setDrawable(true, sprite), Error::Pointer_IllegalNull);
+	BOOST_CHECK_THROW(gameRegion->setDrawable(true, sprite), std::invalid_argument);
 
-	BOOST_CHECK_THROW(gameRegion->setDrawable(false, sprite), Error::Pointer_IllegalNull);
+	BOOST_CHECK_THROW(gameRegion->setDrawable(false, sprite), std::invalid_argument);
 
 	delete gameRegion;
 }
