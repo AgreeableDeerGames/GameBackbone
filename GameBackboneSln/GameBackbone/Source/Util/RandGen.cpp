@@ -70,7 +70,7 @@ void RandGen::setSeed(std::string* seed) {
 double RandGen::uniDist(double min, double max) {
 	if (min >= max)
 	{
-		//TODO: THROW ERROR!;;;
+		std::runtime_error("RandGen::uniDist's min cannot be greater than or equal to min.");
 	}
 
 
