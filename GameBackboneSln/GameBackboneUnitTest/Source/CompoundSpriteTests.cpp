@@ -63,53 +63,6 @@ struct ReusableObjectsForOperations : ReusableObjects {
 	}
 
 	CompoundSprite compoundSprite;
-
-	// ReusableObjectsForOperations() {
-
-	// 	aSpriteTexture = new sf::Texture();
-	// 	std::string testTexturePath = "Textures/testSprite.png";
-	// 	aSpriteTexture->loadFromFile(testTexturePath);
-
-	// 	sprite = new sf::Sprite(*aSpriteTexture);
-	// 	sprite->setPosition(10, 0);
-	// 	sprite2 = new sf::Sprite(*aSpriteTexture);
-	// 	sprite2->setPosition(0, 10);
-
-	// 	auto aSpriteAnims = std::make_shared<FrameIndexAnimationVector>();
-	// 	std::vector<unsigned int> aSpriteAnim1 = { 0, 1, 2, 3 };
-	// 	aSpriteAnims->push_back(aSpriteAnim1);
-	// 	animSet1 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
-	// 	animSet2 = new AnimationSet(aSpriteAnims, *aSpriteTexture, {2, 2});
-
-	// 	animSpriteWithAnim1 = new AnimatedSprite(*aSpriteTexture, animSet1);
-	// 	animSpriteWithAnim1->setPosition(10, 10);
-	// 	animSpriteWithAnim2 = new AnimatedSprite(*aSpriteTexture, animSet2);
-	// 	animSpriteWithAnim2->setPosition(20, 20)
-
-	// 	compoundSprite = new CompoundSprite({ sprite, sprite2 }, { animSpriteWithAnim1, animSpriteWithAnim2 });
-
-	// }
-
-	// ~ReusableObjectsForOperations() {
-	// 	delete aSpriteTexture;
-	// 	delete animSet1;
-	// 	delete animSet2;
-	// 	delete animSpriteWithAnim1;
-	// 	delete animSpriteWithAnim2;
-	// 	delete sprite;
-	// 	delete sprite2;
-	// 	delete compoundSprite;
-	// }
-
-	// AnimatedSprite* animSpriteWithAnim1;
-	// AnimatedSprite* animSpriteWithAnim2;
-	// AnimationSet* animSet1;
-	// AnimationSet* animSet2;
-	// sf::Texture* aSpriteTexture;
-	// sf::Sprite* sprite;
-	// sf::Sprite* sprite2;
-	// CompoundSprite* compoundSprite;
-
 };
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
@@ -528,6 +481,8 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_scale, ReusableObjects) {
 		BOOST_CHECK(animSprite.getScale().x == X_SCALE_FACTOR);
 		BOOST_CHECK(animSprite.getScale().y == Y_SCALE_FACTOR);
 	}
+
+	delete compoundSprite;
 }
 
 // Test that setting the scale of a compound sprite scales all of its component sprites
