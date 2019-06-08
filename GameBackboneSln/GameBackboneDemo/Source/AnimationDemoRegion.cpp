@@ -35,11 +35,11 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
         sf::IntRect(frameDimX, frameDimY, frameDimX, frameDimY) // Bottom right of the texture
     };
 
-    // create an AnimationSet
+    // Create an AnimationSet
     GB::AnimationSet::Ptr animationSet = std::make_shared<GB::AnimationSet>();
 
     // Add the animation to the AnimationSet
-    // The animation is coppied into the AnimationSet
+    // The animation is copied into the AnimationSet
     animationSet->addAnimation(simpleAnim);
 
     // Add another animation to the AnimationSet
