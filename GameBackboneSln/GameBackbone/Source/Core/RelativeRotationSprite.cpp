@@ -42,7 +42,7 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// <param name="components">Sprite components of the new RelativeRotationSprite</param>
 /// <param name="animatedComponents">AnimatedSprite components of the new RelativeRotationSprite</param>
 RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents) 
-	: RelativeRotationSprite(std::move((components)), std::move(animatedComponents), {0, 0}){
+	: RelativeRotationSprite(std::move((components)), std::move(animatedComponents), {0, 0}) {
 }
 
 /// <summary>
@@ -65,6 +65,9 @@ RelativeRotationSprite::RelativeRotationSprite (std::vector<sf::Sprite> componen
 	// Add all of the passed components to the RelativerotationSprite
 	std::for_each(std::begin(components), std::end(components), addComponentFunction);
 	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), addComponentFunction);
+
+	currentScaleX = 1.0f;
+	currentScaleY = 1.0f;
 }
 
 /// <summary>
@@ -72,6 +75,8 @@ RelativeRotationSprite::RelativeRotationSprite (std::vector<sf::Sprite> componen
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
 RelativeRotationSprite::RelativeRotationSprite(sf::Vector2f initialPosition) : CompoundSprite(initialPosition){
+	currentScaleX = 1.0f;
+	currentScaleY = 1.0f;
 }
 
 /// <summary>
@@ -87,6 +92,8 @@ RelativeRotationSprite::RelativeRotationSprite(sf::Vector2f initialPosition) : C
 RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets) :
 	CompoundSprite() {
 	initializeComponentVector(std::move(components), relativeOffsets);
+	currentScaleX = 1.0f;
+	currentScaleY = 1.0f;
 }
 
 /// <summary>
@@ -103,6 +110,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition) 
 	: CompoundSprite(initialPosition) {
 	initializeComponentVector(std::move(components), relativeOffsets);
+	currentScaleX = 1.0f;
+	currentScaleY = 1.0f;
 }
 
 /// <summary>
@@ -118,6 +127,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets) 
 	: CompoundSprite() {
 	initializeComponentVector(std::move(sprites), std::move(animatedSprites), relativeOffsets);
+	currentScaleX = 1.0f;
+	currentScaleY = 1.0f;
 }
 
 /// <summary>
@@ -134,6 +145,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, 
 RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> sprites, std::vector<AnimatedSprite> animatedSprites, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition) 
 	: CompoundSprite(initialPosition) {
 	initializeComponentVector(std::move(sprites), std::move(animatedSprites), relativeOffsets);
+	currentScaleX = 1.0f;
+	currentScaleY = 1.0f;
 }
 
 // Add / remove
@@ -221,6 +234,10 @@ void RelativeRotationSprite::scale(float factorX, float factorY) {
 	// scale all of the components
 	std::for_each(std::begin(components), std::end(components), scaleFunction);
 	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), scaleFunction);
+
+	// set the current scale of the entire RelativeRotationsprite
+	currentScaleX *= factorX;
+	currentScaleY *= factorY;
 }
 
 /// <summary>
@@ -274,7 +291,10 @@ void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> s
 /// <param name="factorX">The factor x.</param>
 /// <param name="factorY">The factor y.</param>
 void RelativeRotationSprite::setScale(float factorX, float factorY) {
-	throw Error::Function_NotImplemented();
+	float scaleFactorX = factorX / currentScaleX;
+	float scaleFactorY = factorY / currentScaleY;
+
+	scale(scaleFactorX, scaleFactorY);
 }
 
 /// <summary>
@@ -282,5 +302,8 @@ void RelativeRotationSprite::setScale(float factorX, float factorY) {
 /// </summary>
 /// <param name="newScale">The new scale.</param>
 void RelativeRotationSprite::setScale(sf::Vector2f newScale) {
-	throw Error::Function_NotImplemented();
+	float scaleFactorX = newScale.x / currentScaleX;
+	float scaleFactorY = newScale.y / currentScaleY;
+
+	scale({scaleFactorX, scaleFactorY});
 }

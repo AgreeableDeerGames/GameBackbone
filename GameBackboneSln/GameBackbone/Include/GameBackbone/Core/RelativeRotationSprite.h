@@ -44,6 +44,8 @@ namespace GB {
 		//operations
 		virtual void scale(float factorX, float factorY) override;
 		virtual void scale(sf::Vector2f newScale) override;
+		virtual void setScale(float newScaleX, float newScaleY) final;
+		virtual void setScale(sf::Vector2f newScale) final;
 
 	protected:
 
@@ -59,8 +61,8 @@ namespace GB {
 		);
 
 	private:
-		virtual void setScale(float factorX, float factorY) final;
-		virtual void setScale(sf::Vector2f newScale) final;
+		float currentScaleX;
+		float currentScaleY;
 	};
 
 }
