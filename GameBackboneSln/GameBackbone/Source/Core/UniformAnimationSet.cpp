@@ -21,7 +21,9 @@ UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize) : defaultFrameS
 /// The provided animations will all be added to the animation set.
 /// </summary>
 /// <param name="frameSize"> The default frame size for an animation. </param>
-/// <param name="animations"> The animations to add. </param>
+/// <param name="animations"> 
+/// The animations to add. The UniformAnimation is a collection of sf::Vector2i pairs that act as (x, y) coordinates into the texture's frames.
+/// </param>
 UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize, const std::vector<UniformAnimation>& animations)
 	: defaultFrameSize(std::move(frameSize)){
 	for (const UniformAnimation& animation : animations){
@@ -31,6 +33,7 @@ UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize, const std::vect
 
 /// <summary>
 /// Adds the UniformAnimation to the UniformAnimationSet.
+/// The UniformAnimation is a collection of sf::Vector2i pairs that act as (x, y) coordinates into the texture's frames.
 /// </summary>
 /// <param name="animation"> The animation to add. </param>
 void UniformAnimationSet::addAnimation(const UniformAnimation& animation){

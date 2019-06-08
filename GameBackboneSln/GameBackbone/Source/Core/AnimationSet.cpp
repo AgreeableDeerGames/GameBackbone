@@ -61,9 +61,9 @@ const Animation& AnimationSet::operator[](std::size_t animationIndex) const noex
 /// <summary>
 /// Access the animation at the given index.
 /// Throws out_of_range exception if the provided index is greater than the
-/// number fo animations stored by the AnimationSet.
+/// number of animations stored by the AnimationSet.
 /// </summary>
-/// <param name="animationIndex"> The index of the animation to regurn. </param>
+/// <param name="animationIndex"> The index of the animation to return. </param>
 /// <return> The animation at the provided index. </return>
 const Animation& AnimationSet::at(std::size_t animationIndex) const {
     return animations.at(animationIndex);
@@ -84,21 +84,21 @@ bool AnimationSet::isEmpty() const {
 }
 
 /// <summary>
-/// Iterator the the beginning of the AnimationSet.
+/// Iterator to the beginning of the AnimationSet.
 /// </summary>
 AnimationSet::iterator AnimationSet::begin() {
     return animations.begin();
 }
 
 /// <summary>
-/// Const iterator to the beginning ot the AnimationSet.
+/// Const iterator to the beginning of the AnimationSet.
 /// </summary>
 AnimationSet::const_iterator AnimationSet::begin() const noexcept{
     return animations.begin();
 }
 
 /// <summary>
-/// Const iterator to the beginning ot the AnimationSet.
+/// Const iterator to the beginning of the AnimationSet.
 /// </summary>
 AnimationSet::const_iterator AnimationSet::cbegin() const noexcept{
     return animations.cbegin();

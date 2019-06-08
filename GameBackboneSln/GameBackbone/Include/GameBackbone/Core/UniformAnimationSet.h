@@ -13,7 +13,11 @@ namespace GB {
 	/// <summary>Collection of texture subsections as frame indices</summary>
 	using UniformAnimation = std::vector<sf::Vector2i>;
 
-	/// <summary> Creates and owns a collection of animations that utilize a uniform frame size.</summary>
+	/// <summary> 
+	/// Creates and owns a collection of animations that utilize a uniform frame size. 
+	/// This size is used to calculate the bounds of each frame and create an appropriate Animation. 
+	/// The frames are indexable like an (x, y) coordinate plane.
+	/// </summary>
 	class libGameBackbone UniformAnimationSet : public AnimationSet {
 	public:
 		// Pointer type

@@ -55,7 +55,6 @@ namespace GB {
 		sf::Time getAnimationDelay() const;
 		unsigned int getFramesSpentInCurrentAnimation() const;
 		bool isAnimating() const;
-		bool willFitToFrame() const;
 
 		//operations
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);

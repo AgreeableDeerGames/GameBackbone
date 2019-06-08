@@ -65,8 +65,7 @@ void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 
 /// <summary>
 /// Updates the sprite to use the provided AnimationSet.
-/// The current frame of the sprite is set to the first frame of the first
-/// Animation if the provided AnimationSet.
+/// The current frame of the sprite is set to the first frame of the AnimationSet's first Animation
 /// If the provided AnimationSet is empty an out_of_bounds exception is thrown.
 /// </summary>
 /// <param name="animationSet">The new AnimationSet to use.</param>
@@ -107,7 +106,7 @@ unsigned int AnimatedSprite::getCurrentAnimationId() const {
 /// Returns the minimum time (as sf::Time ) between two animation frames.
 /// </summary>
 /// <returns> The minimum time (as sf::Time) between two animation frames.</returns>
-sf::Time  AnimatedSprite::getAnimationDelay() const {
+sf::Time AnimatedSprite::getAnimationDelay() const {
 	return animationDelay;
 }
 
