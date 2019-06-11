@@ -239,13 +239,13 @@ void CompoundSprite::scale(sf::Vector2f newScale) {
 /// <param name="factorY">The factor y.</param>
 void CompoundSprite::setScale(float factorX, float factorY) {
 	// lambda function for scaling components
-	auto scaleFunction = [factorX, factorY] (auto& component) {
+	auto setScaleFunction = [factorX, factorY] (auto& component) {
 		component.setScale(factorX, factorY);
 	};
 
-	// apply the scaleFunction to all components
-	std::for_each(std::begin(components), std::end(components), scaleFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), scaleFunction);
+	// apply the setScaleFunction to all components
+	std::for_each(std::begin(components), std::end(components), setScaleFunction);
+	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), setScaleFunction);
 }
 
 /// <summary>
@@ -255,8 +255,6 @@ void CompoundSprite::setScale(float factorX, float factorY) {
 void CompoundSprite::setScale(sf::Vector2f newScale) {
 	setScale(newScale.x, newScale.y);
 }
-
-
 
 /// <summary>
 /// Rotates all components of the compound sprite.
@@ -280,13 +278,13 @@ void CompoundSprite::rotate(float degreeOffset) {
 /// <param name="newRotation">The new rotation.</param>
 void CompoundSprite::setRotation(float newRotation) {
 	// lambda for rotating components
-	auto rotateFunction = [newRotation] (auto& component) {
+	auto setRotationFunction = [newRotation] (auto& component) {
 		component.setRotation(newRotation);
 	};
 
 	// apply the rotateFunction to all components
-	std::for_each(std::begin(components), std::end(components), rotateFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), rotateFunction);
+	std::for_each(std::begin(components), std::end(components), setRotationFunction);
+	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), setRotationFunction);
 }
 
 /// <summary>
