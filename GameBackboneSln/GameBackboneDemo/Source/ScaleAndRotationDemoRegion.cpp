@@ -39,7 +39,7 @@ ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window
 /// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button that was clicked.</param>
 void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
-	// Only handle Left Clicks
+	// Left clicks set the position of the sprite
 	if (button == sf::Mouse::Left) {
 		// Set the position of the displaySprite
 		displaySprite->setPosition(newPosition);
@@ -53,6 +53,22 @@ void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::
 void ScaleAndRotationDemoRegion::handleWheelScroll(float scrollDelta) {
 	// Scale the displaySprite by 1.25^scrollDelta in both axes
 	displaySprite->scale({powf(1.25, scrollDelta) , powf(1.25, scrollDelta)});
+}
+
+/// <summary>
+/// Handles key press logic.
+/// </summary>
+/// <param name="scrollDelta">The change in the wheel.</param>
+void ScaleAndRotationDemoRegion::handleKeyPress(sf::Event::KeyEvent key) {
+	// Pressing 1 will set the scale the sprite to half of its original scale
+	if (key.code == sf::Keyboard::Key::Num1 || key.code == sf::Keyboard::Key::Numpad1) {
+	displaySprite->setScale(0.5f, 0.5f);
+	}
+	// Pressing 2 will set the scale the sprite its original scale
+	else if (key.code == sf::Keyboard::Key::Num2 || key.code == sf::Keyboard::Key::Numpad2)
+	{
+	displaySprite->setScale(1.0f, 1.0f);
+	}
 }
 
 /// <summary>
