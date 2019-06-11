@@ -70,6 +70,25 @@ set_target_properties(
     VERSION 0.1.2
 )
 
+# Clang Tidy
+option(GAME_BACKBONE_CLANG_TIDY "Run Clang Tidy when building GB" OFF)
+if (GAME_BACKBONE_CLANG_TIDY)
+  # enable clang tidy
+  include("${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneClangTidy.cmake")
+  if(CLANG_TIDY_EXE)
+    gamebackbone_message("Clang-Tidy enabled. Clang-Tidy will be run on build.")
+    set_target_properties (
+      GameBackbone PROPERTIES
+      CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
+    )
+  # Clang Tidy on, but not found
+  else()
+    gamebackbone_warning("Clang Tidy enabled but not found!")
+  endif()
+else()
+  gamebackbone_message("Clang Tidy off. Set GAME_BACKBONE_CLANG_TIDY to 'ON' to use Clang Tidy.")
+endif()
+
 find_package(SFML 2 COMPONENTS network audio graphics window system)
 if(SFML_FOUND)
   target_link_libraries(GameBackbone PUBLIC sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
