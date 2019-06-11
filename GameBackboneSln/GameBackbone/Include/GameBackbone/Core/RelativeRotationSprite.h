@@ -22,13 +22,13 @@ namespace GB {
 		RelativeRotationSprite(std::vector<sf::Sprite> components, sf::Vector2f position);
 		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents);
 		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position);
-		explicit RelativeRotationSprite(sf::Vector2f initialPosition);
+		explicit RelativeRotationSprite(sf::Vector2f position);
 		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets);
-		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
-		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites,
+		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f position);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents,
 			const std::vector<sf::Vector2f>& relativeOffsets);
-		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedSprites, 
-			const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f initialPosition);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, 
+			const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f position);
 		RelativeRotationSprite(const RelativeRotationSprite&) = default;
 		RelativeRotationSprite& operator=(const RelativeRotationSprite&) = default;
 		RelativeRotationSprite(RelativeRotationSprite&&) noexcept = default;

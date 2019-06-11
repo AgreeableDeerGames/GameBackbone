@@ -68,10 +68,10 @@ void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 /// The current frame of the sprite is set to the first frame of the AnimationSet's first Animation
 /// If the provided AnimationSet is empty an out_of_bounds exception is thrown.
 /// </summary>
-/// <param name="animationSet">The new AnimationSet to use.</param>
-void AnimatedSprite::setAnimations(AnimationSet::Ptr animationSet) {
-	if (animationSet) {
-		this->animations = std::move(animationSet);
+/// <param name="animations">The new AnimationSet to use.</param>
+void AnimatedSprite::setAnimations(AnimationSet::Ptr animations) {
+	if (animations) {
+		this->animations = std::move(animations);
 		// Initialize sprite to first frame of first animation
 		setTextureRect(this->animations->at(0).at(0));
 	}

@@ -60,17 +60,17 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<A
 /// <param name="sprites">Sprite components of the new CompoundSprite.</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite.</param>
 /// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f initialPosition) :
+CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position) :
 	components(std::move(components)),
 	animatedComponents(std::move(animatedComponents)),
-	position(initialPosition) {
+	position(position) {
 }
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
-CompoundSprite::CompoundSprite(sf::Vector2f initialPosition) : position(initialPosition) {}
+CompoundSprite::CompoundSprite(sf::Vector2f position) : position(std::move(position)) {}
 
 // getters
 
