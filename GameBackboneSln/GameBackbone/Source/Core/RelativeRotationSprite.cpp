@@ -279,8 +279,8 @@ void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> s
 }
 
 /// <summary>
-/// Set the scale of hte RelativeRotation sprite.
-/// Scales the components of hte RelativeRotation sprite relative to their scale on construction.
+/// Set the scale of the RelativeRotation sprite.
+/// Scales the components of the RelativeRotation sprite relative to their scale on construction.
 /// </summary>
 /// <param name="factorX">The factor x.</param>
 /// <param name="factorY">The factor y.</param>
@@ -292,8 +292,8 @@ void RelativeRotationSprite::setScale(float factorX, float factorY) {
 }
 
 /// <summary>
-/// Set the scale of hte RelativeRotation sprite.
-/// Scales the components of hte RelativeRotation sprite relative to their scale on construction.
+/// Set the scale of the RelativeRotation sprite.
+/// Scales the components of the RelativeRotation sprite relative to their scale on construction.
 /// </summary>
 /// <param name="newScale">The new scale.</param>
 void RelativeRotationSprite::setScale(sf::Vector2f newScale) {
