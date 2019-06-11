@@ -39,10 +39,19 @@ ScaleAndRotationDemoRegion::ScaleAndRotationDemoRegion(sf::RenderWindow & window
 /// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button that was clicked.</param>
 void ScaleAndRotationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
-	// Only handle Left Clicks
+	// Left clicks set the position of the sprite
 	if (button == sf::Mouse::Left) {
 		// Set the position of the displaySprite
 		displaySprite->setPosition(newPosition);
+	}
+	// Right clicks resets the scale of the sprite
+	else if (button == sf::Mouse::Right) {
+		displaySprite->setScale(1.0f, 1.0f);
+	}
+	// Middle mouse button scales the sprite to half its origianal size
+	else if (button == sf::Mouse::Middle)
+	{
+		displaySprite->setScale(0.5f, 0.5f);
 	}
 }
 
