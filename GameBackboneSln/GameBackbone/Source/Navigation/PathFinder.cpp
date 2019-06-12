@@ -155,31 +155,31 @@ sf::Vector2i Pathfinder::chooseNextGridSquare(const PathRequest& pathRequest, co
 /// <summary>
 /// Gets the neighbors of a gridSquare.
 /// </summary>
-/// <param name="gridSquareCoordinate">The coordinate of the grid square to get neighbors for.</param>
+/// <param name="gridCoordinate">The coordinate of the grid square to get neighbors for.</param>
 /// <returns>Vector containing all valid neighbors of the grid square at the passed coordinate.</returns>
-std::vector<sf::Vector2i> Pathfinder::getNeighbors(const sf::Vector2i & gridSquareCoordinate) const {
+std::vector<sf::Vector2i> Pathfinder::getNeighbors(const sf::Vector2i & gridCoordinate) const {
 
 	//find the bounds of the active navigation grid
 	int maxX = navigationGrid->getArraySizeX();
 	int maxY = navigationGrid->getArraySizeY();
 	std::vector<sf::Vector2i> neighbors;
 
-	bool xUp = (gridSquareCoordinate.x + 1 < maxX);
-	bool xDown = (gridSquareCoordinate.x - 1 >= 0);
-	bool yUp = (gridSquareCoordinate.y + 1 < maxY);
-	bool yDown = (gridSquareCoordinate.y - 1 >= 0);
+	bool xUp = (gridCoordinate.x + 1 < maxX);
+	bool xDown = (gridCoordinate.x - 1 >= 0);
+	bool yUp = (gridCoordinate.y + 1 < maxY);
+	bool yDown = (gridCoordinate.y - 1 >= 0);
 
 	if (xUp) {
-		neighbors.push_back(sf::Vector2i{gridSquareCoordinate.x + 1, gridSquareCoordinate.y});
+		neighbors.push_back(sf::Vector2i{gridCoordinate.x + 1, gridCoordinate.y});
 	}
 	if (xDown) {
-		neighbors.push_back(sf::Vector2i{gridSquareCoordinate.x - 1, gridSquareCoordinate.y});
+		neighbors.push_back(sf::Vector2i{gridCoordinate.x - 1, gridCoordinate.y});
 	}
 	if (yUp) {
-		neighbors.push_back(sf::Vector2i{gridSquareCoordinate.x, gridSquareCoordinate.y + 1});
+		neighbors.push_back(sf::Vector2i{gridCoordinate.x, gridCoordinate.y + 1});
 	}
 	if (yDown) {
-		neighbors.push_back(sf::Vector2i{gridSquareCoordinate.x, gridSquareCoordinate.y - 1});
+		neighbors.push_back(sf::Vector2i{gridCoordinate.x, gridCoordinate.y - 1});
 	}
 
 
