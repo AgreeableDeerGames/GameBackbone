@@ -25,10 +25,9 @@ namespace GB {
 		explicit RelativeRotationSprite(sf::Vector2f position);
 		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets);
 		RelativeRotationSprite(std::vector<sf::Sprite> components, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f position);
-		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents,
-			const std::vector<sf::Vector2f>& relativeOffsets);
-		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, 
-			const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f position);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, const std::vector<sf::Vector2f>& relativeOffsets);
+		RelativeRotationSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, const std::vector<sf::Vector2f>& relativeOffsets, sf::Vector2f position);
+
 		RelativeRotationSprite(const RelativeRotationSprite&) = default;
 		RelativeRotationSprite& operator=(const RelativeRotationSprite&) = default;
 		RelativeRotationSprite(RelativeRotationSprite&&) noexcept = default;
@@ -44,6 +43,9 @@ namespace GB {
 		//operations
 		virtual void scale(float factorX, float factorY) override;
 		virtual void scale(sf::Vector2f newScale) override;
+		virtual void setScale(float newScaleX, float newScaleY) override;
+		virtual void setScale(sf::Vector2f newScale) override;
+		virtual sf::Vector2f getScale() const;
 
 	protected:
 
@@ -59,8 +61,7 @@ namespace GB {
 		);
 
 	private:
-		virtual void setScale(float factorX, float factorY) final;
-		virtual void setScale(sf::Vector2f newScale) final;
+		sf::Vector2f currentScale;
 	};
 
 }

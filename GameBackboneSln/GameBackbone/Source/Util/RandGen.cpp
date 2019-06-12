@@ -63,6 +63,7 @@ void RandGen::setSeed(std::string* seed) {
 
 /// <summary>
 /// Creates a uniform distribution between [min, max)
+/// Throws if the provided min is not less than the max.
 /// </summary>
 /// <param name="min">The minimum number that can be returned.</param>
 /// <param name="max">The maximum number that can be returned.</param>
@@ -70,7 +71,7 @@ void RandGen::setSeed(std::string* seed) {
 double RandGen::uniDist(double min, double max) {
 	if (min >= max)
 	{
-		std::runtime_error("RandGen::uniDist's min cannot be greater than or equal to min.");
+		throw std::runtime_error("RandGen::uniDist's min cannot be greater than or equal to min.");
 	}
 
 

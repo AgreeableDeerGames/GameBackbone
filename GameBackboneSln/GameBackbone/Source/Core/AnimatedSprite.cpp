@@ -2,8 +2,8 @@
 #include <GameBackbone/Core/BackboneBaseExceptions.h>
 #include <GameBackbone/Util/DebugIncludes.h>
 
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 using namespace GB;
 
@@ -41,7 +41,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr an
 	currentAnimation(nullptr),
 	animations(nullptr)
 {
-	setAnimations(animations);
+	setAnimations(std::move(animations));
 }
 
 //getters and setters
