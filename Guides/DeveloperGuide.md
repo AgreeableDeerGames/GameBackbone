@@ -113,6 +113,7 @@ It is recommended that you download the following 3rd party apps
 |:---|:---|
 |GAMEBACKBONE_BUILD_TESTS|ON|
 |GAMEBACKBONE_BUILD_DEMO|ON|
+|GAMEBACKBONE_RUN_CLANG_TIDY|ON|
 
 ### 5.2: vcpkg dependencies
 
