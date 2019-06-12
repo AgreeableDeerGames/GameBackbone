@@ -1,8 +1,8 @@
 #include <GameBackbone/Navigation/PathFinder.h>
 #include <GameBackbone/Util/UtilMath.h>
 
+#include <climits>
 #include <deque>
-#include <limits.h>
 #include <map>
 #include <queue>
 #include <set>
@@ -50,7 +50,7 @@ NavigationGrid* Pathfinder::getNavigationGrid() {
 
 void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::deque<sf::Vector2i>>* const returnedPaths) const {
 
-	typedef std::pair<sf::Vector2i, int> GridValuePair;
+	using GridValuePair = std::pair<sf::Vector2i, int>;
 
 	//ensure that returned paths is big enough to store all results
 	returnedPaths->resize(pathRequests.size());
@@ -112,9 +112,7 @@ void Pathfinder::pathFind(const std::vector<PathRequest>& pathRequests, std::vec
 						closedSet.insert(neighbor);
 						continue;
 					}
-					else {
-						openSet.insert(neighbor);
-					}
+					openSet.insert(neighbor);
 				}
 				else if (tentativeScore >= score.at(neighbor)) {
 					continue; // found a worse path
@@ -170,16 +168,16 @@ std::vector<sf::Vector2i> Pathfinder::getNeighbors(const sf::Vector2i & gridCoor
 	bool yDown = (gridCoordinate.y - 1 >= 0);
 
 	if (xUp) {
-		neighbors.push_back(sf::Vector2i{gridCoordinate.x + 1, gridCoordinate.y});
+		neighbors.emplace_back(sf::Vector2i{gridCoordinate.x + 1, gridCoordinate.y});
 	}
 	if (xDown) {
-		neighbors.push_back(sf::Vector2i{gridCoordinate.x - 1, gridCoordinate.y});
+		neighbors.emplace_back(sf::Vector2i{gridCoordinate.x - 1, gridCoordinate.y});
 	}
 	if (yUp) {
-		neighbors.push_back(sf::Vector2i{gridCoordinate.x, gridCoordinate.y + 1});
+		neighbors.emplace_back(sf::Vector2i{gridCoordinate.x, gridCoordinate.y + 1});
 	}
 	if (yDown) {
-		neighbors.push_back(sf::Vector2i{gridCoordinate.x, gridCoordinate.y - 1});
+		neighbors.emplace_back(sf::Vector2i{gridCoordinate.x, gridCoordinate.y - 1});
 	}
 
 

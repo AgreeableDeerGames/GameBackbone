@@ -4,8 +4,8 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <cstddef>
-#include <vector>
 #include <exception>
+#include <vector>
 
 using namespace GB;
 /// <summary>

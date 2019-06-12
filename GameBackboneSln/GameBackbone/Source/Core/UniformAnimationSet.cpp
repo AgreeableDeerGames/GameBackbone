@@ -4,8 +4,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include <vector>
 #include <exception>
+#include <vector>
 
 using namespace GB;
 
@@ -13,7 +13,7 @@ using namespace GB;
 /// Construct a new UniformAnimationSet object.
 /// </summary>
 /// <param name="frameSize"> The default frame size for an animation. </param>
-UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize) : defaultFrameSize(std::move(frameSize)){
+UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize) : defaultFrameSize(frameSize) {
 }
 
 /// <summary>
@@ -25,7 +25,7 @@ UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize) : defaultFrameS
 /// The animations to add. The UniformAnimation is a collection of sf::Vector2i pairs that act as (x, y) coordinates into the texture's frames.
 /// </param>
 UniformAnimationSet::UniformAnimationSet(sf::Vector2i frameSize, const std::vector<UniformAnimation>& animations)
-	: defaultFrameSize(std::move(frameSize)){
+	: defaultFrameSize(frameSize) {
 	for (const UniformAnimation& animation : animations){
 		addAnimation(animation);
 	}

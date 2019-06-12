@@ -70,7 +70,7 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<A
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
-CompoundSprite::CompoundSprite(sf::Vector2f position) : position(std::move(position)) {}
+CompoundSprite::CompoundSprite(sf::Vector2f position) : position(position) {}
 
 // getters
 

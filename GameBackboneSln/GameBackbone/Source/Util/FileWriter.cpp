@@ -24,7 +24,7 @@ std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray
 		throw std::invalid_argument("FileWriter::createWritableString data array null or empty.");
 	}
 	
-	std::string outString = "";
+	std::string outString;
 
 	unsigned int columns = dataArray->getArraySizeX();
 	unsigned int rows = dataArray->getArraySizeY();
@@ -34,7 +34,7 @@ std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray
 	for (unsigned int currentRow = 0; currentRow < rows; currentRow++) {
 		//And as many columns
 		for (unsigned int currentColumn = 0; currentColumn < columns; currentColumn++) {
-			//Append the array value to the string. Don't check for row end before placing delimiter becasue it's quicker to just replace the last character in one operation than check every loop.
+			//Append the array value to the string. Don't check for row end before placing delimiter because it's quicker to just replace the last character in one operation than check every loop.
 			outString.append( dataArray->at(currentRow, currentColumn) +  delimiter);
 		}
 		//Once a row is completed, replace last delimiter with newline. Same non-checking rationale as above.
@@ -52,10 +52,10 @@ std::string FileWriter::createWritableString(GB::Array2D<std::string>* dataArray
 /// </summary>
 /// <param name="inString">The formatted string to be written.</param>
 /// <param name="filePath">The file path to write to.</param>
-void FileWriter::writeString(const std::string& outString, const std::string& filePath) const{
+void FileWriter::writeString(const std::string& inString, const std::string& filePath) const{
 	//Initialize File Writer in binary mode.
 	std::ofstream outFile(filePath, std::ofstream::binary);
-	std::size_t stringSize = outString.size();
+	std::size_t stringSize = inString.size();
 
 	// Throw an error if the file could not be opened.
 	if (!outFile.good())
@@ -64,7 +64,7 @@ void FileWriter::writeString(const std::string& outString, const std::string& fi
 	}
 
 	//Interpret file as binary.
-	char const * binaryText = outString.c_str();
+	char const * binaryText = inString.c_str();
 
 	//Write binary string to file.
 	outFile.write(binaryText, stringSize);

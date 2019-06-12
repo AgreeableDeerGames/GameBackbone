@@ -6,9 +6,9 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include<SFML/System/Vector2.hpp>
 
+#include <map>
 #include <set>
 #include <tuple>
-#include <map>
 
 
 using namespace GB;
@@ -62,12 +62,10 @@ sf::Vector2i ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
 			return pointToAdd;
 		}
 		// Otherwise, check the next point in the border
-		else {
-			borderPointSetIter++;
-			if (borderPointSetIter == clusterBorderPointSet->end()) {
-				borderPointSetIter = clusterBorderPointSet->begin();
-			}
-		}
+        borderPointSetIter++;
+        if (borderPointSetIter == clusterBorderPointSet->end()) {
+            borderPointSetIter = clusterBorderPointSet->begin();
+        }
 	}
 	// If the there were no points which could be added to the cluster, we are given a flag Point2D{-1, -1}.
 	return sf::Vector2i{-1, -1};
@@ -145,7 +143,9 @@ std::vector<std::set<sf::Vector2i, IsVector2Less<int>>> ClusterGreenhouse::gener
 		// clusterToAddTo will be nullptr if none of the clusters were chosen.
 		// this will happen frequently if the graph is sparse.
 		if (clusterToAddTo != nullptr)
+        {
 			sf::Vector2i pointAdded = growCluster(clusterToAddTo); // In the future, maybe do something if the cluster isn't grown (pointAdded.x != -1).
+        }
 	}
 	std::vector<std::set<sf::Vector2i, IsVector2Less<int>>> Point2DVectorSet;
     // move the clusters' points to the output vector of Point2D sets

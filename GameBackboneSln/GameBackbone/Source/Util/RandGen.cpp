@@ -79,7 +79,5 @@ double RandGen::uniDist(double min, double max) {
 		double tempNumber = (*m_uniDistributor)(*m_generator);
 		return min + tempNumber * (max - min);
 	}
-	else {
-		return (*m_uniDistributor)(*m_generator);
-	}
+	return (*m_uniDistributor)(*m_generator);
 }

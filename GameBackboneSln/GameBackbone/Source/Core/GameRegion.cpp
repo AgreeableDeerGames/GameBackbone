@@ -23,7 +23,7 @@ GameRegion::GameRegion(sf::RenderWindow & window) : regionGUI(window) {
 /// </summary>
 /// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
 void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
-	setActiveRegionCB = newSetActiveRegionCB;
+	setActiveRegionCB = std::move(newSetActiveRegionCB);
 }
 
 /// <summary>

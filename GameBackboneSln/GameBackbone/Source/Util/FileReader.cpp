@@ -1,5 +1,5 @@
-#include <GameBackbone/Util/FileReader.h>
 #include <GameBackbone/Core/BackboneBaseExceptions.h>
+#include <GameBackbone/Util/FileReader.h>
 
 #include <exception>
 #include <fstream>
@@ -18,7 +18,7 @@ Array2D<std::string> FileReader::createArray2D(const std::string& inString, unsi
 	
 
 	// Setup for the rows/lines
-	std::string row = "";
+	std::string row;
 	unsigned int rowIndex = 0;
 
 	// While not last line
@@ -28,7 +28,7 @@ Array2D<std::string> FileReader::createArray2D(const std::string& inString, unsi
 
 			// Setup for the columns
 			std::stringstream row_stream(row);
-			std::string column = "";
+			std::string column;
 			unsigned int columnIndex = 0;
 
 			// Split the line up based on the delimiter until the last one

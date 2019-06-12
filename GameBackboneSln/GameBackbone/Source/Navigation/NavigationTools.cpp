@@ -1,15 +1,6 @@
 #include <GameBackbone/Navigation/NavigationTools.h>
-#include <GameBackbone/Util/UtilMath.h>
-
-#include <SFML/Graphics/Sprite.hpp>
-
-#include <math.h>
-#include <memory>
 
 using namespace GB;
-
-
-
 
 /// <summary>
 /// Frees all memory stored in the NavigationGrid

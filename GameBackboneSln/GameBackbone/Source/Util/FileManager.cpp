@@ -43,11 +43,11 @@ std::string FileManager::encryptDecryptString(const std::string& stringToEncrypt
 /// <summary>
 /// Gets the size of the file. Return 0 if the file does not exist.
 /// </summary>
-/// <param name="filename">The filepath.</param>
+/// <param name="filename">The filename.</param>
 /// <returns></returns>
-std::size_t FileManager::getFileSize(const std::string& filepath) const {
+std::size_t FileManager::getFileSize(const std::string& filename) const {
 	struct stat st;
-	if (stat(filepath.c_str(), &st) != 0) {
+	if (stat(filename.c_str(), &st) != 0) {
 		return 0;
 	}
 	return st.st_size;
@@ -56,11 +56,11 @@ std::size_t FileManager::getFileSize(const std::string& filepath) const {
 /// <summary>
 /// Gets a hash of the passed in file. This hash uses std::hash which only returns type std::size_t.
 /// </summary>
-/// <param name="filepath">The filepath.</param>
+/// <param name="filename">The filename.</param>
 /// <returns></returns>
-std::size_t FileManager::getFileHash(const std::string& filepath) const {
+std::size_t FileManager::getFileHash(const std::string& filename) const {
 
-	std::string file = reader->readFile(filepath);
+	std::string file = reader->readFile(filename);
 	return getHash(file);
 }
 

@@ -28,15 +28,15 @@ namespace GB {
 		double getClusterFrequency();
 
         //setter
-		void setClusterFrequency(double FrequencyForThisCluster);
+		void setClusterFrequency(double frequencyForCluster);
 
-		void addPointToCluster(sf::Vector2i newPointToAdd);
+		void addPointToCluster(sf::Vector2i newPoint);
 		unsigned int getNumberBorderPoints();
 
 
 
     private:
-		void UpdateBorder(sf::Vector2i pointToAdd);
+		void UpdateBorder(sf::Vector2i newPoint);
 
         // Set of all points of the Array2D which are owned by this cluster
         std::set<sf::Vector2i, IsVector2Less<int>> clusterPointSet;

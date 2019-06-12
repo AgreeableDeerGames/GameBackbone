@@ -274,10 +274,10 @@ void RelativeRotationSprite::initializeComponentVector(std::vector<sf::Sprite> c
 
 	// add the components to the CompoundSprite
 	for (std::size_t ii = 0; ii < components.size(); ++ii) {
-		addComponent(std::move(components[ii]), relativeOffsets[ii]);
+		RelativeRotationSprite::addComponent(std::move(components[ii]), relativeOffsets[ii]);
 	}
 	for (std::size_t ii = components.size(); ii < components.size() + animatedComponents.size(); ++ii) {
-		addComponent(std::move(animatedComponents[ii - components.size()]), relativeOffsets[ii]);
+		RelativeRotationSprite::addComponent(std::move(animatedComponents[ii - components.size()]), relativeOffsets[ii]);
 	}
 }
 

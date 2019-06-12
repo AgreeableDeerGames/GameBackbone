@@ -4,9 +4,9 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include <map>
 #include <set>
 #include <tuple>
-#include <map>
 
 using namespace GB;
 
@@ -35,8 +35,8 @@ double Cluster::getClusterFrequency() {
 }
 
 //setter
-void Cluster::setClusterFrequency(double FrequencyForCluster) {
-    clusterFrequency = FrequencyForCluster;
+void Cluster::setClusterFrequency(double frequencyForCluster) {
+    clusterFrequency = frequencyForCluster;
 }
 
 /// <summary>
