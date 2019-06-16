@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['updatable',['Updatable',['../class_g_b_1_1_updatable.html',1,'GB']]]
+  ['randgen',['RandGen',['../class_g_b_1_1_rand_gen.html',1,'GB']]],
+  ['relativerotationsprite',['RelativeRotationSprite',['../class_g_b_1_1_relative_rotation_sprite.html',1,'GB']]]
 ];

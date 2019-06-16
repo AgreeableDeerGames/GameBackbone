@@ -3,5 +3,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node1 [label="GB::Point2D\< float \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_g_b_1_1_point2_d.html"];
+  Node0 [label="GB::RandGen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_g_b_1_1_rand_gen.html",tooltip="This class is a shallow wrapper for std::random. To use this class, make an instance of RandGen with ..."];
 }

@@ -5,5 +5,8 @@ digraph "GB::CoreEventController&lt; Child &gt;"
   Node1 [label="GB::CoreEventController\l\< Child \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" activeRegion" ,fontname="Helvetica"];
   Node2 [label="GB::GameRegion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_g_b_1_1_game_region.html",tooltip="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..."];
-  Node2 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" parentRegion" ,fontname="Helvetica"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Drawable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node4 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="GB::Updatable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_g_b_1_1_updatable.html",tooltip="Abstract class meant to be inherited. Class that is capable of being updated. "];
 }
