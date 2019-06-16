@@ -58,7 +58,7 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// <param name="components">Sprite components of the new RelativeRotationSprite.</param>
 /// <param name="animatedComponents">AnimatedSprite components of the new RelativeRotationSprite.</param>
 /// <param name="position">The position.</param>
-RelativeRotationSprite::RelativeRotationSprite (std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents,	sf::Vector2f position) :
+RelativeRotationSprite::RelativeRotationSprite (std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position) :
 	CompoundSprite(position),
 	currentScale(1.0f, 1.0f) {
 	// function for adding a component to the RelativeRotationSprite
