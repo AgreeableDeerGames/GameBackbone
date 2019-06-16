@@ -1,7 +1,7 @@
 /*! \mainpage
 *
 * \section intro_sec Introduction
-* GameBackbone (GB) is a small, low-level, library meant to accelerate the
+* GameBackbone (GB) is a small, low-level library meant to accelerate the
 * production of 2D video games. GB provides little to no gameplay logic and is
 * simply meant to help remove long overhead times when starting a new 2D game.
 * This narrow scope allows GB to maintain high performance and allows users of
