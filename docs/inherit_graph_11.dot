@@ -3,5 +3,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node1 [label="GB::GameRegion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_g_b_1_1_game_region.html",tooltip="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..."];
+  Node0 [label="GB::IsVector2Less\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_g_b_1_1_is_vector2_less.html",tooltip="Used to compare which of two sf::Vector2 is less Designed to facilitate map and set use of sf::Vector..."];
 }
