@@ -5,8 +5,10 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <thread>
 #include <chrono>
+#include <memory>
+#include <thread>
+#include <vector>
 
 using namespace GB;
 
@@ -160,39 +162,48 @@ public:
 
 /// <summary>
 /// GameRegion that creates a child region.
-/// Changes active region to child/parent region on behave call.
+/// Changes active region to child/parent region on update call.
 /// </summary>
 class TestGameRegion : public GB::GameRegion
 {
 public:
+
+	/// <summary>shared_ptr of TestGameRegion</summary>
+	using Ptr = std::shared_ptr<TestGameRegion>;
+
 	TestGameRegion(bool shouldCreateChild = false) {
 		if (shouldCreateChild) {
-			TestGameRegion* child = new TestGameRegion();
-			addChildRegion(child);
+			TestGameRegion::Ptr child = std::make_shared<TestGameRegion>();
+			addChild(child);
 		}
 	}
-	~TestGameRegion(){
-		//free memory created for each child region.
-
-		if (!childRegions.empty()) {
-			delete childRegions.front();
-		}
-	}
+	~TestGameRegion() = default;
 
 	/// <summary>
 	/// change mark different region as active
 	/// </summary>
-	/// <param name="currentTime">The current time.</param>
-	void behave(sf::Time currentTime) {
-		if (parentRegion) {
-			setActiveRegionCB(parentRegion);
-		} else if (childRegions.front()){
-			setActiveRegionCB(childRegions.front());
+	/// <param name="elapsedTime">The elapsed time.</param>
+	void update(sf::Int64 elapsedTime) {
+		if (parent) {
+			setActiveRegionCB(parent);
+		} else if (children.front()) {
+			setActiveRegionCB(children.front().get());
 		}
 	}
 
-private:
+	/// <summary>
+	/// Adds a child to the TestGameRegion
+	/// </summary>
+	/// <param name="child"> </param>
+	void addChild(TestGameRegion::Ptr child) {
+		child->parent = this;
+		children.emplace_back(std::move(child));
+	}
 
+	std::vector<TestGameRegion::Ptr> children;
+
+private:
+	GB::GameRegion* parent = nullptr;
 };
 
 
@@ -268,23 +279,24 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	TestGameRegion testRegion(true);
 
 	//register testRegion's callback to testController
-	//this would normally be done from within testController with the "&testController" being replaced with "this"
-	testRegion.registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
-
-	for (auto child : *testRegion.getChildRegions())
+	auto setActiveRegionLambda = [&testController](GB::GameRegion* region) {
+		testController.setActiveRegion(region);
+	};
+	testRegion.registerSetActiveRegionCB(setActiveRegionLambda);
+	for (auto& child : testRegion.children)
 	{
-		child->registerSetActiveRegionCB(std::bind(&TestCoreEventController::setActiveRegion, &testController, std::placeholders::_1));
+		child->registerSetActiveRegionCB(setActiveRegionLambda);
 	}
 
 	//setup the first active region
 	testController.setActiveRegion(&testRegion);
 
 	//change to child region
-	testController.getActiveGameRegion()->behave(sf::Time());
-	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.getChildRegions()->front());
+	testController.getActiveGameRegion()->update(0);
+	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.children.front().get());
 
 	//change back to parent region
-	testController.getActiveGameRegion()->behave(sf::Time());
+	testController.getActiveGameRegion()->update(0);
 	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
 
 }

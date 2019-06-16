@@ -5,8 +5,6 @@
 
 #include <GameBackboneDemo/DemoRegion.h>
 
-#include <GameBackbone/Util/Point.h>
-
 #include <SFML/Graphics.hpp>
 
 #include <Box2D/Box2D.h>
@@ -31,7 +29,7 @@ namespace EXE {
 		PlatformDemoRegion& operator= (PlatformDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time currentTime) override;
+		virtual void update(sf::Int64 elapsedTime) override;
 
 		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
@@ -51,9 +49,6 @@ namespace EXE {
 		sf::Vector2f convertToSprite(b2Vec2 boxCoord);
 		sf::Vector2f convertToSprite(double boxCoordX, double boxCoordY);
 		void addGameBody(sf::Vector2f spritePosition, sf::Vector2f scale, sf::Texture& texture, bool dynamicBody, bool allowSleep = true);
-
-		// Update logic storage
-		sf::Time lastUpdateTime;
 
 		// Sprite textures
 		std::unique_ptr<sf::Texture> blockTexture;

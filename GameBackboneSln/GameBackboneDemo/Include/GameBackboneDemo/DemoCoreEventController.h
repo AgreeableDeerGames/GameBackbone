@@ -19,10 +19,10 @@ namespace EXE {
 
 		// Event handling
 		bool handleCoreEvent(sf::Event& event);
+		void postHandleEvent(sf::Event& event);
 
 	private:
 		sf::View camera;
-
 		std::unique_ptr<MainMenuDemoRegion> mainMenuDemoRegion;
 	};
 }

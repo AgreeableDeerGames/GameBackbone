@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['behave',['behave',['../class_g_b_1_1_game_region.html#a578fb1ff3a2cb8c1ee5e5d644815a20c',1,'GB::GameRegion']]]
+  ['begin',['begin',['../class_g_b_1_1_animation_set.html#aaa81f2bbef4f63db4c66b674e5041107',1,'GB::AnimationSet::begin()'],['../class_g_b_1_1_animation_set.html#ae4ecc2ddb45e1c5261749d9152a786f0',1,'GB::AnimationSet::begin() const noexcept']]]
 ];

@@ -5,5 +5,5 @@ int main(int, char**) {
     std::cout << "Hello, world!\n";
 
     GB::GameRegion region;
-    region.behave(sf::Time::Zero);
+    region.update(sf::Time::Zero);
 }

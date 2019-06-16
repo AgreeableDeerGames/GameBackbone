@@ -3,6 +3,7 @@
 #include <GameBackbone/Core/GameRegion.h>
 
 #include <string>
+#include <iostream>
 
 namespace GB {
 
@@ -61,9 +62,9 @@ namespace GB {
 		}
 
 		CoreEventController(const CoreEventController& other) = delete;
-		CoreEventController(CoreEventController&& other) = default;
 		CoreEventController& operator=(const CoreEventController& other) = delete;
-		CoreEventController& operator=(CoreEventController&& other) = default;
+		CoreEventController(CoreEventController&& other) noexcept = default;
+		CoreEventController& operator=(CoreEventController&& other) noexcept = default;
 
 		//operations
 		void runLoop() {
@@ -115,7 +116,7 @@ protected:
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
 		bool handleGuiEvent(sf::Event& event) {
-			return activeRegion->getGUI()->handleEvent(event);
+			return activeRegion->getGUI().handleEvent(event);
 		}
 
 		/// <summary>
@@ -162,12 +163,10 @@ protected:
 		/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
 		/// </summary>
 		void coreDraw() {
-			//draw every drawable object in the active region.
-			for (sf::Drawable* drawObject : *(activeRegion->getDrawables())) {
-				window->draw(*drawObject);
-			}
+			// Draw the activeRegion so it can draw its drawables.
+			window->draw(*activeRegion);
 
-			activeRegion->getGUI()->draw();
+			activeRegion->getGUI().draw();
 		}
 
 		/// <summary>
@@ -192,17 +191,12 @@ protected:
 		void preUpdate() {}
 
 		/// <summary>
-		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every updatable object in the active GameRegion.
+		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every Updatable object in the active GameRegion.
 		/// </summary>
 		void coreUpdate() {
-
-			activeRegion->behave(updateClock.getElapsedTime());
-
-			for (Updatable* updateObject : *(activeRegion->getUpdatables())) {
-				updateObject->update(updateClock.getElapsedTime());
-			}
+			sf::Time elapsedTime = updateClock.restart();
+			activeRegion->update(elapsedTime.asMicroseconds());
 		}
-
 
 		/// <summary>
 		/// Executes after coreUpdate. Place logic meant to update after the main update logic here.

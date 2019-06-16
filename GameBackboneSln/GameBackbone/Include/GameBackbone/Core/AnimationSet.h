@@ -2,63 +2,70 @@
 
 #include <GameBackbone/Util/DllUtil.h>
 
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
+
+#include <cstddef>
 #include <memory>
 #include <vector>
 
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Texture.hpp>
-
 namespace GB {
 
-    /// <summary> A series of frames that can be displayed from a single texture.</summary>
-	using Animation = std::vector<sf::IntRect>;
-	/// <summary> A vector of Animations </summary>
-	using AnimationVector = std::vector<Animation>;
-    /// <summary> A Pointer to a vector of Animations </summary>
-    using AnimationVectorPtr = std::shared_ptr<AnimationVector>;
+    /// <summary>Collection of texture subsections</summary>
+    using Animation = std::vector<sf::IntRect>;
 
-    /// <summary>
-    /// A series of indices representing the frames that compose an animation.
-    /// The indices correspond to a row major order grid laid on top of a sprite sheet, then flattened.
-    /// The same indices can be used for multiple sprite sheets.
-    /// </summary>
-    using FrameIndexAnimation = std::vector<unsigned int>;
-    /// <summary> A vector of FrameIndexAnimation </summary>
-    using FrameIndexAnimationVector = std::vector<FrameIndexAnimation>;
-    /// <summary> A Pointer to a vector of FrameIndexAnimation </summary>
-    using FrameIndexAnimationVectorPtr = std::shared_ptr<FrameIndexAnimationVector>;
-
-
-    /// <summary> Creates and owns a set of animations comprised of several frames. </summary>
+    /// <summary> Creates and owns a collection of animations.</summary>
     class libGameBackbone AnimationSet {
+    private:
+        using InternalContainer = std::vector<Animation>;
+
     public:
+        // Iterator types
+        using iterator = InternalContainer::iterator;
+        using const_iterator = InternalContainer::const_iterator;
+        using reverse_iterator = InternalContainer::reverse_iterator;
+        using const_reverse_iterator = InternalContainer::const_reverse_iterator;
+
+        // Pointer type
+        /// <summary>shared_ptr to AnimationSet.</summary>
+        using Ptr = std::shared_ptr<AnimationSet>;
 
         // ctrs / dtr
-        AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
-                     sf::Vector2u textureSize,
-                     sf::Vector2u animationFrameDimensions);
-        AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
-                     const sf::Texture& texture,
-                     sf::Vector2u animationFrameDimensions);
-        AnimationSet() = delete;
-        AnimationSet(const AnimationSet& other) = default;
-        AnimationSet(AnimationSet&& other) noexcept = default;
-        AnimationSet& operator=(const AnimationSet& other) = default;
-        AnimationSet& operator=(AnimationSet&& other) noexcept = default;
+        AnimationSet() = default;
+        AnimationSet(std::vector<Animation> animations);
+        AnimationSet(const AnimationSet&) = default;
+        AnimationSet(AnimationSet&&) = default;
+        AnimationSet& operator=(const AnimationSet&) = default;
+        AnimationSet& operator=(AnimationSet&&) = default;
         virtual ~AnimationSet() = default;
 
-        // operations
-        AnimationVectorPtr getAnimations() const;
+        // add / remove
+        void addAnimation(Animation animation);
+        void eraseAnimation(const_iterator animation);
+        void eraseAnimations(const_iterator first, const_iterator last);
         void clearAnimations();
 
-    protected:
-        // internal operations
-        void calculateAnimations(FrameIndexAnimationVectorPtr frameIndexAnimations,
-                                 sf::Vector2u textureSize,
-                                 sf::Vector2u animationFrameDimensions);
+        // accessor / mutator
+        const Animation& operator[](std::size_t animationIndex) const noexcept;
+        const Animation& at(std::size_t animationIndex) const;
+        std::size_t getSize() const;
+        bool isEmpty() const;
 
-        // internal storage
-        AnimationVectorPtr animations = std::make_shared<AnimationVector>();
+        // Iterator functions
+        iterator begin();
+        const_iterator begin() const noexcept;
+        const_iterator cbegin() const noexcept;
+        iterator end();
+        const_iterator end() const noexcept;
+        const_iterator cend() const noexcept;
+        reverse_iterator rbegin();
+        const_reverse_iterator rbegin() const noexcept;
+        const_reverse_iterator crbegin() const noexcept;
+        reverse_iterator rend();
+        const_reverse_iterator rend() const noexcept;
+        const_reverse_iterator crend() const noexcept;
+
+    private:
+        InternalContainer animations;
     };
 }

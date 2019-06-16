@@ -4,6 +4,8 @@
 
 #include <TGUI/TGUI.hpp>
 
+#include <memory>
+
 namespace EXE {
 
 	/// <summary>
@@ -12,15 +14,17 @@ namespace EXE {
 	class MainMenuDemoRegion: public DemoRegion
 	{
 	public:
+		/// <summary>shared_ptr to MainMenuDemoRegion</summary>
+		using Ptr = std::shared_ptr<MainMenuDemoRegion>;
+
 		// Constructors
 		MainMenuDemoRegion(sf::RenderWindow & window);
-		~MainMenuDemoRegion();
-
 		MainMenuDemoRegion() = delete;
 		MainMenuDemoRegion(const MainMenuDemoRegion& other) = delete;
 		MainMenuDemoRegion(MainMenuDemoRegion&& other) = delete;
 		MainMenuDemoRegion& operator= (const MainMenuDemoRegion& other) = delete;
 		MainMenuDemoRegion& operator= (MainMenuDemoRegion&& other) = delete;
+		~MainMenuDemoRegion() = default;
 
 		// Behavior
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
@@ -36,10 +40,12 @@ namespace EXE {
 				PLATFORM_DEMO,
 			#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 			SCALE_ROTATION_DEMO,
-			REGION_CHANGE_DEMO
+			REGION_CHANGE_DEMO,
+			ANIMATION_DEMO
 		};
 
 		// Initialization
+		void init(sf::RenderWindow & window);
 		void initGUI();
 
 		// Handle TGUI Callbacks
@@ -47,11 +53,11 @@ namespace EXE {
 		void platformRegionCB();
 		void scaleAndRotationDemoCB();
 		void regionChangeDemoCB();
+		void animationDemoCB();
 
 		// Storage
-		std::vector<GB::GameRegion*> selectableRegions;
+		std::vector<GB::GameRegion::Ptr> selectableRegions;
 		tgui::Theme defaultTheme;
-
 	};
 
 }

@@ -8,6 +8,6 @@ var class_g_b_1_1_pathfinder =
     [ "getNavigationGrid", "class_g_b_1_1_pathfinder.html#ab8d678b30e172c242923fb55f0a7a028", null ],
     [ "operator=", "class_g_b_1_1_pathfinder.html#a8d798a88de2f6558922d8b5451b25efc", null ],
     [ "operator=", "class_g_b_1_1_pathfinder.html#acdd3de3c4a2b70d09f4f6a705f6e0a29", null ],
-    [ "pathFind", "class_g_b_1_1_pathfinder.html#ae92699fc1cf93cf4b75f20969296ae8c", null ],
+    [ "pathFind", "class_g_b_1_1_pathfinder.html#adb23cb257f266cb84fb68b97c62a9c7f", null ],
     [ "setNavigationGrid", "class_g_b_1_1_pathfinder.html#ab2077e60f522a2d422f8b0e63cc4aa40", null ]
 ];

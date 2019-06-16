@@ -2,7 +2,8 @@
 
 #include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Navigation/PathFinder.h>
-#include <GameBackbone/Util/Point.h>
+
+#include <SFML/System/Vector2.hpp>
 
 #include <chrono>
 #include <sstream>
@@ -57,17 +58,17 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_sol) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 });
 
 	//Set value at the midPoint
-	Point2D<int> startPoint{ 1, 1 };
+	sf::Vector2i startPoint{ 1, 1 };
 	navGrid.at(startPoint.x, startPoint.y)->weight = 0;
 
 	//create request
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}};
+	PathRequest pathRequest{ startPoint, sf::Vector2i{2,2}};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -88,14 +89,14 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_simple_path_no_blocker) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2}};
+	sf::Vector2i startPoint{ 1, 1 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{2,2}};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -116,14 +117,14 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 0, 0 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,0}};
+	sf::Vector2i startPoint{ 0, 0 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{2,0}};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 
 	//block grid square between start and end point
-	Point2D<int> blockedSquareCoord{ 1, 0 };
+	sf::Vector2i blockedSquareCoord{ 1, 0 };
 	NavigationGridData blockedSquareData;
 	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
 	blockedSquareData.blockerDist = 0;
@@ -131,7 +132,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -142,7 +143,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_blocker) {
 
 	//ensure the blocked grid square is not in the path
 
-	for (Point2D<int> gridSquare : pathsReturn[0]) {
+	for (sf::Vector2i gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
@@ -160,13 +161,13 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_to_start) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 0, 0 };
+	sf::Vector2i startPoint{ 0, 0 };
 	PathRequest pathRequest{ startPoint, startPoint};
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -188,17 +189,17 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_end_blocked) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//block end point
-	Point2D<int> endPoint{ 1, 1 };
+	sf::Vector2i endPoint{ 1, 1 };
 	navGrid[endPoint.x][endPoint.y]->weight = BLOCKED_GRID_WEIGHT;
 
 	//create request
-	Point2D<int> startPoint{ 0, 0 };
+	sf::Vector2i startPoint{ 0, 0 };
 	PathRequest pathRequest{ startPoint, endPoint };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -258,13 +259,13 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	Pathfinder pathfinder(&navGrid);
 
 	//create path request
-	Point2D<int> startPoint{ 1, 3 };
-	Point2D<int> goalPoint{ 3, 0 };
+	sf::Vector2i startPoint{ 1, 3 };
+	sf::Vector2i goalPoint{ 3, 0 };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(PathRequest{ startPoint, goalPoint });
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -285,19 +286,19 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_clear) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2} };
+	sf::Vector2i startPoint{ 1, 1 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{2,2} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
-	Point2D<int> startPoint2{ 1, 1 };
-	PathRequest pathRequest2{ startPoint2, Point2D<int>{0,0} };
+	sf::Vector2i startPoint2{ 1, 1 };
+	PathRequest pathRequest2{ startPoint2, sf::Vector2i{0,0} };
 	pathRequests.push_back(pathRequest2);
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -319,18 +320,18 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_both_blocked) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ BLOCKED_GRID_WEIGHT,0 });
 
 	//create request
-	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{2,2} };
+	sf::Vector2i startPoint{ 1, 1 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{2,2} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
-	Point2D<int> startPoint2{ 2, 2 };
-	PathRequest pathRequest2{ startPoint2, Point2D<int>{0,0} };
+	sf::Vector2i startPoint2{ 2, 2 };
+	PathRequest pathRequest2{ startPoint2, sf::Vector2i{0,0} };
 	pathRequests.push_back(pathRequest2);
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -375,19 +376,19 @@ BOOST_AUTO_TEST_CASE(Pathfinder_two_path_one_blocked) {
 	navGrid[0][2]->weight = 0;
 
 	//create request
-	Point2D<int> startPoint{ 0, 0 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,2} };
+	sf::Vector2i startPoint{ 0, 0 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{0,2} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 	//second request
-	Point2D<int> startPoint2{ 2, 0 };
-	PathRequest pathRequest2{ startPoint2, Point2D<int>{2,2} };
+	sf::Vector2i startPoint2{ 2, 0 };
+	PathRequest pathRequest2{ startPoint2, sf::Vector2i{2,2} };
 	pathRequests.push_back(pathRequest2);
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 	//find the path
 	pathfinder->pathFind(pathRequests, &pathsReturn);
@@ -409,14 +410,14 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 2, 0 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,0} };
+	sf::Vector2i startPoint{ 2, 0 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{0,0} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 
 	//block grid square between start and end point
-	Point2D<int> blockedSquareCoord{ 1, 0 };
+	sf::Vector2i blockedSquareCoord{ 1, 0 };
 	NavigationGridData blockedSquareData;
 	blockedSquareData.weight = BLOCKED_GRID_WEIGHT;
 	blockedSquareData.blockerDist = 0;
@@ -424,7 +425,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -434,7 +435,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_one_path_single_left_blocker) {
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	//ensure the blocked grid square is not in the path
-	for (Point2D<int> gridSquare : pathsReturn[0]) {
+	for (sf::Vector2i gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != blockedSquareCoord);
 	}
 
@@ -451,21 +452,21 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths) {
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,0} };
+	sf::Vector2i startPoint{ 1, 1 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{0,0} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 
 	//Make square that is left have weight 1
-	Point2D<int> leftSquareCoord{ 0, 1 };
+	sf::Vector2i leftSquareCoord{ 0, 1 };
 	NavigationGridData leftSquareData;
 	leftSquareData.weight = 1;
 	leftSquareData.blockerDist = 0;
 	*navGrid.at(leftSquareCoord.x, leftSquareCoord.y) = leftSquareData;
 
 	//Make square that is up have weight 2
-	Point2D<int> upSquareCoord{ 1, 0 };
+	sf::Vector2i upSquareCoord{ 1, 0 };
 	NavigationGridData upSquareData;
 	upSquareData.weight = 500;
 	upSquareData.blockerDist = 0;
@@ -473,7 +474,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths) {
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -483,7 +484,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths) {
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	//ensure the blocked grid square is not in the path
-	for (Point2D<int> gridSquare : pathsReturn[0]) {
+	for (sf::Vector2i gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != upSquareCoord);
 	}
 
@@ -500,21 +501,21 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths_flipped
 	initAllNavigationGridValues(navGrid, NavigationGridData{ 0,0 });
 
 	//create request
-	Point2D<int> startPoint{ 1, 1 };
-	PathRequest pathRequest{ startPoint, Point2D<int>{0,0} };
+	sf::Vector2i startPoint{ 1, 1 };
+	PathRequest pathRequest{ startPoint, sf::Vector2i{0,0} };
 	std::vector<PathRequest> pathRequests;
 	pathRequests.push_back(pathRequest);
 
 
 	//Make square that is left have weight 2
-	Point2D<int> leftSquareCoord{ 0, 1 };
+	sf::Vector2i leftSquareCoord{ 0, 1 };
 	NavigationGridData leftSquareData;
 	leftSquareData.weight = 500;
 	leftSquareData.blockerDist = 0;
 	*navGrid.at(leftSquareCoord.x, leftSquareCoord.y) = leftSquareData;
 
 	//Make square that is up have weight 1
-	Point2D<int> upSquareCoord{ 1, 0 };
+	sf::Vector2i upSquareCoord{ 1, 0 };
 	NavigationGridData upSquareData;
 	upSquareData.weight = 1;
 	upSquareData.blockerDist = 0;
@@ -522,7 +523,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths_flipped
 
 
 	//create return value
-	std::vector<std::deque<Point2D<int>>> pathsReturn;
+	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 	pathsReturn.resize(pathRequests.size());
 
 	//find the path
@@ -532,7 +533,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_two_path_different_weight_paths_flipped
 	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	//ensure the blocked grid square is not in the path
-	for (Point2D<int> gridSquare : pathsReturn[0]) {
+	for (sf::Vector2i gridSquare : pathsReturn[0]) {
 		BOOST_CHECK(gridSquare != leftSquareCoord);
 	}
 
@@ -585,8 +586,8 @@ BOOST_AUTO_TEST_SUITE(Pathfinder_perf_Tests)
 // 	*/
 // 
 // 	//create requests
-// 	Point2D<int> startPoint{ 0, 0 };
-// 	Point2D<int> endPoint{ 0, 2 };
+// 	sf::Vector2i startPoint{ 0, 0 };
+// 	sf::Vector2i endPoint{ 0, 2 };
 // 
 // 	PathRequest pathRequest{ startPoint, endPoint };
 // 	std::vector<PathRequest> pathRequests;
@@ -596,7 +597,7 @@ BOOST_AUTO_TEST_SUITE(Pathfinder_perf_Tests)
 // 	}
 // 
 // 	//create return value
-// 	std::vector<std::deque<Point2D<int>>> pathsReturn;
+// 	std::vector<std::deque<sf::Vector2i>> pathsReturn;
 // 	pathsReturn.resize(pathRequests.size());
 // 	//find the path
 // 	auto startTime = std::chrono::high_resolution_clock::now();

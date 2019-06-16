@@ -129,6 +129,17 @@ BOOST_AUTO_TEST_CASE(RandGen_uniDist_toInt) {
 	delete testRandGen;
 }
 
+BOOST_AUTO_TEST_CASE(RandGen_uniDist_bad_range) {
+	RandGen* testRandGen = new RandGen();
+
+	int min = 1;
+	int max = 0;
+
+	// Ensure that the outputs for the same seed are the same
+	BOOST_CHECK_THROW(testRandGen->uniDist(min, max), std::runtime_error);
+	delete testRandGen;
+}
+
 BOOST_AUTO_TEST_SUITE_END() // end RandGen_Generator
 
 BOOST_AUTO_TEST_SUITE_END() // end RandGen_Tests

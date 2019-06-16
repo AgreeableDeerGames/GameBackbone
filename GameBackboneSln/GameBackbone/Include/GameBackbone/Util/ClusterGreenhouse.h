@@ -2,10 +2,11 @@
 
 #include <GameBackbone/Util/Array2D.h>
 #include <GameBackbone/Util/Cluster.h>
-#include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/RandGen.h>
+#include <GameBackbone/Util/SFUtil.h>
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include <set>
 #include <tuple>
@@ -20,24 +21,24 @@ namespace GB {
 	/// </summary>
 	class libGameBackbone ClusterGreenhouse {
 	public:
-		explicit ClusterGreenhouse(Point2D<int> dimensions);
+		explicit ClusterGreenhouse(sf::Vector2i dimensions);
 
 		Cluster* chooseClusterToAddTo();
 
-		Point2D<int> growCluster(Cluster* clusterToAddTo);
+		sf::Vector2i growCluster(Cluster* clusterToAddTo);
 
 		void createClustersFromFrequencies(std::vector<double> frequencies);
 
-		std::vector<std::set<Point2D<int>>> generateClusteredGraph(const std::vector<double>& frequencies);
+		std::vector<std::set<sf::Vector2i, IsVector2Less<int>>> generateClusteredGraph(const std::vector<double>& frequencies);
 
         // vector holding the clusters in each layer of the graph, each layer being a vector of clusters
 		std::vector<std::vector<Cluster>> clusterVectors;
 
         // vector holding the pointToClusterMap for each layer
-        std::vector<std::multimap<Point2D<int>, Cluster>> pointToClusterMaps;
+        std::vector<std::multimap<sf::Vector2i, Cluster, IsVector2Less<int>>> pointToClusterMaps;
 
         // Dimensions of the Array2D which is being built upon
-		Point2D<int> graphDims;
+		sf::Vector2i graphDims;
 
 		RandGen RandomGenerator;
 

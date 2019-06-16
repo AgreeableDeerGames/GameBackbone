@@ -1,12 +1,12 @@
 #include <GameBackbone/Util/Array2D.h>
 #include <GameBackbone/Util/Cluster.h>
-#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 
+#include <map>
 #include <set>
 #include <tuple>
-#include <map>
 
 using namespace GB;
 
@@ -14,7 +14,7 @@ using namespace GB;
 /// Constructor
 /// </summary>
 /// <param name="firstPoint">Point which will be the origin of the cluster</param>
-Cluster::Cluster(Point2D<int> firstPoint) {
+Cluster::Cluster(sf::Vector2i firstPoint) {
 	clusterFrequency = 0;
     clusterPointSet.insert(firstPoint);
     UpdateBorder(firstPoint);
@@ -26,7 +26,7 @@ Cluster::Cluster(Point2D<int> firstPoint) {
 /// Returns the points contained by this clusters.
 /// </summary>
 /// <returns></returns>
-std::set<Point2D<int>> const* const Cluster::getClusterPoints() {
+std::set<sf::Vector2i, IsVector2Less<int>> const* const Cluster::getClusterPoints() {
     return &clusterPointSet;
 }
 
@@ -35,15 +35,15 @@ double Cluster::getClusterFrequency() {
 }
 
 //setter
-void Cluster::setClusterFrequency(double FrequencyForCluster) {
-    clusterFrequency = FrequencyForCluster;
+void Cluster::setClusterFrequency(double frequencyForCluster) {
+    clusterFrequency = frequencyForCluster;
 }
 
 /// <summary>
 /// Adds a given point to the cluster.
 /// </summary>
 /// <param name="newPoint">A point which is to be added to this cluster</param>
-void Cluster::addPointToCluster(Point2D<int> newPoint) {
+void Cluster::addPointToCluster(sf::Vector2i newPoint) {
 	clusterPointSet.insert(newPoint);
 	UpdateBorder(newPoint);
 }
@@ -52,11 +52,11 @@ void Cluster::addPointToCluster(Point2D<int> newPoint) {
 /// When a point is added to the border, this is called to add the new points to the border (and remove the old point).
 /// </summary>
 /// <param name="newPoint">The point which is to be added to the cluster, from the border.</param>
-void Cluster::UpdateBorder(Point2D<int> newPoint) {
-    borderPointSet.insert(Point2D<int>{newPoint.x, newPoint.y + 1});
-    borderPointSet.insert(Point2D<int>{newPoint.x + 1, newPoint.y});
-    borderPointSet.insert(Point2D<int>{newPoint.x, newPoint.y - 1});
-    borderPointSet.insert(Point2D<int>{newPoint.x - 1, newPoint.y});
+void Cluster::UpdateBorder(sf::Vector2i newPoint) {
+    borderPointSet.insert(sf::Vector2i{newPoint.x, newPoint.y + 1});
+    borderPointSet.insert(sf::Vector2i{newPoint.x + 1, newPoint.y});
+    borderPointSet.insert(sf::Vector2i{newPoint.x, newPoint.y - 1});
+    borderPointSet.insert(sf::Vector2i{newPoint.x - 1, newPoint.y});
     borderPointSet.erase(newPoint);
 }
 
@@ -72,6 +72,6 @@ unsigned int Cluster::getNumberBorderPoints() {
 /// Gets the set of points that are in this cluster's border.
 /// </summary>
 /// <returns>the borderPointSet</returns>
-std::set<Point2D<int>> const* const Cluster::getBorderPointSet() {
+std::set<sf::Vector2i, IsVector2Less<int>> const* const Cluster::getBorderPointSet() {
 	return &borderPointSet;
 }

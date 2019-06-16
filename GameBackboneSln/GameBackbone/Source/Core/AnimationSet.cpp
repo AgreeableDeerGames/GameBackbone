@@ -1,81 +1,168 @@
 #include <GameBackbone/Core/AnimationSet.h>
 
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
+
+#include <cstddef>
+#include <exception>
+#include <vector>
+
 using namespace GB;
-
-
 /// <summary>
-/// Initializes a new instance of the <see cref="AnimationSet"/> class.
+/// Construct a new AnimationSet object.
+/// The provided animations will all be added to the animation set.
 /// </summary>
-/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
-/// <param name="textureSize">The size of the texture that the animation set will be using.</param>
-/// <param name="animationFrameDimensions">The dimensions of the frames (rows, cols) in the sprite sheet.</param>
-AnimationSet::AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
-                           sf::Vector2u textureSize,
-                           sf::Vector2u animationFrameDimensions) {
-    calculateAnimations(std::move(frameIndexAnimations), textureSize, animationFrameDimensions);
+/// <param name="animations"> The animations to add. </param>
+AnimationSet::AnimationSet(std::vector<Animation> animations) {
+    this->animations = std::move(animations);
 }
 
 /// <summary>
-/// Initializes a new instance of the <see cref="AnimationSet"/> class.
+/// Adds the animation to the AnimationSet.
 /// </summary>
-/// <param name="frameIndexAnimations">The consecutive frame indices for each animation.</param>
-/// <param name="texture">The texture that the animation set will be using.</param>
-/// <param name="animationFrameDimensions">The dimensions of the frames (rows, cols) in the sprite sheet.</param>
-AnimationSet::AnimationSet(FrameIndexAnimationVectorPtr frameIndexAnimations,
-                           const sf::Texture& texture,
-                           sf::Vector2u animationFrameDimensions) {
-    calculateAnimations(std::move(frameIndexAnimations), texture.getSize(), animationFrameDimensions);
+/// <param name="animation"> The animation to add. </param>
+void AnimationSet::addAnimation(Animation animation) {
+    animations.emplace_back(std::move(animation));
 }
 
 /// <summary>
-/// Returns all of the animations in this AnimationSet.
+/// Removes an animation from the AnimationSet.
 /// </summary>
-AnimationVectorPtr AnimationSet::getAnimations() const {
-    return animations;
+/// <param name="animation"> The animation to remove. </param>
+void AnimationSet::eraseAnimation(const_iterator animation) {
+    animations.erase(animation);
 }
 
 /// <summary>
-/// Clears all animations.
+/// Removes a range of animations form the AnimationSet.
+/// </summary>
+/// <param name="first"> The first animation to erase. </param>
+/// <param name="last"> The last animation to erase. </param>
+void AnimationSet::eraseAnimations(const_iterator first, const_iterator last) {
+    animations.erase(first, last);
+}
+
+/// <summary>
+/// Remove all animations from the AnimationSet.
 /// </summary>
 void AnimationSet::clearAnimations() {
-    animations->clear();
+    animations.clear();
 }
 
-
-/// <summary> Determines the rects that represent each frame of animation from
-/// the texture and animation dimensions and the indices of the sprite sheet that make up
-/// each animation.
+/// <summary>
+/// Access the animation at the given index.
 /// </summary>
-/// <param name="animationFrameIndicies">The consecutive frame indices for each animation.</param>
-/// <param name="textureSize"> The pixel size of the sprite sheet.</param>
-/// <param name="animationFrameDimensions"> The dimensions of the sprite sheet (in frames) rows X cols</param>
-void AnimationSet::calculateAnimations(FrameIndexAnimationVectorPtr animationFrameIndices,
-                                       sf::Vector2u textureSize,
-                                       sf::Vector2u animationFrameDimensions)  {
+/// <param name="animationIndex"> The index of the animation to return. </param>
+/// <return> The animation at the provided index. </return>
+const Animation& AnimationSet::operator[](std::size_t animationIndex) const noexcept {
+    return animations[animationIndex];
+}
 
-    // start fresh
-    clearAnimations();
+/// <summary>
+/// Access the animation at the given index.
+/// Throws out_of_range exception if the provided index is greater than the
+/// number of animations stored by the AnimationSet.
+/// </summary>
+/// <param name="animationIndex"> The index of the animation to return. </param>
+/// <return> The animation at the provided index. </return>
+const Animation& AnimationSet::at(std::size_t animationIndex) const {
+    return animations.at(animationIndex);
+}
 
-    // cant create animations if no indices are provided
-    if (animationFrameIndices == nullptr) {
-        return;
-    }
-    auto [textureWidth, textureHeight] = textureSize;
+/// <summary>
+/// Returns the number of Animations stored by the AnimationSet.
+/// </summary>
+std::size_t AnimationSet::getSize() const {
+    return animations.size();
+}
 
-    //find the dimensions of the rectangles
-    auto [animationFrameRows, animationFrameCols] = animationFrameDimensions;
+/// <summary>
+/// Returns true if the AnimationSet holds no animations. Returns false otherwise.
+/// </summary>
+bool AnimationSet::isEmpty() const {
+    return animations.empty();
+}
 
-    const unsigned int rectWidth = textureWidth / animationFrameCols;
-    const unsigned int rectHeight = textureHeight / animationFrameRows;
+/// <summary>
+/// Iterator to the beginning of the AnimationSet.
+/// </summary>
+AnimationSet::iterator AnimationSet::begin() {
+    return animations.begin();
+}
 
-    //find the rectangle for each frame number in each animation
-    for (const FrameIndexAnimation& frameAnimation : *animationFrameIndices) {
-        Animation rectAnimation;
-        for (unsigned int frameNumber : frameAnimation) {
-            const unsigned int newRectY = (frameNumber / animationFrameCols) * rectHeight;
-            const unsigned int newRectX = (frameNumber % animationFrameCols) * rectWidth;
-            rectAnimation.emplace_back(sf::IntRect(newRectX, newRectY, rectWidth, rectHeight));
-        }
-        animations->emplace_back(std::move(rectAnimation));
-    }
+/// <summary>
+/// Const iterator to the beginning of the AnimationSet.
+/// </summary>
+AnimationSet::const_iterator AnimationSet::begin() const noexcept{
+    return animations.begin();
+}
+
+/// <summary>
+/// Const iterator to the beginning of the AnimationSet.
+/// </summary>
+AnimationSet::const_iterator AnimationSet::cbegin() const noexcept{
+    return animations.cbegin();
+}
+
+/// <summary>
+/// Iterator to the end of the AnimationSet.
+/// </summary>
+AnimationSet::iterator AnimationSet::end() {
+    return animations.end();
+}
+
+/// <summary>
+/// Const iterator to the end of the AnimationSet.
+/// </summary>
+AnimationSet::const_iterator AnimationSet::end() const noexcept{
+    return animations.end();
+}
+
+/// <summary>
+/// Const iterator to the end of the AnimationSet.
+/// </summary>
+AnimationSet::const_iterator AnimationSet::cend() const noexcept{
+    return animations.cend();
+}
+
+/// <summary>
+/// Reverse iterator to the beginning of the AnimationSet.
+/// </summary>
+AnimationSet::reverse_iterator AnimationSet::rbegin(){
+    return animations.rbegin();
+}
+
+/// <summary>
+/// Reverse const iterator to the beginning of the AnimationSet.
+/// </summary>
+AnimationSet::const_reverse_iterator AnimationSet::rbegin() const noexcept{
+    return animations.rbegin();
+}
+
+/// <summary>
+/// Reverse const iterator to the beginning of the AnimationSet.
+/// </summary>
+AnimationSet::const_reverse_iterator AnimationSet::crbegin() const noexcept{
+    return animations.crbegin();
+}
+
+/// <summary>
+/// Reverse iterator to the end of the AnimationSet.
+/// </summary>
+AnimationSet::reverse_iterator AnimationSet::rend(){
+    return animations.rend();
+}
+
+/// <summary>
+/// Reverse const iterator to the end of the AnimationSet.
+/// </summary>
+AnimationSet::const_reverse_iterator AnimationSet::rend() const noexcept{
+    return animations.rend();
+}
+
+/// <summary>
+/// Reverse const iterator to the end of the AnimationSet.
+/// </summary>
+AnimationSet::const_reverse_iterator AnimationSet::crend() const noexcept{
+    return animations.crend();
 }

@@ -28,9 +28,8 @@ namespace EXE{
 	public:
 		// Constructors
 		ScaleAndRotationDemoRegion(sf::RenderWindow & window);
-		virtual ~ScaleAndRotationDemoRegion();
-
 		ScaleAndRotationDemoRegion() = delete;
+		virtual ~ScaleAndRotationDemoRegion() = default;
 		ScaleAndRotationDemoRegion(const ScaleAndRotationDemoRegion& other) = delete;
 		ScaleAndRotationDemoRegion(ScaleAndRotationDemoRegion&& other) = delete;
 		ScaleAndRotationDemoRegion& operator= (const ScaleAndRotationDemoRegion& other) = delete;
@@ -40,12 +39,12 @@ namespace EXE{
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 		virtual void handleMouseMove(sf::Vector2f mousePosition) override;
 		virtual void handleWheelScroll(float scrollDelta) override;
+		virtual void handleKeyPress(sf::Event::KeyEvent key) override;
 		
 	protected:
 		// Initialization and Cleanup
 		void init();
 		void initGUI();
-		void destroy();
 		virtual void reset() override;
 
 		// Sprite textures
@@ -56,10 +55,6 @@ namespace EXE{
 
 		// Compound sprite stuff
 		std::unique_ptr<GB::CompoundSprite> displaySprite;
-		std::unique_ptr<sf::Sprite> spriteComponent1;
-		std::unique_ptr<sf::Sprite> spriteComponent2;
-		std::unique_ptr<sf::Sprite> spriteComponent3;
-		std::vector<sf::Sprite*> textureOffsetSprites;
 
 		// Compound sprite selection
 		ROTATION_INIT_TYPE selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;

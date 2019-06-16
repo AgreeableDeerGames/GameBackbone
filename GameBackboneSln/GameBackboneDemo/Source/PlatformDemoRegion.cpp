@@ -5,7 +5,6 @@
 
 #include <GameBackboneDemo/PlatformDemoRegion.h>
 
-#include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/UtilMath.h>
 
 #include <TGUI/TGUI.hpp>
@@ -52,12 +51,9 @@ PlatformDemoRegion::~PlatformDemoRegion() {
 /// <summary>
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
-void PlatformDemoRegion::behave(sf::Time currentTime) {
-	// Calculate how much time has passed since the previous behave call.
-	sf::Uint64 msPassed = currentTime.asMilliseconds() - lastUpdateTime.asMilliseconds();
-
+void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 	// Instruct the world to perform a single step of simulation.
-	float stepTime = msPassed/50.0f;
+	float stepTime = elapsedTime /50000.0f;
  	platformWorld->Step(stepTime, velocityIterations, positionIterations);
 	for (int ii = 0; ii < objectBodies.size(); ii++)
 	{
@@ -73,8 +69,6 @@ void PlatformDemoRegion::behave(sf::Time currentTime) {
 		float32 angle = objectBody->GetAngle();
 		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
 	}
-
-	lastUpdateTime = currentTime;
 }
 
 /// <summary>
@@ -281,7 +275,6 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 /// Initializes this instance.
 /// </summary>
 void PlatformDemoRegion::init() {
-	lastUpdateTime = sf::Time::Zero;
 	// Init textures
 	std::string blockString(R"(Textures/testSprite.png)");
 	blockTexture = std::make_unique<sf::Texture>();
@@ -326,8 +319,8 @@ void PlatformDemoRegion::initGUI() {
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	tgui::Layout windowWidth = tgui::bindWidth(*regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(*regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
+	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
 
 	// Create the background image
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
@@ -335,7 +328,7 @@ void PlatformDemoRegion::initGUI() {
 	// Place the image at the bottom 1/10th of the screen
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI->add(picture);
+	regionGUI.add(picture);
 }
 
 /// <summary>
@@ -349,7 +342,6 @@ void PlatformDemoRegion::destroy() {
 
 	// Clear all of GameRegion's references to drawables or updatables
 	clearDrawable();
-	clearUpdatable();
 
 	// Destroy the world and all of its memory
 	platformWorld.reset();
@@ -363,9 +355,6 @@ void PlatformDemoRegion::destroy() {
 
 	// Delete textures
 	blockTexture.reset();
-
-	// Reset time
-	lastUpdateTime = sf::Time::Zero;
 }
 
 /// <summary>

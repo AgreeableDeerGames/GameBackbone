@@ -1,7 +1,9 @@
 #include "stdafx.h"
 
-#include <GameBackbone/Util/Point.h>
 #include <GameBackbone/Util/Cluster.h>
+#include <GameBackbone/Util/SFUtil.h>
+
+#include <SFML/System/Vector2.hpp>
 
 #include <set>
 
@@ -18,14 +20,14 @@ BOOST_AUTO_TEST_SUITE(Cluster_CTRs);
 BOOST_AUTO_TEST_CASE(Cluster_ZeroPoint_CTR) {
 
 	// Point at (0,0).
-	Point2D<int> testPoint{0,0};
+	sf::Vector2i testPoint{0,0};
 
 	// Create border points to compare against.
-	std::set<Point2D<int>>* testBorderPoints = new std::set<Point2D<int>>;
-	testBorderPoints->insert(Point2D<int>{0, 1});
-	testBorderPoints->insert(Point2D<int>{1, 0});
-	testBorderPoints->insert(Point2D<int>{-1, 0});
-	testBorderPoints->insert(Point2D<int>{0, -1});
+	std::set<sf::Vector2i, IsVector2Less<int>>* testBorderPoints = new std::set<sf::Vector2i, IsVector2Less<int>>;
+	testBorderPoints->insert(sf::Vector2i{0, 1});
+	testBorderPoints->insert(sf::Vector2i{1, 0});
+	testBorderPoints->insert(sf::Vector2i{-1, 0});
+	testBorderPoints->insert(sf::Vector2i{0, -1});
 
 	// Cluster created at (0,0).
 	Cluster* testCluster = new Cluster(testPoint);

@@ -6,6 +6,7 @@ add_library(GameBackbone SHARED
 # include
 
   # core
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/Animation.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/AnimatedSprite.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/AnimationSet.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/BackboneBaseExceptions.h"
@@ -13,6 +14,7 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/CoreEventController.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/GameRegion.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/RelativeRotationSprite.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/UniformAnimationSet.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/Updatable.h"
 
   # navigation
@@ -24,7 +26,6 @@ add_library(GameBackbone SHARED
 
   # util
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Array2D.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Array3D.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Cluster.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/ClusterGreenhouse.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/DebugIncludes.h"
@@ -32,18 +33,20 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileManager.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileReader.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileWriter.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Point.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/RandGen.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/SFUtil.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/UtilMath.h"
 
 # source
 
   # core
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/Animation.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/AnimatedSprite.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/AnimationSet.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/CompoundSprite.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/GameRegion.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/RelativeRotationSprite.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/UniformAnimationSet.cpp"
 
   # navigation
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Navigation/CoordinateConverter.cpp"
@@ -66,6 +69,25 @@ set_target_properties(
     DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
     VERSION 0.1.2
 )
+
+# Clang Tidy
+option(GAMEBACKBONE_RUN_CLANG_TIDY "Run Clang Tidy when building GB" OFF)
+if (GAMEBACKBONE_RUN_CLANG_TIDY)
+  # enable clang tidy
+  include("${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneClangTidy.cmake")
+  if(CLANG_TIDY_EXE)
+    gamebackbone_message("Clang-Tidy enabled. Clang-Tidy will be run on build.")
+    set_target_properties (
+      GameBackbone PROPERTIES
+      CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
+    )
+  # Clang Tidy on, but not found
+  else()
+    gamebackbone_warning("Clang Tidy enabled but not found!")
+  endif()
+else()
+  gamebackbone_message("Clang Tidy off. Set GAMEBACKBONE_RUN_CLANG_TIDY to 'ON' to use Clang Tidy.")
+endif()
 
 find_package(SFML 2 COMPONENTS network audio graphics window system)
 if(SFML_FOUND)

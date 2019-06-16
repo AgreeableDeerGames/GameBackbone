@@ -5,7 +5,6 @@
 #include <GameBackbone/Navigation/NavigationGridData.h>
 #include <GameBackbone/Navigation/PathRequest.h>
 #include <GameBackbone/Navigation/NavigationTools.h>
-#include <GameBackbone/Util/Point.h>
 
 #include <deque>
 #include <map>
@@ -37,14 +36,14 @@ namespace GB {
 		NavigationGrid* getNavigationGrid();
 
 		//operations
-		void pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::deque<Point2D<int>>>* const returnedPaths) const;
+		void pathFind(const std::vector<PathRequest>& pathRequests, std::vector<std::deque<sf::Vector2i>>* const returnedPaths) const;
 
 	private:
 
 		//helper functions
-		Point2D<int> chooseNextGridSquare(const PathRequest& pathRequest, const std::set<Point2D<int>>* const availableGridSquares, std::map<Point2D<int>, int>* score) const;
-		std::vector<Point2D<int>> getNeighbors(const Point2D<int>& gridCoordinate) const;
-		std::deque<Point2D<int>> reconstructPath(const Point2D<int>& endPoint, std::map<Point2D<int>, Point2D<int>> const * const cameFrom) const;
+		sf::Vector2i chooseNextGridSquare(const PathRequest& pathRequest, const std::set<sf::Vector2i, IsVector2Less<int>>& availableGridSquares, std::map<sf::Vector2i, int, IsVector2Less<int>>& score) const;
+		std::vector<sf::Vector2i> getNeighbors(const sf::Vector2i& gridCoordinate) const;
+		std::deque<sf::Vector2i> reconstructPath(const sf::Vector2i& endPoint, const std::map<sf::Vector2i, sf::Vector2i, IsVector2Less<int>>& cameFrom) const;
 
 		//data
 		NavigationGrid* navigationGrid;

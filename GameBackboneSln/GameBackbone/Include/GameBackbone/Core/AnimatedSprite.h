@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
+#include <cstddef>
 #include <vector>
 
 namespace GB {
@@ -25,54 +26,52 @@ namespace GB {
 	/// </summary>
 	/// <seealso cref="sf::Sprite" />
 	/// <seealso cref="Updatable" />
-	class libGameBackbone AnimatedSprite :
-		public virtual sf::Sprite, public virtual Updatable {
+	class libGameBackbone AnimatedSprite : public sf::Sprite, public Updatable {
 	public:
+		/// <summary>shared_ptr to an AnimatedSprite</summary>
+		using Ptr = std::shared_ptr<AnimatedSprite>;
+
 		//ctr and dtr
 		//shallow copy and move are fine for this class
 		AnimatedSprite();
-		explicit AnimatedSprite(const sf::Texture &texture);
-		AnimatedSprite(const sf::Texture &texture, AnimationSet* animations);
+		explicit AnimatedSprite(const sf::Texture& texture);
+		AnimatedSprite(const sf::Texture& texture, AnimationSet::Ptr animations);
 		AnimatedSprite(const AnimatedSprite& other) = default;
-		AnimatedSprite(AnimatedSprite&& other) = default;
-		AnimatedSprite& operator= (const AnimatedSprite& other) = default;
-		AnimatedSprite& operator= (AnimatedSprite&& other) = default;
-		virtual ~AnimatedSprite();
-
+		AnimatedSprite& operator=(const AnimatedSprite& other) = default;
+		AnimatedSprite(AnimatedSprite&& other) noexcept = default;
+		AnimatedSprite& operator=(AnimatedSprite&& other) noexcept = default;
+		virtual ~AnimatedSprite() = default;
 
 		//getters and setters
 			//setters
 		void setAnimating(bool animating);
 		void setCurrentFrame(unsigned int frame);
-		void setAnimations(AnimationSet* animations);
-		void setAnimationDelay(unsigned int speed);
+		void setAnimations(AnimationSet::Ptr animations);
+		void setAnimationDelay(sf::Time delay);
+
 			//getters
 		unsigned int getCurrentFrame() const;
 		unsigned int getCurrentAnimationId() const;
-		unsigned int getAnimationDelay() const;
+		sf::Time getAnimationDelay() const;
 		unsigned int getFramesSpentInCurrentAnimation() const;
 		bool isAnimating() const;
 
 		//operations
-		void runAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
-		virtual void update(sf::Time currentTime);
+		void runAnimation(unsigned int animationId);
+		virtual void update(sf::Int64 elapsedTime);
 
 	protected:
-		AnimationVectorPtr animations;
-		unsigned int currentAnimationId;
-
 		bool animating;
-		ANIMATION_END_TYPE animationEnd;
 		bool isReverse;
-		unsigned int animationDelay;
+		ANIMATION_END_TYPE animationEnd;
+		sf::Time animationDelay;
+		sf::Time timeSinceLastUpdate;
 		
-		std::vector<sf::IntRect>* currentAnimation;
 		unsigned int currentFrame;
 		unsigned int framesSpentInCurrentAnimation;
-
-		void AnimatedSpriteInit(AnimationSet* animations);
-
+		std::size_t currentAnimationId;
+		const Animation* currentAnimation;
+		AnimationSet::Ptr animations;
 	};
-
 }

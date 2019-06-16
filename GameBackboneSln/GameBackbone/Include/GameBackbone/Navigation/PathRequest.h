@@ -1,12 +1,13 @@
 #pragma once
+#include<GameBackbone/Util/DllUtil.h>
 
-#include <GameBackbone/Util/Point.h>
+#include <SFML/System/Vector2.hpp>
 
 namespace GB {
 	/// <summary> A request to calculate a path from the start coordinate to the end coordinate. </summary>
 	struct libGameBackbone PathRequest {
-		Point2D<int> start;
-		Point2D<int> end;
+		sf::Vector2i start;
+		sf::Vector2i end;
 	};
 
 }

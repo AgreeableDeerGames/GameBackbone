@@ -4,9 +4,9 @@
 
 #include <GameBackbone/Navigation/CoordinateConverter.h>
 #include <GameBackbone/Navigation/PathFinder.h>
-#include <GameBackbone/Util/Point.h>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include <memory>
 
@@ -50,7 +50,7 @@ namespace EXE {
 		NavigationDemoRegion& operator= (NavigationDemoRegion&& other) = delete;
 
 		// Behavior
-		virtual void behave(sf::Time currentTime) override;
+		virtual void update(sf::Int64 elapsedTime) override;
 
 		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f clickPosition, sf::Mouse::Button button) override;
@@ -63,9 +63,6 @@ namespace EXE {
 		void initMaze();
 		void destroy();
 		virtual void reset() override;
-
-		// Update logic storage
-		sf::Time lastUpdateTime;
 
 		// Sprite textures
 		std::unique_ptr<sf::Texture> navigatorTexture;

@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(FileManager_encryptDecryptString_EmptyKey) {
 	std::string testString = "Test String with Some Form of Stuff...";
 	std::string key = "";
 
-	BOOST_CHECK_THROW(testManager.encryptDecryptString(testString, key), GB::Error::FileManager_EmptyKey);
+	BOOST_CHECK_THROW(testManager.encryptDecryptString(testString, key), std::invalid_argument);
 }
 
 // Ensure that encryptDecryptString gives correct results.
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(FileManager_fileVerification_null) {
 
 	std::string filePath = TestFileLocation + "null.txt";
 	std::size_t testFileSize = 3;
-	std::size_t testFileHash = 15658191375538532279;
+	std::size_t testFileHash = 15658191375538532279ULL;
 
 	std::size_t outputSize = testManager.getFileSize(filePath);
 	BOOST_CHECK(outputSize == testFileSize);

@@ -19,10 +19,8 @@ namespace GB {
 		FileWriter& operator= (FileWriter&& reader) = default;
 		~FileWriter() = default;
 
-
 		std::string createWritableString(Array2D<std::string>* dataArray, char delimiter) const;
 		void writeString(const std::string& inString, const std::string& filePath) const;
-
 
 	private:
 

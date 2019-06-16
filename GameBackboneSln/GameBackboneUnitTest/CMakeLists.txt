@@ -2,15 +2,12 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-enable_testing()
-
 add_executable(GameBackboneUnitTest 
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/stdafx.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/stdafx.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimatedSpriteTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimationSetTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/Array2DTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/Array3DTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/ClusterGreenhouseTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/ClusterTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CompoundSpriteTests.cpp"
@@ -25,7 +22,9 @@ add_executable(GameBackboneUnitTest
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RandGenTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RelativeRotationSpriteTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UniformAnimationSetTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UtilMathTests.cpp"
+	
 )
 
 target_link_libraries(GameBackboneUnitTest PRIVATE GameBackbone)
@@ -38,9 +37,8 @@ endif()
 
 # declares a test with all boost tests
 add_test(NAME AnimatedSpriteTests COMMAND GameBackboneUnitTest --run_test=AnimatedSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME AnimationSetTests COMMAND GameBackboneUnitTest --run_test=AnimationSet_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_test(NAME AnimationSetTests COMMAND GameBackboneUnitTest --run_test=AnimationSetTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME Array2DTests COMMAND GameBackboneUnitTest --run_test=Array2D_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME Array3DTests COMMAND GameBackboneUnitTest --run_test=Array3D_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME ClusterGreenhouseTests COMMAND GameBackboneUnitTest --run_test=ClusterGreenhouse_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME ClusterTests COMMAND GameBackboneUnitTest --run_test=Cluster_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME CompoundSpriteTests COMMAND GameBackboneUnitTest --run_test=CompoundSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
@@ -53,6 +51,6 @@ add_test(NAME GameRegionTests COMMAND GameBackboneUnitTest --run_test=GameRegion
 add_test(NAME NavigationToolsTests COMMAND GameBackboneUnitTest --run_test=NavigationToolsTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME PathFinderTests COMMAND GameBackboneUnitTest --run_test=Pathfinder_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME RandGenTests COMMAND GameBackboneUnitTest --run_test=RandGen_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME RelativeRotationSpriteTests COMMAND GameBackboneUnitTest --run_test=RelativeRotionSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_test(NAME RelativeRotationSpriteTests COMMAND GameBackboneUnitTest --run_test=RelativeRotationSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME UtilMathTests COMMAND GameBackboneUnitTest --run_test=UtilMathTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 

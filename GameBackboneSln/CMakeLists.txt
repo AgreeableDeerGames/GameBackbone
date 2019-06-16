@@ -22,7 +22,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GAMEBACKBONE_TOP_FOLDER}/cmake/Modules)
 gamebackbone_message("current module path: ${CMAKE_MODULE_PATH}")
 
-# set posfix
+# set postfix
 if(NOT CMAKE_DEBUG_POSTFIX)
   set(CMAKE_DEBUG_POSTFIX -d)
 endif()
@@ -41,6 +41,7 @@ endif()
 option(GAMEBACKBONE_BUILD_TESTS "Build GameBackbone's test suite" OFF)
 if(${GAMEBACKBONE_BUILD_TESTS})
 	gamebackbone_message("Enabling GameBackbone unit tests.")
+	enable_testing()
 	add_subdirectory("GameBackboneUnitTest")
 else()
 	gamebackbone_message("Disabling GameBackbone unit tests. Set GAMEBACKBONE_BUILD_TESTS to enable the tests.")

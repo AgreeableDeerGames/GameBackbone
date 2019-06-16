@@ -7,6 +7,7 @@ include("${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneMessage.cmake")
 
 add_executable(GameBackboneDemo
 # headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/AnimationDemoRegion.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoCoreEventController.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoRegion.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/MainMenuDemoRegion.h"
@@ -17,6 +18,7 @@ add_executable(GameBackboneDemo
     "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/targetver.h"
 
 # source
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimationDemoRegion.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/DemoCoreEventController.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/DemoRegion.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/main.cpp"
