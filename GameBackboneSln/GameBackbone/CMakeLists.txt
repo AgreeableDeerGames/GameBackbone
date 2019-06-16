@@ -67,7 +67,7 @@ set_target_properties(
   GameBackbone 
   PROPERTIES
     DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
-    VERSION 0.1.2
+    VERSION 0.2.1
 )
 
 # Clang Tidy
