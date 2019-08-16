@@ -5,6 +5,8 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include <exception>
+
 using namespace GB;
 
 //ctr and dtr
@@ -58,9 +60,13 @@ void AnimatedSprite::setAnimating(bool animating) {
 /// <summary>
 /// Sets the current frame (within the current animation) of the AnimatedSprite.
 /// Imediately updates the texture displayed on the sprite.
+/// Throws std::runtime_error if there is no active animation (runAnimation has not been called).
 /// </summary>
 /// <param name="frame">The frame.</param>
 void AnimatedSprite::setCurrentFrame(unsigned int frame) {
+	if (!currentAnimation) {
+		throw std::runtime_error("Cannot set the frame of an animation without an active animation (calling runAnimation).");
+	}
 	currentFrame = frame;
 	setTextureRect(currentAnimation->at(currentFrame));
 }

@@ -76,6 +76,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_default_CTR, ReusableObjects) {
 	BOOST_CHECK(animSprite->getCurrentFrame() == 0);
 	BOOST_CHECK(animSprite->getAnimationDelay().asMicroseconds() == 0);
 	BOOST_CHECK(animSprite->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSprite->getCurrentAnimation() == nullptr);
 	BOOST_CHECK(animSprite->getFramesSpentInCurrentAnimation() == 0);
 
 	delete animSprite;
@@ -90,6 +91,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_CTR, ReusableObjects) {
 	BOOST_CHECK(animSprite->getCurrentFrame() == 0);
 	BOOST_CHECK(animSprite->getAnimationDelay().asMicroseconds() == 0);
 	BOOST_CHECK(animSprite->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSprite->getCurrentAnimation() == nullptr);
 	BOOST_CHECK(animSprite->getFramesSpentInCurrentAnimation() == 0);
 
 	//ensure that the texture is correctly set
@@ -106,10 +108,12 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_and_Animations, ReusableObjects) 
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getAnimationDelay().asMicroseconds() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimation() == nullptr);
 	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == 0);
 
 	//ensure that the texture is correctly set
 	BOOST_CHECK(animSpriteWithAnim->getTexture() == aSpriteTexture);
+
 
 	//ensure that the animation has been successfully bound
 	animSpriteWithAnim->runAnimation(0);
@@ -472,6 +476,12 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame, ReusableObjects) {
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == newFrame);
 }
 
+// Ensure that setCurrentFrame throws correctly when called before a animation has been set
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame_No_Animation, ReusableObjects) {
+	// it is an error to set the current frame without first running an animation
+	BOOST_CHECK_THROW(animSpriteWithAnim->setCurrentFrame(0), std::runtime_error);
+}
+
 // Tests AnimatedSprite reversing its animations
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_multiple_updates_require_time_to_pass, ReusableObjects) {
 	animSpriteWithAnim->runAnimation(0, ANIMATION_REVERSE);
@@ -490,6 +500,12 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_multiple_updates_require_time_to_pass, Re
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 }
 
+// Ensure that when getCurrentAnimation is called on a AnimateSprite with a valid animation that it returns the correct animation
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_getCurrentAnimation_returns_correct_animation, ReusableObjects) {
+	const int animToRun = 0;
+	animSpriteWithAnim->runAnimation(animToRun);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimation() == &animSet->at(animToRun));
+}
 
 BOOST_AUTO_TEST_SUITE_END() // end AnimatedSprite_Animations
 
