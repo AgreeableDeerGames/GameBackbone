@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <array>
 #include <chrono>
 #include <string>
 #include <thread>
@@ -30,12 +31,21 @@ struct ReusableObjects
 		int halfTextureWidth = aSpriteTexture->getSize().x / 2;
 		int halfTextureHeight = aSpriteTexture->getSize().y / 2;
 
-		animSet = std::make_shared<AnimationSet>();
-		animSet->addAnimation ({
+		// Create the frames of the animation and store them for later
+		animSpriteAnimTextureFrameRects = {
 			sf::IntRect(0, 0, halfTextureWidth, halfTextureHeight),
 			sf::IntRect(halfTextureWidth, 0, halfTextureWidth, halfTextureHeight),
 			sf::IntRect(halfTextureWidth, halfTextureHeight, halfTextureWidth, halfTextureHeight),
 			sf::IntRect(0, halfTextureHeight, halfTextureWidth, halfTextureHeight)
+		};
+
+		// Create an animation set from the frames
+		animSet = std::make_shared<AnimationSet>();
+		animSet->addAnimation ({
+			animSpriteAnimTextureFrameRects[0],
+			animSpriteAnimTextureFrameRects[1],
+			animSpriteAnimTextureFrameRects[2],
+			animSpriteAnimTextureFrameRects[3]
 		});
 
 		//create animatedSprite
@@ -51,6 +61,7 @@ struct ReusableObjects
 	AnimatedSprite* animSpriteWithAnim;
 	AnimationSet::Ptr animSet;
 	sf::Texture* aSpriteTexture;
+	std::array<sf::IntRect, 4> animSpriteAnimTextureFrameRects;
 };
 
 // Contains all of the tests for AnimatedSprite constructors
@@ -452,9 +463,13 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimationDelay, ReusableObjects) {
 
 // ensure that the current frame of an animation can be set and retrieved correctly
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame, ReusableObjects) {
+	const int newFrame = 3;
 	animSpriteWithAnim->runAnimation(0);
-	animSpriteWithAnim->setCurrentFrame(3);
-	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 3);
+	animSpriteWithAnim->setCurrentFrame(newFrame);
+	// Ensure that the animation frame member of the animated sprite and the texture being displayed by the
+	// sprite have both been updated
+	BOOST_CHECK(animSpriteWithAnim->getTextureRect() == animSpriteAnimTextureFrameRects[newFrame]);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == newFrame);
 }
 
 // Tests AnimatedSprite reversing its animations
