@@ -96,6 +96,14 @@ unsigned int AnimatedSprite::getCurrentFrame() const {
 	return currentFrame;
 }
 
+///<summary>
+/// Returns the current animation set on this instance.
+/// Returns nullptr if no animation has been set.
+/// </summary>
+const Animation* AnimatedSprite::getCurrentAnimation() const {
+	return currentAnimation;
+}
+
 /// <summary>
 /// Returns the ID of the current animation
 /// </summary>

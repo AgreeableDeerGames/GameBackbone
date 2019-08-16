@@ -102,3 +102,15 @@ void AnimationDemoRegion::update(sf::Int64 elapsedTime) {
         animatedSprite->update(elapsedTime);
     }
 }
+
+/// <summary>
+/// Handles the mouse click.
+/// Changes the frame of the 0th animated sprite
+/// </summary>
+/// <param name="newPosition">The position that was clicked.</param>
+/// <param name="button">The button that was clicked.</param>
+void AnimationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+	GB::AnimatedSprite::Ptr& targetSprite = animatedSprites[0];
+	auto animationSize = targetSprite->getCurrentAnimation()->size();
+	targetSprite->setCurrentFrame((targetSprite->getCurrentFrame() + 1) % animationSize);
+}
