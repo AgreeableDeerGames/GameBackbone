@@ -56,11 +56,13 @@ void AnimatedSprite::setAnimating(bool animating) {
 }
 
 /// <summary>
-/// Sets the current frame (within the current animation) of the AnimatedSprite
+/// Sets the current frame (within the current animation) of the AnimatedSprite.
+/// Imediately updates the texture displayed on the sprite.
 /// </summary>
 /// <param name="frame">The frame.</param>
 void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 	currentFrame = frame;
+	setTextureRect(currentAnimation->at(currentFrame));
 }
 
 /// <summary>
@@ -194,8 +196,5 @@ void AnimatedSprite::update(sf::Int64 elapsedTime) {
 		}
 
 		framesSpentInCurrentAnimation++;
-
-		// Update the displayed frame
-		setTextureRect(currentAnimation->at(currentFrame));
 	}
 }
