@@ -47,7 +47,7 @@ sf::Vector2i ClusterGreenhouse::growCluster(Cluster* clusterToAddTo) {
     // Create and iterator and put it to some random Point2D of the cluster's border
 	const std::set<sf::Vector2i, IsVector2Less<int>>* clusterBorderPointSet = clusterToAddTo->getBorderPointSet();
 	auto borderPointSetIter = clusterBorderPointSet->begin();
-	std::advance(borderPointSetIter, RandomGenerator.uniDist(0, (double)clusterBorderPointSet->size()));
+	std::advance(borderPointSetIter, RandomGenerator.uniDist(0, (double)clusterBorderPointSet->size() - 1));
 
 	for (int i = 0; i < clusterBorderPointSet->size(); i++) {
 		// If the point is not already in a different cluster and also not on the edge
