@@ -52,6 +52,35 @@ PlatformDemoRegion::~PlatformDemoRegion() {
 /// Executes a single cycle of the main logic loop for this region.
 /// </summary>
 void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
+
+	// MovePlayer
+	if (isPlayerMovingLeft)
+	{
+		if (!isPlayerMovingRight)
+		{
+			// Only move player left if right is not pressed too
+			// Move the player left by applying a linear velocity
+			b2Vec2 vel = playerBody->GetLinearVelocity();
+			vel.x = -0.4;
+			playerBody->SetLinearVelocity(vel);
+		}
+
+	}
+	else if (isPlayerMovingRight)
+	{
+		// Move the player right by applying a linear velocity
+		b2Vec2 vel = playerBody->GetLinearVelocity();
+		vel.x = 0.4;
+		playerBody->SetLinearVelocity(vel);
+	}
+	if (isPlayerJumping)
+	{
+		// 'Jump' the player by providing upward linear velocity
+		b2Vec2 vel = playerBody->GetLinearVelocity();
+		vel.y = -0.9;
+		playerBody->SetLinearVelocity(vel);
+	}
+
 	// Instruct the world to perform a single step of simulation.
 	float stepTime = elapsedTime /50000.0f;
  	platformWorld->Step(stepTime, velocityIterations, positionIterations);
@@ -92,25 +121,19 @@ void PlatformDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::B
 /// <param name="mousePosition">The key pressed.</param>
 void PlatformDemoRegion::handleKeyPress(sf::Event::KeyEvent key){
 
-	// Move the player left by applying a linear velocity when the user presses
-	if (key.code == sf::Keyboard::A){
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = -0.4;
-		playerBody->SetLinearVelocity(vel);
+	// Player is trying to move left
+	if (key.code == sf::Keyboard::A) {
+		isPlayerMovingLeft = true;
 	}
 
-	// Move the player right by applying a linear velocity when the user presses
-	else if(key.code == sf::Keyboard::D){
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = 0.4;
-		playerBody->SetLinearVelocity(vel);
+	// Player is trying to move right
+	else if(key.code == sf::Keyboard::D) {
+		isPlayerMovingRight = true;
 	}
 
-	// 'Jump' the player by providing upward linear velocity
+	// Player is trying to jump
 	else if (key.code == sf::Keyboard::Space) {
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.y = -0.9;
-		playerBody->SetLinearVelocity(vel);
+		isPlayerJumping = true;
 	}
 }
 
@@ -121,34 +144,19 @@ void PlatformDemoRegion::handleKeyPress(sf::Event::KeyEvent key){
 /// <param name="mousePosition">The key released.</param>
 void PlatformDemoRegion::handleKeyRelease(sf::Event::KeyEvent key){
 
-	// Stop moving left by setting the linear velocity to 0
+	// Player is not moving left
 	if (key.code == sf::Keyboard::A) {
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		// Make sure that the sprite is moving left, otherwise we could randomly stop moving right
-		if (vel.x < 0)
-		{
-			vel.x = 0;
-			playerBody->SetLinearVelocity(vel);
-		}
+		isPlayerMovingLeft = false;
 	}
 
-	// Stop moving right by setting the linear velocity to 0
+	// Player is not moving right
 	else if (key.code == sf::Keyboard::D) {
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		if (vel.x > 0)
-		{
-			// Make sure that the sprite is moving right, otherwise we could randomly stop moving left
-			vel.x = 0;
-			playerBody->SetLinearVelocity(vel);
-		}
+		isPlayerMovingRight = false;
 	}
 
-	// Stop jumping by setting the linear velocity to 0
-	// This allows the user to control the size of the jump
+	// Player is not jumping
 	else if (key.code == sf::Keyboard::Space) {
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.y = 0;
-		playerBody->SetLinearVelocity(vel);
+		isPlayerJumping = false;
 	}
 }
 
@@ -293,6 +301,11 @@ void PlatformDemoRegion::init() {
 
 	// The player will always be the first body added
 	playerBody = objectBodies[0];
+
+	// The player is not moving by default
+	isPlayerJumping = false;
+	isPlayerMovingLeft = false;
+	isPlayerMovingRight = false;
 
 	// Create some ground for the player to platform on
 	const unsigned int numSteps = 5;

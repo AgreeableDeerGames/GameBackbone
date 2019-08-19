@@ -62,8 +62,11 @@ namespace EXE {
 		// Box2D owns this memory
 		std::vector<b2Body*> objectBodies;
 
-		// Stored player body for access
+		// Player Data
 		b2Body* playerBody;
+		bool isPlayerMovingLeft;
+		bool isPlayerMovingRight;
+		bool isPlayerJumping;
 	};
 }
 
