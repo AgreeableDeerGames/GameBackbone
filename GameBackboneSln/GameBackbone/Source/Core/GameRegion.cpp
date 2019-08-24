@@ -26,32 +26,91 @@ void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newS
 	setActiveRegionCB = std::move(newSetActiveRegionCB);
 }
 
-/// <summary>
-/// Adds or removes a drawable object from the list of drawable objects.
-/// </summary>
-/// <param name="status">if set to <c>true</c> the object will be drawable, otherwise the object will be made non-drawable.</param>
-/// <param name="object">The object. Passing nullptr results in an std::invalid_argument exception.</param>
-void GameRegion::setDrawable(bool status, sf::Drawable* object) {
-	if (object == nullptr) {
-		throw std::invalid_argument("Cannot invoke GameRegion::setDrawable on nullptr");
-	}
+template< typename T, typename Pred >
+typename std::vector<T>::iterator insert_sorted(std::vector<T> & vec, T const& item, Pred pred)
+{
+	return vec.insert(std::upper_bound(vec.begin(), vec.end(), item, pred), item);
+}
 
-	if (status) {
-		drawables.push_back(object);
-	} else {
-		auto it = std::find(drawables.begin(), drawables.end(), object);
-		if (it != drawables.end()) {
-			drawables.erase(it);
+void GameRegion::addDrawable(int priority, sf::Drawable* objectToAdd) {
+	addDrawable(priority, std::vector<sf::Drawable*>{objectToAdd});
+}
+
+void GameRegion::addDrawable(int priority, const std::vector<sf::Drawable*>& objectsToAdd) {
+	/*if (object == nullptr) {
+		throw std::invalid_argument("Cannot invoke GameRegion::setDrawable on nullptr");
+	}*/
+
+	removeDrawable(objectsToAdd);
+
+	auto equalPredicate = [&priority](const std::pair<int, std::vector<sf::Drawable*>>& priorityPair) {
+		return priorityPair.first == priority;
+	};
+
+	auto lessThanPredicate = [](const std::pair<int, std::vector<sf::Drawable*>>& leftEl, const std::pair<int, std::vector<sf::Drawable*>>& rightEl) {
+		return leftEl.first < rightEl.first;
+	};
+
+	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), equalPredicate);
+
+	// If the iterator is not end, then we found a pair with the same priority.
+	// Insert the drawable at the same priortiy
+	if (it != prioritizedDrawables.end()) {
+		std::vector<sf::Drawable*>& tempDrawables = it->second;
+		tempDrawables.insert(tempDrawables.end(), objectsToAdd.begin(), objectsToAdd.end());
+	}
+	else {
+		insert_sorted(prioritizedDrawables, std::pair(priority, objectsToAdd), lessThanPredicate);
+	}
+}
+
+void GameRegion::removeDrawable(sf::Drawable* objectToRemove) {
+	removeDrawable(std::vector<sf::Drawable*>{objectToRemove});
+}
+
+void GameRegion::removeDrawable(const std::vector<sf::Drawable*>& objectsToRemove) {
+	auto removePredicate = [&objectsToRemove](const sf::Drawable* drawable) {
+		for (auto& object : objectsToRemove) {
+			if (drawable == object) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	for (auto& priorityPair : prioritizedDrawables) {
+		std::vector<sf::Drawable*>& tempDrawables = priorityPair.second;
+		auto it = std::remove_if(tempDrawables.begin(), tempDrawables.end(), removePredicate);
+		if (it != tempDrawables.end())
+		{
+			tempDrawables.erase(it);
 		}
 	}
 }
 
 /// <summary>
-/// Return the region's list of drawable objects
+/// Removes all drawable objects from this GameRegion.
 /// </summary>
-/// <returns>std::vector of drawable objects</returns>
-const std::vector<sf::Drawable*>& GameRegion::getDrawables() const {
-	return drawables;
+void GameRegion::clearDrawable(int priority) {
+	auto equalPredicate = [&priority](const std::pair<int, std::vector<sf::Drawable*>>& priorityPair) {
+		return priorityPair.first == priority;
+	};
+
+	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), equalPredicate);
+
+	// If the iterator is not end, then we found a pair with the same priority.
+	// Clear the internal vector
+	if (it != prioritizedDrawables.end()) {
+		std::vector<sf::Drawable*>& tempDrawables = it->second;
+		tempDrawables.clear();
+	}
+}
+
+/// <summary>
+/// Removes all drawable objects from this GameRegion.
+/// </summary>
+void GameRegion::clearDrawable() {
+	prioritizedDrawables.clear();
 }
 
 /// <summary>
@@ -63,22 +122,18 @@ tgui::Gui& GameRegion::getGUI() {
 }
 
 /// <summary>
-/// Removes all drawable objects from this GameRegion.
-/// </summary>
-void GameRegion::clearDrawable() {
-	drawables.clear();
-}
-
-/// <summary>
 /// Draws every drawable on the region.
 /// </summary>
 /// <param name="target"> The SFML render target to draw on. </param>
 /// <param name="states"> Current render states </param>
 void GameRegion::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const sf::Drawable* drawable : drawables) {
-		// Draw m_objectSprite that is stored on the GameObject
-		target.draw(*drawable, states);
+	// Loop through each priority of the drawables
+	for (auto& priorityPair : prioritizedDrawables) {
+		for (const sf::Drawable* drawable : priorityPair.second) {
+			// Draw each drawable stored in the vector
+			target.draw(*drawable, states);
+		}
 	}
 }
 

@@ -23,15 +23,15 @@ RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Col
 	sprite.setPosition(position);
 
 	// Set the sprite to be drawn by the GameRegion
-	setDrawable(true, &sprite);
+	addDrawable(1, &sprite);
 
 	// Remove the "Reset" button from Region Change Demo, since there is nothing to reset
 	// Loop through all tgui Widgets and remove any with the text "Reset"
-	const std::vector<tgui::Widget::Ptr>& widgets = regionGUI.getWidgets();
+	const std::vector<tgui::Widget::Ptr>& widgets = this->getGUI().getWidgets();
 	for (auto& widget : widgets) {
 		auto button = std::dynamic_pointer_cast<tgui::Button>(widget);
 		if (button != nullptr && button->getText() == "Reset") {
-			regionGUI.remove(widget);
+			this->getGUI().remove(widget);
 		}
 	}
 }

@@ -133,7 +133,7 @@ void NavigationDemoRegion::init() {
 	std::string navigationGridPath(R"(Textures/NavigationGrid.png)");
 	gridTexture = std::make_unique<sf::Texture>();
 	gridTexture->loadFromFile(navigationGridPath);
-	
+
 
 	// Initialize navigators
 	// Create navigators and add to respective arrays
@@ -163,15 +163,14 @@ void NavigationDemoRegion::init() {
 
 	// Position navigators
 	sf::Vector2i navigator1StartingGrid{ 0, 0 };
-	sf::Vector2i navigator2StartingGrid{15, 15};
+	sf::Vector2i navigator2StartingGrid{ 15, 15 };
 	const sf::Vector2f navigator1StartingPos = coordinateConverter.convertCoordToWindow(navigator1StartingGrid);
 	const sf::Vector2f navigator2StartingPos = coordinateConverter.convertCoordToWindow(navigator2StartingGrid);
 	navigator1->setPosition(navigator1StartingPos);
 	navigator2->setPosition(navigator2StartingPos);
 
 	// Draw navigators on top of maze
-	setDrawable(true, navigator1);
-	setDrawable(true, navigator2);
+	addDrawable(1, std::vector<sf::Drawable*>{navigator1, navigator2});
 
 	// Path-find from starting positions to end positions
 	// Create request
@@ -208,8 +207,8 @@ void NavigationDemoRegion::init() {
 void NavigationDemoRegion::initGUI() {
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the GUI changes
-	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(this->getGUI());
+	tgui::Layout windowHeight = tgui::bindHeight(this->getGUI());
 
 	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
@@ -217,7 +216,7 @@ void NavigationDemoRegion::initGUI() {
 	// Make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI.add(picture);
+	this->getGUI().add(picture);
 
 	// Temporarily track all of the buttons for controlling navigation
 	std::vector<tgui::Button::Ptr> navigationButtons;
@@ -263,7 +262,7 @@ void NavigationDemoRegion::initGUI() {
 		// They will be evenly spaced out and be in the bottom 1/10th of the window
 		currentButton->setPosition((2 * i + 1) * buttonWidth, windowHeight * 9.25 / 10.0f);
 		// Add the button to the GUI
-		regionGUI.add(currentButton);
+		this->getGUI().add(currentButton);
 	}
 }
 
@@ -320,6 +319,7 @@ void NavigationDemoRegion::initMaze() {
 		clusterColors.emplace_back(std::move(clusterColor));
 	}
 
+	std::vector<sf::Drawable*> navGridSprites;
 	// Fill visual grid
 	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
 		for (unsigned int j = 0; j < NAV_GRID_DIM; j++) {
@@ -349,9 +349,11 @@ void NavigationDemoRegion::initMaze() {
 			static_cast<NavigationDemoData*>(navGrid->at(i, j))->demoSprite = gridSquare;
 
 			// Tell GameRegion to draw square
-			setDrawable(true, gridSquare);
+			navGridSprites.push_back(gridSquare);
 		}
 	}
+
+	addDrawable(0, navGridSprites);
 
 	// Give each cluster the correct color and navigation weight
 	for (std::size_t i = 0; i < clusterVector.size(); ++i)

@@ -51,7 +51,7 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
     // The Animation will loop when it reaches the end
     animatedSprite->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_LOOP);
     // Tell the region to draw the AnimatedSprite
-    setDrawable(true, animatedSprite.get());
+    addDrawable(1, animatedSprite.get());
     // Store the animatedSprite in the animatedSprites vector
     animatedSprites.push_back(animatedSprite);
 
@@ -76,17 +76,17 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
 	// The animation will reverse directions every time it reaches the beginning or end
     animatedSprite2->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_REVERSE);
     // Tell the region to draw the AnimatedSprite
-    setDrawable(true, animatedSprite2.get());
+    addDrawable(1, animatedSprite2.get());
     // Store the animatedSprite in the animatedSprites vector
     animatedSprites.push_back(animatedSprite2);
 
     // Remove the "Reset" button from Animation Demo, since there is nothing to reset
 	// Loop through all tgui Widgets and remove any with the text "Reset"
-	const std::vector<tgui::Widget::Ptr>& widgets = regionGUI.getWidgets();
+	const std::vector<tgui::Widget::Ptr>& widgets = this->getGUI().getWidgets();
 	for (auto& widget : widgets) {
 		auto button = std::dynamic_pointer_cast<tgui::Button>(widget);
 		if (button != nullptr && button->getText() == "Reset") {
-			regionGUI.remove(widget);
+			this->getGUI().remove(widget);
 		}
 	}
 }

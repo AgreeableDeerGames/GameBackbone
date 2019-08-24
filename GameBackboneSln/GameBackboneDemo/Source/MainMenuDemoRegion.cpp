@@ -93,14 +93,14 @@ void EXE::MainMenuDemoRegion::initGUI() {
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(this->getGUI());
+	tgui::Layout windowHeight = tgui::bindHeight(this->getGUI());
 
 	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr background = tgui::Picture::create(R"(Textures/Backbone2.png)");
 	background->setSize(windowWidth, windowHeight);
 	background->setPosition(0,0);
-	regionGUI.add(background);
+	this->getGUI().add(background);
 
 	// Add buttons for each demo region
 	std::vector<tgui::Button::Ptr> demoRegionButtons;
@@ -161,7 +161,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 		tgui::Layout verticalPosition = (2 * i + 1) * buttonHeight;
 		currentButton->setPosition(horizontalPosition, verticalPosition);
 		// Add the buttons to the GUI
-		regionGUI.add(currentButton);
+		this->getGUI().add(currentButton);
 	}
 }
 

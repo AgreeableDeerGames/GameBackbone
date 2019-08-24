@@ -13,6 +13,8 @@
 
 #include <functional>
 #include <memory>
+#include <set>
+#include <utility>
 #include <vector>
 
 namespace GB {
@@ -31,13 +33,17 @@ namespace GB {
 		GameRegion& operator=(GameRegion&&) = default;
 		virtual ~GameRegion() = default;
 
-		//getters / setters
-		void setDrawable(bool status, sf::Drawable* object);
-		const std::vector<sf::Drawable*>& getDrawables() const;
+		// Add/Remove/Clear drawables
+		void addDrawable(int priority, sf::Drawable* object);
+		void addDrawable(int priority, const std::vector<sf::Drawable*>& object);
+		void removeDrawable(sf::Drawable* object);
+		void removeDrawable(const std::vector<sf::Drawable*>& object);
+		void clearDrawable(int priority);
+		void clearDrawable();
+
 		tgui::Gui& getGUI();
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
-		void clearDrawable();
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
@@ -48,10 +54,13 @@ namespace GB {
 	protected:
 		// Drawing
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-		std::vector<sf::Drawable*> drawables;
 
 		//associated regions
 		std::function<void(GameRegion*)> setActiveRegionCB;
+
+
+	private:
+		std::vector<std::pair<int, std::vector<sf::Drawable*>>> prioritizedDrawables;
 
 		//GUI
 		tgui::Gui regionGUI;
