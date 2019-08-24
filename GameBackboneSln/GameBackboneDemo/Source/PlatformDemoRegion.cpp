@@ -279,6 +279,7 @@ void PlatformDemoRegion::updatePlayerVelocity() {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		vel.y = -0.9f;
 		playerBody->SetLinearVelocity(vel);
+		isPlayerJumping = false;
 	}
 }
 
