@@ -49,6 +49,7 @@ namespace EXE {
 		sf::Vector2f convertToSprite(b2Vec2 boxCoord);
 		sf::Vector2f convertToSprite(double boxCoordX, double boxCoordY);
 		void addGameBody(sf::Vector2f spritePosition, sf::Vector2f scale, sf::Texture& texture, bool dynamicBody, bool allowSleep = true);
+		void updatePlayerVelocity();
 
 		// Sprite textures
 		std::unique_ptr<sf::Texture> blockTexture;

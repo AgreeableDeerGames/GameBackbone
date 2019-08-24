@@ -54,32 +54,7 @@ PlatformDemoRegion::~PlatformDemoRegion() {
 void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 
 	// MovePlayer
-	if (isPlayerMovingLeft)
-	{
-		if (!isPlayerMovingRight)
-		{
-			// Only move player left if right is not pressed too
-			// Move the player left by applying a linear velocity
-			b2Vec2 vel = playerBody->GetLinearVelocity();
-			vel.x = -0.4;
-			playerBody->SetLinearVelocity(vel);
-		}
-
-	}
-	else if (isPlayerMovingRight)
-	{
-		// Move the player right by applying a linear velocity
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = 0.4;
-		playerBody->SetLinearVelocity(vel);
-	}
-	if (isPlayerJumping)
-	{
-		// 'Jump' the player by providing upward linear velocity
-		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.y = -0.9;
-		playerBody->SetLinearVelocity(vel);
-	}
+	updatePlayerVelocity();
 
 	// Instruct the world to perform a single step of simulation.
 	float stepTime = elapsedTime /50000.0f;
@@ -277,6 +252,34 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// Add the sprite and the Box2D body to corresponding indices in their vectors
 	objectSprites.emplace_back(std::move(gameBodySprite));
 	objectBodies.push_back(body);
+}
+
+/// <summary>
+/// Change the velocity of the player based on its controller state
+/// </summary>
+void PlatformDemoRegion::updatePlayerVelocity() {
+	// MovePlayer
+	if (isPlayerMovingLeft) {
+		if (!isPlayerMovingRight) {
+			// Only move player left if right is not pressed too
+			// Move the player left by applying a linear velocity
+			b2Vec2 vel = playerBody->GetLinearVelocity();
+			vel.x = -0.4f;
+			playerBody->SetLinearVelocity(vel);
+		}
+
+	} else if (isPlayerMovingRight) {
+		// Move the player right by applying a linear velocity
+		b2Vec2 vel = playerBody->GetLinearVelocity();
+		vel.x = 0.4f;
+		playerBody->SetLinearVelocity(vel);
+	}
+	if (isPlayerJumping) {
+		// 'Jump' the player by providing upward linear velocity
+		b2Vec2 vel = playerBody->GetLinearVelocity();
+		vel.y = -0.9f;
+		playerBody->SetLinearVelocity(vel);
+	}
 }
 
 /// <summary>
