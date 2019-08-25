@@ -59,7 +59,7 @@ void AnimatedSprite::setAnimating(bool animating) {
 
 /// <summary>
 /// Sets the current frame (within the current animation) of the AnimatedSprite.
-/// Imediately updates the texture displayed on the sprite.
+/// Immediately updates the texture displayed on the sprite.
 /// Throws std::runtime_error if there is no active animation (runAnimation has not been called).
 /// </summary>
 /// <param name="frame">The frame.</param>
@@ -148,6 +148,7 @@ bool AnimatedSprite::isAnimating() const {
 
 /// <summary>
 /// Begins a new animation from the first frame
+/// Throws a std::out_of_range exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId) {
@@ -161,13 +162,30 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 /// <param name="animationId">the index of the animation to begin.</param>
 /// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
+	setCurrentAnimation(animationId, endStyle);
+	setAnimating(true);
+}
 
+/// <summary>
+/// Sets the animation that will be displayed by the animated sprite. The animation will loop when it ends.
+/// Throws a std::out_of_range exception if the requested animation is empty.
+/// </summary>
+/// <param name="animationId">the index of the animation to begin.</param>
+void AnimatedSprite::setCurrentAnimation(unsigned int animationId) {
+	setCurrentAnimation(animationId, ANIMATION_END_TYPE::ANIMATION_LOOP);
+}
+
+/// <summary>
+/// Sets the animation that will be displayed by the animated sprite.
+/// Throws a std::out_of_range exception if the requested animation is empty.
+/// </summary>
+/// <param name="animationId">the index of the animation to begin.</param>
+/// <param name="endStyle">What happens when the animation reaches the end.</param>
+void AnimatedSprite::setCurrentAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
 	// Empty animations cannot be run. What frame would be displayed?
 	if (animations->at(animationId).empty()) {
-		throw std::out_of_range("AnimatedSprite cannot run an empty animation.");
+		throw std::out_of_range("The requested Animation does not exist.");
 	}
-
-	this->animating = true;
 	this->animationEnd = endStyle;
 	this->currentAnimationId = animationId;
 	this->currentAnimation = &animations->at(animationId);

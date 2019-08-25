@@ -58,6 +58,8 @@ namespace GB {
 		bool isAnimating() const;
 
 		//operations
+		void setCurrentAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
+		void setCurrentAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
 		void runAnimation(unsigned int animationId);
 		virtual void update(sf::Int64 elapsedTime);
