@@ -34,12 +34,15 @@ namespace GB {
 		virtual ~GameRegion() = default;
 
 		// Add/Remove/Clear drawables
-		void addDrawable(int priority, sf::Drawable* object);
-		void addDrawable(int priority, const std::vector<sf::Drawable*>& object);
-		void removeDrawable(sf::Drawable* object);
-		void removeDrawable(const std::vector<sf::Drawable*>& object);
-		void clearDrawable(int priority);
-		void clearDrawable();
+		void addDrawable(int priority, sf::Drawable* drawableToAdd);
+		void addDrawable(int priority, const std::vector<sf::Drawable*>& drawablesToAdd);
+		void removeDrawable(sf::Drawable* drawableToRemove);
+		void removeDrawable(const std::vector<sf::Drawable*>& drawablesToRemove);
+		void clearDrawables(int priority);
+		void clearDrawables();
+		
+		int getDrawableCount();
+		int getDrawableCount(int priority);
 
 		tgui::Gui& getGUI();
 
