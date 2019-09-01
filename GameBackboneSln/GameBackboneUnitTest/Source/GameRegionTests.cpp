@@ -4,7 +4,22 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <vector>
+
 using namespace GB;
+
+class MockDrawable : public sf::Drawable {
+public:
+	MockDrawable(std::vector<const sf::Drawable*>* newDrawnVector) : drawnVector(newDrawnVector) {};
+
+protected:
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+		drawnVector->push_back(this);
+	}
+
+	std::vector<const sf::Drawable*>* drawnVector;
+};
+
 
 BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
@@ -112,5 +127,52 @@ BOOST_AUTO_TEST_CASE(GameRegion_getGUI) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_get_set_tests
+
+
+BOOST_AUTO_TEST_SUITE(GameRegion_priority_drawing_tests)
+
+// Tests adding Drawables at different priorities
+BOOST_AUTO_TEST_CASE(GameRegion_setDrawables) {
+	sf::RenderWindow window(sf::VideoMode(1, 1), "windowName");
+	GameRegion gameRegion;
+
+	std::vector<sf::Drawable*> drawableVector;
+	std::vector<const sf::Drawable*> drawnVector;
+
+	// Add priority 0 drawables
+	for (int ii = 0; ii < 2; ii++) {
+		MockDrawable* mockDrawable = new MockDrawable(&drawnVector);
+		drawableVector.emplace_back(mockDrawable);
+		gameRegion.addDrawable(0, mockDrawable);
+	}
+
+	// Add priority 1 drawables
+	for (int ii = 0; ii < 2; ii++) {
+		MockDrawable* mockDrawable = new MockDrawable(&drawnVector);
+		drawableVector.push_back(mockDrawable);
+		gameRegion.addDrawable(1, mockDrawable);
+	}
+
+	// Add priority 2 drawables
+	for (int ii = 0; ii < 2; ii++) {
+		MockDrawable* mockDrawable = new MockDrawable(&drawnVector);
+		drawableVector.push_back(mockDrawable);
+		gameRegion.addDrawable(2, mockDrawable);
+	}
+
+	// Call draw on the GameRegion to pass it down to the MockDrawables
+	window.draw(gameRegion);
+
+	// Ensure that the vectors contain the same elements
+	BOOST_CHECK(drawableVector.size() == drawnVector.size());
+	BOOST_CHECK_EQUAL_COLLECTIONS(drawnVector.begin(), drawnVector.end(), drawableVector.begin(), drawableVector.end());
+
+	// Free all MockDrawables
+	for (int ii = 0; ii < drawableVector.size(); ii++) {
+		delete drawableVector[ii];
+	}
+}
+
+BOOST_AUTO_TEST_SUITE_END() // end GameRegion_priority_drawing_tests
 
 BOOST_AUTO_TEST_SUITE_END() // end GameRegion_tests
