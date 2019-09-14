@@ -203,7 +203,7 @@ void AnimatedSprite::update(sf::Int64 elapsedTime) {
 		timeSinceLastUpdate = sf::Time::Zero;
 		switch (animationEnd) {
 		case ANIMATION_END_TYPE::ANIMATION_LOOP:
-			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
+			setCurrentFrame((currentFrame + 1ULL) % currentAnimation->size());
 			break;
 		case ANIMATION_END_TYPE::ANIMATION_REVERSE:
 			// Only change the frame if the animation has more than one frame

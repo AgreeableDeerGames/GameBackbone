@@ -111,7 +111,10 @@ void AnimationDemoRegion::update(sf::Int64 elapsedTime) {
 /// <param name="newPosition">The position that was clicked.</param>
 /// <param name="button">The button that was clicked.</param>
 void AnimationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+	// Get the first animation
 	GB::AnimatedSprite::Ptr& targetSprite = animatedSprites[0];
+	// Get the size of the current animation so we know when to loop
 	auto animationSize = targetSprite->getCurrentAnimation()->size();
-	targetSprite->setCurrentFrame((targetSprite->getCurrentFrame() + 1) % animationSize);
+	// Advance the animation by one. Start the animation over if its at the end.
+	targetSprite->setCurrentFrame((targetSprite->getCurrentFrame() + 1ULL) % animationSize);
 }
