@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_CASE(GameRegion_setDrawables) {
 	// Call draw on the GameRegion to pass it down to the MockDrawables
 	window.draw(gameRegion);
 
-	// Ensure that the vectors contain the same elements
+	// Ensure that the vectors contain the same elements, but most importantly, in the same order
 	BOOST_CHECK(drawableVector.size() == drawnVector.size());
 	BOOST_CHECK_EQUAL_COLLECTIONS(drawnVector.begin(), drawnVector.end(), drawableVector.begin(), drawableVector.end());
 

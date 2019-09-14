@@ -340,8 +340,8 @@ void PlatformDemoRegion::destroy() {
 	// Because these are unique_ptr clearing the vector also frees the memory
 	objectSprites.clear();
 
-	// Clear all of GameRegion's references to drawables or updatables
-	clearDrawable();
+	// Clear all of GameRegion's references to drawables
+	clearDrawables();
 
 	// Destroy the world and all of its memory
 	platformWorld.reset();

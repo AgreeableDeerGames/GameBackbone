@@ -396,7 +396,8 @@ void NavigationDemoRegion::destroy() {
 	// Clearing the vector is sufficient to free the memory for the navigators
 	navigators.clear();
 
-	clearDrawable();
+	// Clear all of GameRegion's references to drawables
+	clearDrawables();
 
 	//Delete textures and prepare them for future calls to init
 	navigatorTexture.reset();

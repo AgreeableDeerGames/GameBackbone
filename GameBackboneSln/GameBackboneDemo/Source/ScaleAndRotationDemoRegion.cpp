@@ -268,9 +268,8 @@ void ScaleAndRotationDemoRegion::initGUI() {
 /// frees and / or reinitializes all members of this instance that impact the demo.
 /// </summary>
 void ScaleAndRotationDemoRegion::reset() {
-
-	// Reset all non-dynamic members
-	clearDrawable();
+	// Clear all of GameRegion's references to drawables
+	clearDrawables();
 
 	// Reinitialize for the user to use again
 	init();
