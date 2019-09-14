@@ -51,7 +51,7 @@ namespace GB {
 
 			//getters
 		unsigned int getCurrentFrame() const;
-		unsigned int getCurrentAnimationId() const;
+		std::size_t getCurrentAnimationId() const;
 		sf::Time getAnimationDelay() const;
 		unsigned int getFramesSpentInCurrentAnimation() const;
 		bool isAnimating() const;

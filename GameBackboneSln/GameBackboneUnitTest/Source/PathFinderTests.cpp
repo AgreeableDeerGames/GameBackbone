@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	pathfinder.pathFind(pathRequests, &pathsReturn);
 
 	//ensure the path is not empty
-	BOOST_CHECK(pathsReturn[0].size() >= 0);
+	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	freeAllNavigationGridData(navGrid);
 }
