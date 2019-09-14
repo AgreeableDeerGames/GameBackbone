@@ -29,9 +29,10 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
     // An animation is a series of sf::IntRects. Each IntRect is a frame of the animation.
     // Each IntRect represents the subset of the AnimatedSprite's texture that should be displayed for that frame.
     GB::Animation anim = {
-		sf::IntRect(0, 0, frameDimX, frameDimY),						// Top left of the texture
-		sf::IntRect(0, frameDimY, spriteSheet.getSize().x, frameDimY),  // Bottom row of the texture
-		sf::IntRect(0, 0, frameDimX, spriteSheet.getSize().y)			// Left column of the texture
+		sf::IntRect(0, 0, frameDimX, frameDimY),									// Top left of the texture
+		sf::IntRect(0, frameDimY, spriteSheet.getSize().x, frameDimY),				// Bottom row of the texture
+		sf::IntRect(0, 0, frameDimX, spriteSheet.getSize().y),						// Left column of the texture
+		sf::IntRect(0, 0, spriteSheet.getSize().x, spriteSheet.getSize().y)			// Entirety of the texture
     };
 
     // Create an AnimationSet
@@ -44,9 +45,9 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
     // Create an AnimatedSprite using the sprite sheet and the AnimationSet we constructed above
     GB::AnimatedSprite::Ptr animatedSprite = std::make_shared<GB::AnimatedSprite>(spriteSheet, animationSet);
     // Move the AnimatedSprite
-    animatedSprite->move(150, 150);
-    // Tell the AnimatedSprite to update every second
-    animatedSprite->setAnimationDelay(sf::seconds(1));
+    animatedSprite->move(50, 200);
+    // Tell the AnimatedSprite to update every two seconds
+    animatedSprite->setAnimationDelay(sf::seconds(1.5));
     // Tell the AnimatedSprite to begin running its first animation
     // The Animation will loop when it reaches the end
     animatedSprite->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_LOOP);
@@ -66,19 +67,19 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
 		{1, 1},		// Bottom right of the texture
 		});
 
-    // Create another AnimatedSprite to display the UniformAnimation
-    GB::AnimatedSprite::Ptr animatedSprite2 = std::make_shared<GB::AnimatedSprite>(spriteSheet, uniformAnimationSet);
-    // Move the AnimatedSprite
-    animatedSprite2->move(300, 300);
-    // Tell the AnimatedSprite to update every two seconds
-    animatedSprite2->setAnimationDelay(sf::seconds(2));
-    // Tell the AnimatedSprite to begin running its second animation
+	// Create another AnimatedSprite to display the UniformAnimation
+	GB::AnimatedSprite::Ptr animatedSprite2 = std::make_shared<GB::AnimatedSprite>(spriteSheet, uniformAnimationSet);
+	// Move the AnimatedSprite
+	animatedSprite2->move(50, 50);
+	// Tell the AnimatedSprite to update every one second
+	animatedSprite2->setAnimationDelay(sf::seconds(1));
+	// Tell the AnimatedSprite to begin running its second animation
 	// The animation will reverse directions every time it reaches the beginning or end
-    animatedSprite2->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_REVERSE);
-    // Tell the region to draw the AnimatedSprite
-    setDrawable(true, animatedSprite2.get());
-    // Store the animatedSprite in the animatedSprites vector
-    animatedSprites.push_back(animatedSprite2);
+	animatedSprite2->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_REVERSE);
+	// Tell the region to draw the AnimatedSprite
+	setDrawable(true, animatedSprite2.get());
+	// Store the animatedSprite in the animatedSprites vector
+	animatedSprites.push_back(animatedSprite2);
 
     // Remove the "Reset" button from Animation Demo, since there is nothing to reset
 	// Loop through all tgui Widgets and remove any with the text "Reset"
