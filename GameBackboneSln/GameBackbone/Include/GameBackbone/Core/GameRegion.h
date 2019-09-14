@@ -38,11 +38,13 @@ namespace GB {
 		void addDrawable(int priority, const std::vector<sf::Drawable*>& drawablesToAdd);
 		void removeDrawable(sf::Drawable* drawableToRemove);
 		void removeDrawable(const std::vector<sf::Drawable*>& drawablesToRemove);
-		void clearDrawables(int priority);
 		void clearDrawables();
-		
-		int getDrawableCount();
-		int getDrawableCount(int priority);
+		void clearDrawables(int priority);
+
+		[[nodiscard]]
+		std::size_t getDrawableCount();
+		[[nodiscard]]
+		std::size_t getDrawableCount(int priority);
 
 		tgui::Gui& getGUI();
 
