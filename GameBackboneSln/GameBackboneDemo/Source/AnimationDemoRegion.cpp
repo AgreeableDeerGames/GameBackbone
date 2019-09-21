@@ -53,7 +53,7 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
 	// Create an AnimatedSprite that will only advance frames when the mouse is clicked
 	GB::AnimatedSprite::Ptr animatedSprite2 = std::make_shared<GB::AnimatedSprite>(spriteSheet, uniformAnimationSet);
 	// Move the AnimatedSprite
-	animatedSprite2->move(175, 50);
+	animatedSprite2->move(300, 50);
 	// Set the current animation
 	animatedSprite2->setCurrentAnimation(0);
 	// Tell the region to draw the AnimatedSprite
