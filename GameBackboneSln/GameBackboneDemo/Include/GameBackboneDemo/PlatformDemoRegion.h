@@ -47,7 +47,7 @@ namespace EXE {
 		// Helper functions
 		b2Vec2 convertToBox(sf::Vector2f sfCoords);
 		sf::Vector2f convertToSprite(b2Vec2 boxCoord);
-		sf::Vector2f convertToSprite(double boxCoordX, double boxCoordY);
+		sf::Vector2f convertToSprite(float boxCoordX, float boxCoordY);
 		void addGameBody(sf::Vector2f spritePosition, sf::Vector2f scale, sf::Texture& texture, bool dynamicBody, bool allowSleep = true);
 
 		// Sprite textures

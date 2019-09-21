@@ -22,7 +22,7 @@ using namespace EXE;
 const int32 velocityIterations = 6;
 const int32 positionIterations = 2;
 const b2Vec2 gravity(0.0f, 0.10f);
-const double pixelsPerMeter = 32;
+const float pixelsPerMeter = 32;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="PlatformDemoRegion"/> class.
@@ -67,7 +67,7 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 		// Update the angle of the sprite to match the angle of the Box2D body.
 		// Converting from radians to degrees because Box2D uses radians and SFML uses degrees. 
 		float32 angle = objectBody->GetAngle();
-		objectSprites[ii]->setRotation(angle * (180.0f / M_PI));
+		objectSprites[ii]->setRotation(static_cast<float>(angle * (180.0f / M_PI)));
 	}
 }
 
@@ -80,7 +80,7 @@ void PlatformDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::B
 
 	// 'Jump' the player by providing upward linear velocity when the mouse button is pressed
 	b2Vec2 vel = playerBody->GetLinearVelocity();
-	vel.y = -0.9;
+	vel.y = -0.9f;
 	playerBody->SetLinearVelocity(vel);
 
 }
@@ -95,21 +95,21 @@ void PlatformDemoRegion::handleKeyPress(sf::Event::KeyEvent key){
 	// Move the player left by applying a linear velocity when the user presses
 	if (key.code == sf::Keyboard::A){
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = -0.4;
+		vel.x = -0.4f;
 		playerBody->SetLinearVelocity(vel);
 	}
 
 	// Move the player right by applying a linear velocity when the user presses
 	else if(key.code == sf::Keyboard::D){
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = 0.4;
+		vel.x = 0.4f;
 		playerBody->SetLinearVelocity(vel);
 	}
 
 	// 'Jump' the player by providing upward linear velocity
 	else if (key.code == sf::Keyboard::Space) {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.y = -0.9;
+		vel.y = -0.9f;
 		playerBody->SetLinearVelocity(vel);
 	}
 }
@@ -176,7 +176,7 @@ sf::Vector2f PlatformDemoRegion::convertToSprite(b2Vec2 boxCoord) {
 /// <param name="boxCoordX"> The X position in the Box2D coordinate space. </param>
 /// <param name="boxCoordY"> The Y position in the Box2D coordinate space. </param>
 /// <return> The coordinate in the SFML coordinate system. </return>
-sf::Vector2f PlatformDemoRegion::convertToSprite(double boxCoordX, double boxCoordY) {
+sf::Vector2f PlatformDemoRegion::convertToSprite(float boxCoordX, float boxCoordY) {
 	return sf::Vector2f(boxCoordX * pixelsPerMeter, boxCoordY * pixelsPerMeter);
 }
 
@@ -198,8 +198,8 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// This will allow the sprite to rotate around its center instead of around its top left corner
 	// The function getLocalBounds is used instead of getGlobalBounds as the origin is always calculated before
 	// other transformations (though it won't matter in this case since we apply this operation before any transformations)
-	float spriteLocalHalfHeight = gameBodySprite->getLocalBounds().height / 2.0;
-	float spriteLocalHalfWidth = gameBodySprite->getLocalBounds().width / 2.0;
+	float spriteLocalHalfHeight = gameBodySprite->getLocalBounds().height / 2.0f;
+	float spriteLocalHalfWidth = gameBodySprite->getLocalBounds().width / 2.0f;
 	gameBodySprite->setOrigin(spriteLocalHalfWidth, spriteLocalHalfHeight);
 
 	// Scale the sprite to the desired dimensions
