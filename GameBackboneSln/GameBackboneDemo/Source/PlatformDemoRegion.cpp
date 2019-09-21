@@ -67,7 +67,7 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 		// Update the angle of the sprite to match the angle of the Box2D body.
 		// Converting from radians to degrees because Box2D uses radians and SFML uses degrees. 
 		float32 angle = objectBody->GetAngle();
-		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
+		objectSprites[ii]->setRotation(angle * (180.0f / M_PI));
 	}
 }
 

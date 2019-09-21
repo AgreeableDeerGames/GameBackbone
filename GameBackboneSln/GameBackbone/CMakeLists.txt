@@ -2,6 +2,8 @@
 
 cmake_minimum_required (VERSION 3.8)
 
+include("${GAMEBACKBONE_TOP_FOLDER}/cmake/Utils/GameBackboneCompilerOptions.cmake")
+
 add_library(GameBackbone SHARED 
 # include
 
@@ -69,6 +71,9 @@ set_target_properties(
     DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
     VERSION 0.2.1
 )
+
+# Set warnings to GB defaults
+gamebackbone_target_set_default_warnings(GameBackbone)
 
 # Clang Tidy
 option(GAMEBACKBONE_RUN_CLANG_TIDY "Run Clang Tidy when building GB" OFF)

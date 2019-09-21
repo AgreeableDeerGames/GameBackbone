@@ -98,7 +98,7 @@ unsigned int AnimatedSprite::getCurrentFrame() const {
 /// Returns the ID of the current animation
 /// </summary>
 /// <returns>ID of the current animation.</returns>
-unsigned int AnimatedSprite::getCurrentAnimationId() const {
+std::size_t AnimatedSprite::getCurrentAnimationId() const {
 	return currentAnimationId;
 }
 
