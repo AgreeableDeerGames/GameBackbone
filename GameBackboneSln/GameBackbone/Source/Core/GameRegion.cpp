@@ -59,7 +59,7 @@ namespace {
 
 	/// <summary>
 	/// Inserts an element into an std::vector, given a sorting predicate, in the sorted location.
-	/// This method assumes that the std::vector is already sorted.
+	/// This function assumes that the std::vector is already sorted.
 	/// </summary>
 	/// <param name="vector"> The vector to add to </param>
 	/// <param name="item"> The item that will be added to the vector </param>
@@ -90,9 +90,9 @@ void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newS
 
 /// <summary>
 /// Add a drawable with a given priority to this GameRegion.
-/// If the drawable already exists, they will be removed, regardless of priority.
+/// If the drawable already exists, its priority will be updated.
 /// 
-/// This method will throw an std::invalid_argument exception if a nullptr is passed in. 
+/// This function will throw an std::invalid_argument exception if a nullptr is passed in. 
 /// </summary>
 /// <param name="priority"> The priority of the drawable </param>
 /// <param name="drawablesToRemove"> The drawable that will be added </param>
@@ -102,9 +102,9 @@ void GameRegion::addDrawable(int priority, sf::Drawable* drawableToAdd) {
 
 /// <summary>
 /// Add drawables with a given priority to this GameRegion.
-/// If the drawables already exist, they will be removed, regardless of priority.
+/// If the drawables already exist, its priority will be updated.
 /// 
-/// This method will throw an std::invalid_argument exception if a nullptr is passed in. 
+/// This function will throw an std::invalid_argument exception if a nullptr is passed in. 
 /// </summary>
 /// <param name="priority"> The priority of the drawables </param>
 /// <param name="drawablesToRemove"> The drawables that will be added </param>
