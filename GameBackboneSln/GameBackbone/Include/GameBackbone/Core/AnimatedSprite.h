@@ -52,11 +52,14 @@ namespace GB {
 			//getters
 		unsigned int getCurrentFrame() const;
 		std::size_t getCurrentAnimationId() const;
+		const Animation* getCurrentAnimation() const;
 		sf::Time getAnimationDelay() const;
 		unsigned int getFramesSpentInCurrentAnimation() const;
 		bool isAnimating() const;
 
 		//operations
+		void setCurrentAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
+		void setCurrentAnimation(unsigned int animationId);
 		void runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
 		void runAnimation(unsigned int animationId);
 		virtual void update(sf::Int64 elapsedTime);
