@@ -24,8 +24,10 @@ add_executable(GameBackboneUnitTest
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UniformAnimationSetTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UtilMathTests.cpp"
-	
 )
+
+# Set warnings to GB test defaults
+gamebackbone_target_set_default_warnings_for_tests(GameBackboneUnitTest)
 
 target_link_libraries(GameBackboneUnitTest PRIVATE GameBackbone)
 

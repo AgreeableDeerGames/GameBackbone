@@ -5,6 +5,8 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include <exception>
+
 using namespace GB;
 
 //ctr and dtr
@@ -56,11 +58,17 @@ void AnimatedSprite::setAnimating(bool animating) {
 }
 
 /// <summary>
-/// Sets the current frame (within the current animation) of the AnimatedSprite
+/// Sets the current frame (within the current animation) of the AnimatedSprite.
+/// Immediately updates the texture displayed on the sprite.
+/// Throws std::runtime_error if there is no active animation (runAnimation has not been called).
 /// </summary>
 /// <param name="frame">The frame.</param>
 void AnimatedSprite::setCurrentFrame(unsigned int frame) {
+	if (!currentAnimation) {
+		throw std::runtime_error("Cannot set the frame of an animation without an active animation (calling runAnimation).");
+	}
 	currentFrame = frame;
+	setTextureRect(currentAnimation->at(currentFrame));
 }
 
 /// <summary>
@@ -94,11 +102,19 @@ unsigned int AnimatedSprite::getCurrentFrame() const {
 	return currentFrame;
 }
 
+///<summary>
+/// Returns the current animation set on this instance.
+/// Returns nullptr if no animation has been set.
+/// </summary>
+const Animation* AnimatedSprite::getCurrentAnimation() const {
+	return currentAnimation;
+}
+
 /// <summary>
 /// Returns the ID of the current animation
 /// </summary>
 /// <returns>ID of the current animation.</returns>
-unsigned int AnimatedSprite::getCurrentAnimationId() const {
+std::size_t AnimatedSprite::getCurrentAnimationId() const {
 	return currentAnimationId;
 }
 
@@ -132,6 +148,7 @@ bool AnimatedSprite::isAnimating() const {
 
 /// <summary>
 /// Begins a new animation from the first frame
+/// Throws a std::out_of_range exception if the requested animation is empty.
 /// </summary>
 /// <param name="animationId">the index of the animation to begin.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId) {
@@ -145,13 +162,30 @@ void AnimatedSprite::runAnimation(unsigned int animationId) {
 /// <param name="animationId">the index of the animation to begin.</param>
 /// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
+	setCurrentAnimation(animationId, endStyle);
+	setAnimating(true);
+}
 
+/// <summary>
+/// Sets the animation that will be displayed by the animated sprite. The animation will loop when it ends.
+/// Throws a std::out_of_range exception if the requested animation is empty.
+/// </summary>
+/// <param name="animationId">the index of the animation to begin.</param>
+void AnimatedSprite::setCurrentAnimation(unsigned int animationId) {
+	setCurrentAnimation(animationId, ANIMATION_END_TYPE::ANIMATION_LOOP);
+}
+
+/// <summary>
+/// Sets the animation that will be displayed by the animated sprite.
+/// Throws a std::out_of_range exception if the requested animation is empty.
+/// </summary>
+/// <param name="animationId">the index of the animation to begin.</param>
+/// <param name="endStyle">What happens when the animation reaches the end.</param>
+void AnimatedSprite::setCurrentAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
 	// Empty animations cannot be run. What frame would be displayed?
 	if (animations->at(animationId).empty()) {
-		throw std::out_of_range("AnimatedSprite cannot run an empty animation.");
+		throw std::out_of_range("The requested Animation does not exist.");
 	}
-
-	this->animating = true;
 	this->animationEnd = endStyle;
 	this->currentAnimationId = animationId;
 	this->currentAnimation = &animations->at(animationId);
@@ -169,7 +203,7 @@ void AnimatedSprite::update(sf::Int64 elapsedTime) {
 		timeSinceLastUpdate = sf::Time::Zero;
 		switch (animationEnd) {
 		case ANIMATION_END_TYPE::ANIMATION_LOOP:
-			setCurrentFrame((currentFrame + 1) % currentAnimation->size());
+			setCurrentFrame((currentFrame + 1ULL) % currentAnimation->size());
 			break;
 		case ANIMATION_END_TYPE::ANIMATION_REVERSE:
 			// Only change the frame if the animation has more than one frame
@@ -194,8 +228,5 @@ void AnimatedSprite::update(sf::Int64 elapsedTime) {
 		}
 
 		framesSpentInCurrentAnimation++;
-
-		// Update the displayed frame
-		setTextureRect(currentAnimation->at(currentFrame));
 	}
 }

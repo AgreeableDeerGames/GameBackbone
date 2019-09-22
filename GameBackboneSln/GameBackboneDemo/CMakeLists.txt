@@ -29,6 +29,9 @@ add_executable(GameBackboneDemo
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/ScaleAndRotationDemoRegion.cpp"
 )
 
+# Set warnings to GB defaults
+gamebackbone_target_set_default_warnings(GameBackboneDemo)
+
 option(GAMEBACKBONE_BUILD_PLATFORM_DEMO "Include the platform Demo in the GB Demo executable (Requires Box2D)" ON)
 if (${GAMEBACKBONE_BUILD_PLATFORM_DEMO})
     # Warn user about Box2D
