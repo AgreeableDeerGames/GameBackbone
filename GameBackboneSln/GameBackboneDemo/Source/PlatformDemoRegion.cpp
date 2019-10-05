@@ -76,7 +76,7 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 /// </summary>
 /// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button clicked button.</param>
-void PlatformDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+void PlatformDemoRegion::handleMouseClick(sf::Vector2f /*newPosition*/, sf::Mouse::Button /*button*/) {
 
 	// 'Jump' the player by providing upward linear velocity when the mouse button is pressed
 	b2Vec2 vel = playerBody->GetLinearVelocity();

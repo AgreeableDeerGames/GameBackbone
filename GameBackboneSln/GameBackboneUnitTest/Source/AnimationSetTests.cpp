@@ -101,7 +101,7 @@ BOOST_FIXTURE_TEST_CASE(AnimationSet_at_returns_correct_animation, ReusableObjec
 BOOST_FIXTURE_TEST_CASE(AnimationSet_at_throws_when_out_of_bounds, ReusableObjects)
 {
 	AnimationSet animSet({anim1, anim2});
-	BOOST_CHECK_THROW(auto temp = animSet.at(99).size(), std::out_of_range);
+	BOOST_CHECK_THROW(static_cast<void>(animSet.at(99).size()), std::out_of_range);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // AnimationSet_getters

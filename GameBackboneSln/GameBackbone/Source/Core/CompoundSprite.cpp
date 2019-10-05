@@ -19,7 +19,7 @@ using namespace GB;
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
 /// </summary>
-CompoundSprite::CompoundSprite() : position({ 0,0 }) {}
+CompoundSprite::CompoundSprite() : m_position({ 0,0 }) {}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
@@ -36,8 +36,8 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components)
 /// <param name="components">The components.</param>
 /// <param name="position">The position.</param>
 CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f position) :
-	components(std::move(components)),
-	position(position){
+	m_components(std::move(components)),
+	m_position(position){
 }
 
 /// <summary>
@@ -61,16 +61,16 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<A
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite.</param>
 /// <param name="position">The position.</param>
 CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position) :
-	components(std::move(components)),
-	animatedComponents(std::move(animatedComponents)),
-	position(position) {
+	m_components(std::move(components)),
+	m_animatedComponents(std::move(animatedComponents)),
+	m_position(position) {
 }
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
-CompoundSprite::CompoundSprite(sf::Vector2f position) : position(position) {}
+CompoundSprite::CompoundSprite(sf::Vector2f position) : m_position(position) {}
 
 // getters
 
@@ -79,7 +79,7 @@ CompoundSprite::CompoundSprite(sf::Vector2f position) : position(position) {}
 /// </summary>
 /// <returns></returns>
 sf::Vector2f CompoundSprite::getPosition() const {
-	return position;
+	return m_position;
 }
 
 /// <summary>
@@ -89,7 +89,7 @@ sf::Vector2f CompoundSprite::getPosition() const {
 /// <param name="componentIndex"> </param>
 /// <return> sf::Sprite& </return>
 sf::Sprite& CompoundSprite::getSpriteComponent(std::size_t componentIndex) {
-	return components.at(componentIndex);
+	return m_components.at(componentIndex);
 }
 
 /// <summary>
@@ -99,7 +99,7 @@ sf::Sprite& CompoundSprite::getSpriteComponent(std::size_t componentIndex) {
 /// <param name="componentIndex"> </param>
 /// <return> sf::Sprite& </return>
 AnimatedSprite& CompoundSprite::getAnimatedComponent(std::size_t componentIndex) {
-	return animatedComponents.at(componentIndex);
+	return m_animatedComponents.at(componentIndex);
 }
 
 /// <summary>
@@ -107,7 +107,7 @@ AnimatedSprite& CompoundSprite::getAnimatedComponent(std::size_t componentIndex)
 /// </summary>
 /// <return> The count of sprite components. </return>
 std::size_t CompoundSprite::getSpriteComponentCount() const {
-	return components.size();
+	return m_components.size();
 }
 
 /// <summary>
@@ -115,12 +115,12 @@ std::size_t CompoundSprite::getSpriteComponentCount() const {
 /// </summary>
 /// <return> The count of AnimatedSprite components. </return>
 std::size_t CompoundSprite::getAnimatedComponentCount() const {
-	return animatedComponents.size();
+	return m_animatedComponents.size();
 }
 
 /// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
 bool CompoundSprite::isEmpty() const {
-	return components.empty() && animatedComponents.empty();
+	return m_components.empty() && m_animatedComponents.empty();
 }
 
 // setters
@@ -139,7 +139,7 @@ void CompoundSprite::setPosition(sf::Vector2f val) {
 /// <param name="x">The new x.</param>
 /// <param name="y">The new y.</param>
 void CompoundSprite::setPosition(float x, float y) {
-	sf::Vector2f oldPosition = position;
+	sf::Vector2f oldPosition = m_position;
 	move(x - oldPosition.x, y - oldPosition.y);
 }
 
@@ -150,10 +150,10 @@ void CompoundSprite::setPosition(float x, float y) {
 /// <return> The index of the added sprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(sf::Sprite component) {
 	// Add the component the vector of Sprite components
-	components.emplace_back(std::move(component));
+	m_components.emplace_back(std::move(component));
 
 	// Return the place in the components vector that the new component was placed.
-	return components.size() - 1;
+	return m_components.size() - 1;
 }
 
 /// <summary>
@@ -164,10 +164,10 @@ std::size_t CompoundSprite::addComponent(sf::Sprite component) {
 /// <return> The index of the added AnimatedSprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
 	// Add the component the vector of AnimatedSprite components
-	animatedComponents.emplace_back(std::move(component));
+	m_animatedComponents.emplace_back(std::move(component));
 
 	// Return the place in the components vector that the new component was placed.
-	return animatedComponents.size() - 1;
+	return m_animatedComponents.size() - 1;
 }
 
 /// <summary>
@@ -177,8 +177,8 @@ std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
 /// </summary>
 /// <param name="component">The component to remove from the CompoundSprite</param>
 void CompoundSprite::removeSpriteComponent(std::size_t componentIndex) {
-	if (componentIndex < components.size()) {
-		components.erase(components.begin() + componentIndex);
+	if (componentIndex < m_components.size()) {
+		m_components.erase(m_components.begin() + componentIndex);
 	} else {
 		throw std::out_of_range("Component not in CompoundSprite");
 	}
@@ -191,8 +191,8 @@ void CompoundSprite::removeSpriteComponent(std::size_t componentIndex) {
 /// </summary>
 /// <param name="component">The component to remove from the CompoundSprite</param>
 void CompoundSprite::removeAnimatedComponent(std::size_t componentIndex) {
-	if (componentIndex < animatedComponents.size()) {
-		animatedComponents.erase(animatedComponents.begin() + componentIndex);
+	if (componentIndex < m_animatedComponents.size()) {
+		m_animatedComponents.erase(m_animatedComponents.begin() + componentIndex);
 	} else {
 		throw std::out_of_range("Component not in CompoundSprite");
 	}
@@ -202,8 +202,8 @@ void CompoundSprite::removeAnimatedComponent(std::size_t componentIndex) {
 /// Removes all components from the compound sprite
 /// </summary>
 void CompoundSprite::clearComponents() {
-	components.clear();
-	animatedComponents.clear();
+	m_components.clear();
+	m_animatedComponents.clear();
 }
 
 // operations
@@ -220,8 +220,8 @@ void CompoundSprite::scale(float factorX, float factorY) {
 	};
 
 	// apply the scaleFunction to all components
-	std::for_each(std::begin(components), std::end(components), scaleFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), scaleFunction);
+	std::for_each(std::begin(m_components), std::end(m_components), scaleFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), scaleFunction);
 }
 
 /// <summary>
@@ -244,8 +244,8 @@ void CompoundSprite::setScale(float factorX, float factorY) {
 	};
 
 	// apply the setScaleFunction to all components
-	std::for_each(std::begin(components), std::end(components), setScaleFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), setScaleFunction);
+	std::for_each(std::begin(m_components), std::end(m_components), setScaleFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setScaleFunction);
 }
 
 /// <summary>
@@ -267,8 +267,8 @@ void CompoundSprite::rotate(float degreeOffset) {
 	};
 
 	// apply the rotateFunction to all components
-	std::for_each(std::begin(components), std::end(components), rotateFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), rotateFunction);
+	std::for_each(std::begin(m_components), std::end(m_components), rotateFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), rotateFunction);
 
 }
 
@@ -283,8 +283,8 @@ void CompoundSprite::setRotation(float newRotation) {
 	};
 
 	// apply the rotateFunction to all components
-	std::for_each(std::begin(components), std::end(components), setRotationFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), setRotationFunction);
+	std::for_each(std::begin(m_components), std::end(m_components), setRotationFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setRotationFunction);
 }
 
 /// <summary>
@@ -299,12 +299,12 @@ void CompoundSprite::move(float offsetX, float offsetY) {
 	};
 
 	// apply the rotateFunction to all components
-	std::for_each(std::begin(components), std::end(components), moveFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), moveFunction);
+	std::for_each(std::begin(m_components), std::end(m_components), moveFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), moveFunction);
 
 	// update the position of the CompoundSprite as a whole
-	position.x += offsetX;
-	position.y += offsetY;
+	m_position.x += offsetX;
+	m_position.y += offsetY;
 }
 
 /// <summary>
@@ -321,7 +321,7 @@ void CompoundSprite::move(sf::Vector2f offset) {
 /// <param name="elapsedTime">The elapsed time.</param>
 void CompoundSprite::update(sf::Int64 elapsedTime) {
 	// Forward the update to each component
-	for (auto& animatedComponent : animatedComponents) {
+	for (auto& animatedComponent : m_animatedComponents) {
 		animatedComponent.update(elapsedTime);
 	}
 }
@@ -338,7 +338,7 @@ void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	};
 
 	// apply drawFunction to all components
-	std::for_each(std::begin(components), std::end(components), drawFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), drawFunction);
+	std::for_each(std::begin(m_components), std::end(m_components), drawFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), drawFunction);
 }
 

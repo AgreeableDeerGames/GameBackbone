@@ -43,7 +43,7 @@ namespace GB {
 		/// Implements Updatable::update as a no-op.
 		/// </summary>
 		/// <param name="elapsedTime"> </param>
-		virtual void update(sf::Int64 elapsedTime) override {}
+		virtual void update(sf::Int64 /*elapsedTime*/) override {}
 
 	protected:
 		// Drawing

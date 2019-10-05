@@ -16,8 +16,8 @@ Pathfinder::Pathfinder() : Pathfinder(nullptr) {}
 
 /// <summary> Creates a PathFinder with an assigned navigation grid. </summary>
 /// <param name = "navigationGrid"> Three dimensional grid to be used when path-finding. </param>
-Pathfinder::Pathfinder(NavigationGrid* navigationGrid) {
-	this->navigationGrid = navigationGrid;
+Pathfinder::Pathfinder(NavigationGrid* newNavigationGrid) {
+	this->navigationGrid = newNavigationGrid;
 }
 
 //getters / setters
@@ -28,8 +28,8 @@ Pathfinder::Pathfinder(NavigationGrid* navigationGrid) {
 /// Sets the navigation grid.
 /// </summary>
 /// <param name="navigationGrid">The navigation grid.</param>
-void Pathfinder::setNavigationGrid(NavigationGrid* navigationGrid) {
-	this->navigationGrid = navigationGrid;
+void Pathfinder::setNavigationGrid(NavigationGrid* newNavigationGrid) {
+	this->navigationGrid = newNavigationGrid;
 }
 
 //setters
