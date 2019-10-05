@@ -1,10 +1,12 @@
 
 
-function(gamebackbone_target_set_default_warnings IN_TARGET)
+macro(gamebackbone_target_set_default_warnings IN_TARGET)
 	if(MSVC)
 		# Force to always compile with W4
 		if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
 			string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+			set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+			message("THE NEW CXXFLAGS ARE: ${CMAKE_CXX_FLAGS}")
 		else()
 			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 		endif()
@@ -65,9 +67,9 @@ function(gamebackbone_target_set_default_warnings IN_TARGET)
 					# (ie printf)
 		)
 	endif()
-endfunction()
+endmacro()
 
-function(gamebackbone_target_set_default_warnings_for_tests IN_TARGET)
+macro(gamebackbone_target_set_default_warnings_for_tests IN_TARGET)
 	if(MSVC)
 		## Force to always compile with W4
 		#if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
@@ -133,4 +135,4 @@ function(gamebackbone_target_set_default_warnings_for_tests IN_TARGET)
 					# (ie printf)
 		)
 	endif()
-endfunction()
+endmacro()
