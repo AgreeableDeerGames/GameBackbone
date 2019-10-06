@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <array>
 #include <chrono>
 #include <string>
 #include <thread>
@@ -30,12 +31,21 @@ struct ReusableObjects
 		int halfTextureWidth = aSpriteTexture->getSize().x / 2;
 		int halfTextureHeight = aSpriteTexture->getSize().y / 2;
 
-		animSet = std::make_shared<AnimationSet>();
-		animSet->addAnimation ({
+		// Create the frames of the animation and store them for later
+		animSpriteAnimTextureFrameRects = {
 			sf::IntRect(0, 0, halfTextureWidth, halfTextureHeight),
 			sf::IntRect(halfTextureWidth, 0, halfTextureWidth, halfTextureHeight),
 			sf::IntRect(halfTextureWidth, halfTextureHeight, halfTextureWidth, halfTextureHeight),
 			sf::IntRect(0, halfTextureHeight, halfTextureWidth, halfTextureHeight)
+		};
+
+		// Create an animation set from the frames
+		animSet = std::make_shared<AnimationSet>();
+		animSet->addAnimation ({
+			animSpriteAnimTextureFrameRects[0],
+			animSpriteAnimTextureFrameRects[1],
+			animSpriteAnimTextureFrameRects[2],
+			animSpriteAnimTextureFrameRects[3]
 		});
 
 		//create animatedSprite
@@ -51,6 +61,7 @@ struct ReusableObjects
 	AnimatedSprite* animSpriteWithAnim;
 	AnimationSet::Ptr animSet;
 	sf::Texture* aSpriteTexture;
+	std::array<sf::IntRect, 4> animSpriteAnimTextureFrameRects;
 };
 
 // Contains all of the tests for AnimatedSprite constructors
@@ -65,6 +76,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_default_CTR, ReusableObjects) {
 	BOOST_CHECK(animSprite->getCurrentFrame() == 0);
 	BOOST_CHECK(animSprite->getAnimationDelay().asMicroseconds() == 0);
 	BOOST_CHECK(animSprite->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSprite->getCurrentAnimation() == nullptr);
 	BOOST_CHECK(animSprite->getFramesSpentInCurrentAnimation() == 0);
 
 	delete animSprite;
@@ -79,6 +91,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_CTR, ReusableObjects) {
 	BOOST_CHECK(animSprite->getCurrentFrame() == 0);
 	BOOST_CHECK(animSprite->getAnimationDelay().asMicroseconds() == 0);
 	BOOST_CHECK(animSprite->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSprite->getCurrentAnimation() == nullptr);
 	BOOST_CHECK(animSprite->getFramesSpentInCurrentAnimation() == 0);
 
 	//ensure that the texture is correctly set
@@ -95,10 +108,12 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Texture_and_Animations, ReusableObjects) 
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getAnimationDelay().asMicroseconds() == 0);
 	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimationId() == 0);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimation() == nullptr);
 	BOOST_CHECK(animSpriteWithAnim->getFramesSpentInCurrentAnimation() == 0);
 
 	//ensure that the texture is correctly set
 	BOOST_CHECK(animSpriteWithAnim->getTexture() == aSpriteTexture);
+
 
 	//ensure that the animation has been successfully bound
 	animSpriteWithAnim->runAnimation(0);
@@ -452,9 +467,19 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setAnimationDelay, ReusableObjects) {
 
 // ensure that the current frame of an animation can be set and retrieved correctly
 BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame, ReusableObjects) {
+	const int newFrame = 3;
 	animSpriteWithAnim->runAnimation(0);
-	animSpriteWithAnim->setCurrentFrame(3);
-	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 3);
+	animSpriteWithAnim->setCurrentFrame(newFrame);
+	// Ensure that the animation frame member of the animated sprite and the texture being displayed by the
+	// sprite have both been updated
+	BOOST_CHECK(animSpriteWithAnim->getTextureRect() == animSpriteAnimTextureFrameRects[newFrame]);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == newFrame);
+}
+
+// Ensure that setCurrentFrame throws correctly when called before a animation has been set
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_setCurrentFrame_No_Animation, ReusableObjects) {
+	// it is an error to set the current frame without first running an animation
+	BOOST_CHECK_THROW(animSpriteWithAnim->setCurrentFrame(0), std::runtime_error);
 }
 
 // Tests AnimatedSprite reversing its animations
@@ -475,6 +500,12 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_multiple_updates_require_time_to_pass, Re
 	BOOST_CHECK(animSpriteWithAnim->getCurrentFrame() == 1);
 }
 
+// Ensure that when getCurrentAnimation is called on a AnimateSprite with a valid animation that it returns the correct animation
+BOOST_FIXTURE_TEST_CASE(AnimatedSprite_getCurrentAnimation_returns_correct_animation, ReusableObjects) {
+	const int animToRun = 0;
+	animSpriteWithAnim->runAnimation(animToRun);
+	BOOST_CHECK(animSpriteWithAnim->getCurrentAnimation() == &animSet->at(animToRun));
+}
 
 BOOST_AUTO_TEST_SUITE_END() // end AnimatedSprite_Animations
 

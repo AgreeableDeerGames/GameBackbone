@@ -194,7 +194,7 @@ void ScaleAndRotationDemoRegion::init() {
 	}
 
 	// Set displaySprite to be drawn
-	setDrawable(true, displaySprite.get());
+	addDrawable(0, displaySprite.get());
 }
 
 /// <summary>
@@ -203,8 +203,8 @@ void ScaleAndRotationDemoRegion::init() {
 void ScaleAndRotationDemoRegion::initGUI() {
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the GUI changes
-	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(this->getGUI());
+	tgui::Layout windowHeight = tgui::bindHeight(this->getGUI());
 
 	// Create the background image (picture is of type tgui::Picture::Ptr)
 	tgui::Picture::Ptr picture = tgui::Picture::create("Textures/Backbone2.png");
@@ -212,7 +212,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	// Make the image 1/10th of the screen and start it 9/10ths of the way down
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI.add(picture);
+	this->getGUI().add(picture);
 
 	// Vector to temporarily hold all of the initialization options
 	std::vector<tgui::Button::Ptr> initOptionButtons;
@@ -259,7 +259,7 @@ void ScaleAndRotationDemoRegion::initGUI() {
 		// They will be evenly spaced out and be in the bottom 1/10th of the window
 		currentButton->setPosition(((windowWidth / numButtons) * i) + buttonWidth / 2, windowHeight * 9.15 / 10.0f);
 		// Add the button to the GUI
-		regionGUI.add(currentButton);
+		this->getGUI().add(currentButton);
 	}
 }
 
@@ -268,9 +268,8 @@ void ScaleAndRotationDemoRegion::initGUI() {
 /// frees and / or reinitializes all members of this instance that impact the demo.
 /// </summary>
 void ScaleAndRotationDemoRegion::reset() {
-
-	// Reset all non-dynamic members
-	clearDrawable();
+	// Clear all of GameRegion's references to drawables
+	clearDrawables();
 
 	// Reinitialize for the user to use again
 	init();

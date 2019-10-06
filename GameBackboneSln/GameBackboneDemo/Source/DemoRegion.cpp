@@ -39,8 +39,8 @@ void DemoRegion::initGui() {
 	tgui::Theme theme("TGUI_Widgets/Black.txt");
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(this->getGUI());
+	tgui::Layout windowHeight = tgui::bindHeight(this->getGUI());
 	tgui::Layout buttonWidth = windowWidth / 4.0f;
 	tgui::Layout buttonHeight = windowHeight / 4.0f;
 
@@ -51,7 +51,7 @@ void DemoRegion::initGui() {
 	returnToMenuButton->setPosition(windowWidth - buttonWidth, 0);
 	returnToMenuButton->setText("  Return\n to Menu");
 	returnToMenuButton->connect("pressed", &DemoRegion::returnToMenuCB, this);
-	regionGUI.add(returnToMenuButton);
+	this->getGUI().add(returnToMenuButton);
 
 	// create a button to reset a region
 	resetButton = tgui::Button::create();
@@ -60,7 +60,7 @@ void DemoRegion::initGui() {
 	resetButton->setPosition(windowWidth - buttonWidth, buttonHeight + windowHeight / 10);
 	resetButton->setText("Reset");
 	resetButton->connect("pressed", &DemoRegion::reset, this);
-	regionGUI.add(resetButton);
+	this->getGUI().add(resetButton);
 
 }
 
