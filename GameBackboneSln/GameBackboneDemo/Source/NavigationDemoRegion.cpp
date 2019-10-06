@@ -293,8 +293,7 @@ void NavigationDemoRegion::initMaze() {
 	// Each value in the vector corresponds to the cluster in clusterVector of the same index.
 	std::vector<int> clusterNavigationWeights;
 	GB::RandGen randGen;
-	for (auto& cluster : clusterVector)
-	{
+	for (int i = 0; i < clusterVector.size(); ++i) {
 		// randomly assign a weight for each cluster
 		int weight = (int)randGen.uniDist(0, GB::BLOCKED_GRID_WEIGHT);
 		clusterNavigationWeights.push_back(weight);

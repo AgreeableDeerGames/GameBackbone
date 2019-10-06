@@ -393,7 +393,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite_AnimatedSprite, ReusableObje
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	auto animIndex1 = compoundSprite->addComponent(animSpriteWithAnim1);
-	auto animIndex2 = compoundSprite->addComponent(animSpriteWithAnim2);
+	compoundSprite->addComponent(animSpriteWithAnim2);
 	compoundSprite->removeAnimatedComponent(animIndex1);
 
 	//Ensure that the compound sprite correctly removed the selected sprite
@@ -479,9 +479,9 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_scale, ReusableObjects) {
 	//ensure all sprites got the correct scale
 	for (std::size_t i = 0; i < compoundSprite->getSpriteComponentCount(); i++)
 	{
-		auto& sprite = compoundSprite->getSpriteComponent(i);
-		BOOST_CHECK(sprite.getScale().x == X_SCALE_FACTOR);
-		BOOST_CHECK(sprite.getScale().y == Y_SCALE_FACTOR);
+		auto& testSprite = compoundSprite->getSpriteComponent(i);
+		BOOST_CHECK(testSprite.getScale().x == X_SCALE_FACTOR);
+		BOOST_CHECK(testSprite.getScale().y == Y_SCALE_FACTOR);
 	}
 
 	//ensure all animated sprites got the correct scale

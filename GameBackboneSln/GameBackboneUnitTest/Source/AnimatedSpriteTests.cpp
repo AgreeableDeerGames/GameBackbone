@@ -258,7 +258,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Loop_After_End
 	// Play the animation
 	singleFrameAnimSprite.runAnimation(0, GB::ANIMATION_LOOP);
 	const int LOOP_LENGTH = 100;
-	for (int i = 0; i < LOOP_LENGTH; ++i)
+	for (unsigned int i = 0; i < LOOP_LENGTH; ++i)
 	{
 		// fake sleep for 1us longer than the min delay
 		singleFrameAnimSprite.update(2 * i);
@@ -287,7 +287,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Reverse_After_
 	// Play the animation
 	singleFrameAnimSprite.runAnimation(0, GB::ANIMATION_REVERSE);
 	const int LOOP_LENGTH = 100;
-	for (int i = 0; i < LOOP_LENGTH; ++i)
+	for (unsigned int i = 0; i < LOOP_LENGTH; ++i)
 	{
 		// fake sleep for 1us longer than the min delay
 		singleFrameAnimSprite.update(2 * i);
@@ -316,7 +316,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Run_Animation_Single_Frame_Stop_After_End
 	// Play the animation
 	singleFrameAnimSprite.runAnimation(0, GB::ANIMATION_STOP);
 	const int LOOP_LENGTH = 100;
-	for (int i = 0; i < LOOP_LENGTH; ++i)
+	for (unsigned int i = 0; i < LOOP_LENGTH; ++i)
 	{
 		// fake sleep for 1us longer than the min delay
 		singleFrameAnimSprite.update(2 * i);
@@ -338,7 +338,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Loop_After_End, ReusableObjects
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->at(0).size() + 1; i++)
+	for (unsigned int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		//fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -361,7 +361,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_End, ReusableObje
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->at(0).size() + 1; i++)
+	for (unsigned int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		// fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -382,7 +382,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Reverse_After_Begin, ReusableOb
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->at(0).size()*2; i++)
+	for (unsigned int i = 0; i < animSet->at(0).size()*2; i++)
 	{
 		// fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);
@@ -403,7 +403,7 @@ BOOST_FIXTURE_TEST_CASE(AnimatedSprite_Animation_Stop_After_End, ReusableObjects
 	animSpriteWithAnim->setAnimationDelay(sf::microseconds(1));
 
 	// update the sprite one frame farther than the length of the animation
-	for (int i = 0; i < animSet->at(0).size() + 1; i++)
+	for (unsigned int i = 0; i < animSet->at(0).size() + 1; i++)
 	{
 		// fake sleep for 1us longer than the min delay
 		animSpriteWithAnim->update(2 * i);

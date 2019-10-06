@@ -25,16 +25,16 @@ namespace EXE {
 		RegionChangeDemoRegion& operator=(const RegionChangeDemoRegion& other) = delete;
 		RegionChangeDemoRegion& operator=(RegionChangeDemoRegion&& other) = delete;
 
-		void setNeighbor(std::weak_ptr<GB::GameRegion> neighbor);
+		void setNeighbor(std::weak_ptr<GB::GameRegion> newNeighbor);
 
 		// Handle sf::Events
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
 
 	protected:
 		// Storage
-		sf::Texture* spriteTexture;
-		sf::Sprite sprite;
-		std::weak_ptr<GB::GameRegion> neighbor;
+		sf::Texture* m_spriteTexture;
+		sf::Sprite m_sprite;
+		std::weak_ptr<GB::GameRegion> m_neighbor;
 	};
 }
 

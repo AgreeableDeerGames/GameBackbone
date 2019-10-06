@@ -12,15 +12,15 @@ DemoRegion::DemoRegion(sf::RenderWindow & window) : GameRegion(window) {
 
 // public handles and callbacks
 
-void DemoRegion::handleMouseMove(sf::Vector2f mousePosition) {}
+void DemoRegion::handleMouseMove(sf::Vector2f /*mousePosition*/) {}
 
-void DemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button){}
+void DemoRegion::handleMouseClick(sf::Vector2f /*newPosition*/, sf::Mouse::Button /*button*/){}
 
-void DemoRegion::handleWheelScroll(float scrollDelta){}
+void DemoRegion::handleWheelScroll(float /*scrollDelta*/){}
 
-void DemoRegion::handleKeyPress(sf::Event::KeyEvent key){}
+void DemoRegion::handleKeyPress(sf::Event::KeyEvent /*key*/){}
 
-void DemoRegion::handleKeyRelease(sf::Event::KeyEvent key){}
+void DemoRegion::handleKeyRelease(sf::Event::KeyEvent /*key*/){}
 
 /// <summary>
 /// Takes ownership of the passed DemoRegion.

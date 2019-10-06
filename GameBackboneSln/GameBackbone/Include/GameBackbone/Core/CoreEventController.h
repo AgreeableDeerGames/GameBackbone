@@ -50,15 +50,15 @@ namespace GB {
 		/// <param name="windowHeight">Height of the window.</param>
 		/// <param name="windowName">Name of the window.</param>
 		CoreEventController(int windowWidth, int windowHeight, const std::string & windowName) {
-			window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName);
-			activeRegion = nullptr;
+			m_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName);
+			m_activeRegion = nullptr;
 		}
 
 		/// <summary>
 		/// Finalizes an instance of the <see cref="CoreEventController"/> class.
 		/// </summary>
 		~CoreEventController() {
-			delete window;
+			delete m_window;
 		}
 
 		CoreEventController(const CoreEventController& other) = delete;
@@ -70,14 +70,14 @@ namespace GB {
 		void runLoop() {
 			sf::Event event;
 
-			//Ensure window is fully opened before we do any work on it.
-			while (window->isOpen() == false) {
+			// Ensure the window is fully opened before we do any work on it.
+			while (m_window->isOpen() == false) {
 				continue;
 			}
 
-			while (window->isOpen()) {
+			while (m_window->isOpen()) {
 
-				while (window->pollEvent(event)) {
+				while (m_window->pollEvent(event)) {
 					childCastThis()->handleEvent(event);
 				}
 
@@ -90,9 +90,9 @@ namespace GB {
 		/// <summary>
 		/// Changes the active region to the passed game region.
 		/// </summary>
-		/// <param name="newActiveRegion">The new active GameRegion.</param>
-		void setActiveRegion(GameRegion* newActiveRegion) {
-			activeRegion = newActiveRegion;
+		/// <param name="activeRegion">The new active GameRegion.</param>
+		void setActiveRegion(GameRegion* activeRegion) {
+			m_activeRegion = activeRegion;
 		}
 
 protected:
@@ -116,7 +116,7 @@ protected:
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
 		bool handleGuiEvent(sf::Event& event) {
-			return activeRegion->getGUI().handleEvent(event);
+			return m_activeRegion->getGUI().handleEvent(event);
 		}
 
 		/// <summary>
@@ -124,7 +124,7 @@ protected:
 		/// </summary>
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed. Returns false otherwise.</returns>
-		bool handleCoreEvent(sf::Event& event) {
+		bool handleCoreEvent(sf::Event& /*event*/) {
 			return false;
 		}
 
@@ -132,13 +132,13 @@ protected:
 		/// Called before handleGuiEvent and handleCoreEvent. Place logic to be executed before the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		void preHandleEvent(sf::Event& event) {}
+		void preHandleEvent(sf::Event& /*event*/) {}
 
 		/// <summary>
 		/// Called after handleGuiEvent and handleCoreEvent. Place logic to be executed after the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		void postHandleEvent(sf::Event& event) {}
+		void postHandleEvent(sf::Event& /*event*/) {}
 
 		//draw
 
@@ -146,12 +146,12 @@ protected:
 		/// Calls all draw helper functions then displays the window.
 		/// </summary>
 		void draw() { 	
-			window->clear();
+			m_window->clear();
 			childCastThis()->preDraw();
 			childCastThis()->coreDraw();
 			childCastThis()->postDraw();
 
-			window->display();
+			m_window->display();
 		}
 
 		/// <summary>
@@ -163,10 +163,10 @@ protected:
 		/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
 		/// </summary>
 		void coreDraw() {
-			// Draw the activeRegion so it can draw its drawables.
-			window->draw(*activeRegion);
+			// Draw m_activeRegion so it can draw its drawables.
+			m_window->draw(*m_activeRegion);
 
-			activeRegion->getGUI().draw();
+			m_activeRegion->getGUI().draw();
 		}
 
 		/// <summary>
@@ -194,8 +194,8 @@ protected:
 		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every Updatable object in the active GameRegion.
 		/// </summary>
 		void coreUpdate() {
-			sf::Time elapsedTime = updateClock.restart();
-			activeRegion->update(elapsedTime.asMicroseconds());
+			sf::Time elapsedTime = m_updateClock.restart();
+			m_activeRegion->update(elapsedTime.asMicroseconds());
 		}
 
 		/// <summary>
@@ -203,9 +203,9 @@ protected:
 		/// </summary>
 		void postUpdate() {}
 
-		sf::Clock updateClock;
-		sf::RenderWindow* window;
-		GameRegion* activeRegion;
+		sf::Clock m_updateClock;
+		sf::RenderWindow* m_window;
+		GameRegion* m_activeRegion;
 
 	private:
 		Child* childCastThis() {

@@ -61,7 +61,7 @@ namespace GB {
 		);
 
 	private:
-		sf::Vector2f currentScale;
+		sf::Vector2f m_currentScale;
 	};
 
 }

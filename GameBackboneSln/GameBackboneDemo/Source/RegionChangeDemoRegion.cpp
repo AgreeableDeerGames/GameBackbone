@@ -13,17 +13,18 @@ using namespace EXE;
 /// <param name="color">The color of the arrow in this region.</param>
 RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Color color, sf::Vector2f position) : DemoRegion(window) {
 	// Initialize the arrow texture for the region
-	spriteTexture = new sf::Texture();
-	spriteTexture->loadFromFile("Textures/SmallArrow.png");
+	m_spriteTexture = new sf::Texture();
+	m_spriteTexture->loadFromFile("Textures/SmallArrow.png");
 
 	// Set the texture on the arrow
-	sprite.setTexture(*spriteTexture);
+	m_sprite.setTexture(*m_spriteTexture);
 	// Set the color and position of the arrow
-	sprite.setColor(color);
-	sprite.setPosition(position);
+	m_sprite.setColor(color);
+	m_sprite.setPosition(position);
 
 	// Set the sprite to be drawn by the GameRegion
-	addDrawable(1, &sprite);
+	addDrawable(1, &m_sprite);
+
 
 	// Remove the "Reset" button from Region Change Demo, since there is nothing to reset
 	// Loop through all tgui Widgets and remove any with the text "Reset"
@@ -40,7 +41,7 @@ RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Col
 /// Finalizes an instance of the <see cref="RegionChangeDemoRegion"/> class.
 /// </summary>
 RegionChangeDemoRegion::~RegionChangeDemoRegion() {
-	delete spriteTexture;
+	delete m_spriteTexture;
 }
 
 /// <summary>
@@ -48,7 +49,7 @@ RegionChangeDemoRegion::~RegionChangeDemoRegion() {
 /// </summary>
 /// <param name="neighbor"> </param>
 void RegionChangeDemoRegion::setNeighbor(std::weak_ptr<GB::GameRegion> neighbor) {
-	this->neighbor = std::move(neighbor);
+	this->m_neighbor = std::move(neighbor);
 }
 
 /// <summary>
@@ -57,9 +58,9 @@ void RegionChangeDemoRegion::setNeighbor(std::weak_ptr<GB::GameRegion> neighbor)
 /// </summary>
 /// <param name="newPosition">The position that was clicked.</param>
 /// <param name="button">The button that was clicked.</param>
-void RegionChangeDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+void RegionChangeDemoRegion::handleMouseClick(sf::Vector2f /*newPosition*/, sf::Mouse::Button /*button*/) {
 	// Ensure that the neighbor is still valid
-	GB::GameRegion::Ptr neighborPtr = neighbor.lock();
+	GB::GameRegion::Ptr neighborPtr = m_neighbor.lock();
 	if (neighborPtr)
 	{
 		// Change active region to the neighbor

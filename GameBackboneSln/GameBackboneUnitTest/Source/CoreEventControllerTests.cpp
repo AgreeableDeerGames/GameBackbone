@@ -53,7 +53,7 @@ public:
 	}
 
 	/// always handle core events
-	virtual bool handleCoreEvent(sf::Event& event) {
+	virtual bool handleCoreEvent(sf::Event& /*event*/) {
 		//ensure that preHandleEvent has been called and the postHandleEvent has not
 		BOOST_CHECK(hasFinishedPreHandleEvent);
 		BOOST_CHECK(!hasFinishedPostHandleEvent);
@@ -63,7 +63,7 @@ public:
 		hasFinishedHandleCoreEvent = true;
 		return true;
 	}
-	virtual void preHandleEvent(sf::Event& event) {
+	virtual void preHandleEvent(sf::Event& /*event*/) {
 		hasFinishedPreHandleEvent = true;
 
 		//ensure that preHandleEvent first before handleGuiEvent, handleCoreEvent and postHandleEvent
@@ -71,7 +71,7 @@ public:
 		BOOST_CHECK(!hasFinishedPostHandleEvent);
 	}
 
-	virtual void postHandleEvent(sf::Event& event) {
+	virtual void postHandleEvent(sf::Event& /*event*/) {
 		hasFinishedPostHandleEvent = true;
 
 		//ensure that postHandleEvent happens after preHandleEvent and either handleGuiEvent or handleCoreEvent
@@ -133,7 +133,7 @@ public:
 		BOOST_CHECK(hasFinishedCoreUpdate);
 
 		//close the window after the last logic for runLoop finishes to avoid an infinite loop
-		window->close();
+		m_window->close();
 	}
 
 
@@ -155,7 +155,7 @@ public:
 
 	//region tracker
 	GameRegion* getActiveGameRegion() {
-		return activeRegion;
+		return m_activeRegion;
 	}
 
 };
@@ -183,7 +183,7 @@ public:
 	/// change mark different region as active
 	/// </summary>
 	/// <param name="elapsedTime">The elapsed time.</param>
-	void update(sf::Int64 elapsedTime) {
+	void update(sf::Int64 /*elapsedTime*/) {
 		if (parent) {
 			setActiveRegionCB(parent);
 		} else if (children.front()) {
