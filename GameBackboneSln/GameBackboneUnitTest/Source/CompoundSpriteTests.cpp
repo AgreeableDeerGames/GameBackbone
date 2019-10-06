@@ -393,6 +393,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_removeSprite_AnimatedSprite, ReusableObje
 	CompoundSprite* compoundSprite = new CompoundSprite();
 
 	auto animIndex1 = compoundSprite->addComponent(animSpriteWithAnim1);
+	compoundSprite->addComponent(animSpriteWithAnim2);
 	compoundSprite->removeAnimatedComponent(animIndex1);
 
 	//Ensure that the compound sprite correctly removed the selected sprite
