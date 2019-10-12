@@ -14,7 +14,7 @@
 namespace GB {
 
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
-	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable {
+	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, sf::Transformable {
 	public:
 		//ctr / dtr
 		CompoundSprite();
@@ -29,24 +29,60 @@ namespace GB {
 		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
 		virtual ~CompoundSprite() = default;
 
-		//getters
-		sf::Vector2f getPosition() const;
+		// Component Getters
 		virtual sf::Sprite& getSpriteComponent(std::size_t componentIndex);
 		virtual AnimatedSprite& getAnimatedComponent(std::size_t componentIndex);
 		virtual std::size_t getSpriteComponentCount() const;
 		virtual std::size_t getAnimatedComponentCount() const;
 		virtual bool isEmpty() const;
 
-		//setters
-		virtual void setPosition(sf::Vector2f val);
-		virtual void setPosition(float x, float y);
-
-		//add / remove
+		// Add/Remove Components
 		virtual std::size_t addComponent(sf::Sprite component);
 		virtual std::size_t addComponent(AnimatedSprite component);
 		virtual void removeSpriteComponent(std::size_t componentIndex);
 		virtual void removeAnimatedComponent(std::size_t componentIndex);
 		virtual void clearComponents();
+
+		// Transformable API
+
+		const sf::Vector2f& getPosition() const;
+		float getRotation() const;
+		const sf::Vector2f& getScale() const;
+		const sf::Vector2f& getOrigin() const;
+		
+
+		void setPosition(float x, float y);
+		void setPosition(const sf::Vector2f& position);
+
+		void setRotation(float angle);
+
+		void setScale(float factorX, float factorY);
+		void setScale(const sf::Vector2f& factors);
+
+		void setOrigin(float x, float y);
+		void setOrigin(const sf::Vector2f& origin);
+
+
+
+		void move(float offsetX, float offsetY);
+		void move(const sf::Vector2f& offset);
+		void rotate(float angle);
+		void scale(float factorX, float factorY);
+		void scale(const sf::Vector2f& factor);
+
+		const sf::Transform& getTransform() const;
+		const sf::Transform& getInverseTransform() const;
+
+
+
+
+
+
+		sf::Vector2f getPosition() const;
+		virtual void setPosition(sf::Vector2f val);
+		virtual void setPosition(float x, float y);
+
+		
 
 		//operations
 		virtual void scale(float factorX, float factorY);
