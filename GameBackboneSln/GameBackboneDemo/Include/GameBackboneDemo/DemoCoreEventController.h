@@ -22,7 +22,7 @@ namespace EXE {
 		void postHandleEvent(sf::Event& event);
 
 	private:
-		sf::View camera;
-		std::unique_ptr<MainMenuDemoRegion> mainMenuDemoRegion;
+		sf::View m_camera;
+		std::unique_ptr<MainMenuDemoRegion> m_mainMenuDemoRegion;
 	};
 }

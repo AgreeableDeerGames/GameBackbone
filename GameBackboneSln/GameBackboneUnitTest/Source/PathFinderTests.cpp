@@ -248,8 +248,6 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	*navGrid[2][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	*navGrid[2][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	*navGrid[2][4] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	*navGrid[2][5] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
-	*navGrid[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	*navGrid[1][2] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	*navGrid[3][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
 	*navGrid[4][3] = NavigationGridData{ BLOCKED_GRID_WEIGHT, 0 };
@@ -272,7 +270,7 @@ BOOST_AUTO_TEST_CASE(Pathfinder_pathFind_single_request_simple_maze) {
 	pathfinder.pathFind(pathRequests, &pathsReturn);
 
 	//ensure the path is not empty
-	BOOST_CHECK(pathsReturn[0].size() >= 0);
+	BOOST_CHECK(pathsReturn[0].size() > 0);
 
 	freeAllNavigationGridData(navGrid);
 }

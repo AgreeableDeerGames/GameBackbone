@@ -28,7 +28,9 @@ namespace EXE {
 		AnimationDemoRegion& operator=(const AnimationDemoRegion& other) = delete;
 		AnimationDemoRegion& operator=(AnimationDemoRegion&& other) = delete;
 
-    void update(sf::Int64 elapsedTime) override;
+		virtual void update(sf::Int64 elapsedTime) override;
+		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) override;
+
 
 	protected:
 		// Storage

@@ -22,7 +22,7 @@ using namespace EXE;
 const int32 velocityIterations = 6;
 const int32 positionIterations = 2;
 const b2Vec2 gravity(0.0f, 0.10f);
-const double pixelsPerMeter = 32;
+const float pixelsPerMeter = 32;
 
 /// <summary>
 /// Initializes a new instance of the <see cref="PlatformDemoRegion"/> class.
@@ -67,7 +67,7 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 		// Update the angle of the sprite to match the angle of the Box2D body.
 		// Converting from radians to degrees because Box2D uses radians and SFML uses degrees. 
 		float32 angle = objectBody->GetAngle();
-		objectSprites[ii]->setRotation(angle * (180.0 / M_PI));
+		objectSprites[ii]->setRotation(static_cast<float>(angle * (180.0f / M_PI)));
 	}
 }
 
@@ -76,11 +76,11 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 /// </summary>
 /// <param name="newPosition">The position of the click.</param>
 /// <param name="button">The mouse button clicked button.</param>
-void PlatformDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+void PlatformDemoRegion::handleMouseClick(sf::Vector2f /*newPosition*/, sf::Mouse::Button /*button*/) {
 
 	// 'Jump' the player by providing upward linear velocity when the mouse button is pressed
 	b2Vec2 vel = playerBody->GetLinearVelocity();
-	vel.y = -0.9;
+	vel.y = -0.9f;
 	playerBody->SetLinearVelocity(vel);
 
 }
@@ -95,21 +95,21 @@ void PlatformDemoRegion::handleKeyPress(sf::Event::KeyEvent key){
 	// Move the player left by applying a linear velocity when the user presses
 	if (key.code == sf::Keyboard::A){
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = -0.4;
+		vel.x = -0.4f;
 		playerBody->SetLinearVelocity(vel);
 	}
 
 	// Move the player right by applying a linear velocity when the user presses
 	else if(key.code == sf::Keyboard::D){
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.x = 0.4;
+		vel.x = 0.4f;
 		playerBody->SetLinearVelocity(vel);
 	}
 
 	// 'Jump' the player by providing upward linear velocity
 	else if (key.code == sf::Keyboard::Space) {
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		vel.y = -0.9;
+		vel.y = -0.9f;
 		playerBody->SetLinearVelocity(vel);
 	}
 }
@@ -176,7 +176,7 @@ sf::Vector2f PlatformDemoRegion::convertToSprite(b2Vec2 boxCoord) {
 /// <param name="boxCoordX"> The X position in the Box2D coordinate space. </param>
 /// <param name="boxCoordY"> The Y position in the Box2D coordinate space. </param>
 /// <return> The coordinate in the SFML coordinate system. </return>
-sf::Vector2f PlatformDemoRegion::convertToSprite(double boxCoordX, double boxCoordY) {
+sf::Vector2f PlatformDemoRegion::convertToSprite(float boxCoordX, float boxCoordY) {
 	return sf::Vector2f(boxCoordX * pixelsPerMeter, boxCoordY * pixelsPerMeter);
 }
 
@@ -198,8 +198,8 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	// This will allow the sprite to rotate around its center instead of around its top left corner
 	// The function getLocalBounds is used instead of getGlobalBounds as the origin is always calculated before
 	// other transformations (though it won't matter in this case since we apply this operation before any transformations)
-	float spriteLocalHalfHeight = gameBodySprite->getLocalBounds().height / 2.0;
-	float spriteLocalHalfWidth = gameBodySprite->getLocalBounds().width / 2.0;
+	float spriteLocalHalfHeight = gameBodySprite->getLocalBounds().height / 2.0f;
+	float spriteLocalHalfWidth = gameBodySprite->getLocalBounds().width / 2.0f;
 	gameBodySprite->setOrigin(spriteLocalHalfWidth, spriteLocalHalfHeight);
 
 	// Scale the sprite to the desired dimensions
@@ -209,7 +209,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	gameBodySprite->setPosition(spritePosition);
 
 	// Mark the sprite to be displayed
-	setDrawable(true, gameBodySprite.get());
+	addDrawable(1, gameBodySprite.get());
 
 	// Create the Box2D representation for physics
 
@@ -319,8 +319,8 @@ void PlatformDemoRegion::initGUI() {
 
 	// Get a bound version of the window size
 	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
-	tgui::Layout windowWidth = tgui::bindWidth(regionGUI);
-	tgui::Layout windowHeight = tgui::bindHeight(regionGUI);
+	tgui::Layout windowWidth = tgui::bindWidth(this->getGUI());
+	tgui::Layout windowHeight = tgui::bindHeight(this->getGUI());
 
 	// Create the background image
 	tgui::Picture::Ptr picture = tgui::Picture::create(R"(Textures/Backbone2.png)");
@@ -328,7 +328,7 @@ void PlatformDemoRegion::initGUI() {
 	// Place the image at the bottom 1/10th of the screen
 	picture->setSize(windowWidth, "&.height / 10");
 	picture->setPosition(0, 9 * windowHeight / 10.0f);
-	regionGUI.add(picture);
+	this->getGUI().add(picture);
 }
 
 /// <summary>
@@ -340,8 +340,8 @@ void PlatformDemoRegion::destroy() {
 	// Because these are unique_ptr clearing the vector also frees the memory
 	objectSprites.clear();
 
-	// Clear all of GameRegion's references to drawables or updatables
-	clearDrawable();
+	// Clear all of GameRegion's references to drawables
+	clearDrawables();
 
 	// Destroy the world and all of its memory
 	platformWorld.reset();

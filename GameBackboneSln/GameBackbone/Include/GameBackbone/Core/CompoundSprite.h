@@ -66,9 +66,9 @@ namespace GB {
 		
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-		std::vector<sf::Sprite> components;
-		std::vector<AnimatedSprite> animatedComponents;
-		sf::Vector2f position;
+		std::vector<sf::Sprite> m_components;
+		std::vector<AnimatedSprite> m_animatedComponents;
+		sf::Vector2f m_position;
 
 	};
 }
