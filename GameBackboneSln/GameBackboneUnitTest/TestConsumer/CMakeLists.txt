@@ -9,7 +9,7 @@ add_executable(TestGameBackboneConsumer main.cpp)
 find_package(SFML 2 COMPONENTS network audio graphics window system)
 find_package(TGUI 0.8.2 REQUIRED)
 
-find_package(GameBackbone 0.2.1 REQUIRED)
+find_package(GameBackbone 0.2.2 REQUIRED)
 target_link_libraries(TestGameBackboneConsumer PRIVATE GameBackbone)
 
 
