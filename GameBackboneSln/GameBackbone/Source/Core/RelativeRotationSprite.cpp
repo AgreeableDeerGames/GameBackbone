@@ -154,8 +154,8 @@ RelativeRotationSprite::RelativeRotationSprite(std::vector<sf::Sprite> component
 /// <param name="component">New sprite component of the RelativeRotationSprite.</param>
 std::size_t RelativeRotationSprite::addComponent(sf::Sprite component) {
 	// Fix the position and origin of the new component
-	component.setOrigin(component.getPosition().x - m_position.x, component.getPosition().y - m_position.y);
-	component.setPosition(m_position.x, m_position.y);
+	component.setOrigin(component.getPosition().x - getPosition().x, component.getPosition().y - getPosition().y);
+	component.setPosition(getPosition().x, getPosition().y);
 
 	// Add the fixed component as if it were in a normal CompoundSprite
 	return CompoundSprite::addComponent(std::move(component));
@@ -171,7 +171,7 @@ std::size_t RelativeRotationSprite::addComponent(sf::Sprite component) {
 /// <param name="relativeOffset">The relative offset.</param>
 std::size_t RelativeRotationSprite::addComponent(sf::Sprite component, sf::Vector2f relativeOffset) {
 	// Fix the position and origin of the new component
-	component.setPosition(m_position.x, m_position.y);
+	component.setPosition(getPosition().x, getPosition().y);
 	component.setOrigin(relativeOffset.x, relativeOffset.y);
 
 	// Add the component as if it were in a normal compound sprite
@@ -187,8 +187,8 @@ std::size_t RelativeRotationSprite::addComponent(sf::Sprite component, sf::Vecto
 /// <param name="component">New Animated Sprite component of the RelativeRotationSprite. Passing nullptr is illegal.</param>
 std::size_t RelativeRotationSprite::addComponent(AnimatedSprite component) {
 	// Fix origin and position of component 
-	component.setOrigin(component.getPosition().x - m_position.x, component.getPosition().y - m_position.y);
-	component.setPosition(m_position.x, m_position.y);
+	component.setOrigin(component.getPosition().x - getPosition().x, component.getPosition().y - getPosition().y);
+	component.setPosition(getPosition().x, getPosition().y);
 
 	// Add the component as if it were in a normal compound sprite
 	return CompoundSprite::addComponent(std::move(component));
@@ -204,7 +204,7 @@ std::size_t RelativeRotationSprite::addComponent(AnimatedSprite component) {
 /// <param name="relativeOffset">The relative offset.</param>
 std::size_t RelativeRotationSprite::addComponent(AnimatedSprite component, sf::Vector2f relativeOffset) {
 	// Fix origin and position of component 
-	component.setPosition(m_position.x, m_position.y);
+	component.setPosition(getPosition().x, getPosition().y);
 	component.setOrigin(relativeOffset.x, relativeOffset.y);
 
 	// Add the component as if it were in a normal compound sprite

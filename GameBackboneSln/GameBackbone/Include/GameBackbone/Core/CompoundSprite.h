@@ -43,6 +43,7 @@ namespace GB {
 		virtual void removeAnimatedComponent(std::size_t componentIndex);
 		virtual void clearComponents();
 
+
 		// Transformable API
 
 		const sf::Vector2f& getPosition() const;
@@ -53,12 +54,9 @@ namespace GB {
 
 		void setPosition(float x, float y);
 		void setPosition(const sf::Vector2f& position);
-
 		void setRotation(float angle);
-
 		void setScale(float factorX, float factorY);
 		void setScale(const sf::Vector2f& factors);
-
 		void setOrigin(float x, float y);
 		void setOrigin(const sf::Vector2f& origin);
 
@@ -70,31 +68,10 @@ namespace GB {
 		void scale(float factorX, float factorY);
 		void scale(const sf::Vector2f& factor);
 
+
 		const sf::Transform& getTransform() const;
 		const sf::Transform& getInverseTransform() const;
 
-
-
-
-
-
-		sf::Vector2f getPosition() const;
-		virtual void setPosition(sf::Vector2f val);
-		virtual void setPosition(float x, float y);
-
-		
-
-		//operations
-		virtual void scale(float factorX, float factorY);
-		virtual void scale(sf::Vector2f newScale);
-		virtual void setScale(float factorX, float factorY);
-		virtual void setScale(sf::Vector2f newScale);
-
-		virtual void rotate(float degreeOffset);
-		virtual void setRotation(float newRotation);
-
-		virtual void move(float offsetX, float offsetY);
-		virtual void move(sf::Vector2f offset);
 
 		virtual void update(sf::Int64 elapsedTime) override;
 
@@ -104,7 +81,6 @@ namespace GB {
 
 		std::vector<sf::Sprite> m_components;
 		std::vector<AnimatedSprite> m_animatedComponents;
-		sf::Vector2f m_position;
 
 	};
 }

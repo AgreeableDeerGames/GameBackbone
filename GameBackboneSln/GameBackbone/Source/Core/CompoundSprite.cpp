@@ -19,7 +19,7 @@ using namespace GB;
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
 /// </summary>
-CompoundSprite::CompoundSprite() : m_position({ 0,0 }) {}
+CompoundSprite::CompoundSprite() {}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
@@ -35,10 +35,8 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components)
 /// </summary>
 /// <param name="components">The components.</param>
 /// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f position) :
-	m_components(std::move(components)),
-	m_position(position){
-}
+CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f position) 
+	: CompoundSprite(std::move(components), std::vector<AnimatedSprite>(), position){}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class.
@@ -60,26 +58,26 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<A
 /// <param name="sprites">Sprite components of the new CompoundSprite.</param>
 /// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite.</param>
 /// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position) :
-	m_components(std::move(components)),
-	m_animatedComponents(std::move(animatedComponents)),
-	m_position(position) {
+CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position){
+	setPosition(position);
+
+	//TODO: Add std:move somehow
+	// function for adding a component to the RelativeRotationSprite
+	auto addComponentFunction = [this](auto& component) {
+		addComponent(component);
+	};
+
+	// Add all of the passed components to the RelativerotationSprite
+	std::for_each(std::begin(components), std::end(components), addComponentFunction);
+	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), addComponentFunction);
 }
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
 /// </summary>
 /// <param name="initialPosition">The initial position.</param>
-CompoundSprite::CompoundSprite(sf::Vector2f position) : m_position(position) {}
-
-// getters
-
-/// <summary>
-/// Gets the position.
-/// </summary>
-/// <returns></returns>
-sf::Vector2f CompoundSprite::getPosition() const {
-	return m_position;
+CompoundSprite::CompoundSprite(sf::Vector2f position){
+	setPosition(position);
 }
 
 /// <summary>
@@ -123,32 +121,15 @@ bool CompoundSprite::isEmpty() const {
 	return m_components.empty() && m_animatedComponents.empty();
 }
 
-// setters
-
-/// <summary>
-/// Sets the position.
-/// </summary>
-/// <param name="val">The value.</param>
-void CompoundSprite::setPosition(sf::Vector2f val) {
-	setPosition(val.x, val.y);
-}
-
-/// <summary>
-/// Sets the position.
-/// </summary>
-/// <param name="x">The new x.</param>
-/// <param name="y">The new y.</param>
-void CompoundSprite::setPosition(float x, float y) {
-	sf::Vector2f oldPosition = m_position;
-	move(x - oldPosition.x, y - oldPosition.y);
-}
-
 /// <summary>
 /// Adds a Sprite component to the CompoundSprite.
 /// </summary>
 /// <param name="component"> The component to add to the CompoundSprite. </param>
 /// <return> The index of the added sprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(sf::Sprite component) {
+	component.setOrigin(component.getPosition().x - getPosition().x, component.getPosition().y - getPosition().y);
+	component.setPosition(getPosition().x, getPosition().y);
+
 	// Add the component the vector of Sprite components
 	m_components.emplace_back(std::move(component));
 
@@ -206,31 +187,63 @@ void CompoundSprite::clearComponents() {
 	m_animatedComponents.clear();
 }
 
-// operations
+
+
+const sf::Vector2f& CompoundSprite::getPosition() const {
+	return sf::Transformable::getPosition();
+}
+float CompoundSprite::getRotation() const {
+	return sf::Transformable::getRotation();
+}
+const sf::Vector2f& CompoundSprite::getScale() const {
+	return sf::Transformable::getScale();
+}
+const sf::Vector2f& CompoundSprite::getOrigin() const {
+	return sf::Transformable::getOrigin();
+}
+
+
+
 
 /// <summary>
-/// Scales all the components of the CompoundSprite.
+/// Sets the position.
 /// </summary>
-/// <param name="factorX">The new horizontal scale factor.</param>
-/// <param name="factorY">The new vertical scale factor.</param>
-void CompoundSprite::scale(float factorX, float factorY) {
-	// lambda function for scaling components
-	auto scaleFunction = [factorX, factorY] (auto& component) {
-		component.scale(factorX, factorY);
+/// <param name="x">The new x.</param>
+/// <param name="y">The new y.</param>
+void CompoundSprite::setPosition(float x, float y) {
+	const sf::Vector2f& oldPosition = sf::Transformable::getPosition();
+	move(x - oldPosition.x, y - oldPosition.y);
+}
+/// <summary>
+/// Sets the position.
+/// </summary>
+/// <param name="val">The value.</param>
+void CompoundSprite::setPosition(const sf::Vector2f& position) {
+	setPosition(position.x, position.y);
+}
+
+
+
+
+/// <summary>
+/// Sets the rotation of all components in the compound sprite.
+/// </summary>
+/// <param name="angle"> Angle of rotation, in degrees.</param>
+void CompoundSprite::setRotation(float angle) {
+	// Lambda for rotating components
+	auto setRotationFunction = [angle](auto& component) {
+		component.setRotation(angle);
 	};
 
-	// apply the scaleFunction to all components
-	std::for_each(std::begin(m_components), std::end(m_components), scaleFunction);
-	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), scaleFunction);
+	// Apply the rotateFunction to all components
+	std::for_each(std::begin(m_components), std::end(m_components), setRotationFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setRotationFunction);
+
+	// Update the position of the CompoundSprite as a whole
+	sf::Transformable::setRotation(angle);
 }
 
-/// <summary>
-/// Scales all the components of the  CompoundSprite.
-/// </summary>
-/// <param name="newScale">The new scale.</param>
-void CompoundSprite::scale(sf::Vector2f newScale) {
-	scale(newScale.x, newScale.y);
-}
+
 
 /// <summary>
 /// Sets the scale factor of all component sprites.
@@ -238,54 +251,34 @@ void CompoundSprite::scale(sf::Vector2f newScale) {
 /// <param name="factorX">The factor x.</param>
 /// <param name="factorY">The factor y.</param>
 void CompoundSprite::setScale(float factorX, float factorY) {
-	// lambda function for scaling components
-	auto setScaleFunction = [factorX, factorY] (auto& component) {
+	// Lambda function for scaling components
+	auto setScaleFunction = [factorX, factorY](auto& component) {
 		component.setScale(factorX, factorY);
 	};
 
-	// apply the setScaleFunction to all components
+	// Apply the setScaleFunction to all components
 	std::for_each(std::begin(m_components), std::end(m_components), setScaleFunction);
 	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setScaleFunction);
+
+	// Update the position of the CompoundSprite as a whole
+	sf::Transformable::setScale(factorX, factorY);
 }
 
 /// <summary>
 /// Sets the scale of all component sprites.
 /// </summary>
-/// <param name="newScale">The new scale.</param>
-void CompoundSprite::setScale(sf::Vector2f newScale) {
-	setScale(newScale.x, newScale.y);
+/// <param name="factors">The new scale.</param>
+void CompoundSprite::setScale(const sf::Vector2f& factors) {
+	setScale(factors.x, factors.y);
 }
 
-/// <summary>
-/// Rotates all components of the compound sprite.
-/// </summary>
-/// <param name="degreeOffset">The offset to the current rotation.</param>
-void CompoundSprite::rotate(float degreeOffset) {
-	// lambda for rotating components
-	auto rotateFunction = [degreeOffset] (auto& component) {
-		component.rotate(degreeOffset);
-	};
-
-	// apply the rotateFunction to all components
-	std::for_each(std::begin(m_components), std::end(m_components), rotateFunction);
-	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), rotateFunction);
-
+void CompoundSprite::setOrigin(float x, float y) {
+	sf::Transformable::setOrigin(x, y);
+}
+void CompoundSprite::setOrigin(const sf::Vector2f& origin) {
+	sf::Transformable::setOrigin(origin);
 }
 
-/// <summary>
-/// Sets the rotation of all components in the compound sprite.
-/// </summary>
-/// <param name="newRotation">The new rotation.</param>
-void CompoundSprite::setRotation(float newRotation) {
-	// lambda for rotating components
-	auto setRotationFunction = [newRotation] (auto& component) {
-		component.setRotation(newRotation);
-	};
-
-	// apply the rotateFunction to all components
-	std::for_each(std::begin(m_components), std::end(m_components), setRotationFunction);
-	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setRotationFunction);
-}
 
 /// <summary>
 /// Moves all the components of the compound sprite by the same offset.
@@ -303,16 +296,67 @@ void CompoundSprite::move(float offsetX, float offsetY) {
 	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), moveFunction);
 
 	// update the position of the CompoundSprite as a whole
-	m_position.x += offsetX;
-	m_position.y += offsetY;
+	sf::Transformable::move(offsetX, offsetY);
 }
 
 /// <summary>
 /// Moves all the components of the compound sprite by the same offset.
 /// </summary>
 /// <param name="offset">The offset.</param>
-void CompoundSprite::move(sf::Vector2f offset) {
+void CompoundSprite::move(const sf::Vector2f& offset) {
 	move(offset.x, offset.y);
+}
+
+/// <summary>
+/// Rotates all components of the compound sprite.
+/// </summary>
+/// <param name="angle">The offset to the current rotation.</param>
+void CompoundSprite::rotate(float angle) {
+	// Lambda for rotating components
+	auto rotateFunction = [angle](auto& component) {
+		component.rotate(angle);
+	};
+
+	// Apply the rotateFunction to all components
+	std::for_each(std::begin(m_components), std::end(m_components), rotateFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), rotateFunction);
+
+	// Update the position of the CompoundSprite as a whole
+	sf::Transformable::rotate(angle);
+}
+
+/// <summary>
+/// Scales all the components of the CompoundSprite.
+/// </summary>
+/// <param name="factorX">The horizontal scale factor.</param>
+/// <param name="factorY">The vertical scale factor.</param>
+void CompoundSprite::scale(float factorX, float factorY) {
+	// Lambda function for scaling components
+	auto scaleFunction = [factorX, factorY](auto& component) {
+		component.scale(factorX, factorY);
+	};
+
+	// Apply the scaleFunction to all components
+	std::for_each(std::begin(m_components), std::end(m_components), scaleFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), scaleFunction);
+
+	// Update the position of the CompoundSprite as a whole
+	sf::Transformable::scale(factorX, factorY);
+}
+
+/// <summary>
+/// Scales all the components of the  CompoundSprite.
+/// </summary>
+/// <param name="factor">The scale factors.</param>
+void CompoundSprite::scale(const sf::Vector2f& factor) {
+	scale(factor.x, factor.y);
+}
+
+const sf::Transform& CompoundSprite::getTransform() const {
+	return sf::Transformable::getTransform();
+}
+const sf::Transform& CompoundSprite::getInverseTransform() const {
+	return sf::Transformable::getInverseTransform();
 }
 
 /// <summary>

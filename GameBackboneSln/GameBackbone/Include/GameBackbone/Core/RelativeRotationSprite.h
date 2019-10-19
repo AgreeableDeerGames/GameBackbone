@@ -41,11 +41,11 @@ namespace GB {
 		virtual std::size_t addComponent(AnimatedSprite component, sf::Vector2f relativeOffset);
 
 		//operations
-		virtual void scale(float factorX, float factorY) override;
-		virtual void scale(sf::Vector2f newScale) override;
-		virtual void setScale(float newScaleX, float newScaleY) override;
-		virtual void setScale(sf::Vector2f newScale) override;
-		virtual sf::Vector2f getScale() const;
+		void scale(float factorX, float factorY);
+		void scale(sf::Vector2f newScale);
+		void setScale(float newScaleX, float newScaleY);
+		void setScale(sf::Vector2f newScale);
+		sf::Vector2f getScale() const;
 
 	protected:
 
