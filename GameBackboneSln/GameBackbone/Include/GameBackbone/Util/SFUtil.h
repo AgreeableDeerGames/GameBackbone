@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace GB {
 
@@ -15,4 +17,19 @@ namespace GB {
 			return lhs.x < rhs.x || (!(rhs.x < lhs.x) && lhs.y < rhs.y);
 		}
 	};
+
+	/// <summary>
+	/// Used to create new Drawable* vectors using Drawable child vectors
+	/// Designed to improve compatibility between vectors of Drawable and Drawable children
+	/// </summary>
+	template <class T>
+	std::vector<sf::Drawable*> toDrawableVector(const std::vector<T>& DrawableChild)
+	{
+		std::vector <sf::Drawable*> DrawableVector(DrawableChild.size());
+		for (auto di = 0; di < DrawableChild.size(); di++)
+		{
+			DrawableVector.at(di) = DrawableChild.at(di);
+		}
+		return DrawableVector;
+	}
 }

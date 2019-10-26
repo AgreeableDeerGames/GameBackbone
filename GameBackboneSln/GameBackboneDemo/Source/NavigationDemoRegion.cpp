@@ -6,6 +6,7 @@
 #include <GameBackbone/Navigation/NavigationTools.h>
 #include <GameBackbone/Util/RandGen.h>
 #include <GameBackbone/Util/UtilMath.h>
+#include <GameBackbone/Util/SFUtil.h>
 
 #include <TGUI/TGUI.hpp>
 
@@ -318,7 +319,7 @@ void NavigationDemoRegion::initMaze() {
 		clusterColors.emplace_back(std::move(clusterColor));
 	}
 
-	std::vector<sf::Drawable*> navGridSprites;
+	std::vector<sf::Sprite*> navGridSprites;
 	// Fill visual grid
 	for (unsigned int i = 0; i < NAV_GRID_DIM; i++) {
 		for (unsigned int j = 0; j < NAV_GRID_DIM; j++) {
@@ -352,6 +353,7 @@ void NavigationDemoRegion::initMaze() {
 		}
 	}
 
+	GB::toDrawableVector(navGridSprites);
 	addDrawable(0, navGridSprites);
 
 	// Give each cluster the correct color and navigation weight
