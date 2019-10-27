@@ -106,6 +106,13 @@ if(TGUI_FOUND)
   target_link_libraries(GameBackbone PUBLIC tgui)
 endif()
 
+find_package(Boost REQUIRED)
+if(Boost_FOUND)
+	TARGET_include_directories(GameBackbone PRIVATE ${Boost_INCLUDE_DIRS})
+	message("boost include dirs")
+	message("${Boost_INCLUDE_DIRS}")
+endif()
+
 target_include_directories(
   GameBackbone
     PUBLIC

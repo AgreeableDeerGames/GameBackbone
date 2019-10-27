@@ -4,10 +4,11 @@
 
 #include <sfml/System/Time.hpp>
 
+#include <boost/circular_buffer.hpp>
+
 #include <chrono>
 #include <functional>
 #include <memory>
-#include <vector>
 
 namespace GB {
 
@@ -18,9 +19,11 @@ namespace GB {
 		// using TimePoint = sf::Time;
 
 		Counter();
-		Counter(int bufferSize);
+		Counter(std::size_t bufferSize);
 
 		TimePoint tick();
+
+		void tick(TimePoint::duration elapsedTime);
 
 		[[nodiscard]]
 		float getAverageTimePerTick();
@@ -38,11 +41,6 @@ namespace GB {
 		std::size_t getTicksSinceTime(TimePoint time);
 
 	private:
-
-		void forEachElementInBuffer(std::function<bool(std::size_t)> operation);
-
-		std::vector<TimePoint> m_ticks;
-		std::size_t m_tail;
-		std::size_t m_tickCount;
+		boost::circular_buffer<TimePoint::duration> m_ticks;
 	};
 }
