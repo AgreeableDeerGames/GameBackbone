@@ -30,6 +30,7 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Array2D.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Cluster.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/ClusterGreenhouse.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Counter.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/DebugIncludes.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/DllUtil.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileManager.h"
@@ -58,6 +59,7 @@ add_library(GameBackbone SHARED
   # Util
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/Cluster.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/ClusterGreenhouse.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/Counter.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/dllmain.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/FileManager.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/FileReader.cpp"
