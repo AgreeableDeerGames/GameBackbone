@@ -136,9 +136,9 @@ void ScaleAndRotationDemoRegion::init() {
 		sf::Sprite(*rotationArrowLowTexture)
 	};
 	// Give them different colors
-	textureOffsetSprites[0].setColor(sf::Color::Magenta);
+	textureOffsetSprites[0].setColor(sf::Color::Green);
 	textureOffsetSprites[1].setColor(sf::Color::White);
-	textureOffsetSprites[2].setColor(sf::Color::Green);
+	textureOffsetSprites[2].setColor(sf::Color::Magenta);
 
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
@@ -150,20 +150,6 @@ void ScaleAndRotationDemoRegion::init() {
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
 			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(relativeRotationComponents), sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			break;
-		}
-		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
-			// Set the positions of the components
-			relativeRotationComponents[0].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			relativeRotationComponents[1].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			relativeRotationComponents[2].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-
-			// Create the compound sprite then add all of the components with a relative offset
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			// Cast the sprite to RelativeRotationSprite here so that we can access its special addComponent member function
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[0]), { 80, 0 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[1]), { 0, 80 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[2]), { 0, 0 });
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
@@ -186,6 +172,7 @@ void ScaleAndRotationDemoRegion::init() {
 			// The differences in the textures creates the appearance that the components are in different places.
 			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(textureOffsetSprites));
 			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
+			displaySprite->setOrigin(displaySprite->getSpriteComponent(0).getTextureRect().top, displaySprite->getSpriteComponent(0).getTextureRect().width);
 			break;
 		}
 		default: {
@@ -225,12 +212,6 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
 	// Add the button to the vector for future use
 	initOptionButtons.push_back(relativePositionCtrButton);
-
-	// Create initMethod2 button
-	tgui::Button::Ptr relativeOffsetButton = tgui::Button::create();
-	relativeOffsetButton->setText("Relative\nOffset");
-	relativeOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod2CB, this);
-	initOptionButtons.push_back(relativeOffsetButton);
 
 	// Create initMethod3 button
 	tgui::Button::Ptr relativePositionButton = tgui::Button::create();
@@ -282,16 +263,6 @@ void ScaleAndRotationDemoRegion::initMethod1CB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	debugPrint("Relative Position Constructor");
-	reset();
-}
-
-/// <summary>
-/// Handles the button initMethod2.
-/// </summary>
-void ScaleAndRotationDemoRegion::initMethod2CB()
-{
-	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_OFFSET;
-	debugPrint("Relative Offset");
 	reset();
 }
 

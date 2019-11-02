@@ -15,7 +15,6 @@ namespace EXE{
 	/// </summary>
 	enum ROTATION_INIT_TYPE {
 		RELATIVE_POSITION_CONSTRUCTOR,
-		RELATIVE_OFFSET,
 		RELATIVE_POSITION,
 		TEXTURE_BASED_OFFSET,
 	};
@@ -59,7 +58,6 @@ namespace EXE{
 		// Compound sprite selection
 		ROTATION_INIT_TYPE selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 		void initMethod1CB();
-		void initMethod2CB();
 		void initMethod3CB();
 		void initMethod4CB();
 	};

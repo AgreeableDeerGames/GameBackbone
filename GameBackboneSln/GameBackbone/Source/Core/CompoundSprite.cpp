@@ -273,10 +273,19 @@ void CompoundSprite::setScale(const sf::Vector2f& factors) {
 }
 
 void CompoundSprite::setOrigin(float x, float y) {
+	// function for moving a component
+	/*auto setOriginFunction = [x, y](auto& component) {
+		component.setOrigin(x, y);
+	};
+
+	// apply the rotateFunction to all components
+	std::for_each(std::begin(m_components), std::end(m_components), setOriginFunction);
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setOriginFunction);*/
+
 	sf::Transformable::setOrigin(x, y);
 }
 void CompoundSprite::setOrigin(const sf::Vector2f& origin) {
-	sf::Transformable::setOrigin(origin);
+	setOrigin(origin.x, origin.y);
 }
 
 
