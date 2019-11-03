@@ -127,7 +127,7 @@ bool CompoundSprite::isEmpty() const {
 /// <param name="component"> The component to add to the CompoundSprite. </param>
 /// <return> The index of the added sprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(sf::Sprite component) {
-	component.setOrigin(component.getPosition().x - getPosition().x, component.getPosition().y - getPosition().y);
+	component.setOrigin(getPosition().x + getOrigin().x - component.getPosition().x, getPosition().y + getOrigin().y - component.getPosition().y);
 	component.setPosition(getPosition().x, getPosition().y);
 
 	// Add the component the vector of Sprite components
@@ -274,13 +274,16 @@ void CompoundSprite::setScale(const sf::Vector2f& factors) {
 
 void CompoundSprite::setOrigin(float x, float y) {
 	// function for moving a component
-	/*auto setOriginFunction = [x, y](auto& component) {
-		component.setOrigin(x, y);
+	auto setOriginFunction = [x, y, this](auto& component) {
+		//component.setOrigin(x, y);
+		component.setPosition(getPosition().x - component.getOrigin().x, getPosition().y - component.getOrigin().y);
+		component.setOrigin(getPosition().x + x - component.getPosition().x, getPosition().y + y - component.getPosition().y);
+		component.setPosition(getPosition().x, getPosition().y);
 	};
 
 	// apply the rotateFunction to all components
 	std::for_each(std::begin(m_components), std::end(m_components), setOriginFunction);
-	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setOriginFunction);*/
+	std::for_each(std::begin(m_animatedComponents), std::end(m_animatedComponents), setOriginFunction);
 
 	sf::Transformable::setOrigin(x, y);
 }

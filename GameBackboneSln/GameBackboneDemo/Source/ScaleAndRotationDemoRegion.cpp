@@ -136,16 +136,16 @@ void ScaleAndRotationDemoRegion::init() {
 		sf::Sprite(*rotationArrowLowTexture)
 	};
 	// Give them different colors
-	textureOffsetSprites[0].setColor(sf::Color::Green);
+	textureOffsetSprites[0].setColor(sf::Color::Magenta);
 	textureOffsetSprites[1].setColor(sf::Color::White);
-	textureOffsetSprites[2].setColor(sf::Color::Magenta);
+	textureOffsetSprites[2].setColor(sf::Color::Green);
 
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
 			// Set the positions of the components
-			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
-			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
-			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
+			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 0);
+			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 50);
+			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
 
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
@@ -154,16 +154,18 @@ void ScaleAndRotationDemoRegion::init() {
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
 			// Set the positions of the components
-			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
-			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
-			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
+			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 0);
+			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 50);
+			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
 
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
 			displaySprite = std::make_unique<GB::CompoundSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
+			displaySprite->setOrigin(50, 0);
 			displaySprite->addComponent(std::move(relativeRotationComponents[0]));
 			displaySprite->addComponent(std::move(relativeRotationComponents[1]));
 			displaySprite->addComponent(std::move(relativeRotationComponents[2]));
+			displaySprite->setOrigin(50, 50);
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
@@ -172,7 +174,7 @@ void ScaleAndRotationDemoRegion::init() {
 			// The differences in the textures creates the appearance that the components are in different places.
 			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(textureOffsetSprites));
 			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			displaySprite->setOrigin(displaySprite->getSpriteComponent(0).getTextureRect().top, displaySprite->getSpriteComponent(0).getTextureRect().width);
+			//displaySprite->setOrigin(displaySprite->getSpriteComponent(0).getTextureRect().width, displaySprite->getSpriteComponent(0).getTextureRect().top);
 			break;
 		}
 		default: {
