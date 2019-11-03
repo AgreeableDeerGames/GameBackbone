@@ -275,10 +275,7 @@ void CompoundSprite::setScale(const sf::Vector2f& factors) {
 void CompoundSprite::setOrigin(float x, float y) {
 	// function for moving a component
 	auto setOriginFunction = [x, y, this](auto& component) {
-		//component.setOrigin(x, y);
-		component.setPosition(getPosition().x - component.getOrigin().x, getPosition().y - component.getOrigin().y);
-		component.setOrigin(getPosition().x + x - component.getPosition().x, getPosition().y + y - component.getPosition().y);
-		component.setPosition(getPosition().x, getPosition().y);
+		component.setOrigin(component.getOrigin().x + (x - getOrigin().x), component.getOrigin().y + (y - getOrigin().y));
 	};
 
 	// apply the rotateFunction to all components
