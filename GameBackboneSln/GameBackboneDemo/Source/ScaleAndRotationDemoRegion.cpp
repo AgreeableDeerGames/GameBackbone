@@ -2,7 +2,6 @@
 
 #include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
-#include <GameBackbone/Core/RelativeRotationSprite.h>
 #include <GameBackbone/Navigation/NavigationTools.h>
 
 #include <TGUI/TGUI.hpp>
@@ -156,11 +155,9 @@ void ScaleAndRotationDemoRegion::init() {
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
 			displaySprite = std::make_unique<GB::CompoundSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			displaySprite->setOrigin(50, 0);
 			displaySprite->addComponent(std::move(compoundSpriteComponents[0]));
 			displaySprite->addComponent(std::move(compoundSpriteComponents[1]));
 			displaySprite->addComponent(std::move(compoundSpriteComponents[2]));
-			displaySprite->setOrigin(50, 50);
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {

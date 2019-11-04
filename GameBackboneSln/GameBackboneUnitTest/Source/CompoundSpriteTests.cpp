@@ -10,24 +10,22 @@
 
 using namespace GB;
 
-
 BOOST_AUTO_TEST_SUITE(CompoundSpriteTests)
 
 struct ReusableObjects
 {
 	ReusableObjects() {
-		aSpriteTexture = new sf::Texture();
 		std::string testTexturePath = "Textures/testSprite.png";
-		aSpriteTexture->loadFromFile(testTexturePath);
+		aSpriteTexture.loadFromFile(testTexturePath);
 
-		sprite = sf::Sprite(*aSpriteTexture);
+		sprite = sf::Sprite(aSpriteTexture);
 		sprite.setPosition(1,1);
 
-		sprite2 = sf::Sprite(*aSpriteTexture);
+		sprite2 = sf::Sprite(aSpriteTexture);
 		sprite2.setPosition(2,2);
 
-		int halfTextureWidth = aSpriteTexture->getSize().x / 2;
-		int textureHeight = aSpriteTexture->getSize().y;
+		int halfTextureWidth = aSpriteTexture.getSize().x / 2;
+		int textureHeight = aSpriteTexture.getSize().y;
 
 		animSet1 = std::make_shared<AnimationSet>(
 			std::vector<Animation> {
@@ -46,21 +44,18 @@ struct ReusableObjects
 			}
 		);
 
-		animSpriteWithAnim1 = AnimatedSprite(*aSpriteTexture, animSet1);
+		animSpriteWithAnim1 = AnimatedSprite(aSpriteTexture, animSet1);
 		animSpriteWithAnim1.setPosition(10, 10);
-		animSpriteWithAnim2 = AnimatedSprite(*aSpriteTexture, animSet2);
+		animSpriteWithAnim2 = AnimatedSprite(aSpriteTexture, animSet2);
 		animSpriteWithAnim2.setPosition(20, 20);
 	}
-	~ReusableObjects() {
-
-		delete aSpriteTexture;
-	}
+	~ReusableObjects() {}
 
 	AnimatedSprite animSpriteWithAnim1;
 	AnimatedSprite animSpriteWithAnim2;
 	AnimationSet::Ptr animSet1;
 	AnimationSet::Ptr animSet2;
-	sf::Texture* aSpriteTexture;
+	sf::Texture aSpriteTexture;
 	sf::Sprite tempsprite;
 	sf::Sprite sprite2;
 	sf::Sprite sprite;
