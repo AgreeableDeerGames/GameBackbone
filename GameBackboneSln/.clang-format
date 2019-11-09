@@ -1,0 +1,51 @@
+
+# BasedOnStyle: Microsoft
+
+ColumnLimit: 100
+
+UseTab: Never
+IndentWidth: 4
+AccessModifierOffset: -4
+NamespaceIndentation: All
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterNamespace: true
+  AfterEnum: true
+  AfterStruct: true
+  AfterClass: true
+  SplitEmptyFunction: false
+  AfterControlStatement: true
+  AfterFunction: true
+  AfterUnion: true
+  BeforeElse: true
+  BeforeCatch: true
+
+
+AlwaysBreakTemplateDeclarations: true
+BreakConstructorInitializers: AfterColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+BreakStringLiterals: false
+
+# Pointers on type
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Aligning consecutive things
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: false
+AlignEscapedNewlines: false
+AlignTrailingComments: true
+AlignAfterOpenBracket: DontAlign
+
+# Don't allow single line things
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Inline
+
+SpaceAfterCStyleCast: false
+CommentPragmas: '^ NO-FORMAT:'
