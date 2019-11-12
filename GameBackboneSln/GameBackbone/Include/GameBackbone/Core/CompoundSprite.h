@@ -14,7 +14,7 @@
 namespace GB {
 
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
-	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, sf::Transformable {
+	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
 	public:
 		//ctr / dtr
 		CompoundSprite();
@@ -43,15 +43,7 @@ namespace GB {
 		virtual void removeAnimatedComponent(std::size_t componentIndex);
 		virtual void clearComponents();
 
-
 		// Transformable API
-
-		const sf::Vector2f& getPosition() const;
-		float getRotation() const;
-		const sf::Vector2f& getScale() const;
-		const sf::Vector2f& getOrigin() const;
-		
-
 		void setPosition(float x, float y);
 		void setPosition(const sf::Vector2f& position);
 		void setRotation(float angle);
@@ -59,20 +51,13 @@ namespace GB {
 		void setScale(const sf::Vector2f& factors);
 		void setOrigin(float x, float y);
 		void setOrigin(const sf::Vector2f& origin);
-
-
-
 		void move(float offsetX, float offsetY);
 		void move(const sf::Vector2f& offset);
 		void rotate(float angle);
 		void scale(float factorX, float factorY);
 		void scale(const sf::Vector2f& factor);
 
-
-		const sf::Transform& getTransform() const;
-		const sf::Transform& getInverseTransform() const;
-
-
+		// Updatable
 		virtual void update(sf::Int64 elapsedTime) override;
 
 	protected:

@@ -61,10 +61,9 @@ CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<A
 CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position){
 	setPosition(position);
 
-	//TODO: Add std:move somehow
 	// function for adding a component to the RelativeRotationSprite
 	auto addComponentFunction = [this](auto& component) {
-		addComponent(component);
+		addComponent(std::move(component));
 	};
 
 	// Add all of the passed components to the RelativerotationSprite
@@ -154,6 +153,19 @@ std::size_t CompoundSprite::addComponent(sf::Sprite component) {
 /// <param name="component"> The component to add to the CompoundSprite. </param>
 /// <return> The index of the added AnimatedSprite within the CompoundSprite. </return>
 std::size_t CompoundSprite::addComponent(AnimatedSprite component) {
+
+	/* Moving the origin moves the drawn entity in the opposite direction.
+	 * Move the origin of the component to the current position of the CompoundSprite
+	 * and offset it by the origin of the CompoundSprite (this keeps things in the right place
+	 * if the origin has been changed before the component is added).
+	 *
+	 * Setting the position of the component to the position of the compound sprite will then
+	 * make the entity appear in the same place but rotate around the origin of the compound sprite
+	 * instead of its own origin.
+	 */
+	component.setOrigin(getPosition().x + getOrigin().x - component.getPosition().x, getPosition().y + getOrigin().y - component.getPosition().y);
+	component.setPosition(getPosition().x, getPosition().y);
+
 	// Add the component the vector of AnimatedSprite components
 	m_animatedComponents.emplace_back(std::move(component));
 
@@ -195,34 +207,6 @@ void CompoundSprite::removeAnimatedComponent(std::size_t componentIndex) {
 void CompoundSprite::clearComponents() {
 	m_components.clear();
 	m_animatedComponents.clear();
-}
-
-/// <summary>
-/// Get the position of the CompoundSprite.
-/// </summary>
-const sf::Vector2f& CompoundSprite::getPosition() const {
-	return sf::Transformable::getPosition();
-}
-
-/// <summary>
-/// Get the orientation of the CompoundSprite.
-/// </summary>
-float CompoundSprite::getRotation() const {
-	return sf::Transformable::getRotation();
-}
-
-/// <summary>
-/// Get the current scale of the CompoundSprite.
-/// </summary>
-const sf::Vector2f& CompoundSprite::getScale() const {
-	return sf::Transformable::getScale();
-}
-
-/// <summary>
-/// Get the local origin of the CompoundSprite
-/// </summary>
-const sf::Vector2f& CompoundSprite::getOrigin() const {
-	return sf::Transformable::getOrigin();
 }
 
 /// <summary>
@@ -395,20 +379,6 @@ void CompoundSprite::scale(float factorX, float factorY) {
 /// <param name="factor">The scale factors.</param>
 void CompoundSprite::scale(const sf::Vector2f& factor) {
 	scale(factor.x, factor.y);
-}
-
-/// <summary>
-/// Get the combined transform of the CompoundSprite
-/// </summary>
-const sf::Transform& CompoundSprite::getTransform() const {
-	return sf::Transformable::getTransform();
-}
-
-/// <summary>
-/// Get the inverse of the combined transform of the CompoundSprite
-/// </summary>
-const sf::Transform& CompoundSprite::getInverseTransform() const {
-	return sf::Transformable::getInverseTransform();
 }
 
 /// <summary>
