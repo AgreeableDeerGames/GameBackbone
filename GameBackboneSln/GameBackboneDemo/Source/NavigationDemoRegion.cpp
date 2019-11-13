@@ -353,8 +353,9 @@ void NavigationDemoRegion::initMaze() {
 		}
 	}
 
-	GB::toDrawableVector(navGridSprites);
-	addDrawable(0, navGridSprites);
+	// convert the nav grid sprites to a drawables and tell
+	// NavigationDemoRegion to draw them
+	addDrawable(0, GB::toDrawableVector(navGridSprites));
 
 	// Give each cluster the correct color and navigation weight
 	for (std::size_t i = 0; i < clusterVector.size(); ++i)

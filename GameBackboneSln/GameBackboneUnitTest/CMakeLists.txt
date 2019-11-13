@@ -56,4 +56,5 @@ add_test(NAME PathFinderTests COMMAND GameBackboneUnitTest --run_test=Pathfinder
 add_test(NAME RandGenTests COMMAND GameBackboneUnitTest --run_test=RandGen_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME RelativeRotationSpriteTests COMMAND GameBackboneUnitTest --run_test=RelativeRotationSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME UtilMathTests COMMAND GameBackboneUnitTest --run_test=UtilMathTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_test(NAME SFUtilTests COMMAND GameBackboneUnitTest --run_test=SFUtilTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
