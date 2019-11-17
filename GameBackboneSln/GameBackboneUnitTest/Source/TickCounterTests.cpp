@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
-#include <GameBackbone/Util/Counter.h>
+#include <GameBackbone/Util/TickCounter.h>
+
+#include <vector>
 
 using namespace GB;
 
@@ -8,7 +10,7 @@ BOOST_AUTO_TEST_SUITE(TickCounter_Tests)
 
 BOOST_AUTO_TEST_CASE(TickCounter_averageTimePerTick_test)
 {
-	Counter counter(5);
+	TickCounter<std::vector> counter(5);
 	counter.tick();
 	counter.tick();
 	counter.tick();
@@ -19,7 +21,7 @@ BOOST_AUTO_TEST_CASE(TickCounter_averageTimePerTick_test)
 
 BOOST_AUTO_TEST_CASE(TickCounter_averageTimePerTick_test_with_specific_times)
 {
-	Counter counter(5);
+	TickCounter<std::vector> counter(5);
 	counter.tick(std::chrono::nanoseconds(5));
 	counter.tick(std::chrono::nanoseconds(4));
 	counter.tick(std::chrono::nanoseconds(6));
