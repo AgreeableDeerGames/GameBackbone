@@ -57,9 +57,9 @@ namespace EXE{
 
 		// Compound sprite selection
 		ROTATION_INIT_TYPE selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
-		void initMethod1CB();
-		void initMethod3CB();
-		void initMethod4CB();
+		void selectRelativePositionConstructorCB();
+		void selectRelativePositionAssignmentCB();
+		void selectTextureOffsetCB();
 	};
 
 }

@@ -79,9 +79,6 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_CTR, ReusableObjects) {
 	BOOST_CHECK(compoundSprite.isEmpty());
 	BOOST_CHECK(compoundSprite.getSpriteComponentCount() == 0);
 	BOOST_CHECK(compoundSprite.getAnimatedComponentCount() == 0);
-
-	// ensure that the position of the compound sprite is set correctly
-	BOOST_CHECK(compoundSprite.getPosition().x == 0 && compoundSprite.getPosition().y == 0);
 }
 
 // Test that constructing a compound sprite with a single sprite input vector correctly sets its components and position

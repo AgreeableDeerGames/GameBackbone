@@ -202,20 +202,20 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	// Give the Button Its Text
 	relativePositionCtrButton->setText("Relative\nPosition\nConstructor");
 	// Connect the button to its callback function
-	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
+	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::selectRelativePositionConstructorCB, this);
 	// Add the button to the vector for future use
 	initOptionButtons.push_back(relativePositionCtrButton);
 
 	// Create initMethod3 button
 	tgui::Button::Ptr relativePositionButton = tgui::Button::create();
 	relativePositionButton->setText("Relative\nPosition");
-	relativePositionButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod3CB, this);
+	relativePositionButton->connect("pressed", &ScaleAndRotationDemoRegion::selectRelativePositionAssignmentCB, this);
 	initOptionButtons.push_back(relativePositionButton);
 
 	// Create initMethod4 button
 	tgui::Button::Ptr textureBasedOffsetButton = tgui::Button::create();
 	textureBasedOffsetButton->setText("Texture\nOffset");
-	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod4CB, this);
+	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::selectTextureOffsetCB, this);
 	initOptionButtons.push_back(textureBasedOffsetButton);
 
 	// The number of buttons in this menu
@@ -250,27 +250,31 @@ void ScaleAndRotationDemoRegion::reset() {
 }
 
 /// <summary>
-/// Handles the button initMethod1.
+/// Callback invoked when the user selects the button to display a
+/// CompoundSprite constructed from components.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMethod1CB()
+void ScaleAndRotationDemoRegion::selectRelativePositionConstructorCB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
 	reset();
 }
 
 /// <summary>
-/// Handles the button initMethod3.
+/// Callback invoked when the user selects the button to display a
+/// CompoundSprite with components added after construction.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMethod3CB()
+void ScaleAndRotationDemoRegion::selectRelativePositionAssignmentCB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION;
 	reset();
 }
 
 /// <summary>
-///  Handles the button initMethod4.
+/// Callback invoked when the user selects the button to display a
+/// CompoundSprite whose components textures are overlaid on each other.
+/// Each components position is the same position of the compound sprite.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMethod4CB() {
+void ScaleAndRotationDemoRegion::selectTextureOffsetCB() {
 	selectedInitMethod = ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET;
 	reset();
 }
