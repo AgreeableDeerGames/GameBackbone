@@ -138,8 +138,8 @@ void ScaleAndRotationDemoRegion::init() {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
 			// Set the positions of the components
 			compoundSpriteComponents[0].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 0);
-			compoundSpriteComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 50);
-			compoundSpriteComponents[2].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[2].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 50);
 
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
@@ -149,8 +149,8 @@ void ScaleAndRotationDemoRegion::init() {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
 			// Set the positions of the components
 			compoundSpriteComponents[0].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 0);
-			compoundSpriteComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 50);
-			compoundSpriteComponents[2].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[2].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 50);
 
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
