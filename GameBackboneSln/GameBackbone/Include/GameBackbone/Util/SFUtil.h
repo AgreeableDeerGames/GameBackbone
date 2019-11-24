@@ -67,4 +67,54 @@ namespace GB {
 		std::transform(drawableChildren.begin(), drawableChildren.end(), drawableVector.begin(), getPointer);
 		return drawableVector;
 	}
+
+	template <class T>
+	class myit
+	{
+	private:
+		T wrapped_;
+		//class charholder
+		//{
+		//	const char value_;
+		//public:
+		//	charholder(const char value) : value_(value) {}
+		//	char operator*() const { return value_; }
+		//};
+	public:
+		// Previously provided by std::iterator
+		typedef T::value_type::element_type*     value_type;
+		typedef T::difference_type				 difference_type;
+		typedef T::value_type::element_type**    pointer;
+		typedef T::value_type::element_type*&    reference;
+		typedef T::iterator_category			 iterator_category;
+
+		explicit myit(T wrapped) : wrapped_(wrapped) {}
+		value_type operator*() const
+		{
+			return wrapped_->get();
+		}
+		bool operator==(const myit& other) const { return wrapped_ == other.wrapped_; }
+		bool operator!=(const myit& other) const { return !(*this == other); }
+		myit& operator++()
+		{
+			++wrapped_;
+			return *this;
+		}
+
+		// value_type operator*() const { return std::toupper(*wrapped_); }
+		/*charholder operator++(int)
+		{
+			charholder ret(std::toupper(*wrapped_));
+			++wrapped_;
+			return ret;
+		}*/
+
+	};
+
+
+	// Unique Pointer
+	template <class Container>
+	auto uniqueToDumb(Container::iterator iteratorToConvert) -> wrappedIterator {
+
+	}
 }

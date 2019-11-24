@@ -171,7 +171,7 @@ void NavigationDemoRegion::init() {
 	navigator2->setPosition(navigator2StartingPos);
 
 	// Draw navigators on top of maze
-	addDrawable(1, std::vector<sf::Drawable*>{navigator1, navigator2});
+	addDrawable(1, navigators.begin(), navigators.end());
 
 	// Path-find from starting positions to end positions
 	// Create request
@@ -355,7 +355,7 @@ void NavigationDemoRegion::initMaze() {
 
 	// convert the nav grid sprites to a drawables and tell
 	// NavigationDemoRegion to draw them
-	addDrawable(0, GB::toDrawableVector(navGridSprites));
+	addDrawable(0, navGridSprites.begin(), navGridSprites.end());
 
 	// Give each cluster the correct color and navigation weight
 	for (std::size_t i = 0; i < clusterVector.size(); ++i)

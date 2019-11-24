@@ -4,8 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <list>
 #include <memory>
-#include <vector>
 
 using namespace GB;
 
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 
 			// Check that the drawables were added and at the correct priority
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == drawables.size());
@@ -73,6 +73,29 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 			// Free drawables
 			for (int ii = 0; ii < drawables.size(); ii++) {
 				delete drawables[ii];
+			}
+		}
+
+		// Tests adding Drawables to the GameRegion in bulk
+		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_bulk_list) {
+			std::unique_ptr<GameRegion> gameRegion = std::make_unique<GameRegion>();
+			std::list<sf::Drawable*> drawables(5);
+
+			for (sf::Drawable*& drawable : drawables)
+			{
+				drawable = new sf::Sprite();
+			}
+
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+
+			// Check that the drawables were added and at the correct priority
+			BOOST_CHECK(gameRegion->getDrawableCount(0) == drawables.size());
+			BOOST_CHECK(gameRegion->getDrawableCount() == drawables.size());
+
+			// Free drawables
+			for (sf::Drawable* drawable : drawables)
+			{
+				delete drawable;
 			}
 		}
 
@@ -89,8 +112,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables2[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
-			gameRegion->addDrawable(1, drawables2);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+			gameRegion->addDrawable(1, drawables2.begin(), drawables2.end());
 
 			// Check that the drawables were added and at the correct priority
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == drawables.size());
@@ -112,7 +135,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 			std::vector<sf::Drawable*> drawables(5);
 
 			// Check that addDrawables throws std::invalid_argument if any Drawables are nullptr
-			BOOST_CHECK_THROW(gameRegion->addDrawable(0, drawables), std::invalid_argument);
+			BOOST_CHECK_THROW(gameRegion->addDrawable(0, drawables.begin(), drawables.end()), std::invalid_argument);
 
 			// Check that nothing was added during the add
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == 0);
@@ -128,8 +151,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 
 			// Check that the drawables were only added one time
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == drawables.size());
@@ -150,8 +173,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
-			gameRegion->addDrawable(1, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+			gameRegion->addDrawable(1, drawables.begin(), drawables.end());
 
 			// Check that the drawables were only added one time and at the latter priority
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == 0);
@@ -220,7 +243,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
 				// Check that addDrawables throws std::invalid_argument if any Drawables are nullptr
-				BOOST_CHECK_THROW(gameRegion->addDrawable(0, drawables), std::invalid_argument);
+				BOOST_CHECK_THROW(gameRegion->addDrawable(0, drawables.begin(), drawables.end()), std::invalid_argument);
 			}
 
 			// Check that nothing was added during the add
@@ -284,8 +307,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
-			gameRegion->removeDrawable(drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+			gameRegion->removeDrawable(drawables.begin(), drawables.end());
 
 			// Check that the drawables were removed and at the correct priority
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == 0);
@@ -306,11 +329,11 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 
 			// Only remove two of the drawables
 			std::vector<sf::Drawable*> deleteDrawables{ drawables[0], drawables[1] };
-			gameRegion->removeDrawable(deleteDrawables);
+			gameRegion->removeDrawable(deleteDrawables.begin(), deleteDrawables.end());
 
 			// Check that the drawables were removed and at the correct priority
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == drawables.size() - deleteDrawables.size());
@@ -331,10 +354,10 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 
 			std::vector<sf::Drawable*> nullDrawables(5);
-			gameRegion->removeDrawable(nullDrawables);
+			gameRegion->removeDrawable(nullDrawables.begin(),nullDrawables.end());
 
 			// Check that nothing was added during the add
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == drawables.size());
@@ -357,8 +380,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				gameRegion->removeDrawable(drawables[ii]);
 			}
 
-			gameRegion->addDrawable(0, drawables);
-			gameRegion->removeDrawable(drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+			gameRegion->removeDrawable(drawables.begin(), drawables.end());
 
 			// Check that the drawables were removed and at the correct priority
 			BOOST_CHECK(gameRegion->getDrawableCount(0) == 0);
@@ -379,7 +402,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 
 			// Only remove two of the drawables
 			std::vector<sf::Drawable*> deleteDrawables{ drawables[0], drawables[1] }; 
@@ -406,7 +429,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 
 			std::vector<sf::Drawable*> nullDrawables(5);
 			for (int ii = 0; ii < nullDrawables.size(); ii++) {
@@ -436,7 +459,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 			gameRegion->clearDrawables();
 
 			// Check that the drawables were cleared and at the correct priority
@@ -458,7 +481,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
 			gameRegion->clearDrawables(0);
 
 			// Check that the drawables were cleared and at the correct priority
@@ -484,8 +507,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 				drawables2[ii] = new sf::Sprite();
 			}
 
-			gameRegion->addDrawable(0, drawables);
-			gameRegion->addDrawable(1, drawables2);
+			gameRegion->addDrawable(0, drawables.begin(), drawables.end());
+			gameRegion->addDrawable(1, drawables2.begin(), drawables2.end());
 
 			gameRegion->clearDrawables(0);
 
