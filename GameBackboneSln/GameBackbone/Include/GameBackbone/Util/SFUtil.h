@@ -69,52 +69,80 @@ namespace GB {
 	}
 
 	template <class T>
-	class myit
+	class IteratorAdapter
 	{
-	private:
-		T wrapped_;
-		//class charholder
-		//{
-		//	const char value_;
-		//public:
-		//	charholder(const char value) : value_(value) {}
-		//	char operator*() const { return value_; }
-		//};
 	public:
 		// Previously provided by std::iterator
-		typedef T::value_type::element_type*     value_type;
-		typedef T::difference_type				 difference_type;
-		typedef T::value_type::element_type**    pointer;
-		typedef T::value_type::element_type*&    reference;
-		typedef T::iterator_category			 iterator_category;
+		typedef typename T::value_type::element_type*     value_type;
+		typedef typename T::difference_type				 difference_type;
+		typedef typename T::value_type::element_type**    pointer;
+		typedef typename T::value_type::element_type*&    reference;
+		typedef typename T::iterator_category			 iterator_category;
 
-		explicit myit(T wrapped) : wrapped_(wrapped) {}
+		explicit IteratorAdapter(T wrapped) : m_wrappedIt(std::move(wrapped)) {}
+		//operator IteratorAdapter<T>()
 		value_type operator*() const
 		{
-			return wrapped_->get();
+			return m_wrappedIt->get();
 		}
-		bool operator==(const myit& other) const { return wrapped_ == other.wrapped_; }
-		bool operator!=(const myit& other) const { return !(*this == other); }
-		myit& operator++()
+
+		template <
+			class U
+		>
+		bool operator==(const U& other)
 		{
-			++wrapped_;
+			return other == this->m_wrappedIt;
+		}
+
+		bool operator==(const T& other)
+		{
+			return this->m_wrappedIt == other;
+		}
+
+		//bool operator==(const IteratorAdapter& other) const {
+		//	return m_wrappedIt == other.m_wrappedIt;
+		//}
+
+		bool operator!=(const IteratorAdapter& other) const {
+			return !(*this == other.m_wrappedIt); 
+		}
+
+		IteratorAdapter& operator++()
+		{
+			++m_wrappedIt;
 			return *this;
 		}
-
-		// value_type operator*() const { return std::toupper(*wrapped_); }
-		/*charholder operator++(int)
+		IteratorAdapter operator++(int)
 		{
-			charholder ret(std::toupper(*wrapped_));
-			++wrapped_;
-			return ret;
-		}*/
+			IteratorAdapter out(this->m_wrappedIt);
+			++(*this);
+			return out;
+		}
 
+		IteratorAdapter& operator--()
+		{
+			--m_wrappedIt;
+			return *this;
+		}
+		IteratorAdapter operator--(int)
+		{
+			IteratorAdapter out(this->m_wrappedIt);
+			--(*this);
+			return out;
+		}
+
+		difference_type operator-(const IteratorAdapter& other)
+		{
+			return this->m_wrappedIt - other.m_wrappedIt;
+		}
+
+		difference_type operator+(const IteratorAdapter& other)
+		{
+			return this->m_wrappedIt + other.m_wrappedIt;
+		}
+
+	private:
+		T m_wrappedIt;
 	};
 
-
-	// Unique Pointer
-	template <class Container>
-	auto uniqueToDumb(Container::iterator iteratorToConvert) -> wrappedIterator {
-
-	}
 }
