@@ -171,8 +171,8 @@ void NavigationDemoRegion::init() {
 	navigator2->setPosition(navigator2StartingPos);
 
 	// Draw navigators on top of maze
-	using test = decltype(navigators)::iterator;
-	addDrawable(1, GB::IteratorAdapter<test>(navigators.begin()), GB::IteratorAdapter<test>(navigators.end()));
+	//using test = decltype(navigators)::iterator;
+	//addDrawable(1, GB::IteratorAdapter<test>(navigators.begin()), GB::IteratorAdapter<test>(navigators.end()));
 
 	// Path-find from starting positions to end positions
 	// Create request

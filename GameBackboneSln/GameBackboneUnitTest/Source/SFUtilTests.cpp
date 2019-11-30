@@ -69,6 +69,13 @@ BOOST_AUTO_TEST_CASE(toDrawableVector_AnimatedSpritePointer) {
 	}
 }
 
+BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
+{
+	std::vector<sf::Sprite> sprites;
+	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());
+	// IteratorAdapter adaptor(sprites.begin(), [](const decltype(sprites.begin())& it) {return (sf::Drawable*) & (*it); });
+}
+
 /*
  * SFINAE types for checking if toDrawableVector can be 
  * called on a specific type
@@ -77,16 +84,16 @@ BOOST_AUTO_TEST_CASE(toDrawableVector_AnimatedSpritePointer) {
 template <class, class = std::void_t<> >
 struct CanConvertToDrawableVector : std::false_type {};
 
-template <class T>
+template <class Iterator>
 struct CanConvertToDrawableVector <
-	T,
+	Iterator,
 	std::void_t<
-		decltype(toDrawableVector(std::declval<T>()))
+		decltype(toDrawableVector(std::declval<Iterator>()))
 	> 
 > : std::true_type {};
 
-template <class T>
-inline constexpr bool CanConvertToDrawableVector_v = CanConvertToDrawableVector<T>::value;
+template <class Iterator>
+inline constexpr bool CanConvertToDrawableVector_v = CanConvertToDrawableVector<Iterator>::value;
 
 BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileSpriteVector)
 {

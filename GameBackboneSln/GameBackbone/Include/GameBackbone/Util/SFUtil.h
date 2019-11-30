@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <type_traits>
+#include <functional>
 
 namespace GB {
 
@@ -68,43 +69,45 @@ namespace GB {
 		return drawableVector;
 	}
 
-	template <class T>
+	template <class Iterator, class TargetType, typename ConversionFunc>
 	class IteratorAdapter
 	{
 	public:
 		// Previously provided by std::iterator
-		typedef typename T::value_type::element_type*     value_type;
-		typedef typename T::difference_type				 difference_type;
-		typedef typename T::value_type::element_type**    pointer;
-		typedef typename T::value_type::element_type*&    reference;
-		typedef typename T::iterator_category			 iterator_category;
+		using value_type = TargetType;
+		using difference_type = typename std::iterator_traits<Iterator>::difference_type;
+		using pointer = value_type*;
+		using reference = value_type&;
+		using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
 
-		explicit IteratorAdapter(T wrapped) : m_wrappedIt(std::move(wrapped)) {}
-		//operator IteratorAdapter<T>()
-		value_type operator*() const
+		explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), std::function<TargetType & (const Iterator&)>{}) {}
+
+		IteratorAdapter(Iterator wrapped, ConversionFunc conversionFunc) :
+			m_wrappedIt(std::move(wrapped)),
+			m_convert(conversionFunc)
 		{
-			return m_wrappedIt->get();
 		}
 
-		template <
-			class U
-		>
-		bool operator==(const U& other)
+		operator Iterator()
 		{
-			return other == this->m_wrappedIt;
+			return m_wrappedIt;
 		}
 
-		bool operator==(const T& other)
+		reference operator*() const
 		{
-			return this->m_wrappedIt == other;
+			return m_convert(m_wrappedIt);
 		}
 
-		//bool operator==(const IteratorAdapter& other) const {
-		//	return m_wrappedIt == other.m_wrappedIt;
-		//}
+		// Universal iterator member functions
 
-		bool operator!=(const IteratorAdapter& other) const {
-			return !(*this == other.m_wrappedIt); 
+		template <class OtherIteratorAdapter>
+		bool operator==(const OtherIteratorAdapter& other) const {
+			return (this->m_wrappedIt == (Iterator)other);
+		}
+
+		template <class OtherIteratorAdapter>
+		bool operator!=(const OtherIteratorAdapter& other) const {
+			return ! ((*this) == other);
 		}
 
 		IteratorAdapter& operator++()
@@ -112,6 +115,7 @@ namespace GB {
 			++m_wrappedIt;
 			return *this;
 		}
+
 		IteratorAdapter operator++(int)
 		{
 			IteratorAdapter out(this->m_wrappedIt);
@@ -119,30 +123,24 @@ namespace GB {
 			return out;
 		}
 
-		IteratorAdapter& operator--()
-		{
-			--m_wrappedIt;
-			return *this;
-		}
-		IteratorAdapter operator--(int)
-		{
-			IteratorAdapter out(this->m_wrappedIt);
-			--(*this);
-			return out;
-		}
+		// Bidirectional iterator member functions
 
-		difference_type operator-(const IteratorAdapter& other)
-		{
-			return this->m_wrappedIt - other.m_wrappedIt;
-		}
-
-		difference_type operator+(const IteratorAdapter& other)
-		{
-			return this->m_wrappedIt + other.m_wrappedIt;
-		}
+		// Random access iterator member functions
 
 	private:
-		T m_wrappedIt;
+		Iterator m_wrappedIt;
+		ConversionFunc m_convert;
 	};
+
+	// Deduction guides
+
+	//template <typename TargetType, typename Iterator> IteratorAdapter(Iterator wrapped) ->
+	//	IteratorAdapter<Iterator, TargetType, std::function<TargetType & (const Iterator&)>>;
+
+	//template <typename Iterator, typename TargetType> IteratorAdapter(Iterator wrapped) ->
+	//	IteratorAdapter<Iterator, TargetType, std::function<TargetType & (const Iterator&)>>;
+
+	template <typename Iterator, typename ConversionFunc> IteratorAdapter(Iterator wrapped, ConversionFunc convert) ->
+		IteratorAdapter<Iterator, std::invoke_result_t<ConversionFunc>, ConversionFunc>;
 
 }
