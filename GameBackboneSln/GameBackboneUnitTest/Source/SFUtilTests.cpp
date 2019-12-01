@@ -75,12 +75,14 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());
 	// IteratorAdapter adaptor(sprites.begin(), [](const decltype(sprites.begin())& it) {return (sf::Drawable*) & (*it); });
 
-	std::function<sf::Drawable* & (const decltype(sprites.begin())&)> conversionFunc(
-		[](const decltype(sprites.begin())& input) -> sf::Drawable*&
-		{
-			sf::Drawable* drawable = &(*input);
-			return drawable;
-		}
+	auto conversionLambda = [](const decltype(sprites.begin())& input) -> sf::Drawable*&
+	{
+		sf::Drawable* drawable = &(*input);
+		return drawable;
+	};
+
+	std::function<sf::Drawable * &(const decltype(sprites.begin())&)> conversionFunc(
+		conversionLambda
 	);
 
 	IteratorAdapter adapter
@@ -88,6 +90,8 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 		sprites.begin(),
 		conversionFunc
 	);
+
+	// IteratorAdapter adapter2(sprites.begin(), conversionLambda); // doesn't work cant convert to function
 
 	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());
 	// IteratorAdapter adaptor(sprites.begin(), [](const decltype(sprites.begin())& it) {return (sf::Drawable*) & (*it); });
