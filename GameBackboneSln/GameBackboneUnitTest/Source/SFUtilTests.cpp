@@ -74,6 +74,63 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 	std::vector<sf::Sprite> sprites;
 	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());
 	// IteratorAdapter adaptor(sprites.begin(), [](const decltype(sprites.begin())& it) {return (sf::Drawable*) & (*it); });
+
+	std::function<sf::Drawable* & (const decltype(sprites.begin())&)> conversionFunc(
+		[](const decltype(sprites.begin())& input) -> sf::Drawable*&
+		{
+			sf::Drawable* drawable = &(*input);
+			return drawable;
+		}
+	);
+
+	IteratorAdapter adapter
+	(
+		sprites.begin(),
+		conversionFunc
+	);
+
+	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());
+	// IteratorAdapter adaptor(sprites.begin(), [](const decltype(sprites.begin())& it) {return (sf::Drawable*) & (*it); });
+
+	//IteratorAdapter<
+	//	decltype(sprites.begin()),
+	//	sf::Drawable*
+	//> adapter
+	//	(
+	//		sprites.begin(),
+	//		[](const decltype(sprites.begin())& input) -> sf::Drawable*&
+	//		{
+	//			sf::Drawable* drawable = &(*input);
+	//			return drawable;
+	//		}
+	//	);
+
+
+	//std::function<sf::Drawable * (const decltype(sprites.begin())&)> convert(
+	//	[](const decltype(sprites.begin())& input) -> sf::Drawable*&
+	//	{
+	//		sf::Drawable* drawable = &(*input);
+	//		return drawable;
+	//	}
+	//);
+	//IteratorAdapter<
+	//	decltype(sprites.begin()),
+	//	sf::Drawable*
+	//> adapter
+	//(
+	//	sprites.begin(),
+	//	convert
+	//);
+
+	//IteratorAdapter adapter
+	//(
+	//	sprites.begin(),
+	//	[](const decltype(sprites.begin())& input) -> sf::Drawable*&
+	//	{
+	//		sf::Drawable* drawable = &(*input);
+	//		return drawable;
+	//	}
+	//);
 }
 
 /*

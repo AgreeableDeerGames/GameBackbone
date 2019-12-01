@@ -69,7 +69,7 @@ namespace GB {
 		return drawableVector;
 	}
 
-	template <class Iterator, class TargetType, typename ConversionFunc>
+	template <class Iterator, class TargetType>
 	class IteratorAdapter
 	{
 	public:
@@ -80,11 +80,14 @@ namespace GB {
 		using reference = value_type&;
 		using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
 
-		explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), std::function<TargetType & (const Iterator&)>{}) {}
+		// helper typedefs
+		using ConversionFuncType = std::function<TargetType & (const Iterator&)>;
 
-		IteratorAdapter(Iterator wrapped, ConversionFunc conversionFunc) :
+		explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), ConversionFuncType{}) {}
+
+		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
-			m_convert(conversionFunc)
+			m_convert(std::move(conversionFunc))
 		{
 		}
 
@@ -129,18 +132,11 @@ namespace GB {
 
 	private:
 		Iterator m_wrappedIt;
-		ConversionFunc m_convert;
+		ConversionFuncType m_convert;
 	};
 
 	// Deduction guides
-
-	//template <typename TargetType, typename Iterator> IteratorAdapter(Iterator wrapped) ->
-	//	IteratorAdapter<Iterator, TargetType, std::function<TargetType & (const Iterator&)>>;
-
-	//template <typename Iterator, typename TargetType> IteratorAdapter(Iterator wrapped) ->
-	//	IteratorAdapter<Iterator, TargetType, std::function<TargetType & (const Iterator&)>>;
-
-	template <typename Iterator, typename ConversionFunc> IteratorAdapter(Iterator wrapped, ConversionFunc convert) ->
-		IteratorAdapter<Iterator, std::invoke_result_t<ConversionFunc>, ConversionFunc>;
+	template<class Iterator, class ConversionFunc> IteratorAdapter(Iterator, ConversionFunc) ->
+		IteratorAdapter<Iterator, std::invoke_result_t<ConversionFunc>>;
 
 }
