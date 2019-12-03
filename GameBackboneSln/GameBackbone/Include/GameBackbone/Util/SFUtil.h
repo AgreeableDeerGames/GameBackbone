@@ -69,7 +69,7 @@ namespace GB {
 		return drawableVector;
 	}
 
-	template <class Iterator, class TargetType>
+	template <class Iterator, typename ConversionFuncType, class TargetType>
 	class IteratorAdapter
 	{
 	public:
@@ -81,11 +81,10 @@ namespace GB {
 		using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
 
 		// helper typedefs
-		using ConversionFuncType = std::function<TargetType(const Iterator&)>;
+		// using ConversionFuncType = std::function<TargetType(const Iterator&)>;
 
 		// explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), ConversionFuncType{}) {}
 
-		// template <typename InputConversionFunction>
 		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
 			m_convert(std::move(conversionFunc))
@@ -106,7 +105,7 @@ namespace GB {
 
 		template <class OtherIteratorAdapter>
 		bool operator==(const OtherIteratorAdapter& other) const {
-			return (this->m_wrappedIt == (Iterator)other);
+			return (this->m_wrappedIt == (const Iterator&)other); // TODO: Make this less gross
 		}
 
 		template <class OtherIteratorAdapter>
@@ -128,16 +127,32 @@ namespace GB {
 		}
 
 		// Bidirectional iterator member functions
+		IteratorAdapter& operator--()
+		{
+			--m_wrappedIt;
+			return *this;
+		}
 
-		// Random access iterator member functions
+		IteratorAdapter operator--(int)
+		{
+			IteratorAdapter out(this->m_wrappedIt);
+			--(*this);
+			return out;
+		}
+
+		// Random access iterator member functions https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator#Concept
 
 	private:
 		Iterator m_wrappedIt;
 		ConversionFuncType m_convert;
 	};
 
+	// TODO: Use SFINAE here to allow user to create IteratorAdapter for end without providing
+	// this really needs to be tested on Linux. SFINAE in deduction guides is a very new feature that MSVC
+	// only started supporting in 2019
+
 	// Deduction guides
 	template<class Iterator, class ConversionFunc> IteratorAdapter(Iterator, ConversionFunc) ->
-		IteratorAdapter<Iterator, std::invoke_result_t<ConversionFunc, Iterator>>;
+		IteratorAdapter<Iterator, ConversionFunc, std::invoke_result_t<ConversionFunc, Iterator>>;
 
 }

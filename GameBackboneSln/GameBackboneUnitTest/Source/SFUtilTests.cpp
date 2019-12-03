@@ -92,29 +92,29 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 	//);
 
 	auto lambda2 = [](const auto& input) -> sf::Drawable* { return (sf::Drawable*) & (*input); };
-	auto out = lambda2(sprites.begin());
-	std::function<sf::Drawable * (const decltype(sprites.begin())&)> func3(lambda2);
+	//auto out = lambda2(sprites.begin());
+	//std::function<sf::Drawable * (const decltype(sprites.begin())&)> func3(lambda2);
 
 
-	IteratorAdapter adapter3
-	(
-		sprites.begin(),
-		func3
-	);
+	//IteratorAdapter adapter3
+	//(
+	//	sprites.begin(),
+	//	func3
+	//);
 
-	using invokeresult = std::invoke_result_t<decltype(lambda2), const decltype(sprites.begin())&>;
+	//using invokeresult = std::invoke_result_t<decltype(lambda2), const decltype(sprites.begin())&>;
 
-	IteratorAdapter<decltype(sprites.begin()), sf::Drawable*> adapter4
-	(
-		sprites.begin(),
-		lambda2
-	);
+	//IteratorAdapter<decltype(sprites.begin()), sf::Drawable*> adapter4
+	//(
+	//	sprites.begin(),
+	//	lambda2
+	//);
 
-	IteratorAdapter<decltype(sprites.begin()), invokeresult> adapter5
-	(
-		sprites.begin(),
-		lambda2
-	);
+	//IteratorAdapter<decltype(sprites.begin()), invokeresult> adapter5
+	//(
+	//	sprites.begin(),
+	//	lambda2
+	//);
 
 	IteratorAdapter adapter6
 	(
