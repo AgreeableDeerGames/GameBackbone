@@ -75,20 +75,51 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());
 	// IteratorAdapter adaptor(sprites.begin(), [](const decltype(sprites.begin())& it) {return (sf::Drawable*) & (*it); });
 
-	auto conversionLambda = [](const decltype(sprites.begin())& input) -> sf::Drawable*&
-	{
-		sf::Drawable* drawable = &(*input);
-		return drawable;
-	};
+	//auto conversionLambda = [](const decltype(sprites.begin())& input) -> sf::Drawable*&
+	//{
+	//	sf::Drawable* drawable = &(*input);
+	//	return drawable;
+	//};
 
-	std::function<sf::Drawable * &(const decltype(sprites.begin())&)> conversionFunc(
-		conversionLambda
-	);
+	//std::function<sf::Drawable * &(const decltype(sprites.begin())&)> conversionFunc(
+	//	conversionLambda
+	//);
 
-	IteratorAdapter adapter
+	//IteratorAdapter adapter
+	//(
+	//	sprites.begin(),
+	//	conversionFunc
+	//);
+
+	auto lambda2 = [](const auto& input) -> sf::Drawable* { return (sf::Drawable*) & (*input); };
+	auto out = lambda2(sprites.begin());
+	std::function<sf::Drawable * (const decltype(sprites.begin())&)> func3(lambda2);
+
+
+	IteratorAdapter adapter3
 	(
 		sprites.begin(),
-		conversionFunc
+		func3
+	);
+
+	using invokeresult = std::invoke_result_t<decltype(lambda2), const decltype(sprites.begin())&>;
+
+	IteratorAdapter<decltype(sprites.begin()), sf::Drawable*> adapter4
+	(
+		sprites.begin(),
+		lambda2
+	);
+
+	IteratorAdapter<decltype(sprites.begin()), invokeresult> adapter5
+	(
+		sprites.begin(),
+		lambda2
+	);
+
+	IteratorAdapter adapter6
+	(
+		sprites.begin(),
+		lambda2
 	);
 
 	// IteratorAdapter adapter2(sprites.begin(), conversionLambda); // doesn't work cant convert to function

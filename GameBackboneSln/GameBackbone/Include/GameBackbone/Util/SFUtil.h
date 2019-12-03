@@ -81,10 +81,11 @@ namespace GB {
 		using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
 
 		// helper typedefs
-		using ConversionFuncType = std::function<TargetType & (const Iterator&)>;
+		using ConversionFuncType = std::function<TargetType(const Iterator&)>;
 
-		explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), ConversionFuncType{}) {}
+		// explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), ConversionFuncType{}) {}
 
+		// template <typename InputConversionFunction>
 		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
 			m_convert(std::move(conversionFunc))
@@ -137,6 +138,6 @@ namespace GB {
 
 	// Deduction guides
 	template<class Iterator, class ConversionFunc> IteratorAdapter(Iterator, ConversionFunc) ->
-		IteratorAdapter<Iterator, std::invoke_result_t<ConversionFunc>>;
+		IteratorAdapter<Iterator, std::invoke_result_t<ConversionFunc, Iterator>>;
 
 }
