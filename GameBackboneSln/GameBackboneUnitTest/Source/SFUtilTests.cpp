@@ -122,6 +122,9 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 		lambda2
 	);
 
+	// sf::Drawable* adaptedDrawable = *adapter6;
+	// auto update = adaptedDrawable++;
+
 	// IteratorAdapter adapter2(sprites.begin(), conversionLambda); // doesn't work cant convert to function
 
 	// IteratorAdapter<decltype(sprites.begin()), sf::Drawable*, std::function<sf::Drawable*&(const decltype(sprites.begin())&)>> adapter(sprites.begin());

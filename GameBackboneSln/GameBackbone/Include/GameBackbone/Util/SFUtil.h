@@ -142,6 +142,49 @@ namespace GB {
 
 		// Random access iterator member functions https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator#Concept
 
+		IteratorAdapter& operator+=(difference_type n)
+		{
+			m_wrappedIt += n;
+			return *this;
+		}
+
+		IteratorAdapter& operator-=(difference_type n)
+		{
+			m_wrappedIt -= n;
+			return *this;
+		}
+
+		IteratorAdapter operator+(difference_type n) const
+		{
+			Iterator tempIt = m_wrappedIt;
+			tempIt += n;
+			return IteratorAdapter(tempIt, m_convert);
+		}
+
+		friend IteratorAdapter operator+(difference_type lhs, const IteratorAdapter& rhs)
+		{
+			return rhs + lhs;
+		}
+
+		IteratorAdapter operator-(difference_type n) const
+		{
+			Iterator tempIt = m_wrappedIt;
+			tempIt -= n;
+			return IteratorAdapter(tempIt, m_convert);
+		}
+
+		friend difference_type operator-(difference_type lhs, const IteratorAdapter& rhs)
+		{
+			return lhs - rhs.m_wram_wrappedIt;
+		}
+
+		reference operator[](difference_type n)
+		{
+			IteratorAdapter temp = *this;
+			temp += n;
+			return *temp;
+		}
+
 	private:
 		Iterator m_wrappedIt;
 		ConversionFuncType m_convert;
