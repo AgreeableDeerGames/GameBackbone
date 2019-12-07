@@ -4,8 +4,6 @@
 
 #include <sfml/System/Time.hpp>
 
-#include <boost/circular_buffer.hpp>
-
 #include <chrono>
 #include <functional>
 #include <memory>
