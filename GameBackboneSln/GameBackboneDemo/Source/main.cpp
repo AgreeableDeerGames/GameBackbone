@@ -7,6 +7,5 @@ int main() {
 	DemoCoreEventController controller;
 	// Start the loop on the DemoCoreEventController to start the Demo
 	controller.runLoop();
-
 	return 0;
 }
