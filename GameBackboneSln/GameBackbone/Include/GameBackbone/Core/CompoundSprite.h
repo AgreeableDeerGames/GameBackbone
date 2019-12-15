@@ -18,22 +18,21 @@ namespace GB {
 
 	// Base Trait for Drawable
 	template <class InType>
-	struct is_drawable : std::is_base_of<InType, sf::Drawable> {};
+	struct is_drawable : std::is_base_of<sf::Drawable, InType> {};
 	template <class InType>
 	inline constexpr bool is_drawable_v = is_drawable<InType>::value;
 
 	// Base Trait for Transformable
 	template <class InType>
-	struct is_transformable : std::is_base_of<InType, sf::Transformable> {};
+	struct is_transformable : std::is_base_of<sf::Transformable, InType> {};
 	template <class InType>
-	inline constexpr bool is_transformable_v = is_drawable<InType>::value;
+	inline constexpr bool is_transformable_v = is_transformable<InType>::value;
 
 	// Base Trait for Updatable
 	template <class InType, class result_type = void>
-	struct is_updatable : std::is_base_of<InType, GB::Updatable> {};
+	struct is_updatable : std::is_base_of<GB::Updatable, InType> {};
 	template <class InType>
-	inline constexpr bool is_updatable_v = is_drawable<InType>::value;
-
+	inline constexpr bool is_updatable_v = is_updatable<InType>::value;
 
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
@@ -63,12 +62,12 @@ namespace GB {
 			setPosition(position);
 
 			// function for adding a component to the RelativeRotationSprite
-			/*auto addComponentFunction = [this](auto& component) {
+			auto addComponentFunction = [this](auto& component) {
 				addComponent(std::move(component));
 			};
 
 			// Add all of the passed components to the RelativerotationSprite
-			addComponentFunction(componentsToAdd)...;*/
+			(addComponentFunction(std::forward<Components>(componentsToAdd)), ...);
 		}
 
 
@@ -98,14 +97,14 @@ namespace GB {
 		virtual ~CompoundSprite() = default;
 
 		// Component Getters
-		virtual std::size_t getSpriteComponentCount() const;
+		virtual std::size_t getComponentCount() const;
 		virtual bool isEmpty() const;
 
 		// Add/Remove Components
 		template <
-			class Component/*,
+			class Component,
 			std::enable_if_t<is_transformable_v<Component>, bool> = true, // must be transformable
-			std::enable_if_t<is_drawable_v<Component>, bool> = true // must be drawable*/
+			std::enable_if_t<is_drawable_v<Component>, bool> = true // must be drawable
 		>
 		Component& addComponent(Component component) {
 			/* Moving the origin moves the drawn entity in the opposite direction.
@@ -224,7 +223,7 @@ namespace GB {
 			template <class Component,
 			std::enable_if_t<!is_updatable_v<Component>, bool> = true // must NOT be Updatable
 			>
-			void update_helper(sf::Int64 elapsedTime) {}
+			void update_helper(sf::Int64) {}
 
 			std::unique_ptr<InternalType> cloneAsUnique() override
 			{

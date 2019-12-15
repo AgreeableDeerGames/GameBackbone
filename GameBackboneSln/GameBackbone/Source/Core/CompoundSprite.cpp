@@ -26,7 +26,7 @@ CompoundSprite::CompoundSprite(sf::Vector2f position){
 /// Gets the count of Sprite components.
 /// </summary>
 /// <return> The count of sprite components. </return>
-std::size_t CompoundSprite::getSpriteComponentCount() const {
+std::size_t CompoundSprite::getComponentCount() const {
 	return m_internalComponents.size();
 }
 
