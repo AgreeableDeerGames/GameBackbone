@@ -13,63 +13,6 @@
 
 using namespace GB;
 
-// ctr / dtr
-
-
-/// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
-/// </summary>
-CompoundSprite::CompoundSprite() {}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
-/// The position of the sprite is (0,0).
-/// </summary>
-/// <param name="components">The components.</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components) 
-	: CompoundSprite(std::move(components), sf::Vector2f{ 0,0 }) {}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
-/// Initializes the CompoundSprite to the passed position.
-/// </summary>
-/// <param name="components">The components.</param>
-/// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f position) 
-	: CompoundSprite(std::move(components), std::vector<AnimatedSprite>(), position){}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class.
-/// The passed instances of sf::Sprite and AnimatedSprite become components of the CompoundSprite.
-/// The animated sprites will update when the compound sprite updates.
-/// The position of the sprite is (0,0).
-/// </summary>
-/// <param name="sprites">Sprite components of the new CompoundSprite</param>
-/// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents) :
-	CompoundSprite(std::move(components), std::move(animatedComponents), {0,0}) {}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="CompoundSprite"/> class.
-/// The passed instance of sf::Sprite and AnimatedSprite as components of the CompoundSprite.
-/// The animated sprites will update when the compound sprite updates.
-/// Initializes the CompoundSprite to the passed position.
-/// </summary>
-/// <param name="sprites">Sprite components of the new CompoundSprite.</param>
-/// <param name="animatedSprites">AnimatedSprite components of the new CompoundSprite.</param>
-/// <param name="position">The position.</param>
-CompoundSprite::CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position){
-	setPosition(position);
-
-	// function for adding a component to the RelativeRotationSprite
-	auto addComponentFunction = [this](auto& component) {
-		addComponent(std::move(component));
-	};
-
-	// Add all of the passed components to the RelativerotationSprite
-	std::for_each(std::begin(components), std::end(components), addComponentFunction);
-	std::for_each(std::begin(animatedComponents), std::end(animatedComponents), addComponentFunction);
-}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
@@ -140,7 +83,7 @@ void CompoundSprite::setPosition(const sf::Vector2f& position) {
 void CompoundSprite::setRotation(float angle) {
 	// Lambda for rotating components
 	auto setRotationFunction = [angle](auto& component) {
-		component.setRotation(angle);
+		component->setRotation(angle);
 	};
 
 	// Apply the rotateFunction to all components
@@ -158,7 +101,7 @@ void CompoundSprite::setRotation(float angle) {
 void CompoundSprite::setScale(float factorX, float factorY) {
 	// Lambda function for scaling components
 	auto setScaleFunction = [factorX, factorY](auto& component) {
-		component.setScale(factorX, factorY);
+		component->setScale(factorX, factorY);
 	};
 
 	// Apply the setScaleFunction to all components
@@ -190,7 +133,7 @@ void CompoundSprite::setOrigin(float x, float y) {
 		 * Move the origin of the component relative to how the origin of the full CompoundSprite is moving.
 		 * This preserves the positioning established when components were first added to the CompoundSprite
 		 */
-		component.setOrigin(component.getOrigin().x + (x - getOrigin().x), component.getOrigin().y + (y - getOrigin().y));
+		component->setOrigin(component->getOrigin().x + (x - getOrigin().x), component->getOrigin().y + (y - getOrigin().y));
 	};
 
 	// update the origin of all components
@@ -217,7 +160,7 @@ void CompoundSprite::setOrigin(const sf::Vector2f& origin) {
 void CompoundSprite::move(float offsetX, float offsetY) {
 	// function for moving a component
 	auto moveFunction = [offsetX, offsetY](auto& component) {
-		component.move(offsetX, offsetY);
+		component->move(offsetX, offsetY);
 	};
 
 	// apply the rotateFunction to all components
@@ -243,7 +186,7 @@ void CompoundSprite::move(const sf::Vector2f& offset) {
 void CompoundSprite::rotate(float angle) {
 	// Lambda for rotating components
 	auto rotateFunction = [angle](auto& component) {
-		component.rotate(angle);
+		component->rotate(angle);
 	};
 
 	// Apply the rotateFunction to all components
@@ -261,7 +204,7 @@ void CompoundSprite::rotate(float angle) {
 void CompoundSprite::scale(float factorX, float factorY) {
 	// Lambda function for scaling components
 	auto scaleFunction = [factorX, factorY](auto& component) {
-		component.scale(factorX, factorY);
+		component->scale(factorX, factorY);
 	};
 
 	// Apply the scaleFunction to all components
@@ -298,7 +241,7 @@ void CompoundSprite::update(sf::Int64 elapsedTime) {
 void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	// lambda function to draw a component
 	auto drawFunction = [&target, &states](auto& drawable) {
-		target.draw(drawable, states);
+		target.draw(*(drawable.get()), states);
 	};
 
 	// apply drawFunction to all components

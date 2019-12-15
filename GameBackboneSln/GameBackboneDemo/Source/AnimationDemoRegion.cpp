@@ -122,7 +122,7 @@ void AnimationDemoRegion::update(sf::Int64 elapsedTime) {
 /// </summary>
 /// <param name="newPosition">The position that was clicked.</param>
 /// <param name="button">The button that was clicked.</param>
-void AnimationDemoRegion::handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button) {
+void AnimationDemoRegion::handleMouseClick(sf::Vector2f /*newPosition*/, sf::Mouse::Button /*button*/) {
 	// Get the second animated sprite
 	GB::AnimatedSprite::Ptr& targetSprite = animatedSprites[1];
 	// Get the size of the current animation so we know when to loop

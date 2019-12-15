@@ -38,15 +38,61 @@ namespace GB {
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
 	public:
-		//ctr / dtr
-		CompoundSprite();
-		explicit CompoundSprite(std::vector<sf::Sprite> components);
-		CompoundSprite(std::vector<sf::Sprite> components, sf::Vector2f position);
-		CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents);
-		CompoundSprite(std::vector<sf::Sprite> components, std::vector<AnimatedSprite> animatedComponents, sf::Vector2f position);
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
+		/// </summary>
+		CompoundSprite() {}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
+		/// The position of the sprite is (0,0).
+		/// </summary>
+		/// <param name="componentsToAdd">The components.</param>
+		template <class... Components>
+		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) {}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
+		/// Initializes the CompoundSprite to the passed position.
+		/// </summary>
+		/// <param name="position">The position.</param>
+		/// <param name="componentsToAdd">The components.</param>
+		template <class... Components>
+		CompoundSprite(sf::Vector2f position, Components... componentsToAdd)
+		{
+			setPosition(position);
+
+			// function for adding a component to the RelativeRotationSprite
+			/*auto addComponentFunction = [this](auto& component) {
+				addComponent(std::move(component));
+			};
+
+			// Add all of the passed components to the RelativerotationSprite
+			addComponentFunction(componentsToAdd)...;*/
+		}
+
+
 		explicit CompoundSprite(sf::Vector2f position);
-		CompoundSprite(const CompoundSprite&) = default;
-		CompoundSprite& operator=(const CompoundSprite&) = default;
+		CompoundSprite(const CompoundSprite& other) : CompoundSprite()
+		{
+			this->setPosition(other.getPosition());
+			this->setRotation(other.getRotation());
+			this->setScale(other.getScale());
+			this->setOrigin(other.getOrigin());
+
+			for (auto& component : other.m_internalComponents)
+			{
+				this->m_internalComponents.emplace_back(
+					component->cloneAsUnique()
+				);
+			}
+		}
+		CompoundSprite& operator=(const CompoundSprite& other)
+		{
+			CompoundSprite tempOther(other);
+			*this = std::move(tempOther);
+			return *this;
+		}
 		CompoundSprite(CompoundSprite&&) noexcept = default;
 		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
 		virtual ~CompoundSprite() = default;
@@ -57,9 +103,9 @@ namespace GB {
 
 		// Add/Remove Components
 		template <
-			class Component,
+			class Component/*,
 			std::enable_if_t<is_transformable_v<Component>, bool> = true, // must be transformable
-			std::enable_if_t<is_drawable_v<Component>, bool> = true // must be drawable
+			std::enable_if_t<is_drawable_v<Component>, bool> = true // must be drawable*/
 		>
 		Component& addComponent(Component component) {
 			/* Moving the origin moves the drawn entity in the opposite direction.
@@ -75,10 +121,10 @@ namespace GB {
 			component.setPosition(getPosition().x, getPosition().y);
 
 			// Add the component to the internalComponents
-			std::unique_ptr<InternalType>& returnValue = m_internalComponents.emplace_back(std::make_unique<InternalType>(std::move(component))); // Should this be perfect forwarding?
+			std::unique_ptr<InternalType>& returnValue = m_internalComponents.emplace_back(std::make_unique<ComponentAdapter<Component>>(std::move(component))); // Should this be perfect forwarding?
 		
 			// Return the place in the components vector that the new component was placed.
-			return static_cast<ComponentAdapter<Component>>(returnValue)->data;
+			return static_cast<ComponentAdapter<Component>*>(returnValue.get())->data;
 		}
 
 
@@ -133,22 +179,57 @@ namespace GB {
 
 		class InternalType : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
 		public:
+			
+			InternalType(){}
 			virtual ~InternalType() = default;
+
+			InternalType(const InternalType&) = delete;
+			InternalType& operator=(const InternalType&) = delete;
+			InternalType(InternalType&&) noexcept = delete;
+			InternalType& operator=(InternalType&&) noexcept = delete;
+
+			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
+
 		};
 		template <class Component>
 		class ComponentAdapter final : public InternalType {
-		public:
-			ComponentAdapter(Component x) : data(std::move(x)) { }
-			void draw(/*stuff*/) const override
+		protected:
+
+			void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 			{
-				data.draw(/*stuff*/);
+				target.draw(data, states);
 			}
-			void update(/*stuff*/) const override
+
+		public:
+			explicit ComponentAdapter(Component x) : data(std::move(x)) { }
+
+			ComponentAdapter(const ComponentAdapter&) = delete;
+			ComponentAdapter& operator=(const ComponentAdapter&) = delete;
+			ComponentAdapter(ComponentAdapter&&) noexcept = delete;
+			ComponentAdapter& operator=(ComponentAdapter&&) noexcept = delete;
+
+			void update(sf::Int64 elapsedTime) override
 			{
-				if constexpr (is_updatable_v<Component>)
-				{
-					data.update(/*stuff*/);
-				}
+				update_helper<Component>(elapsedTime);
+			}
+
+			template <class Component,
+			std::enable_if_t<is_updatable_v<Component>, bool> = true // must be Updatable
+			>
+			void update_helper(sf::Int64 elapsedTime)
+			{
+				data.update(elapsedTime);
+			}
+
+			template <class Component,
+			std::enable_if_t<!is_updatable_v<Component>, bool> = true // must NOT be Updatable
+			>
+			void update_helper(sf::Int64 elapsedTime) {}
+
+			std::unique_ptr<InternalType> cloneAsUnique() override
+			{
+				std::unique_ptr<InternalType> internalName = std::make_unique<ComponentAdapter<Component>>(data);
+				return std::unique_ptr<InternalType>();
 			}
 
 			// Transformable
@@ -159,17 +240,17 @@ namespace GB {
 			void setScale(const sf::Vector2f& factors) override { data.setScale(factors); }
 			void setOrigin(float x, float y) override { data.setOrigin(x, y); }
 			void setOrigin(const sf::Vector2f& origin) override { data.setOrigin(origin); }
-			const sf::Vector2f& getPosition() const override { data.getPosition(); }
-			float getRotation() const override { data.getRotation(); }
-			const sf::Vector2f& getScale() const override { data.getScale(); }
-			const sf::Vector2f& getOrigin() const override { data.getOrigin(); }
+			const sf::Vector2f& getPosition() const override { return data.getPosition(); }
+			float getRotation() const override { return data.getRotation(); }
+			const sf::Vector2f& getScale() const override { return data.getScale(); }
+			const sf::Vector2f& getOrigin() const override { return data.getOrigin(); }
 			void move(float offsetX, float offsetY) override { data.move(offsetX, offsetY); }
 			void move(const sf::Vector2f& offset) override { data.move(offset); }
 			void rotate(float angle) override { data.rotate(angle); }
 			void scale(float factorX, float factorY) override { data.scale(factorX, factorY); }
 			void scale(const sf::Vector2f& factor) override { data.scale(factor); }
-			const sf::Transform& getTransform() const override { data.getTransform(); }
-			const sf::Transform& getInverseTransform() const override { data.getInverseTransform(); }
+			const sf::Transform& getTransform() const override { return data.getTransform(); }
+			const sf::Transform& getInverseTransform() const override { return data.getInverseTransform(); }
 
 			Component data;
 		};
