@@ -4,8 +4,10 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-#include <type_traits>
 #include <functional>
+#include <iterator>
+#include <type_traits>
+
 
 namespace GB {
 
@@ -69,21 +71,24 @@ namespace GB {
 		return drawableVector;
 	}
 
+	struct test
+	{
+		auto operator()(std::vector<int>::iterator& it)
+		{
+			return float{};
+		}
+	};
+
 	template <class Iterator, typename ConversionFuncType, class TargetType>
 	class IteratorAdapter
 	{
 	public:
-		// Previously provided by std::iterator
+		// std::iterator_traits types
 		using value_type = TargetType;
 		using difference_type = typename std::iterator_traits<Iterator>::difference_type;
 		using pointer = value_type*;
-		using reference = value_type&;
-		using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
-
-		// helper typedefs
-		// using ConversionFuncType = std::function<TargetType(const Iterator&)>;
-
-		// explicit IteratorAdapter(Iterator wrapped) : IteratorAdapter(std::move(wrapped), ConversionFuncType{}) {}
+		using reference = value_type;
+		using iterator_category = std::input_iterator_tag;
 
 		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
@@ -103,13 +108,25 @@ namespace GB {
 
 		// Universal iterator member functions
 
-		template <class OtherIteratorAdapter>
-		bool operator==(const OtherIteratorAdapter& other) const {
+		template <
+			class OtherIterator,
+			std::enable_if_t <
+				std::is_convertible_v<OtherIterator, const Iterator&>,
+				bool
+			> = true
+		>
+		bool operator==(const OtherIterator& other) const {
 			return (this->m_wrappedIt == (const Iterator&)other); // TODO: Make this less gross
 		}
 
-		template <class OtherIteratorAdapter>
-		bool operator!=(const OtherIteratorAdapter& other) const {
+		template <
+			class OtherIterator,
+			std::enable_if_t <
+				std::is_convertible_v<OtherIterator, const Iterator&>,
+				bool
+			> = true
+		>
+		bool operator!=(const OtherIterator& other) const {
 			return ! ((*this) == other);
 		}
 
@@ -127,6 +144,17 @@ namespace GB {
 		}
 
 		// Bidirectional iterator member functions
+
+		//template<
+		//	std::enable_if_t<
+		//		std::is_same_v<
+		//			std::bidirectional_iterator_tag,
+		//			std::iterator_traits<typename Iterator>::iterator_category
+		//		>,/* ||
+		//		std::is_same_v<std::random_access_iterator_tag, std::iterator_traits<Iterator>::iterator_category>>,*/
+		//		bool
+		//	> = true
+		//>
 		IteratorAdapter& operator--()
 		{
 			--m_wrappedIt;
@@ -196,6 +224,6 @@ namespace GB {
 
 	// Deduction guides
 	template<class Iterator, class ConversionFunc> IteratorAdapter(Iterator, ConversionFunc) ->
-		IteratorAdapter<Iterator, ConversionFunc, std::invoke_result_t<ConversionFunc, Iterator>>;
+		IteratorAdapter<std::remove_reference_t<Iterator> , std::decay_t<ConversionFunc>, std::invoke_result_t<std::decay_t<ConversionFunc>, Iterator&>>;
 
 }

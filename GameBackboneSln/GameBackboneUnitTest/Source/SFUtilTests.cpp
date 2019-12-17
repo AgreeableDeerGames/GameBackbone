@@ -122,6 +122,9 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 		lambda2
 	);
 
+	bool eqCmp = adapter6 == sprites.end();
+	bool neqCmp = adapter6 != sprites.end();
+
 	// sf::Drawable* adaptedDrawable = *adapter6;
 	// auto update = adaptedDrawable++;
 
