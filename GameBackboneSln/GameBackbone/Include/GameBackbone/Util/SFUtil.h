@@ -23,61 +23,8 @@ namespace GB {
 		}
 	};
 
-	/// <summary>
-	/// Used to create new Drawable* vectors using Drawable child pointer vectors
-	/// Designed to improve compatibility between vectors of Drawable and Drawable children
-	/// </summary>
-	template <
-		class T,
-		std::enable_if_t <
-			std::is_pointer_v<T> &&
-			!std::is_const_v<std::remove_pointer_t<T>> &&
-			std::is_base_of_v<sf::Drawable, std::remove_pointer_t<T>>,
-			bool
-		> = true
-	>
-	std::vector<sf::Drawable*> toDrawableVector(const std::vector<T>& DrawableChild)
-	{
-		// Create vector of drawable
-		std::vector<sf::Drawable*> drawableVector(DrawableChild.begin(), DrawableChild.end());
-		return drawableVector;
-	}
 
-	/// <summary>
-	/// Used to create new Drawable* vectors using Drawable child vectors
-	/// Designed to improve compatibility between vectors of Drawable and Drawable children
-	/// </summary>
-	template <
-		class T,
-		std::enable_if_t<
-			!std::is_pointer_v<T> &&
-			!std::is_reference_v<T> &&
-			!std::is_const_v<T> &&
-			std::is_base_of_v<sf::Drawable, T>,
-			bool
-		> = true
-	>
-	std::vector<sf::Drawable*> toDrawableVector(const std::vector<T>& drawableChildren)
-	{
-		// Create vector of drawable
-		std::vector<sf::Drawable*> drawableVector(drawableChildren.size());
-		auto getPointer = [](const T& drawableChild)
-		{ 
-			// Strip const (its only there because of the vector API) and
-			// cast to base class pointer
-			return static_cast<sf::Drawable*>(&const_cast<std::remove_const_t<T&>>(drawableChild));  
-		};
-		std::transform(drawableChildren.begin(), drawableChildren.end(), drawableVector.begin(), getPointer);
-		return drawableVector;
-	}
 
-	struct test
-	{
-		auto operator()(std::vector<int>::iterator& it)
-		{
-			return float{};
-		}
-	};
 
 	template <class Iterator, typename ConversionFuncType, class TargetType>
 	class IteratorAdapter
@@ -89,6 +36,19 @@ namespace GB {
 		using pointer = value_type*;
 		using reference = value_type;
 		using iterator_category = std::input_iterator_tag;
+		using WrappedIteratorType = Iterator;
+		static inline constexpr bool supportsRandomAccess =
+			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::random_access_iterator_tag >;
+		static inline constexpr bool supportsBidirectional =
+			supportsRandomAccess ||
+			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
+
+
+		//template<class IteratorWrapper>
+		//class BidirectionalIteratorWrapperHelper
+		//{
+
+		//};
 
 		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
@@ -138,50 +98,55 @@ namespace GB {
 
 		IteratorAdapter operator++(int)
 		{
-			IteratorAdapter out(this->m_wrappedIt);
+			IteratorAdapter out(*this);
 			++(*this);
 			return out;
 		}
 
 		// Bidirectional iterator member functions
 
-		//template<
-		//	std::enable_if_t<
-		//		std::is_same_v<
-		//			std::bidirectional_iterator_tag,
-		//			std::iterator_traits<typename Iterator>::iterator_category
-		//		>,/* ||
-		//		std::is_same_v<std::random_access_iterator_tag, std::iterator_traits<Iterator>::iterator_category>>,*/
-		//		bool
-		//	> = true
-		//>
+		template <
+			std::enable_if_t<IteratorAdapter::supportsBidirectional, bool> = true
+		>
 		IteratorAdapter& operator--()
 		{
 			--m_wrappedIt;
 			return *this;
 		}
 
-		IteratorAdapter operator--(int)
+		template <
+			std::enable_if_t<IteratorAdapter::supportsBidirectional, bool> = true
+		>
+		IteratorAdapter<Iterator, ConversionFuncType, TargetType> operator--(int)
 		{
-			IteratorAdapter out(this->m_wrappedIt);
+			IteratorAdapter out(*this);
 			--(*this);
 			return out;
 		}
 
 		// Random access iterator member functions https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator#Concept
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		IteratorAdapter& operator+=(difference_type n)
 		{
 			m_wrappedIt += n;
 			return *this;
 		}
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		IteratorAdapter& operator-=(difference_type n)
 		{
 			m_wrappedIt -= n;
 			return *this;
 		}
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		IteratorAdapter operator+(difference_type n) const
 		{
 			Iterator tempIt = m_wrappedIt;
@@ -189,11 +154,17 @@ namespace GB {
 			return IteratorAdapter(tempIt, m_convert);
 		}
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		friend IteratorAdapter operator+(difference_type lhs, const IteratorAdapter& rhs)
 		{
 			return rhs + lhs;
 		}
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		IteratorAdapter operator-(difference_type n) const
 		{
 			Iterator tempIt = m_wrappedIt;
@@ -201,11 +172,17 @@ namespace GB {
 			return IteratorAdapter(tempIt, m_convert);
 		}
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		friend difference_type operator-(difference_type lhs, const IteratorAdapter& rhs)
 		{
 			return lhs - rhs.m_wram_wrappedIt;
 		}
 
+		template <
+			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+		>
 		reference operator[](difference_type n)
 		{
 			IteratorAdapter temp = *this;
