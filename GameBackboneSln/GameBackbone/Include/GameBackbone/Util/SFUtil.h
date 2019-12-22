@@ -26,6 +26,10 @@ namespace GB {
 	template <class, class = std::void_t<> >
 	struct IsIterator : std::false_type {};
 
+	/// <summary>
+	/// Determines if the input type is an iterator.
+	/// IsIterator<input>::value is true if the input is an iterator and false if it is not
+	/// </summary>
 	template <class Iterator>
 	struct IsIterator <
 		Iterator,
@@ -34,9 +38,16 @@ namespace GB {
 		> 
 	> : std::true_type {};
 
+	/// <summary>
+	/// Determines if the input type is an iterator.
+	/// Evaluates to true if the input is an iterator and false if it is not
+	/// </summary>
 	template <typename T>
 	constexpr inline bool IsIterator_v = IsIterator<T>::value;
 
+	/// <summary>
+	/// Wraps an input iterator and applies a transform to it whenever it is dereferenced
+	/// </summary>
 	template <
 		class Iterator,
 		typename ConversionFuncType,
@@ -70,17 +81,30 @@ namespace GB {
 			supportsRandomAccess ||
 			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
 
+		/// <summary>
+		/// Constructor:
+		/// Wraps the provided iterator and applies the conversion function to it on every dereference
+		/// </summary>
+		/// <param name="wrapped"> The iterator to be wrapped.</param>
+		/// <param name="conversionFunc"> function applied to the wrapped iterator whenever this IteratorAdapter is dereferenced.</param>
 		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
 			m_convert(std::move(conversionFunc))
 		{
 		}
 
+		/// <summary>
+		/// Converts this IteratorAdapter to the wrapped iterator
+		/// </summary>
 		operator Iterator()
 		{
 			return m_wrappedIt;
 		}
 
+		/// <summary>
+		/// Apply the unary operation to the wrapped iterator and return the result
+		/// </summary>
+		/// <return> The result of applying the unary operation to the wrapped iterator. </return>
 		reference operator*() const
 		{
 			return m_convert(m_wrappedIt);
@@ -88,6 +112,10 @@ namespace GB {
 
 		// Universal iterator member functions
 
+		/// <summary>
+		/// Compare this Iterator with a compatible one for equality
+		/// </summary>
+		/// <return> True if the iterators represent the same element. False otherwise. </return>
 		template <
 			class OtherIterator,
 			std::enable_if_t <
@@ -99,6 +127,10 @@ namespace GB {
 			return (this->m_wrappedIt == (const Iterator&)other); // TODO: Make this less gross
 		}
 
+		/// <summary>
+		/// Compare this Iterator with a compatible one for inequality
+		/// </summary>
+		/// <return> True if the iterators do not represent the same element. False otherwise. </return>
 		template <
 			class OtherIterator,
 			std::enable_if_t <
@@ -110,12 +142,20 @@ namespace GB {
 			return ! ((*this) == other);
 		}
 
+		/// <summary>
+		/// Moves the iterator forward.
+		/// </summary>
+		/// <return> The iterator after being moved forward. </return>
 		IteratorAdapter& operator++()
 		{
 			++m_wrappedIt;
 			return *this;
 		}
 
+		/// <summary>
+		/// Moves the iterator forward.
+		/// </summary>
+		/// <return> A new iterator at the position of the original before it was moved forward. </return>
 		IteratorAdapter operator++(int)
 		{
 			IteratorAdapter out(*this);
@@ -125,6 +165,12 @@ namespace GB {
 
 		// Bidirectional iterator member functions
 
+
+		/// <summary>
+		/// Moves the iterator backward.
+		/// Only available if the wrapped iterator is a bidirectional iterator.
+		/// </summary>
+		/// <return> A new iterator at the position of the original before it was moved backward. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsBidirectional, bool> = true
 		>
@@ -134,6 +180,12 @@ namespace GB {
 			return *this;
 		}
 
+
+		/// <summary>
+		/// Moves the iterator backward.
+		/// Only available if the wrapped iterator is a bidirectional iterator.
+		/// </summary>
+		/// <return> A new iterator at the position of the original before it was moved backward. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsBidirectional, bool> = true
 		>
