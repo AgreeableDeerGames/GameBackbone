@@ -23,10 +23,35 @@ namespace GB {
 		}
 	};
 
+	template <class, class = std::void_t<> >
+	struct IsIterator : std::false_type {};
 
+	template <class Iterator>
+	struct IsIterator <
+		Iterator,
+		typename std::enable_if_t<
+			!std::is_same_v<typename std::iterator_traits<Iterator>::value_type, void>
+		> 
+	> : std::true_type {};
 
+	template <typename T>
+	constexpr inline bool IsIterator_v = IsIterator<T>::value;
 
-	template <class Iterator, typename ConversionFuncType, class TargetType>
+	template <
+		class Iterator,
+		typename ConversionFuncType,
+		class TargetType,
+		std::enable_if_t<
+			/*Calling function gets result*/
+			std::is_invocable_r_v<TargetType, std::decay_t<ConversionFuncType>, Iterator&>,
+			bool
+		> = true,
+		std::enable_if_t<
+			/*Iterator is actually an iterator*/ 
+			IsIterator_v<Iterator>,
+			bool
+		> = true
+	>
 	class IteratorAdapter
 	{
 	public:
@@ -37,18 +62,13 @@ namespace GB {
 		using reference = value_type;
 		using iterator_category = std::input_iterator_tag;
 		using WrappedIteratorType = Iterator;
+
+		// Supporting SFINAE checks
 		static inline constexpr bool supportsRandomAccess =
 			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::random_access_iterator_tag >;
 		static inline constexpr bool supportsBidirectional =
 			supportsRandomAccess ||
 			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
-
-
-		//template<class IteratorWrapper>
-		//class BidirectionalIteratorWrapperHelper
-		//{
-
-		//};
 
 		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
@@ -124,7 +144,7 @@ namespace GB {
 			return out;
 		}
 
-		// Random access iterator member functions https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator#Concept
+		// Random access iterator member functions
 
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
@@ -175,14 +195,6 @@ namespace GB {
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
-		friend difference_type operator-(difference_type lhs, const IteratorAdapter& rhs)
-		{
-			return lhs - rhs.m_wram_wrappedIt;
-		}
-
-		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
-		>
 		reference operator[](difference_type n)
 		{
 			IteratorAdapter temp = *this;
@@ -195,12 +207,8 @@ namespace GB {
 		ConversionFuncType m_convert;
 	};
 
-	// TODO: Use SFINAE here to allow user to create IteratorAdapter for end without providing
-	// this really needs to be tested on Linux. SFINAE in deduction guides is a very new feature that MSVC
-	// only started supporting in 2019
-
-	// Deduction guides
+	// Deduction guide
 	template<class Iterator, class ConversionFunc> IteratorAdapter(Iterator, ConversionFunc) ->
-		IteratorAdapter<std::remove_reference_t<Iterator> , std::decay_t<ConversionFunc>, std::invoke_result_t<std::decay_t<ConversionFunc>, Iterator&>>;
+		IteratorAdapter<std::remove_reference_t<Iterator> , std::decay_t<ConversionFunc>, std::invoke_result_t<std::decay_t<ConversionFunc>, std::remove_reference_t<Iterator>&>>;
 
 }

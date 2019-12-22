@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_SUITE(toDrawableVectorTests)
 
 BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 {
-	std::vector<sf::Sprite> sprites;
+	std::vector<sf::Sprite> sprites(20, sf::Sprite{});
 	auto lambda = [](const auto& input) -> sf::Drawable* { return (sf::Drawable*) & (*input); };
 
 	IteratorAdapter adapter
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 
 	IteratorAdapter decrementAdaptedIt
 	(
-		sprites.begin(),
+		sprites.begin() + 5,
 		lambda
 	);
 	--decrementAdaptedIt;
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 
 	IteratorAdapter randomAccessAdaptedIt
 	(
-		sprites.begin(),
+		sprites.begin() + 5,
 		lambda
 	);
 	randomAccessAdaptedIt += 4;
@@ -110,10 +110,26 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 	randomAccessAdaptedIt - 4;
 	randomAccessAdaptedIt - 4;
 	randomAccessAdaptedIt[4];
+	4 + randomAccessAdaptedIt;
 
+
+	sf::Drawable* output = *adapter;
+	decltype(sprites.begin()) origTypeIterator = adapter;
+
+	bool compareTwoAdapters = adapter == randomAccessAdaptedIt;
+	bool compareAdapterWithOrig = adapter == sprites.begin();
+	bool falseCompareAdapterWithOrig = adapter != sprites.begin();
 
 	constexpr bool value = std::is_same_v<std::random_access_iterator_tag, std::iterator_traits<decltype(decrementAdaptedIt)::WrappedIteratorType>::iterator_category >;
 	int val = 0;
+
+
+	//auto badLambda = [](auto&) -> sf::Drawable*
+	//{
+	//	return nullptr;
+	//};
+
+	//IteratorAdapter<decltype(sprites.begin()), decltype(badLambda), float>(sprites.begin(), badLambda);
 
 	// --decrementAdaptedIt;
 
