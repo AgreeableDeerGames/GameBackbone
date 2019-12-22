@@ -105,6 +105,16 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_FourTypes, ReusableObjects) {
 	BOOST_CHECK(compoundSprite.getComponentCount() == 4);
 }
 
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicPositionCtr, ReusableObjects)
+{
+	CompoundSprite compoundSprite{ sf::Vector2f{10.0f, 10.0f}, sprite, animSpriteWithAnim1 };
+
+	BOOST_CHECK(compoundSprite.getPosition().x == 10.0f);
+	BOOST_CHECK(compoundSprite.getPosition().y == 10.0f);
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 2);
+}
+
 class dummy : public sf::Drawable, public sf::Transformable {
 public:
 	int& m_copies;
@@ -161,6 +171,8 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 	BOOST_CHECK(copies == 1);
 	BOOST_CHECK(moves == 4);
 }
+
+
 
 
 

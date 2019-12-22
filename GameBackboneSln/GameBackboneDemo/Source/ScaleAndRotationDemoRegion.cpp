@@ -143,7 +143,11 @@ void ScaleAndRotationDemoRegion::init() {
 
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
-			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(compoundSpriteComponents), sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
+			displaySprite = std::make_unique<GB::CompoundSprite>(
+				sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition),
+				std::move(compoundSpriteComponents[0]),
+				std::move(compoundSpriteComponents[1]),
+				std::move(compoundSpriteComponents[2]));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
@@ -164,7 +168,10 @@ void ScaleAndRotationDemoRegion::init() {
 			// Create a CompoundSprite That overlays its component sprite on top of each other.
 			// This allows them to rotate in sync.
 			// The differences in the textures creates the appearance that the components are in different places.
-			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(textureOffsetSprites));
+			displaySprite = std::make_unique<GB::CompoundSprite>(
+				std::move(textureOffsetSprites[0]),
+				std::move(textureOffsetSprites[1]),
+				std::move(textureOffsetSprites[2]));
 			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			break;
 		}
