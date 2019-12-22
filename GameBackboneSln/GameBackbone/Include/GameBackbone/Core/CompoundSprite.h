@@ -61,13 +61,8 @@ namespace GB {
 		{
 			setPosition(position);
 
-			// function for adding a component to the RelativeRotationSprite
-			auto addComponentFunction = [this](auto& component) {
-				addComponent(std::move(component));
-			};
-
 			// Add all of the passed components to the RelativerotationSprite
-			(addComponentFunction(std::forward<Components>(componentsToAdd)), ...);
+			(addComponent(std::move(std::forward<Components>(componentsToAdd))), ...);
 		}
 
 
@@ -88,7 +83,7 @@ namespace GB {
 		}
 		CompoundSprite& operator=(const CompoundSprite& other)
 		{
-			CompoundSprite tempOther(other);
+			CompoundSprite tempOther{ other };
 			*this = std::move(tempOther);
 			return *this;
 		}

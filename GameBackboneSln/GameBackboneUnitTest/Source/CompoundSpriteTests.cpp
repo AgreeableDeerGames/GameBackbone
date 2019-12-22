@@ -70,11 +70,138 @@ struct ReusableObjectsForOperations : ReusableObjects {
 	CompoundSprite compoundSprite;
 };
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_default_CTR, ReusableObjects) {
-	CompoundSprite compoundSprite(sprite);
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_Sprite, ReusableObjects) {
+	CompoundSprite compoundSprite{ sprite };
 
-	BOOST_CHECK(compoundSprite.isEmpty());
-	BOOST_CHECK(compoundSprite.getComponentCount() == 0);
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_AnimatedSprite, ReusableObjects) {
+	CompoundSprite compoundSprite{ animSpriteWithAnim1 };
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_RectangleShape, ReusableObjects) {
+	CompoundSprite compoundSprite{ sf::RectangleShape{} };
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_TwoTypes, ReusableObjects) {
+	CompoundSprite compoundSprite{ sprite, animSpriteWithAnim1 };
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 2);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_FourTypes, ReusableObjects) {
+	CompoundSprite compoundSprite{ sprite, animSpriteWithAnim1, sf::RectangleShape{}, CompoundSprite{} };
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 4);
+}
+
+class dummy : public sf::Drawable, public sf::Transformable {
+public:
+	int& m_copies;
+	int& m_moves;
+
+	dummy(int& copies, int& moves) : m_copies(copies), m_moves(moves) {}
+
+	dummy(const dummy& other) : m_copies(other.m_copies), m_moves(other.m_moves)
+	{
+		m_copies++;
+	}
+	dummy& operator=(const dummy& other)
+	{
+		dummy tempOther{ other.m_copies, other.m_moves };
+		*this = std::move(tempOther);
+		m_copies++;
+		return *this;
+	}
+	dummy(dummy&& other) noexcept : m_copies(other.m_copies), m_moves(other.m_moves)
+	{
+		m_moves++;
+	}
+	dummy& operator=(dummy&& other) noexcept
+	{
+		this->m_copies = other.m_copies;
+		this->m_moves = other.m_moves;
+		m_moves++;
+		return *this;
+	}
+
+
+protected:
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
+};
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_NoCopies)
+{
+	int copies = 0;
+	int moves = 0;
+	dummy dummy1{ copies , moves };
+	CompoundSprite compoundSprite{ std::move(dummy1) };
+
+	BOOST_CHECK(copies == 0);
+	BOOST_CHECK(moves == 5);
+}
+
+BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
+{
+	int copies = 0;
+	int moves = 0;
+	dummy dummy1{ copies , moves };
+	CompoundSprite compoundSprite{ dummy1 };
+
+	BOOST_CHECK(copies == 1);
+	BOOST_CHECK(moves == 4);
+}
+
+
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Sprite, ReusableObjects) {
+	CompoundSprite compoundSprite{};
+	compoundSprite.addComponent(sprite);
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_AnimatedSprite, ReusableObjects) {
+	CompoundSprite compoundSprite{};
+	compoundSprite.addComponent(animSpriteWithAnim1);
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_RectangleShape, ReusableObjects) {
+	CompoundSprite compoundSprite{};
+	compoundSprite.addComponent(sf::RectangleShape{});
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_CompoundSprite, ReusableObjects) {
+	CompoundSprite compoundSprite{};
+	compoundSprite.addComponent(CompoundSprite{});
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Return, ReusableObjects) {
+	CompoundSprite compoundSprite{};
+	sprite.setColor(sf::Color::Red);
+	auto& returnRef = compoundSprite.addComponent(sprite);
+
+	BOOST_CHECK(returnRef.getColor() == sprite.getColor());
 }
 
 
