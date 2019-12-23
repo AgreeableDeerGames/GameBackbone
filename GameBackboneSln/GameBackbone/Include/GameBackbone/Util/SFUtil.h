@@ -23,6 +23,10 @@ namespace GB {
 		}
 	};
 
+	/// <summary>
+	/// Determines if the input type is an iterator.
+	/// IsIterator<input>::value is true if the input is an iterator and false if it is not
+	/// </summary>
 	template <class, class = std::void_t<> >
 	struct IsIterator : std::false_type {};
 
@@ -171,9 +175,6 @@ namespace GB {
 			return out;
 		}
 
-		// Bidirectional iterator member functions
-
-
 		/// <summary>
 		/// Moves the iterator backward.
 		/// Only available if the wrapped iterator is a bidirectional iterator.
@@ -202,8 +203,6 @@ namespace GB {
 			--(*this);
 			return out;
 		}
-
-		// Random access iterator member functions
 
 		/// <summary>
 		/// Moves the iterator forward n steps.
