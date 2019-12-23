@@ -74,9 +74,17 @@ namespace GB {
 		using iterator_category = std::input_iterator_tag;
 		using WrappedIteratorType = Iterator;
 
-		// Supporting SFINAE checks
+		/// <summary>
+		/// True if random access operations are supported by this iterator. Note that this does not make this a random access iterator and it will still not work 
+		/// with algorithms that require all the guarantees of a random access iterator.
+		/// </summary>
 		static inline constexpr bool supportsRandomAccess =
 			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::random_access_iterator_tag >;
+
+		/// <summary>
+		/// True if bidirectional operations are supported by this iterator. Note that this does not make this a random access iterator and it will still not work 
+		/// with algorithms that require all the guarantees of a random access iterator.
+		/// </summary>
 		static inline constexpr bool supportsBidirectional =
 			supportsRandomAccess ||
 			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
@@ -180,7 +188,6 @@ namespace GB {
 			return *this;
 		}
 
-
 		/// <summary>
 		/// Moves the iterator backward.
 		/// Only available if the wrapped iterator is a bidirectional iterator.
@@ -198,6 +205,12 @@ namespace GB {
 
 		// Random access iterator member functions
 
+		/// <summary>
+		/// Moves the iterator forward n steps.
+		/// Only available if the wrapped iterator is a random access iterator.
+		/// </summary>
+		/// <param name="n"> The number of steps. </return>
+		/// <return> This iterator at its new position. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
@@ -207,6 +220,12 @@ namespace GB {
 			return *this;
 		}
 
+		/// <summary>
+		/// Moves the iterator backward n steps.
+		/// Only available if the wrapped iterator is a random access iterator.
+		/// </summary>
+		/// <param name="n"> The number of steps. </return>
+		/// <return> This iterator at its new position. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
@@ -216,6 +235,12 @@ namespace GB {
 			return *this;
 		}
 
+		/// <summary>
+		/// Returns a new the iterator n steps forward from this one.
+		/// Only available if the wrapped iterator is a random access iterator.
+		/// </summary>
+		/// <param name="n"> The number of steps. </return>
+		/// <return> This iterator at its new position. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
@@ -226,6 +251,13 @@ namespace GB {
 			return IteratorAdapter(tempIt, m_convert);
 		}
 
+		/// <summary>
+		/// Returns a new the iterator n steps forward from this one.
+		/// Only available if the wrapped iterator is a random access iterator.
+		/// </summary>
+		/// <param name="lhs"> The number of steps. </return>
+		/// <param name="rhs"> The starting point. </return>
+		/// <return> This iterator at its new position. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
@@ -234,6 +266,13 @@ namespace GB {
 			return rhs + lhs;
 		}
 
+
+		/// <summary>
+		/// Returns a new the iterator n steps backward from this one.
+		/// Only available if the wrapped iterator is a random access iterator.
+		/// </summary>
+		/// <param name="n"> The number of steps. </return>
+		/// <return> This iterator at its new position. </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
@@ -244,6 +283,16 @@ namespace GB {
 			return IteratorAdapter(tempIt, m_convert);
 		}
 
+		/// <summary>
+		/// Apply the unary operation to the wrapped iterator n steps forward from its current position and return the result.
+		/// This iterator is not moved.
+		/// Only available if the wrapped iterator is a random access iterator.
+		/// 
+		/// Behavior is undefined if  the lifetime of the result of the unary operation is dependent on the
+		/// lifetime of the wrapped iterator.
+		/// </summary>
+		/// <param name="n"> The number of steps. </return>
+		/// <return>  The result of applying the unary operation to the wrapped iterator n steps forward from its current position.  </return>
 		template <
 			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
 		>
