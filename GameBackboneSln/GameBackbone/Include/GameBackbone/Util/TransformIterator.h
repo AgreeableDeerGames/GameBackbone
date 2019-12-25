@@ -61,7 +61,7 @@ namespace GB {
 
 		// std::iterator_traits types
 		using value_type = TargetType;
-		using difference_type = typename std::iterator_traits<Iterator>::difference_type;
+		using difference_type = typename std::iterator_traits<WrappedIteratorType>::difference_type;
 		using pointer = value_type*;
 		using reference = value_type;
 		using iterator_category = std::input_iterator_tag;
@@ -71,7 +71,7 @@ namespace GB {
 		/// with algorithms that require all the guarantees of a random access iterator.
 		/// </summary>
 		static inline constexpr bool supportsRandomAccess =
-			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::random_access_iterator_tag >;
+			std::is_same_v< typename std::iterator_traits<WrappedIteratorType>::iterator_category, std::random_access_iterator_tag >;
 
 		/// <summary>
 		/// True if bidirectional convenience operations are supported by this iterator. Note that this does not make this a random access iterator and it will still not work 
@@ -79,7 +79,7 @@ namespace GB {
 		/// </summary>
 		static inline constexpr bool supportsBidirectional =
 			supportsRandomAccess ||
-			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
+			std::is_same_v< typename std::iterator_traits<WrappedIteratorType>::iterator_category, std::bidirectional_iterator_tag >;
 
 		/// <summary>
 		/// Constructor:
@@ -87,7 +87,7 @@ namespace GB {
 		/// </summary>
 		/// <param name="wrapped"> The iterator to be wrapped.</param>
 		/// <param name="conversionFunc"> function applied to the wrapped iterator whenever this TransformIterator is dereferenced.</param>
-		TransformIterator(Iterator wrapped, UnaryOperation conversionFunc) :
+		TransformIterator(WrappedIteratorType wrapped, UnaryOperation conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
 			m_convert(std::move(conversionFunc))
 		{
@@ -96,7 +96,7 @@ namespace GB {
 		/// <summary>
 		/// Converts this TransformIterator to the wrapped iterator
 		/// </summary>
-		operator Iterator()
+		operator WrappedIteratorType()
 		{
 			return m_wrappedIt;
 		}
@@ -110,8 +110,6 @@ namespace GB {
 			return m_convert(m_wrappedIt);
 		}
 
-		// Universal iterator member functions
-
 		/// <summary>
 		/// Compare this Iterator with a compatible one for equality
 		/// </summary>
@@ -119,12 +117,12 @@ namespace GB {
 		template <
 			class OtherIterator,
 			std::enable_if_t <
-				std::is_convertible_v<OtherIterator, const Iterator&>,
+				std::is_convertible_v<OtherIterator, const WrappedIteratorType&>,
 				bool
 			> = true
 		>
 		bool operator==(const OtherIterator& other) const {
-			return (this->m_wrappedIt == (const Iterator&)other); // TODO: Make this less gross
+			return (this->m_wrappedIt == (const WrappedIteratorType&)other); // TODO: Make this less gross
 		}
 
 		/// <summary>
@@ -134,7 +132,7 @@ namespace GB {
 		template <
 			class OtherIterator,
 			std::enable_if_t <
-				std::is_convertible_v<OtherIterator, const Iterator&>,
+				std::is_convertible_v<OtherIterator, const WrappedIteratorType&>,
 				bool
 			> = true
 		>
@@ -185,7 +183,7 @@ namespace GB {
 		template <
 			std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true
 		>
-		TransformIterator<Iterator, UnaryOperation, TargetType> operator--(int)
+		TransformIterator operator--(int)
 		{
 			TransformIterator out(*this);
 			--(*this);
@@ -265,7 +263,7 @@ namespace GB {
 		>
 		TransformIterator operator-(difference_type n) const
 		{
-			Iterator tempIt = m_wrappedIt;
+			WrappedIteratorType tempIt = m_wrappedIt;
 			tempIt -= n;
 			return TransformIterator(tempIt, m_convert);
 		}
@@ -291,7 +289,7 @@ namespace GB {
 		}
 
 	private:
-		Iterator m_wrappedIt;
+		WrappedIteratorType m_wrappedIt;
 		UnaryOperation m_convert;
 	};
 
