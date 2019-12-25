@@ -2,6 +2,7 @@
 
 #include <GameBackbone/Core/AnimatedSprite.h>
 #include <GameBackbone/Util/SFUtil.h>
+#include <GameBackbone/Util/TransformIterator.h>
 
 #include <SFML/Graphics/Sprite.hpp>
 
