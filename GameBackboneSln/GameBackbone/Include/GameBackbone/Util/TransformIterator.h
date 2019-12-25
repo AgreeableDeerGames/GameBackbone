@@ -38,10 +38,9 @@ namespace GB {
 	template <
 		class Iterator,
 		typename UnaryOperation,
-		class TargetType,
 		std::enable_if_t<
 			/*Calling function gets result*/
-			std::is_invocable_r_v<TargetType, std::decay_t<UnaryOperation>, Iterator&>,
+			std::is_invocable_v<std::decay_t<UnaryOperation>, Iterator&>,
 			bool
 		> = true,
 		std::enable_if_t<
@@ -60,10 +59,10 @@ namespace GB {
 		using WrappedIteratorType = Iterator;
 
 		// std::iterator_traits types
-		using value_type = TargetType;
+		using value_type = std::invoke_result_t<std::decay_t<UnaryOperation>, WrappedIteratorType&>;
 		using difference_type = typename std::iterator_traits<WrappedIteratorType>::difference_type;
 		using pointer = value_type*;
-		using reference = value_type;
+		using reference = value_type; // The value will always be a temporary. Returning a reference to it will always be an error.
 		using iterator_category = std::input_iterator_tag;
 
 		/// <summary>
@@ -86,10 +85,10 @@ namespace GB {
 		/// Wraps the provided iterator and applies a transform to it on every dereference
 		/// </summary>
 		/// <param name="wrapped"> The iterator to be wrapped.</param>
-		/// <param name="conversionFunc"> function applied to the wrapped iterator whenever this TransformIterator is dereferenced.</param>
-		TransformIterator(WrappedIteratorType wrapped, UnaryOperation conversionFunc) :
+		/// <param name="transform"> function applied to the wrapped iterator whenever this TransformIterator is dereferenced.</param>
+		TransformIterator(WrappedIteratorType wrapped, UnaryOperation transform) :
 			m_wrappedIt(std::move(wrapped)),
-			m_convert(std::move(conversionFunc))
+			m_transform(std::move(transform))
 		{
 		}
 
@@ -107,7 +106,7 @@ namespace GB {
 		/// <return> The result of applying the unary operation to the wrapped iterator. </return>
 		reference operator*() const
 		{
-			return m_convert(m_wrappedIt);
+			return std::invoke(m_transform, m_wrappedIt);
 		}
 
 		/// <summary>
@@ -166,9 +165,7 @@ namespace GB {
 		/// Only available if the wrapped iterator is a bidirectional iterator.
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved backward. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true >
 		TransformIterator& operator--()
 		{
 			--m_wrappedIt;
@@ -180,9 +177,7 @@ namespace GB {
 		/// Only available if the wrapped iterator is a bidirectional iterator.
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved backward. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true >
 		TransformIterator operator--(int)
 		{
 			TransformIterator out(*this);
@@ -196,9 +191,7 @@ namespace GB {
 		/// </summary>
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
 		TransformIterator& operator+=(difference_type n)
 		{
 			m_wrappedIt += n;
@@ -211,9 +204,7 @@ namespace GB {
 		/// </summary>
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
 		TransformIterator& operator-=(difference_type n)
 		{
 			m_wrappedIt -= n;
@@ -226,14 +217,12 @@ namespace GB {
 		/// </summary>
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
 		TransformIterator operator+(difference_type n) const
 		{
 			Iterator tempIt = m_wrappedIt;
 			tempIt += n;
-			return TransformIterator(tempIt, m_convert);
+			return TransformIterator(tempIt, m_transform);
 		}
 
 		/// <summary>
@@ -243,9 +232,7 @@ namespace GB {
 		/// <param name="lhs"> The number of steps. </return>
 		/// <param name="rhs"> The starting point. </return>
 		/// <return> This iterator at its new position. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
 		friend TransformIterator operator+(difference_type lhs, const TransformIterator& rhs)
 		{
 			return rhs + lhs;
@@ -258,14 +245,12 @@ namespace GB {
 		/// </summary>
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
 		TransformIterator operator-(difference_type n) const
 		{
 			WrappedIteratorType tempIt = m_wrappedIt;
 			tempIt -= n;
-			return TransformIterator(tempIt, m_convert);
+			return TransformIterator(tempIt, m_transform);
 		}
 
 		/// <summary>
@@ -278,9 +263,7 @@ namespace GB {
 		/// </summary>
 		/// <param name="n"> The number of steps. </return>
 		/// <return>  The result of applying the unary operation to the wrapped iterator n steps forward from its current position.  </return>
-		template <
-			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
-		>
+		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
 		reference operator[](difference_type n)
 		{
 			TransformIterator temp = *this;
@@ -290,10 +273,6 @@ namespace GB {
 
 	private:
 		WrappedIteratorType m_wrappedIt;
-		UnaryOperation m_convert;
+		UnaryOperation m_transform;
 	};
-
-	// Deduction guide
-	template<class Iterator, class ConversionFunc> TransformIterator(Iterator, ConversionFunc) ->
-		TransformIterator<std::remove_reference_t<Iterator>, std::decay_t<ConversionFunc>, std::invoke_result_t<std::decay_t<ConversionFunc>, std::remove_reference_t<Iterator>&>>;
 }
