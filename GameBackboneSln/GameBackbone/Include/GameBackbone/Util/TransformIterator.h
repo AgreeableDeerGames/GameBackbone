@@ -64,8 +64,8 @@ namespace GB {
 			std::is_same_v< typename std::iterator_traits<WrappedIteratorType>::iterator_category, std::random_access_iterator_tag >;
 
 		/// <summary>
-		/// True if bidirectional convenience operations are supported by this iterator. Note that this does not make this a random access iterator and it will still not work 
-		/// with algorithms that require all the guarantees of a random access iterator.
+		/// True if bidirectional convenience operations are supported by this iterator. Note that this does not make this a bidirectional iterator and it will still not work 
+		/// with algorithms that require all the guarantees of a bidirectional iterator.
 		/// </summary>
 		static inline constexpr bool supportsBidirectional =
 			supportsRandomAccess ||

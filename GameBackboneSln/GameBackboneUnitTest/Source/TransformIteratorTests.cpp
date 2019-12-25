@@ -133,11 +133,11 @@ BOOST_FIXTURE_TEST_CASE(TransformIterator_PrefixIncrementCorrectlyMovesIterator,
 	auto& result = ++transformIt;
 
 	// the iterator is moved forward
-	BOOST_CHECK(*transformIt, transform(++beginIt));
+	BOOST_CHECK_EQUAL(*transformIt, transform(++container.begin()));
 
 	// the returned iterator is a reference to the original and should also be moved forward
 	BOOST_CHECK(&result == &transformIt);
-	BOOST_CHECK(*result, transform(++beginIt));
+	BOOST_CHECK_EQUAL(*result, transform(++container.begin()));
 }
 
 // Ensure that postfix increment operator correctly moves the iterator
@@ -147,10 +147,10 @@ BOOST_FIXTURE_TEST_CASE(TransformIterator_PostfixIncrementCorrectlyMovesIterator
 	auto result = transformIt++;
 
 	// the iterator is moved forward
-	BOOST_CHECK(*transformIt, transform(++beginIt));
+	BOOST_CHECK_EQUAL(*transformIt, transform(++container.begin()));
 
 	// the returned iterator at the original position
-	BOOST_CHECK(*result, transform(beginIt));
+	BOOST_CHECK_EQUAL(*result, transform(container.begin()));
 }
 
 // Ensure that TransformIterator works with algorithms
