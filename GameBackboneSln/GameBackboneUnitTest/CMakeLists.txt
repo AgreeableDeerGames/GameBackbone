@@ -21,6 +21,7 @@ add_executable(GameBackboneUnitTest
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/PathFinderTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RandGenTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/SFUtilTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/TransformIteratorTests.cpp"
 
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UniformAnimationSetTests.cpp"
@@ -56,4 +57,5 @@ add_test(NAME PathFinderTests COMMAND GameBackboneUnitTest --run_test=Pathfinder
 add_test(NAME RandGenTests COMMAND GameBackboneUnitTest --run_test=RandGen_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME UtilMathTests COMMAND GameBackboneUnitTest --run_test=UtilMathTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME SFUtilTests COMMAND GameBackboneUnitTest --run_test=SFUtilTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_test(NAME TransformIteratorTests COMMAND GameBackboneUnitTest --run_test=TransformIteratorTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 

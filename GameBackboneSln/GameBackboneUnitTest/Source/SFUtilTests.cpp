@@ -66,10 +66,6 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 	bool compareTwoAdapters = adapter == randomAccessTransformIt;
 	bool compareAdapterWithOrig = adapter == sprites.begin();
 	bool falseCompareAdapterWithOrig = adapter != sprites.begin();
-
-	constexpr bool value = std::is_same_v<std::random_access_iterator_tag, std::iterator_traits<decltype(decrementTransformIt)::WrappedIteratorType>::iterator_category >;
-	int val = 0;
-
 }
 
 /*
