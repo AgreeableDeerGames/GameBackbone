@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(IteratorAdapter_Constructor)
 
 
 	sf::Drawable* output = *adapter;
-	decltype(sprites.begin()) origTypeIterator = adapter;
+	decltype(sprites.begin()) origTypeIterator = (decltype(sprites.begin()))adapter;
 
 	bool compareTwoAdapters = adapter == randomAccessTransformIt;
 	bool compareAdapterWithOrig = adapter == sprites.begin();

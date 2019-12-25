@@ -35,23 +35,14 @@ namespace GB {
 	/// when wrapping bidirectional and random access iterators, but never fully fulfills the requirements of
 	/// these iterator types.
 	/// </summary>
-	template <
-		class Iterator,
-		typename UnaryOperation,
-		std::enable_if_t<
-			/*Calling function gets result*/
-			std::is_invocable_v<std::decay_t<UnaryOperation>, Iterator&>,
-			bool
-		> = true,
-		std::enable_if_t<
-			/*Iterator is actually an iterator*/
-			IsIterator_v<Iterator>,
-			bool
-		> = true
-	>
+	template <class Iterator, typename UnaryOperation>
 	class TransformIterator
 	{
 	public:
+
+		// Sanity checks
+		static_assert(std::is_invocable_v<std::decay_t<UnaryOperation>, Iterator&>, "TransformIterator must be provided a UnaryOperation that operates on a reference to the type of its wrapped iterator.");
+		static_assert(IsIterator_v<Iterator>, "TransformIterator must be provided a valid iterator type to wrap.");
 
 		/// <summary>
 		/// The type of the wrapped iterator.
@@ -95,7 +86,8 @@ namespace GB {
 		/// <summary>
 		/// Converts this TransformIterator to the wrapped iterator
 		/// </summary>
-		operator WrappedIteratorType()
+		[[nodiscard]]
+		explicit operator WrappedIteratorType()
 		{
 			return m_wrappedIt;
 		}
@@ -104,39 +96,50 @@ namespace GB {
 		/// Apply the transform to the wrapped iterator and return the result
 		/// </summary>
 		/// <return> The result of applying the unary operation to the wrapped iterator. </return>
+		[[nodiscard]]
 		reference operator*() const
 		{
 			return std::invoke(m_transform, m_wrappedIt);
 		}
 
 		/// <summary>
-		/// Compare this Iterator with a compatible one for equality
+		/// Compare transform iterators for equality.
 		/// </summary>
-		/// <return> True if the iterators represent the same element. False otherwise. </return>
-		template <
-			class OtherIterator,
-			std::enable_if_t <
-				std::is_convertible_v<OtherIterator, const WrappedIteratorType&>,
-				bool
-			> = true
-		>
-		bool operator==(const OtherIterator& other) const {
-			return (this->m_wrappedIt == (const WrappedIteratorType&)other); // TODO: Make this less gross
+		/// <return> True if the wrapped iterators are equal. False otherwise. </return>
+		[[nodiscard]]
+		bool operator==(const TransformIterator& other)
+		{
+			return m_wrappedIt == other.m_wrappedIt;
 		}
 
 		/// <summary>
-		/// Compare this Iterator with a compatible one for inequality
+		/// Compare with wrapped iterator for equality. 
 		/// </summary>
-		/// <return> True if the iterators do not represent the same element. False otherwise. </return>
-		template <
-			class OtherIterator,
-			std::enable_if_t <
-				std::is_convertible_v<OtherIterator, const WrappedIteratorType&>,
-				bool
-			> = true
-		>
-		bool operator!=(const OtherIterator& other) const {
-			return !((*this) == other);
+		/// <return> True if the wrapped iterator is equal to the other iterator. False otherwise. </return>
+		[[nodiscard]]
+		bool operator==(const WrappedIteratorType& other)
+		{
+			return m_wrappedIt == other;
+		}
+
+		/// <summary>
+		/// Compare transform iterators for inequality.
+		/// </summary>
+		/// <return> True if the wrapped iterators are not equal. False otherwise. </return>
+		[[nodiscard]]
+		bool operator!=(const TransformIterator& other)
+		{
+			return m_wrappedIt != other.m_wrappedIt;
+		}
+
+		/// <summary>
+		/// Compare with wrapped iterator for inequality. 
+		/// </summary>
+		/// <return> True if the wrapped iterator is not equal to the other iterator. False otherwise. </return>
+		[[nodiscard]]
+		bool operator!=(const WrappedIteratorType& other)
+		{
+			return m_wrappedIt != other;
 		}
 
 		/// <summary>
@@ -153,6 +156,7 @@ namespace GB {
 		/// Moves the iterator forward.
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved forward. </return>
+		[[nodiscard]]
 		TransformIterator operator++(int)
 		{
 			TransformIterator out(*this);
@@ -178,6 +182,7 @@ namespace GB {
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved backward. </return>
 		template < std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true >
+		[[nodiscard]]
 		TransformIterator operator--(int)
 		{
 			TransformIterator out(*this);
@@ -218,6 +223,7 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
 		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
+		[[nodiscard]]
 		TransformIterator operator+(difference_type n) const
 		{
 			Iterator tempIt = m_wrappedIt;
@@ -233,11 +239,11 @@ namespace GB {
 		/// <param name="rhs"> The starting point. </return>
 		/// <return> This iterator at its new position. </return>
 		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
+		[[nodiscard]]
 		friend TransformIterator operator+(difference_type lhs, const TransformIterator& rhs)
 		{
 			return rhs + lhs;
 		}
-
 
 		/// <summary>
 		/// Returns a new the iterator n steps backward from this one.
@@ -246,6 +252,7 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
 		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
+		[[nodiscard]]
 		TransformIterator operator-(difference_type n) const
 		{
 			WrappedIteratorType tempIt = m_wrappedIt;
@@ -264,6 +271,7 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return>  The result of applying the unary operation to the wrapped iterator n steps forward from its current position.  </return>
 		template < std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true >
+		[[nodiscard]]
 		reference operator[](difference_type n)
 		{
 			TransformIterator temp = *this;
