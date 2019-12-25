@@ -67,7 +67,7 @@ namespace GB {
 			bool
 		> = true
 	>
-	class IteratorAdapter
+	class TransformIterator
 	{
 	public:
 		// std::iterator_traits types
@@ -98,15 +98,15 @@ namespace GB {
 		/// Wraps the provided iterator and applies the conversion function to it on every dereference
 		/// </summary>
 		/// <param name="wrapped"> The iterator to be wrapped.</param>
-		/// <param name="conversionFunc"> function applied to the wrapped iterator whenever this IteratorAdapter is dereferenced.</param>
-		IteratorAdapter(Iterator wrapped, ConversionFuncType conversionFunc) :
+		/// <param name="conversionFunc"> function applied to the wrapped iterator whenever this TransformIterator is dereferenced.</param>
+		TransformIterator(Iterator wrapped, ConversionFuncType conversionFunc) :
 			m_wrappedIt(std::move(wrapped)),
 			m_convert(std::move(conversionFunc))
 		{
 		}
 
 		/// <summary>
-		/// Converts this IteratorAdapter to the wrapped iterator
+		/// Converts this TransformIterator to the wrapped iterator
 		/// </summary>
 		operator Iterator()
 		{
@@ -158,7 +158,7 @@ namespace GB {
 		/// Moves the iterator forward.
 		/// </summary>
 		/// <return> The iterator after being moved forward. </return>
-		IteratorAdapter& operator++()
+		TransformIterator& operator++()
 		{
 			++m_wrappedIt;
 			return *this;
@@ -168,9 +168,9 @@ namespace GB {
 		/// Moves the iterator forward.
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved forward. </return>
-		IteratorAdapter operator++(int)
+		TransformIterator operator++(int)
 		{
-			IteratorAdapter out(*this);
+			TransformIterator out(*this);
 			++(*this);
 			return out;
 		}
@@ -181,9 +181,9 @@ namespace GB {
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved backward. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsBidirectional, bool> = true
+			std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true
 		>
-		IteratorAdapter& operator--()
+		TransformIterator& operator--()
 		{
 			--m_wrappedIt;
 			return *this;
@@ -195,11 +195,11 @@ namespace GB {
 		/// </summary>
 		/// <return> A new iterator at the position of the original before it was moved backward. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsBidirectional, bool> = true
+			std::enable_if_t<TransformIterator::supportsBidirectional, bool> = true
 		>
-		IteratorAdapter<Iterator, ConversionFuncType, TargetType> operator--(int)
+		TransformIterator<Iterator, ConversionFuncType, TargetType> operator--(int)
 		{
-			IteratorAdapter out(*this);
+			TransformIterator out(*this);
 			--(*this);
 			return out;
 		}
@@ -211,9 +211,9 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
 		>
-		IteratorAdapter& operator+=(difference_type n)
+		TransformIterator& operator+=(difference_type n)
 		{
 			m_wrappedIt += n;
 			return *this;
@@ -226,9 +226,9 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
 		>
-		IteratorAdapter& operator-=(difference_type n)
+		TransformIterator& operator-=(difference_type n)
 		{
 			m_wrappedIt -= n;
 			return *this;
@@ -241,13 +241,13 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
 		>
-		IteratorAdapter operator+(difference_type n) const
+		TransformIterator operator+(difference_type n) const
 		{
 			Iterator tempIt = m_wrappedIt;
 			tempIt += n;
-			return IteratorAdapter(tempIt, m_convert);
+			return TransformIterator(tempIt, m_convert);
 		}
 
 		/// <summary>
@@ -258,9 +258,9 @@ namespace GB {
 		/// <param name="rhs"> The starting point. </return>
 		/// <return> This iterator at its new position. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
 		>
-		friend IteratorAdapter operator+(difference_type lhs, const IteratorAdapter& rhs)
+		friend TransformIterator operator+(difference_type lhs, const TransformIterator& rhs)
 		{
 			return rhs + lhs;
 		}
@@ -273,13 +273,13 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return> This iterator at its new position. </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
 		>
-		IteratorAdapter operator-(difference_type n) const
+		TransformIterator operator-(difference_type n) const
 		{
 			Iterator tempIt = m_wrappedIt;
 			tempIt -= n;
-			return IteratorAdapter(tempIt, m_convert);
+			return TransformIterator(tempIt, m_convert);
 		}
 
 		/// <summary>
@@ -293,11 +293,11 @@ namespace GB {
 		/// <param name="n"> The number of steps. </return>
 		/// <return>  The result of applying the unary operation to the wrapped iterator n steps forward from its current position.  </return>
 		template <
-			std::enable_if_t<IteratorAdapter::supportsRandomAccess, bool> = true
+			std::enable_if_t<TransformIterator::supportsRandomAccess, bool> = true
 		>
 		reference operator[](difference_type n)
 		{
-			IteratorAdapter temp = *this;
+			TransformIterator temp = *this;
 			temp += n;
 			return *temp;
 		}
@@ -308,7 +308,7 @@ namespace GB {
 	};
 
 	// Deduction guide
-	template<class Iterator, class ConversionFunc> IteratorAdapter(Iterator, ConversionFunc) ->
-		IteratorAdapter<std::remove_reference_t<Iterator> , std::decay_t<ConversionFunc>, std::invoke_result_t<std::decay_t<ConversionFunc>, std::remove_reference_t<Iterator>&>>;
+	template<class Iterator, class ConversionFunc> TransformIterator(Iterator, ConversionFunc) ->
+		TransformIterator<std::remove_reference_t<Iterator> , std::decay_t<ConversionFunc>, std::invoke_result_t<std::decay_t<ConversionFunc>, std::remove_reference_t<Iterator>&>>;
 
 }
