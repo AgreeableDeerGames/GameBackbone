@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <type_traits>
 #include <vector>
+#include <list>
+#include <forward_list>
+#include <unordered_map>
 
 using namespace GB;
 
@@ -158,7 +161,7 @@ BOOST_FIXTURE_TEST_CASE(TransformIterator_IsStandardAlgorithmsCompatible, CoreFu
 {
 	TransformIterator transformBegin(beginIt, transform);
 	TransformIterator transformEnd(endIt, transform);
-	
+
 	std::vector<int> outputVec;
 	std::for_each(transformBegin, transformEnd, [&](const auto& i)
 	{
@@ -183,6 +186,20 @@ BOOST_FIXTURE_TEST_CASE(TransformIterator_IsVectorInsertCompatible, CoreFunction
 }
 
 BOOST_AUTO_TEST_SUITE_END() // CoreFunctionality
+
+BOOST_AUTO_TEST_SUITE(Bidirectional)
+
+BOOST_AUTO_TEST_CASE(test)
+{
+	std::list<int> container{1, 2, 3, 4, 5, 6, 7};
+	TransformIterator transformBegin(container.begin(), [](auto& it) {return (*it) + 1; });
+	//transformBegin[10];
+
+	std::forward_list<int> flist;
+	TransformIterator transformBegin2(flist.begin(), [](auto& it) {return 1; });
+}
+
+BOOST_AUTO_TEST_SUITE_END() // Bidirectional
 
 
 BOOST_AUTO_TEST_SUITE(RandomAccess)
