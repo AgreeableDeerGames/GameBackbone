@@ -48,125 +48,157 @@ namespace GB {
 			 SupportsRandomAccess_v<Iterator> ||
 			 std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
 
-		template <
-			class CrtpChildIterator,
-			class WrappedIterator,
-			class = std::void_t<>
-		>
-		class RandomAccessIteratorWrapper {};
-
-		template <
-			class CrtpChildIterator,
-			class WrappedIterator
-		>
-		class RandomAccessIteratorWrapper <CrtpChildIterator, WrappedIterator, std::enable_if_t<SupportsRandomAccess_v<WrappedIterator>>>
+		template <class Iterator, typename UnaryOperation>
+		class TransformIteratorBaseHelper 
 		{
 		public:
-
-			using difference_type = typename std::iterator_traits<WrappedIterator>::difference_type;
-
-			/// <summary>
-			/// Moves the iterator forward n steps.
-			/// Only available if the wrapped iterator is a random access iterator.
-			/// </summary>
-			/// <param name="n"> The number of steps. </return>
-			/// <return> This iterator at its new position. </return>
-			CrtpChildIterator& operator+=(difference_type n)
-			{
-				getCrtpThis()->getWrappedIterator() += n;
-				return *this;
-			}
+			// Sanity checks
+			static_assert(std::is_invocable_v<std::decay_t<UnaryOperation>, Iterator&>, "TransformIterator must be provided a UnaryOperation that operates on a reference to the type of its wrapped iterator.");
+			static_assert(IsIterator_v<Iterator>, "TransformIterator must be provided a valid iterator type to wrap.");
 
 			/// <summary>
-			/// Moves the iterator backward n steps.
-			/// Only available if the wrapped iterator is a random access iterator.
+			/// The type of the wrapped iterator.
 			/// </summary>
-			/// <param name="n"> The number of steps. </return>
-			/// <return> This iterator at its new position. </return>
-			CrtpChildIterator& operator-=(difference_type n)
-			{
-				getCrtpThis()->getWrappedIterator() -= n;
-				return *this;
-			}
+			using WrappedIteratorType = Iterator;
 
-			/// <summary>
-			/// Returns a new the iterator n steps forward from this one.
-			/// Only available if the wrapped iterator is a random access iterator.
-			/// </summary>
-			/// <param name="n"> The number of steps. </return>
-			/// <return> This iterator at its new position. </return>
-			[[nodiscard]]
-			CrtpChildIterator operator+(difference_type n) const
-			{
-				WrappedIterator tempIt = getCrtpThis()->getWrappedIterator();
-				tempIt += n;
-				return CrtpChildIterator(tempIt, m_transform);
-			}
-
-			/// <summary>
-			/// Returns a new the iterator n steps forward from this one.
-			/// Only available if the wrapped iterator is a random access iterator.
-			/// </summary>
-			/// <param name="lhs"> The number of steps. </return>
-			/// <param name="rhs"> The starting point. </return>
-			/// <return> This iterator at its new position. </return>
-			[[nodiscard]]
-			friend CrtpChildIterator operator+(difference_type lhs, const CrtpChildIterator& rhs)
-			{
-				return rhs + lhs;
-			}
-
-			/// <summary>
-			/// Returns a new the iterator n steps backward from this one.
-			/// Only available if the wrapped iterator is a random access iterator.
-			/// </summary>
-			/// <param name="n"> The number of steps. </return>
-			/// <return> This iterator at its new position. </return>
-			[[nodiscard]]
-			CrtpChildIterator operator-(difference_type n) const
-			{
-				WrappedIterator tempIt = getCrtpThis()->getWrappedIterator();
-				tempIt -= n;
-				return CrtpChildIterator(tempIt, m_transform);
-			}
-
-			/// <summary>
-			/// Apply the transform to the wrapped iterator n steps forward from its current position and return the result.
-			/// This iterator is not moved.
-			/// Only available if the wrapped iterator is a random access iterator.
-			/// 
-			/// Behavior is undefined if  the lifetime of the result of the unary operation is dependent on the
-			/// lifetime of the wrapped iterator.
-			/// </summary>
-			/// <param name="n"> The number of steps. </return>
-			/// <return>  The result of applying the unary operation to the wrapped iterator n steps forward from its current position.  </return>
-			//[[nodiscard]]
-			//reference operator[](difference_type n)
-			//{
-			//	CrtpChildIterator temp = *getCrtpThis();
-			//	temp += n;
-			//	return *temp;
-			//}
-
-		private:
-			CrtpChildIterator* getCrtpThis()
-			{
-				return static_cast<CrtpChildIterator*>(this);
-			}
+			// std::iterator_traits types
+			using value_type = std::invoke_result_t<std::decay_t<UnaryOperation>, WrappedIteratorType&>;
+			using difference_type = typename std::iterator_traits<WrappedIteratorType>::difference_type;
+			using pointer = value_type*;
+			using reference = value_type; // The value will always be a temporary. Returning a reference to it will always be an error.
+			using iterator_category = std::input_iterator_tag;
 		};
 
 		template <
 			class CrtpChildIterator,
 			class WrappedIterator,
-			class = std::void_t<>
+			class UnaryOperation
 		>
-		class BidirectionalIteratorWrapper {};
+		class RandomAccessIteratorWrapper/* : public BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation>*/ {};
+
+		//template <
+		//	class CrtpChildIterator,
+		//	class WrappedIterator,
+		//	class UnaryOperation,
+		//	class = std::void_t<>
+		//>
+		//class RandomAccessIteratorWrapper : public BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation> {};
+
+		//template <
+		//	class CrtpChildIterator,
+		//	class WrappedIterator,
+		//	class UnaryOperation
+		//>
+		//class RandomAccessIteratorWrapper <CrtpChildIterator, WrappedIterator, UnaryOperation, std::enable_if_t<SupportsRandomAccess_v<WrappedIterator>>> :
+		//	public BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation>
+		//{
+		///*public:
+
+		//	/// <summary>
+		//	/// Moves the iterator forward n steps.
+		//	/// Only available if the wrapped iterator is a random access iterator.
+		//	/// </summary>
+		//	/// <param name="n"> The number of steps. </return>
+		//	/// <return> This iterator at its new position. </return>
+		//	CrtpChildIterator& operator+=(difference_type n)
+		//	{
+		//		getCrtpThis()->getWrappedIterator() += n;
+		//		return *this;
+		//	}
+
+		//	/// <summary>
+		//	/// Moves the iterator backward n steps.
+		//	/// Only available if the wrapped iterator is a random access iterator.
+		//	/// </summary>
+		//	/// <param name="n"> The number of steps. </return>
+		//	/// <return> This iterator at its new position. </return>
+		//	CrtpChildIterator& operator-=(difference_type n)
+		//	{
+		//		getCrtpThis()->getWrappedIterator() -= n;
+		//		return *this;
+		//	}
+
+		//	/// <summary>
+		//	/// Returns a new the iterator n steps forward from this one.
+		//	/// Only available if the wrapped iterator is a random access iterator.
+		//	/// </summary>
+		//	/// <param name="n"> The number of steps. </return>
+		//	/// <return> This iterator at its new position. </return>
+		//	[[nodiscard]]
+		//	CrtpChildIterator operator+(difference_type n) const
+		//	{
+		//		WrappedIterator tempIt = getCrtpThis()->getWrappedIterator();
+		//		tempIt += n;
+		//		return CrtpChildIterator(tempIt, m_transform);
+		//	}
+
+		//	/// <summary>
+		//	/// Returns a new the iterator n steps forward from this one.
+		//	/// Only available if the wrapped iterator is a random access iterator.
+		//	/// </summary>
+		//	/// <param name="lhs"> The number of steps. </return>
+		//	/// <param name="rhs"> The starting point. </return>
+		//	/// <return> This iterator at its new position. </return>
+		//	[[nodiscard]]
+		//	friend CrtpChildIterator operator+(difference_type lhs, const CrtpChildIterator& rhs)
+		//	{
+		//		return rhs + lhs;
+		//	}
+
+		//	/// <summary>
+		//	/// Returns a new the iterator n steps backward from this one.
+		//	/// Only available if the wrapped iterator is a random access iterator.
+		//	/// </summary>
+		//	/// <param name="n"> The number of steps. </return>
+		//	/// <return> This iterator at its new position. </return>
+		//	[[nodiscard]]
+		//	CrtpChildIterator operator-(difference_type n) const
+		//	{
+		//		WrappedIterator tempIt = getCrtpThis()->getWrappedIterator();
+		//		tempIt -= n;
+		//		return CrtpChildIterator(tempIt, m_transform);
+		//	}
+
+		//	/// <summary>
+		//	/// Apply the transform to the wrapped iterator n steps forward from its current position and return the result.
+		//	/// This iterator is not moved.
+		//	/// Only available if the wrapped iterator is a random access iterator.
+		//	/// 
+		//	/// Behavior is undefined if  the lifetime of the result of the unary operation is dependent on the
+		//	/// lifetime of the wrapped iterator.
+		//	/// </summary>
+		//	/// <param name="n"> The number of steps. </return>
+		//	/// <return>  The result of applying the unary operation to the wrapped iterator n steps forward from its current position.  </return>
+		//	[[nodiscard]]
+		//	reference operator[](difference_type n)
+		//	{
+		//		CrtpChildIterator temp = *getCrtpThis();
+		//		temp += n;
+		//		return *temp;
+		//	}
+
+		//private:
+		//	CrtpChildIterator* getCrtpThis()
+		//	{
+		//		return static_cast<CrtpChildIterator*>(this);
+		//	}*/
+		//};
 
 		template <
 			class CrtpChildIterator,
-			class WrappedIterator
+			class WrappedIterator,
+			class UnaryOperation,
+			class = std::void_t<>
 		>
-		class BidirectionalIteratorWrapper <CrtpChildIterator, WrappedIterator, std::enable_if_t<SupportsBidirectional_v<WrappedIterator>>>
+		class BidirectionalIteratorWrapper : public TransformIteratorBaseHelper<WrappedIterator, UnaryOperation> {};
+
+		template <
+			class CrtpChildIterator,
+			class WrappedIterator,
+			class UnaryOperation
+		>
+		class BidirectionalIteratorWrapper <CrtpChildIterator, WrappedIterator, UnaryOperation, std::enable_if_t<SupportsBidirectional_v<WrappedIterator>>> :
+			public TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>
 		{
 		public:
 
@@ -178,7 +210,7 @@ namespace GB {
 			CrtpChildIterator& operator--()
 			{
 				--getCrtpThis->getWrappedIterator();
-				return *static_cast<CrtpChildIterator*>(this);
+				return *getCrtpThis();
 			}
 
 			/// <summary>
@@ -190,7 +222,7 @@ namespace GB {
 			CrtpChildIterator operator--(int)
 			{
 				CrtpChildIterator out(*this);
-				--(*static_cast<CrtpChildIterator*>(this));
+				--(*getCrtpThis());
 				return out;
 			}
 
@@ -212,27 +244,12 @@ namespace GB {
 	/// these iterator types.
 	/// </summary>
 	template <class Iterator, typename UnaryOperation>
-	class TransformIterator : public Detail::BidirectionalIteratorWrapper<TransformIterator<Iterator, UnaryOperation>, Iterator>
+	class TransformIterator : public Detail::BidirectionalIteratorWrapper<TransformIterator<Iterator, UnaryOperation>, Iterator, UnaryOperation>  /*public Detail::RandomAccessIteratorWrapper<TransformIterator<Iterator, UnaryOperation>, Iterator, UnaryOperation>*/
 	{
 	public:
 
-		// Sanity checks
-		static_assert(std::is_invocable_v<std::decay_t<UnaryOperation>, Iterator&>, "TransformIterator must be provided a UnaryOperation that operates on a reference to the type of its wrapped iterator.");
-		static_assert(IsIterator_v<Iterator>, "TransformIterator must be provided a valid iterator type to wrap.");
-
-		/// <summary>
-		/// The type of the wrapped iterator.
-		/// </summary>
 		using WrappedIteratorType = Iterator;
-
-		// std::iterator_traits types
-		using value_type = std::invoke_result_t<std::decay_t<UnaryOperation>, WrappedIteratorType&>;
-		using difference_type = typename std::iterator_traits<WrappedIteratorType>::difference_type;
-		using pointer = value_type*;
-		using reference = value_type; // The value will always be a temporary. Returning a reference to it will always be an error.
-		using iterator_category = std::input_iterator_tag;
-
-		
+		static_assert(IsIterator_v<WrappedIteratorType>, "TransformIterator must be provided a valid iterator type to wrap.");
 
 		/// <summary>
 		/// Constructor:
@@ -270,7 +287,7 @@ namespace GB {
 		/// </summary>
 		/// <return> The result of applying the unary operation to the wrapped iterator. </return>
 		[[nodiscard]]
-		reference operator*() const
+		typename Detail::TransformIteratorBaseHelper<Iterator, UnaryOperation>::reference operator*() const
 		{
 			return std::invoke(m_transform, m_wrappedIt);
 		}
