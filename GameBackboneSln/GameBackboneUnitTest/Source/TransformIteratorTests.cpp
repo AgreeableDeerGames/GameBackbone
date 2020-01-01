@@ -187,13 +187,16 @@ BOOST_FIXTURE_TEST_CASE(TransformIterator_IsVectorInsertCompatible, CoreFunction
 
 BOOST_AUTO_TEST_SUITE_END() // CoreFunctionality
 
+BOOST_AUTO_TEST_SUITE(ForwardIterator)
+BOOST_AUTO_TEST_SUITE_END() // ForwardIterator
+
 BOOST_AUTO_TEST_SUITE(Bidirectional)
 
 BOOST_AUTO_TEST_CASE(test)
 {
 	std::list<int> container{1, 2, 3, 4, 5, 6, 7};
 	TransformIterator transformBegin(container.begin(), [](auto& it) {return (*it) + 1; });
-	//transformBegin[10];
+	// transformBegin[10];
 
 	std::forward_list<int> flist;
 	TransformIterator transformBegin2(flist.begin(), [](auto& it) {return 1; });
@@ -204,7 +207,6 @@ BOOST_AUTO_TEST_SUITE_END() // Bidirectional
 
 BOOST_AUTO_TEST_SUITE(RandomAccess)
 BOOST_AUTO_TEST_SUITE_END() // RandomAccess
-
 
 
 BOOST_AUTO_TEST_SUITE_END() // TransformIteratorTests

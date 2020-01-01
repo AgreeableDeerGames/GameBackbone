@@ -83,14 +83,14 @@ namespace GB {
 			/// <summary>
 			/// The type of the wrapped iterator.
 			/// </summary>
-			using WrappedIteratorType = typename Super::WrappedIteratorType;
+			using typename Super::WrappedIteratorType;
 
 			// std::iterator_traits types
-			using value_type = typename Super::value_type;
-			using difference_type = typename Super::difference_type;
-			using pointer = typename Super::pointer;
-			using reference = typename Super::reference;
-			using iterator_category = std::input_iterator_tag; //  typename Super::iteraqtor_category;
+			using typename Super::value_type;
+			using typename Super::difference_type;
+			using typename Super::pointer;
+			using typename Super::reference;
+			using typename Super::iterator_category;
 		};
 
 		template <
@@ -108,14 +108,14 @@ namespace GB {
 			/// <summary>
 			/// The type of the wrapped iterator.
 			/// </summary>
-			using WrappedIteratorType = typename Super::WrappedIteratorType;
+			using typename Super::WrappedIteratorType;
 
 			// std::iterator_traits types
-			using value_type = typename Super::value_type;
-			using difference_type = typename Super::difference_type;
-			using pointer = typename Super::pointer;
-			using reference = typename Super::reference;
-			using iterator_category = std::input_iterator_tag; // typename Super::iteraqtor_category;
+			using typename Super::value_type;
+			using typename Super::difference_type;
+			using typename Super::pointer;
+			using typename Super::reference;
+			using typename Super::iterator_category;
 
 			/// <summary>
 			/// Moves the iterator backward.
@@ -163,15 +163,14 @@ namespace GB {
 			/// <summary>
 			/// The type of the wrapped iterator.
 			/// </summary>
-			using WrappedIteratorType = typename Super::WrappedIteratorType;
+			using typename Super::WrappedIteratorType;
 
 			// std::iterator_traits types
-			using value_type = typename Super::value_type;
-			using difference_type = typename Super::difference_type;
-			using pointer = typename Super::pointer;
-			using reference = typename Super::reference;
-			using iterator_category = typename Super::iterator_category; // std::input_iterator_tag;
-		
+			using typename Super::value_type;
+			using typename Super::difference_type;
+			using typename Super::pointer;
+			using typename Super::reference;
+			using typename Super::iterator_category;
 		};
 
 		template <
@@ -188,14 +187,14 @@ namespace GB {
 			/// <summary>
 			/// The type of the wrapped iterator.
 			/// </summary>
-			using WrappedIteratorType = typename Super::WrappedIteratorType;
+			using typename Super::WrappedIteratorType;
 
 			// std::iterator_traits types
-			using value_type = typename Super::value_type;
-			using difference_type = typename Super::difference_type;
-			using pointer = typename Super::pointer;
-			using reference = typename Super::reference;
-			using iterator_category = typename Super::iterator_category;
+			using typename Super::value_type;
+			using typename Super::difference_type;
+			using typename Super::pointer;
+			using typename Super::reference;
+			using typename Super::iterator_category;
 
 			/// <summary>
 			/// Moves the iterator forward n steps.
@@ -307,14 +306,14 @@ namespace GB {
 		/// <summary>
 		/// The type of the wrapped iterator.
 		/// </summary>
-		using WrappedIteratorType = Iterator;
+		using WrappedIteratorType = typename Super::WrappedIteratorType;
 
 		// std::iterator_traits types
-		using value_type = typename Super::value_type;
-		using difference_type = typename Super::difference_type;
-		using pointer = typename Super::pointer;
-		using reference = typename Super::reference;
-		using iterator_category = std::input_iterator_tag; // typename Super::iteraqtor_category;
+		using typename Super::value_type;
+		using typename Super::difference_type;
+		using typename Super::pointer;
+		using typename Super::reference;
+		using typename Super::iterator_category;
 
 		static_assert(IsIterator_v<WrappedIteratorType>, "TransformIterator must be provided a valid iterator type to wrap.");
 
@@ -324,7 +323,7 @@ namespace GB {
 		/// </summary>
 		/// <param name="wrapped"> The iterator to be wrapped.</param>
 		/// <param name="transform"> function applied to the wrapped iterator whenever this TransformIterator is dereferenced.</param>
-		TransformIterator(WrappedIteratorType wrapped, UnaryOperation transform) :
+		TransformIterator(Iterator wrapped, UnaryOperation transform) :
 			m_wrappedIt(std::move(wrapped)),
 			m_transform(std::move(transform))
 		{
