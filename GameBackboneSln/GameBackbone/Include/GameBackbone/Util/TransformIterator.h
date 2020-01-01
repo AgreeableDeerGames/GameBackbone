@@ -75,23 +75,7 @@ namespace GB {
 			class UnaryOperation,
 			class = std::void_t<>
 		>
-		class BidirectionalIteratorWrapper : public TransformIteratorBaseHelper<WrappedIterator, UnaryOperation> 
-		{
-		public:
-			using Super = TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>;
-
-			/// <summary>
-			/// The type of the wrapped iterator.
-			/// </summary>
-			using typename Super::WrappedIteratorType;
-
-			// std::iterator_traits types
-			using typename Super::value_type;
-			using typename Super::difference_type;
-			using typename Super::pointer;
-			using typename Super::reference;
-			using typename Super::iterator_category;
-		};
+		class BidirectionalIteratorWrapper : public TransformIteratorBaseHelper<WrappedIterator, UnaryOperation> {};
 
 		template <
 			class CrtpChildIterator,
@@ -101,21 +85,22 @@ namespace GB {
 		class BidirectionalIteratorWrapper <CrtpChildIterator, WrappedIterator, UnaryOperation, std::enable_if_t<SupportsBidirectional_v<WrappedIterator>>> :
 			public TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>
 		{
-		public:
+		private:
+			using IteratorHelper = TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>;
 
-			using Super = TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>;
+		public:
 
 			/// <summary>
 			/// The type of the wrapped iterator.
 			/// </summary>
-			using typename Super::WrappedIteratorType;
+			using typename IteratorHelper::WrappedIteratorType;
 
 			// std::iterator_traits types
-			using typename Super::value_type;
-			using typename Super::difference_type;
-			using typename Super::pointer;
-			using typename Super::reference;
-			using typename Super::iterator_category;
+			using typename IteratorHelper::value_type;
+			using typename IteratorHelper::difference_type;
+			using typename IteratorHelper::pointer;
+			using typename IteratorHelper::reference;
+			using typename IteratorHelper::iterator_category;
 
 			/// <summary>
 			/// Moves the iterator backward.
@@ -156,22 +141,7 @@ namespace GB {
 			class UnaryOperation,
 			class = std::void_t<>
 		>
-		class RandomAccessIteratorWrapper : public BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation> {
-		public:
-			using Super = BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation>;
-
-			/// <summary>
-			/// The type of the wrapped iterator.
-			/// </summary>
-			using typename Super::WrappedIteratorType;
-
-			// std::iterator_traits types
-			using typename Super::value_type;
-			using typename Super::difference_type;
-			using typename Super::pointer;
-			using typename Super::reference;
-			using typename Super::iterator_category;
-		};
+		class RandomAccessIteratorWrapper : public BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation> {};
 
 		template <
 			class CrtpChildIterator,
@@ -181,20 +151,22 @@ namespace GB {
 		class RandomAccessIteratorWrapper <CrtpChildIterator, WrappedIterator, UnaryOperation, std::enable_if_t<SupportsRandomAccess_v<WrappedIterator>>> :
 			public BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation>
 		{
+		private:
+			using IteratorHelper = TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>;
+
 		public:
-			using Super = BidirectionalIteratorWrapper<CrtpChildIterator, WrappedIterator, UnaryOperation>;
 
 			/// <summary>
 			/// The type of the wrapped iterator.
 			/// </summary>
-			using typename Super::WrappedIteratorType;
+			using typename IteratorHelper::WrappedIteratorType;
 
 			// std::iterator_traits types
-			using typename Super::value_type;
-			using typename Super::difference_type;
-			using typename Super::pointer;
-			using typename Super::reference;
-			using typename Super::iterator_category;
+			using typename IteratorHelper::value_type;
+			using typename IteratorHelper::difference_type;
+			using typename IteratorHelper::pointer;
+			using typename IteratorHelper::reference;
+			using typename IteratorHelper::iterator_category;
 
 			/// <summary>
 			/// Moves the iterator forward n steps.
@@ -299,23 +271,21 @@ namespace GB {
 	template <class Iterator, typename UnaryOperation>
 	class TransformIterator : public Detail::RandomAccessIteratorWrapper<TransformIterator<Iterator, UnaryOperation>, Iterator, UnaryOperation>
 	{
+	private:
+		using IteratorHelper = Detail::TransformIteratorBaseHelper<Iterator, UnaryOperation>;
+
 	public:
-
-		using Super = Detail::RandomAccessIteratorWrapper<TransformIterator<Iterator, UnaryOperation>, Iterator, UnaryOperation>;
-
 		/// <summary>
 		/// The type of the wrapped iterator.
 		/// </summary>
-		using WrappedIteratorType = typename Super::WrappedIteratorType;
+		using typename IteratorHelper::WrappedIteratorType;
 
 		// std::iterator_traits types
-		using typename Super::value_type;
-		using typename Super::difference_type;
-		using typename Super::pointer;
-		using typename Super::reference;
-		using typename Super::iterator_category;
-
-		static_assert(IsIterator_v<WrappedIteratorType>, "TransformIterator must be provided a valid iterator type to wrap.");
+		using typename IteratorHelper::value_type;
+		using typename IteratorHelper::difference_type;
+		using typename IteratorHelper::pointer;
+		using typename IteratorHelper::reference;
+		using typename IteratorHelper::iterator_category;
 
 		/// <summary>
 		/// Constructor:
