@@ -26,7 +26,6 @@ namespace GB {
 	/// </summary>
 	template <typename T>
 	constexpr inline bool IsIterator_v = IsIterator<T>::value;
-
 	
 	namespace Detail
 	{
@@ -89,13 +88,9 @@ namespace GB {
 			using IteratorHelper = TransformIteratorBaseHelper<WrappedIterator, UnaryOperation>;
 
 		public:
-
-			/// <summary>
-			/// The type of the wrapped iterator.
-			/// </summary>
+			
+			// Iterator types
 			using typename IteratorHelper::WrappedIteratorType;
-
-			// std::iterator_traits types
 			using typename IteratorHelper::value_type;
 			using typename IteratorHelper::difference_type;
 			using typename IteratorHelper::pointer;
@@ -156,12 +151,8 @@ namespace GB {
 
 		public:
 
-			/// <summary>
-			/// The type of the wrapped iterator.
-			/// </summary>
+			// Iterator types
 			using typename IteratorHelper::WrappedIteratorType;
-
-			// std::iterator_traits types
 			using typename IteratorHelper::value_type;
 			using typename IteratorHelper::difference_type;
 			using typename IteratorHelper::pointer;
@@ -275,12 +266,9 @@ namespace GB {
 		using IteratorHelper = Detail::TransformIteratorBaseHelper<Iterator, UnaryOperation>;
 
 	public:
-		/// <summary>
-		/// The type of the wrapped iterator.
-		/// </summary>
-		using typename IteratorHelper::WrappedIteratorType;
 
-		// std::iterator_traits types
+		// Iterator types
+		using typename IteratorHelper::WrappedIteratorType;
 		using typename IteratorHelper::value_type;
 		using typename IteratorHelper::difference_type;
 		using typename IteratorHelper::pointer;
