@@ -31,28 +31,34 @@ namespace GB {
 	{
 
 		/// <summary>
-		/// True if random access convenience operations are supported by this iterator. Note that this does not make this a random access iterator and it will still not work 
-		/// with algorithms that require all the guarantees of a random access iterator.
+		/// True if random access convenience operations are supported by this iterator.
 		/// </summary>
 		template <class Iterator>
 		inline constexpr bool SupportsRandomAccess_v =
 			std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::random_access_iterator_tag >;
 
 		/// <summary>
-		/// True if bidirectional convenience operations are supported by this iterator. Note that this does not make this a bidirectional iterator and it will still not work 
-		/// with algorithms that require all the guarantees of a bidirectional iterator.
+		/// True if bidirectional convenience operations are supported by this iterator.
 		/// </summary>
 		template <class Iterator>
 		inline constexpr bool SupportsBidirectional_v = 
 			 SupportsRandomAccess_v<Iterator> ||
 			 std::is_same_v< typename std::iterator_traits<Iterator>::iterator_category, std::bidirectional_iterator_tag >;
 
+		/// <summary>
+		/// Determines the iterator category of a transform iterator based on the category of the wrapped iterator
+		/// and the result type of the transform.
+		/// </summary>
 		template <class Iterator, class UnaryOperation, class = std::void_t<>>
 		struct TransformIteratorCategory
 		{
 			using type = std::input_iterator_tag;
 		};
 
+		/// <summary>
+		/// Determines the iterator category of a transform iterator based on the category of the wrapped iterator
+		/// and the result type of the transform.
+		/// </summary>
 		template <class Iterator, class UnaryOperation>
 		struct TransformIteratorCategory<Iterator, UnaryOperation, std::enable_if_t<std::is_reference_v<std::invoke_result_t<std::decay_t<UnaryOperation>, Iterator&>>>>
 		{
