@@ -4,7 +4,7 @@ set(GAMEBACKBONE_VERSION @GAMEBACKBONE_TARGET_VERSION@)
 
 if (NOT TARGET GameBackbone)
     include("${CMAKE_CURRENT_LIST_DIR}/GameBackbonePublicTargets.cmake")
-    message("- Found GameBackbone ${GAMEBACKBONE_VERSION} in ${CMAKE_CURRENT_LIST_DIR}")
+    message("-- Found GameBackbone ${GAMEBACKBONE_VERSION} in ${CMAKE_CURRENT_LIST_DIR}")
 else()
     message( WARNING "Attempting to add target GameBackbone when GameBackbone already exists as a target.")
 endif()
