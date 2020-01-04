@@ -222,12 +222,9 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Return, ReusableObjects) {
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_addComponent
 
 
-BOOST_AUTO_TEST_SUITE(CompoundSprite_negativeTests)
+BOOST_AUTO_TEST_SUITE(CompoundSprite_SFINAETests)
 
-/*
- * SFINAE types for checking if toDrawableVector can be
- * called on a specific type
- */
+// SFINAE types for checking if CompoundSprite can be constructed with given inputs
 template <class, class = std::void_t<> >
 struct CanConstructCompoundSprite : std::false_type {};
 
@@ -242,10 +239,7 @@ struct CanConstructCompoundSprite <
 template <class T>
 inline constexpr bool CanConstructCompoundSprite_v = CanConstructCompoundSprite<T>::value;
 
-/*
- * SFINAE types for checking if toDrawableVector can be
- * called on a specific type
- */
+// SFINAE types for checking if addComponent can be called with given inputs
 template <class, class = std::void_t<> >
 struct CanAddComponent : std::false_type {};
 
@@ -260,67 +254,67 @@ struct CanAddComponent <
 template <class T>
 inline constexpr bool CanAddComponent_v = CanAddComponent<T>::value;
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileSprite)
+BOOST_AUTO_TEST_CASE(SFINAE_CanConstruct_Sprite)
 {
 	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Sprite>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileAnimatedSprite)
+BOOST_AUTO_TEST_CASE(SFINAE_CanConstruct_AnimatedSprite)
 {
 	BOOST_CHECK(CanConstructCompoundSprite_v<GB::AnimatedSprite>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileRectangleShape)
+BOOST_AUTO_TEST_CASE(SFINAE_CanConstruct_RectangleShape)
 {
 	BOOST_CHECK(CanConstructCompoundSprite_v<sf::RectangleShape>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanCompileVertexBuffer)
+BOOST_AUTO_TEST_CASE(SFINAE_NOTCanConstruct_VertexBuffer)
 {
 	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::VertexBuffer>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanCompileVertexArray)
+BOOST_AUTO_TEST_CASE(SFINAE_NOTCanConstruct_VertexArray)
 {
 	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::VertexArray>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanCompileTransformable)
+BOOST_AUTO_TEST_CASE(SFINAE_NOTCanConstruct_Transformable)
 {
 	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::Transformable>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanAddComponentSprite)
+BOOST_AUTO_TEST_CASE(SFINAE_CanAddComponent_Sprite)
 {
 	BOOST_CHECK(CanAddComponent_v<sf::Sprite>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanAddComponentAnimatedSprite)
+BOOST_AUTO_TEST_CASE(SFINAE_CanAddComponent_AnimatedSprite)
 {
 	BOOST_CHECK(CanAddComponent_v<GB::AnimatedSprite>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanAddComponentRectangleShape)
+BOOST_AUTO_TEST_CASE(SFINAE_CanAddComponent_RectangleShape)
 {
 	BOOST_CHECK(CanAddComponent_v<sf::RectangleShape>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanAddComponentVertexBuffer)
+BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_VertexBuffer)
 {
 	BOOST_CHECK(!CanAddComponent_v<sf::VertexBuffer>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanAddComponentVertexArray)
+BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_VertexArray)
 {
 	BOOST_CHECK(!CanAddComponent_v<sf::VertexArray>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanAddComponentTransformable)
+BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 {
 	BOOST_CHECK(!CanAddComponent_v<sf::Transformable>);
 }
 
-BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_negativeTests
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
 
 /*BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
