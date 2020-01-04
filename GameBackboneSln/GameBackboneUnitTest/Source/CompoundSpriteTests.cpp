@@ -265,33 +265,61 @@ BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileSprite)
 	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Sprite>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileInt)
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileAnimatedSprite)
 {
-	//CompoundSprite(sf::VertexBuffer{});
-	//CompoundSprite(8);
-	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Clock>);
+	BOOST_CHECK(CanConstructCompoundSprite_v<GB::AnimatedSprite>);
 }
 
-/*
-BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileSpritePointerVector)
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileRectangleShape)
 {
-	BOOST_CHECK(CanConvertToDrawableVector_v<std::vector<sf::Sprite*>>);
+	BOOST_CHECK(CanConstructCompoundSprite_v<sf::RectangleShape>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CannotCompileConstSpritePointerVector)
+BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanCompileVertexBuffer)
 {
-	BOOST_CHECK(!CanConvertToDrawableVector_v<std::vector<const sf::Sprite*>>);
+	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::VertexBuffer>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CannotCompileTransformableVector)
+BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanCompileVertexArray)
 {
-	BOOST_CHECK(!CanConvertToDrawableVector_v<std::vector<sf::Transformable>>);
+	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::VertexArray>);
 }
 
-BOOST_AUTO_TEST_CASE(toDrawableVector_CannotCompileTransformablePointerVector)
+BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanCompileTransformable)
 {
-	BOOST_CHECK(!CanConvertToDrawableVector_v<std::vector<sf::Transformable*>>);
-}*/
+	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::Transformable>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanAddComponentSprite)
+{
+	BOOST_CHECK(CanAddComponent_v<sf::Sprite>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanAddComponentAnimatedSprite)
+{
+	BOOST_CHECK(CanAddComponent_v<GB::AnimatedSprite>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanAddComponentRectangleShape)
+{
+	BOOST_CHECK(CanAddComponent_v<sf::RectangleShape>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanAddComponentVertexBuffer)
+{
+	BOOST_CHECK(!CanAddComponent_v<sf::VertexBuffer>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanAddComponentVertexArray)
+{
+	BOOST_CHECK(!CanAddComponent_v<sf::VertexArray>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_NOTCanAddComponentTransformable)
+{
+	BOOST_CHECK(!CanAddComponent_v<sf::Transformable>);
+}
+
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_negativeTests
 
 /*BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
