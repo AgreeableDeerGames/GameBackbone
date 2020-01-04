@@ -70,6 +70,9 @@ struct ReusableObjectsForOperations : ReusableObjects {
 	CompoundSprite compoundSprite;
 };
 
+
+BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
+
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_Sprite, ReusableObjects) {
 	CompoundSprite compoundSprite{ sprite };
 
@@ -172,9 +175,9 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 	BOOST_CHECK(moves == 4);
 }
 
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_CTR
 
-
-
+BOOST_AUTO_TEST_SUITE(CompoundSprite_addComponent)
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Sprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
@@ -216,6 +219,80 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Return, ReusableObjects) {
 	BOOST_CHECK(returnRef.getColor() == sprite.getColor());
 }
 
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_addComponent
+
+
+BOOST_AUTO_TEST_SUITE(CompoundSprite_negativeTests)
+
+/*
+ * SFINAE types for checking if toDrawableVector can be
+ * called on a specific type
+ */
+template <class, class = std::void_t<> >
+struct CanConstructCompoundSprite : std::false_type {};
+
+template <class T>
+struct CanConstructCompoundSprite <
+	T,
+	std::void_t<
+	decltype(CompoundSprite(std::declval<T>()))
+	>
+> : std::true_type {};
+
+template <class T>
+inline constexpr bool CanConstructCompoundSprite_v = CanConstructCompoundSprite<T>::value;
+
+/*
+ * SFINAE types for checking if toDrawableVector can be
+ * called on a specific type
+ */
+template <class, class = std::void_t<> >
+struct CanAddComponent : std::false_type {};
+
+template <class T>
+struct CanAddComponent <
+	T,
+	std::void_t<
+	decltype(CompoundSprite{}.addComponent(std::declval<T>()))
+	>
+> : std::true_type {};
+
+template <class T>
+inline constexpr bool CanAddComponent_v = CanAddComponent<T>::value;
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileSprite)
+{
+	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Sprite>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileInt)
+{
+	//CompoundSprite(sf::VertexBuffer{});
+	//CompoundSprite(8);
+	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Clock>);
+}
+
+/*
+BOOST_AUTO_TEST_CASE(toDrawableVector_CanCompileSpritePointerVector)
+{
+	BOOST_CHECK(CanConvertToDrawableVector_v<std::vector<sf::Sprite*>>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CannotCompileConstSpritePointerVector)
+{
+	BOOST_CHECK(!CanConvertToDrawableVector_v<std::vector<const sf::Sprite*>>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CannotCompileTransformableVector)
+{
+	BOOST_CHECK(!CanConvertToDrawableVector_v<std::vector<sf::Transformable>>);
+}
+
+BOOST_AUTO_TEST_CASE(toDrawableVector_CannotCompileTransformablePointerVector)
+{
+	BOOST_CHECK(!CanConvertToDrawableVector_v<std::vector<sf::Transformable*>>);
+}*/
+BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_negativeTests
 
 /*BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 

@@ -34,6 +34,18 @@ namespace GB {
 	template <class InType>
 	inline constexpr bool is_updatable_v = is_updatable<InType>::value;
 
+	template <class InType>
+	constexpr bool is_component_v()
+	{
+		return (is_drawable_v<InType> && is_transformable_v<InType>);
+	}
+
+	template <class... InType>
+	constexpr bool are_all_components_v()
+	{
+		return (is_component_v<InType> && ...);
+	}
+
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
 	public:
@@ -47,8 +59,18 @@ namespace GB {
 		/// The position of the sprite is (0,0).
 		/// </summary>
 		/// <param name="componentsToAdd">The components.</param>
-		template <class... Components>
-		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) {}
+		
+		template <class... Components,
+			std::enable_if_t<
+				are_all_components_v<Components...>(),
+				bool
+			> = true
+		>
+		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) 
+		{
+			/*static_assert((is_drawable_v<Components> && ...), "Not Drawable.");
+			static_assert((is_transformable_v<Components> && ...), "Not Transformable.");*/
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
@@ -56,7 +78,12 @@ namespace GB {
 		/// </summary>
 		/// <param name="position">The position.</param>
 		/// <param name="componentsToAdd">The components.</param>
-		template <class... Components>
+		template <class... Components,
+			std::enable_if_t<
+				are_all_components_v<Components...>(),
+				bool
+			> = true
+		>
 		CompoundSprite(sf::Vector2f position, Components... componentsToAdd)
 		{
 			setPosition(position);
