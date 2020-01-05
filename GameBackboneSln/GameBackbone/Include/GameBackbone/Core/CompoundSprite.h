@@ -34,17 +34,12 @@ namespace GB {
 	template <class InType>
 	inline constexpr bool is_updatable_v = is_updatable<InType>::value;
 
+	// Type trait for sf::Drawable and sf::Transformable
 	template <class InType>
-	constexpr bool is_component_v()
-	{
-		return (is_drawable_v<InType> && is_transformable_v<InType>);
-	}
+	inline constexpr bool is_component_v = (is_drawable_v<InType> && is_transformable_v<InType>);
 
-	template <class... InType>
-	constexpr bool are_all_components_v()
-	{
-		return (is_component_v<InType> && ...);
-	}
+	template <class... InTypes>
+	inline constexpr bool are_all_components_v = (is_component_v<InTypes> && ...);
 
 	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
@@ -55,22 +50,18 @@ namespace GB {
 		CompoundSprite() {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
+		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
 		/// The position of the sprite is (0,0).
 		/// </summary>
 		/// <param name="componentsToAdd">The components.</param>
 		
 		template <class... Components,
 			std::enable_if_t<
-				are_all_components_v<Components...>(),
+				are_all_components_v<Components...>,
 				bool
 			> = true
 		>
-		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) 
-		{
-			/*static_assert((is_drawable_v<Components> && ...), "Not Drawable.");
-			static_assert((is_transformable_v<Components> && ...), "Not Transformable.");*/
-		}
+		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) {}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
@@ -80,7 +71,7 @@ namespace GB {
 		/// <param name="componentsToAdd">The components.</param>
 		template <class... Components,
 			std::enable_if_t<
-				are_all_components_v<Components...>(),
+				are_all_components_v<Components...>,
 				bool
 			> = true
 		>
@@ -125,8 +116,7 @@ namespace GB {
 		// Add/Remove Components
 		template <
 			class Component,
-			std::enable_if_t<is_transformable_v<Component>, bool> = true, // must be transformable
-			std::enable_if_t<is_drawable_v<Component>, bool> = true // must be drawable
+			std::enable_if_t<is_component_v<Component>, bool> = true
 		>
 		Component& addComponent(Component component) {
 			/* Moving the origin moves the drawn entity in the opposite direction.

@@ -239,21 +239,6 @@ struct CanConstructCompoundSprite <
 template <class T>
 inline constexpr bool CanConstructCompoundSprite_v = CanConstructCompoundSprite<T>::value;
 
-// SFINAE types for checking if addComponent can be called with given inputs
-template <class, class = std::void_t<> >
-struct CanAddComponent : std::false_type {};
-
-template <class T>
-struct CanAddComponent <
-	T,
-	std::void_t<
-	decltype(CompoundSprite{}.addComponent(std::declval<T>()))
-	>
-> : std::true_type {};
-
-template <class T>
-inline constexpr bool CanAddComponent_v = CanAddComponent<T>::value;
-
 BOOST_AUTO_TEST_CASE(SFINAE_CanConstruct_Sprite)
 {
 	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Sprite>);
@@ -283,6 +268,21 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanConstruct_Transformable)
 {
 	BOOST_CHECK(!CanConstructCompoundSprite_v<sf::Transformable>);
 }
+
+// SFINAE types for checking if addComponent can be called with given inputs
+template <class, class = std::void_t<> >
+struct CanAddComponent : std::false_type {};
+
+template <class T>
+struct CanAddComponent <
+	T,
+	std::void_t<
+	decltype(CompoundSprite{}.addComponent(std::declval<T>()))
+	>
+> : std::true_type {};
+
+template <class T>
+inline constexpr bool CanAddComponent_v = CanAddComponent<T>::value;
 
 BOOST_AUTO_TEST_CASE(SFINAE_CanAddComponent_Sprite)
 {
