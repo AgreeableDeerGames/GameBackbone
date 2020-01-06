@@ -92,7 +92,7 @@ else()
   gamebackbone_message("Clang Tidy off. Set GAMEBACKBONE_RUN_CLANG_TIDY to 'ON' to use Clang Tidy.")
 endif()
 
-find_package(SFML 2 COMPONENTS network audio graphics window system)
+find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)
   target_link_libraries(GameBackbone PUBLIC sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
 endif()
