@@ -35,8 +35,8 @@ namespace GB {
 		[[nodiscard]]
 		tgui::Gui& getGUI();
 
-		void setActiveRegion(BasicGameRegion& activeRegion) const;
-		void registerSetActiveRegionCB(std::function<void(BasicGameRegion*)> newSetActiveRegionCB);
+		[[nodiscard]]
+		bool requestActivationFrom(BasicGameRegion& targetRegion);
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
@@ -46,6 +46,6 @@ namespace GB {
 
 	private:
 		tgui::Gui m_regionGUI;
-		std::function<void(BasicGameRegion*)> m_setActiveRegionCB;
+		std::function<bool(BasicGameRegion&)> m_activateRegion;
 	};
 }

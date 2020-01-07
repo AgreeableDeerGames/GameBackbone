@@ -20,28 +20,27 @@ BasicGameRegion::BasicGameRegion(sf::RenderWindow& window) : m_regionGUI(window)
 }
 
 /// <summary>
-/// Change the 
-/// </summary>
-/// <param name="window">The window.</param>
-void GB::BasicGameRegion::setActiveRegion(BasicGameRegion& activeRegion) const
-{
-	m_setActiveRegionCB(&activeRegion);
-	activeRegion.registerSetActiveRegionCB(m_setActiveRegionCB);
-}
-
-/// <summary>
-/// Registers the callback function for changing the active region.
-/// </summary>
-/// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
-void BasicGameRegion::registerSetActiveRegionCB(std::function<void(BasicGameRegion*)> newSetActiveRegionCB) {
-	m_setActiveRegionCB = std::move(newSetActiveRegionCB);
-}
-
-/// <summary>
 /// Gets the GUI for this region.
 /// </summary>
 /// <returns>This regions GUI.</returns>
 tgui::Gui& BasicGameRegion::getGUI() {
 	return m_regionGUI;
+}
+
+/// <summary>
+/// Attempts to transfer the active state from the target region to this one.
+/// </summary>
+/// <param name="targetRegion"> The region to request active state transfer from. </param>
+/// <returns> True if the active state was successfully transfered. False otherwise. </returns>
+bool BasicGameRegion::requestActivationFrom(BasicGameRegion& targetRegion)
+{
+	bool success = targetRegion.m_activateRegion(*this);
+	if (success)
+	{
+		// This region is no longer active and can no longer give
+		// its active state to another region
+		targetRegion.m_activateRegion = [] (BasicGameRegion&) { return false; };
+	}
+	return success;
 }
 
