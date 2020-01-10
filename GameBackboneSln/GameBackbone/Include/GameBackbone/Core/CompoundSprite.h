@@ -16,19 +16,19 @@
 
 namespace GB {
 
-	// Base Trait for Drawable
+	// Base Trait for sf::Drawable
 	template <class InType>
 	struct is_drawable : std::is_base_of<sf::Drawable, InType> {};
 	template <class InType>
 	inline constexpr bool is_drawable_v = is_drawable<InType>::value;
 
-	// Base Trait for Transformable
+	// Base Trait for sf::Transformable
 	template <class InType>
 	struct is_transformable : std::is_base_of<sf::Transformable, InType> {};
 	template <class InType>
 	inline constexpr bool is_transformable_v = is_transformable<InType>::value;
 
-	// Base Trait for Updatable
+	// Base Trait for GB::Updatable
 	template <class InType, class result_type = void>
 	struct is_updatable : std::is_base_of<GB::Updatable, InType> {};
 	template <class InType>
@@ -38,53 +38,52 @@ namespace GB {
 	template <class InType>
 	inline constexpr bool is_component_v = (is_drawable_v<InType> && is_transformable_v<InType>);
 
+	// Checks the type trait for all InTypes using variadic templates. Forwards individually to is_component_v
 	template <class... InTypes>
 	inline constexpr bool are_all_components_v = (is_component_v<InTypes> && ...);
 
-	/// <summary> Controls several sprites and animated sprites as one logical unit. </summary>
+	/// <summary> Controls several sf::Drawable and sf::Transformable Components as one logical unit. </summary>
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
 	public:
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/>. The Compound sprite has no components and is located at (0,0).
+		/// Initializes a new instance of the <see cref="CompoundSprite"/>. The CompoundSprite has no components and is located at (0,0).
 		/// </summary>
 		CompoundSprite() {}
 
 		/// <summary>
-		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
-		/// The position of the sprite is (0,0).
+		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
+		/// The position of the CompoundSprite is (0,0).
 		/// </summary>
 		/// <param name="componentsToAdd">The components.</param>
-		
 		template <class... Components,
-			std::enable_if_t<
-				are_all_components_v<Components...>,
-				bool
-			> = true
+			std::enable_if_t<are_all_components_v<Components...>, bool> = true
 		>
 		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed Sprites become components of the compound sprite.
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
 		/// Initializes the CompoundSprite to the passed position.
 		/// </summary>
 		/// <param name="position">The position.</param>
 		/// <param name="componentsToAdd">The components.</param>
 		template <class... Components,
-			std::enable_if_t<
-				are_all_components_v<Components...>,
-				bool
-			> = true
+			std::enable_if_t<are_all_components_v<Components...>, bool> = true
 		>
 		CompoundSprite(sf::Vector2f position, Components... componentsToAdd)
 		{
 			setPosition(position);
 
-			// Add all of the passed components to the RelativerotationSprite
+			// Add all of the passed components to the CompoundSprite using a fold expression and calling addComponent on each.
 			(addComponent(std::move(std::forward<Components>(componentsToAdd))), ...);
 		}
 
 
 		explicit CompoundSprite(sf::Vector2f position);
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The copy constructor is needed to copy the internal vector.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being copied.</param>
 		CompoundSprite(const CompoundSprite& other) : CompoundSprite()
 		{
 			this->setPosition(other.getPosition());
@@ -99,6 +98,10 @@ namespace GB {
 				);
 			}
 		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class and returns it. This forwards to the Copy Constructor.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being copied.</param>
 		CompoundSprite& operator=(const CompoundSprite& other)
 		{
 			CompoundSprite tempOther{ other };
@@ -113,7 +116,11 @@ namespace GB {
 		virtual std::size_t getComponentCount() const;
 		virtual bool isEmpty() const;
 
-		// Add/Remove Components
+		/// <summary>
+		/// Adds the passed in Component to the CompoundSprite and returns a reference to it.
+		/// The position stays the same on screen and the origin is set to the CompoundSprite's origin.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being copied.</param>
 		template <
 			class Component,
 			std::enable_if_t<is_component_v<Component>, bool> = true
@@ -137,7 +144,6 @@ namespace GB {
 			// Return the place in the components vector that the new component was placed.
 			return static_cast<ComponentAdapter<Component>*>(returnValue.get())->data;
 		}
-
 
 		virtual void removeComponent(std::size_t componentIndex);
 		virtual void clearComponents();
@@ -164,6 +170,8 @@ namespace GB {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
+		// Helper Class used by InternalType to virtually forward calls from sf::Transformables
+		// to ComponentAdapter which will then forward the calls nonvirtually to the type erased data. 
 		class VirtualTransformable : public sf::Transformable {
 		public:
 			virtual ~VirtualTransformable() = default;
@@ -188,24 +196,28 @@ namespace GB {
 			virtual const sf::Transform& getInverseTransform() const = 0;
 		};
 
+		// Class that a Component's data in CompoundSprite is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.
 		class InternalType : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
 		public:
-			
 			InternalType(){}
 			virtual ~InternalType() = default;
 
+			// Deleting Copy/Move Constructors because InternalType cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
 			InternalType(const InternalType&) = delete;
 			InternalType& operator=(const InternalType&) = delete;
 			InternalType(InternalType&&) noexcept = delete;
 			InternalType& operator=(InternalType&&) noexcept = delete;
 
+			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
-
 		};
+
+		// Class which actually stores the data of the type erased InternalType. Used primarily to forward calls to the Component data.
 		template <class Component>
 		class ComponentAdapter final : public InternalType {
 		protected:
 
+			// Protected draw call forwards the draw call passing the sf::Drawable data.
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 			{
 				target.draw(data, states);
@@ -214,36 +226,43 @@ namespace GB {
 		public:
 			explicit ComponentAdapter(Component x) : data(std::move(x)) { }
 
+			// Deleting Copy/Move Constructors because InternalType cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
 			ComponentAdapter(const ComponentAdapter&) = delete;
 			ComponentAdapter& operator=(const ComponentAdapter&) = delete;
 			ComponentAdapter(ComponentAdapter&&) noexcept = delete;
 			ComponentAdapter& operator=(ComponentAdapter&&) noexcept = delete;
 
+			// Routes calls to update for GB::Updatable. Uses SFINAE and ADL to determine which version of update_helper to call. 
+			// If the Component is not an GB::Updatable, it is an empty function call.
 			void update(sf::Int64 elapsedTime) override
 			{
 				update_helper<Component>(elapsedTime);
 			}
 
+			// The update_helper method for anything that inherits from GB::Updatable. Forwards the call to the data.
 			template <class Component,
-			std::enable_if_t<is_updatable_v<Component>, bool> = true // must be Updatable
+				std::enable_if_t<is_updatable_v<Component>, bool> = true
 			>
 			void update_helper(sf::Int64 elapsedTime)
 			{
 				data.update(elapsedTime);
 			}
 
+			// The update_helper method for anything that DOES NOT inherit from GB::Updatable. Empty function call.
 			template <class Component,
-			std::enable_if_t<!is_updatable_v<Component>, bool> = true // must NOT be Updatable
+				std::enable_if_t<!is_updatable_v<Component>, bool> = true
 			>
 			void update_helper(sf::Int64) {}
 
+			// Clones the object as a unique pointer. Always called virtually from InternalType. 
+			// It cannot be done in InternalType as the type has already been erased. This can be done here as the type of Component is known.
 			std::unique_ptr<InternalType> cloneAsUnique() override
 			{
 				std::unique_ptr<InternalType> internalName = std::make_unique<ComponentAdapter<Component>>(data);
 				return std::unique_ptr<InternalType>();
 			}
 
-			// Transformable
+			// Overrides for the VirtualTransformable API. Forwards to the data.
 			void setPosition(float x, float y) override { data.setPosition(x, y); }
 			void setPosition(const sf::Vector2f& position) override { data.setPosition(position); }
 			void setRotation(float angle) override { data.setRotation(angle); }
@@ -263,11 +282,12 @@ namespace GB {
 			const sf::Transform& getTransform() const override { return data.getTransform(); }
 			const sf::Transform& getInverseTransform() const override { return data.getInverseTransform(); }
 
+			// The Component data stored as a value type.
 			Component data;
 		};
 
-		std::vector<std::unique_ptr<InternalType>> m_internalComponents;
 
-			
+		// Internal storage of the Components for CompoundSprite
+		std::vector<std::unique_ptr<InternalType>> m_internalComponents;	
 	};
 }
