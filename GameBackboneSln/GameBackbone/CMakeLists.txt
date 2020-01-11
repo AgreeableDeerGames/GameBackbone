@@ -34,6 +34,7 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileManager.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileReader.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileWriter.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/PriorityVector.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/RandGen.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/SFUtil.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/UtilMath.h"
