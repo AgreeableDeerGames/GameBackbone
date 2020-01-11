@@ -19,6 +19,7 @@ add_executable(GameBackboneUnitTest
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/GameRegionTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/NavigationToolsTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/PathFinderTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/PriorityVectorTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RandGenTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UniformAnimationSetTests.cpp"
