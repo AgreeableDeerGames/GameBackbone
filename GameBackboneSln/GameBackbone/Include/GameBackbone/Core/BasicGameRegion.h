@@ -21,7 +21,7 @@ namespace GB {
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	class libGameBackbone BasicGameRegion : public sf::Drawable, public Updatable {
 	public:
-		/// <summary>shared_ptr to GameRegion</summary>
+		/// <summary>shared_ptr to BasicGameRegion</summary>
 		using Ptr = std::shared_ptr<BasicGameRegion>;
 
 		BasicGameRegion() = default;
@@ -36,16 +36,18 @@ namespace GB {
 		tgui::Gui& getGUI();
 
 		[[nodiscard]]
-		bool requestActivationFrom(BasicGameRegion& targetRegion);
+		bool takeActivation(BasicGameRegion& targetRegion);
+
+		void setTransferActivationCallback(std::function<bool(BasicGameRegion&)> transferActivation);
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
 		/// </summary>
 		/// <param name="elapsedTime"> </param>
-		virtual void update(sf::Int64 /*elapsedTime*/) override {}
+		void update(sf::Int64 /*elapsedTime*/) override {}
 
 	private:
 		tgui::Gui m_regionGUI;
-		std::function<bool(BasicGameRegion&)> m_activateRegion;
+		std::function<bool(BasicGameRegion&)> m_transferActivation;
 	};
 }
