@@ -20,7 +20,6 @@ namespace GB {
 	/// 5) preDraw, 6) coreDraw, 7) postDraw, 8) preUpdate, 9) coreUpdate, 10) postUpdate
 	///
 	/// </summary>
-	template <class Child>
 	class CoreEventController {
 	public:
 		//ctr / dtr
@@ -78,12 +77,11 @@ namespace GB {
 			while (m_window->isOpen()) {
 
 				while (m_window->pollEvent(event)) {
-					childCastThis()->handleEvent(event);
+					handleEvent(event);
 				}
 
-				childCastThis()->draw();
-
-				childCastThis()->update();
+				draw();
+				update();
 			}
 		}
 
@@ -102,12 +100,12 @@ protected:
 		/// Handles all window and user input events.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		void handleEvent(sf::Event& event) {
-			childCastThis()->preHandleEvent(event);
-			if (!childCastThis()->handleGuiEvent(event)) {
-				childCastThis()->handleCoreEvent(event);
+		virtual void handleEvent(sf::Event& event) {
+			preHandleEvent(event);
+			if (!handleGuiEvent(event)) {
+				handleCoreEvent(event);
 			}
-			childCastThis()->postHandleEvent(event);
+			postHandleEvent(event);
 		}
 
 		/// <summary>
@@ -115,7 +113,7 @@ protected:
 		/// </summary>
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
-		bool handleGuiEvent(sf::Event& event) {
+		virtual bool handleGuiEvent(sf::Event& event) {
 			return m_activeRegion->getGUI().handleEvent(event);
 		}
 
@@ -124,7 +122,7 @@ protected:
 		/// </summary>
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed. Returns false otherwise.</returns>
-		bool handleCoreEvent(sf::Event& /*event*/) {
+		virtual bool handleCoreEvent(sf::Event& /*event*/) {
 			return false;
 		}
 
@@ -132,24 +130,24 @@ protected:
 		/// Called before handleGuiEvent and handleCoreEvent. Place logic to be executed before the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		void preHandleEvent(sf::Event& /*event*/) {}
+		virtual void preHandleEvent(sf::Event& /*event*/) {}
 
 		/// <summary>
 		/// Called after handleGuiEvent and handleCoreEvent. Place logic to be executed after the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		void postHandleEvent(sf::Event& /*event*/) {}
+		virtual void postHandleEvent(sf::Event& /*event*/) {}
 
 		//draw
 
 		/// <summary>
 		/// Calls all draw helper functions then displays the window.
 		/// </summary>
-		void draw() { 	
+		virtual void draw() {
 			m_window->clear();
-			childCastThis()->preDraw();
-			childCastThis()->coreDraw();
-			childCastThis()->postDraw();
+			preDraw();
+			coreDraw();
+			postDraw();
 
 			m_window->display();
 		}
@@ -157,12 +155,12 @@ protected:
 		/// <summary>
 		/// Called before coreDraw. PLace logic to be executed before the main draw logic here.
 		/// </summary>
-		void preDraw() {}
+		virtual void preDraw() {}
 
 		/// <summary>
 		/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
 		/// </summary>
-		void coreDraw() {
+		virtual void coreDraw() {
 			// Draw m_activeRegion so it can draw its drawables.
 			m_window->draw(*m_activeRegion);
 
@@ -172,28 +170,28 @@ protected:
 		/// <summary>
 		/// called after core draw. Place logic to be executed after the main draw logic here.
 		/// </summary>
-		void postDraw() {}
+		virtual void postDraw() {}
 
 		//update
 
 		/// <summary>
 		/// Calls all update helper functions (preUpdate, coreUpdate, postUpdate).
 		/// </summary>
-		void update() {
-			childCastThis()->preUpdate();
-			childCastThis()->coreUpdate();
-			childCastThis()->postUpdate();
+		virtual void update() {
+			preUpdate();
+			coreUpdate();
+			postUpdate();
 		}
 
 		/// <summary>
 		/// called before coreUpdate. Place logic meant to execute before the main update logic here.
 		/// </summary>
-		void preUpdate() {}
+		virtual void preUpdate() {}
 
 		/// <summary>
 		/// Primary update logic. Runs behavior logic for active GameRegion. Updates every Updatable object in the active GameRegion.
 		/// </summary>
-		void coreUpdate() {
+		virtual void coreUpdate() {
 			sf::Time elapsedTime = m_updateClock.restart();
 			m_activeRegion->update(elapsedTime.asMicroseconds());
 		}
@@ -201,16 +199,11 @@ protected:
 		/// <summary>
 		/// Executes after coreUpdate. Place logic meant to update after the main update logic here.
 		/// </summary>
-		void postUpdate() {}
+		virtual void postUpdate() {}
 
 		sf::Clock m_updateClock;
 		sf::RenderWindow* m_window;
 		GameRegion* m_activeRegion;
-
-	private:
-		Child* childCastThis() {
-			return static_cast<Child*>(this);
-		}
 
 	};
 
