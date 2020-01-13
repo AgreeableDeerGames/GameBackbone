@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GameBackbone/Core/ActivationProvider.h>
 #include <GameBackbone/Core/GameRegion.h>
 
 #include <string>
@@ -20,7 +21,7 @@ namespace GB {
 	/// 5) preDraw, 6) coreDraw, 7) postDraw, 8) preUpdate, 9) coreUpdate, 10) postUpdate
 	///
 	/// </summary>
-	class CoreEventController {
+	class CoreEventController : ActivationProvider {
 	public:
 		//ctr / dtr
 
@@ -89,9 +90,20 @@ namespace GB {
 		/// Changes the active region to the passed game region.
 		/// </summary>
 		/// <param name="activeRegion">The new active GameRegion.</param>
-		void setActiveRegion(GameRegion* activeRegion) {
+		/*void setActiveRegion(GameRegion* activeRegion) {
 			m_activeRegion = activeRegion;
-		}
+		}*/
+
+		// bool registerActiveRegion(BasicGameRegion& regionToAdd) override
+		// {
+		// 	m_activeRegion = &regionToAdd;
+		// 	return true;
+		// }
+		// 
+		// BasicGameRegion* getActiveRegion() override
+		// {
+		// 	return m_activeRegion;
+		// }
 
 protected:
 		//events
@@ -203,7 +215,7 @@ protected:
 
 		sf::Clock m_updateClock;
 		sf::RenderWindow* m_window;
-		GameRegion* m_activeRegion;
+		BasicGameRegion* m_activeRegion;
 
 	};
 
