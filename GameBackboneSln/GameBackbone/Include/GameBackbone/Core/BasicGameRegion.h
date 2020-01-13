@@ -1,22 +1,16 @@
 #pragma once
 
-#include <GameBackbone/Core/AnimationSet.h>
-#include <GameBackbone/Core/BackboneBaseExceptions.h>
-#include <GameBackbone/Core/CompoundSprite.h>
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/Util/DllUtil.h>
 
 #include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 
-#include <functional>
 #include <memory>
-#include <utility>
-#include <vector>
 
 namespace GB {
+	class ActivationProvider;
 
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	class libGameBackbone BasicGameRegion : public sf::Drawable, public Updatable {
@@ -36,9 +30,11 @@ namespace GB {
 		tgui::Gui& getGUI();
 
 		[[nodiscard]]
-		bool takeActivation(BasicGameRegion& targetRegion);
+		bool giveActivation(BasicGameRegion& targetRegion);
+		void setActivationProvider(ActivationProvider& provider);
 
-		void setTransferActivationCallback(std::function<bool(BasicGameRegion&)> transferActivation);
+		[[nodiscard]]
+		bool isActiveRegion();
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
@@ -48,6 +44,6 @@ namespace GB {
 
 	private:
 		tgui::Gui m_regionGUI;
-		std::function<bool(BasicGameRegion&)> m_transferActivation;
+		ActivationProvider* m_provider;
 	};
 }

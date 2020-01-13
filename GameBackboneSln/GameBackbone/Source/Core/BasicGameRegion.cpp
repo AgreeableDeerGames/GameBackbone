@@ -1,3 +1,4 @@
+#include <GameBackbone/Core/ActivationProvider.h>
 #include <GameBackbone/Core/BasicGameRegion.h>
 
 #include <TGUI/TGUI.hpp>
@@ -27,31 +28,38 @@ tgui::Gui& BasicGameRegion::getGUI() {
 	return m_regionGUI;
 }
 
+bool BasicGameRegion::isActiveRegion()
+{
+	if (m_provider != nullptr)
+	{
+		return m_provider->getActiveRegion() == this;
+	}
+	return false;
+}
+
 /// <summary>
 /// Attempts to transfer the active state from the target region to this one.
 /// </summary>
-/// <param name="targetRegion"> The region to take active state from. </param>
+/// <param name="provider"> The region to take active state from. </param>
 /// <returns> True if the active state was successfully transfered. False otherwise. </returns>
-bool BasicGameRegion::takeActivation(BasicGameRegion& targetRegion)
+bool BasicGameRegion::giveActivation(BasicGameRegion& targetRegion)
 {
-	bool success = targetRegion.m_transferActivation(*this);
-	if (success)
+	// !this->canGiveActivation  (aka, isActiveRegion? + ExtensionPoint)
+	if (!isActiveRegion())
 	{
-		// This region is no longer active and can no longer give
-		// its active state to another region
-		targetRegion.m_transferActivation = [] (BasicGameRegion&) { return false; };
+		return false;
 	}
-	return success;
+
+	this->m_provider->registerActiveRegion(targetRegion);
+	m_provider = nullptr;
+	return true;
 }
 
-/// <summary>
-/// Registers the callback invoked when transferring the active state to another region.
-/// This callback is responsible for activating the passed region.
-/// </summary>
-/// <param name="transferActivation">  </param>
-/// <returns> True if the active state was successfully transfered. False otherwise. </returns>
-void BasicGameRegion::setTransferActivationCallback(std::function<bool(BasicGameRegion&)> transferActivation)
+void BasicGameRegion::setActivationProvider(ActivationProvider& provider)
 {
-	m_transferActivation = std::move(transferActivation);
+	// TODO: Throw if cant
+	if (!isActiveRegion())
+	{
+		m_provider = &provider;
+	}
 }
-
