@@ -153,11 +153,6 @@ public:
 	bool hasFinishedCoreUpdate;
 	bool hasFinishedPostUpdate;
 
-	//region tracker
-	GameRegion* getActiveGameRegion() {
-		return m_activeRegion;
-	}
-
 };
 
 /// <summary>
@@ -185,9 +180,9 @@ public:
 	/// <param name="elapsedTime">The elapsed time.</param>
 	void update(sf::Int64 /*elapsedTime*/) {
 		if (parent) {
-			setActiveRegionCB(parent);
+			giveActivation(*parent);
 		} else if (children.front()) {
-			setActiveRegionCB(children.front().get());
+			giveActivation(*children.front().get());
 		}
 	}
 
@@ -223,7 +218,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 	GameRegion gameRegion;
-	testController.setActiveRegion(&gameRegion);
+	testController.registerActiveRegion(gameRegion);
 
 	testController.runLoop();
 
@@ -253,14 +248,9 @@ BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion) {
 	TestCoreEventController testController;
 
-	//region constructed by TestCoreEventController is not required for this test
-	GameRegion* defaultRegion = testController.getActiveGameRegion();
-	delete defaultRegion;
-	testController.setActiveRegion(nullptr);
-
 	GameRegion region1;
-	testController.setActiveRegion(&region1);
-	GameRegion* returnedRegion = testController.getActiveGameRegion();
+	testController.registerActiveRegion(region1);
+	BasicGameRegion* returnedRegion = testController.getActiveRegion();
 
 	//ensure that the region stored by testController is the one set by setActiveRegion
 	BOOST_CHECK(returnedRegion == &region1);
@@ -270,34 +260,19 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion) {
 BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	TestCoreEventController testController;
 
-	//region constructed by TestCoreEventController is not required for this test
-	GameRegion* defaultRegion = testController.getActiveGameRegion();
-	delete defaultRegion;
-	testController.setActiveRegion(nullptr);
-
 	//create a region with a child
 	TestGameRegion testRegion(true);
 
-	//register testRegion's callback to testController
-	auto setActiveRegionLambda = [&testController](GB::GameRegion* region) {
-		testController.setActiveRegion(region);
-	};
-	testRegion.registerSetActiveRegionCB(setActiveRegionLambda);
-	for (auto& child : testRegion.children)
-	{
-		child->registerSetActiveRegionCB(setActiveRegionLambda);
-	}
-
 	//setup the first active region
-	testController.setActiveRegion(&testRegion);
+	testController.registerActiveRegion(testRegion);
 
 	//change to child region
-	testController.getActiveGameRegion()->update(0);
-	BOOST_CHECK(testController.getActiveGameRegion() == testRegion.children.front().get());
+	testController.getActiveRegion()->update(0);
+	BOOST_CHECK(testController.getActiveRegion() == testRegion.children.front().get());
 
 	//change back to parent region
-	testController.getActiveGameRegion()->update(0);
-	BOOST_CHECK(testController.getActiveGameRegion() == &testRegion);
+	testController.getActiveRegion()->update(0);
+	BOOST_CHECK(testController.getActiveRegion() == &testRegion);
 
 }
 
