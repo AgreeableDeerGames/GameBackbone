@@ -18,13 +18,9 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 
 	// Initialize the MainMenuDemoRegion
 	m_mainMenuDemoRegion = std::make_unique<MainMenuDemoRegion>(*m_window);
-	// Register setActiveRegion with m_mainMenuDemoRegion so that it can swap regions when needed
-	// Pass a lambda 
-	m_mainMenuDemoRegion->registerSetActiveRegionCB([this](GB::GameRegion* activeRegion){
-		setActiveRegion(activeRegion);
-	});
-	// Set m_mainMenuDemoRegion as the activeRegion on DemoCoreEventController
-	m_activeRegion = m_mainMenuDemoRegion.get();
+
+	// Register the MainMenuDemoRegion as the active region
+	registerActiveRegion(*m_mainMenuDemoRegion.get());
 
 	// Set the camera to the same as the window
 	m_camera.reset(sf::FloatRect(0, 0, (float)m_window->getSize().x, (float)m_window->getSize().y));
@@ -52,7 +48,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
 			sf::Vector2f actualPosition = m_window->mapPixelToCoords(mousePos);
 			// Pass the event to the active region to handle
-			static_cast<DemoRegion*>(m_activeRegion)->handleMouseMove(actualPosition);
+			static_cast<DemoRegion*>(getActiveRegion())->handleMouseMove(actualPosition);
 			return true;
 		}
 		case sf::Event::MouseButtonPressed:
@@ -61,25 +57,25 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
 			sf::Vector2f actualPosition = m_window->mapPixelToCoords(mousePos);
 			// Pass the event to the active region to handle
-			static_cast<DemoRegion*>(m_activeRegion)->handleMouseClick(actualPosition, event.mouseButton.button);
+			static_cast<DemoRegion*>(getActiveRegion())->handleMouseClick(actualPosition, event.mouseButton.button);
 			return true;
 		}
 		case sf::Event::MouseWheelScrolled:
 		{
 			// Pass the event to the active region to handle
-			static_cast<DemoRegion*>(m_activeRegion)->handleWheelScroll(event.mouseWheelScroll.delta);
+			static_cast<DemoRegion*>(getActiveRegion())->handleWheelScroll(event.mouseWheelScroll.delta);
 			return true;
 		}
 		case sf::Event::KeyPressed:
 		{
 			// Pass the event to the active region to handle
-			static_cast<DemoRegion*>(m_activeRegion)->handleKeyPress(event.key);
+			static_cast<DemoRegion*>(getActiveRegion())->handleKeyPress(event.key);
 			return true;
 		}
 		case sf::Event::KeyReleased:
 		{
 			// Pass the event to the active region to handle
-			static_cast<DemoRegion*>(m_activeRegion)->handleKeyRelease(event.key);
+			static_cast<DemoRegion*>(getActiveRegion())->handleKeyRelease(event.key);
 			return true;
 		}
 		case sf::Event::Resized:
@@ -89,7 +85,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			// Set the view on the window to be the reset camera
 			m_window->setView(m_camera);
 			// Set the view on the GUI to be the reset camera
-			m_activeRegion->getGUI().setView(m_camera);
+			getActiveRegion()->getGUI().setView(m_camera);
 			return true;
 		}
 		default:
@@ -100,5 +96,5 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 }
 
 void DemoCoreEventController::postHandleEvent(sf::Event& /*event*/) {
-	m_activeRegion->getGUI().unfocusAllWidgets();
+	getActiveRegion()->getGUI().unfocusAllWidgets();
 }

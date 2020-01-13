@@ -21,7 +21,7 @@ namespace GB {
 	/// 5) preDraw, 6) coreDraw, 7) postDraw, 8) preUpdate, 9) coreUpdate, 10) postUpdate
 	///
 	/// </summary>
-	class CoreEventController : ActivationProvider {
+	class CoreEventController : public ActivationProvider {
 	public:
 		//ctr / dtr
 
@@ -51,7 +51,6 @@ namespace GB {
 		/// <param name="windowName">Name of the window.</param>
 		CoreEventController(int windowWidth, int windowHeight, const std::string & windowName) {
 			m_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName);
-			m_activeRegion = nullptr;
 		}
 
 		/// <summary>
@@ -126,7 +125,7 @@ protected:
 		/// <param name="event">The event.</param>
 		/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
 		virtual bool handleGuiEvent(sf::Event& event) {
-			return m_activeRegion->getGUI().handleEvent(event);
+			return getActiveRegion()->getGUI().handleEvent(event);
 		}
 
 		/// <summary>
@@ -174,9 +173,9 @@ protected:
 		/// </summary>
 		virtual void coreDraw() {
 			// Draw m_activeRegion so it can draw its drawables.
-			m_window->draw(*m_activeRegion);
+			m_window->draw(*getActiveRegion());
 
-			m_activeRegion->getGUI().draw();
+			getActiveRegion()->getGUI().draw();
 		}
 
 		/// <summary>
@@ -205,7 +204,7 @@ protected:
 		/// </summary>
 		virtual void coreUpdate() {
 			sf::Time elapsedTime = m_updateClock.restart();
-			m_activeRegion->update(elapsedTime.asMicroseconds());
+			getActiveRegion()->update(elapsedTime.asMicroseconds());
 		}
 
 		/// <summary>
@@ -215,8 +214,6 @@ protected:
 
 		sf::Clock m_updateClock;
 		sf::RenderWindow* m_window;
-		BasicGameRegion* m_activeRegion;
-
 	};
 
 }

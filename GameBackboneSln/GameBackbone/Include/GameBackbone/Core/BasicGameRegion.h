@@ -18,12 +18,12 @@ namespace GB {
 		/// <summary>shared_ptr to BasicGameRegion</summary>
 		using Ptr = std::shared_ptr<BasicGameRegion>;
 
-		BasicGameRegion() = default;
+		BasicGameRegion();
 		explicit BasicGameRegion(sf::RenderWindow& window);
 		BasicGameRegion(const BasicGameRegion&) = default;
 		BasicGameRegion& operator=(const BasicGameRegion&) = default;
-		BasicGameRegion(BasicGameRegion&&) = default;
-		BasicGameRegion& operator=(BasicGameRegion&&) = default;
+		BasicGameRegion(BasicGameRegion&&) noexcept = default;
+		BasicGameRegion& operator=(BasicGameRegion&&) noexcept = default;
 		virtual ~BasicGameRegion() = default;
 
 		[[nodiscard]]

@@ -1,5 +1,7 @@
 #include <GameBackbone/Core/GameRegion.h>
 
+#include <GameBackbone/Core/BasicGameRegion.h>
+
 #include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -77,16 +79,9 @@ namespace {
 /// are initialized empty or null. The regions GUI is bound to the passed window.
 /// </summary>
 /// <param name="window">The window.</param>
-GameRegion::GameRegion(sf::RenderWindow & window) : regionGUI(window) {
+GameRegion::GameRegion(sf::RenderWindow & window) : BasicGameRegion(window) {
 }
 
-/// <summary>
-/// Registers the callback function for changing the active region.
-/// </summary>
-/// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
-void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
-	setActiveRegionCB = std::move(newSetActiveRegionCB);
-}
 
 /// <summary>
 /// Add a drawable with a given priority to this GameRegion.
@@ -185,7 +180,7 @@ void GameRegion::clearDrawables(int priority) {
 /// Returns the count of all drawables stored on this GameRegion.
 /// </summary>
 /// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount() {
+std::size_t GameRegion::getDrawableCount() noexcept {
 	std::size_t count = 0;
 	// Loop through each priority of the drawables
 	// Add all of the sizes to the count
@@ -200,7 +195,7 @@ std::size_t GameRegion::getDrawableCount() {
 /// </summary>
 /// <param name="priority"> The priority of drawables to count </param>
 /// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount(int priority) {
+std::size_t GameRegion::getDrawableCount(int priority) noexcept {
 	std::size_t count = 0;
 	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
 
@@ -211,14 +206,6 @@ std::size_t GameRegion::getDrawableCount(int priority) {
 		count = tempDrawables.size();
 	}
 	return count;
-}
-
-/// <summary>
-/// Gets the GUI for this region.
-/// </summary>
-/// <returns>This regions GUI.</returns>
-tgui::Gui& GameRegion::getGUI() {
-	return regionGUI;
 }
 
 /// <summary>

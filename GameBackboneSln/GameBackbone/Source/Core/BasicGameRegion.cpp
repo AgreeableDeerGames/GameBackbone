@@ -11,14 +11,17 @@
 
 using namespace GB;
 
+/// <summary>
+/// Initializes a new instance of the <see cref="BasicGameRegion"/> class.
+/// </summary>
+BasicGameRegion::BasicGameRegion() : m_regionGUI(), m_provider(nullptr) {}
 
 /// <summary>
-/// Initializes a new instance of the <see cref="BasicGameRegion"/> class. All members except regionGUI
-/// are initialized empty or null. The regions GUI is bound to the passed window.
+/// Initializes a new instance of the <see cref="BasicGameRegion"/> class.
+/// The regions GUI is bound to the passed window.
 /// </summary>
 /// <param name="window">The window.</param>
-BasicGameRegion::BasicGameRegion(sf::RenderWindow& window) : m_regionGUI(window) {
-}
+BasicGameRegion::BasicGameRegion(sf::RenderWindow& window) : m_regionGUI(window), m_provider(nullptr) {}
 
 /// <summary>
 /// Gets the GUI for this region.
