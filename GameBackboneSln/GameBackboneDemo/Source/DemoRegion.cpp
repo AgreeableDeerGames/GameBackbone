@@ -6,7 +6,7 @@ using namespace EXE;
 /// Initializes a new instance of the <see cref="DemoRegion"/> class.
 /// </summary>
 /// <param name="window">The window.</param>
-DemoRegion::DemoRegion(sf::RenderWindow & window) : GameRegion(window) {
+DemoRegion::DemoRegion(sf::RenderWindow & window) : regionGUI(window){
 	initGui();
 }
 
@@ -30,6 +30,14 @@ void DemoRegion::handleKeyRelease(sf::Event::KeyEvent /*key*/){}
 void DemoRegion::addChild(DemoRegion::Ptr child) {
 	child->parent = this;
 	children.emplace_back(std::move(child));
+}
+
+/// <summary>
+/// Gets the GUI for this region.
+/// </summary>
+/// <returns>This regions GUI.</returns>
+tgui::Gui& DemoRegion::getGUI() {
+	return regionGUI;
 }
 
 /// <summary>

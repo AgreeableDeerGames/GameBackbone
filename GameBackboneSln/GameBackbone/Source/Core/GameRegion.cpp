@@ -73,14 +73,6 @@ namespace {
 
 
 /// <summary>
-/// Initializes a new instance of the <see cref="GameRegion"/> class. All members except regionGUI
-/// are initialized empty or null. The regions GUI is bound to the passed window.
-/// </summary>
-/// <param name="window">The window.</param>
-GameRegion::GameRegion(sf::RenderWindow & window) : regionGUI(window) {
-}
-
-/// <summary>
 /// Registers the callback function for changing the active region.
 /// </summary>
 /// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
@@ -211,14 +203,6 @@ std::size_t GameRegion::getDrawableCount(int priority) {
 		count = tempDrawables.size();
 	}
 	return count;
-}
-
-/// <summary>
-/// Gets the GUI for this region.
-/// </summary>
-/// <returns>This regions GUI.</returns>
-tgui::Gui& GameRegion::getGUI() {
-	return regionGUI;
 }
 
 /// <summary>

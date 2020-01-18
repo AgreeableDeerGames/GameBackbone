@@ -6,11 +6,6 @@
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/Util/DllUtil.h>
 
-#include <TGUI/TGUI.hpp>
-
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-
 #include <functional>
 #include <memory>
 #include <utility>
@@ -25,7 +20,6 @@ namespace GB {
 		using Ptr = std::shared_ptr<GameRegion>;
 		
 		GameRegion() = default;
-		explicit GameRegion(sf::RenderWindow & window);
 		GameRegion(const GameRegion&) = default;
 		GameRegion& operator=(const GameRegion&) = default;
 		GameRegion(GameRegion&&) = default;
@@ -43,9 +37,7 @@ namespace GB {
 		[[nodiscard]]
 		std::size_t getDrawableCount();
 		[[nodiscard]]
-		std::size_t getDrawableCount(int priority);
-
-		tgui::Gui& getGUI();
+		std::size_t getDrawableCount(int priority);		
 
 		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB);
 
@@ -66,7 +58,6 @@ namespace GB {
 	private:
 		std::vector<std::pair<int, std::vector<sf::Drawable*>>> prioritizedDrawables;
 
-		//GUI
-		tgui::Gui regionGUI;
+		
 	};
 }

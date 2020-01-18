@@ -18,10 +18,14 @@ namespace EXE {
 		virtual ~DemoCoreEventController() = default;
 
 		// Event handling
-		bool handleCoreEvent(sf::Event& event);
+		void handleEvent(sf::Event& event);
 		void postHandleEvent(sf::Event& event);
+		void postDraw();
 
 	private:
+		bool handleCoreEvent(sf::Event& event);
+		bool handleGuiEvent(sf::Event& event);
+
 		sf::View m_camera;
 		std::unique_ptr<MainMenuDemoRegion> m_mainMenuDemoRegion;
 	};

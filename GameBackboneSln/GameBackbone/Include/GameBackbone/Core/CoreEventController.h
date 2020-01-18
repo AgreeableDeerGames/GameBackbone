@@ -16,8 +16,8 @@ namespace GB {
 	/// Also provides simple and concise way to run the main game loop.
 	/// Clients should always override the empty handleCoreEvent.
 	///
-	/// The execution order of the helper functions is 1) preHandleEvent 2) handleGuiEvent 3) handleCoreEvent, 4) postHandleEvent,
-	/// 5) preDraw, 6) coreDraw, 7) postDraw, 8) preUpdate, 9) coreUpdate, 10) postUpdate
+	/// The execution order of the helper functions is 1) preHandleEvent 2) handleEvent 3) postHandleEvent,
+	/// 4) preDraw, 5) coreDraw, 6) postDraw, 7) preUpdate, 8) coreUpdate, 9) postUpdate
 	///
 	/// </summary>
 	template <class Child>
@@ -78,7 +78,7 @@ namespace GB {
 			while (m_window->isOpen()) {
 
 				while (m_window->pollEvent(event)) {
-					childCastThis()->handleEvent(event);
+					childCastThis()->baseHandleEvent(event);
 				}
 
 				childCastThis()->draw();
@@ -102,40 +102,20 @@ protected:
 		/// Handles all window and user input events.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		void handleEvent(sf::Event& event) {
+		void baseHandleEvent(sf::Event& event) {
 			childCastThis()->preHandleEvent(event);
-			if (!childCastThis()->handleGuiEvent(event)) {
-				childCastThis()->handleCoreEvent(event);
-			}
+			childCastThis()->handleEvent(event);
 			childCastThis()->postHandleEvent(event);
 		}
 
 		/// <summary>
-		/// Handles the GUI event.
-		/// </summary>
-		/// <param name="event">The event.</param>
-		/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
-		bool handleGuiEvent(sf::Event& event) {
-			return m_activeRegion->getGUI().handleEvent(event);
-		}
-
-		/// <summary>
-		/// Handles the non GUI event.
-		/// </summary>
-		/// <param name="event">The event.</param>
-		/// <returns>Returns true if the event was consumed. Returns false otherwise.</returns>
-		bool handleCoreEvent(sf::Event& /*event*/) {
-			return false;
-		}
-
-		/// <summary>
-		/// Called before handleGuiEvent and handleCoreEvent. Place logic to be executed before the main event logic here.
+		/// Called before baseHandleEvent Place logic to be executed before the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
 		void preHandleEvent(sf::Event& /*event*/) {}
 
 		/// <summary>
-		/// Called after handleGuiEvent and handleCoreEvent. Place logic to be executed after the main event logic here.
+		/// Called after handleEvent. Place logic to be executed after the main event logic here.
 		/// </summary>
 		/// <param name="event">The event.</param>
 		void postHandleEvent(sf::Event& /*event*/) {}
@@ -160,13 +140,11 @@ protected:
 		void preDraw() {}
 
 		/// <summary>
-		/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
+		/// Primary drawing logic. Draws every drawable object in the game region.
 		/// </summary>
 		void coreDraw() {
 			// Draw m_activeRegion so it can draw its drawables.
 			m_window->draw(*m_activeRegion);
-
-			m_activeRegion->getGUI().draw();
 		}
 
 		/// <summary>
