@@ -20,7 +20,7 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 	m_mainMenuDemoRegion = std::make_unique<MainMenuDemoRegion>(*m_window);
 
 	// Register the MainMenuDemoRegion as the active region
-	registerActiveRegion(*m_mainMenuDemoRegion.get());
+	m_activeRegion = m_mainMenuDemoRegion.get();
 
 	// Set the camera to the same as the window
 	m_camera.reset(sf::FloatRect(0, 0, (float)m_window->getSize().x, (float)m_window->getSize().y));

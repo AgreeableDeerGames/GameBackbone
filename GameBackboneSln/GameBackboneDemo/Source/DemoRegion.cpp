@@ -77,6 +77,6 @@ void DemoRegion::returnToMenuCB() {
 	// Ensure that the parent is not null
 	if (parent != nullptr) {
 		// Set parent as the new active region
-		giveActivation(*parent);
+		setNextRegion(parent);
 	}
 }

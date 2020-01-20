@@ -136,6 +136,12 @@ public:
 		m_window->close();
 	}
 
+	void setActiveRegion(BasicGameRegion* activeRegion)
+	{
+		// todo do this better
+		m_activeRegion = activeRegion;
+	}
+
 
 	// handle event trackers
 	bool hasFinishedHandleGuiEvent;
@@ -180,9 +186,9 @@ public:
 	/// <param name="elapsedTime">The elapsed time.</param>
 	void update(sf::Int64 /*elapsedTime*/) {
 		if (parent) {
-			giveActivation(*parent);
+			setNextRegion(parent);
 		} else if (children.front()) {
-			giveActivation(*children.front().get());
+			setNextRegion(children.front().get());
 		}
 	}
 
@@ -218,7 +224,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventController_Events)
 BOOST_AUTO_TEST_CASE(CoreEventController_RunLoop_No_Window_Event) {
 	TestCoreEventController testController;
 	GameRegion gameRegion;
-	testController.registerActiveRegion(gameRegion);
+	testController.setActiveRegion(&gameRegion);
 
 	testController.runLoop();
 
@@ -249,7 +255,7 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion) {
 	TestCoreEventController testController;
 
 	GameRegion region1;
-	testController.registerActiveRegion(region1);
+	testController.setActiveRegion(&region1);
 	BasicGameRegion* returnedRegion = testController.getActiveRegion();
 
 	//ensure that the region stored by testController is the one set by setActiveRegion
@@ -264,7 +270,7 @@ BOOST_AUTO_TEST_CASE(CoreEventController_setActiveRegion_From_Region) {
 	TestGameRegion testRegion(true);
 
 	//setup the first active region
-	testController.registerActiveRegion(testRegion);
+	testController.setActiveRegion(&testRegion);
 
 	//change to child region
 	testController.getActiveRegion()->update(0);

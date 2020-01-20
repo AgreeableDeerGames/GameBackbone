@@ -7,11 +7,10 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 
+#include <functional>
 #include <memory>
 
 namespace GB {
-	class ActivationProvider;
-
 	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
 	class libGameBackbone BasicGameRegion : public sf::Drawable, public Updatable {
 	public:
@@ -29,12 +28,8 @@ namespace GB {
 		[[nodiscard]]
 		tgui::Gui& getGUI();
 
-		[[nodiscard]]
-		bool giveActivation(BasicGameRegion& targetRegion);
-		void setActivationProvider(ActivationProvider& provider);
-
-		[[nodiscard]]
-		bool isActiveRegion();
+		BasicGameRegion& getNextRegion();
+		void setNextRegion(BasicGameRegion& nextRegion);
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
@@ -44,6 +39,6 @@ namespace GB {
 
 	private:
 		tgui::Gui m_regionGUI;
-		ActivationProvider* m_provider;
+		std::reference_wrapper<BasicGameRegion> m_nextRegion;
 	};
 }

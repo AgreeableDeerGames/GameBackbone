@@ -14,14 +14,14 @@ using namespace GB;
 /// <summary>
 /// Initializes a new instance of the <see cref="BasicGameRegion"/> class.
 /// </summary>
-BasicGameRegion::BasicGameRegion() : m_regionGUI(), m_provider(nullptr) {}
+BasicGameRegion::BasicGameRegion() : m_regionGUI(), m_nextRegion(*this) {}
 
 /// <summary>
 /// Initializes a new instance of the <see cref="BasicGameRegion"/> class.
 /// The regions GUI is bound to the passed window.
 /// </summary>
 /// <param name="window">The window.</param>
-BasicGameRegion::BasicGameRegion(sf::RenderWindow& window) : m_regionGUI(window), m_provider(nullptr) {}
+BasicGameRegion::BasicGameRegion(sf::RenderWindow& window) : m_regionGUI(window), m_nextRegion(*this) {}
 
 /// <summary>
 /// Gets the GUI for this region.
@@ -31,38 +31,20 @@ tgui::Gui& BasicGameRegion::getGUI() {
 	return m_regionGUI;
 }
 
-bool BasicGameRegion::isActiveRegion()
+/// <summary>
+/// The game region that will become active after the next update.
+/// </summary>
+/// <returns>The region that will become active.</returns>
+BasicGameRegion& BasicGameRegion::getNextRegion()
 {
-	if (m_provider != nullptr)
-	{
-		return m_provider->getActiveRegion() == this;
-	}
-	return false;
+	return m_nextRegion;
 }
 
 /// <summary>
-/// Attempts to transfer the active state from the target region to this one.
+/// Sets the BasicGameRegion that will become active after the next update.
 /// </summary>
-/// <param name="provider"> The region to take active state from. </param>
-/// <returns> True if the active state was successfully transfered. False otherwise. </returns>
-bool BasicGameRegion::giveActivation(BasicGameRegion& targetRegion)
+/// <param name="nextRegion">The region that will become active.</param>
+void BasicGameRegion::setNextRegion(BasicGameRegion& nextRegion)
 {
-	// !this->canGiveActivation  (aka, isActiveRegion? + ExtensionPoint)
-	if (!isActiveRegion())
-	{
-		return false;
-	}
-
-	this->m_provider->registerActiveRegion(targetRegion);
-	m_provider = nullptr;
-	return true;
-}
-
-void BasicGameRegion::setActivationProvider(ActivationProvider& provider)
-{
-	// TODO: Throw if cant
-	if (!isActiveRegion())
-	{
-		m_provider = &provider;
-	}
+	m_nextRegion = nextRegion;
 }

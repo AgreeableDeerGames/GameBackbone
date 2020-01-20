@@ -8,7 +8,6 @@ add_library(GameBackbone SHARED
 # include
 
   # core
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/ActivationProvider.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/Animation.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/AnimatedSprite.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/AnimationSet.h"

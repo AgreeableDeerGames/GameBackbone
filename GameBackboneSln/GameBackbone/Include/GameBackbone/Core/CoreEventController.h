@@ -21,7 +21,7 @@ namespace GB {
 	/// 5) preDraw, 6) coreDraw, 7) postDraw, 8) preUpdate, 9) coreUpdate, 10) postUpdate
 	///
 	/// </summary>
-	class CoreEventController : public ActivationProvider {
+	class CoreEventController {
 	public:
 		//ctr / dtr
 
@@ -51,6 +51,7 @@ namespace GB {
 		/// <param name="windowName">Name of the window.</param>
 		CoreEventController(int windowWidth, int windowHeight, const std::string & windowName) {
 			m_window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName);
+			m_activeRegion = nullptr;
 		}
 
 		/// <summary>
@@ -75,34 +76,20 @@ namespace GB {
 			}
 
 			while (m_window->isOpen()) {
-
 				while (m_window->pollEvent(event)) {
 					handleEvent(event);
 				}
 
 				draw();
 				update();
+				swapRegion();
 			}
 		}
-
-		/// <summary>
-		/// Changes the active region to the passed game region.
-		/// </summary>
-		/// <param name="activeRegion">The new active GameRegion.</param>
-		/*void setActiveRegion(GameRegion* activeRegion) {
-			m_activeRegion = activeRegion;
-		}*/
-
-		// bool registerActiveRegion(BasicGameRegion& regionToAdd) override
-		// {
-		// 	m_activeRegion = &regionToAdd;
-		// 	return true;
-		// }
-		// 
-		// BasicGameRegion* getActiveRegion() override
-		// {
-		// 	return m_activeRegion;
-		// }
+		
+		BasicGameRegion* getActiveRegion()
+		{
+			return m_activeRegion;
+		}
 
 protected:
 		//events
@@ -212,6 +199,20 @@ protected:
 		/// </summary>
 		virtual void postUpdate() {}
 
+		/// <summary>
+		/// Changes to the next active region if prompted by the current active region.
+		/// </summary>
+		virtual void swapRegion()
+		{
+			BasicGameRegion& newRegion = getActiveRegion()->getNextRegion();
+			if (m_activeRegion != &newRegion)
+			{
+				m_activeRegion->setNextRegion(*m_activeRegion);
+				m_activeRegion = &newRegion;
+			}
+		}
+		
+		BasicGameRegion* m_activeRegion;
 		sf::Clock m_updateClock;
 		sf::RenderWindow* m_window;
 	};
