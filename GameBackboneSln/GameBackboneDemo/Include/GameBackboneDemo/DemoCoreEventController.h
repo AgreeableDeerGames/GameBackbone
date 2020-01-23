@@ -19,8 +19,9 @@ namespace EXE {
 
 	protected:
 		// Event handling
+		void handleEvent(sf::Event& event) override;
 		bool handleCoreEvent(sf::Event& event) override;
-		void postHandleEvent(sf::Event& event) override;
+		void postHandleEvent();
 
 	private:
 		sf::View m_camera;

@@ -47,6 +47,7 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/AnimationSet.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/BasicGameRegion.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/CompoundSprite.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/CoreEventController.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/GameRegion.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/UniformAnimationSet.cpp"
 

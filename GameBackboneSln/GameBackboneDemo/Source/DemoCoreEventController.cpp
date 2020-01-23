@@ -13,20 +13,25 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 	sf::Image icon;
 	icon.loadFromFile(R"(Textures/Backbone2_small.png)");
 
-	// Set set the icon of the window to the loaded icon
-	this->m_window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	// Set the icon of the window to the loaded icon
+	this->getWindow().setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	// Initialize the MainMenuDemoRegion
-	m_mainMenuDemoRegion = std::make_unique<MainMenuDemoRegion>(*m_window);
+	m_mainMenuDemoRegion = std::make_unique<MainMenuDemoRegion>(getWindow());
 
 	// Register the MainMenuDemoRegion as the active region
-	m_activeRegion = m_mainMenuDemoRegion.get();
+	setActiveRegion(m_mainMenuDemoRegion.get());
 
 	// Set the camera to the same as the window
-	m_camera.reset(sf::FloatRect(0, 0, (float)m_window->getSize().x, (float)m_window->getSize().y));
+	m_camera.reset(sf::FloatRect(0, 0, (float)getWindow().getSize().x, (float)getWindow().getSize().y));
 }
 
 //events
+
+void DemoCoreEventController::handleEvent(sf::Event& event) {
+	CoreEventController::handleEvent(event);
+	postHandleEvent();
+}
 
 /// <summary>
 /// Handles non gui user/window events.
@@ -39,14 +44,14 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 		case sf::Event::Closed:
 		{
 			// Close the window, thus closing the game.
-			m_window->close();
+			getWindow().close();
 			return true;
 		}
 		case sf::Event::MouseMoved:
 		{
 			// Get the pixel position and map it to coordinates
 			sf::Vector2i mousePos(event.mouseMove.x, event.mouseMove.y);
-			sf::Vector2f actualPosition = m_window->mapPixelToCoords(mousePos);
+			sf::Vector2f actualPosition = getWindow().mapPixelToCoords(mousePos);
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleMouseMove(actualPosition);
 			return true;
@@ -55,7 +60,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 		{
 			// Get the pixel position and map it to coordinates
 			sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
-			sf::Vector2f actualPosition = m_window->mapPixelToCoords(mousePos);
+			sf::Vector2f actualPosition = getWindow().mapPixelToCoords(mousePos);
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleMouseClick(actualPosition, event.mouseButton.button);
 			return true;
@@ -83,7 +88,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			// Reset the camera to the same as the window
 			m_camera.reset(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height));
 			// Set the view on the window to be the reset camera
-			m_window->setView(m_camera);
+			getWindow().setView(m_camera);
 			// Set the view on the GUI to be the reset camera
 			getActiveRegion()->getGUI().setView(m_camera);
 			return true;
@@ -95,6 +100,6 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 	}
 }
 
-void DemoCoreEventController::postHandleEvent(sf::Event& /*event*/) {
+void DemoCoreEventController::postHandleEvent() {
 	getActiveRegion()->getGUI().unfocusAllWidgets();
 }
