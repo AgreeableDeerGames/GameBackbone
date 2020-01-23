@@ -64,6 +64,6 @@ void RegionChangeDemoRegion::handleMouseClick(sf::Vector2f /*newPosition*/, sf::
 	if (neighborPtr)
 	{
 		// Change active region to the neighbor
-		setNextRegion(neighborPtr.get());
+		setNextRegion(*neighborPtr.get());
 	}	
 }

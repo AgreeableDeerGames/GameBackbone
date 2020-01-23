@@ -186,9 +186,9 @@ public:
 	/// <param name="elapsedTime">The elapsed time.</param>
 	void update(sf::Int64 /*elapsedTime*/) {
 		if (parent) {
-			setNextRegion(parent);
+			setNextRegion(*parent);
 		} else if (children.front()) {
-			setNextRegion(children.front().get());
+			setNextRegion(*children.front().get());
 		}
 	}
 

@@ -29,6 +29,7 @@ namespace GB {
 		tgui::Gui& getGUI();
 
 		BasicGameRegion& getNextRegion();
+		const BasicGameRegion& getNextRegion() const;
 		void setNextRegion(BasicGameRegion& nextRegion);
 
 		/// <summary>
