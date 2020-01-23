@@ -8,6 +8,7 @@ add_executable(GameBackboneUnitTest
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimatedSpriteTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimationSetTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/Array2DTests.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/Source/BasicGameRegionTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/ClusterGreenhouseTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/ClusterTests.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CompoundSpriteTests.cpp"
@@ -40,6 +41,7 @@ endif()
 add_test(NAME AnimatedSpriteTests COMMAND GameBackboneUnitTest --run_test=AnimatedSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME AnimationSetTests COMMAND GameBackboneUnitTest --run_test=AnimationSetTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME Array2DTests COMMAND GameBackboneUnitTest --run_test=Array2D_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_test(NAME BasicGameRegionTests COMMAND GameBackboneUnitTest --run_test=BasicGameRegionTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME ClusterGreenhouseTests COMMAND GameBackboneUnitTest --run_test=ClusterGreenhouse_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME ClusterTests COMMAND GameBackboneUnitTest --run_test=Cluster_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME CompoundSpriteTests COMMAND GameBackboneUnitTest --run_test=CompoundSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
