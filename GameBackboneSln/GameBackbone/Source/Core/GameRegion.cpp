@@ -1,6 +1,6 @@
 #include <GameBackbone/Core/GameRegion.h>
 
-#include <TGUI/TGUI.hpp>
+#include <GameBackbone/Core/BasicGameRegion.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -69,23 +69,6 @@ namespace {
 	{
 		return vector.insert(std::upper_bound(vector.begin(), vector.end(), item, pred), item);
 	}
-}
-
-
-/// <summary>
-/// Initializes a new instance of the <see cref="GameRegion"/> class. All members except regionGUI
-/// are initialized empty or null. The regions GUI is bound to the passed window.
-/// </summary>
-/// <param name="window">The window.</param>
-GameRegion::GameRegion(sf::RenderWindow & window) : regionGUI(window) {
-}
-
-/// <summary>
-/// Registers the callback function for changing the active region.
-/// </summary>
-/// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
-void GameRegion::registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) {
-	setActiveRegionCB = std::move(newSetActiveRegionCB);
 }
 
 /// <summary>
@@ -185,7 +168,7 @@ void GameRegion::clearDrawables(int priority) {
 /// Returns the count of all drawables stored on this GameRegion.
 /// </summary>
 /// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount() {
+std::size_t GameRegion::getDrawableCount() const  noexcept {
 	std::size_t count = 0;
 	// Loop through each priority of the drawables
 	// Add all of the sizes to the count
@@ -200,25 +183,17 @@ std::size_t GameRegion::getDrawableCount() {
 /// </summary>
 /// <param name="priority"> The priority of drawables to count </param>
 /// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount(int priority) {
+std::size_t GameRegion::getDrawableCount(int priority) const noexcept {
 	std::size_t count = 0;
 	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
 
 	// If the iterator is not end, then we found a pair with the same priority.
 	// Set the count equal to the vectors size
 	if (it != prioritizedDrawables.end()) {
-		std::vector<sf::Drawable*>& tempDrawables = it->second;
+		const std::vector<sf::Drawable*>& tempDrawables = it->second;
 		count = tempDrawables.size();
 	}
 	return count;
-}
-
-/// <summary>
-/// Gets the GUI for this region.
-/// </summary>
-/// <returns>This regions GUI.</returns>
-tgui::Gui& GameRegion::getGUI() {
-	return regionGUI;
 }
 
 /// <summary>

@@ -9,6 +9,7 @@ This guide will show you how to
     - [2.2: Install dependencies](#22-install-dependencies)
       - [2.2.1: vcpkg install](#221-vcpkg-install)
       - [2.2.2: custom install](#222-custom-install)
+        - [2.2.2.1: custom GUI install](#2221-custom-gui-install)
     - [2.3: Install GameBackbone](#23-install-gamebackbone)
 
 ## 1: vcpkg
@@ -42,9 +43,14 @@ You can either install all the dependencies on your own or use the installVCPKG 
 #### 2.2.2: custom install
 Build and install the following dependencies on your own. 
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
-* [TGUI](https://tgui.eu/)
 * [Box2D](https://box2d.org/) (optional for demo)
 * [Boost](https://www.boost.org/users/download/) (optional for tests)
+
+##### 2.2.2.1: custom GUI install
+The GameBackbone Demo uses TGUI for its interface. However, other GUI libraries can be used.
+TGUI can be installed from here if desired:
+* [TGUI](https://tgui.eu/)
+
 
 ### 2.3: Install GameBackbone
 

@@ -2,7 +2,11 @@
 
 #include <GameBackbone/Core/GameRegion.h>
 
+#include <TGUI/TGUI.hpp>
+
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <memory>
 #include <vector>
@@ -16,13 +20,13 @@ namespace EXE {
 		using Ptr = std::shared_ptr<DemoRegion>;
 
 		// Constructors
-		DemoRegion(sf::RenderWindow & window);
+		explicit DemoRegion(sf::RenderWindow & window);
 		virtual ~DemoRegion() = default;
 
 		DemoRegion() = delete;
 		DemoRegion(const DemoRegion& other) = delete;
-		DemoRegion(DemoRegion&& other) = delete;
 		DemoRegion& operator= (const DemoRegion& other) = delete;
+		DemoRegion(DemoRegion&& other) = delete;
 		DemoRegion& operator= (DemoRegion&& other) = delete;
 
 		// Handle sf::Events
@@ -35,10 +39,13 @@ namespace EXE {
 		// Relations
 		void addChild(DemoRegion::Ptr child);
 
+		// GUI
+		tgui::Gui& getGUI();
+
 	protected:
 		// Initialization and Cleanup
 		void initGui();
-		virtual void reset();
+		virtual void reset();				
 
 		// Handle TGUI Callbacks
 		virtual void returnToMenuCB();
@@ -50,6 +57,10 @@ namespace EXE {
 		// GUI Members
 		tgui::Button::Ptr returnToMenuButton;
 		tgui::Button::Ptr resetButton;
+
+		//GUI
+		tgui::Gui regionGUI;
+
 	};
 
 }

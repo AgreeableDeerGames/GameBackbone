@@ -35,22 +35,6 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 			delete gameRegion;
 		}
 
-		// Tests the window constructor
-		BOOST_AUTO_TEST_CASE(GameRegion_window_CTR) {
-
-			const int WINDOW_HEIGHT = 700;
-			const int WINDOW_WIDTH = 700;
-
-			sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TestWindow");
-			GameRegion* gameRegion = new GameRegion(*window);
-
-			BOOST_CHECK(gameRegion->getDrawableCount() == 0);
-			BOOST_CHECK(gameRegion->getGUI().getTarget() == window);
-
-			delete window;
-			delete gameRegion;
-		}
-
 	BOOST_AUTO_TEST_SUITE_END() // end GameRegion_CTRs
 
 	BOOST_AUTO_TEST_SUITE(GameRegion_addDrawable_tests)
@@ -542,23 +526,6 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 			BOOST_CHECK_THROW(gameRegion->addDrawable(0, sprite), std::invalid_argument);
 
-			delete gameRegion;
-		}
-
-		//Tests getting GUI with getGUI
-		BOOST_AUTO_TEST_CASE(GameRegion_getGUI) {
-			GameRegion* gameRegion = new GameRegion();
-
-			sf::RenderWindow* newWindow = new sf::RenderWindow(sf::VideoMode(1, 1), "NewWindow");
-
-			//get reference to gameRegion's GUI, then change the reference's window.
-			tgui::Gui& regionGUI = gameRegion->getGUI();
-			regionGUI.setTarget(*newWindow);
-
-			//If the GUI reference is mutable, then newWindow will be gameRegion's window
-			BOOST_CHECK(gameRegion->getGUI().getTarget() == newWindow);
-
-			delete newWindow;
 			delete gameRegion;
 		}
 
