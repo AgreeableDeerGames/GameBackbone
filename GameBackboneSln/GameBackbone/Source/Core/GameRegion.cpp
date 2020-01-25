@@ -168,7 +168,7 @@ void GameRegion::clearDrawables(int priority) {
 /// Returns the count of all drawables stored on this GameRegion.
 /// </summary>
 /// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount() noexcept {
+std::size_t GameRegion::getDrawableCount() const  noexcept {
 	std::size_t count = 0;
 	// Loop through each priority of the drawables
 	// Add all of the sizes to the count
@@ -183,14 +183,14 @@ std::size_t GameRegion::getDrawableCount() noexcept {
 /// </summary>
 /// <param name="priority"> The priority of drawables to count </param>
 /// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount(int priority) noexcept {
+std::size_t GameRegion::getDrawableCount(int priority) const noexcept {
 	std::size_t count = 0;
 	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
 
 	// If the iterator is not end, then we found a pair with the same priority.
 	// Set the count equal to the vectors size
 	if (it != prioritizedDrawables.end()) {
-		std::vector<sf::Drawable*>& tempDrawables = it->second;
+		const std::vector<sf::Drawable*>& tempDrawables = it->second;
 		count = tempDrawables.size();
 	}
 	return count;

@@ -35,9 +35,9 @@ namespace GB {
 		void clearDrawables(int priority);
 
 		[[nodiscard]]
-		std::size_t getDrawableCount() noexcept;
+		std::size_t getDrawableCount() const noexcept;
 		[[nodiscard]]
-		std::size_t getDrawableCount(int priority) noexcept;
+		std::size_t getDrawableCount(int priority) const noexcept;
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
