@@ -175,6 +175,44 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 	BOOST_CHECK(moves == 4);
 }
 
+BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_DoesCopyConstruction)
+{
+	CompoundSprite compoundSprite{};
+	CompoundSprite compoundSprite2(compoundSprite);
+	CompoundSprite compoundSprite3{ compoundSprite };
+	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
+	BOOST_CHECK(compoundSprite3.getComponentCount() == 0);
+}
+
+BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_ClonesComponents)
+{
+	int copies = 0;
+	int moves = 0;
+	dummy dummy1{ copies , moves };
+	CompoundSprite compoundSprite{ std::move(dummy1) };
+	CompoundSprite compoundSprite2(compoundSprite);
+	BOOST_CHECK(copies == 1);
+}
+
+BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesCopyConstruction)
+{
+	CompoundSprite compoundSprite{};
+	CompoundSprite compoundSprite2(std::move(compoundSprite));
+	CompoundSprite compoundSprite3{ std::move(compoundSprite) };
+	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
+	BOOST_CHECK(compoundSprite3.getComponentCount() == 0);
+}
+
+BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesNotCloneComponents)
+{
+	int copies = 0;
+	int moves = 0;
+	dummy dummy1{ copies , moves };
+	CompoundSprite compoundSprite{ std::move(dummy1) };
+	CompoundSprite compoundSprite2(std::move(compoundSprite));
+	BOOST_CHECK(copies == 0);
+}
+
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_CTR
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_addComponent)
