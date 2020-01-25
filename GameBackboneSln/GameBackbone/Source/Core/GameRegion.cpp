@@ -2,8 +2,6 @@
 
 #include <GameBackbone/Core/BasicGameRegion.h>
 
-#include <TGUI/TGUI.hpp>
-
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <algorithm>

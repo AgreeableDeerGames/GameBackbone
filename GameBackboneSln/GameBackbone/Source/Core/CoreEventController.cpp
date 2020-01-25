@@ -93,7 +93,7 @@ void CoreEventController::setActiveRegion(BasicGameRegion* activeRegion)
 }
 
 /// <summary>
-/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
+/// Primary drawing logic. Draws every drawable object in the game region.
 /// </summary>
  void CoreEventController::repaint() {
 	 m_window.clear();
@@ -104,7 +104,7 @@ void CoreEventController::setActiveRegion(BasicGameRegion* activeRegion)
 }
 
  /// <summary>
-/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
+/// Primary drawing logic. Draws every drawable object in the game region.
 /// </summary>
  void CoreEventController::draw() {
 	 // Draw m_activeRegion so it can draw its drawables.
