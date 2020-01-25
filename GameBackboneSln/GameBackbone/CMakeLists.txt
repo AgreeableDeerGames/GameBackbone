@@ -97,11 +97,6 @@ if(SFML_FOUND)
   target_link_libraries(GameBackbone PUBLIC sfml-graphics sfml-network sfml-audio sfml-window sfml-system)
 endif()
 
-find_package(TGUI 0.8.2 REQUIRED)
-if(TGUI_FOUND)
-  target_link_libraries(GameBackbone PUBLIC tgui)
-endif()
-
 target_include_directories(
   GameBackbone
     PUBLIC
