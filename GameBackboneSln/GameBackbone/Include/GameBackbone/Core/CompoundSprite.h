@@ -16,29 +16,35 @@
 
 namespace GB {
 
-	// Base Trait for sf::Drawable
+	/// <summary> Checks if a type is drawable. </summary>
 	template <class InType>
 	struct is_drawable : std::is_base_of<sf::Drawable, InType> {};
+
+	/// <summary> Checks if a type is drawable. </summary>
 	template <class InType>
 	inline constexpr bool is_drawable_v = is_drawable<InType>::value;
 
-	// Base Trait for sf::Transformable
+	/// <summary> Checks if a type is transformable. </summary>
 	template <class InType>
 	struct is_transformable : std::is_base_of<sf::Transformable, InType> {};
+
+	/// <summary> Checks if a type is transformable. </summary>
 	template <class InType>
 	inline constexpr bool is_transformable_v = is_transformable<InType>::value;
 
-	// Base Trait for GB::Updatable
-	template <class InType, class result_type = void>
+	/// <summary> Checks if a type is updatable. </summary>
+	template <class InType>
 	struct is_updatable : std::is_base_of<GB::Updatable, InType> {};
+
+	/// <summary> Checks if a type is updatable. </summary>
 	template <class InType>
 	inline constexpr bool is_updatable_v = is_updatable<InType>::value;
 
-	// Type trait for sf::Drawable and sf::Transformable
+	/// <summary> Checks if a type is fulfills the requirements of a CompoundSprite component. (Drawable and Transformable) </summary>
 	template <class InType>
 	inline constexpr bool is_component_v = (is_drawable_v<InType> && is_transformable_v<InType>);
 
-	// Checks the type trait for all InTypes using variadic templates. Forwards individually to is_component_v
+	/// <summary> Checks if all types fulfill the requirements of a CompoundSprite component. (Drawable and Transformable) </summary>
 	template <class... InTypes>
 	inline constexpr bool are_all_components_v = (is_component_v<InTypes> && ...);
 
@@ -98,6 +104,7 @@ namespace GB {
 				);
 			}
 		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompoundSprite"/> class and returns it. This forwards to the Copy Constructor.
 		/// </summary>
@@ -108,13 +115,17 @@ namespace GB {
 			*this = std::move(tempOther);
 			return *this;
 		}
+
 		CompoundSprite(CompoundSprite&&) noexcept = default;
+
 		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
+
 		virtual ~CompoundSprite() = default;
 
 		// Component Getters
-		virtual std::size_t getComponentCount() const;
-		virtual bool isEmpty() const;
+		std::size_t getComponentCount() const;
+
+		bool isEmpty() const;
 
 		/// <summary>
 		/// Adds the passed in Component to the CompoundSprite and returns a reference to it.
@@ -139,7 +150,7 @@ namespace GB {
 			component.setPosition(getPosition().x, getPosition().y);
 
 			// Add the component to the internalComponents
-			std::unique_ptr<InternalType>& returnValue = m_internalComponents.emplace_back(std::make_unique<ComponentAdapter<Component>>(std::move(component))); // Should this be perfect forwarding?
+			std::unique_ptr<InternalType>& returnValue = m_internalComponents.emplace_back(std::make_unique<ComponentAdapter<Component>>(std::move(component)));
 		
 			// Return the place in the components vector that the new component was placed.
 			return static_cast<ComponentAdapter<Component>*>(returnValue.get())->data;
@@ -236,14 +247,14 @@ namespace GB {
 			// If the Component is not an GB::Updatable, it is an empty function call.
 			void update(sf::Int64 elapsedTime) override
 			{
-				update_helper<Component>(elapsedTime);
+				updateHelper<Component>(elapsedTime);
 			}
 
 			// The update_helper method for anything that inherits from GB::Updatable. Forwards the call to the data.
 			template <class Component,
 				std::enable_if_t<is_updatable_v<Component>, bool> = true
 			>
-			void update_helper(sf::Int64 elapsedTime)
+			void updateHelper(sf::Int64 elapsedTime)
 			{
 				data.update(elapsedTime);
 			}
@@ -252,14 +263,13 @@ namespace GB {
 			template <class Component,
 				std::enable_if_t<!is_updatable_v<Component>, bool> = true
 			>
-			void update_helper(sf::Int64) {}
+			void updateHelper(sf::Int64) {}
 
 			// Clones the object as a unique pointer. Always called virtually from InternalType. 
 			// It cannot be done in InternalType as the type has already been erased. This can be done here as the type of Component is known.
 			std::unique_ptr<InternalType> cloneAsUnique() override
 			{
-				std::unique_ptr<InternalType> internalName = std::make_unique<ComponentAdapter<Component>>(data);
-				return std::unique_ptr<InternalType>();
+				return std::make_unique<ComponentAdapter<Component>>(data);
 			}
 
 			// Overrides for the VirtualTransformable API. Forwards to the data.
@@ -285,7 +295,6 @@ namespace GB {
 			// The Component data stored as a value type.
 			Component data;
 		};
-
 
 		// Internal storage of the Components for CompoundSprite
 		std::vector<std::unique_ptr<InternalType>> m_internalComponents;	
