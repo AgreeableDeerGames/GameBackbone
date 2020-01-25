@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_SUITE(CoreEventControllerTests)
 /// Fake CoreEventRontroller for testing functionality
 /// </summary>
 /// <seealso cref="CoreEventController" />
-class TestCoreEventController : public CoreEventController
+class TestCoreEventController final : public CoreEventController
 {
 public:
 	// ctr / dtr
@@ -30,15 +30,13 @@ public:
 		hasFinishedHandleGuiEvent = false;
 		hasFinishedSwap = false;
 	}
-	~TestCoreEventController() {}
+	virtual ~TestCoreEventController() {}
 
 	// test event functions
-
+protected:
 	void handleEvent(sf::Event& event) override {
 		BOOST_CHECK(!hasFinishedHandleCoreEvent);
 		BOOST_CHECK(!hasFinishedHandleGuiEvent);
-
-		CoreEventController::handleEvent(event);
 
 		BOOST_CHECK(hasFinishedHandleCoreEvent);
 		BOOST_CHECK(hasFinishedHandleGuiEvent);
@@ -47,23 +45,24 @@ public:
 		hasFinishedHandleCoreEvent = false;
 		hasFinishedHandleGuiEvent = false;
 	}
+public:
 
-	/// pretend to handle the gui event if its a LostFocus event
-	bool handleGuiEvent(sf::Event& event) override {
-		if (event.type == sf::Event::LostFocus) {
-			hasFinishedHandleGuiEvent = true;
-			return true;
-		}
-		return false;
-	}
+	///// pretend to handle the gui event if its a LostFocus event
+	//bool handleGuiEvent(sf::Event& event) override {
+	//	if (event.type == sf::Event::LostFocus) {
+	//		hasFinishedHandleGuiEvent = true;
+	//		return true;
+	//	}
+	//	return false;
+	//}
 
-	/// always handle core events
-	bool handleCoreEvent(sf::Event& /*event*/) override {
-		// handleCoreEvent only fires when the GUI does not handle the event
-		BOOST_CHECK(!hasFinishedHandleGuiEvent);
-		hasFinishedHandleCoreEvent = true;
-		return true;
-	}
+	///// always handle core events
+	//bool handleCoreEvent(sf::Event& /*event*/) override {
+	//	// handleCoreEvent only fires when the GUI does not handle the event
+	//	BOOST_CHECK(!hasFinishedHandleGuiEvent);
+	//	hasFinishedHandleCoreEvent = true;
+	//	return true;
+	//}
 
 	void draw() override {
 		hasFinishedDraw = true;

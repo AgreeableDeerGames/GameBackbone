@@ -7,7 +7,7 @@
 #include <memory>
 
 namespace EXE {
-	class DemoCoreEventController : public GB::CoreEventController {
+	class DemoCoreEventController final : public GB::CoreEventController {
 	public:
 		// Constructors
 		DemoCoreEventController();

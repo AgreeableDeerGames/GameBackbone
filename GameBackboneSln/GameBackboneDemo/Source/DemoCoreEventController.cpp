@@ -46,7 +46,7 @@ void DemoCoreEventController::handleEvent(sf::Event& event)
 void DemoCoreEventController::draw()
 {
 	CoreEventController::draw();
-	static_cast<DemoRegion*>(getActiveRegion())->getGUI().draw();
+	postDraw();
 }
 
 /// <summary>
