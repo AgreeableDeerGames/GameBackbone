@@ -70,7 +70,7 @@ set_target_properties(
   GameBackbone 
   PROPERTIES
     DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
-    VERSION 0.2.2
+    VERSION 0.3.0
 )
 
 # Set warnings to GB defaults
