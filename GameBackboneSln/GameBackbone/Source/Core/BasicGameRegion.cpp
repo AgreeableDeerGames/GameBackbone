@@ -1,7 +1,5 @@
 #include <GameBackbone/Core/BasicGameRegion.h>
 
-#include <TGUI/TGUI.hpp>
-
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <algorithm>
@@ -13,22 +11,7 @@ using namespace GB;
 /// <summary>
 /// Initializes a new instance of the <see cref="BasicGameRegion"/> class.
 /// </summary>
-BasicGameRegion::BasicGameRegion() : m_regionGUI(), m_nextRegion(*this) {}
-
-/// <summary>
-/// Initializes a new instance of the <see cref="BasicGameRegion"/> class.
-/// The regions GUI is bound to the passed window.
-/// </summary>
-/// <param name="window">The window.</param>
-BasicGameRegion::BasicGameRegion(sf::RenderWindow& window) : m_regionGUI(window), m_nextRegion(*this) {}
-
-/// <summary>
-/// Gets the GUI for this region.
-/// </summary>
-/// <returns>This regions GUI.</returns>
-tgui::Gui& BasicGameRegion::getGUI() {
-	return m_regionGUI;
-}
+BasicGameRegion::BasicGameRegion() : m_nextRegion(*this) {}
 
 /// <summary>
 /// Gets the game region that should become active after the next update of this one.

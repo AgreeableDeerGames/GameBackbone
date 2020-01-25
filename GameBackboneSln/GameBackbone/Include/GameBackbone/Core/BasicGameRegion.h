@@ -3,8 +3,6 @@
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/Util/DllUtil.h>
 
-#include <TGUI/TGUI.hpp>
-
 #include <SFML/Graphics/Drawable.hpp>
 
 #include <functional>
@@ -18,15 +16,11 @@ namespace GB {
 		using Ptr = std::shared_ptr<BasicGameRegion>;
 
 		BasicGameRegion();
-		explicit BasicGameRegion(sf::RenderWindow& window);
 		BasicGameRegion(const BasicGameRegion&) = default;
 		BasicGameRegion& operator=(const BasicGameRegion&) = default;
 		BasicGameRegion(BasicGameRegion&&) noexcept = default;
 		BasicGameRegion& operator=(BasicGameRegion&&) noexcept = default;
 		virtual ~BasicGameRegion() = default;
-
-		[[nodiscard]]
-		tgui::Gui& getGUI();
 
 		BasicGameRegion& getNextRegion();
 		const BasicGameRegion& getNextRegion() const;
@@ -39,7 +33,6 @@ namespace GB {
 		void update(sf::Int64 /*elapsedTime*/) override {}
 
 	private:
-		tgui::Gui m_regionGUI;
 		std::reference_wrapper<BasicGameRegion> m_nextRegion;
 	};
 }

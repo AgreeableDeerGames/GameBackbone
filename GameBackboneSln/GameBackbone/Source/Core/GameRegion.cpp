@@ -73,16 +73,6 @@ namespace {
 	}
 }
 
-
-/// <summary>
-/// Initializes a new instance of the <see cref="GameRegion"/> class. All members except regionGUI
-/// are initialized empty or null. The regions GUI is bound to the passed window.
-/// </summary>
-/// <param name="window">The window.</param>
-GameRegion::GameRegion(sf::RenderWindow & window) : BasicGameRegion(window) {
-}
-
-
 /// <summary>
 /// Add a drawable with a given priority to this GameRegion.
 /// If the drawable already exists, its priority will be updated.

@@ -1,5 +1,8 @@
 #include <GameBackbone/Core/CoreEventController.h>
 
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+
 using namespace GB;
 
 static const int DEFAULT_WINDOW_HEIGHT = 700;
@@ -90,34 +93,6 @@ void CoreEventController::setActiveRegion(BasicGameRegion* activeRegion)
 }
 
 /// <summary>
-/// Handles all window and user input events.
-/// </summary>
-/// <param name="event">The event.</param>
-void CoreEventController::handleEvent(sf::Event& event) {
-	if (!handleGuiEvent(event)) {
-		handleCoreEvent(event);
-	}
-}
-
-/// <summary>
-/// Handles the GUI event.
-/// </summary>
-/// <param name="event">The event.</param>
-/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
- bool CoreEventController::handleGuiEvent(sf::Event& event) {
-	return getActiveRegion()->getGUI().handleEvent(event);
-}
-
-/// <summary>
-/// Handles the non GUI event.
-/// </summary>
-/// <param name="event">The event.</param>
-/// <returns>Returns true if the event was consumed. Returns false otherwise.</returns>
- bool CoreEventController::handleCoreEvent(sf::Event& /*event*/) {
-	return false;
-}
-
-/// <summary>
 /// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
 /// </summary>
  void CoreEventController::draw() {
@@ -125,7 +100,6 @@ void CoreEventController::handleEvent(sf::Event& event) {
 
 	 // Draw m_activeRegion so it can draw its drawables.
 	m_window.draw(*getActiveRegion());
-	getActiveRegion()->getGUI().draw();
 
 	m_window.display();
 }

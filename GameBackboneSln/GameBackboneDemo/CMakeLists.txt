@@ -60,6 +60,11 @@ else()
     gamebackbone_message("Building demo without PlatformDemo")
 endif()
 
+find_package(TGUI 0.8.2 REQUIRED)
+if(TGUI_FOUND)
+  target_link_libraries(GameBackboneDemo PUBLIC tgui)
+endif()
+
 # Link to GB
 target_link_libraries(GameBackboneDemo PRIVATE GameBackbone)
 

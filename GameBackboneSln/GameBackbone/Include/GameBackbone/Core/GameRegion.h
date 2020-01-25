@@ -20,7 +20,6 @@ namespace GB {
 		using Ptr = std::shared_ptr<GameRegion>;
 		
 		GameRegion() = default;
-		explicit GameRegion(sf::RenderWindow & window);
 		GameRegion(const GameRegion&) = default;
 		GameRegion& operator=(const GameRegion&) = default;
 		GameRegion(GameRegion&&) = default;

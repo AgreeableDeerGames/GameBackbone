@@ -2,6 +2,9 @@
 
 #include <GameBackbone/Core/GameRegion.h>
 
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include <string>
 #include <iostream>
 
@@ -21,14 +24,13 @@ namespace GB {
 		explicit CoreEventController(const std::string& windowName);
 		CoreEventController(int windowWidth, int windowHeight);
 		CoreEventController(int windowWidth, int windowHeight, const std::string& windowName);
-		~CoreEventController();
+		virtual ~CoreEventController();
 
 		CoreEventController(const CoreEventController& other) = delete;
 		CoreEventController& operator=(const CoreEventController& other) = delete;
 		CoreEventController(CoreEventController&& other) noexcept = default;
 		CoreEventController& operator=(CoreEventController&& other) noexcept = default;
 
-		// operations
 		void runLoop();
 
 		BasicGameRegion* getActiveRegion();
@@ -38,9 +40,11 @@ namespace GB {
 		void setActiveRegion(BasicGameRegion* activeRegion);
 
 		// Loop operations
-		virtual void handleEvent(sf::Event& event);
-		virtual bool handleGuiEvent(sf::Event& event);
-		virtual bool handleCoreEvent(sf::Event& /*event*/);
+		/// <summary>
+		/// Handles all window and user input events.
+		/// </summary>
+		/// <param name="event">The event.</param>
+		virtual void handleEvent(sf::Event& event) = 0;
 		virtual void draw();
 		virtual void update();
 		virtual void swapRegion();

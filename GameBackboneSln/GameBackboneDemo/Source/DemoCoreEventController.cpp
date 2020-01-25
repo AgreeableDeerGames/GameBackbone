@@ -1,6 +1,7 @@
 #include <GameBackboneDemo/DemoCoreEventController.h>
 #include <GameBackboneDemo/NavigationDemoRegion.h>
 
+#include <TGUI/TGUI.hpp>
 #include <SFML/Graphics.hpp>
 
 using namespace EXE;
@@ -26,19 +27,13 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 	m_camera.reset(sf::FloatRect(0, 0, (float)getWindow().getSize().x, (float)getWindow().getSize().y));
 }
 
-//events
-
-void DemoCoreEventController::handleEvent(sf::Event& event) {
-	CoreEventController::handleEvent(event);
-	postHandleEvent();
-}
-
 /// <summary>
 /// Handles non gui user/window events.
 /// </summary>
 /// <param name="event">The event.</param>
 /// <returns></returns>
 bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
+
 	// Handle events not handled by the GUI
 	switch (event.type) {
 		case sf::Event::Closed:
@@ -90,7 +85,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			// Set the view on the window to be the reset camera
 			getWindow().setView(m_camera);
 			// Set the view on the GUI to be the reset camera
-			getActiveRegion()->getGUI().setView(m_camera);
+			static_cast<DemoRegion*>(getActiveRegion())->getGUI().setView(m_camera);
 			return true;
 		}
 		default:
@@ -101,5 +96,35 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 }
 
 void DemoCoreEventController::postHandleEvent() {
-	getActiveRegion()->getGUI().unfocusAllWidgets();
+	static_cast<DemoRegion*>(getActiveRegion())->getGUI().unfocusAllWidgets();
+}
+
+void DemoCoreEventController::postDraw() {
+	static_cast<DemoRegion*>(getActiveRegion())->getGUI().draw();
+}
+
+/// <summary>
+/// Handles the GUI event.
+/// </summary>
+/// <param name="event">The event.</param>
+/// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
+bool DemoCoreEventController::handleGuiEvent(sf::Event& event) {
+	if (!static_cast<DemoRegion*>(getActiveRegion())->getGUI().handleEvent(event)) {
+		return false;
+	}
+	return true;
+}
+
+// <summary>
+// Handles all events
+// </summary>
+// <param name = "event">The event.< / param>
+// 'handleGuiEvent' function is a function of TGUI.
+// It can be replaced if you want to use a different GUI handler.
+void DemoCoreEventController::handleEvent(sf::Event & event)
+{
+	if (!handleGuiEvent(event)) {
+		handleCoreEvent(event);
+	}
+	postHandleEvent();
 }

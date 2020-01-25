@@ -20,10 +20,15 @@ namespace EXE {
 	protected:
 		// Event handling
 		void handleEvent(sf::Event& event) override;
-		bool handleCoreEvent(sf::Event& event) override;
 		void postHandleEvent();
 
 	private:
+		bool handleCoreEvent(sf::Event& event);
+		bool handleGuiEvent(sf::Event& event);
+
+		void postHandleEvent(sf::Event& event);
+		void postDraw();
+
 		sf::View m_camera;
 		std::unique_ptr<MainMenuDemoRegion> m_mainMenuDemoRegion;
 	};
