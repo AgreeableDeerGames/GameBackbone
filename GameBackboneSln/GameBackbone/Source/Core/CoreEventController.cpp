@@ -40,7 +40,9 @@ CoreEventController::CoreEventController(int windowWidth, int windowHeight, cons
 /// </summary>
 CoreEventController::~CoreEventController() {}
 
-//operations
+/// <summary>
+/// The main loop of the <see cref="CoreEventController"/>. This loop is blocking.
+/// </summary>
 void CoreEventController::runLoop() {
 	sf::Event event;
 
@@ -60,25 +62,37 @@ void CoreEventController::runLoop() {
 	}
 }
 
+/// <summary>
+/// Returns the currently active game region, on which all of the operation are being performed.
+/// </summary>
+/// <returns>The currently active game region.</returns>
 BasicGameRegion* CoreEventController::getActiveRegion()
 {
 	return m_activeRegion;
 }
 
+/// <summary>
+/// Returns the window owned by the <see cref="CoreEventController"/>.
+/// </summary>
+/// <returns>The window.</returns>
 sf::RenderWindow& CoreEventController::getWindow()
 {
 	return m_window;
 }
 
+/// <summary>
+/// Set the active region on the <see cref="CoreEventController"/>.
+/// </summary>
+/// <param name="activeRegion">The region that will become the active region</param>
 void CoreEventController::setActiveRegion(BasicGameRegion* activeRegion)
 {
 	m_activeRegion = activeRegion;
 }
 
 /// <summary>
-		/// Handles all window and user input events.
-		/// </summary>
-		/// <param name="event">The event.</param>
+/// Handles all window and user input events.
+/// </summary>
+/// <param name="event">The event.</param>
 void CoreEventController::handleEvent(sf::Event& event) {
 	if (!handleGuiEvent(event)) {
 		handleCoreEvent(event);
