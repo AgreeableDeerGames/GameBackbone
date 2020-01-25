@@ -165,7 +165,7 @@ struct ReusableCompoundPathfindingObjects {
 			sprites.push_back(sprite1);
 			sprites.push_back(sprite2);
 
-			CompoundSprite* compoundSprite = new CompoundSprite({ *sprite1, *sprite2 });
+			CompoundSprite* compoundSprite = new CompoundSprite(*sprite1, *sprite2);
 			compoundSprites.push_back(compoundSprite);
 		}
 
@@ -336,128 +336,6 @@ BOOST_FIXTURE_TEST_CASE(moveSpriteAlongPath_No_Rotation, ReusableCompoundPathfin
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end moveSpriteAlongPathTests
-
-
-BOOST_AUTO_TEST_SUITE(moveCompoundSpriteAlongPathTests)
-
-// ensure that a single CompoundSprite following a path can reach its destination
-BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination, ReusableCompoundPathfindingObjects) {
-	// move sprite to the end of the path
-	const size_t NUM_STEPS = paths[2]->size();
-	for (size_t i = 0; i < NUM_STEPS; i++) {
-		moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, FLT_MAX, {}, {});
-	}
-
-	// ensure that the sprite is at the final position in the path
-	BOOST_CHECK(compoundSprites[2]->getPosition() == backupPaths[2]->back());
-}
-
-// Test that the moving CompoundSprite moves to each consecutive point in the path in-order
-BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Follow_Full_Path, ReusableCompoundPathfindingObjects) {
-	// move sprite to the end of the path
-	const size_t NUM_STEPS = paths[2]->size();
-	for (size_t i = 0; i < NUM_STEPS; i++) {
-		moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, FLT_MAX, {}, {});
-
-		// Test that the moving sprite moves to each consecutive point in the path in-order
-		BOOST_CHECK(compoundSprites[2]->getPosition() == backupPaths[2]->front());
-		backupPaths[2]->pop_front();
-	}
-}
-
-// Test that destinations can be reached even if it takes more than one move to get there
-BOOST_FIXTURE_TEST_CASE(moveCompoundSpriteAlongPath_Reach_Destination_SmallSteps, ReusableCompoundPathfindingObjects) {
-	// move sprite to the end of the path
-
-	// ensure that it takes two moves to reach the first point
-	moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, 1.0f, {}, {});
-	BOOST_CHECK(compoundSprites[2]->getPosition() != backupPaths[2]->front());
-	moveCompoundSpriteAlongPath(*compoundSprites[2], paths[2], 1, 1.0f, {}, {});
-	BOOST_CHECK(compoundSprites[2]->getPosition() == backupPaths[2]->front());
-}
-
-BOOST_AUTO_TEST_SUITE_END() // end moveCompoundSpriteAlongPathTests
-
-
-BOOST_AUTO_TEST_SUITE(moveCompoundSpriteStepTowardsPointTests)
-
-// Test that a single CompoundSprite can reach its destination when given a movement length greater than the distance to its destination.
-BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_Large_Step) {
-	CompoundSprite sprite;
-	sf::Vector2f destination{ 0, 10 };
-	moveCompoundSpriteStepTowardsPoint(sprite, destination, 11, {}, {});
-
-	// ensure that the sprite has reached its destination
-	BOOST_CHECK(sprite.getPosition() == destination);
-}
-
-// Test that a single compoundSprite can reach its destination
-BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPoint_Small_Step) {
-	CompoundSprite sprite;
-	const float DIST_FROM_SPRITE = 10;
-	sf::Vector2f destination{ 0, DIST_FROM_SPRITE };
-
-	//move 1 more time than should be required to account for floating point error
-	for (unsigned int i = 0; i < DIST_FROM_SPRITE + 1; i++) {
-		moveCompoundSpriteStepTowardsPoint(sprite, destination, 1, {}, {});
-	}
-
-	// ensure that the sprite has reached its destination
-	BOOST_CHECK(sprite.getPosition() == destination);
-
-}
-
-
-// Test that a single CompoundSprite is rotated correctly.
-BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_Rotation) {
-	sf::Sprite testSprite;
-	AnimatedSprite animSprite;
-	CompoundSprite sprite({ testSprite }, { animSprite });
-	sf::Vector2f destination{ 0, 10 };
-	sf::Vector2f currentPos = sprite.getPosition();
-	moveCompoundSpriteStepTowardsPoint(sprite, destination, 11, {0}, {0});
-
-	float angleToDestination = (fmodf(360.0f + atan2f(destination.y - currentPos.y, destination.x - currentPos.x) * 180.0f / (float)M_PI, 360.0f));
-
-	// ensure that the sprite is rotated correctly
-	BOOST_CHECK_CLOSE(sprite.getSpriteComponent(0).getRotation(), angleToDestination, 0.01);
-	BOOST_CHECK_CLOSE(sprite.getAnimatedComponent(0).getRotation(), angleToDestination, 0.01);
-}
-
-// Test that a single CompoundSprite is not rotated when the option is off.
-BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_No_Rotation) {
-	sf::Sprite testSprite;
-	AnimatedSprite animSprite;
-	CompoundSprite sprite({ testSprite }, { animSprite });
-	sf::Vector2f destination{ 0, 10 };
-	sf::Vector2f currentPos = sprite.getPosition();
-	const float origianalRotation = sprite.getSpriteComponent(0).getRotation();
-	moveCompoundSpriteStepTowardsPoint(sprite, destination, 11, {}, {});
-
-	// ensure that the component has its original rotation.
-	BOOST_CHECK_EQUAL(sprite.getSpriteComponent(0).getRotation(), origianalRotation);
-	BOOST_CHECK_EQUAL(sprite.getAnimatedComponent(0).getRotation(), origianalRotation);
-}
-
-
-// Test that a single CompoundSprite does not rotate if it is already at its destination.
-BOOST_AUTO_TEST_CASE(moveCompoundSpriteStepTowardsPointTests_No_Movement_No_Rotation) {
-	sf::Sprite testSprite;
-	AnimatedSprite animSprite;
-	CompoundSprite sprite({ testSprite }, { animSprite });
-	const float SPECIAL_ROTATION = 12.345f;
-	testSprite.setRotation(SPECIAL_ROTATION);
-	sf::Vector2f destination = sprite.getPosition();
-	moveCompoundSpriteStepTowardsPoint(sprite, destination, 11, {0}, {0});
-
-	const float origianalRotation = sprite.getSpriteComponent(0).getRotation();
-
-	// ensure that the component was not rotated
-	BOOST_CHECK_EQUAL(sprite.getSpriteComponent(0).getRotation(), origianalRotation);
-	BOOST_CHECK_EQUAL(sprite.getAnimatedComponent(0).getRotation(), origianalRotation);
-}
-
-BOOST_AUTO_TEST_SUITE_END() // end moveCompoundSpriteStepTowardsPointTests
 
 BOOST_AUTO_TEST_SUITE(initAllNavigationGridValuesTests)
 
