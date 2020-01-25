@@ -7,7 +7,7 @@
 #include <memory>
 
 namespace EXE {
-	class DemoCoreEventController : public GB::CoreEventController<DemoCoreEventController> {
+	class DemoCoreEventController final : public GB::CoreEventController {
 	public:
 		// Constructors
 		DemoCoreEventController();
@@ -17,11 +17,17 @@ namespace EXE {
 		DemoCoreEventController& operator=(DemoCoreEventController&& other) = default;
 		virtual ~DemoCoreEventController() = default;
 
+	protected:
 		// Event handling
-		bool handleCoreEvent(sf::Event& event);
-		void postHandleEvent(sf::Event& event);
+		void handleEvent(sf::Event& event) override;
+		void draw() override;
 
 	private:
+		bool handleCoreEvent(sf::Event& event);
+		bool handleGUIEvent(sf::Event& event);
+		void postHandleEvent();
+		void postDraw();
+
 		sf::View m_camera;
 		std::unique_ptr<MainMenuDemoRegion> m_mainMenuDemoRegion;
 	};

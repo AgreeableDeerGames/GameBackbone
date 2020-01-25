@@ -21,13 +21,10 @@ namespace EXE {
 		MainMenuDemoRegion(sf::RenderWindow & window);
 		MainMenuDemoRegion() = delete;
 		MainMenuDemoRegion(const MainMenuDemoRegion& other) = delete;
-		MainMenuDemoRegion(MainMenuDemoRegion&& other) = delete;
+		MainMenuDemoRegion(MainMenuDemoRegion&& other) noexcept = delete;
 		MainMenuDemoRegion& operator= (const MainMenuDemoRegion& other) = delete;
-		MainMenuDemoRegion& operator= (MainMenuDemoRegion&& other) = delete;
+		MainMenuDemoRegion& operator= (MainMenuDemoRegion&& other) noexcept = delete;
 		~MainMenuDemoRegion() = default;
-
-		// Behavior
-		virtual void registerSetActiveRegionCB(std::function<void(GameRegion*)> newSetActiveRegionCB) override;
 	
 	protected:
 		/// <summary>

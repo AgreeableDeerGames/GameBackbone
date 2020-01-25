@@ -281,3 +281,5 @@ GameBackboneSln/GB_ConanProfile\.txt
 GameBackboneSln/GameBackboneUnitTest/TestConsumer/\.vscode/
 
 scripts/\.vscode/
+
+GameBackboneSln/GameBackboneUnitTest/TestConsumer/CMakeSettings.json

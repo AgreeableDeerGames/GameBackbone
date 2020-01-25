@@ -2,7 +2,6 @@
 
 #include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
-#include <GameBackbone/Core/RelativeRotationSprite.h>
 #include <GameBackbone/Navigation/NavigationTools.h>
 
 #include <TGUI/TGUI.hpp>
@@ -106,28 +105,23 @@ void ScaleAndRotationDemoRegion::init() {
 	rotationArrowLowTexture = std::make_unique<sf::Texture>();
 	rotationArrowLowTexture->loadFromFile(rotationArrowLowPath);
 
-	
-	// Component sprites
-
-	// Relative rotation sprites
-
 	// The X and Y positions for all the compound sprites
 	// Note: This is different than the X and Y positions of all of the component sprites
 	// that make up each compound sprite
 	const float compoundSpriteXPosition = 400;
 	const float compoundSpriteYPosition = 400;
 
-	// Create component sprites for the relative rotation sprite
+	// Create component sprites for the compound sprite
 	// Create three sprites with an arrow texture
-	std::vector<sf::Sprite> relativeRotationComponents = {
+	std::vector<sf::Sprite> compoundSpriteComponents = {
 		sf::Sprite(*arrowTexture),
 		sf::Sprite(*arrowTexture),
 		sf::Sprite(*arrowTexture)
 	};
 	// Give them different colors
-	relativeRotationComponents[0].setColor(sf::Color::Magenta);
-	relativeRotationComponents[1].setColor(sf::Color::White);
-	relativeRotationComponents[2].setColor(sf::Color::Green);
+	compoundSpriteComponents[0].setColor(sf::Color::Magenta);
+	compoundSpriteComponents[1].setColor(sf::Color::White);
+	compoundSpriteComponents[2].setColor(sf::Color::Green);
 
 	// Create the component sprites for the compound sprite with overlapping sprites
 	std::vector<sf::Sprite> textureOffsetSprites = {
@@ -143,48 +137,41 @@ void ScaleAndRotationDemoRegion::init() {
 	switch (selectedInitMethod) {
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR: {
 			// Set the positions of the components
-			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
-			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
-			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
+			compoundSpriteComponents[0].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[2].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 50);
 
 			// Create the compound sprite by adding the components to the constructor
 			// The component sprites maintain their position
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(std::move(relativeRotationComponents), sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			break;
-		}
-		case ROTATION_INIT_TYPE::RELATIVE_OFFSET: {
-			// Set the positions of the components
-			relativeRotationComponents[0].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			relativeRotationComponents[1].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-			relativeRotationComponents[2].setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
-
-			// Create the compound sprite then add all of the components with a relative offset
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			// Cast the sprite to RelativeRotationSprite here so that we can access its special addComponent member function
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[0]), { 80, 0 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[1]), { 0, 80 });
-			static_cast<GB::RelativeRotationSprite*>(displaySprite.get())->addComponent(std::move(relativeRotationComponents[2]), { 0, 0 });
+			displaySprite = std::make_unique<GB::CompoundSprite>(
+				sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition),
+				std::move(compoundSpriteComponents[0]),
+				std::move(compoundSpriteComponents[1]),
+				std::move(compoundSpriteComponents[2]));
 			break;
 		}
 		case ROTATION_INIT_TYPE::RELATIVE_POSITION: {
 			// Set the positions of the components
-			relativeRotationComponents[0].setPosition(compoundSpriteXPosition + 92, compoundSpriteYPosition + 12);
-			relativeRotationComponents[1].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 92);
-			relativeRotationComponents[2].setPosition(compoundSpriteXPosition + 12, compoundSpriteYPosition + 12);
+			compoundSpriteComponents[0].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[1].setPosition(compoundSpriteXPosition + 0, compoundSpriteYPosition + 0);
+			compoundSpriteComponents[2].setPosition(compoundSpriteXPosition + 50, compoundSpriteYPosition + 50);
 
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
-			displaySprite = std::make_unique<GB::RelativeRotationSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			displaySprite->addComponent(std::move(relativeRotationComponents[0]));
-			displaySprite->addComponent(std::move(relativeRotationComponents[1]));
-			displaySprite->addComponent(std::move(relativeRotationComponents[2]));
+			displaySprite = std::make_unique<GB::CompoundSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
+			displaySprite->addComponent(std::move(compoundSpriteComponents[0]));
+			displaySprite->addComponent(std::move(compoundSpriteComponents[1]));
+			displaySprite->addComponent(std::move(compoundSpriteComponents[2]));
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
 			// Create a CompoundSprite That overlays its component sprite on top of each other.
 			// This allows them to rotate in sync.
 			// The differences in the textures creates the appearance that the components are in different places.
-			displaySprite = std::make_unique<GB::CompoundSprite>(std::move(textureOffsetSprites));
+			displaySprite = std::make_unique<GB::CompoundSprite>(
+				std::move(textureOffsetSprites[0]),
+				std::move(textureOffsetSprites[1]),
+				std::move(textureOffsetSprites[2]));
 			displaySprite->setPosition(compoundSpriteXPosition, compoundSpriteYPosition);
 			break;
 		}
@@ -222,26 +209,20 @@ void ScaleAndRotationDemoRegion::initGUI() {
 	// Give the Button Its Text
 	relativePositionCtrButton->setText("Relative\nPosition\nConstructor");
 	// Connect the button to its callback function
-	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod1CB, this);
+	relativePositionCtrButton->connect("pressed", &ScaleAndRotationDemoRegion::selectRelativePositionConstructorCB, this);
 	// Add the button to the vector for future use
 	initOptionButtons.push_back(relativePositionCtrButton);
-
-	// Create initMethod2 button
-	tgui::Button::Ptr relativeOffsetButton = tgui::Button::create();
-	relativeOffsetButton->setText("Relative\nOffset");
-	relativeOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod2CB, this);
-	initOptionButtons.push_back(relativeOffsetButton);
 
 	// Create initMethod3 button
 	tgui::Button::Ptr relativePositionButton = tgui::Button::create();
 	relativePositionButton->setText("Relative\nPosition");
-	relativePositionButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod3CB, this);
+	relativePositionButton->connect("pressed", &ScaleAndRotationDemoRegion::selectRelativePositionAssignmentCB, this);
 	initOptionButtons.push_back(relativePositionButton);
 
 	// Create initMethod4 button
 	tgui::Button::Ptr textureBasedOffsetButton = tgui::Button::create();
 	textureBasedOffsetButton->setText("Texture\nOffset");
-	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::initMethod4CB, this);
+	textureBasedOffsetButton->connect("pressed", &ScaleAndRotationDemoRegion::selectTextureOffsetCB, this);
 	initOptionButtons.push_back(textureBasedOffsetButton);
 
 	// The number of buttons in this menu
@@ -276,40 +257,31 @@ void ScaleAndRotationDemoRegion::reset() {
 }
 
 /// <summary>
-/// Handles the button initMethod1.
+/// Callback invoked when the user selects the button to display a
+/// CompoundSprite constructed from components.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMethod1CB()
+void ScaleAndRotationDemoRegion::selectRelativePositionConstructorCB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION_CONSTRUCTOR;
-	debugPrint("Relative Position Constructor");
 	reset();
 }
 
 /// <summary>
-/// Handles the button initMethod2.
+/// Callback invoked when the user selects the button to display a
+/// CompoundSprite with components added after construction.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMethod2CB()
-{
-	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_OFFSET;
-	debugPrint("Relative Offset");
-	reset();
-}
-
-/// <summary>
-/// Handles the button initMethod3.
-/// </summary>
-void ScaleAndRotationDemoRegion::initMethod3CB()
+void ScaleAndRotationDemoRegion::selectRelativePositionAssignmentCB()
 {
 	selectedInitMethod = ROTATION_INIT_TYPE::RELATIVE_POSITION;
-	debugPrint("Relative Position");
 	reset();
 }
 
 /// <summary>
-///  Handles the button initMethod4.
+/// Callback invoked when the user selects the button to display a
+/// CompoundSprite whose components textures are overlaid on each other.
+/// Each components position is the same position of the compound sprite.
 /// </summary>
-void ScaleAndRotationDemoRegion::initMethod4CB() {
+void ScaleAndRotationDemoRegion::selectTextureOffsetCB() {
 	selectedInitMethod = ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET;
-	debugPrint("Texture Based Offset");
 	reset();
 }

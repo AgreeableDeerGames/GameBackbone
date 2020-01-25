@@ -64,19 +64,6 @@ MainMenuDemoRegion::MainMenuDemoRegion(sf::RenderWindow & window) : DemoRegion(w
 }
 
 /// <summary>
-/// Registers the callback function for changing the active region and propagates this callback to all of its children.
-/// </summary>
-/// <param name="newSetActiveRegionCB">The new callback for changing the active region.</param>
-void MainMenuDemoRegion::registerSetActiveRegionCB(std::function<void(GB::GameRegion*)> newSetActiveRegionCB) {
-	// Register the passed in function on this GameRegion
-	GameRegion::registerSetActiveRegionCB(newSetActiveRegionCB);
-	// Go through every childRegion and register the function with their GameRegion
-	for (DemoRegion::Ptr& childRegion : children) {
-		childRegion->registerSetActiveRegionCB(newSetActiveRegionCB);
-	}
-}
-
-/// <summary>
 /// Initializes the GUI.
 /// </summary>
 void EXE::MainMenuDemoRegion::initGUI() {
@@ -170,7 +157,7 @@ void EXE::MainMenuDemoRegion::initGUI() {
 /// Sets the active region to the NavigationDemoRegion
 /// </summary>
 void MainMenuDemoRegion::navigationRegionCB() {
-	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO].get());
+	setNextRegion(*selectableRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO].get());
 }
 
 /// <summary>
@@ -179,7 +166,7 @@ void MainMenuDemoRegion::navigationRegionCB() {
 /// </summary>
 void MainMenuDemoRegion::platformRegionCB() {
 	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
-		setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO].get());
+		setNextRegion(*selectableRegions[DEMO_OPTIONS_TYPE::PLATFORM_DEMO].get());
 	#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
 }
 
@@ -188,7 +175,7 @@ void MainMenuDemoRegion::platformRegionCB() {
 /// Sets the active region to the ScaleAndRotationDemoRegion
 /// </summary>
 void MainMenuDemoRegion::scaleAndRotationDemoCB() {
-	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO].get());
+	setNextRegion(*selectableRegions[DEMO_OPTIONS_TYPE::SCALE_ROTATION_DEMO].get());
 }
 
 /// <summary>
@@ -196,7 +183,7 @@ void MainMenuDemoRegion::scaleAndRotationDemoCB() {
 /// Sets the active region to the RegionChangeDemoRegion
 /// </summary>
 void MainMenuDemoRegion::regionChangeDemoCB() {
-	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO].get());
+	setNextRegion(*selectableRegions[DEMO_OPTIONS_TYPE::REGION_CHANGE_DEMO].get());
 }
 
 /// <summary>
@@ -204,5 +191,5 @@ void MainMenuDemoRegion::regionChangeDemoCB() {
 /// Sets the active region to the AnimationDemoRegion
 /// </summary>
 void MainMenuDemoRegion::animationDemoCB() {
-	setActiveRegionCB(selectableRegions[DEMO_OPTIONS_TYPE::ANIMATION_DEMO].get());
+	setNextRegion(*selectableRegions[DEMO_OPTIONS_TYPE::ANIMATION_DEMO].get());
 }
