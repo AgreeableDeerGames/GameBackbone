@@ -59,7 +59,7 @@ void CoreEventController::runLoop() {
 			handleEvent(event);
 		}
 
-		draw();
+		repaint();
 		update();
 		swapRegion();
 	}
@@ -95,14 +95,21 @@ void CoreEventController::setActiveRegion(BasicGameRegion* activeRegion)
 /// <summary>
 /// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
 /// </summary>
- void CoreEventController::draw() {
+ void CoreEventController::repaint() {
 	 m_window.clear();
 
-	 // Draw m_activeRegion so it can draw its drawables.
-	m_window.draw(*getActiveRegion());
+	 draw();
 
 	m_window.display();
 }
+
+ /// <summary>
+/// Primary drawing logic. Draws every drawable object in the game region and the active regions gui.
+/// </summary>
+ void CoreEventController::draw() {
+	 // Draw m_activeRegion so it can draw its drawables.
+	 m_window.draw(*getActiveRegion());
+ }
 
 /// <summary>
 /// Primary update logic. Runs behavior logic for active GameRegion. Updates every Updatable object in the active GameRegion.

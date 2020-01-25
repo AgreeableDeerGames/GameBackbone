@@ -20,13 +20,12 @@ namespace EXE {
 	protected:
 		// Event handling
 		void handleEvent(sf::Event& event) override;
-		void postHandleEvent();
+		void draw() override;
 
 	private:
 		bool handleCoreEvent(sf::Event& event);
-		bool handleGuiEvent(sf::Event& event);
-
-		void postHandleEvent(sf::Event& event);
+		bool handleGUIEvent(sf::Event& event);
+		void postHandleEvent();
 		void postDraw();
 
 		sf::View m_camera;

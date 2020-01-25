@@ -28,7 +28,29 @@ DemoCoreEventController::DemoCoreEventController() : CoreEventController("GameBa
 }
 
 /// <summary>
-/// Handles non gui user/window events.
+/// Handles all events
+/// </summary>
+/// <param name = "event">The event.</param>
+void DemoCoreEventController::handleEvent(sf::Event& event)
+{
+	if (!handleGUIEvent(event)) {
+		handleCoreEvent(event);
+	}
+	postHandleEvent();
+}
+
+/// <summary>
+/// Draws the active game region and then the GUI.
+/// </summary>
+/// <param name = "event">The event.</param>
+void DemoCoreEventController::draw()
+{
+	CoreEventController::draw();
+	static_cast<DemoRegion*>(getActiveRegion())->getGUI().draw();
+}
+
+/// <summary>
+/// Handles non GUI user/window events.
 /// </summary>
 /// <param name="event">The event.</param>
 /// <returns></returns>
@@ -95,36 +117,29 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 	}
 }
 
-void DemoCoreEventController::postHandleEvent() {
-	static_cast<DemoRegion*>(getActiveRegion())->getGUI().unfocusAllWidgets();
-}
-
-void DemoCoreEventController::postDraw() {
-	static_cast<DemoRegion*>(getActiveRegion())->getGUI().draw();
-}
-
 /// <summary>
 /// Handles the GUI event.
 /// </summary>
 /// <param name="event">The event.</param>
 /// <returns>Returns true if the event was consumed by the GUI. Returns false otherwise.</returns>
-bool DemoCoreEventController::handleGuiEvent(sf::Event& event) {
+bool DemoCoreEventController::handleGUIEvent(sf::Event& event) {
 	if (!static_cast<DemoRegion*>(getActiveRegion())->getGUI().handleEvent(event)) {
 		return false;
 	}
 	return true;
 }
 
-// <summary>
-// Handles all events
-// </summary>
-// <param name = "event">The event.< / param>
-// 'handleGuiEvent' function is a function of TGUI.
-// It can be replaced if you want to use a different GUI handler.
-void DemoCoreEventController::handleEvent(sf::Event & event)
-{
-	if (!handleGuiEvent(event)) {
-		handleCoreEvent(event);
-	}
-	postHandleEvent();
+/// <summary>
+/// A helper function performed after handleEvent that unfocuses all widgets. 
+/// This frees keyboard focus to be used for control of the game.
+/// </summary>
+void DemoCoreEventController::postHandleEvent() {
+	static_cast<DemoRegion*>(getActiveRegion())->getGUI().unfocusAllWidgets();
+}
+
+/// <summary>
+/// A helper function performed after draw, which draws the GUI.
+/// </summary>
+void DemoCoreEventController::postDraw() {
+	static_cast<DemoRegion*>(getActiveRegion())->getGUI().draw();
 }

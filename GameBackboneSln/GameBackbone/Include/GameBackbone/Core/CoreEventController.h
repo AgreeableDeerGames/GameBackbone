@@ -50,6 +50,8 @@ namespace GB {
 		virtual void swapRegion();
 		
 	private:
+		void repaint();
+
 		BasicGameRegion* m_activeRegion;
 		sf::RenderWindow m_window;
 		sf::Clock m_updateClock;
