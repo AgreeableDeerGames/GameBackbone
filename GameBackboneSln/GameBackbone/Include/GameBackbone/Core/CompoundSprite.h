@@ -247,23 +247,17 @@ namespace GB {
 			// If the Component is not an GB::Updatable, it is an empty function call.
 			void update(sf::Int64 elapsedTime) override
 			{
-				updateHelper<Component>(elapsedTime);
+				if constexpr (is_updatable_v<Component>)
+				{
+					updateHelper(elapsedTime);
+				}
 			}
 
 			// The update_helper method for anything that inherits from GB::Updatable. Forwards the call to the data.
-			template <class Component,
-				std::enable_if_t<is_updatable_v<Component>, bool> = true
-			>
 			void updateHelper(sf::Int64 elapsedTime)
 			{
 				data.update(elapsedTime);
 			}
-
-			// The update_helper method for anything that DOES NOT inherit from GB::Updatable. Empty function call.
-			template <class Component,
-				std::enable_if_t<!is_updatable_v<Component>, bool> = true
-			>
-			void updateHelper(sf::Int64) {}
 
 			// Clones the object as a unique pointer. Always called virtually from InternalType. 
 			// It cannot be done in InternalType as the type has already been erased. This can be done here as the type of Component is known.
