@@ -103,6 +103,12 @@ void GameRegion::addDrawable(int priority, const std::vector<sf::Drawable*>& dra
 	// Remove any instances of the drawables before adding them again
 	removeDrawable(drawablesToAdd);
 
+	for (auto& drawable : drawablesToAdd)
+	{
+		prioritizedDrawables.emplace(priority, drawable);
+	}
+
+	/*
 	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
 
 	// If the iterator is not end, then we found a pair with the same priority.
@@ -113,7 +119,7 @@ void GameRegion::addDrawable(int priority, const std::vector<sf::Drawable*>& dra
 	}
 	else {
 		insert_sorted(prioritizedDrawables, std::make_pair(priority, drawablesToAdd), prioritySortComparitor());
-	}
+	}*/
 }
 
 /// <summary>
@@ -131,15 +137,33 @@ void GameRegion::removeDrawable(sf::Drawable* drawableToRemove) {
 /// </summary>
 /// <param name="drawablesToRemove"> The drawables that will be removed </param>
 void GameRegion::removeDrawable(const std::vector<sf::Drawable*>& drawablesToRemove) {
+
+	for (auto& drawableToRemove : drawablesToRemove)
+	{
+		auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(),
+			[&drawableToRemove](std::pair<int, sf::Drawable*> possibleRemoval) -> bool {
+				return possibleRemoval.second == drawableToRemove;
+			});
+
+		if (it != prioritizedDrawables.end())
+		{
+			prioritizedDrawables.erase(it);
+		}
+	}
+
 	// Go through every pair and remove any of the passed in drawables from their vector
-	for (auto& priorityPair : prioritizedDrawables) {
-		std::vector<sf::Drawable*>& tempDrawables = priorityPair.second;
+	/*for (auto& priorityPair : prioritizedDrawables) {
+		sf::Drawable* tempDrawables = priorityPair.second;
+		
+
+
+
 		auto it = std::remove_if(tempDrawables.begin(), tempDrawables.end(), drawablesRemoveComparitor(drawablesToRemove));
 		if (it != tempDrawables.end())
 		{
 			tempDrawables.erase(it, tempDrawables.end());
 		}
-	}
+	}*/
 }
 
 /// <summary>
@@ -154,14 +178,15 @@ void GameRegion::clearDrawables() {
 /// </summary>
 /// <param name="priority"> The priority of drawables clear</param>
 void GameRegion::clearDrawables(int priority) {
-	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
+	prioritizedDrawables.erase(priority);
+	/*auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
 
 	// If the iterator is not end, then we found a pair with the same priority.
 	// Clear the internal vector
 	if (it != prioritizedDrawables.end()) {
 		std::vector<sf::Drawable*>& tempDrawables = it->second;
 		tempDrawables.clear();
-	}
+	}*/
 }
 
 /// <summary>
@@ -169,13 +194,7 @@ void GameRegion::clearDrawables(int priority) {
 /// </summary>
 /// <return> The number of drawables </param>
 std::size_t GameRegion::getDrawableCount() const  noexcept {
-	std::size_t count = 0;
-	// Loop through each priority of the drawables
-	// Add all of the sizes to the count
-	for (const auto& priorityPair : prioritizedDrawables) {
-		count += priorityPair.second.size();
-	}
-	return count;
+	return prioritizedDrawables.size();
 }
 
 /// <summary>
@@ -184,16 +203,7 @@ std::size_t GameRegion::getDrawableCount() const  noexcept {
 /// <param name="priority"> The priority of drawables to count </param>
 /// <return> The number of drawables </param>
 std::size_t GameRegion::getDrawableCount(int priority) const noexcept {
-	std::size_t count = 0;
-	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
-
-	// If the iterator is not end, then we found a pair with the same priority.
-	// Set the count equal to the vectors size
-	if (it != prioritizedDrawables.end()) {
-		const std::vector<sf::Drawable*>& tempDrawables = it->second;
-		count = tempDrawables.size();
-	}
-	return count;
+	return prioritizedDrawables.count(priority);
 }
 
 /// <summary>
@@ -205,9 +215,8 @@ void GameRegion::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	// Loop through each priority of the drawables
 	for (const auto& priorityPair : prioritizedDrawables) {
-		for (const sf::Drawable* drawable : priorityPair.second) {
-			// Draw each drawable stored in the vector
-			target.draw(*drawable, states);
-		}
+		const sf::Drawable* drawable = priorityPair.second;
+		// Draw each drawable stored in the vector
+		target.draw(*drawable, states);
 	}
 }

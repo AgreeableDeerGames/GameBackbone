@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 
+#include <map>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -50,6 +51,7 @@ namespace GB {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
-		std::vector<std::pair<int, std::vector<sf::Drawable*>>> prioritizedDrawables;
+		std::multimap<int, sf::Drawable*> prioritizedDrawables;
+		//std::vector<std::pair<int, std::vector<sf::Drawable*>>> prioritizedDrawables;
 	};
 }
