@@ -29,9 +29,7 @@ namespace GB {
 
 		// Add/Remove/Clear drawables
 		void addDrawable(int priority, sf::Drawable* drawableToAdd);
-		void addDrawable(int priority, const std::vector<sf::Drawable*>& drawablesToAdd);
 		void removeDrawable(sf::Drawable* drawableToRemove);
-		void removeDrawable(const std::vector<sf::Drawable*>& drawablesToRemove);
 		void clearDrawables();
 		void clearDrawables(int priority);
 
@@ -52,6 +50,5 @@ namespace GB {
 
 	private:
 		std::multimap<int, sf::Drawable*> prioritizedDrawables;
-		//std::vector<std::pair<int, std::vector<sf::Drawable*>>> prioritizedDrawables;
 	};
 }

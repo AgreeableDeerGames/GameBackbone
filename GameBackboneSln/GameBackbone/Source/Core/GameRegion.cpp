@@ -10,67 +10,6 @@
 
 using namespace GB;
 
-namespace {
-
-	/// <summary>
-	/// Functor used to check if the priority of a priorityPair the same as a given Priority.
-	/// </summary>
-	class priorityFindComparitor {
-	public:
-		explicit priorityFindComparitor(int priority) : priorityToFind(priority) {};
-
-		bool operator ()(const std::pair<int, std::vector<sf::Drawable*>>& priorityPair) {
-			return priorityPair.first == priorityToFind;
-		}
-
-	private:
-		int priorityToFind;
-	};
-
-	/// <summary>
-	/// Functor used to check if the priority of a priorityPair is less than another priorityPair's.
-	/// </summary>
-	class prioritySortComparitor {
-	public:
-		bool operator ()(const std::pair<int, std::vector<sf::Drawable*>>& leftEl, const std::pair<int, std::vector<sf::Drawable*>>& rightEl) {
-			return leftEl.first < rightEl.first;
-		}
-	};
-
-	/// <summary>
-	/// Functor used to check if a drawable is contained withing a given list of drawables.
-	/// </summary>
-	class drawablesRemoveComparitor {
-	public:
-		explicit drawablesRemoveComparitor(const std::vector<sf::Drawable*>& drawables) : drawablesToRemove(drawables) {};
-
-		bool operator ()(const sf::Drawable* drawable) {
-			for (auto& drawableToRemove : drawablesToRemove) {
-				if (drawable == drawableToRemove) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-	private:
-		const std::vector<sf::Drawable*>& drawablesToRemove;
-	};
-
-	/// <summary>
-	/// Inserts an element into an std::vector, given a sorting predicate, in the sorted location.
-	/// This function assumes that the std::vector is already sorted.
-	/// </summary>
-	/// <param name="vector"> The vector to add to </param>
-	/// <param name="item"> The item that will be added to the vector </param>
-	/// <param name="pred"> The predicate with which to find the location of the item </param>
-	template< typename T, typename Pred >
-	typename std::vector<T>::iterator insert_sorted(std::vector<T> & vector, T const& item, Pred pred)
-	{
-		return vector.insert(std::upper_bound(vector.begin(), vector.end(), item, pred), item);
-	}
-}
-
 /// <summary>
 /// Add a drawable with a given priority to this GameRegion.
 /// If the drawable already exists, its priority will be updated.
@@ -80,46 +19,16 @@ namespace {
 /// <param name="priority"> The priority of the drawable </param>
 /// <param name="drawablesToRemove"> The drawable that will be added </param>
 void GameRegion::addDrawable(int priority, sf::Drawable* drawableToAdd) {
-	addDrawable(priority, std::vector<sf::Drawable*>{drawableToAdd});
-}
-
-/// <summary>
-/// Add drawables with a given priority to this GameRegion.
-/// If the drawables already exist, its priority will be updated.
-/// 
-/// This function will throw an std::invalid_argument exception if a nullptr is passed in. 
-/// </summary>
-/// <param name="priority"> The priority of the drawables </param>
-/// <param name="drawablesToRemove"> The drawables that will be added </param>
-void GameRegion::addDrawable(int priority, const std::vector<sf::Drawable*>& drawablesToAdd) {
 	// Null check each of the drawables passed in
-	for (sf::Drawable* drawable : drawablesToAdd)
-	{
-		if (drawable == nullptr) {
-			throw std::invalid_argument("Cannot invoke GameRegion::addDrawable with a drawable equal to nullptr");
-		}
+	if (drawableToAdd == nullptr) {
+		throw std::invalid_argument("Cannot invoke GameRegion::addDrawable with a drawable equal to nullptr");
 	}
 
-	// Remove any instances of the drawables before adding them again
-	removeDrawable(drawablesToAdd);
+	// Remove any instances of the drawable before adding it again
+	removeDrawable(drawableToAdd);
 
-	for (auto& drawable : drawablesToAdd)
-	{
-		prioritizedDrawables.emplace(priority, drawable);
-	}
-
-	/*
-	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
-
-	// If the iterator is not end, then we found a pair with the same priority.
-	// Insert the drawable at the same priority
-	if (it != prioritizedDrawables.end()) {
-		std::vector<sf::Drawable*>& tempDrawables = it->second;
-		tempDrawables.insert(tempDrawables.end(), drawablesToAdd.begin(), drawablesToAdd.end());
-	}
-	else {
-		insert_sorted(prioritizedDrawables, std::make_pair(priority, drawablesToAdd), prioritySortComparitor());
-	}*/
+	// Add the drawable to the internal map
+	prioritizedDrawables.emplace(priority, drawableToAdd);
 }
 
 /// <summary>
@@ -128,42 +37,17 @@ void GameRegion::addDrawable(int priority, const std::vector<sf::Drawable*>& dra
 /// </summary>
 /// <param name="drawablesToRemove"> The drawable that will be removed </param>
 void GameRegion::removeDrawable(sf::Drawable* drawableToRemove) {
-	removeDrawable(std::vector<sf::Drawable*>{drawableToRemove});
-}
+	// Find the drawable inside of the internal map.
+	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(),
+		[&drawableToRemove](std::pair<int, sf::Drawable*> possibleRemoval) -> bool {
+			return possibleRemoval.second == drawableToRemove;
+		});
 
-/// <summary>
-/// Remove drawables from this GameRegion. 
-/// If a drawable is not found, nothing will be done.
-/// </summary>
-/// <param name="drawablesToRemove"> The drawables that will be removed </param>
-void GameRegion::removeDrawable(const std::vector<sf::Drawable*>& drawablesToRemove) {
-
-	for (auto& drawableToRemove : drawablesToRemove)
+	// If the drawable was found, erase it.
+	if (it != prioritizedDrawables.end())
 	{
-		auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(),
-			[&drawableToRemove](std::pair<int, sf::Drawable*> possibleRemoval) -> bool {
-				return possibleRemoval.second == drawableToRemove;
-			});
-
-		if (it != prioritizedDrawables.end())
-		{
-			prioritizedDrawables.erase(it);
-		}
+		prioritizedDrawables.erase(it);
 	}
-
-	// Go through every pair and remove any of the passed in drawables from their vector
-	/*for (auto& priorityPair : prioritizedDrawables) {
-		sf::Drawable* tempDrawables = priorityPair.second;
-		
-
-
-
-		auto it = std::remove_if(tempDrawables.begin(), tempDrawables.end(), drawablesRemoveComparitor(drawablesToRemove));
-		if (it != tempDrawables.end())
-		{
-			tempDrawables.erase(it, tempDrawables.end());
-		}
-	}*/
 }
 
 /// <summary>
@@ -179,14 +63,6 @@ void GameRegion::clearDrawables() {
 /// <param name="priority"> The priority of drawables clear</param>
 void GameRegion::clearDrawables(int priority) {
 	prioritizedDrawables.erase(priority);
-	/*auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(), priorityFindComparitor(priority));
-
-	// If the iterator is not end, then we found a pair with the same priority.
-	// Clear the internal vector
-	if (it != prioritizedDrawables.end()) {
-		std::vector<sf::Drawable*>& tempDrawables = it->second;
-		tempDrawables.clear();
-	}*/
 }
 
 /// <summary>
