@@ -39,7 +39,7 @@ void GameRegion::addDrawable(int priority, sf::Drawable* drawableToAdd) {
 void GameRegion::removeDrawable(sf::Drawable* drawableToRemove) {
 	// Find the drawable inside of the internal map.
 	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(),
-		[&drawableToRemove](std::pair<int, sf::Drawable*> possibleRemoval) -> bool {
+		[&drawableToRemove](const std::pair<int, sf::Drawable*>& possibleRemoval) -> bool {
 			return possibleRemoval.second == drawableToRemove;
 		});
 

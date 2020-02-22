@@ -145,6 +145,7 @@ void ScaleAndRotationDemoRegion::init() {
 			// The component sprites maintain their position
 			displaySprite = std::make_unique<GB::CompoundSprite>(
 				sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition),
+				0, 
 				std::move(compoundSpriteComponents[0]),
 				std::move(compoundSpriteComponents[1]),
 				std::move(compoundSpriteComponents[2]));
@@ -159,9 +160,9 @@ void ScaleAndRotationDemoRegion::init() {
 			// Create the compound sprite then add all of the components. 
 			// The components will maintain their positions relative to the compound sprite
 			displaySprite = std::make_unique<GB::CompoundSprite>(sf::Vector2f(compoundSpriteXPosition, compoundSpriteYPosition));
-			displaySprite->addComponent(std::move(compoundSpriteComponents[0]));
-			displaySprite->addComponent(std::move(compoundSpriteComponents[1]));
-			displaySprite->addComponent(std::move(compoundSpriteComponents[2]));
+			displaySprite->addComponent(0, std::move(compoundSpriteComponents[0]));
+			displaySprite->addComponent(0, std::move(compoundSpriteComponents[1]));
+			displaySprite->addComponent(0, std::move(compoundSpriteComponents[2]));
 			break;
 		}
 		case ROTATION_INIT_TYPE::TEXTURE_BASED_OFFSET: {
@@ -169,6 +170,7 @@ void ScaleAndRotationDemoRegion::init() {
 			// This allows them to rotate in sync.
 			// The differences in the textures creates the appearance that the components are in different places.
 			displaySprite = std::make_unique<GB::CompoundSprite>(
+				0,
 				std::move(textureOffsetSprites[0]),
 				std::move(textureOffsetSprites[1]),
 				std::move(textureOffsetSprites[2]));
