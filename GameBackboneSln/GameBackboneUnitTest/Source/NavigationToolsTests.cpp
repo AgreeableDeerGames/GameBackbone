@@ -16,7 +16,7 @@ using namespace GB;
 
 // Contains all of the tests for Navigation Tools
 BOOST_AUTO_TEST_SUITE(NavigationToolsTests)
-
+/*
 /// <summary>
 /// Struct to store objects that can be reused for all or nearly all
 /// of the unit tests in this file. This struct is meant to be used with fixtures
@@ -370,6 +370,6 @@ BOOST_AUTO_TEST_CASE(initAllNavigationGridValues_Test_Inheritance) {
 
 
 BOOST_AUTO_TEST_SUITE_END() // end initAllNavigationGridValuesTests
-
+*/
 // keep at end of file
 BOOST_AUTO_TEST_SUITE_END() // end NavigationToolsTests

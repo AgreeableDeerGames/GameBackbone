@@ -18,17 +18,12 @@ using namespace GB;
 /// </summary>
 /// <param name="priority"> The priority of the drawable </param>
 /// <param name="drawablesToRemove"> The drawable that will be added </param>
-void GameRegion::addDrawable(int priority, sf::Drawable* drawableToAdd) {
-	// Null check each of the drawables passed in
-	if (drawableToAdd == nullptr) {
-		throw std::invalid_argument("Cannot invoke GameRegion::addDrawable with a drawable equal to nullptr");
-	}
-
+void GameRegion::addDrawable(int priority, sf::Drawable& drawableToAdd) {
 	// Remove any instances of the drawable before adding it again
 	removeDrawable(drawableToAdd);
 
 	// Add the drawable to the internal map
-	prioritizedDrawables.emplace(priority, drawableToAdd);
+	prioritizedDrawables.emplace(priority, &drawableToAdd);
 }
 
 /// <summary>
@@ -36,11 +31,11 @@ void GameRegion::addDrawable(int priority, sf::Drawable* drawableToAdd) {
 /// If the drawable is not found, nothing will be done.
 /// </summary>
 /// <param name="drawablesToRemove"> The drawable that will be removed </param>
-void GameRegion::removeDrawable(sf::Drawable* drawableToRemove) {
+void GameRegion::removeDrawable(sf::Drawable& drawableToRemove) {
 	// Find the drawable inside of the internal map.
 	auto it = std::find_if(prioritizedDrawables.begin(), prioritizedDrawables.end(),
 		[&drawableToRemove](const std::pair<int, sf::Drawable*>& possibleRemoval) -> bool {
-			return possibleRemoval.second == drawableToRemove;
+			return possibleRemoval.second == &drawableToRemove;
 		});
 
 	// If the drawable was found, erase it.

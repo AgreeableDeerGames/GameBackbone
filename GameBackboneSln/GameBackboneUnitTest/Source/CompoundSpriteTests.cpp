@@ -11,7 +11,7 @@
 using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(CompoundSpriteTests)
-
+/*
 struct ReusableObjects
 {
 	ReusableObjects() {
@@ -353,7 +353,7 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
-
+*/
 /*BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
 // Test that the default constructor initializes values to empty

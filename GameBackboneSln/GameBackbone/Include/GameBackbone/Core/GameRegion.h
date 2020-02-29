@@ -28,8 +28,8 @@ namespace GB {
 		virtual ~GameRegion() = default;
 
 		// Add/Remove/Clear drawables
-		void addDrawable(int priority, sf::Drawable* drawableToAdd);
-		void removeDrawable(sf::Drawable* drawableToRemove);
+		void addDrawable(int priority, sf::Drawable& drawableToAdd);
+		void removeDrawable(sf::Drawable& drawableToRemove);
 		void clearDrawables();
 		void clearDrawables(int priority);
 
