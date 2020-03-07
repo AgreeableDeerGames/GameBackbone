@@ -23,7 +23,7 @@ RegionChangeDemoRegion::RegionChangeDemoRegion(sf::RenderWindow& window, sf::Col
 	m_sprite.setPosition(position);
 
 	// Set the sprite to be drawn by the GameRegion
-	addDrawable(1, &m_sprite);
+	addDrawable(1, m_sprite);
 
 
 	// Remove the "Reset" button from Region Change Demo, since there is nothing to reset

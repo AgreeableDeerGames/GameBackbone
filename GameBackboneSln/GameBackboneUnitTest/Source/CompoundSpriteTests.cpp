@@ -71,6 +71,43 @@ struct ReusableObjectsForOperations : ReusableObjects {
 	CompoundSprite compoundSprite;
 };
 
+class MockDrawable_ForMoveCopyCounts : public sf::Drawable, public sf::Transformable {
+public:
+	int& m_copies;
+	int& m_moves;
+
+	MockDrawable_ForMoveCopyCounts(int& copies, int& moves) : m_copies(copies), m_moves(moves) {}
+
+	MockDrawable_ForMoveCopyCounts(const MockDrawable_ForMoveCopyCounts& other)
+		: m_copies(other.m_copies), m_moves(other.m_moves)
+	{
+		m_copies++;
+	}
+	MockDrawable_ForMoveCopyCounts& operator=(const MockDrawable_ForMoveCopyCounts& other)
+	{
+		MockDrawable_ForMoveCopyCounts tempOther{ other.m_copies, other.m_moves };
+		*this = std::move(tempOther);
+		m_copies++;
+		return *this;
+	}
+	MockDrawable_ForMoveCopyCounts(MockDrawable_ForMoveCopyCounts&& other) noexcept
+		: m_copies(other.m_copies), m_moves(other.m_moves)
+	{
+		m_moves++;
+	}
+	MockDrawable_ForMoveCopyCounts& operator=(MockDrawable_ForMoveCopyCounts&& other) noexcept
+	{
+		this->m_copies = other.m_copies;
+		this->m_moves = other.m_moves;
+		m_moves++;
+		return *this;
+	}
+
+
+protected:
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
+};
+
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
@@ -125,43 +162,6 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicPositionCtr, ReusableObjects)
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 2);
 }
 
-class MockDrawable_ForMoveCopyCounts : public sf::Drawable, public sf::Transformable {
-public:
-	int& m_copies;
-	int& m_moves;
-
-	MockDrawable_ForMoveCopyCounts(int& copies, int& moves) : m_copies(copies), m_moves(moves) {}
-
-	MockDrawable_ForMoveCopyCounts(const MockDrawable_ForMoveCopyCounts& other) 
-		: m_copies(other.m_copies), m_moves(other.m_moves)
-	{
-		m_copies++;
-	}
-	MockDrawable_ForMoveCopyCounts& operator=(const MockDrawable_ForMoveCopyCounts& other)
-	{
-		MockDrawable_ForMoveCopyCounts tempOther{ other.m_copies, other.m_moves };
-		*this = std::move(tempOther);
-		m_copies++;
-		return *this;
-	}
-	MockDrawable_ForMoveCopyCounts(MockDrawable_ForMoveCopyCounts&& other) noexcept 
-		: m_copies(other.m_copies), m_moves(other.m_moves)
-	{
-		m_moves++;
-	}
-	MockDrawable_ForMoveCopyCounts& operator=(MockDrawable_ForMoveCopyCounts&& other) noexcept
-	{
-		this->m_copies = other.m_copies;
-		this->m_moves = other.m_moves;
-		m_moves++;
-		return *this;
-	}
-
-
-protected:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
-};
-
 BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_NoCopies)
 {
 	int copies = 0;
@@ -181,16 +181,16 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 	CompoundSprite compoundSprite{ 0,  mock };
 
 	BOOST_CHECK(copies == 1);
-	BOOST_CHECK(moves == 4);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_DoesCopyConstruction)
+BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyCtr_DoesCopyConstruction, ReusableObjects)
 {
-	CompoundSprite compoundSprite{};
+	CompoundSprite compoundSprite{ 0, sprite };
 	CompoundSprite compoundSprite2{ compoundSprite };
-	CompoundSprite compoundSprite3{ compoundSprite };
-	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
-	BOOST_CHECK(compoundSprite3.getComponentCount() == 0);
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite2.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_ClonesComponents)
@@ -199,7 +199,29 @@ BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_ClonesComponents)
 	int moves = 0;
 	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
 	CompoundSprite compoundSprite{ 0, std::move(mock) };
-	CompoundSprite compoundSprite2(compoundSprite);
+	CompoundSprite compoundSprite2{ compoundSprite };
+	BOOST_CHECK(copies == 1);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyAssign_DoesCopyAssign, ReusableObjects)
+{
+	CompoundSprite compoundSprite{ 0, sprite };
+	CompoundSprite compoundSprite2{};
+	compoundSprite2 = compoundSprite;
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite2.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
+}
+
+BOOST_AUTO_TEST_CASE(CompundSprite_CopyAssign_ClonesComponents)
+{
+	int copies = 0;
+	int moves = 0;
+	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
+	CompoundSprite compoundSprite{ 0, std::move(mock) };
+	CompoundSprite compoundSprite2;
+	compoundSprite2 = compoundSprite;
 	BOOST_CHECK(copies == 1);
 }
 
@@ -207,23 +229,141 @@ BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesMoveConstruction)
 {
 	CompoundSprite compoundSprite{};
 	CompoundSprite compoundSprite2{ std::move(compoundSprite) };
-	CompoundSprite compoundSprite3{ std::move(compoundSprite) };
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
-	BOOST_CHECK(compoundSprite3.getComponentCount() == 0);
+	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesNotCloneComponents)
+BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_ClonesComponents)
 {
 	int copies = 0;
 	int moves = 0;
-	
-	bool test = std::is_nothrow_move_constructible_v<CompoundSprite>;
 	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
 	CompoundSprite compoundSprite{ 0, std::move(mock) };
-	CompoundSprite compoundSprite2( std::move(compoundSprite) );
+	CompoundSprite compoundSprite2{ std::move(compoundSprite) };
 	BOOST_CHECK(copies == 0);
-	CompoundSprite testcps(CompoundSprite{});
 }
+
+BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_DoesCMoveAssign, ReusableObjects)
+{
+	CompoundSprite compoundSprite{ 0, sprite };
+	CompoundSprite compoundSprite2{};
+	compoundSprite2 = std::move(compoundSprite);
+
+	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite2.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
+}
+
+BOOST_AUTO_TEST_CASE(CompundSprite_MoveAssign_DoesNotCloneComponents)
+{
+	int copies = 0;
+	int moves = 0;
+	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
+	CompoundSprite compoundSprite{ 0, std::move(mock) };
+	CompoundSprite compoundSprite2;
+	compoundSprite2 = std::move(compoundSprite);
+	BOOST_CHECK(copies == 0);
+}
+
+// TODO: This does not test the copy at all. After CompoundSprite becomes iterable?, we can.
+BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyCtr_TransformCheck, ReusableObjects)
+{
+	// Create CS with sprites
+	CompoundSprite compoundSprite{};
+	auto& spriteReturn = compoundSprite.addComponent(0, sprite);
+	// Transform so sprite transform too
+	compoundSprite.setPosition(1.0f, 1.0f);
+	compoundSprite.setScale(2.0f, 2.0f);
+	compoundSprite.setRotation(1.0f);
+
+	// Copy
+	CompoundSprite compoundSprite2{ compoundSprite };
+
+	// Check tranform things on CS.
+	BOOST_CHECK(compoundSprite2.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(compoundSprite2.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(compoundSprite2.getRotation() == 1.0f);
+	// Check transform things on Sprites.
+	BOOST_CHECK(spriteReturn.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(spriteReturn.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(spriteReturn.getRotation() == 1.0f);
+}
+
+// TODO: This does not test the copy at all. After CompoundSprite becomes iterable?, we can.
+BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyAssign_TransformCheck, ReusableObjects)
+{
+	// Create CS with sprites
+	CompoundSprite compoundSprite{};
+	auto& spriteReturn = compoundSprite.addComponent(0, sprite);
+	// Transform so sprite transform too
+	compoundSprite.setPosition(1.0f, 1.0f);
+	compoundSprite.setScale(2.0f, 2.0f);
+	compoundSprite.setRotation(1.0f);
+
+	// Copy Assign
+	CompoundSprite compoundSprite2;
+	compoundSprite2 = compoundSprite;
+
+	// Check tranform things on CS.
+	BOOST_CHECK(compoundSprite2.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(compoundSprite2.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(compoundSprite2.getRotation() == 1.0f);
+	// Check transform things on Sprites.
+	BOOST_CHECK(spriteReturn.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(spriteReturn.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(spriteReturn.getRotation() == 1.0f);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveCtr_TransformCheck, ReusableObjects)
+{
+	// Create CS with sprites
+	CompoundSprite compoundSprite{};
+	auto& spriteReturn = compoundSprite.addComponent(0, sprite);
+	// Transform so sprite transform too
+	compoundSprite.setPosition(1.0f, 1.0f);
+	compoundSprite.setScale(2.0f, 2.0f);
+	compoundSprite.setRotation(1.0f);
+
+	// Move
+	CompoundSprite compoundSprite2{ std::move(compoundSprite) };
+
+	// Check tranform things on CS.
+	BOOST_CHECK(compoundSprite2.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(compoundSprite2.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(compoundSprite2.getRotation() == 1.0f);
+	// Check transform things on Sprites.
+	BOOST_CHECK(spriteReturn.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(spriteReturn.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(spriteReturn.getRotation() == 1.0f);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_TransformCheck, ReusableObjects)
+{
+	// Create CS with sprites
+	CompoundSprite compoundSprite{};
+	auto& spriteReturn = compoundSprite.addComponent(0, sprite);
+	// Transform so sprite transform too
+	compoundSprite.setPosition(1.0f, 1.0f);
+	compoundSprite.setScale(2.0f, 2.0f);
+	compoundSprite.setRotation(1.0f);
+
+	// Move Assign
+	CompoundSprite compoundSprite2;
+	compoundSprite2 = std::move(compoundSprite);
+
+	// Check tranform things on CS.
+	BOOST_CHECK(compoundSprite2.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(compoundSprite2.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(compoundSprite2.getRotation() == 1.0f);
+	// Check transform things on Sprites.
+	BOOST_CHECK(spriteReturn.getPosition() == sf::Vector2f(1.0f, 1.0f));
+	BOOST_CHECK(spriteReturn.getScale() == sf::Vector2f(2.0f, 2.0f));
+	BOOST_CHECK(spriteReturn.getRotation() == 1.0f);
+}
+
+
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_CTR
 
@@ -286,7 +426,7 @@ template <class T>
 struct CanConstructCompoundSprite <
 	T,
 	std::void_t<
-	decltype(CompoundSprite(std::declval<T>()))
+	decltype(CompoundSprite(std::declval<int>(), std::declval<T>()))
 	>
 > : std::true_type {};
 
@@ -295,6 +435,7 @@ inline constexpr bool CanConstructCompoundSprite_v = CanConstructCompoundSprite<
 
 BOOST_AUTO_TEST_CASE(SFINAE_CanConstruct_Sprite)
 {
+	bool test = CanConstructCompoundSprite_v<sf::Sprite>;
 	BOOST_CHECK(CanConstructCompoundSprite_v<sf::Sprite>);
 }
 
@@ -331,7 +472,7 @@ template <class T>
 struct CanAddComponent <
 	T,
 	std::void_t<
-	decltype(CompoundSprite{}.addComponent(std::declval<T>()))
+	decltype(CompoundSprite{}.addComponent(std::declval<int>(), std::declval<T>()))
 	>
 > : std::true_type {};
 
@@ -370,6 +511,9 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
 
+
+// TODO: These tests are effectively useless, with no way to check the components on CompoundSprite.
+// After CompoundSprite becomes iterable?, we can uncomment these, and the decide which of these tests are reworkable.
 /*BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
 // Test that the default constructor initializes values to empty

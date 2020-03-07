@@ -183,7 +183,7 @@ void ScaleAndRotationDemoRegion::init() {
 	}
 
 	// Set displaySprite to be drawn
-	addDrawable(0, displaySprite.get());
+	addDrawable(0, *displaySprite);
 }
 
 /// <summary>

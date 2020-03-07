@@ -88,22 +88,30 @@ namespace GB {
 		explicit CompoundSprite(sf::Vector2f position);
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The copy constructor is needed to copy the internal vector.
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. 
+		/// The copy constructor is needed to copy the internal vector.
 		/// </summary>
 		/// <param name="other">The other CompoundSprite that is being copied.</param>
 		CompoundSprite(const CompoundSprite& other);
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class and returns it. This forwards to the Copy Constructor.
+		/// Copy assignment operator for the <see cref="CompoundSprite"/> class. 
 		/// </summary>
 		/// <param name="other">The other CompoundSprite that is being copied.</param>
 		CompoundSprite& operator=(const CompoundSprite& other);
 
-		// CompoundSprite(CompoundSprite&& other) noexcept = default;
-		CompoundSprite(CompoundSprite&& other) noexcept : m_prioritizedComponents(std::move(other.m_prioritizedComponents))
-		{}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. 
+		/// The move constructor is needed to move the internal vector and copy the sf::Transformable members.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being moved.</param>
+		CompoundSprite(CompoundSprite&& other) noexcept;
 
-		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
+		/// <summary>
+		/// Move assignment operator for the <see cref="CompoundSprite"/> class.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being moved.</param>
+		CompoundSprite& operator=(CompoundSprite&& other) noexcept;
 
 		virtual ~CompoundSprite() = default;
 
@@ -258,7 +266,7 @@ namespace GB {
 
 			// Routes calls to update for GB::Updatable. Uses SFINAE and ADL to determine which version of update_helper to call. 
 			// If the Component is not an GB::Updatable, it is an empty function call.
-			void update(sf::Int64 elapsedTime) override
+			void update([[maybe_unused]] sf::Int64 elapsedTime) override
 			{
 				if constexpr (is_updatable_v<Component>)
 				{

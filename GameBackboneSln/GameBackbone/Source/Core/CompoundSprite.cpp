@@ -46,6 +46,24 @@ CompoundSprite& CompoundSprite::operator=(const CompoundSprite& other)
 	return *this;
 }
 
+CompoundSprite::CompoundSprite(CompoundSprite&& other) noexcept
+	: Transformable(other), m_prioritizedComponents(std::move(other.m_prioritizedComponents))
+{}
+
+CompoundSprite& CompoundSprite::operator=(CompoundSprite&& other) noexcept
+{
+	// Move the CompoundSprite members from the other
+	this->m_prioritizedComponents = std::move(other.m_prioritizedComponents);
+
+	// Copy the Transformable members from the other, since it cannot be moved.
+	this->Transformable::setPosition(other.getPosition());
+	this->Transformable::setRotation(other.getRotation());
+	this->Transformable::setScale(other.getScale());
+	this->Transformable::setOrigin(other.getOrigin());
+
+	return *this;
+}
+
 /// <summary>
 /// Gets the count of Sprite components.
 /// </summary>

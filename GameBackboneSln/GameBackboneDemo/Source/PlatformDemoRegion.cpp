@@ -208,7 +208,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	gameBodySprite->setPosition(spritePosition);
 
 	// Mark the sprite to be displayed
-	addDrawable(1, gameBodySprite.get());
+	addDrawable(1, *gameBodySprite);
 
 	// Create the Box2D representation for physics
 
