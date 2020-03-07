@@ -99,7 +99,9 @@ namespace GB {
 		/// <param name="other">The other CompoundSprite that is being copied.</param>
 		CompoundSprite& operator=(const CompoundSprite& other);
 
-		CompoundSprite(CompoundSprite&&) noexcept = default;
+		// CompoundSprite(CompoundSprite&& other) noexcept = default;
+		CompoundSprite(CompoundSprite&& other) noexcept : m_prioritizedComponents(std::move(other.m_prioritizedComponents))
+		{}
 
 		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
 
@@ -107,6 +109,7 @@ namespace GB {
 
 		// Component Getters
 		std::size_t getComponentCount() const;
+		std::size_t getComponentCount(int priority) const;
 
 		bool isEmpty() const;
 

@@ -54,6 +54,15 @@ std::size_t CompoundSprite::getComponentCount() const {
 	return m_prioritizedComponents.size();
 }
 
+/// <summary>
+/// Gets the count of Sprite components for a given priority.
+/// </summary>
+/// <param name="priority">The priority to check.</param>
+/// <return> The count of sprite components. </return>
+std::size_t CompoundSprite::getComponentCount(int priority) const {
+	return m_prioritizedComponents.count(priority);
+}
+
 /// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
 bool CompoundSprite::isEmpty() const {
 	return m_prioritizedComponents.empty();

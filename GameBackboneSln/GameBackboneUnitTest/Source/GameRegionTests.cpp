@@ -36,8 +36,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 	BOOST_AUTO_TEST_SUITE(GameRegion_addDrawable_tests)
 
-		// Tests adding Drawables to the GameRegion in single
-		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_single) {
+		// Tests adding Drawables to the GameRegion
+		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable) {
 			GameRegion gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
@@ -50,8 +50,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 			BOOST_CHECK(gameRegion.getDrawableCount() == drawables.size());
 		}
 
-		// Tests adding Drawables to the GameRegion in single with different priorities
-		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_single_differentPriorities) {
+		// Tests adding Drawables to the GameRegion with different priorities
+		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_differentPriorities) {
 			GameRegion gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 			std::vector<sf::Sprite> drawables2(5);
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 		}
 
 		// Tests adding Drawables to the GameRegion in single but overwriting in the same priority
-		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_single_overwrite_samePriority) {
+		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_overwrite_samePriority) {
 			GameRegion gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
@@ -84,8 +84,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 			BOOST_CHECK(gameRegion.getDrawableCount() == drawables.size());
 		}
 
-		// Tests adding Drawables to the GameRegion in single but overwriting in the different priority
-		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_single_overwrite_differentPriority) {
+		// Tests adding Drawables to the GameRegion but overwriting in the different priority
+		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_overwrite_differentPriority) {
 			GameRegion gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
@@ -104,8 +104,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 	BOOST_AUTO_TEST_SUITE(GameRegion_removeDrawable_tests)
 		
-		// Tests removing Drawables to the GameRegion in single
-		BOOST_AUTO_TEST_CASE(GameRegion_removeDrawable_single) {
+		// Tests removing Drawables to the GameRegion
+		BOOST_AUTO_TEST_CASE(GameRegion_removeDrawable) {
 			GameRegion gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
@@ -119,8 +119,8 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 			BOOST_CHECK(gameRegion.getDrawableCount() == 0);
 		}
 
-		// Tests removing Drawables from the GameRegion in single but not removing all of them
-		BOOST_AUTO_TEST_CASE(GameRegion_removeDrawable_single_notRemoveAll) {
+		// Tests removing Drawables from the GameRegion but not removing all of them
+		BOOST_AUTO_TEST_CASE(GameRegion_removeDrawable_notRemoveAll) {
 			GameRegion gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 

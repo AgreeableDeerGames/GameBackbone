@@ -7,11 +7,12 @@
 #include <SFML/Graphics.hpp>
 
 #include <string>
+#include <type_traits>
 
 using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(CompoundSpriteTests)
-/*
+
 struct ReusableObjects
 {
 	ReusableObjects() {
@@ -63,7 +64,7 @@ struct ReusableObjects
 
 struct ReusableObjectsForOperations : ReusableObjects {
 
-	ReusableObjectsForOperations() : compoundSprite(sprite, sprite2, animSpriteWithAnim1, animSpriteWithAnim2)
+	ReusableObjectsForOperations() : compoundSprite(0, sprite, sprite2, animSpriteWithAnim1, animSpriteWithAnim2)
 	{
 	}
 
@@ -74,73 +75,81 @@ struct ReusableObjectsForOperations : ReusableObjects {
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_Sprite, ReusableObjects) {
-	CompoundSprite compoundSprite{ sprite };
+	CompoundSprite compoundSprite{ 0,  sprite };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_AnimatedSprite, ReusableObjects) {
-	CompoundSprite compoundSprite{ animSpriteWithAnim1 };
+	CompoundSprite compoundSprite{ 0,  animSpriteWithAnim1 };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_RectangleShape, ReusableObjects) {
-	CompoundSprite compoundSprite{ sf::RectangleShape{} };
+	CompoundSprite compoundSprite{ 0,  sf::RectangleShape{} };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_TwoTypes, ReusableObjects) {
-	CompoundSprite compoundSprite{ sprite, animSpriteWithAnim1 };
+	CompoundSprite compoundSprite{ 0,  sprite, animSpriteWithAnim1 };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 2);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 2);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_FourTypes, ReusableObjects) {
-	CompoundSprite compoundSprite{ sprite, animSpriteWithAnim1, sf::RectangleShape{}, CompoundSprite{} };
+	CompoundSprite compoundSprite{ 0,  sprite, animSpriteWithAnim1, sf::RectangleShape{}, CompoundSprite{} };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 4);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 4);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicPositionCtr, ReusableObjects)
 {
-	CompoundSprite compoundSprite{ sf::Vector2f{10.0f, 10.0f}, sprite, animSpriteWithAnim1 };
+	CompoundSprite compoundSprite{ sf::Vector2f{10.0f, 10.0f}, 0, sprite, animSpriteWithAnim1 };
 
 	BOOST_CHECK(compoundSprite.getPosition().x == 10.0f);
 	BOOST_CHECK(compoundSprite.getPosition().y == 10.0f);
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 2);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 2);
 }
 
-class dummy : public sf::Drawable, public sf::Transformable {
+class MockDrawable_ForMoveCopyCounts : public sf::Drawable, public sf::Transformable {
 public:
 	int& m_copies;
 	int& m_moves;
 
-	dummy(int& copies, int& moves) : m_copies(copies), m_moves(moves) {}
+	MockDrawable_ForMoveCopyCounts(int& copies, int& moves) : m_copies(copies), m_moves(moves) {}
 
-	dummy(const dummy& other) : m_copies(other.m_copies), m_moves(other.m_moves)
+	MockDrawable_ForMoveCopyCounts(const MockDrawable_ForMoveCopyCounts& other) 
+		: m_copies(other.m_copies), m_moves(other.m_moves)
 	{
 		m_copies++;
 	}
-	dummy& operator=(const dummy& other)
+	MockDrawable_ForMoveCopyCounts& operator=(const MockDrawable_ForMoveCopyCounts& other)
 	{
-		dummy tempOther{ other.m_copies, other.m_moves };
+		MockDrawable_ForMoveCopyCounts tempOther{ other.m_copies, other.m_moves };
 		*this = std::move(tempOther);
 		m_copies++;
 		return *this;
 	}
-	dummy(dummy&& other) noexcept : m_copies(other.m_copies), m_moves(other.m_moves)
+	MockDrawable_ForMoveCopyCounts(MockDrawable_ForMoveCopyCounts&& other) noexcept 
+		: m_copies(other.m_copies), m_moves(other.m_moves)
 	{
 		m_moves++;
 	}
-	dummy& operator=(dummy&& other) noexcept
+	MockDrawable_ForMoveCopyCounts& operator=(MockDrawable_ForMoveCopyCounts&& other) noexcept
 	{
 		this->m_copies = other.m_copies;
 		this->m_moves = other.m_moves;
@@ -157,8 +166,8 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_NoCopies)
 {
 	int copies = 0;
 	int moves = 0;
-	dummy dummy1{ copies , moves };
-	CompoundSprite compoundSprite{ std::move(dummy1) };
+	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
+	CompoundSprite compoundSprite{ 0,  std::move(mock) };
 
 	BOOST_CHECK(copies == 0);
 	BOOST_CHECK(moves == 5);
@@ -168,8 +177,8 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 {
 	int copies = 0;
 	int moves = 0;
-	dummy dummy1{ copies , moves };
-	CompoundSprite compoundSprite{ dummy1 };
+	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
+	CompoundSprite compoundSprite{ 0,  mock };
 
 	BOOST_CHECK(copies == 1);
 	BOOST_CHECK(moves == 4);
@@ -178,7 +187,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_DoesCopyConstruction)
 {
 	CompoundSprite compoundSprite{};
-	CompoundSprite compoundSprite2(compoundSprite);
+	CompoundSprite compoundSprite2{ compoundSprite };
 	CompoundSprite compoundSprite3{ compoundSprite };
 	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
 	BOOST_CHECK(compoundSprite3.getComponentCount() == 0);
@@ -188,16 +197,16 @@ BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_ClonesComponents)
 {
 	int copies = 0;
 	int moves = 0;
-	dummy dummy1{ copies , moves };
-	CompoundSprite compoundSprite{ std::move(dummy1) };
+	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
+	CompoundSprite compoundSprite{ 0, std::move(mock) };
 	CompoundSprite compoundSprite2(compoundSprite);
 	BOOST_CHECK(copies == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesCopyConstruction)
+BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesMoveConstruction)
 {
 	CompoundSprite compoundSprite{};
-	CompoundSprite compoundSprite2(std::move(compoundSprite));
+	CompoundSprite compoundSprite2{ std::move(compoundSprite) };
 	CompoundSprite compoundSprite3{ std::move(compoundSprite) };
 	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
 	BOOST_CHECK(compoundSprite3.getComponentCount() == 0);
@@ -207,10 +216,13 @@ BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesNotCloneComponents)
 {
 	int copies = 0;
 	int moves = 0;
-	dummy dummy1{ copies , moves };
-	CompoundSprite compoundSprite{ std::move(dummy1) };
-	CompoundSprite compoundSprite2(std::move(compoundSprite));
+	
+	bool test = std::is_nothrow_move_constructible_v<CompoundSprite>;
+	MockDrawable_ForMoveCopyCounts mock{ copies , moves };
+	CompoundSprite compoundSprite{ 0, std::move(mock) };
+	CompoundSprite compoundSprite2( std::move(compoundSprite) );
 	BOOST_CHECK(copies == 0);
+	CompoundSprite testcps(CompoundSprite{});
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_CTR
@@ -219,40 +231,44 @@ BOOST_AUTO_TEST_SUITE(CompoundSprite_addComponent)
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Sprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
-	compoundSprite.addComponent(sprite);
+	compoundSprite.addComponent(0, sprite);
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_AnimatedSprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
-	compoundSprite.addComponent(animSpriteWithAnim1);
+	compoundSprite.addComponent(0, animSpriteWithAnim1);
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_RectangleShape, ReusableObjects) {
 	CompoundSprite compoundSprite{};
-	compoundSprite.addComponent(sf::RectangleShape{});
+	compoundSprite.addComponent(0, sf::RectangleShape{});
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_CompoundSprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
-	compoundSprite.addComponent(CompoundSprite{});
+	compoundSprite.addComponent(0, CompoundSprite{});
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
 	BOOST_CHECK(compoundSprite.getComponentCount() == 1);
+	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Return, ReusableObjects) {
 	CompoundSprite compoundSprite{};
 	sprite.setColor(sf::Color::Red);
-	auto& returnRef = compoundSprite.addComponent(sprite);
+	auto& returnRef = compoundSprite.addComponent(0, sprite);
 
 	BOOST_CHECK(returnRef.getColor() == sprite.getColor());
 }
@@ -353,7 +369,7 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
-*/
+
 /*BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
 // Test that the default constructor initializes values to empty
