@@ -18,47 +18,6 @@ using namespace GB;
 BOOST_AUTO_TEST_SUITE(NavigationToolsTests)
 
 /// <summary>
-/// Struct to store objects that can be reused for all or nearly all
-/// of the unit tests in this file. This struct is meant to be used with fixtures
-/// at the unit test level.
-/// </summary>
-struct ReusableObjects
-{
-	ReusableObjects() {
-		// add sprites
-		for (unsigned int ii = 0; ii < NUM_SPRITES; ++ii) {
-			sprites.push_back(new sf::Sprite());
-			destinations.push_back(sf::Vector2f(sinf((float)ii), sinf((float)(ii + 1)))); // should cover all quadrants. Max distance should be below 1.25.
-
-			// initialize paths
-			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
-				std::deque<sf::Vector2f>* path = new std::deque<sf::Vector2f>;
-
-				for (unsigned int kk = 0; kk < jj; ++kk) {
-					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
-				}
-				paths.push_back(path);
-			}
-
-		}
-	}
-
-	~ReusableObjects() {
-		for (sf::Sprite* sprite : sprites) {
-			delete sprite;
-		}
-		for (auto path : paths) {
-			delete path;
-		}
-	}
-
-	const unsigned int NUM_SPRITES = 100;
-	std::vector<sf::Sprite*> sprites;
-	std::vector<sf::Vector2f> destinations;
-	std::vector<std::deque<sf::Vector2f>*> paths;
-};
-
-/// <summary>
 /// Test fixture for moving sprites along paths
 /// </summary>
 struct ReusablePathfindingObjects
@@ -102,57 +61,6 @@ struct ReusablePathfindingObjects
 };
 
 /// <summary>
-/// Struct to store objects that can be reused for all or nearly all compound sprite tests
-/// This struct is meant to be used with fixtures at the unit test level.
-/// </summary>
-struct ReusableCompoundObjects {
-
-
-	ReusableCompoundObjects() {
-		// add sprites
-		for (unsigned int ii = 0; ii < NUM_SPRITES; ++ii) {
-
-			// build compound sprites
-			CompoundSprite* compoundSprite = new CompoundSprite();
-			for (unsigned int jj = 0; jj < NUM_COMPONENTS; ++jj) {
-				sf::Sprite component = sf::Sprite();
-				compoundSprite->addComponent(component);
-			}
-			compoundSprites.push_back(compoundSprite);
-
-
-			destinations.push_back(sf::Vector2f(sinf((float)ii), sinf((float)(ii + 1)))); // should cover all quadrants. Max distance should be below 1.25.
-
-	  	    // initialize paths
-			for (unsigned int jj = 0; jj < NUM_SPRITES; ++jj) {
-				std::deque<sf::Vector2f>* path = new std::deque<sf::Vector2f>;
-
-				for (unsigned int kk = 0; kk < jj; ++kk) {
-					path->push_back(sf::Vector2f(sinf((float)kk), sinf((float)(kk + kk)))); // should cover all quadrants. Max distance should be below 1.25.
-				}
-				paths.push_back(path);
-			}
-
-		}
-	}
-
-
-	~ReusableCompoundObjects() {
-
-		for (CompoundSprite* compoundSprite : compoundSprites) {
-			delete compoundSprite;
-		}
-	}
-
-	const unsigned int NUM_SPRITES = 100;
-	const unsigned int NUM_COMPONENTS = 2;
-	std::vector<CompoundSprite*> compoundSprites;
-	std::vector<sf::Sprite*> components;
-	std::vector<sf::Vector2f> destinations;
-	std::vector<std::deque<sf::Vector2f>*> paths;
-};
-
-/// <summary>
 /// Test fixture for moving CompoundSprite along paths
 /// </summary>
 struct ReusableCompoundPathfindingObjects {
@@ -165,7 +73,7 @@ struct ReusableCompoundPathfindingObjects {
 			sprites.push_back(sprite1);
 			sprites.push_back(sprite2);
 
-			CompoundSprite* compoundSprite = new CompoundSprite(*sprite1, *sprite2);
+			CompoundSprite* compoundSprite = new CompoundSprite(0, *sprite1, *sprite2);
 			compoundSprites.push_back(compoundSprite);
 		}
 

@@ -11,8 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <Box2D/Box2D.h>
-#include <Box2D/Common/b2Math.h>
+#include <box2d/box2d.h>
 
 #include <string>
 #include <math.h>
@@ -66,7 +65,7 @@ void PlatformDemoRegion::update(sf::Int64 elapsedTime) {
 
 		// Update the angle of the sprite to match the angle of the Box2D body.
 		// Converting from radians to degrees because Box2D uses radians and SFML uses degrees. 
-		float32 angle = objectBody->GetAngle();
+		float angle = objectBody->GetAngle();
 		objectSprites[ii]->setRotation(static_cast<float>(angle * (180.0f / M_PI)));
 	}
 }
@@ -209,7 +208,7 @@ void PlatformDemoRegion::addGameBody(sf::Vector2f spritePosition, sf::Vector2f s
 	gameBodySprite->setPosition(spritePosition);
 
 	// Mark the sprite to be displayed
-	addDrawable(1, gameBodySprite.get());
+	addDrawable(1, *gameBodySprite);
 
 	// Create the Box2D representation for physics
 

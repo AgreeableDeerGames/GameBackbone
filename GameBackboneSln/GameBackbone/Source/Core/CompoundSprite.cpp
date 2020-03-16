@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <map>
 #include <set>
 #include <stdexcept>
 #include <vector>
@@ -22,38 +23,74 @@ CompoundSprite::CompoundSprite(sf::Vector2f position){
 	setPosition(position);
 }
 
+CompoundSprite::CompoundSprite(const CompoundSprite& other) : CompoundSprite()
+{
+	this->setPosition(other.getPosition());
+	this->setRotation(other.getRotation());
+	this->setScale(other.getScale());
+	this->setOrigin(other.getOrigin());
+
+	for (auto& priorityComponent : other.m_prioritizedComponents)
+	{
+		this->m_prioritizedComponents.emplace(
+			priorityComponent.first, 
+			priorityComponent.second->cloneAsUnique()
+		);
+	}
+}
+
+CompoundSprite& CompoundSprite::operator=(const CompoundSprite& other)
+{
+	CompoundSprite tempOther{ other };
+	*this = std::move(tempOther);
+	return *this;
+}
+
+CompoundSprite::CompoundSprite(CompoundSprite&& other) noexcept
+	: Transformable(other), m_prioritizedComponents(std::move(other.m_prioritizedComponents))
+{}
+
+CompoundSprite& CompoundSprite::operator=(CompoundSprite&& other) noexcept
+{
+	// Move the CompoundSprite members from the other
+	this->m_prioritizedComponents = std::move(other.m_prioritizedComponents);
+
+	// Copy the Transformable members from the other, since it cannot be moved.
+	this->Transformable::setPosition(other.getPosition());
+	this->Transformable::setRotation(other.getRotation());
+	this->Transformable::setScale(other.getScale());
+	this->Transformable::setOrigin(other.getOrigin());
+
+	return *this;
+}
+
 /// <summary>
 /// Gets the count of Sprite components.
 /// </summary>
 /// <return> The count of sprite components. </return>
 std::size_t CompoundSprite::getComponentCount() const {
-	return m_internalComponents.size();
+	return m_prioritizedComponents.size();
+}
+
+/// <summary>
+/// Gets the count of Sprite components for a given priority.
+/// </summary>
+/// <param name="priority">The priority to check.</param>
+/// <return> The count of sprite components. </return>
+std::size_t CompoundSprite::getComponentCount(int priority) const {
+	return m_prioritizedComponents.count(priority);
 }
 
 /// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
 bool CompoundSprite::isEmpty() const {
-	return m_internalComponents.empty();
-}
-
-/// <summary>
-/// Removes the Sprite component at the passed index from the CompoundSprite.
-/// Throws std::out_of_range exception if the component index is out of bounds.
-/// This invalidates all indices returned by addComponent(sf::sprite)
-/// </summary>
-/// <param name="component">The component to remove from the CompoundSprite</param>
-void CompoundSprite::removeComponent(std::size_t componentIndex) {
-	if (componentIndex < m_internalComponents.size()) {
-		m_internalComponents.erase(m_internalComponents.begin() + componentIndex);
-	} else {
-		throw std::out_of_range("Component not in CompoundSprite");
-	}
+	return m_prioritizedComponents.empty();
 }
 
 /// <summary>
 /// Removes all components from the compound sprite
 /// </summary>
 void CompoundSprite::clearComponents() {
-	m_internalComponents.clear();
+	m_prioritizedComponents.clear();
 }
 
 /// <summary>
@@ -82,12 +119,12 @@ void CompoundSprite::setPosition(const sf::Vector2f& position) {
 /// <param name="angle"> Angle of rotation, in degrees.</param>
 void CompoundSprite::setRotation(float angle) {
 	// Lambda for rotating components
-	auto setRotationFunction = [angle](auto& component) {
-		component->setRotation(angle);
+	auto setRotationFunction = [angle](auto& componentPair) {
+		componentPair.second->setRotation(angle);
 	};
 
 	// Apply the rotateFunction to all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), setRotationFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), setRotationFunction);
 
 	// Update the position of the CompoundSprite as a whole
 	sf::Transformable::setRotation(angle);
@@ -100,12 +137,12 @@ void CompoundSprite::setRotation(float angle) {
 /// <param name="factorY">The scale factor in the y direction.</param>
 void CompoundSprite::setScale(float factorX, float factorY) {
 	// Lambda function for scaling components
-	auto setScaleFunction = [factorX, factorY](auto& component) {
-		component->setScale(factorX, factorY);
+	auto setScaleFunction = [factorX, factorY](auto& componentPair) {
+		componentPair.second->setScale(factorX, factorY);
 	};
 
 	// Apply the setScaleFunction to all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), setScaleFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), setScaleFunction);
 
 	// Update the position of the CompoundSprite as a whole
 	sf::Transformable::setScale(factorX, factorY);
@@ -127,17 +164,17 @@ void CompoundSprite::setScale(const sf::Vector2f& factors) {
 /// <param name="y">The y coordinate of the new origin.</param>
 void CompoundSprite::setOrigin(float x, float y) {
 	// function to update the origin of a component
-	auto setOriginFunction = [x, y, this](auto& component) {
+	auto setOriginFunction = [x, y, this](auto& componentPair) {
 
 		/*
 		 * Move the origin of the component relative to how the origin of the full CompoundSprite is moving.
 		 * This preserves the positioning established when components were first added to the CompoundSprite
 		 */
-		component->setOrigin(component->getOrigin().x + (x - getOrigin().x), component->getOrigin().y + (y - getOrigin().y));
+		componentPair.second->setOrigin(componentPair.second->getOrigin().x + (x - getOrigin().x), componentPair.second->getOrigin().y + (y - getOrigin().y));
 	};
 
 	// update the origin of all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), setOriginFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), setOriginFunction);
 
 	// Update the origin of the CompoundSprite as a whole
 	sf::Transformable::setOrigin(x, y);
@@ -159,12 +196,12 @@ void CompoundSprite::setOrigin(const sf::Vector2f& origin) {
 /// <param name="offsetY">The offset y.</param>
 void CompoundSprite::move(float offsetX, float offsetY) {
 	// function for moving a component
-	auto moveFunction = [offsetX, offsetY](auto& component) {
-		component->move(offsetX, offsetY);
+	auto moveFunction = [offsetX, offsetY](auto& componentPair) {
+		componentPair.second->move(offsetX, offsetY);
 	};
 
 	// apply the rotateFunction to all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), moveFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), moveFunction);
 
 	// update the position of the CompoundSprite as a whole
 	sf::Transformable::move(offsetX, offsetY);
@@ -185,12 +222,12 @@ void CompoundSprite::move(const sf::Vector2f& offset) {
 /// <param name="angle">The offset to the current rotation.</param>
 void CompoundSprite::rotate(float angle) {
 	// Lambda for rotating components
-	auto rotateFunction = [angle](auto& component) {
-		component->rotate(angle);
+	auto rotateFunction = [angle](auto& componentPair) {
+		componentPair.second->rotate(angle);
 	};
 
 	// Apply the rotateFunction to all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), rotateFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), rotateFunction);
 
 	// Update the position of the CompoundSprite as a whole
 	sf::Transformable::rotate(angle);
@@ -203,12 +240,12 @@ void CompoundSprite::rotate(float angle) {
 /// <param name="factorY">The vertical scale factor.</param>
 void CompoundSprite::scale(float factorX, float factorY) {
 	// Lambda function for scaling components
-	auto scaleFunction = [factorX, factorY](auto& component) {
-		component->scale(factorX, factorY);
+	auto scaleFunction = [factorX, factorY](auto& componentPair) {
+		componentPair.second->scale(factorX, factorY);
 	};
 
 	// Apply the scaleFunction to all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), scaleFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), scaleFunction);
 
 	// Update the position of the CompoundSprite as a whole
 	sf::Transformable::scale(factorX, factorY);
@@ -228,8 +265,8 @@ void CompoundSprite::scale(const sf::Vector2f& factor) {
 /// <param name="elapsedTime">The elapsed time.</param>
 void CompoundSprite::update(sf::Int64 elapsedTime) {
 	// Forward the update to each component
-	for (auto& component : m_internalComponents) {
-		component->update(elapsedTime);
+	for (auto& componentPair : m_prioritizedComponents) {
+		componentPair.second->update(elapsedTime);
 	}
 }
 
@@ -240,11 +277,11 @@ void CompoundSprite::update(sf::Int64 elapsedTime) {
 /// <param name="states"> Current render states. </param>
 void CompoundSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	// lambda function to draw a component
-	auto drawFunction = [&target, &states](auto& drawable) {
-		target.draw(*(drawable.get()), states);
+	auto drawFunction = [&target, &states](auto& componentPair) {
+		target.draw(componentPair.second->getDataAsDrawable(), states);
 	};
 
 	// apply drawFunction to all components
-	std::for_each(std::begin(m_internalComponents), std::end(m_internalComponents), drawFunction);
+	std::for_each(std::begin(m_prioritizedComponents), std::end(m_prioritizedComponents), drawFunction);
 }
 
