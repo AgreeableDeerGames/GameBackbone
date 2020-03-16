@@ -47,7 +47,7 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
 
 	animatedSprite1->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_REVERSE);
 	// Tell the region to draw the AnimatedSprite
-	addDrawable(1, animatedSprite1.get());
+	addDrawable(1, *animatedSprite1);
 	// Store the animatedSprite in the animatedSprites vector
 	animatedSprites.push_back(animatedSprite1);
 
@@ -58,7 +58,7 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
 	// Set the current animation
 	animatedSprite2->setCurrentAnimation(0);
 	// Tell the region to draw the AnimatedSprite
-	addDrawable(1, animatedSprite2.get());
+	addDrawable(1, *animatedSprite2);
 	// Store the animatedSprite in the animatedSprites vector
 	animatedSprites.push_back(animatedSprite2);
 
@@ -89,7 +89,7 @@ AnimationDemoRegion::AnimationDemoRegion(sf::RenderWindow& window) : DemoRegion(
 	// The Animation will loop when it reaches the end
 	animatedSprite3->runAnimation(0, GB::ANIMATION_END_TYPE::ANIMATION_LOOP);
 	// Tell the region to draw the AnimatedSprite
-	addDrawable(1, animatedSprite3.get());
+	addDrawable(1, *animatedSprite3);
 	// Store the animatedSprite in the animatedSprites vector
 	animatedSprites.push_back(animatedSprite3);
 

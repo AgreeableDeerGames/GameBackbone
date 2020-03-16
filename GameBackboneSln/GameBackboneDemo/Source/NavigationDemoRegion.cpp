@@ -170,7 +170,8 @@ void NavigationDemoRegion::init() {
 	navigator2->setPosition(navigator2StartingPos);
 
 	// Draw navigators on top of maze
-	addDrawable(1, std::vector<sf::Drawable*>{navigator1, navigator2});
+	addDrawable(1, *navigator1);
+	addDrawable(1, *navigator2);
 
 	// Path-find from starting positions to end positions
 	// Create request
@@ -330,8 +331,7 @@ void NavigationDemoRegion::initMaze() {
 			// Scale the grid square sprite to be the correct size
 			gridSquare->setScale(VISUAL_GRID_SCALE, VISUAL_GRID_SCALE);
 
-			// Set the origin of the grid square to be the center of the square
-			// instead of the top left corner.
+			// Set the origin of the grid square to be the center of the square instead of the top left corner.
 			// This just makes it easier to place the squares in the correct place
 			gridSquare->setOrigin(gridOriginOffsetX, gridOriginOffsetY); //set origin to center of square
 
@@ -349,10 +349,9 @@ void NavigationDemoRegion::initMaze() {
 
 			// Tell GameRegion to draw square
 			navGridSprites.push_back(gridSquare);
+			addDrawable(0, *gridSquare);
 		}
 	}
-
-	addDrawable(0, navGridSprites);
 
 	// Give each cluster the correct color and navigation weight
 	for (std::size_t i = 0; i < clusterVector.size(); ++i)

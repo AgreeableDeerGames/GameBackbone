@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <cstddef>
+#include <map>
 #include <set>
 #include <utility>
 #include <vector>
@@ -64,7 +65,7 @@ namespace GB {
 		template <class... Components,
 			std::enable_if_t<are_all_components_v<Components...>, bool> = true
 		>
-		explicit CompoundSprite(Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, std::move(componentsToAdd)...) {}
+		explicit CompoundSprite(int priority, Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, priority, std::move(componentsToAdd)...) {}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
@@ -75,55 +76,48 @@ namespace GB {
 		template <class... Components,
 			std::enable_if_t<are_all_components_v<Components...>, bool> = true
 		>
-		CompoundSprite(sf::Vector2f position, Components... componentsToAdd)
+		CompoundSprite(sf::Vector2f position, int priority, Components... componentsToAdd)
 		{
 			setPosition(position);
 
 			// Add all of the passed components to the CompoundSprite using a fold expression and calling addComponent on each.
-			(addComponent(std::move(std::forward<Components>(componentsToAdd))), ...);
+			(addComponent(priority, std::move(std::forward<Components>(componentsToAdd))), ...);
 		}
 
 
 		explicit CompoundSprite(sf::Vector2f position);
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The copy constructor is needed to copy the internal vector.
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. 
+		/// The copy constructor is needed to copy the internal vector.
 		/// </summary>
 		/// <param name="other">The other CompoundSprite that is being copied.</param>
-		CompoundSprite(const CompoundSprite& other) : CompoundSprite()
-		{
-			this->setPosition(other.getPosition());
-			this->setRotation(other.getRotation());
-			this->setScale(other.getScale());
-			this->setOrigin(other.getOrigin());
-
-			for (auto& component : other.m_internalComponents)
-			{
-				this->m_internalComponents.emplace_back(
-					component->cloneAsUnique()
-				);
-			}
-		}
+		CompoundSprite(const CompoundSprite& other);
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class and returns it. This forwards to the Copy Constructor.
+		/// Copy assignment operator for the <see cref="CompoundSprite"/> class. 
 		/// </summary>
 		/// <param name="other">The other CompoundSprite that is being copied.</param>
-		CompoundSprite& operator=(const CompoundSprite& other)
-		{
-			CompoundSprite tempOther{ other };
-			*this = std::move(tempOther);
-			return *this;
-		}
+		CompoundSprite& operator=(const CompoundSprite& other);
 
-		CompoundSprite(CompoundSprite&&) noexcept = default;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. 
+		/// The move constructor is needed to move the internal vector and copy the sf::Transformable members.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being moved.</param>
+		CompoundSprite(CompoundSprite&& other) noexcept;
 
-		CompoundSprite& operator=(CompoundSprite&&) noexcept = default;
+		/// <summary>
+		/// Move assignment operator for the <see cref="CompoundSprite"/> class.
+		/// </summary>
+		/// <param name="other">The other CompoundSprite that is being moved.</param>
+		CompoundSprite& operator=(CompoundSprite&& other) noexcept;
 
 		virtual ~CompoundSprite() = default;
 
 		// Component Getters
 		std::size_t getComponentCount() const;
+		std::size_t getComponentCount(int priority) const;
 
 		bool isEmpty() const;
 
@@ -136,7 +130,7 @@ namespace GB {
 			class Component,
 			std::enable_if_t<is_component_v<Component>, bool> = true
 		>
-		Component& addComponent(Component component) {
+		Component& addComponent(int priority, Component component) {
 			/* Moving the origin moves the drawn entity in the opposite direction.
 			 * Move the origin of the component to the current position of the CompoundSprite
 			 * and offset it by the origin of the CompoundSprite (this keeps things in the right place
@@ -149,14 +143,40 @@ namespace GB {
 			component.setOrigin(getPosition().x + getOrigin().x - component.getPosition().x, getPosition().y + getOrigin().y - component.getPosition().y);
 			component.setPosition(getPosition().x, getPosition().y);
 
-			// Add the component to the internalComponents
-			std::unique_ptr<InternalType>& returnValue = m_internalComponents.emplace_back(std::make_unique<ComponentAdapter<Component>>(std::move(component)));
+
+			// Add the component to the prioritizedComponents
+			auto it = m_prioritizedComponents.emplace(priority, std::make_unique<ComponentAdapter<Component>>(std::move(component)));
+			std::unique_ptr<InternalType>& returnValue = it->second;
 		
 			// Return the place in the components vector that the new component was placed.
-			return static_cast<ComponentAdapter<Component>*>(returnValue.get())->data;
+			return static_cast<Component&>(returnValue->getDataAsDrawable());
 		}
 
-		virtual void removeComponent(std::size_t componentIndex);
+		/// <summary>
+		/// Removes the Sprite component at the passed index from the CompoundSprite.
+		/// Throws std::out_of_range exception if the component index is out of bounds.
+		/// This invalidates all indices returned by addComponent(sf::sprite)
+		/// </summary>
+		/// <param name="component">The component to remove from the CompoundSprite</param>
+		template <
+			class Component,
+			std::enable_if_t<is_component_v<Component>, bool> = true
+		>
+		void removeComponent(Component& componentToRemove)
+		{
+			// Find the drawable inside of the internal map.
+			auto it = std::find_if(m_prioritizedComponents.begin(), m_prioritizedComponents.end(),
+				[&componentToRemove](const std::pair<int, std::unique_ptr<InternalType>>& possibleRemoval) -> bool {
+					sf::Drawable& underlyingData = possibleRemoval.second->getDataAsDrawable();
+					return &(underlyingData) == &componentToRemove;
+				});
+
+			// If the drawable was found, erase it.
+			if (it != m_prioritizedComponents.end())
+			{
+				m_prioritizedComponents.erase(it);
+			}
+		}
 		virtual void clearComponents();
 
 		// Transformable API
@@ -221,6 +241,7 @@ namespace GB {
 
 			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
+			virtual sf::Drawable& getDataAsDrawable() = 0;
 		};
 
 		// Class which actually stores the data of the type erased InternalType. Used primarily to forward calls to the Component data.
@@ -231,11 +252,11 @@ namespace GB {
 			// Protected draw call forwards the draw call passing the sf::Drawable data.
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 			{
-				target.draw(data, states);
+				target.draw(m_data, states);
 			}
 
 		public:
-			explicit ComponentAdapter(Component x) : data(std::move(x)) { }
+			explicit ComponentAdapter(Component x) : m_data(std::move(x)) { }
 
 			// Deleting Copy/Move Constructors because InternalType cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
 			ComponentAdapter(const ComponentAdapter&) = delete;
@@ -245,7 +266,7 @@ namespace GB {
 
 			// Routes calls to update for GB::Updatable. Uses SFINAE and ADL to determine which version of update_helper to call. 
 			// If the Component is not an GB::Updatable, it is an empty function call.
-			void update(sf::Int64 elapsedTime) override
+			void update([[maybe_unused]] sf::Int64 elapsedTime) override
 			{
 				if constexpr (is_updatable_v<Component>)
 				{
@@ -256,41 +277,46 @@ namespace GB {
 			// The update_helper method for anything that inherits from GB::Updatable. Forwards the call to the data.
 			void updateHelper(sf::Int64 elapsedTime)
 			{
-				data.update(elapsedTime);
+				m_data.update(elapsedTime);
 			}
 
 			// Clones the object as a unique pointer. Always called virtually from InternalType. 
 			// It cannot be done in InternalType as the type has already been erased. This can be done here as the type of Component is known.
 			std::unique_ptr<InternalType> cloneAsUnique() override
 			{
-				return std::make_unique<ComponentAdapter<Component>>(data);
+				return std::make_unique<ComponentAdapter<Component>>(m_data);
+			}
+
+			sf::Drawable& getDataAsDrawable() override
+			{
+				return m_data;
 			}
 
 			// Overrides for the VirtualTransformable API. Forwards to the data.
-			void setPosition(float x, float y) override { data.setPosition(x, y); }
-			void setPosition(const sf::Vector2f& position) override { data.setPosition(position); }
-			void setRotation(float angle) override { data.setRotation(angle); }
-			void setScale(float factorX, float factorY) override { data.setScale(factorX, factorY); }
-			void setScale(const sf::Vector2f& factors) override { data.setScale(factors); }
-			void setOrigin(float x, float y) override { data.setOrigin(x, y); }
-			void setOrigin(const sf::Vector2f& origin) override { data.setOrigin(origin); }
-			const sf::Vector2f& getPosition() const override { return data.getPosition(); }
-			float getRotation() const override { return data.getRotation(); }
-			const sf::Vector2f& getScale() const override { return data.getScale(); }
-			const sf::Vector2f& getOrigin() const override { return data.getOrigin(); }
-			void move(float offsetX, float offsetY) override { data.move(offsetX, offsetY); }
-			void move(const sf::Vector2f& offset) override { data.move(offset); }
-			void rotate(float angle) override { data.rotate(angle); }
-			void scale(float factorX, float factorY) override { data.scale(factorX, factorY); }
-			void scale(const sf::Vector2f& factor) override { data.scale(factor); }
-			const sf::Transform& getTransform() const override { return data.getTransform(); }
-			const sf::Transform& getInverseTransform() const override { return data.getInverseTransform(); }
+			void setPosition(float x, float y) override { m_data.setPosition(x, y); }
+			void setPosition(const sf::Vector2f& position) override { m_data.setPosition(position); }
+			void setRotation(float angle) override { m_data.setRotation(angle); }
+			void setScale(float factorX, float factorY) override { m_data.setScale(factorX, factorY); }
+			void setScale(const sf::Vector2f& factors) override { m_data.setScale(factors); }
+			void setOrigin(float x, float y) override { m_data.setOrigin(x, y); }
+			void setOrigin(const sf::Vector2f& origin) override { m_data.setOrigin(origin); }
+			const sf::Vector2f& getPosition() const override { return m_data.getPosition(); }
+			float getRotation() const override { return m_data.getRotation(); }
+			const sf::Vector2f& getScale() const override { return m_data.getScale(); }
+			const sf::Vector2f& getOrigin() const override { return m_data.getOrigin(); }
+			void move(float offsetX, float offsetY) override { m_data.move(offsetX, offsetY); }
+			void move(const sf::Vector2f& offset) override { m_data.move(offset); }
+			void rotate(float angle) override { m_data.rotate(angle); }
+			void scale(float factorX, float factorY) override { m_data.scale(factorX, factorY); }
+			void scale(const sf::Vector2f& factor) override { m_data.scale(factor); }
+			const sf::Transform& getTransform() const override { return m_data.getTransform(); }
+			const sf::Transform& getInverseTransform() const override { return m_data.getInverseTransform(); }
 
 			// The Component data stored as a value type.
-			Component data;
+			Component m_data;
 		};
 
 		// Internal storage of the Components for CompoundSprite
-		std::vector<std::unique_ptr<InternalType>> m_internalComponents;	
+		std::multimap<int, std::unique_ptr<InternalType>> m_prioritizedComponents;
 	};
 }

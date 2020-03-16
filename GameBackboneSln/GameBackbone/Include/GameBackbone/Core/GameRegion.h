@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 
+#include <map>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -27,10 +28,8 @@ namespace GB {
 		virtual ~GameRegion() = default;
 
 		// Add/Remove/Clear drawables
-		void addDrawable(int priority, sf::Drawable* drawableToAdd);
-		void addDrawable(int priority, const std::vector<sf::Drawable*>& drawablesToAdd);
-		void removeDrawable(sf::Drawable* drawableToRemove);
-		void removeDrawable(const std::vector<sf::Drawable*>& drawablesToRemove);
+		void addDrawable(int priority, sf::Drawable& drawableToAdd);
+		void removeDrawable(sf::Drawable& drawableToRemove);
 		void clearDrawables();
 		void clearDrawables(int priority);
 
@@ -50,6 +49,6 @@ namespace GB {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
-		std::vector<std::pair<int, std::vector<sf::Drawable*>>> prioritizedDrawables;
+		std::multimap<int, sf::Drawable*> prioritizedDrawables;
 	};
 }
