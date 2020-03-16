@@ -227,11 +227,11 @@ BOOST_AUTO_TEST_CASE(CompundSprite_CopyAssign_ClonesComponents)
 
 BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesMoveConstruction)
 {
-	CompoundSprite compoundSprite{};
-	CompoundSprite compoundSprite2{ std::move(compoundSprite) };
+	CompoundSprite compoundSprite{ 0, sf::Sprite{} };
+	CompoundSprite compoundSprite2( std::move(compoundSprite) );
 
-	BOOST_CHECK(compoundSprite.isEmpty() == false);
-	BOOST_CHECK(compoundSprite2.getComponentCount() == 0);
+	BOOST_CHECK(compoundSprite2.isEmpty() == false);
+	BOOST_CHECK(compoundSprite2.getComponentCount() == 1);
 	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
@@ -245,13 +245,13 @@ BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_ClonesComponents)
 	BOOST_CHECK(copies == 0);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_DoesCMoveAssign, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_DoesMoveAssign, ReusableObjects)
 {
 	CompoundSprite compoundSprite{ 0, sprite };
 	CompoundSprite compoundSprite2{};
 	compoundSprite2 = std::move(compoundSprite);
 
-	BOOST_CHECK(compoundSprite.isEmpty() == false);
+	BOOST_CHECK(compoundSprite2.isEmpty() == false);
 	BOOST_CHECK(compoundSprite2.getComponentCount() == 1);
 	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
