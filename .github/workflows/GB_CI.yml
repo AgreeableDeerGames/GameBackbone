@@ -43,11 +43,12 @@ jobs:
         cd GB_Build_Dir
         cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
         make
-        make test
     - name: Test
-      run: echo "Run unit tests here" && pwd
+      run: |
+        pwd
+        ./GameBackboneTest
     - name: Valgrind
-      run: echo "Run valgrind here"
+      run: valgrind ./GameBackboneTest
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
