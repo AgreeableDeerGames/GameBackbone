@@ -45,9 +45,11 @@ jobs:
         make
     - name: Test
       run: |
+        export DISPLAY=:0
         ./GameBackboneSln/build/bin/GameBackboneUnitTest
     - name: Valgrind
       run: |
+        export DISPLAY=:0
         valgrind ./GameBackboneSln/build/bin/GameBackboneUnitTest
     - name: clang-tidy
       run: echo "Run clang tidy here"
