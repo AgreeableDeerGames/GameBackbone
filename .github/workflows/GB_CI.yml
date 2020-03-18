@@ -40,7 +40,7 @@ jobs:
     - name: Build
       run: |
         mkdir GB_Build_Dir
-        cd GB_Build_Dir/GameBackboneUnitTest
+        cd GB_Build_Dir/
         cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
         make
     - name: Test
