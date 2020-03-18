@@ -46,14 +46,20 @@ jobs:
 
     - name: setup Xvfb
       run: |
-        echo "setup Xvfb"
+        Xvfb :99 &
 
     - name: Test
       run: |
-        xvfb-run ./GameBackboneSln/build/bin/GameBackboneUnitTest
+        cd GameBackboneSln/build/bin
+        ./GameBackboneUnitTest
+      env:
+        DISPLAY: :99
     - name: Valgrind
       run: |
-        valgrind ./GameBackboneSln/build/bin/GameBackboneUnitTest
+        cd GameBackboneSln/build/bin
+        valgrind ./GameBackboneUnitTest
+      env:
+        DISPLAY: :99
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
