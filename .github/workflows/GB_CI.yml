@@ -45,10 +45,14 @@ jobs:
         make
     - name: Test
       run: |
+        cd GB_Build_Dir
         pwd
+        ls
         ./GameBackboneTest
     - name: Valgrind
-      run: valgrind ./GameBackboneTest
+      run: |
+      cd GB_Build_Dir  
+      valgrind ./GameBackboneTest
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
