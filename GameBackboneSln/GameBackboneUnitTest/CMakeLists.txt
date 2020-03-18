@@ -31,7 +31,7 @@ gamebackbone_target_set_default_warnings_for_tests(GameBackboneUnitTest)
 
 target_link_libraries(GameBackboneUnitTest PRIVATE GameBackbone)
 
-find_package(Boost 1.68 COMPONENTS unit_test_framework REQUIRED)
+find_package(Boost 1.65 COMPONENTS unit_test_framework REQUIRED)
 if(Boost_FOUND)
 	TARGET_include_directories(GameBackboneUnitTest PRIVATE ${Boost_INCLUDE_DIRS})
 	target_link_libraries(GameBackboneUnitTest PRIVATE ${Boost_LIBRARIES})

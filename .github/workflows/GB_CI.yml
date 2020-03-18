@@ -27,25 +27,17 @@ jobs:
         make
         sudo make install
         cd ../..
-    - name: Build TGUI
-      run: |
-        mkdir TGUI && cd TGUI
-        git clone --single-branch --branch 0.8 https://github.com/texus/TGUI.git
-        cd TGUI
-        cmake .
-        make
-        sudo make install
-        cd ../..
     - name: Build Boost
-      run: echo "build boost here"
+      run: sudo apt install libboost1.65-dev
     - name: Build
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir
-        cmake ../GameBackboneSln/
+        cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
         make
+        make test
     - name: Test
-      run: echo "Run unit tests here"
+      run: echo "Run unit tests here" && pwd
     - name: Valgrind
       run: echo "Run valgrind here"
     - name: clang-tidy
