@@ -46,12 +46,11 @@ jobs:
 
     - name: setup Xvfb
       run: |
-        Xvfb :99 &
-        export DISPLAY=:99
+        echo "setup Xvfb"
 
     - name: Test
       run: |
-        ./GameBackboneSln/build/bin/GameBackboneUnitTest
+        xvfb-run ./GameBackboneSln/build/bin/GameBackboneUnitTest
     - name: Valgrind
       run: |
         valgrind ./GameBackboneSln/build/bin/GameBackboneUnitTest
