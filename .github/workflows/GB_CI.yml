@@ -28,7 +28,7 @@ jobs:
         sudo make install
         cd ../..
     - name: Build Boost
-      run: sudo apt install libboost1.65-dev
+      run: sudo apt-get install libboost-all-dev
     - name: Build
       run: |
         mkdir GB_Build_Dir
