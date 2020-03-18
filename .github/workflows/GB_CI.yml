@@ -1,0 +1,39 @@
+name: GB_CI
+
+on:
+  push:
+    branches: [ master, develop, feature/GitHubActions ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: setup environment
+      run: sudo apt-get install valgrind libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev
+    - name: cache dependencies
+      run: echo "Cache SFML and TGUI here"
+    - name: Build SFML
+      run: mkdir SFML && cd SFML && git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git && cd SFML && cmake . && make && make install && cd ../..
+    - name: Build TGUI
+      run: mkdir TGUI && cd TGUI && git clone --single-branch --branch 0.8 https://github.com/texus/TGUI.git && cd TGUI && cmake . && make && make install && cd ../..
+    - name: Build Boost
+      run: echo "build boost here"
+    - name: Build
+      run: echo "build GB here"
+    - name: Test
+      run: echo "Run unit tests here"
+    - name: Valgrind
+      run: echo "Run valgrind here"
+    - name: clang-tidy
+      run: echo "Run clang tidy here"
+    - name: cppcheck
+      run: echo "Run cppcheck here"
+    - name: doxygen
+      run: echo "Run Doxygen here"
+    - name: update VCPKG
+      run: echo "update VCPKG here"
