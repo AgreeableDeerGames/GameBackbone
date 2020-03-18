@@ -18,13 +18,32 @@ jobs:
     - name: cache dependencies
       run: echo "Cache SFML and TGUI here"
     - name: Build SFML
-      run: mkdir SFML && cd SFML && git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git && cd SFML && cmake . && make && sudo make install && cd ../..
+      run: |
+        mkdir SFML
+        cd SFML
+        git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
+        cd SFML
+        cmake .
+        make
+        sudo make install
+        cd ../..
     - name: Build TGUI
-      run: mkdir TGUI && cd TGUI && git clone --single-branch --branch 0.8 https://github.com/texus/TGUI.git && cd TGUI && cmake . && make && sudo make install && cd ../..
+      run: |
+        mkdir TGUI && cd TGUI
+        git clone --single-branch --branch 0.8 https://github.com/texus/TGUI.git
+        cd TGUI
+        cmake .
+        make
+        sudo make install
+        cd ../..
     - name: Build Boost
       run: echo "build boost here"
     - name: Build
-      run: echo "build GB here"
+      run: |
+        mkdir GB_Build_Dir
+        cd GB_Build_Dir
+        cmake ../GameBackboneSln/
+        make
     - name: Test
       run: echo "Run unit tests here"
     - name: Valgrind
