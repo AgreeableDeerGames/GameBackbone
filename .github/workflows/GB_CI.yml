@@ -48,11 +48,11 @@ jobs:
         cd GB_Build_Dir
         pwd
         ls
-        ./GameBackboneTest
+        ./GameBackboneUnitTest
     - name: Valgrind
       run: |
         cd GB_Build_Dir  
-        valgrind ./GameBackboneTest
+        valgrind ./GameBackboneUnitTest
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
