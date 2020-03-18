@@ -45,7 +45,7 @@ jobs:
         make
 
     - name: setup Xvfb
-    - run: |
+      run: |
         Xvfb :99 &
         export DISPLAY=:99
 
