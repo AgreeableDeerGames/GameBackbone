@@ -51,8 +51,8 @@ jobs:
         ./GameBackboneTest
     - name: Valgrind
       run: |
-      cd GB_Build_Dir  
-      valgrind ./GameBackboneTest
+        cd GB_Build_Dir  
+        valgrind ./GameBackboneTest
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
