@@ -40,19 +40,15 @@ jobs:
     - name: Build
       run: |
         mkdir GB_Build_Dir
-        cd GB_Build_Dir
+        cd GB_Build_Dir/GameBackboneUnitTest
         cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
         make
     - name: Test
       run: |
-        cd GB_Build_Dir
-        pwd
-        ls
-        ./GameBackboneUnitTest
+        ./GameBackboneSln/build/bin/GameBackboneUnitTest
     - name: Valgrind
       run: |
-        cd GB_Build_Dir  
-        valgrind ./GameBackboneUnitTest
+        valgrind ./GameBackboneSln/build/bin/GameBackboneUnitTest
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
