@@ -46,8 +46,8 @@ jobs:
 
     - name: setup Xvfb
     - run: |
-      Xvfb :99 &
-      export DISPLAY=:99
+        Xvfb :99 &
+        export DISPLAY=:99
 
     - name: Test
       run: |
