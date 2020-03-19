@@ -14,7 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: setup environment
-      run: sudo apt-get install valgrind libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev xvfb
+      run: |
+        sudo apt-get install valgrind libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev xvfb
+        sudo apt install libglx-mesa0 libgl1-mesa-dri libgl1-mesa-dev
+      # sudo apt-get install libegl1-mesa libegl1-mesa-drivers xserver-xorg-video-intel libgl1-mesa-dri libglapi-mesa 
     - name: cache dependencies
       run: echo "Cache SFML and TGUI here"
     - name: Build SFML
