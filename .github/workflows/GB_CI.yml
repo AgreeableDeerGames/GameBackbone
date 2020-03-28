@@ -12,9 +12,12 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+
     - name: setup environment
       run: |
-        sudo apt-get install libpthread-stubs0-dev libx11-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev valgrind xvfb nvidia-340
+        sudo apt install libx11-dev xorg-dev libglu1-mesa-dev freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libgl1-mesa-glx libgl1-mesa-dev
+        sudo apt install libpthread-stubs0-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev
+        sudo apt install valgrind xvfb
 
     - name: cache dependencies
       run: echo "Cache SFML and Boost here"
