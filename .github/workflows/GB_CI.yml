@@ -8,19 +8,17 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v2
     - name: setup environment
       run: |
-        sudo apt-get install valgrind libpthread-stubs0-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev xvfb
-      # sudo apt-get install valgrind libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev xvfb
-      # sudo apt install libglx-mesa0 libgl1-mesa-dri libgl1-mesa-dev
-      # sudo apt-get install libegl1-mesa libegl1-mesa-drivers xserver-xorg-video-intel libgl1-mesa-dri libglapi-mesa 
+        sudo apt-get install libpthread-stubs0-dev libx11-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev valgrind xvfb
+
     - name: cache dependencies
-      run: echo "Cache SFML and TGUI here"
+      run: echo "Cache SFML and Boost here"
+
     - name: Build SFML
       run: |
         mkdir SFML
@@ -31,6 +29,7 @@ jobs:
         make
         sudo make install
         cd ../..
+
     - name: Build Boost
       run: |
         mkdir boost
@@ -58,12 +57,14 @@ jobs:
         ./GameBackboneUnitTest
       env:
         DISPLAY: :99
+
     - name: Valgrind
       run: |
         cd GameBackboneSln/build/bin
         valgrind ./GameBackboneUnitTest
       env:
         DISPLAY: :99
+
     - name: clang-tidy
       run: echo "Run clang tidy here"
     - name: cppcheck
