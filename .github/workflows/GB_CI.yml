@@ -7,7 +7,7 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  build:
+  build_linux:
     runs-on: ubuntu-latest
     
     steps:
@@ -17,10 +17,10 @@ jobs:
       run: |
         sudo apt install libx11-dev xorg-dev libglu1-mesa-dev freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libgl1-mesa-glx libgl1-mesa-dev
         sudo apt install libpthread-stubs0-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev
-        sudo apt install valgrind xvfb
+    #    sudo apt install valgrind xvfb
 
     - name: cache dependencies
-      run: echo "Cache SFML and Boost here"
+      run: echo "Cache SFML"
 
     - name: Build SFML
       run: |
@@ -33,15 +33,15 @@ jobs:
         sudo make install
         cd ../..
 
-    - name: Build Boost
-      run: |
-        mkdir boost
-        cd boost
-        wget https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
-        tar -xzf boost_1_72_0.tar.gz
-        cd boost_1_72_0
-        ./bootstrap.sh --with-libraries=test
-        sudo ./b2 install
+    #- name: Build Boost
+    #  run: |
+    #    mkdir boost
+    #    cd boost
+    #    wget https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
+    #    tar -xzf boost_1_72_0.tar.gz
+    #    cd boost_1_72_0
+    #    ./bootstrap.sh --with-libraries=test
+    #    sudo ./b2 install
 
     - name: Build
       run: |
@@ -50,29 +50,62 @@ jobs:
         cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
         make
 
-    - name: setup Xvfb
+    #- name: setup Xvfb
+    #  run: |
+    #    Xvfb :99 &
+
+    #- name: Test
+    #  run: |
+    #    cd GameBackboneSln/build/bin
+    #    ./GameBackboneUnitTest
+    #  env:
+    #    DISPLAY: :99
+
+    #- name: Valgrind
+    #  run: |
+    #    cd GameBackboneSln/build/bin
+    #    valgrind ./GameBackboneUnitTest
+    #  env:
+    #    DISPLAY: :99
+
+    #- name: clang-tidy
+    #  run: echo "Run clang tidy here"
+    #- name: cppcheck
+    #  run: echo "Run cppcheck here"
+    #- name: doxygen
+    #  run: echo "Run Doxygen here"
+    #- name: update VCPKG
+    #  run: echo "update VCPKG here"
+
+  build_windows:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+        
+    - name: cache dependencies
+      run: echo "Cache SFML"
+
+    - name: Build SFML
       run: |
-        Xvfb :99 &
+        mkdir SFML
+        cd SFML
+        git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
+        cd SFML
+        cmake .
+        cmake --build . --config Debug --target INSTALL
+        cd ../..
+
+    - name: Build GameBackbone
+      run: |
+        mkdir GB_Build_Dir
+        cd GB_Build_Dir/
+        cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
+        cmake -- build . --config Debug
 
     - name: Test
       run: |
-        cd GameBackboneSln/build/bin
-        ./GameBackboneUnitTest
-      env:
-        DISPLAY: :99
-
-    - name: Valgrind
-      run: |
-        cd GameBackboneSln/build/bin
-        valgrind ./GameBackboneUnitTest
-      env:
-        DISPLAY: :99
-
-    - name: clang-tidy
-      run: echo "Run clang tidy here"
-    - name: cppcheck
-      run: echo "Run cppcheck here"
-    - name: doxygen
-      run: echo "Run Doxygen here"
-    - name: update VCPKG
-      run: echo "update VCPKG here"
+        cd Build_Dir/Debug
+        .\GameBackboneUnitTest.exe
