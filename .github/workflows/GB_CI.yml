@@ -108,5 +108,5 @@ jobs:
 
     - name: Test
       run: |
-        cd GB_Build_Dir/Debug
-        .\GameBackboneUnitTest.exe
+        cd GB_Build_Dir/
+        ctest .
