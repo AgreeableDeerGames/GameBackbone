@@ -110,6 +110,5 @@ jobs:
       run: |
         cd GB_Build_Dir/
         ls
+        $env:Path += "C:/Program Files (x86)/SFML/bin/"
         ctest . -C Debug
-      env:
-        PATH: /%PATH%;"C:/Program Files (x86)/SFML/bin/"
