@@ -22,7 +22,7 @@ write_basic_package_version_file (
 
 # install GameBackbone lib
 install(
-    TARGETS GameBackbone
+    TARGETS ${GAME_BACKBONE_INSTALL_TARGETS}
     EXPORT GameBackbonePublicTargets
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
@@ -35,7 +35,7 @@ install(
     DESTINATION ${GAMEBACKBONE_PUBLIC_INCLUDE_INSTALL_DIR}
 )
 
-# install Cmake Files
+# install CMake Files
 install (
     EXPORT GameBackbonePublicTargets
     DESTINATION ${GAMEBACKBONE_INSTALL_CMAKE_DIR}

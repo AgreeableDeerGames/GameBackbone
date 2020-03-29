@@ -106,6 +106,3 @@ target_include_directories(
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
       $<INSTALL_INTERFACE:include>
 )
-
-# configure and install
-include("${CMAKE_SOURCE_DIR}/cmake/Utils/GBExportAndInstall.cmake")

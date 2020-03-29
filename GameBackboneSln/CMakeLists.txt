@@ -28,11 +28,13 @@ if(NOT CMAKE_DEBUG_POSTFIX)
 endif()
 
 add_subdirectory("GameBackbone")
+set(GAME_BACKBONE_INSTALL_TARGETS GameBackbone)
 
 option(GAMEBACKBONE_BUILD_DEMO "Build GameBackbone's demos" OFF)
 if(${GAMEBACKBONE_BUILD_DEMO})
 	gamebackbone_message("Enabling GameBackbone demo.")
 	add_subdirectory("GameBackboneDemo")
+	list(APPEND GAME_BACKBONE_INSTALL_TARGETS GameBackboneDemo)
 else()
 	gamebackbone_message("Disabling GameBackbone demo. Set GAMEBACKBONE_BUILD_DEMO to enable the demo.")
 endif()
@@ -43,6 +45,11 @@ if(${GAMEBACKBONE_BUILD_TESTS})
 	gamebackbone_message("Enabling GameBackbone unit tests.")
 	enable_testing()
 	add_subdirectory("GameBackboneUnitTest")
+	list(APPEND GAME_BACKBONE_INSTALL_TARGETS GameBackboneUnitTest)
 else()
 	gamebackbone_message("Disabling GameBackbone unit tests. Set GAMEBACKBONE_BUILD_TESTS to enable the tests.")
 endif()
+
+
+# configure and install
+include("${CMAKE_SOURCE_DIR}/cmake/Utils/GBExportAndInstall.cmake")
