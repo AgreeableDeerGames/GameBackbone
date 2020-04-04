@@ -30,12 +30,4 @@ if(Boost_FOUND)
 endif()
 
 # declares a test with all boost tests
-add_test(NAME AnimatedSpriteTests COMMAND GameBackboneUnitTest --run_test=AnimatedSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME AnimationSetTests COMMAND GameBackboneUnitTest --run_test=AnimationSetTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME BasicGameRegionTests COMMAND GameBackboneUnitTest --run_test=BasicGameRegionTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME CompoundSpriteTests COMMAND GameBackboneUnitTest --run_test=CompoundSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME CoreEventControllerTests COMMAND GameBackboneUnitTest --run_test=CoreEventControllerTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME GameRegionTests COMMAND GameBackboneUnitTest --run_test=GameRegion_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME RandGenTests COMMAND GameBackboneUnitTest --run_test=RandGen_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME UtilMathTests COMMAND GameBackboneUnitTest --run_test=UtilMathTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
+add_test(NAME GBUnitTests COMMAND GameBackboneUnitTest WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
