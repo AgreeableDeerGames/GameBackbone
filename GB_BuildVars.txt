@@ -1,6 +1,0 @@
-SFML_ROOT:
-D:\Documents\Projects\CppProjects\Libraries\SFML\SFML-2.5.0-windows-vc14-64-bit\SFML-2.5.0
-TGUI_ROOT:
-D:\Documents\Projects\CppProjects\Libraries\TGUI\TGUI-0.7.7-vc14-64bit-for-SFML-2.5.0\TGUI-0.7
-BOOST_ROOT:
-D:\Documents\Projects\CppProjects\Libraries\Boost\boost_1_67_0__msvc_141
