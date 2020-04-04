@@ -108,9 +108,10 @@ jobs:
 
     - name: Test
       run: |
-        cd GB_Build_Dir/
-        cd x64/Debug
+        cd GameBackboneSln/build
         ls
         Copy-Item -Path "C:/Program Files (x86)/SFML/bin/" -Destination .
         cd ../..
+        cd GB_Build_Dir/
         ctest . -C Debug
+        cd ..
