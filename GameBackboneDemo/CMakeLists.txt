@@ -2,29 +2,29 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include("${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneMessage.cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/Utils/GameBackboneMessage.cmake")
 
 
 add_executable(GameBackboneDemo
 # headers
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/AnimationDemoRegion.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoCoreEventController.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/DemoRegion.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/MainMenuDemoRegion.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/PlatformDemoRegion.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/RegionChangeDemoRegion.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/ScaleAndRotationDemoRegion.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackboneDemo/targetver.h"
+    "Include/GameBackboneDemo/AnimationDemoRegion.h"
+    "Include/GameBackboneDemo/DemoCoreEventController.h"
+    "Include/GameBackboneDemo/DemoRegion.h"
+    "Include/GameBackboneDemo/MainMenuDemoRegion.h"
+    "Include/GameBackboneDemo/PlatformDemoRegion.h"
+    "Include/GameBackboneDemo/RegionChangeDemoRegion.h"
+    "Include/GameBackboneDemo/ScaleAndRotationDemoRegion.h"
+    "Include/GameBackboneDemo/targetver.h"
 
 # source
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimationDemoRegion.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/DemoCoreEventController.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/DemoRegion.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/main.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/MainMenuDemoRegion.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/PlatformDemoRegion.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/RegionChangeDemoRegion.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/ScaleAndRotationDemoRegion.cpp"
+    "Source/AnimationDemoRegion.cpp"
+    "Source/DemoCoreEventController.cpp"
+    "Source/DemoRegion.cpp"
+    "Source/main.cpp"
+    "Source/MainMenuDemoRegion.cpp"
+    "Source/PlatformDemoRegion.cpp"
+    "Source/RegionChangeDemoRegion.cpp"
+    "Source/ScaleAndRotationDemoRegion.cpp"
 )
 
 # Set warnings to GB defaults

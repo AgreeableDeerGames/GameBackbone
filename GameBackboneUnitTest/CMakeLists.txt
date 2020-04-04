@@ -3,19 +3,19 @@
 cmake_minimum_required (VERSION 3.8)
 
 add_executable(GameBackboneUnitTest 
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/stdafx.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/stdafx.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimatedSpriteTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/AnimationSetTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/BasicGameRegionTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CompoundSpriteTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/CoreEventControllerTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/GameRegionTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/RandGenTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/SFUtilTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/targetver.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UniformAnimationSetTests.cpp"
-	"${CMAKE_CURRENT_SOURCE_DIR}/Source/UtilMathTests.cpp"
+	"Source/stdafx.h"
+	"Source/stdafx.cpp"
+	"Source/AnimatedSpriteTests.cpp"
+	"Source/AnimationSetTests.cpp"
+	"Source/BasicGameRegionTests.cpp"
+	"Source/CompoundSpriteTests.cpp"
+	"Source/CoreEventControllerTests.cpp"
+	"Source/GameRegionTests.cpp"
+	"Source/RandGenTests.cpp"
+	"Source/SFUtilTests.cpp"
+	"Source/targetver.h"
+	"Source/UniformAnimationSetTests.cpp"
+	"Source/UtilMathTests.cpp"
 )
 
 # Set warnings to GB test defaults
@@ -32,19 +32,10 @@ endif()
 # declares a test with all boost tests
 add_test(NAME AnimatedSpriteTests COMMAND GameBackboneUnitTest --run_test=AnimatedSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME AnimationSetTests COMMAND GameBackboneUnitTest --run_test=AnimationSetTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME Array2DTests COMMAND GameBackboneUnitTest --run_test=Array2D_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME BasicGameRegionTests COMMAND GameBackboneUnitTest --run_test=BasicGameRegionTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME ClusterGreenhouseTests COMMAND GameBackboneUnitTest --run_test=ClusterGreenhouse_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME ClusterTests COMMAND GameBackboneUnitTest --run_test=Cluster_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME CompoundSpriteTests COMMAND GameBackboneUnitTest --run_test=CompoundSpriteTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME CoordinateConverterTests COMMAND GameBackboneUnitTest --run_test=CoordinateConverter_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME CoreEventControllerTests COMMAND GameBackboneUnitTest --run_test=CoreEventControllerTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME FileManagerTests COMMAND GameBackboneUnitTest --run_test=FileManager_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME FileReaderTests COMMAND GameBackboneUnitTest --run_test=FileReader_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME FileWriterTests COMMAND GameBackboneUnitTest --run_test=FileWriter_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME GameRegionTests COMMAND GameBackboneUnitTest --run_test=GameRegion_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME NavigationToolsTests COMMAND GameBackboneUnitTest --run_test=NavigationToolsTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-add_test(NAME PathFinderTests COMMAND GameBackboneUnitTest --run_test=Pathfinder_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME RandGenTests COMMAND GameBackboneUnitTest --run_test=RandGen_Tests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_test(NAME UtilMathTests COMMAND GameBackboneUnitTest --run_test=UtilMathTests WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 

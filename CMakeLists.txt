@@ -8,18 +8,13 @@ project("GameBackbone")
 
 include("cmake/Utils/GameBackboneMessage.cmake")
 
-# top project folder
-set(GAMEBACKBONE_TOP_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
-
 # project wide output directories
-set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
-set(GB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib CACHE PATH "Output directory for built archive files")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib CACHE PATH "Output directory for built library files")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin CACHE PATH "Output directory for built binary files")
 
 # add custom modules to path
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${GAMEBACKBONE_TOP_FOLDER}/cmake/Modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
 gamebackbone_message("current module path: ${CMAKE_MODULE_PATH}")
 
 # set postfix
@@ -29,6 +24,7 @@ endif()
 
 add_subdirectory("GameBackbone")
 
+# optionally build demo
 option(GAMEBACKBONE_BUILD_DEMO "Build GameBackbone's demos" OFF)
 if(${GAMEBACKBONE_BUILD_DEMO})
 	gamebackbone_message("Enabling GameBackbone demo.")
@@ -45,4 +41,11 @@ if(${GAMEBACKBONE_BUILD_TESTS})
 	add_subdirectory("GameBackboneUnitTest")
 else()
 	gamebackbone_message("Disabling GameBackbone unit tests. Set GAMEBACKBONE_BUILD_TESTS to enable the tests.")
+endif()
+
+# ensure resources like textures are available for the executables
+if(${GAMEBACKBONE_BUILD_DEMO} OR ${GAMEBACKBONE_BUILD_TESTS})
+	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/TestFiles DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/Textures DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources/TGUI_Widgets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 endif()
