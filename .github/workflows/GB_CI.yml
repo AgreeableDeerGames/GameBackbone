@@ -108,11 +108,8 @@ jobs:
 
     - name: Test
       run: |
-        cd GB_Build_Dir/
+        cd GB_Build_Dir
         Copy-Item -Path "C:/Program Files (x86)/SFML/bin/*" -Destination ./bin/Debug
-        Copy-Item -Path "./TestFiles" -Destination ./bin/Debug
-        Copy-Item -Path "./Textures" -Destination ./bin/Debug
-        Copy-Item -Path "./TGUI_Widgets" -Destination ./bin/Debug
         tree /f
         ctest . -C Debug
         cd ..
