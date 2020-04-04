@@ -108,10 +108,12 @@ jobs:
 
     - name: Test
       run: |
-        cd GameBackboneSln/build
-        ls
+        cd GameBackboneSln/build/bin
         Copy-Item -Path "C:/Program Files (x86)/SFML/bin/" -Destination .
-        cd ../..
+        ls
+        cd ../../..
+        echo "changing to build dir"
         cd GB_Build_Dir/
+        echo "changing to build dir"
         ctest . -C Debug
         cd ..
