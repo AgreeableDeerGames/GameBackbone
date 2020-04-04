@@ -86,7 +86,11 @@ jobs:
         submodules: 'true'
         
     - name: cache dependencies
-      run: echo "Cache SFML"
+      id: Cache-Windows-Dependencies
+      uses: actions/cache@v1
+      with:
+        path: SFML/Install
+        key: ${{ runner.os }}-sfml-2_5_x
 
     - name: Build SFML
       run: |
@@ -94,7 +98,7 @@ jobs:
         cd SFML
         git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
         cd SFML
-        cmake .
+        cmake . -DCMAKE_INSTALL_PREFIX=../Install
         cmake --build . --config Debug --target INSTALL
         cd ../..
 
@@ -102,14 +106,13 @@ jobs:
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR=../SFML/Install/lib/cmake/SFML
         cmake --build . --config Debug
         cd ../
 
     - name: Test
       run: |
         cd GB_Build_Dir
-        Copy-Item -Path "C:/Program Files (x86)/SFML/bin/*" -Destination ./bin/Debug
-        tree /f
+        Copy-Item -Path ../SFML/Install/bin/* -Destination ./bin/Debug
         ctest . -C Debug
         cd ..
