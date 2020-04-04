@@ -7,48 +7,48 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  build_linux:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: setup environment
-      run: |
-        sudo apt install libx11-dev xorg-dev libglu1-mesa-dev freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libgl1-mesa-glx libgl1-mesa-dev
-        sudo apt install libpthread-stubs0-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev
-    #    sudo apt install valgrind xvfb
-
-    - name: cache dependencies
-      run: echo "Cache SFML"
-
-    - name: Build SFML
-      run: |
-        mkdir SFML
-        cd SFML
-        git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
-        cd SFML
-        cmake .
-        make
-        sudo make install
-        cd ../..
-
-    - name: Build Boost
-      run: |
-        mkdir boost
-        cd boost
-        wget https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
-        tar -xzf boost_1_72_0.tar.gz
-        cd boost_1_72_0
-        ./bootstrap.sh --with-libraries=test
-        sudo ./b2 install
-
-    - name: Build
-      run: |
-        mkdir GB_Build_Dir
-        cd GB_Build_Dir/
-        cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
-        make
+#  build_linux:
+#    runs-on: ubuntu-latest
+#    
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: setup environment
+#      run: |
+#        sudo apt install libx11-dev xorg-dev libglu1-mesa-dev freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libgl1-mesa-glx libgl1-mesa-dev
+#        sudo apt install libpthread-stubs0-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev
+#    #    sudo apt install valgrind xvfb
+#
+#    - name: cache dependencies
+#      run: echo "Cache SFML"
+#
+#    - name: Build SFML
+#      run: |
+#        mkdir SFML
+#        cd SFML
+#        git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
+#        cd SFML
+#        cmake .
+#        make
+#        sudo make install
+#        cd ../..
+#
+#    - name: Build Boost
+#      run: |
+#        mkdir boost
+#        cd boost
+#        wget https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
+#        tar -xzf boost_1_72_0.tar.gz
+#        cd boost_1_72_0
+#        ./bootstrap.sh --with-libraries=test
+#        sudo ./b2 install
+#
+#    - name: Build
+#      run: |
+#        mkdir GB_Build_Dir
+#        cd GB_Build_Dir/
+#        cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
+#        make
 
     #- name: setup Xvfb
     #  run: |
@@ -108,12 +108,7 @@ jobs:
 
     - name: Test
       run: |
-        cd GameBackboneSln/build/bin/bin
-        Copy-Item -Path "C:/Program Files (x86)/SFML/bin/" -Destination .
-        ls
-        cd ../../../..
-        echo "changing to build dir"
         cd GB_Build_Dir/
-        echo "changing to build dir"
+        Copy-Item -Path "C:/Program Files (x86)/SFML/bin/" -Destination ./bin
         ctest . -C Debug
         cd ..
