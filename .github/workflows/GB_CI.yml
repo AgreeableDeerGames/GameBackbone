@@ -102,7 +102,7 @@ jobs:
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../GameBackboneSln/ -DGAMEBACKBONE_BUILD_TESTS=ON
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON
         cmake --build . --config Debug
         cd ../
 
