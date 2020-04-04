@@ -109,9 +109,8 @@ jobs:
     - name: Test
       run: |
         cd GB_Build_Dir/
-        cd x64
+        cd x64/Debug
         ls
-        cd ..
-        $env:Path += "C:/Program Files (x86)/SFML/bin/"
         Copy-Item -Path "C:/Program Files (x86)/SFML/bin/" -Destination .
+        cd ../..
         ctest . -C Debug
