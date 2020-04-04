@@ -2,8 +2,6 @@
 
 #include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
 
-#include <GameBackbone/Navigation/NavigationTools.h>
-
 #include <TGUI/TGUI.hpp>
 
 #include <SFML/Graphics.hpp>

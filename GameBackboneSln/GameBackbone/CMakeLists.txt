@@ -19,22 +19,9 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/UniformAnimationSet.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Core/Updatable.h"
 
-  # navigation
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Navigation/CoordinateConverter.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Navigation/NavigationGridData.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Navigation/NavigationTools.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Navigation/PathFinder.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Navigation/PathRequest.h"
-
   # util
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Array2D.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/Cluster.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/ClusterGreenhouse.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/DebugIncludes.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/DllUtil.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileManager.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileReader.h"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/FileWriter.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/RandGen.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/SFUtil.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/Include/GameBackbone/Util/UtilMath.h"
@@ -51,18 +38,8 @@ add_library(GameBackbone SHARED
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/GameRegion.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Core/UniformAnimationSet.cpp"
 
-  # navigation
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Navigation/CoordinateConverter.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Navigation/NavigationTools.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Navigation/PathFinder.cpp"
-
   # Util
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/Cluster.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/ClusterGreenhouse.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/dllmain.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/FileManager.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/FileReader.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/FileWriter.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/Source/Util/RandGen.cpp"
 )
 

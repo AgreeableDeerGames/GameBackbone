@@ -32,7 +32,6 @@ namespace EXE {
 		/// </summary>
 		enum DEMO_OPTIONS_TYPE
 		{
-			NAVIGATION_DEMO,
 			#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 				PLATFORM_DEMO,
 			#endif // GAMEBACKBONE_BUILD_PLATFORM_DEMO
@@ -46,7 +45,6 @@ namespace EXE {
 		void initGUI();
 
 		// Handle TGUI Callbacks
-		void navigationRegionCB();
 		void platformRegionCB();
 		void scaleAndRotationDemoCB();
 		void regionChangeDemoCB();

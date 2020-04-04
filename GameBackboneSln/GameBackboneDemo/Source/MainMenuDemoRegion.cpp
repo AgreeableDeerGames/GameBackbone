@@ -1,6 +1,5 @@
 #include <GameBackboneDemo/AnimationDemoRegion.h>
 #include <GameBackboneDemo/MainMenuDemoRegion.h>
-#include <GameBackboneDemo/NavigationDemoRegion.h>
 #include <GameBackboneDemo/PlatformDemoRegion.h>
 #include <GameBackboneDemo/RegionChangeDemoRegion.h>
 #include <GameBackboneDemo/ScaleAndRotationDemoRegion.h>
@@ -11,13 +10,6 @@ using namespace EXE;
 /// </summary>
 /// <param name="window"> </param>
 void MainMenuDemoRegion::init(sf::RenderWindow & window) {
-	// Create a new NavigationDemoRegion
-	DemoRegion::Ptr navigationDemoRegion = std::make_shared<NavigationDemoRegion>(window);
-	// Make navigationDemoRegion a child of this MainMenuDemoRegion
-	addChild(navigationDemoRegion);
-	// Store NavigationDemoRegion as a selectableRegion
-	selectableRegions.push_back(navigationDemoRegion);
-
 	// Don't create PlatformDemo if the user doesn't want it
 	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 		// Create and link a PlatformDemoRegion to this MainMenuDemoRegion
@@ -92,16 +84,6 @@ void EXE::MainMenuDemoRegion::initGUI() {
 	// Add buttons for each demo region
 	std::vector<tgui::Button::Ptr> demoRegionButtons;
 
-	// Create navigation region button
-	// Create a new button
-	tgui::Button::Ptr navigationRegionButton = tgui::Button::create();
-	// Give the button its text
-	navigationRegionButton->setText("Navigation Demo");
-	// Connect the button to its callback
-	navigationRegionButton->connect("pressed", &MainMenuDemoRegion::navigationRegionCB, this);
-	// Add the button to the vector of buttons for changing to demo regions
-	demoRegionButtons.push_back(navigationRegionButton);
-
 	// Don't create a button for PlatformDemo if the user doesn't want it
 	#ifdef GAMEBACKBONE_BUILD_PLATFORM_DEMO
 		// Create Platform region button
@@ -150,14 +132,6 @@ void EXE::MainMenuDemoRegion::initGUI() {
 		// Add the buttons to the GUI
 		this->getGUI().add(currentButton);
 	}
-}
-
-/// <summary>
-/// Callback that is fired when the navigationRegionButton is clicked.
-/// Sets the active region to the NavigationDemoRegion
-/// </summary>
-void MainMenuDemoRegion::navigationRegionCB() {
-	setNextRegion(*selectableRegions[DEMO_OPTIONS_TYPE::NAVIGATION_DEMO].get());
 }
 
 /// <summary>

@@ -1,5 +1,4 @@
 #include <GameBackboneDemo/DemoCoreEventController.h>
-#include <GameBackboneDemo/NavigationDemoRegion.h>
 
 #include <TGUI/TGUI.hpp>
 #include <SFML/Graphics.hpp>
