@@ -110,5 +110,6 @@ jobs:
       run: |
         cd GB_Build_Dir/
         Copy-Item -Path "C:/Program Files (x86)/SFML/bin/" -Destination ./bin
+        tree /f
         ctest . -C Debug
         cd ..
