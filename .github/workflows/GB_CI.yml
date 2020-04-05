@@ -42,7 +42,7 @@ jobs:
       id: Cache-Linux-Boost
       uses: actions/cache@v1
       with:
-        path: boost/Install
+        path: boost/boost_1_72_0/Install/
         key: ${{ runner.os }}-boost_1_72_0
 
     - name: Build Boost
@@ -55,15 +55,13 @@ jobs:
         cd boost_1_72_0
         ./bootstrap.sh --with-libraries=test --prefix=./Install
         sudo ./b2 install
-        cd ../Install
-        ls
-        cd ..
+        cd ../..
 
     - name: Build GameBackbone
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBOOST_ROOT="../boost/Install"
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBOOST_ROOT="../boost/boost_1_72_0/Install/"
         make
 
     #- name: setup Xvfb
