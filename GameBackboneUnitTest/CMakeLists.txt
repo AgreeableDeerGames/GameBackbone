@@ -1,7 +1,5 @@
 # CMakeLists for GameBackboneUnitTest executable 
 
-cmake_minimum_required (VERSION 3.8)
-
 add_executable(GameBackboneUnitTest 
 	"Source/stdafx.h"
 	"Source/stdafx.cpp"

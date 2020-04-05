@@ -124,3 +124,10 @@ jobs:
         Copy-Item -Path ../SFML/Install/bin/* -Destination ./bin/Debug
         ctest . -C Debug
         cd ..
+
+    - name: Clang Tidy
+      continue-on-error: "true"
+      run: |
+        cd GB_Build_Dir
+        cmake ../ -DGAMEBACKBONE_RUN_CLANG_TIDY=ON
+        cmake --build . --config Debug
