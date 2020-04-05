@@ -55,6 +55,9 @@ jobs:
         cd boost_1_72_0
         ./bootstrap.sh --with-libraries=test --prefix=./Install
         sudo ./b2 install
+        cd ../Install
+        ls
+        cd ..
 
     - name: Build GameBackbone
       run: |
