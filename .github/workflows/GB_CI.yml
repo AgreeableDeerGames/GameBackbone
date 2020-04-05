@@ -42,7 +42,7 @@ jobs:
       id: Cache-Linux-Boost
       uses: actions/cache@v1
       with:
-        path: boost/boost_1_72_0/Install/
+        path: boost/Install/
         key: ${{ runner.os }}-boost_1_72_0
 
     - name: Build Boost
@@ -53,7 +53,7 @@ jobs:
         wget https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
         tar -xzf boost_1_72_0.tar.gz
         cd boost_1_72_0
-        ./bootstrap.sh --with-libraries=test --prefix=./Install
+        ./bootstrap.sh --with-libraries=test --prefix=../Install
         sudo ./b2 install
         cd ../..
 
@@ -61,7 +61,7 @@ jobs:
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBOOST_ROOT="../boost/boost_1_72_0/Install/"
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.72.0"
         make
 
     #- name: setup Xvfb
