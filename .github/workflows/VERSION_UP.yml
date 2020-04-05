@@ -1,0 +1,23 @@
+name: VERSION_UP
+
+on:
+  push:
+    branches: [ master, feature/GitHubActions ]
+
+jobs:
+  update_doxygen:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Doxygen
+      run: |
+        sudo apt install doxygen
+
+    - name: Generate Doxygen
+      run: |
+        mkdir build_doxygen
+        cd build_doxygen
+        cmake .. 
+      

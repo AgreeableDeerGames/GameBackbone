@@ -55,8 +55,8 @@ gamebackbone_target_set_default_warnings(GameBackbone)
 option(GAMEBACKBONE_RUN_CLANG_TIDY "Run Clang Tidy when building GB" OFF)
 if (GAMEBACKBONE_RUN_CLANG_TIDY)
 # enable clang tidy
-    include("${PROJECT_SOURCE_DIR}/cmake/Utils/GameBackboneClangTidy.cmake")
-    gamebackbone_target_enable_clang_tidy(GameBackbone)
+  include("${PROJECT_SOURCE_DIR}/cmake/Utils/GameBackboneClangTidy.cmake")
+  gamebackbone_target_enable_clang_tidy(GameBackbone)
 else()
     gamebackbone_message("Clang Tidy off. Set GAMEBACKBONE_RUN_CLANG_TIDY to 'ON' to use Clang Tidy.")
 endif()
@@ -72,3 +72,7 @@ target_include_directories(
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
       $<INSTALL_INTERFACE:include>
 )
+
+# Install
+set(GAME_BACKBONE_INSTALL_TARGETS GameBackbone)
+include(${PROJECT_SOURCE_DIR}/cmake/Utils/GBExportAndInstall.cmake)

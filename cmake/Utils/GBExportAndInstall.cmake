@@ -8,7 +8,7 @@ set(GAMEBACKBONE_PUBLIC_INCLUDE_INSTALL_DIR include)
 include(CMakePackageConfigHelpers)
 get_target_property(GAMEBACKBONE_TARGET_VERSION GameBackbone VERSION)
 configure_package_config_file (
-    "${CMAKE_SOURCE_DIR}/cmake/Utils/GameBackboneConfig.cmake.in"
+    "${PROJECT_SOURCE_DIR}/cmake/Utils/GameBackboneConfig.cmake.in"
     "${CMAKE_INSTALL_GENERATION_DIR}/GameBackboneConfig.cmake"
     INSTALL_DESTINATION ${GAMEBACKBONE_INSTALL_CMAKE_DIR}
     PATH_VARS GAMEBACKBONE_INSTALL_CMAKE_DIR GAMEBACKBONE_PUBLIC_INCLUDE_INSTALL_DIR
