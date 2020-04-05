@@ -19,10 +19,7 @@ jobs:
         sudo apt install libpthread-stubs0-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev
     #    sudo apt install valgrind xvfb
 
-    - name: cache dependencies
-      run: echo "Cache SFML"
-
-    - name: cache SFML
+    - name: Cache SFML
       id: Cache-Linux-SFML
       uses: actions/cache@v1
       with:
@@ -41,21 +38,29 @@ jobs:
         sudo make install
         cd ../..
 
+    - name: Cache Boost
+      id: Cache-Linux-Boost
+      uses: actions/cache@v1
+      with:
+        path: boost/Install
+        key: ${{ runner.os }}-boost_1_72_0
+
     - name: Build Boost
+      if: steps.Cache-Linux-Boost.outputs.cache-hit != 'true'
       run: |
         mkdir boost
         cd boost
         wget https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
         tar -xzf boost_1_72_0.tar.gz
         cd boost_1_72_0
-        ./bootstrap.sh --with-libraries=test
+        ./bootstrap.sh --with-libraries=test --prefix=./Install
         sudo ./b2 install
 
-    - name: Build
+    - name: Build GameBackbone
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML"
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBOOST_ROOT="../boost/Install"
         make
 
     #- name: setup Xvfb
