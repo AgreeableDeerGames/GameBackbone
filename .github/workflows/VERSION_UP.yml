@@ -42,6 +42,7 @@ jobs:
     
     - name: Update VCPKG Port
       run: |
+        ls
         python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha aaaaa --gb_port_path ./ag_vcpkg/ports/gamebackbone --gb_path /GameBackbone
         cd ag_vcpkg
         git checkout -b CI_test
