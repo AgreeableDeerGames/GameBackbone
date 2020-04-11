@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include <GameBackbone/Core/AnimatedSprite.h>
-#include <GameBackbone/Core/BackboneBaseExceptions.h>
 #include <GameBackbone/Core/CompoundSprite.h>
 
 #include <SFML/Graphics.hpp>

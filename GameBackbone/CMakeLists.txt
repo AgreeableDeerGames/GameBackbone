@@ -9,7 +9,6 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Core/Animation.h"
   "Include/GameBackbone/Core/AnimatedSprite.h"
   "Include/GameBackbone/Core/AnimationSet.h"
-  "Include/GameBackbone/Core/BackboneBaseExceptions.h"
   "Include/GameBackbone/Core/BasicGameRegion.h"
   "Include/GameBackbone/Core/CompoundSprite.h"
   "Include/GameBackbone/Core/CoreEventController.h"
