@@ -33,7 +33,8 @@ jobs:
     steps:
     - name: Checkout GB
       uses: actions/checkout@v2
-      path: gb
+        with:
+          path: gb
 
     - name: Checkout AG_VCPKG
       uses: actions/checkout@v2
