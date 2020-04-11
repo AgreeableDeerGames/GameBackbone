@@ -39,8 +39,7 @@ jobs:
     - name: Checkout AG_VCPKG
       uses: actions/checkout@v2
       with:
-        reposatory: lavinrp/ag_vckpg
-        ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
+        reposatory: lavinrp/ag_vcpkg
         path: agvcpkg
     
     - name: Update VCPKG Port
