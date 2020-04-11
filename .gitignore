@@ -284,3 +284,5 @@ scripts/\.vscode/
 
 GameBackboneUnitTest/TestConsumer/CMakeSettings.json
 out/*
+
+docs/
