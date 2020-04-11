@@ -47,7 +47,7 @@ jobs:
     - name: Update VCPKG Port
       run: |
         cd ./GameBackbone
-        python3 .scripts/UpdateVcpkg.py --sha `git rev-parse master` --gb_port_path ../ag_vcpkg/ports/gamebackbone --gb_path .
+        python3 ./scripts/UpdateVcpkg.py --sha `git rev-parse master` --gb_port_path ../ag_vcpkg/ports/gamebackbone --gb_path .
         cd ../ag_vcpkg
         sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
         sudo git config --global user.name "github-actions[bot]"
