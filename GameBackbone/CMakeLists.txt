@@ -17,7 +17,6 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Core/Updatable.h"
 
   # util
-  "Include/GameBackbone/Util/DebugIncludes.h"
   "Include/GameBackbone/Util/DllUtil.h"
   "Include/GameBackbone/Util/RandGen.h"
   "Include/GameBackbone/Util/SFUtil.h"
@@ -36,7 +35,6 @@ add_library(GameBackbone SHARED
   "Source/Core/UniformAnimationSet.cpp"
 
   # Util
-  "Source/Util/dllmain.cpp"
   "Source/Util/RandGen.cpp"
 )
 

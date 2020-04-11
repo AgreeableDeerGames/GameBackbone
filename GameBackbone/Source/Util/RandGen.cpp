@@ -1,5 +1,7 @@
 #include <GameBackbone/Util/RandGen.h>
 
+#include <stdexcept>
+
 using namespace GB;
 
 

@@ -1,10 +1,7 @@
 #pragma once
 #include <GameBackbone/Util/DllUtil.h>
 
-
 #define _USE_MATH_DEFINES
-
-#include <chrono>
 #include <math.h>
 
 namespace GB {
