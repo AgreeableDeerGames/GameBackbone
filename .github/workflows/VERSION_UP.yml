@@ -24,7 +24,27 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         publish_dir: ./docs
-        publish_branch: test_docs
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
-      
+
+  update_vcpkg:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout GB
+      uses: actions/checkout@v2
+
+    - name: Checkout AG_VCPKG
+      uses: actions/checkout@v2
+      with:
+        reposatory: lavinrp/ag_vckpg
+        ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
+    
+    - name: Update VCPKG Port
+      run: |
+        python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha aaaaa --gb_port_path ./ag_vcpkg/ports/gamebackbone --gb_path /GameBackbone
+        cd ag_vcpkg
+        git checkout -b CI_test
+        git add *
+        git commit -m "update GameBackbone"
+        git push origin CI_test
