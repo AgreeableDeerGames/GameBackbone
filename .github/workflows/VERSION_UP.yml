@@ -42,6 +42,7 @@ jobs:
         repository: lavinrp/ag_vcpkg
         path: ag_vcpkg
         ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
+        ref: CI_test
     
     - name: Update VCPKG Port
       run: |
@@ -49,7 +50,6 @@ jobs:
         cd ag_vcpkg
         sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
         sudo git config --global user.name "github-actions[bot]"
-        git checkout CI_test
         git add *
         git commit -m "[github-actions] Update GameBackbone"
         git push origin CI_test
