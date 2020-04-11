@@ -40,14 +40,14 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: lavinrp/ag_vcpkg
-        path: agvcpkg
+        path: ag_vcpkg
         ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
     
     - name: Update VCPKG Port
       run: |
-        python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha aaaaa --gb_port_path ./agvcpkg/ports/gamebackbone --gb_path ./GameBackbone
+        python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha aaaaa --gb_port_path ./ag_vcpkg/ports/gamebackbone --gb_path ./GameBackbone
         cd ag_vcpkg
         git checkout -b CI_test
         git add *
-        git commit -m "update GameBackbone"
+        git commit -m "Update GameBackbone"
         git push origin CI_test
