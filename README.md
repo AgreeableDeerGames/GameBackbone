@@ -12,7 +12,7 @@ should look into other solutions.
 
 ***
 
-![](https://github.com/lavinrp/GameBackbone/workflows/Tests/badge.svg)
+![](https://github.com/lavinrp/GameBackbone/workflows/Tests/badge.svg?branch=master)
 
 ## GB Install Guide
 Follow the [install guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/InstallGuide.md)
