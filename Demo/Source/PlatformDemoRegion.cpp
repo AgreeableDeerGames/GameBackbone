@@ -13,6 +13,7 @@
 
 #include <box2d/box2d.h>
 
+#include <iostream>
 #include <string>
 #include <math.h>
 

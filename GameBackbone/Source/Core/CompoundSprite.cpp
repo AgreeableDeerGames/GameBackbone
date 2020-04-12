@@ -1,4 +1,3 @@
-#include <GameBackbone/Core/BackboneBaseExceptions.h>
 #include <GameBackbone/Core/CompoundSprite.h>
 
 #include <SFML/Graphics/Drawable.hpp>

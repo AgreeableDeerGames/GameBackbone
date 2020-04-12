@@ -1,11 +1,9 @@
 #include <GameBackbone/Core/AnimatedSprite.h>
-#include <GameBackbone/Core/BackboneBaseExceptions.h>
-#include <GameBackbone/Util/DebugIncludes.h>
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include <exception>
+#include <stdexcept>
 
 using namespace GB;
 

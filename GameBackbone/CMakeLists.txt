@@ -9,7 +9,6 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Core/Animation.h"
   "Include/GameBackbone/Core/AnimatedSprite.h"
   "Include/GameBackbone/Core/AnimationSet.h"
-  "Include/GameBackbone/Core/BackboneBaseExceptions.h"
   "Include/GameBackbone/Core/BasicGameRegion.h"
   "Include/GameBackbone/Core/CompoundSprite.h"
   "Include/GameBackbone/Core/CoreEventController.h"
@@ -18,7 +17,6 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Core/Updatable.h"
 
   # util
-  "Include/GameBackbone/Util/DebugIncludes.h"
   "Include/GameBackbone/Util/DllUtil.h"
   "Include/GameBackbone/Util/RandGen.h"
   "Include/GameBackbone/Util/SFUtil.h"
@@ -37,7 +35,6 @@ add_library(GameBackbone SHARED
   "Source/Core/UniformAnimationSet.cpp"
 
   # Util
-  "Source/Util/dllmain.cpp"
   "Source/Util/RandGen.cpp"
 )
 
