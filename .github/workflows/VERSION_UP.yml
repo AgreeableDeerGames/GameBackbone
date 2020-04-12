@@ -13,8 +13,12 @@ jobs:
 
     - name: validate version numbers
       run: |
-        python3 ./ValidateVersionNumbers.py --GB_ROOT . --LAST_VERSION `git describe --abbrev=0`
+        python3 ./scripts/ValidateVersionNumbers.py --GB_ROOT . --LAST_VERSION `git describe --abbrev=0`
 
+    - name: push new tag
+      run: |
+        git tag `python3 ./scripts/PrintGBVersion.py --GB_ROOT .`
+        git push origin --tags
 
   update_doxygen:
     needs: add_tag
