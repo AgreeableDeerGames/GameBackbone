@@ -133,3 +133,17 @@ jobs:
         Copy-Item -Path ../SFML/Install/bin/* -Destination ./bin/Debug
         ctest . -C Debug
         cd ..
+
+    - name: Install GB
+      run: |
+        cd GB_Build_Dir
+        mkdir GB_Install
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install"
+        cmake --build . --config Debug --target Install
+
+    - name: Consume Install
+      run: |
+        cd Tests
+        cd InstallConsumer
+        cmake . -DSFML_DIR="../../SFML/Install/lib/cmake/SFML" -DGameBackbone_DIR="../../GB_Build_Dir/GB_Install/lib/cmake/GameBackbone"
+        cmake --build . --config Debug
