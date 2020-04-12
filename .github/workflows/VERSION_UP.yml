@@ -2,7 +2,7 @@ name: VERSION_UP
 
 on:
   push:
-    branches: [ feature/GitHubActions ]
+    branches: [ master ]
 
 jobs:
 
@@ -63,14 +63,13 @@ jobs:
         repository: lavinrp/ag_vcpkg
         path: ag_vcpkg
         ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
-        ref: CI_test
     
     - name: Update VCPKG Port
       run: |
-        python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha `git -C ./GameBackbone rev-parse feature/GitHubActions` --gb_port_path ./ag_vcpkg/ports/gamebackbone --gb_path ./GameBackbone
+        python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha `git -C ./GameBackbone rev-parse master` --gb_port_path ./ag_vcpkg/ports/gamebackbone --gb_path ./GameBackbone
         cd ag_vcpkg
         sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
         sudo git config --global user.name "github-actions[bot]"
         git add *
         git commit -m "[github-actions] Update GameBackbone"
-        git push origin CI_test
+        git push origin master
