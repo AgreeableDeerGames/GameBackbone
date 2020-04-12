@@ -65,6 +65,20 @@ jobs:
         cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.72.0"
         make
 
+    - name: Install GB
+      run: |
+        cd GB_Build_Dir
+        mkdir GB_Install
+        cmake ../ -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install"
+        make install
+
+    - name: Consume Install
+      run: |
+        cd Tests
+        cd InstallConsumer
+        cmake . -DSFML_DIR="../../SFML/Install/lib/cmake/SFML" -DGameBackbone_DIR="../../GB_Build_Dir/GB_Install/lib/cmake/GameBackbone"
+        make
+
     - name: Clang Tidy
       continue-on-error: true
       run: |
@@ -138,7 +152,7 @@ jobs:
       run: |
         cd GB_Build_Dir
         mkdir GB_Install
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install"
+        cmake ../ -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install"
         cmake --build . --config Debug --target Install
 
     - name: Consume Install
