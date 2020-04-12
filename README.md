@@ -12,6 +12,7 @@ should look into other solutions.
 
 ***
 
+![](https://github.com/lavinnrp/GameBackbone/workflows/GB_CI/badge.svg)
 
 ## GB Install Guide
 Follow the [install guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/InstallGuide.md)
