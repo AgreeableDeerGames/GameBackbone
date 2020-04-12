@@ -5,7 +5,19 @@ on:
     branches: [ feature/GitHubActions ]
 
 jobs:
+
+  add_tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: validate version numbers
+      run: |
+        echo "validate numbers""
+
+
   update_doxygen:
+    needs: add_tag
     runs-on: ubuntu-latest
     
     steps:
@@ -28,6 +40,7 @@ jobs:
         user_email: 'github-actions[bot]@users.noreply.github.com'
 
   update_vcpkg:
+    needs: add_tag
     runs-on: ubuntu-latest
 
     steps:
