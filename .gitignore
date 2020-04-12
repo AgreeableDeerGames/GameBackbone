@@ -286,3 +286,5 @@ GameBackboneUnitTest/TestConsumer/CMakeSettings.json
 
 out/
 docs/
+
+scripts/__pycache__/

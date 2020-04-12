@@ -13,7 +13,7 @@ jobs:
 
     - name: validate version numbers
       run: |
-        echo "validate numbers""
+        python3 ./ValidateVersionNumbers.py --GB_ROOT . --LAST_VERSION `git describe --abbrev=0`
 
 
   update_doxygen:

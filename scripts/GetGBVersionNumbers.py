@@ -34,7 +34,7 @@ def get_install_consumer_gb_version(install_consumer_cmake_path):
 
 def set_gb_version(backbone_top_cmake_path, new_version):
     """
-    Find the game backbone version number by searching the top level CMake file
+    Set the game backbone version number by searching the top level CMake file
     """
     with open(backbone_top_cmake_path, 'w+') as file:
         cmake_text = file.read()
@@ -45,7 +45,7 @@ def set_gb_version(backbone_top_cmake_path, new_version):
 
 def set_doxygen_version(doxyfile_path, new_version):
     """
-    Find the game backbone version number in a Doxyfile
+    Set the game backbone version number in a Doxyfile
     """
     with open(doxyfile_path, 'w+') as file:
         doxyfile_text = file.read()
@@ -56,7 +56,7 @@ def set_doxygen_version(doxyfile_path, new_version):
 
 def set_install_consumer_gb_version(install_consumer_cmake_path, new_version):
     """
-    Find the game backbone version number in the game backbone install consumer
+    Set the game backbone version number in the game backbone install consumer
     """
     with open(install_consumer_cmake_path, 'w+') as file:
         cmake_text = file.read()
