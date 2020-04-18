@@ -1,6 +1,6 @@
 import re
 
-gb_version_regex = r"\"GameBackboneProject\" VERSION ([0-9]+\.[0-9]+\.[0-9]+)"
+gb_version_regex = r"GameBackboneProject VERSION ([0-9]+\.[0-9]+\.[0-9]+)"
 doxyfile_gb_versioin_regex = r"PROJECT_NUMBER\s+=\s+([0-9]+\.[0-9]+\.[0-9]+)"
 install_consumer_gb_version_regex = r"find_package\(GameBackbone ([0-9]+\.[0-9]+\.[0-9]+) REQUIRED\)"
 
@@ -38,7 +38,7 @@ def set_gb_version(backbone_top_cmake_path, new_version):
     """
     with open(backbone_top_cmake_path, 'r+') as file:
         cmake_text = file.read()
-        regex_result = re.sub(gb_version_regex, repl=r"\"GameBackboneProject\" VERSION " + new_version, string=cmake_text)
+        regex_result = re.sub(gb_version_regex, repl=r"GameBackboneProject VERSION " + new_version, string=cmake_text)
         file.seek(0)
         file.truncate()
         file.write(regex_result)
@@ -61,7 +61,7 @@ def set_install_consumer_gb_version(install_consumer_cmake_path, new_version):
     with open(install_consumer_cmake_path, 'r+') as file:
         cmake_text = file.read()
         replacement_text = f"find_package(GameBackbone {new_version} REQUIRED)"
-        regex_result = re.sub(doxyfile_gb_versioin_regex, repl=replacement_text, string=cmake_text)
+        regex_result = re.sub(install_consumer_gb_version_regex, repl=replacement_text, string=cmake_text)
         file.seek(0)
         file.truncate()
         file.write(regex_result)
