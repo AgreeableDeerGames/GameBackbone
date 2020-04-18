@@ -25,7 +25,7 @@
 
 ## 1: Coding Guidelines
 
-See [style guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/StyleGuide.txt)
+See [style guide](https://github.com/AgreeableDeerGames/GameBackbone/blob/master/Guides/StyleGuide.txt)
 
 ***
 
@@ -102,7 +102,7 @@ It is recommended that you download the following 3rd party apps
   - Standalone app that does a better job than the visual studio plugin of the same name
   - Required to use the visual studio plugin of the same name
 * [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html)
-  - Used to build documentation that is output [here](https://lavinrp.github.io/GameBackbone/)
+  - Used to build documentation that is output [here](https://AgreeableDeerGames.github.io/GameBackbone/)
 
 ***
 ## 5: Recommended CMake Options
