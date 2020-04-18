@@ -1,6 +1,6 @@
-from GetGBVersionNumbers import set_gb_version
-from GetGBVersionNumbers import set_doxygen_version
-from GetGBVersionNumbers import set_install_consumer_gb_version
+from GBVersionNumbers import set_gb_version
+from GBVersionNumbers import set_doxygen_version
+from GBVersionNumbers import set_install_consumer_gb_version
 
 import argparse
 import getopt

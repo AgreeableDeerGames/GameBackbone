@@ -1,4 +1,4 @@
-from GetGBVersionNumbers import get_gb_version
+from GBVersionNumbers import get_gb_version
 
 import getopt
 import re
