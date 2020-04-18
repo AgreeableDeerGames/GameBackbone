@@ -12,6 +12,7 @@ should look into other solutions.
 
 ***
 
+![Tests](https://github.com/AgreeableDeerGames/GameBackbone/workflows/Tests/badge.svg?branch=master)
 
 ## GB Install Guide
 Follow the [install guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/InstallGuide.md)
