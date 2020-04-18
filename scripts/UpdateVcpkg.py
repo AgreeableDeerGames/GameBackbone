@@ -1,16 +1,9 @@
+from GetGBVersionNumbers import get_gb_version
+
 import getopt
 import re
 import os
 import argparse
-
-def get_gb_version(backbone_top_cmake_path):
-    """
-    Find the game backbone version number by searching the top level CMake file
-    """
-    with open(backbone_top_cmake_path, 'r') as file:
-        cmake_text = file.read()
-        regex_result = re.search(r"\"GameBackboneProject\" VERSION ([0-9]+\.[0-9]+\.[0-9]+)", cmake_text)
-        return regex_result.group(1)
 
 def set_agvcpkg_portfile_version_number(portfile_text, new_version_string):
     """
