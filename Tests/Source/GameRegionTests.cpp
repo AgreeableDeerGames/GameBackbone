@@ -9,20 +9,32 @@
 
 using namespace GB;
 
-class MockDrawable : public sf::Drawable {
-public:
-	MockDrawable(std::vector<const sf::Drawable*>& newDrawnVector) : drawnVector(newDrawnVector) {};
 
-protected:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-		drawnVector.push_back(this);
-	}
-
-	std::vector<const sf::Drawable*>& drawnVector;
-};
 
 
 BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
+
+	class MockDrawable : public sf::Drawable {
+	public:
+		MockDrawable(std::vector<const sf::Drawable*>& newDrawnVector) : drawnVector(newDrawnVector) {};
+
+	protected:
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+			drawnVector.push_back(this);
+		}
+
+		std::vector<const sf::Drawable*>& drawnVector;
+	};
+
+	/// This is used to expose the protected member functions from GameRegion
+	class GameRegionChild : public GameRegion
+	{
+	public:
+		using GameRegion::GameRegion;
+		using GameRegion::addDrawable;
+		using GameRegion::removeDrawable;
+		using GameRegion::clearDrawables;
+	};
 
 	BOOST_AUTO_TEST_SUITE(GameRegion_CTRs)
 
@@ -38,7 +50,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests adding Drawables to the GameRegion
 		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -52,7 +64,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests adding Drawables to the GameRegion with different priorities
 		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_differentPriorities) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 			std::vector<sf::Sprite> drawables2(5);
 
@@ -71,7 +83,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests adding Drawables to the GameRegion in single but overwriting in the same priority
 		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_overwrite_samePriority) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -86,7 +98,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests adding Drawables to the GameRegion but overwriting in the different priority
 		BOOST_AUTO_TEST_CASE(GameRegion_addDrawable_overwrite_differentPriority) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -106,7 +118,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 		
 		// Tests removing Drawables to the GameRegion
 		BOOST_AUTO_TEST_CASE(GameRegion_removeDrawable) {
-			GameRegion gameRegion{};
+		GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -121,7 +133,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests removing Drawables from the GameRegion but not removing all of them
 		BOOST_AUTO_TEST_CASE(GameRegion_removeDrawable_notRemoveAll) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -145,7 +157,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests clearing Drawables to the GameRegion
 		BOOST_AUTO_TEST_CASE(GameRegion_clearDrawables) {
-			GameRegion gameRegion{};
+		GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -160,7 +172,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests clearing Drawables to the GameRegion with priority
 		BOOST_AUTO_TEST_CASE(GameRegion_clearDrawables_priority) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
@@ -175,7 +187,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests clearing Drawables to the GameRegion with priority	but not removing those in the different priority
 		BOOST_AUTO_TEST_CASE(GameRegion_clearDrawables_priority_notRemoveAll) {
-			GameRegion gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 			std::vector<sf::Sprite> drawables2(5);
 
@@ -202,7 +214,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 		// Tests adding Drawables at different priorities
 		BOOST_AUTO_TEST_CASE(GameRegion_setDrawables) {
 			sf::RenderWindow window(sf::VideoMode(1, 1), "windowName");
-			GameRegion gameRegion;
+			GameRegionChild gameRegion;
 
 			std::vector<const sf::Drawable*> drawnVector;
 			std::vector<MockDrawable> drawableVector(6, MockDrawable{ drawnVector });

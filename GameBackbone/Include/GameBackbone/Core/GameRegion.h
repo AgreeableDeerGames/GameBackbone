@@ -26,16 +26,19 @@ namespace GB {
 		GameRegion& operator=(GameRegion&&) = default;
 		virtual ~GameRegion() = default;
 
-		// Add/Remove/Clear drawables
-		void addDrawable(int priority, sf::Drawable& drawableToAdd);
-		void removeDrawable(sf::Drawable& drawableToRemove);
-		void clearDrawables();
-		void clearDrawables(int priority);
 
 		[[nodiscard]]
 		std::size_t getDrawableCount() const noexcept;
 		[[nodiscard]]
 		std::size_t getDrawableCount(int priority) const noexcept;
+
+	protected:
+
+		// Add/Remove/Clear drawables
+		void addDrawable(int priority, sf::Drawable& drawableToAdd);
+		void removeDrawable(sf::Drawable& drawableToRemove);
+		void clearDrawables();
+		void clearDrawables(int priority);
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.
