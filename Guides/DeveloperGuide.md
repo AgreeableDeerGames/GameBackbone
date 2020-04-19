@@ -15,7 +15,7 @@
   - [3: Running Tests](#3-running-tests)
     - [3.1: Visual Studio](#31-visual-studio)
     - [3.2: Visual Studio Code](#32-visual-studio-code)
-  - [4: Productivity Assistants](#4-productivity-assistants)
+  - [4: Misc Tools](#4-misc-tools)
   - [5: Recommended CMake Options](#5-recommended-cmake-options)
     - [5.1: Universal developer options](#51-universal-developer-options)
     - [5.2: vcpkg dependencies](#52-vcpkg-dependencies)
@@ -31,25 +31,20 @@ See [style guide](https://github.com/AgreeableDeerGames/GameBackbone/blob/master
 
 ## 2: IDE Setup
 ### 2.1: Visual Studio
-* [Download](https://visualstudio.microsoft.com/downloads/) Visual Studio 2017
+* [Download](https://visualstudio.microsoft.com/downloads/) Visual Studio 2019
 
 #### 2.1.1: Download C++
-Download the MSVC 14.1 toolset through the visual studio installer
+Download the MSVC 14.25 toolset through the visual studio installer
 
 #### 2.1.2: Download Extensions (optional) 
 It is recommended that you download the following additions to visual studio
-* [Download](https://marketplace.visualstudio.com/items?itemName=sergeb.GhostDoc) GhostDoc
 * [Download](https://marketplace.visualstudio.com/items?itemName=VisualCPPTeam.TestAdapterforBoostTest) Test Adapter for Boost.Test
 * [Download](https://marketplace.visualstudio.com/items?itemName=OpenCppCoverage.OpenCppCoveragePlugin) OpenCppCoverage
 
 #### 2.1.3: CMake Settings
-For every build configuration in CMakeSettings.json add a "cmakeCommandArgs" property.
-The value of this property should be the cmake command line arguments required to set the set the variables from the [Recommended CMake Options](#5-recommended-cmake-options).
+Go to `project` menu then select `CMake Settings for GameBackboneProject`. Set the variables from the [Recommended CMake Options](#5-recommended-cmake-options).
 
-Sample:
-
-    "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake -DUSE_VCPKG_BOX2D=ON -DCMAKE_INSTALL_PREFIX=C:\\Some\\Temp\\install\\dir -DGAMEBACKBONE_BUILD_TESTS=ON -DGAMEBACKBONE_BUILD_DEMO=ON",
-    
+Note that if you are using VCPKG you should set the `CMake toolchain file` to the `vcpkg.cmake` file found in your vcpkg install under `scripts/buildsystems`.
 
 ### 2.2: Visual Studio Code
 * [Download](https://code.visualstudio.com/) Visual Studio Code
@@ -57,7 +52,7 @@ Sample:
 #### 2.2.1: Download Extensions
 Download the following extensions
 * [cpp tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) from microsoft
-* [CMake Tools](https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools) from vector-of-bool
+* [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) from microsoft
 
 #### 2.2.2: CMake Settings
 Add "cmake.configureSettings": {} to your settings.json
@@ -85,7 +80,9 @@ Do this by setting the environment variable in your debug configuration to:
 
 ***
 ## 3: Running Tests
-Tests should be run before every push. No branch will be merged into develop if any new tests are failing.
+
+Tests are automatically run by the GB CI on every push. If all tests pass a green checkmark will be displayed next to the branch name on GitHub. No branch will be merged into develop if any new tests are failing.
+
 
 ### 3.1: Visual Studio
 Your options for running the unit tests from visual studio are:
@@ -96,7 +93,7 @@ Your options for running the unit tests from visual studio are:
 ### 3.2: Visual Studio Code
 * Run CTest or run tests through the terminal
 ***
-## 4: Productivity Assistants
+## 4: Misc Tools
 It is recommended that you download the following 3rd party apps
 * [CppCheck](http://cppcheck.sourceforge.net/)
   - Standalone app that does a better job than the visual studio plugin of the same name
@@ -120,7 +117,7 @@ It is recommended that you download the following 3rd party apps
 |CMake variable|value|
 |:---|:---|
 |CMAKE_TOOLCHAIN_FILE|/vcpkg/scripts/buildsystems/vcpkg.cmake|
-|USE_VCPKG_BOX2D|ON|
+|USE_VCPKG_BOX2D|OFF|
 
 ### 5.3: Custom installed dependencies
 

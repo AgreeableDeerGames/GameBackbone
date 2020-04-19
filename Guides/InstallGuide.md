@@ -9,7 +9,6 @@ This guide will show you how to
     - [2.2: Install dependencies](#22-install-dependencies)
       - [2.2.1: vcpkg install](#221-vcpkg-install)
       - [2.2.2: custom install](#222-custom-install)
-        - [2.2.2.1: custom GUI install](#2221-custom-gui-install)
     - [2.3: Install GameBackbone](#23-install-gamebackbone)
 
 ## 1: vcpkg
@@ -22,21 +21,14 @@ This guide will show you how to
 ### 2.1: Required Software
 * [Download](https://cmake.org/download/) CMake 3.8 or newer
 * Supported c++ compiler
-  * MSVC 14.1
-  * [Clang 7](http://releases.llvm.org/download.html)
+  * MSVC 14.25
   * GCC 7.3
+  * Other C++ 17 compliant compilers should work, but are untested 
 
 ### 2.2: Install dependencies
 #### 2.2.1: vcpkg install
-
-You can either install all the dependencies on your own or use the installVCPKG script to install them for you.
-
-*  Using installVCPKG.py
-   * Run installVCPKG.py from the Scripts folder
-     * Run with -h for help
-* Manual install
   * vcpkg install sfml
-  * vcpkg install tgui
+  * vcpkg install tgui (optional)
   * vcpkg install boost (optional)
   * vcpkg install box2d (optional)
 
@@ -44,29 +36,28 @@ You can either install all the dependencies on your own or use the installVCPKG 
 Build and install the following dependencies on your own. 
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
 * [Box2D](https://box2d.org/) (optional for demo)
+* [TGUI](https://tgui.eu/) (optional for demo)
 * [Boost](https://www.boost.org/users/download/) (optional for tests)
-
-##### 2.2.2.1: custom GUI install
-The GameBackbone Demo uses TGUI for its interface. However, other GUI libraries can be used.
-TGUI can be installed from here if desired:
-* [TGUI](https://tgui.eu/)
-
 
 ### 2.3: Install GameBackbone
 
 1. Run cmake with your desired options. Be sure to tell cmake where to find GameBackbone's dependencies. 
 2. Run make install (or equivalent)
 
-Sample invocation using custom install of dependencies (from GameBackboneSln/build):
+Sample invocation using custom install of dependencies (run from the root folder of the project):
 
+    mkdir build
+    cd build
     cmake .. -DBOOST_ROOT=/path/to/boost/install -DSFML_DIR=/path/to/sfml/lib/cmake/SFML -DTGUI_DIR=/path/to/tgui/lib/cmake/TGUI -DBOX2D_DIR=/path/to/box2d/install -DCMAKE_INSTALL_PREFIX=/GameBackbone/Install/Dir/
 
     make install
 
-Sample invocation using vcpkg install of dependencies (from GameBackboneSln/build):
+Sample invocation using vcpkg install of dependencies (run from the root folder of the project):
 
+    mkdir build
+    cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=/GameBackbone/Install/Dir
 
-    make install
+    cmake --build . --target Install
 
 In the above examples simply set GAMEBACKBONE_BUILD_TESTS or GAMEBACKBONE_BUILD_DEMO to 'ON' to enable building the tests or the demo respectively. These options are OFF by default.
