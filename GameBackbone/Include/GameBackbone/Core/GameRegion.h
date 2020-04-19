@@ -32,6 +32,12 @@ namespace GB {
 		[[nodiscard]]
 		std::size_t getDrawableCount(int priority) const noexcept;
 
+		/// <summary>
+		/// Implements Updatable::update as a no-op.
+		/// </summary>
+		/// <param name="elapsedTime"> </param>
+		virtual void update(sf::Int64 /*elapsedTime*/) override {}
+
 	protected:
 
 		// Add/Remove/Clear drawables
@@ -40,13 +46,6 @@ namespace GB {
 		void clearDrawables();
 		void clearDrawables(int priority);
 
-		/// <summary>
-		/// Implements Updatable::update as a no-op.
-		/// </summary>
-		/// <param name="elapsedTime"> </param>
-		virtual void update(sf::Int64 /*elapsedTime*/) override {}
-
-	protected:
 		// Drawing
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
