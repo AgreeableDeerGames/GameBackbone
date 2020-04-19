@@ -22,7 +22,7 @@ Our base class for anything in GameBackbone that is regularly updated. Currently
 An sf::Sprite that has an AnimationSet. The intention of AnimatedSprite is to only show a small portion of it's texture at a time. This portion would contain a single still frame of the Sprite. The portion of the texture can then be moved to show a different still frame. This allows the AnimatedSprite to be a single Sprite but appear to be changing textures. AnimatedSprite inherits from Updatable, and implements `update`, which is what moves the sprites animation. AnimatedSprite inherits from sf::Sprite, and acts the same as sf:Sprite when drawing.
 
 ### CompoundSprite:
-A collection of Drawable, Transformable and (optionally) Updatable objects that behave as a single entity. They move, rotate, and update as though they were a single Sprite. CompoundSprite inherits from Updatable, and implements `update`, which calls `update` on all of the Updatables that it owns. CompoundSprite inherits from sf::Drawable, and implements the `draw`, which calls `draw` on all of the Drawables that it owns.
+A collection of Drawable, Transformable, and (optionally) Updatable objects that behave as a single entity. They move, rotate, and update as though they were a single Sprite. CompoundSprite inherits from Updatable, and implements `update`, which calls `update` on all of the Updatables that it owns. CompoundSprite inherits from sf::Drawable, and implements the `draw`, which calls `draw` on all of the Drawables that it owns.
 
 ### GameRegion:
 An abstract class representing anything in a game that contains game logic (levels, menus, loading screens, etc...). GameRegion inherits from Updatable, and implements `update` which is how they run through their logic. GameRegion inherits from sf::Drawable, and implements `draw`, which calls `draw` on all of the Drawables that it references. GameRegion does not own any of its Drawables. Users must take care to ensure that GameRegion is not drawn while holding dangling pointers to any Drawables.
@@ -30,6 +30,6 @@ An abstract class representing anything in a game that contains game logic (leve
 ### CoreEventController:
 An abstract class representing GameBackbone's main loop. It creates and owns a window and requires that children handle the events from this window by implementing the `handleEvent` pure virtual member function. The CoreEventController also references a single “active” BasicGameRegion. 
 
-The main loop provided by `CoreEventController::runLoop` first handles updates, then draws the “active” region, then updates the “active” region, then checks to see if a different BasicGameRegion should be made the “active” region for the next iteration of the loop. 
+The main loop provided by `CoreEventController::runLoop` first handles updates, draws the “active” region, updates the “active” region, then checks to see if a different BasicGameRegion should be made the “active” region for the next iteration of the loop. 
 
-Each of these steps ,with the exception of handling window events, has a default implementation. Each of these default implementations can be safely overridden by a child class if customization is required.
+Each of these steps, with the exception of handling window events, has a default implementation. Each of these default implementations can be safely overridden by a child class if customization is required.
