@@ -8,7 +8,7 @@ add_executable(GameBackboneInstallConsumer main.cpp)
 # GameBackboneInstallConsumer still needs to find the packages for GB to link agains though.
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
 
-find_package(GameBackbone 0.3.0 REQUIRED)
+find_package(GameBackbone 0.4.0 REQUIRED)
 target_link_libraries(GameBackboneInstallConsumer PRIVATE GameBackbone)
 
 

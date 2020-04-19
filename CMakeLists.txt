@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.8)
 set (CMAKE_CXX_STANDARD 17)
 
-project(GameBackboneProject VERSION 0.3.0)
+project(GameBackboneProject VERSION 0.4.0)
 
 include("cmake/Utils/GameBackboneMessage.cmake")
 
