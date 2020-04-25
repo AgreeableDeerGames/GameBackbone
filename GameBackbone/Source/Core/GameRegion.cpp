@@ -10,11 +10,29 @@
 
 using namespace GB;
 
+
+/// <summary>
+/// Returns the count of all drawables stored on this GameRegion.
+/// </summary>
+/// <return> The number of drawables </param>
+std::size_t GameRegion::getDrawableCount() const  noexcept {
+	return prioritizedDrawables.size();
+}
+
+/// <summary>
+/// Returns the count of all drawables with a given priority stored on this GameRegion.
+/// </summary>
+/// <param name="priority"> The priority of drawables to count </param>
+/// <return> The number of drawables </param>
+std::size_t GameRegion::getDrawableCount(int priority) const noexcept {
+	return prioritizedDrawables.count(priority);
+}
+
+
 /// <summary>
 /// Add a drawable with a given priority to this GameRegion.
-/// If the drawable already exists, its priority will be updated.
+/// If the drawable already exists, it will be drawn multiple times.
 /// 
-/// This function will throw an std::invalid_argument exception if a nullptr is passed in. 
 /// </summary>
 /// <param name="priority"> The priority of the drawable </param>
 /// <param name="drawablesToRemove"> The drawable that will be added </param>
@@ -60,22 +78,6 @@ void GameRegion::clearDrawables(int priority) {
 	prioritizedDrawables.erase(priority);
 }
 
-/// <summary>
-/// Returns the count of all drawables stored on this GameRegion.
-/// </summary>
-/// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount() const  noexcept {
-	return prioritizedDrawables.size();
-}
-
-/// <summary>
-/// Returns the count of all drawables with a given priority stored on this GameRegion.
-/// </summary>
-/// <param name="priority"> The priority of drawables to count </param>
-/// <return> The number of drawables </param>
-std::size_t GameRegion::getDrawableCount(int priority) const noexcept {
-	return prioritizedDrawables.count(priority);
-}
 
 /// <summary>
 /// Draws every drawable on the region.
