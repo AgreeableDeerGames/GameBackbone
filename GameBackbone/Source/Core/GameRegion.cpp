@@ -31,7 +31,7 @@ std::size_t GameRegion::getDrawableCount(int priority) const noexcept {
 
 /// <summary>
 /// Add a drawable with a given priority to this GameRegion.
-/// If the drawable already exists it will be drawn multiple times.
+/// If the drawable already exists, it will be drawn multiple times.
 /// 
 /// </summary>
 /// <param name="priority"> The priority of the drawable </param>

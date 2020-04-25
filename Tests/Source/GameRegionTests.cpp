@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_SUITE(GameRegion_Tests)
 
 		// Tests clearing Drawables to the GameRegion
 		BOOST_AUTO_TEST_CASE(GameRegion_clearDrawables) {
-		GameRegionChild gameRegion{};
+			GameRegionChild gameRegion{};
 			std::vector<sf::Sprite> drawables(5);
 
 			for (int ii = 0; ii < drawables.size(); ii++) {
