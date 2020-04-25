@@ -6,7 +6,6 @@ add_library(GameBackbone SHARED
 # include
 
   # core
-  "Include/GameBackbone/Core/Animation.h"
   "Include/GameBackbone/Core/AnimatedSprite.h"
   "Include/GameBackbone/Core/AnimationSet.h"
   "Include/GameBackbone/Core/BasicGameRegion.h"
@@ -25,7 +24,7 @@ add_library(GameBackbone SHARED
 # source
 
   # core
-  "Source/Core/Animation.cpp"
+  
   "Source/Core/AnimatedSprite.cpp"
   "Source/Core/AnimationSet.cpp"
   "Source/Core/BasicGameRegion.cpp"
