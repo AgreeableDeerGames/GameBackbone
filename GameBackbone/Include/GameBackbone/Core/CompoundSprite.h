@@ -85,6 +85,10 @@ namespace GB {
 		}
 
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
+		/// </summary>
+		/// <param name="initialPosition">The initial position.</param>
 		explicit CompoundSprite(sf::Vector2f position);
 
 		/// <summary>
@@ -116,9 +120,21 @@ namespace GB {
 		virtual ~CompoundSprite() = default;
 
 		// Component Getters
+
+		/// <summary>
+		/// Gets the count of Sprite components.
+		/// </summary>
+		/// <return> The count of sprite components. </return>
 		std::size_t getComponentCount() const;
+
+		/// <summary>
+		/// Gets the count of Sprite components for a given priority.
+		/// </summary>
+		/// <param name="priority">The priority to check.</param>
+		/// <return> The count of sprite components. </return>
 		std::size_t getComponentCount(int priority) const;
 
+		/// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
 		bool isEmpty() const;
 
 		/// <summary>
@@ -153,9 +169,8 @@ namespace GB {
 		}
 
 		/// <summary>
-		/// Removes the Sprite component at the passed index from the CompoundSprite.
-		/// Throws std::out_of_range exception if the component index is out of bounds.
-		/// This invalidates all indices returned by addComponent(sf::sprite)
+		/// Removes the component from the CompoundSprite.
+		/// This invalidates all indices returned by addComponent
 		/// </summary>
 		/// <param name="component">The component to remove from the CompoundSprite</param>
 		template <
@@ -177,27 +192,109 @@ namespace GB {
 				m_prioritizedComponents.erase(it);
 			}
 		}
+		
+		/// <summary>
+		/// Removes all components from the compound sprite
+		/// </summary>
 		virtual void clearComponents();
 
 		// Transformable API
+
+		/// <summary>
+		/// Sets the position.
+		/// </summary>
+		/// <param name="x">The new x.</param>
+		/// <param name="y">The new y.</param>
 		void setPosition(float x, float y);
+
+		/// <summary>
+		/// Sets the rotation of the CompoundSprite and all of its components.
+		/// The components will rotate about the origin of the CompoundSprite.
+		/// </summary>
+		/// <param name="val">The value.</param>
 		void setPosition(const sf::Vector2f& position);
+
+		/// <summary>
+		/// Sets the rotation of the CompoundSprite and all of its components.
+		/// The components will rotate about the origin of the CompoundSprite.
+		/// </summary>
+		/// <param name="angle"> Angle of rotation, in degrees.</param>
 		void setRotation(float angle);
+
+		/// <summary>
+		/// Sets the scale factor of the CompoundSprite and all of its components.
+		/// </summary>
+		/// <param name="factorX">The scale factor in the x direction.</param>
+		/// <param name="factorY">The scale factor in the y direction.</param>
 		void setScale(float factorX, float factorY);
+
+		/// <summary>
+		/// Sets the scale factor of the CompoundSprite and all of its components.
+		/// </summary>
+		/// <param name="factors">The new scale.</param>
 		void setScale(const sf::Vector2f& factors);
+
+		/// <summary>
+		/// Sets the origin of the compound sprite.
+		/// Sets the origin of all components relative to the new origin.
+		/// </summary>
+		/// <param name="x">The x coordinate of the new origin.</param>
+		/// <param name="y">The y coordinate of the new origin.</param>
 		void setOrigin(float x, float y);
+
+		/// <summary>
+		/// Sets the origin of the compound sprite.
+		/// Sets the origin of all components relative to the new origin.
+		/// </summary>
+		/// <param name="origin">The new position of the origin.</param>
 		void setOrigin(const sf::Vector2f& origin);
+
+		/// <summary>
+		/// Moves the CompoundSprite and all of its components by the same offset.
+		/// </summary>
+		/// <param name="offsetX">The offset x.</param>
+		/// <param name="offsetY">The offset y.</param>
 		void move(float offsetX, float offsetY);
+
+		/// <summary>
+		/// Moves the CompoundSprite and all of its components by the same offset.
+		/// </summary>
+		/// <param name="offset">The offset.</param>
 		void move(const sf::Vector2f& offset);
+
+		/// <summary>
+		/// Rotates the CompoundSprite and all of its components.
+		/// The components will rotate about the origin of the CompoundSprite.
+		/// </summary>
+		/// <param name="angle">The offset to the current rotation.</param>
 		void rotate(float angle);
+
+		/// <summary>
+		/// Scales the CompoundSprite and all of its components.
+		/// </summary>
+		/// <param name="factorX">The horizontal scale factor.</param>
+		/// <param name="factorY">The vertical scale factor.</param>
 		void scale(float factorX, float factorY);
+
+		/// <summary>
+		/// Scales the CompoundSprite and all of its components.
+		/// </summary>
+		/// <param name="factor">The scale factors.</param>
 		void scale(const sf::Vector2f& factor);
 
-		// Updatable
+		/// <summary>
+		/// Updates each animated sprite in the compound sprite.
+		/// </summary>
+		/// <param name="elapsedTime">The elapsed time.</param>
 		virtual void update(sf::Int64 elapsedTime) override;
 
 	protected:
-		
+
+		/// <summary>
+		/// Draw all the component sprites of the compound sprite.
+		/// </summary>
+		/// <param name="target"> The render target to be drawn to. </param>
+		/// <param name="states"> Current render states. </param>
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
