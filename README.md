@@ -14,11 +14,14 @@ should look into other solutions.
 
 ![Tests](https://github.com/AgreeableDeerGames/GameBackbone/workflows/Tests/badge.svg?branch=master)
 
-## GB Install Guide
+## Install Guide
 Follow the [install guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/InstallGuide.md)
 
-## GB User Guide
+## User Guide
 Follow the [user guide](https://github.com/lavinrp/GameBackbone/blob/master/Guides/UserGuide.md) to learn the core concepts for GB
+
+## Documentation
+We use Doxygen to document our code. The documentation for the master branch can be found [here](https://agreeabledeergames.github.io/GameBackbone/). If you require the documentation for a non-master branch, it can be built by running Doxygen on the Doxyfile at the root level of the project.
 
 ## Versioning
 We follow [Semantic Versioning](http://semver.org/spec/v2.0.0.html)
