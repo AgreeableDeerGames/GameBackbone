@@ -59,7 +59,7 @@ jobs:
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.72.0"
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.73.0"
         make
 
     - name: Install GB
