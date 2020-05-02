@@ -40,7 +40,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: boost/Install/
-        key: ${{ runner.os }}-boost_1_72_0
+        key: ${{ runner.os }}-boost_1_72_0_a
 
     - name: Build Boost
       if: steps.Cache-Linux-Boost.outputs.cache-hit != 'true'
@@ -115,7 +115,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: SFML/Install
-        key: ${{ runner.os }}-x86-sfml-2_5_x_b
+        key: ${{ runner.os }}-x86-sfml-2_5_x_c
 
     - name: Build SFML
       if: steps.Cache-Windows-SFML.outputs.cache-hit != 'true'
@@ -125,15 +125,34 @@ jobs:
         git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
         mkdir Install
         cd SFML
-        cmake . -DCMAKE_INSTALL_PREFIX="../Install"
+        cmake . -DCMAKE_INSTALL_PREFIX="../Install" -G "Visual Studio 16 2019" -A x64
         cmake --build . --config Debug --target INSTALL
+        cd ../..
+
+    - name: Cache Boost
+      id: Cache-Windows-Boost
+      uses: actions/cache@v1
+      with:
+        path: boost/Install/
+        key: ${{ runner.os }}-boost_1_73_0_a
+
+    - name: Build Boost
+      if: steps.Cache-Windows-Boost.outputs.cache-hit != 'true'
+      run: |
+        mkdir boost
+        cd boost
+        Invoke-WebRequest -Uri "https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.zip" -OutFile "./boost_1_73_0.zip"
+        Expand-Archive -Path "./boost_1_73_0.zip" -DestinationPath "."
+        cd boost_1_73_0
+        .\bootstrap.bat
+        .\b2 --build_dir=.\build_workdir --with-test toolset=msvc-14.2 address-model=64 threading=multi install --prefix=..\Install
         cd ../..
 
     - name: Build GameBackbone
       run: |
         mkdir GB_Build_Dir
         cd GB_Build_Dir/
-        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML"
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.73.0" -G "Visual Studio 16 2019" -A x64
         cmake --build . --config Debug
         cd ../
 
@@ -148,12 +167,12 @@ jobs:
       run: |
         cd GB_Build_Dir
         mkdir GB_Install
-        cmake ../ -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install"
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=OFF -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install" -G "Visual Studio 16 2019" -A x64
         cmake --build . --config Debug --target Install
 
     - name: Consume Install
       run: |
         cd Tests
         cd InstallConsumer
-        cmake . -DSFML_DIR="../../SFML/Install/lib/cmake/SFML" -DGameBackbone_DIR="../../GB_Build_Dir/GB_Install/lib/cmake/GameBackbone"
+        cmake . -DSFML_DIR="../../SFML/Install/lib/cmake/SFML" -DGameBackbone_DIR="../../GB_Build_Dir/GB_Install/lib/cmake/GameBackbone" -G "Visual Studio 16 2019" -A x64
         cmake --build . --config Debug
