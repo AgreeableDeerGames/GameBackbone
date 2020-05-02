@@ -1,0 +1,179 @@
+name: Tests
+
+on: push
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: setup environment
+      run: |
+        sudo apt update
+        sudo apt install libx11-dev xorg-dev libglu1-mesa-dev freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libgl1-mesa-glx libgl1-mesa-dev
+        sudo apt install libpthread-stubs0-dev libxrandr-dev libfreetype6-dev libopenal-dev libudev-dev libvorbis-dev libflac-dev
+        sudo apt install clang-9 clang-tidy-9 clang-format-9 clang-tidy
+    #    sudo apt install valgrind xvfb
+
+    - name: Cache SFML
+      id: Cache-Linux-SFML
+      uses: actions/cache@v1
+      with:
+        path: SFML/Install
+        key: ${{ runner.os }}-sfml-2_5_x_b
+
+    - name: Build SFML
+      if: steps.Cache-Linux-SFML.outputs.cache-hit != 'true'
+      run: |
+        mkdir SFML
+        cd SFML
+        git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
+        cd SFML
+        cmake . -DCMAKE_INSTALL_PREFIX="../Install"
+        make
+        sudo make install
+        cd ../..
+
+    - name: Cache Boost
+      id: Cache-Linux-Boost
+      uses: actions/cache@v1
+      with:
+        path: boost/Install/
+        key: ${{ runner.os }}-boost_1_73_0_a
+
+    - name: Build Boost
+      if: steps.Cache-Linux-Boost.outputs.cache-hit != 'true'
+      run: |
+        mkdir boost
+        cd boost
+        wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.gz
+        tar -xzf boost_1_73_0.tar.gz
+        cd boost_1_73_0
+        ./bootstrap.sh --with-libraries=test --prefix=../Install
+        sudo ./b2 install
+        cd ../..
+
+    - name: Build GameBackbone
+      run: |
+        mkdir GB_Build_Dir
+        cd GB_Build_Dir/
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.73.0"
+        make
+
+    - name: Install GB
+      run: |
+        cd GB_Build_Dir
+        mkdir GB_Install
+        cmake ../ -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install"
+        make install
+
+    - name: Consume Install
+      run: |
+        cd Tests
+        cd InstallConsumer
+        cmake . -DSFML_DIR="../../SFML/Install/lib/cmake/SFML" -DGameBackbone_DIR="../../GB_Build_Dir/GB_Install/lib/cmake/GameBackbone"
+        make
+
+    - name: Clang Tidy
+      continue-on-error: true
+      run: |
+        cd GB_Build_Dir
+        cmake ../ -DGAMEBACKBONE_RUN_CLANG_TIDY=ON
+        make
+
+
+    #- name: setup Xvfb
+    #  run: |
+    #    Xvfb :99 &
+
+    #- name: Test
+    #  run: |
+    #    cd GameBackboneSln/build/bin
+    #    ./GameBackboneUnitTest
+    #  env:
+    #    DISPLAY: :99
+
+    #- name: Valgrind
+    #  run: |
+    #    cd GameBackboneSln/build/bin
+    #    valgrind ./GameBackboneUnitTest
+    #  env:
+    #    DISPLAY: :99
+
+
+  build_windows:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+        
+    - name: Cache SFML
+      id: Cache-Windows-SFML
+      uses: actions/cache@v1
+      with:
+        path: SFML/Install
+        key: ${{ runner.os }}-x86-sfml-2_5_x_c
+
+    - name: Build SFML
+      if: steps.Cache-Windows-SFML.outputs.cache-hit != 'true'
+      run: |
+        mkdir SFML
+        cd SFML
+        git clone --single-branch --branch 2.5.x https://github.com/SFML/SFML.git
+        mkdir Install
+        cd SFML
+        cmake . -DCMAKE_INSTALL_PREFIX="../Install" -G "Visual Studio 16 2019" -A x64
+        cmake --build . --config Debug --target INSTALL
+        cd ../..
+
+    - name: Cache Boost
+      id: Cache-Windows-Boost
+      uses: actions/cache@v1
+      with:
+        path: boost/Install/
+        key: ${{ runner.os }}-boost_1_73_0_a
+
+    - name: Build Boost
+      if: steps.Cache-Windows-Boost.outputs.cache-hit != 'true'
+      run: |
+        mkdir boost
+        cd boost
+        Invoke-WebRequest -Uri "https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.zip" -OutFile "./boost_1_73_0.zip"
+        Expand-Archive -Path "./boost_1_73_0.zip" -DestinationPath "."
+        cd boost_1_73_0
+        .\bootstrap.bat
+        .\b2 --build_dir=.\build_workdir --with-test toolset=msvc-14.2 address-model=64 threading=multi install --prefix=..\Install
+        cd ../..
+
+    - name: Build GameBackbone
+      run: |
+        mkdir GB_Build_Dir
+        cd GB_Build_Dir/
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=ON -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DBoost_DIR="../boost/Install/lib/cmake/Boost-1.73.0" -G "Visual Studio 16 2019" -A x64
+        cmake --build . --config Debug
+        cd ../
+
+    - name: Test
+      run: |
+        cd GB_Build_Dir
+        Copy-Item -Path ../SFML/Install/bin/* -Destination ./bin/Debug
+        ctest . -C Debug
+        cd ..
+
+    - name: Install GB
+      run: |
+        cd GB_Build_Dir
+        mkdir GB_Install
+        cmake ../ -DGAMEBACKBONE_BUILD_TESTS=OFF -DSFML_DIR="../SFML/Install/lib/cmake/SFML" -DCMAKE_INSTALL_PREFIX="./GB_Install" -G "Visual Studio 16 2019" -A x64
+        cmake --build . --config Debug --target Install
+
+    - name: Consume Install
+      run: |
+        cd Tests
+        cd InstallConsumer
+        cmake . -DSFML_DIR="../../SFML/Install/lib/cmake/SFML" -DGameBackbone_DIR="../../GB_Build_Dir/GB_Install/lib/cmake/GameBackbone" -G "Visual Studio 16 2019" -A x64
+        cmake --build . --config Debug

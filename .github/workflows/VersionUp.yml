@@ -1,0 +1,75 @@
+name: VersionUp
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  add_tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git fetch --prune --unshallow
+
+    - name: validate version numbers
+      run: |
+        python3 ./scripts/ValidateVersionNumbers.py --GB_ROOT . --LAST_VERSION `git describe --abbrev=0`
+
+    - name: push new tag
+      run: |
+        git tag `python3 ./scripts/PrintGBVersion.py --GB_ROOT .`
+        git push origin --tags
+
+  update_doxygen:
+    needs: add_tag
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Doxygen
+      run: |
+        sudo apt install doxygen
+
+    - name: Generate Doxygen
+      run: |
+        doxygen ./Doxyfile
+
+    - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3.5.6
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        publish_dir: ./docs
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+
+  update_vcpkg:
+    needs: add_tag
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout GB
+      uses: actions/checkout@v2
+      with:
+        path: GameBackbone
+
+    - name: Checkout AG_VCPKG
+      uses: actions/checkout@v2
+      with:
+        repository: AgreeableDeerGames/ag_vcpkg
+        path: ag_vcpkg
+        ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
+    
+    - name: Update VCPKG Port
+      run: |
+        python3 ./GameBackbone/scripts/UpdateVcpkg.py --sha `git -C ./GameBackbone rev-parse master` --gb_port_path ./ag_vcpkg/ports/gamebackbone --gb_path ./GameBackbone
+        cd ag_vcpkg
+        sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        sudo git config --global user.name "github-actions[bot]"
+        git add *
+        git commit -m "[GameBackbone] Bot: Update GameBackbone"
+        git push origin master
