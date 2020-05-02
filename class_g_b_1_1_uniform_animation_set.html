@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.3.0</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -74,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Creates and owns a collection of animations that utilize a uniform frame size. This size is used to calculate the bounds of each frame and create an appropriate <a class="el" href="class_g_b_1_1_animation.html">Animation</a>. The frames are indexable like an (x, y) coordinate plane.  
+<p>Creates and owns a collection of animations that utilize a uniform frame size. This size is used to calculate the bounds of each frame and create an appropriate Animation. The frames are indexable like an (x, y) coordinate plane.  
  <a href="class_g_b_1_1_uniform_animation_set.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_uniform_animation_set_8h_source.html">UniformAnimationSet.h</a>&gt;</code></p>
@@ -132,7 +132,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a503aa591f94053b39c7b5bed88561461"><td class="memItemLeft" align="right" valign="top">sf::Vector2i&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_uniform_animation_set.html#a503aa591f94053b39c7b5bed88561461">getDefaultFrameSize</a> () const</td></tr>
 <tr class="memdesc:a503aa591f94053b39c7b5bed88561461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the default size of UniformAnimation frames  <a href="#a503aa591f94053b39c7b5bed88561461">More...</a><br /></td></tr>
 <tr class="separator:a503aa591f94053b39c7b5bed88561461"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b16bc8ef871f325b5b549974c18cbcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#a8b16bc8ef871f325b5b549974c18cbcc">addAnimation</a> (<a class="el" href="class_g_b_1_1_animation.html">Animation</a> animation)</td></tr>
+<tr class="memitem:a8b16bc8ef871f325b5b549974c18cbcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#a8b16bc8ef871f325b5b549974c18cbcc">addAnimation</a> (Animation animation)</td></tr>
 <tr class="memdesc:a8b16bc8ef871f325b5b549974c18cbcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the animation to the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>.  <a href="#a8b16bc8ef871f325b5b549974c18cbcc">More...</a><br /></td></tr>
 <tr class="separator:a8b16bc8ef871f325b5b549974c18cbcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a590dc9ea65f65f11744359ca1d909e1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#a590dc9ea65f65f11744359ca1d909e1c">eraseAnimation</a> (const_iterator animation)</td></tr>
@@ -144,10 +144,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6c48243cd06f90f7b21c792f7f092a83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#a6c48243cd06f90f7b21c792f7f092a83">clearAnimations</a> ()</td></tr>
 <tr class="memdesc:a6c48243cd06f90f7b21c792f7f092a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all animations from the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>.  <a href="#a6c48243cd06f90f7b21c792f7f092a83">More...</a><br /></td></tr>
 <tr class="separator:a6c48243cd06f90f7b21c792f7f092a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab856e474d1a8fdcb9eb1e2021ecee831"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#ab856e474d1a8fdcb9eb1e2021ecee831">operator[]</a> (std::size_t animationIndex) const noexcept</td></tr>
+<tr class="memitem:ab856e474d1a8fdcb9eb1e2021ecee831"><td class="memItemLeft" align="right" valign="top">const Animation &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#ab856e474d1a8fdcb9eb1e2021ecee831">operator[]</a> (std::size_t animationIndex) const noexcept</td></tr>
 <tr class="memdesc:ab856e474d1a8fdcb9eb1e2021ecee831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the animation at the given index.  <a href="#ab856e474d1a8fdcb9eb1e2021ecee831">More...</a><br /></td></tr>
 <tr class="separator:ab856e474d1a8fdcb9eb1e2021ecee831"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0923250015ca79b3f611793f35efe2ad"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#a0923250015ca79b3f611793f35efe2ad">at</a> (std::size_t animationIndex) const</td></tr>
+<tr class="memitem:a0923250015ca79b3f611793f35efe2ad"><td class="memItemLeft" align="right" valign="top">const Animation &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#a0923250015ca79b3f611793f35efe2ad">at</a> (std::size_t animationIndex) const</td></tr>
 <tr class="memdesc:a0923250015ca79b3f611793f35efe2ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the animation at the given index. Throws out_of_range exception if the provided index is greater than the number of animations stored by the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>.  <a href="#a0923250015ca79b3f611793f35efe2ad">More...</a><br /></td></tr>
 <tr class="separator:a0923250015ca79b3f611793f35efe2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb3167d18fff22eb7dd31e4fc194eb34"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animation_set.html#acb3167d18fff22eb7dd31e4fc194eb34">getSize</a> () const</td></tr>
@@ -194,7 +194,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac86059c5427bc5fd019078a8f8f4a734"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Creates and owns a collection of animations that utilize a uniform frame size. This size is used to calculate the bounds of each frame and create an appropriate <a class="el" href="class_g_b_1_1_animation.html">Animation</a>. The frames are indexable like an (x, y) coordinate plane. </p>
+<div class="textblock"><p>Creates and owns a collection of animations that utilize a uniform frame size. This size is used to calculate the bounds of each frame and create an appropriate Animation. The frames are indexable like an (x, y) coordinate plane. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="aade8d5e0d168876048eb73947684d41c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aade8d5e0d168876048eb73947684d41c">&#9670;&nbsp;</a></span>Ptr</h2>
@@ -331,7 +331,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void AnimationSet::addAnimation </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_g_b_1_1_animation.html">Animation</a>&#160;</td>
+          <td class="paramtype">Animation&#160;</td>
           <td class="paramname"><em>animation</em></td><td>)</td>
           <td></td>
         </tr>
@@ -363,7 +363,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> &amp; AnimationSet::at </td>
+          <td class="memname">const Animation &amp; AnimationSet::at </td>
           <td>(</td>
           <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname"><em>animationIndex</em></td><td>)</td>
@@ -793,7 +793,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> &amp; AnimationSet::operator[] </td>
+          <td class="memname">const Animation &amp; AnimationSet::operator[] </td>
           <td>(</td>
           <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname"><em>animationIndex</em></td><td>)</td>

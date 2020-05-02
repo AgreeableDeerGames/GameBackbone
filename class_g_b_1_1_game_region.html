@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.3.0</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -110,18 +110,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a050fa112166543fe6bad580d2161996c"><td class="memItemLeft" align="right" valign="top"><a id="a050fa112166543fe6bad580d2161996c"></a>
 <a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_g_b_1_1_game_region.html">GameRegion</a> &amp;&amp;)=default</td></tr>
 <tr class="separator:a050fa112166543fe6bad580d2161996c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab56f29b4d27c8c9d80828a56510b07b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#ab56f29b4d27c8c9d80828a56510b07b3">addDrawable</a> (int priority, sf::Drawable &amp;drawableToAdd)</td></tr>
-<tr class="memdesc:ab56f29b4d27c8c9d80828a56510b07b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a drawable with a given priority to this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable already exists, its priority will be updated.  <a href="#ab56f29b4d27c8c9d80828a56510b07b3">More...</a><br /></td></tr>
-<tr class="separator:ab56f29b4d27c8c9d80828a56510b07b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3cb7c1496b5d20ba8cbbf8821807d08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#aa3cb7c1496b5d20ba8cbbf8821807d08">removeDrawable</a> (sf::Drawable &amp;drawableToRemove)</td></tr>
-<tr class="memdesc:aa3cb7c1496b5d20ba8cbbf8821807d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a drawable from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable is not found, nothing will be done.  <a href="#aa3cb7c1496b5d20ba8cbbf8821807d08">More...</a><br /></td></tr>
-<tr class="separator:aa3cb7c1496b5d20ba8cbbf8821807d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771954b98684f68ccf540b25640b7b76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a771954b98684f68ccf540b25640b7b76">clearDrawables</a> ()</td></tr>
-<tr class="memdesc:a771954b98684f68ccf540b25640b7b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all drawable objects from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>.  <a href="#a771954b98684f68ccf540b25640b7b76">More...</a><br /></td></tr>
-<tr class="separator:a771954b98684f68ccf540b25640b7b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60920321b47ddb96b3fe0a586b939af0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a60920321b47ddb96b3fe0a586b939af0">clearDrawables</a> (int priority)</td></tr>
-<tr class="memdesc:a60920321b47ddb96b3fe0a586b939af0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all drawable objects with a given priority from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>.  <a href="#a60920321b47ddb96b3fe0a586b939af0">More...</a><br /></td></tr>
-<tr class="separator:a60920321b47ddb96b3fe0a586b939af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9805acad014fac1ea7024558e5cd430"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#af9805acad014fac1ea7024558e5cd430">getDrawableCount</a> () const noexcept</td></tr>
 <tr class="memdesc:af9805acad014fac1ea7024558e5cd430"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the count of all drawables stored on this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>.  <a href="#af9805acad014fac1ea7024558e5cd430">More...</a><br /></td></tr>
 <tr class="separator:af9805acad014fac1ea7024558e5cd430"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +131,18 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:ab56f29b4d27c8c9d80828a56510b07b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#ab56f29b4d27c8c9d80828a56510b07b3">addDrawable</a> (int priority, sf::Drawable &amp;drawableToAdd)</td></tr>
+<tr class="memdesc:ab56f29b4d27c8c9d80828a56510b07b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a drawable with a given priority to this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable already exists, it will be drawn multiple times.  <a href="#ab56f29b4d27c8c9d80828a56510b07b3">More...</a><br /></td></tr>
+<tr class="separator:ab56f29b4d27c8c9d80828a56510b07b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3cb7c1496b5d20ba8cbbf8821807d08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#aa3cb7c1496b5d20ba8cbbf8821807d08">removeDrawable</a> (sf::Drawable &amp;drawableToRemove)</td></tr>
+<tr class="memdesc:aa3cb7c1496b5d20ba8cbbf8821807d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a drawable from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable is not found, nothing will be done.  <a href="#aa3cb7c1496b5d20ba8cbbf8821807d08">More...</a><br /></td></tr>
+<tr class="separator:aa3cb7c1496b5d20ba8cbbf8821807d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771954b98684f68ccf540b25640b7b76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a771954b98684f68ccf540b25640b7b76">clearDrawables</a> ()</td></tr>
+<tr class="memdesc:a771954b98684f68ccf540b25640b7b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all drawable objects from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>.  <a href="#a771954b98684f68ccf540b25640b7b76">More...</a><br /></td></tr>
+<tr class="separator:a771954b98684f68ccf540b25640b7b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60920321b47ddb96b3fe0a586b939af0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#a60920321b47ddb96b3fe0a586b939af0">clearDrawables</a> (int priority)</td></tr>
+<tr class="memdesc:a60920321b47ddb96b3fe0a586b939af0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all drawable objects with a given priority from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>.  <a href="#a60920321b47ddb96b3fe0a586b939af0">More...</a><br /></td></tr>
+<tr class="separator:a60920321b47ddb96b3fe0a586b939af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd74fb485cf1f297ff2583729ea5a6fc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_game_region.html#acd74fb485cf1f297ff2583729ea5a6fc">draw</a> (sf::RenderTarget &amp;target, sf::RenderStates states) const override</td></tr>
 <tr class="memdesc:acd74fb485cf1f297ff2583729ea5a6fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws every drawable on the region.  <a href="#acd74fb485cf1f297ff2583729ea5a6fc">More...</a><br /></td></tr>
 <tr class="separator:acd74fb485cf1f297ff2583729ea5a6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,6 +172,9 @@ Protected Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void GameRegion::addDrawable </td>
@@ -191,10 +194,14 @@ Protected Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Add a drawable with a given priority to this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable already exists, its priority will be updated. </p>
-<p>This function will throw an std::invalid_argument exception if a nullptr is passed in. </p>
+<p>Add a drawable with a given priority to this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable already exists, it will be drawn multiple times. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">priority</td><td>The priority of the drawable </td></tr>
@@ -210,6 +217,9 @@ Protected Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void GameRegion::clearDrawables </td>
@@ -218,6 +228,11 @@ Protected Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Removes all drawable objects from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. </p>
@@ -229,6 +244,9 @@ Protected Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void GameRegion::clearDrawables </td>
@@ -238,6 +256,11 @@ Protected Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Removes all drawable objects with a given priority from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. </p>
@@ -419,6 +442,9 @@ Protected Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void GameRegion::removeDrawable </td>
@@ -428,6 +454,11 @@ Protected Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Remove a drawable from this <a class="el" href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">GameRegion</a>. If the drawable is not found, nothing will be done. </p>

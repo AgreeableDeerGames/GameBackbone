@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.3.0</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -125,7 +125,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8ad3a9bac853b0b55fb3efd96c93a2d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the current frame (within the current animation) of the <a class="el" href="class_g_b_1_1_animated_sprite.html" title="Sprite with the ability to display several animation states. ">AnimatedSprite</a>. Immediately updates the texture displayed on the sprite. Throws std::runtime_error if there is no active animation (runAnimation has not been called).  <a href="#a8ad3a9bac853b0b55fb3efd96c93a2d5">More...</a><br /></td></tr>
 <tr class="separator:a8ad3a9bac853b0b55fb3efd96c93a2d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdef5b1da702dd79dbf06c0d4a2c0f09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animated_sprite.html#abdef5b1da702dd79dbf06c0d4a2c0f09">setAnimations</a> (<a class="el" href="class_g_b_1_1_animation_set.html#ac23ba0a3f8da0382e12756e390dbb639">AnimationSet::Ptr</a> animations)</td></tr>
-<tr class="memdesc:abdef5b1da702dd79dbf06c0d4a2c0f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the sprite to use the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>. The current frame of the sprite is set to the first frame of the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>'s first <a class="el" href="class_g_b_1_1_animation.html">Animation</a> If the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a> is empty an out_of_bounds exception is thrown.  <a href="#abdef5b1da702dd79dbf06c0d4a2c0f09">More...</a><br /></td></tr>
+<tr class="memdesc:abdef5b1da702dd79dbf06c0d4a2c0f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the sprite to use the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>. The current frame of the sprite is set to the first frame of the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>'s first Animation If the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a> is empty an out_of_bounds exception is thrown.  <a href="#abdef5b1da702dd79dbf06c0d4a2c0f09">More...</a><br /></td></tr>
 <tr class="separator:abdef5b1da702dd79dbf06c0d4a2c0f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19763d15229c31213a9a35acac57c4ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animated_sprite.html#a19763d15229c31213a9a35acac57c4ac">setAnimationDelay</a> (sf::Time delay)</td></tr>
 <tr class="memdesc:a19763d15229c31213a9a35acac57c4ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the minimum time (as sf::Time) between two animation frames.  <a href="#a19763d15229c31213a9a35acac57c4ac">More...</a><br /></td></tr>
@@ -137,7 +137,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a968ad208d420d399bccd35f75203ac9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ID of the current animation  <a href="#a968ad208d420d399bccd35f75203ac9c">More...</a><br /></td></tr>
 <tr class="separator:a968ad208d420d399bccd35f75203ac9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85c9644286dfdcb6487ebb46d85ddde1"><td class="memItemLeft" align="right" valign="top"><a id="a85c9644286dfdcb6487ebb46d85ddde1"></a>
-const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getCurrentAnimation</b> () const</td></tr>
+const Animation *&#160;</td><td class="memItemRight" valign="bottom"><b>getCurrentAnimation</b> () const</td></tr>
 <tr class="separator:a85c9644286dfdcb6487ebb46d85ddde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02982482fa53072b11aee454531b1694"><td class="memItemLeft" align="right" valign="top">sf::Time&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_animated_sprite.html#a02982482fa53072b11aee454531b1694">getAnimationDelay</a> () const</td></tr>
 <tr class="memdesc:a02982482fa53072b11aee454531b1694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the minimum time (as sf::Time ) between two animation frames.  <a href="#a02982482fa53072b11aee454531b1694">More...</a><br /></td></tr>
@@ -191,7 +191,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>framesSpentIn
 std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimationId</b></td></tr>
 <tr class="separator:a41ae28d9be1fb146c0ce780b6b58fa6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65a9f915772e364c31d9dfbf54ccecb1"><td class="memItemLeft" align="right" valign="top"><a id="a65a9f915772e364c31d9dfbf54ccecb1"></a>
-const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimation</b></td></tr>
+const Animation *&#160;</td><td class="memItemRight" valign="bottom"><b>currentAnimation</b></td></tr>
 <tr class="separator:a65a9f915772e364c31d9dfbf54ccecb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f13c7fa2664f76197684297e1969935"><td class="memItemLeft" align="right" valign="top"><a id="a8f13c7fa2664f76197684297e1969935"></a>
 <a class="el" href="class_g_b_1_1_animation_set.html#ac23ba0a3f8da0382e12756e390dbb639">AnimationSet::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><b>animations</b></td></tr>
@@ -534,7 +534,7 @@ const <a class="el" href="class_g_b_1_1_animation.html">Animation</a> *&#160;</t
       </table>
 </div><div class="memdoc">
 
-<p>Updates the sprite to use the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>. The current frame of the sprite is set to the first frame of the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>'s first <a class="el" href="class_g_b_1_1_animation.html">Animation</a> If the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a> is empty an out_of_bounds exception is thrown. </p>
+<p>Updates the sprite to use the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>. The current frame of the sprite is set to the first frame of the <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a>'s first Animation If the provided <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a> is empty an out_of_bounds exception is thrown. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">animations</td><td>The new <a class="el" href="class_g_b_1_1_animation_set.html" title="Creates and owns a collection of animations.">AnimationSet</a> to use.</td></tr>

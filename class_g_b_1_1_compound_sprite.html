@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.3.0</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -132,7 +132,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab9751db65e776608db017692841ee808"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a115fefb542908835fb03a26542dfae5a"><td class="memTemplParams" colspan="2">template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component &gt;, bool &gt;  = true&gt; </td></tr>
 <tr class="memitem:a115fefb542908835fb03a26542dfae5a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a115fefb542908835fb03a26542dfae5a">removeComponent</a> (Component &amp;componentToRemove)</td></tr>
-<tr class="memdesc:a115fefb542908835fb03a26542dfae5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the Sprite component at the passed index from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. Throws std::out_of_range exception if the component index is out of bounds. This invalidates all indices returned by addComponent(sf::sprite)  <a href="#a115fefb542908835fb03a26542dfae5a">More...</a><br /></td></tr>
+<tr class="memdesc:a115fefb542908835fb03a26542dfae5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the component from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. This invalidates all indices returned by addComponent  <a href="#a115fefb542908835fb03a26542dfae5a">More...</a><br /></td></tr>
 <tr class="separator:a115fefb542908835fb03a26542dfae5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5425526371c2c00586b757f93770edc4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a5425526371c2c00586b757f93770edc4">clearComponents</a> ()</td></tr>
 <tr class="memdesc:a5425526371c2c00586b757f93770edc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all components from the compound sprite  <a href="#a5425526371c2c00586b757f93770edc4">More...</a><br /></td></tr>
@@ -740,7 +740,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 </table>
 </div><div class="memdoc">
 
-<p>Removes the Sprite component at the passed index from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. Throws std::out_of_range exception if the component index is out of bounds. This invalidates all indices returned by addComponent(sf::sprite) </p>
+<p>Removes the component from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. This invalidates all indices returned by addComponent </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">component</td><td>The component to remove from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a></td></tr>
