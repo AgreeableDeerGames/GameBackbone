@@ -57,9 +57,7 @@ else()
 endif()
 
 find_package(TGUI 0.8.2 REQUIRED)
-if(TGUI_FOUND)
-  target_link_libraries(GameBackboneDemo PUBLIC tgui)
-endif()
+target_link_libraries(GameBackboneDemo PUBLIC tgui)
 
 # Link to GB
 target_link_libraries(GameBackboneDemo PRIVATE GameBackbone)
