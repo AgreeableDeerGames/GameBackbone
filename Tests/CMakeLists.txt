@@ -14,7 +14,7 @@ add_executable(GameBackboneUnitTest
 	"Source/targetver.h"
 	"Source/UniformAnimationSetTests.cpp"
 	"Source/UtilMathTests.cpp"
-)
+ "Source/InputHandlerTests.cpp")
 
 # Set warnings to GB test defaults
 gamebackbone_target_set_default_warnings_for_tests(GameBackboneUnitTest)
