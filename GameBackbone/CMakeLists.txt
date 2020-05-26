@@ -22,7 +22,6 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Util/UtilMath.h"
 
   # user input
-  "Include/GameBackbone/UserInput/Gesture.h"
   "Include/GameBackbone/UserInput/InputHandler.h"
 
 # source
