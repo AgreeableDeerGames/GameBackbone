@@ -20,9 +20,12 @@ namespace GB {
 	{
 	public:
 
+		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
+		static constexpr sf::Int64 defaultMinTimeBetweenTrigger = 200;
+
 		void addGesture(std::vector<sf::Event> gesture, std::function<void()> func)
 		{
-			addGesture(std::move(gesture), func, 1000, 200);
+			addGesture(std::move(gesture), func, defaultMaxTimeBetweenInputs, defaultMinTimeBetweenTrigger);
 		}
 
 		void addGesture(std::vector<sf::Event> gesture, std::function<void()> func, sf::Int64 maxTimeBetweenInputs, sf::Int64 minTimeBetweenTrigger)
@@ -64,19 +67,22 @@ namespace GB {
 
 			void consumeEvent(const sf::Event& event)
 			{
-				if (this->isAvailable() && compareEvents(event, this->getNextEvent()))
+				if (this->isAvailable())
 				{
-					++this->m_currentPosition;
-					this->m_timeSinceLastEvent = 0;
-					if (this->isDone())
+					if (compareEvents(event, this->getNextEvent()))
 					{
-						// Fire event and disable gesture until timer finishes
-						this->fireEvent();
+						++this->m_currentPosition;
+						this->m_timeSinceLastEvent = 0;
+						if (this->isDone())
+						{
+							// Fire event and disable gesture until timer finishes
+							this->fireEvent();
+						}
 					}
-				}
-				else
-				{
-					this->reset();
+					else
+					{
+						this->reset();
+					}
 				}
 			}
 
@@ -88,8 +94,8 @@ namespace GB {
 				}
 
 				// enough time has passed after last action to be able to fire again or current bind has timed out
-				if ((!this->m_available && this->m_timeSinceLastEvent > this->m_minTimeBetweenTrigger)
-					|| (this->m_timeSinceLastEvent > this->m_maxTimeBetweenEvents))
+				if ((!this->m_available && this->m_timeSinceLastEvent >= this->m_minTimeBetweenTrigger)
+					|| (this->m_timeSinceLastEvent >= this->m_maxTimeBetweenEvents))
 				{
 					this->reset();
 				}
@@ -134,6 +140,7 @@ namespace GB {
 				}
 				switch (lhs.type)
 				{
+				case sf::Event::KeyReleased:
 				case sf::Event::KeyPressed:
 					if (lhs.key.code == rhs.key.code)
 					{
