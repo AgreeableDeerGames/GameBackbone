@@ -9,157 +9,295 @@
 #include <functional>
 #include <algorithm>
 #include <chrono>
+#include <cassert>
+#include <string>
 
 
 
 namespace GB {
 
+	
+	enum class EndType
+	{
+		Continuous,
+		Reset,
+		Stop,
+		BlockLastEvent
+	};
+
 	// TODO: The event compare function should be an extension point. Should it be a template? A std::function?
 
-	class InputHandler : Updatable
+	struct GestureBind
+	{
+
+		std::vector<sf::Event> gesture;
+		std::function<void()> action;
+		std::string name;
+		sf::Int64 maxTimeBetweenInputs;
+
+		GB::EndType endType;
+	};
+
+	class InputHandler
 	{
 	public:
 
+
 		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
-		static constexpr sf::Int64 defaultMinTimeBetweenTrigger = 200;
 
-		void addGesture(std::vector<sf::Event> gesture, std::function<void()> func)
+
+		void addGesture(GestureBind bind)
 		{
-			addGesture(std::move(gesture), func, defaultMaxTimeBetweenInputs, defaultMinTimeBetweenTrigger);
+			m_wholeSet.push_back(bind);
+			m_openSetGestures.emplace_back(bind, 0);
 		}
 
-		void addGesture(std::vector<sf::Event> gesture, std::function<void()> func, sf::Int64 maxTimeBetweenInputs, sf::Int64 minTimeBetweenTrigger)
+		void addGesture(std::vector<sf::Event> bind, std::function<void()> func)
 		{
-			m_gestureBinds.emplace_back(std::move(gesture), std::move(func), maxTimeBetweenInputs, minTimeBetweenTrigger);
+			// TODO: NAME? EndType?
+			addGesture({ std::move(bind), func, "" , defaultMaxTimeBetweenInputs, EndType::Continuous });
 		}
 
-		void consumeEvent(const sf::Event& event)
+		void addGesture(std::vector<sf::Event> bind, std::function<void()> func, sf::Int64 maxTimeBetweenInputs)
 		{
-			for (auto& bound : m_gestureBinds)
+			// TODO: NAME? EndType?
+			addGesture({ std::move(bind), std::move(func), "", maxTimeBetweenInputs, EndType::Continuous });
+		}
+
+
+		// TODO: This should be on the fire system extension point
+		std::vector<GestureBind> m_bindsToFire;
+
+		// Extension Point.
+		void processActions()
+		{
+			for (const GestureBind& bind : m_bindsToFire)
 			{
-				bound.consumeEvent(event);
+				std::invoke(bind.action);
 			}
 		}
 
-		void update(sf::Int64 elapsedTime) override
+		void consumeEvent(sf::Int64 elapsedTime, const sf::Event& event)
 		{
-			for (auto& bound : m_gestureBinds)
+			// Compare ActiveGesture
+			if (!applyEventToOpenSet(elapsedTime, event))
 			{
-				bound.update(elapsedTime);
+				// Reset open set to contain everything again
+				resetGestures();
+				// Compare ActiveGestures a second time.
+				applyEventToOpenSet(elapsedTime, event);
 			}
+
+			// Update the process event system, and "fire" events that are ready
+			processActions();
 		}
 
 	private:
 
-		class BoundGesture final : public Updatable
+		bool applyEventToOpenSet(sf::Int64 elapsedTime, const sf::Event& event)
 		{
-		public:
-			BoundGesture(std::vector<sf::Event> gesture, std::function<void()> action, sf::Int64 maxTimeBetweenEvents, sf::Int64 minTimeBetweenTrigger) :
-				m_gesture(std::move(gesture)),
-				m_boundFunction(std::move(action)),
-				m_currentPosition(0),
-				m_timeSinceLastEvent(0),
-				m_maxTimeBetweenEvents(maxTimeBetweenEvents),
-				m_minTimeBetweenTrigger(minTimeBetweenTrigger),
-				m_available(true)
+			bool eventApplied = false;
+			for (std::size_t ii = 0; ii < m_openSetGestures.size(); ++ii)
 			{
-			}
-
-			void consumeEvent(const sf::Event& event)
-			{
-				if (this->isAvailable())
+				// TODO: ensure that minimum time has passed
+				if (compareEvents(m_openSetGestures[ii].first.gesture.at(m_openSetGestures[ii].second), event) /* && !hasTimedOut*/)
 				{
-					if (compareEvents(event, this->getNextEvent()))
+					//TODO: add action with logged time to the process event system
+					eventApplied = true;
+
+					m_openSetGestures[ii].second += 1;
+
+					if (m_openSetGestures[ii].second == m_openSetGestures[ii].first.gesture.size())
 					{
-						++this->m_currentPosition;
-						this->m_timeSinceLastEvent = 0;
-						if (this->isDone())
+						m_bindsToFire.push_back(m_openSetGestures[ii].first);
+
+						// TODO:
+						// Tell the Stateful Gesture Bind to do something given its end type
+						switch (m_openSetGestures[ii].first.endType)
 						{
-							// Fire event and disable gesture until timer finishes
-							this->fireEvent();
+						case EndType::Continuous:
+						{
+							m_openSetGestures[ii].second -= 1;
+							break;
+						}
+						case EndType::Reset:
+						{
+							m_openSetGestures[ii].second = 0;
+							break;
+						}
+						case EndType::Stop:
+						{
+							m_openSetGestures.erase(m_openSetGestures.begin() + ii);
+							break;
+						}
+						case EndType::BlockLastEvent:
+						{
+							// TODO: How? Why? Make Michael do it.
+							break;
+						}
 						}
 					}
-					else
-					{
-						this->reset();
-					}
 				}
-			}
-
-			void update(sf::Int64 elapsedTime) final
-			{
-				if (!this->m_available || this->m_currentPosition != 0)
+				else
 				{
-					this->m_timeSinceLastEvent += elapsedTime;
+					// TODO: Take gesture out of open set
+					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
+					--ii;
 				}
+			}
 
-				// enough time has passed after last action to be able to fire again or current bind has timed out
-				if ((!this->m_available && this->m_timeSinceLastEvent >= this->m_minTimeBetweenTrigger)
-					|| (this->m_timeSinceLastEvent >= this->m_maxTimeBetweenEvents))
+			return eventApplied;
+		}
+
+
+		// TODO: Extension point
+		bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
+		{
+			if (lhs.type != rhs.type)
+			{
+				return false;
+			}
+			switch (lhs.type)
+			{
+			case sf::Event::KeyReleased:
+			case sf::Event::KeyPressed:
+				if (lhs.key.code == rhs.key.code)
 				{
-					this->reset();
+					return true;
 				}
+			default:
+				return false;
 			}
-
-			const sf::Event& getNextEvent() const
-			{
-				assert(m_currentPosition < m_gesture.size());
-				return m_gesture[m_currentPosition];
-			}
-
-			void reset()
-			{
-				m_currentPosition = 0;
-				m_available = true;
-				m_timeSinceLastEvent = 0;
-			}
-
-			bool isAvailable() const
-			{
-				return m_available;
-			}
-
-			bool isDone() const
-			{
-				return m_currentPosition == m_gesture.size();
-			}
-
-			void fireEvent()
-			{
-				std::invoke(this->m_boundFunction);
-				this->m_available = false;
-			}
-
-		private:
-
-			bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
-			{
-				if (lhs.type != rhs.type)
-				{
-					return false;
-				}
-				switch (lhs.type)
-				{
-				case sf::Event::KeyReleased:
-				case sf::Event::KeyPressed:
-					if (lhs.key.code == rhs.key.code)
-					{
-						return true;
-					}
-				default:
-					return false;
-				}
-			};
-
-			std::vector<sf::Event> m_gesture;
-			std::function<void()> m_boundFunction;
-			std::size_t m_currentPosition;
-			sf::Int64 m_timeSinceLastEvent;
-			sf::Int64 m_maxTimeBetweenEvents;
-			sf::Int64 m_minTimeBetweenTrigger;
-			bool m_available;
 		};
 
-		std::vector<BoundGesture> m_gestureBinds;
+		void resetGestures()
+		{
+			// Clear the open set completely
+			m_openSetGestures.clear();
+
+			// Add all gestures from the whole set to the active gestures open set.
+			for (GestureBind& bind : m_wholeSet)
+			{
+				m_openSetGestures.emplace_back(bind, 0);
+			}
+		}
+
+		std::vector<std::pair<GestureBind, int>> m_openSetGestures;
+		std::vector<GestureBind> m_wholeSet;
+
 	};
 }
+
+/*
+	Gesture - series of inputs
+	Bind - Gesture, function
+	ActiveGesture - Bind, state
+
+
+
+	User:
+
+
+*/
+
+
+
+//class BoundGesture final : public Updatable
+//{
+//public:
+//	BoundGesture(std::vector<sf::Event> gesture, std::function<void()> action, sf::Int64 maxTimeBetweenEvents) :
+//		m_gesture(std::move(gesture)),
+//		m_boundFunction(std::move(action)),
+//		m_currentPosition(0),
+//		m_timeSinceLastEvent(0),
+//		m_maxTimeBetweenEvents(maxTimeBetweenEvents),
+//		m_available(true)
+//	{
+//	}
+//
+//	void consumeEvent(const sf::Event& event)
+//	{
+//		if (this->isAvailable())
+//		{
+//			if (compareEvents(event, this->getNextEvent()))
+//			{
+//				++this->m_currentPosition;
+//				this->m_timeSinceLastEvent = 0;
+//				if (this->isDone())
+//				{
+//					// Fire event and disable gesture until timer finishes
+//					this->fireEvent();
+//				}
+//			}
+//			else
+//			{
+//				this->reset();
+//			}
+//		}
+//	}
+//
+//	void update(sf::Int64 elapsedTime) final
+//	{
+//		if (!this->m_available || this->m_currentPosition != 0)
+//		{
+//			this->m_timeSinceLastEvent += elapsedTime;
+//		}
+//	}
+//
+//	const sf::Event& getNextEvent() const
+//	{
+//		assert(m_currentPosition < m_gesture.size());
+//		return m_gesture[m_currentPosition];
+//	}
+//
+//	void reset()
+//	{
+//		m_currentPosition = 0;
+//		m_available = true;
+//		m_timeSinceLastEvent = 0;
+//	}
+//
+//	bool isAvailable() const
+//	{
+//		return m_available;
+//	}
+//
+//	bool isDone() const
+//	{
+//		return m_currentPosition == m_gesture.size();
+//	}
+//
+//	void fireEvent()
+//	{
+//		std::invoke(this->m_boundFunction);
+//		this->m_available = false;
+//	}
+//
+//private:
+//
+//	bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
+//	{
+//		if (lhs.type != rhs.type)
+//		{
+//			return false;
+//		}
+//		switch (lhs.type)
+//		{
+//		case sf::Event::KeyReleased:
+//		case sf::Event::KeyPressed:
+//			if (lhs.key.code == rhs.key.code)
+//			{
+//				return true;
+//			}
+//		default:
+//			return false;
+//		}
+//	};
+//
+//	std::vector<sf::Event> m_gesture;
+//	std::function<void()> m_boundFunction;
+//	std::size_t m_currentPosition;
+//	sf::Int64 m_timeSinceLastEvent;
+//	sf::Int64 m_maxTimeBetweenEvents;
+//	bool m_available;
+//};

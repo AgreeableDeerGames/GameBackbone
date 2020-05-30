@@ -55,6 +55,7 @@ void CoreEventController::runLoop() {
 	}
 
 	while (m_window.isOpen()) {
+
 		while (m_window.pollEvent(event)) {
 			handleEvent(event);
 		}
