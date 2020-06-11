@@ -38,6 +38,15 @@ namespace GB {
 		GB::EndType endType;
 	};
 
+	class GestureBindBuilder
+	{
+	public:
+		void addKeyPress(sf::Keyboard::Key key, bool ctrlHeld, bool shiftHeld) {}
+		void addTimedKeyPress(sf::Keyboard::Key key, bool ctrlHeld, bool shiftHeld, sf::Int64 duration) {}
+		void setAction(std::function<void()> action) {}
+		GestureBind bind() { return {}; }
+	};
+
 	class InputHandler
 	{
 	public:
@@ -51,19 +60,6 @@ namespace GB {
 			m_wholeSet.push_back(bind);
 			m_openSetGestures.emplace_back(bind, 0);
 		}
-
-		void addGesture(std::vector<sf::Event> bind, std::function<void()> func)
-		{
-			// TODO: NAME? EndType?
-			addGesture({ std::move(bind), func, "" , defaultMaxTimeBetweenInputs, EndType::Continuous });
-		}
-
-		void addGesture(std::vector<sf::Event> bind, std::function<void()> func, sf::Int64 maxTimeBetweenInputs)
-		{
-			// TODO: NAME? EndType?
-			addGesture({ std::move(bind), std::move(func), "", maxTimeBetweenInputs, EndType::Continuous });
-		}
-
 
 		// TODO: This should be on the fire system extension point
 		std::vector<GestureBind> m_bindsToFire;
@@ -109,9 +105,10 @@ namespace GB {
 
 					if (m_openSetGestures[ii].second == m_openSetGestures[ii].first.gesture.size())
 					{
+
+						// TODO: fire action extension point handles this
 						m_bindsToFire.push_back(m_openSetGestures[ii].first);
 
-						// TODO:
 						// Tell the Stateful Gesture Bind to do something given its end type
 						switch (m_openSetGestures[ii].first.endType)
 						{
@@ -176,7 +173,7 @@ namespace GB {
 			m_openSetGestures.clear();
 
 			// Add all gestures from the whole set to the active gestures open set.
-			for (GestureBind& bind : m_wholeSet)
+			for (const GestureBind& bind : m_wholeSet)
 			{
 				m_openSetGestures.emplace_back(bind, 0);
 			}
