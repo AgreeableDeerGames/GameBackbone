@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 
 	BOOST_AUTO_TEST_CASE(TestCompile)
 	{
-		InputRouter router{ ButtonPressGestureHandler{}, ButtonHoldGestureHandler{} };
+		InputRouter router{ ButtonPressGestureHandler<SimpleEventComparitor>{}, ButtonHoldGestureHandler{} };
 		router.handleEvent(sf::Event{});
 	}
 

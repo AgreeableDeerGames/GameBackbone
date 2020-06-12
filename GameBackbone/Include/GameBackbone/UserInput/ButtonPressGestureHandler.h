@@ -30,6 +30,9 @@ namespace GB
 
 	// TODO: The event compare function should be an extension point. Should it be a template? A std::function?
 
+
+	// TODO: make EventCompare a concept
+	template <class EventCompare>
 	class ButtonPressGestureHandler : public InputHandler
 	{
 	public:
@@ -139,21 +142,7 @@ namespace GB
 		// TODO: Extension point
 		bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
 		{
-			if (lhs.type != rhs.type)
-			{
-				return false;
-			}
-			switch (lhs.type)
-			{
-			case sf::Event::KeyReleased:
-			case sf::Event::KeyPressed:
-				if (lhs.key.code == rhs.key.code)
-				{
-					return true;
-				}
-			default:
-				return false;
-			}
+			return m_eventComparitor.compare(lhs, rhs);
 		};
 
 		void resetGestures()
@@ -170,7 +159,7 @@ namespace GB
 
 		std::vector<std::pair<GestureBind, int>> m_openSetGestures;
 		std::vector<GestureBind> m_wholeSet;
-
+		EventCompare m_eventComparitor;
 	};
 }
 
