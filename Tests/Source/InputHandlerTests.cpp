@@ -2,6 +2,10 @@
 
 #include <GameBackbone/Core/GameRegion.h>
 #include <GameBackbone/UserInput/InputHandler.h>
+#include <GameBackbone/UserInput/InputRouter.h>
+#include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
+#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/GestureBindLauncher.h>
 
 using namespace GB;
 
@@ -10,7 +14,8 @@ BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 
 	BOOST_AUTO_TEST_CASE(TestCompile)
 	{
-		InputHandler handler;
+		InputRouter router{ ButtonPressGestureHandler{}, ButtonHoldGestureHandler{} };
+		router.handleEvent(sf::Event{});
 	}
 
 BOOST_AUTO_TEST_SUITE_END() // InputHandlerTests
