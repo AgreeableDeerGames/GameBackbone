@@ -43,7 +43,7 @@ namespace GB
 
 		InputRouter(Handlers... inputHandlers)
 		{
-			m_handlers = std::tie(std::move(inputHandlers)...);
+			m_handlers = std::make_tuple(std::move(inputHandlers)...);
 		}
 
 		// return true if any input handler handled the event
