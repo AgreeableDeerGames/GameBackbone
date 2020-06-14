@@ -47,19 +47,24 @@ namespace GB
 		}
 
 		// return true if any input handler handled the event
-		bool handleEvent(const sf::Event& event) override
+		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
 			bool eventHandled = false;
-			// TODO: use custom for loop here to enforce order of elements and exit early
+
+			// Loop through all sub-handlers until handles the event
 			for_each(
 				m_handlers,
-				[&event, &eventHandled](auto& handler)
-			{
-				if (handler.handleEvent(event))
+				[&event, &eventHandled, elapsedTime](auto& handler)
 				{
-					eventHandled = true;
+					// Only attempt to handle an event that has not been handled yet
+					if (!eventHandled)
+					{
+						if (handler.handleEvent(elapsedTime, event))
+						{
+							eventHandled = true;
+						}
+					}
 				}
-			}
 			);
 			return eventHandled;
 		}
@@ -67,4 +72,11 @@ namespace GB
 	private:
 		std::tuple<Handlers...> m_handlers;
 	};
+
+	/*
+	1 inout router
+	1 mouse (position) handler
+	1 keyboard (and buttons) handler
+	1 joystick (axes) handler
+	*/
 }

@@ -25,7 +25,6 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/UserInput/InputHandler.h"
   "Include/GameBackbone/UserInput/InputRouter.h"
   "Include/GameBackbone/UserInput/ButtonPressGestureHandler.h"
-  "Include/GameBackbone/UserInput/GestureBindLauncher.h"
   "Include/GameBackbone/UserInput/GestureBind.h"
   "Include/GameBackbone/UserInput/EventComparitor.h"
 

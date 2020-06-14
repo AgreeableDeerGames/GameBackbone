@@ -20,7 +20,7 @@ namespace GB {
 	class InputHandler
 	{
 	public:
-		virtual bool handleEvent(const sf::Event& event) = 0;
+		virtual bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) = 0;
 	};
 
 }
