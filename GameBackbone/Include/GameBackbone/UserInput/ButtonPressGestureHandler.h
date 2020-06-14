@@ -20,14 +20,7 @@
 
 namespace GB
 {
-	template <typename T>
-	using is_event_comparitor = std::conjunction<
-		std::is_invocable<T, const sf::Event&, const sf::Event&>, 
-		std::is_same<typename std::invoke_result<T, const sf::Event&, const sf::Event&>::type, bool>
-	>;
 
-	template <typename T>
-	static inline constexpr bool is_event_comparitor_v = is_event_comparitor<T>::value;
 	
 	template <typename EventCompare, std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true>
 	class ButtonPressGestureHandler : public InputHandler
@@ -39,7 +32,7 @@ namespace GB
 		void addGesture(GestureBind bind)
 		{
 			m_wholeSet.push_back(bind);
-			m_openSetGestures.emplace_back(bind, 0);
+			m_openSetGestures.emplace_back(bind);
 		}
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
@@ -61,35 +54,69 @@ namespace GB
 
 	private:
 
+		class StatefulGestureBind : public GestureBind
+		{
+		public:
+			
+			StatefulGestureBind(const GestureBind& bind) : GestureBind(bind),
+				m_position(0) 
+			{
+			}
+
+			std::size_t getPosition() const
+			{
+				return m_position;
+			}
+
+			void advance(int distance = 1)
+			{
+				m_position += distance;
+			}
+
+			void reset()
+			{
+				m_position = 0;
+			}
+
+			const sf::Event& getNextEvent() const
+			{
+				return gesture.at(m_position);
+			}
+
+		private:
+			int m_position;
+		};
+
+
 		bool applyEventToOpenSet(sf::Int64 elapsedTime, const sf::Event& event)
 		{
 			bool eventApplied = false;
 			for (std::size_t ii = 0; ii < m_openSetGestures.size(); ++ii)
 			{
 				// TODO: ensure that minimum time has passed
-				if (compareEvents(m_openSetGestures[ii].first.gesture.at(m_openSetGestures[ii].second), event) /* && !hasTimedOut*/)
+				if (compareEvents(m_openSetGestures[ii].getNextEvent(), event) /* && !hasTimedOut*/)
 				{
 					//TODO: add action with logged time to the process event system
 					eventApplied = true;
 
-					m_openSetGestures[ii].second += 1;
+					m_openSetGestures[ii].advance();
 
-					if (m_openSetGestures[ii].second == m_openSetGestures[ii].first.gesture.size())
+					if (m_openSetGestures[ii].getPosition() == m_openSetGestures[ii].gesture.size())
 					{
 						// Invoke bound action
-						std::invoke(m_openSetGestures[ii].first.action);
+						std::invoke(m_openSetGestures[ii].action);
 
 						// Tell the stateful gesture bind to do something given its end type
-						switch (m_openSetGestures[ii].first.endType)
+						switch (m_openSetGestures[ii].endType)
 						{
 						case EndType::Continuous:
 						{
-							m_openSetGestures[ii].second -= 1;
+							m_openSetGestures[ii].advance(-1);
 							break;
 						}
 						case EndType::Reset:
 						{
-							m_openSetGestures[ii].second = 0;
+							m_openSetGestures[ii].reset();
 							break;
 						}
 						case EndType::Stop:
@@ -131,11 +158,11 @@ namespace GB
 			// Add all gestures from the whole set to the active gestures open set.
 			for (const GestureBind& bind : m_wholeSet)
 			{
-				m_openSetGestures.emplace_back(bind, 0);
+				m_openSetGestures.emplace_back(bind);
 			}
 		}
 
-		std::vector<std::pair<GestureBind, int>> m_openSetGestures;
+		std::vector<StatefulGestureBind> m_openSetGestures;
 		std::vector<GestureBind> m_wholeSet;
 		EventCompare m_eventComparitor;
 	};
