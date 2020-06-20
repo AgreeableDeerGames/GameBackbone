@@ -15,23 +15,23 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Core/UniformAnimationSet.h"
   "Include/GameBackbone/Core/Updatable.h"
 
+   # user input
+  "Include/GameBackbone/UserInput/InputHandler.h"
+  "Include/GameBackbone/UserInput/InputRouter.h"
+  "Include/GameBackbone/UserInput/ButtonPressGestureHandler.h"
+  "Include/GameBackbone/UserInput/GestureBind.h"
+  "Include/GameBackbone/UserInput/GestureBindBuilder.h"
+  "Include/GameBackbone/UserInput/EventComparitor.h"
+
   # util
   "Include/GameBackbone/Util/DllUtil.h"
   "Include/GameBackbone/Util/RandGen.h"
   "Include/GameBackbone/Util/SFUtil.h"
   "Include/GameBackbone/Util/UtilMath.h"
 
-  # user input
-  "Include/GameBackbone/UserInput/InputHandler.h"
-  "Include/GameBackbone/UserInput/InputRouter.h"
-  "Include/GameBackbone/UserInput/ButtonPressGestureHandler.h"
-  "Include/GameBackbone/UserInput/GestureBind.h"
-  "Include/GameBackbone/UserInput/EventComparitor.h"
-
 # source
 
   # core
-  
   "Source/Core/AnimatedSprite.cpp"
   "Source/Core/AnimationSet.cpp"
   "Source/Core/BasicGameRegion.cpp"
@@ -40,8 +40,15 @@ add_library(GameBackbone SHARED
   "Source/Core/GameRegion.cpp"
   "Source/Core/UniformAnimationSet.cpp"
 
+  # user input
+  "Source/UserInput/GestureBind.cpp"
+  "Source/UserInput/GestureBindBuilder.cpp"
+
   # Util
   "Source/Util/RandGen.cpp"
+
+
+
  )
 
 set_target_properties(

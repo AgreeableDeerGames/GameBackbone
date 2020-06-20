@@ -7,27 +7,33 @@
 
 #include <SFML/Window/Event.hpp>
 
-#include <vector>
-#include <tuple>
-#include <functional>
 #include <algorithm>
-#include <chrono>
 #include <cassert>
-#include <string>
+#include <chrono>
+#include <functional>
 #include <iostream>
-
+#include <string>
+#include <tuple>
 #include <type_traits>
+#include <vector>
+
 
 namespace GB
 {
 
-	
 	template <typename EventCompare, std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true>
 	class ButtonPressGestureHandler : public InputHandler
 	{
 	public:
 
 		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
+
+		ButtonPressGestureHandler() = default;
+		ButtonPressGestureHandler(const ButtonPressGestureHandler&) = default;
+		ButtonPressGestureHandler(ButtonPressGestureHandler&&) = default;
+		ButtonPressGestureHandler& operator=(const ButtonPressGestureHandler&) = default;
+		ButtonPressGestureHandler& operator=(ButtonPressGestureHandler&&) = default;
+		virtual ~ButtonPressGestureHandler() = default;
 
 		void addGesture(GestureBind bind)
 		{
@@ -54,7 +60,7 @@ namespace GB
 
 	private:
 
-		class StatefulGestureBind : public GestureBind
+	/*	class StatefulGestureBind : public GestureBind
 		{
 		public:
 			
@@ -80,12 +86,12 @@ namespace GB
 
 			const sf::Event& getNextEvent() const
 			{
-				return gesture.at(m_position);
+				return getGesture().at(m_position);
 			}
 
 		private:
 			int m_position;
-		};
+		};*/
 
 
 		bool applyEventToOpenSet(sf::Int64 elapsedTime, const sf::Event& event)
@@ -93,38 +99,47 @@ namespace GB
 			bool eventApplied = false;
 			for (std::size_t ii = 0; ii < m_openSetGestures.size(); ++ii)
 			{
-				// TODO: ensure that minimum time has passed
-				if (compareEvents(m_openSetGestures[ii].getNextEvent(), event) /* && !hasTimedOut*/)
+
+				// TODO: the use of GestureBind::HandleEvenResult really indicates that
+				// We only care if the gesture is ready for new input or not. We dont really care about the current
+				// three states
+				GestureBind::HandleEvenResult result = m_openSetGestures[ii].handleEvent(elapsedTime, event);
+				if (result != GestureBind::HandleEvenResult::Advanced)
+				{
+					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
+					--ii;
+				}
+				if (result != GestureBind::HandleEvenResult::Reset)
+				{
+					eventApplied = true;
+				}
+
+				/*if (compareEvents(m_openSetGestures[ii].getNextEvent(), event) ) // && !hasTimedOut
 				{
 					//TODO: add action with logged time to the process event system
 					eventApplied = true;
 
 					m_openSetGestures[ii].advance();
 
-					if (m_openSetGestures[ii].getPosition() == m_openSetGestures[ii].gesture.size())
+					if (m_openSetGestures[ii].getPosition() == m_openSetGestures[ii].getGesture().size())
 					{
 						// Invoke bound action
-						std::invoke(m_openSetGestures[ii].action);
+						std::invoke(m_openSetGestures[ii].getAction());
 
 						// Tell the stateful gesture bind to do something given its end type
-						switch (m_openSetGestures[ii].endType)
+						switch (m_openSetGestures[ii].getEndType())
 						{
-						case EndType::Continuous:
+						case GestureBind::EndType::Continuous:
 						{
 							m_openSetGestures[ii].advance(-1);
 							break;
 						}
-						case EndType::Reset:
+						case GestureBind::EndType::Reset:
 						{
 							m_openSetGestures[ii].reset();
 							break;
 						}
-						case EndType::Stop:
-						{
-							m_openSetGestures.erase(m_openSetGestures.begin() + ii);
-							break;
-						}
-						case EndType::BlockLastEvent:
+						case GestureBind::EndType::BlockLastEvent:
 						{
 							// TODO: How? Why? Make Michael do it.
 							break;
@@ -137,18 +152,11 @@ namespace GB
 					// TODO: Take gesture out of open set
 					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
 					--ii;
-				}
+				}*/
 			}
 
 			return eventApplied;
 		}
-
-
-		// TODO: Extension point
-		bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
-		{
-			return std::invoke(m_eventComparitor, lhs, rhs);
-		};
 
 		void resetGestures()
 		{
@@ -162,7 +170,7 @@ namespace GB
 			}
 		}
 
-		std::vector<StatefulGestureBind> m_openSetGestures;
+		std::vector<GestureBind> m_openSetGestures;
 		std::vector<GestureBind> m_wholeSet;
 		EventCompare m_eventComparitor;
 	};
