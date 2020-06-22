@@ -50,7 +50,6 @@ namespace GB
 
 		// TODO: this should probably be a different name so as to not be confused with InputHandler
 		HandleEvenResult handleEvent(sf::Int64 elapsedTime, const sf::Event& event); // override;
-		void reset();
 
 		const std::vector<sf::Event>& getGesture() const;
 		const std::function<void()>& getAction() const;
@@ -58,7 +57,6 @@ namespace GB
 		const std::string& getName() const;
 		sf::Int64 getMaxTimeBetweenInputs() const;
 		EndType getEndType() const;
-		bool isDone() const;
 
 		void setGesture(std::vector<sf::Event> gesture);
 		void setAction(std::function<void()> action);
@@ -78,6 +76,5 @@ namespace GB
 		sf::Int64 m_maxTimeBetweenInputs;
 		EndType m_endType;
 		std::size_t m_position;
-		bool m_isDone;
 	};
 }

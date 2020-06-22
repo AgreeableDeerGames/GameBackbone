@@ -27,11 +27,6 @@ GestureBind::GestureBind(
 
 GestureBind::HandleEvenResult GestureBind::handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
 {
-	if (m_isDone)
-	{
-		return HandleEvenResult::Done;
-	}
-
 	if (compareEvents(getNextEvent(), event) && elapsedTime < m_maxTimeBetweenInputs )
 	{
 		++m_position;
@@ -45,12 +40,6 @@ GestureBind::HandleEvenResult GestureBind::handleEvent(sf::Int64 elapsedTime, co
 
 	m_position = 0;
 	return HandleEvenResult::Reset;
-}
-
-void GestureBind::reset()
-{
-	m_isDone = false;
-	m_position = 0;
 }
 
 const std::vector<sf::Event>& GestureBind::getGesture() const
@@ -81,11 +70,6 @@ sf::Int64 GestureBind::getMaxTimeBetweenInputs() const
 GestureBind::EndType GestureBind::getEndType() const
 {
 	return m_endType;
-}
-
-bool GestureBind::isDone() const
-{
-	return m_isDone;
 }
 
 void GestureBind::setGesture(std::vector<sf::Event> gesture)
