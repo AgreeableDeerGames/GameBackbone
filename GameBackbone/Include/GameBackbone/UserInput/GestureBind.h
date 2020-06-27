@@ -159,7 +159,7 @@ namespace GB
 			}
 			case BasicGestureBind::EndType::BlockLastEvent:
 			{
-				// TODO: How? Why? Make Michael do it.
+				// TODO: How? Why? Make Ryan do it.
 				break;
 			}
 			}

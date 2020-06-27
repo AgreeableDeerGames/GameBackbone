@@ -40,14 +40,8 @@ add_library(GameBackbone SHARED
   "Source/Core/GameRegion.cpp"
   "Source/Core/UniformAnimationSet.cpp"
 
-  # user input
-  "Source/UserInput/GestureBind.cpp"
-  "Source/UserInput/GestureBindBuilder.cpp"
-
   # Util
   "Source/Util/RandGen.cpp"
-
-
 
  )
 

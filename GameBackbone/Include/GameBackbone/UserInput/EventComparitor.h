@@ -13,6 +13,7 @@ namespace GB
 	template <typename T>
 	static inline constexpr bool is_event_comparitor_v = is_event_comparitor<T>::value;
 
+	// Comparitor used to compare two key events
 	class KeyEventComparitor
 	{
 	public:
@@ -24,15 +25,12 @@ namespace GB
 				return false;
 			}
 
-			if (userEvent.key.code == gestureEvent.key.code && userEvent.key.code != sf::Keyboard::Unknown)
-			{
-				return true;
-			}
-
-			return false;
+			// Return true if the buttons match
+			return (userEvent.key.code == gestureEvent.key.code && userEvent.key.code != sf::Keyboard::Unknown);
 		}
 	};
 
+	// Comparitor used to compare two joystick button events
 	class JoystickButtonEventComparitor
 	{
 	public:
@@ -44,15 +42,12 @@ namespace GB
 				return false;
 			}
 
-			if (userEvent.joystickButton.button == gestureEvent.joystickButton.button)
-			{
-				return true;
-			}
-
-			return false;
+			// Return true if the buttons match
+			return userEvent.joystickButton.button == gestureEvent.joystickButton.button;
 		}
 	};
 
+	// Comparitor used to compare two mouse button events
 	class MouseButtonEventComparitor
 	{
 	public:
@@ -64,15 +59,12 @@ namespace GB
 				return false;
 			}
 
-			if (userEvent.mouseButton.button == gestureEvent.mouseButton.button)
-			{
-				return true;
-			}
-
-			return false;
+			// Return true if the buttons match
+			return userEvent.mouseButton.button == gestureEvent.mouseButton.button;
 		}
 	};
 
+	// Comparitor used to compare two button down or button up events
 	class ButtonEventComparitor
 	{
 	public:

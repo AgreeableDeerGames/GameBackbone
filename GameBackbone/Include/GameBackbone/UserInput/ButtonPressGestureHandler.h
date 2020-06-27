@@ -62,40 +62,6 @@ namespace GB
 
 	private:
 
-	/*	class StatefulGestureBind : public GestureBind
-		{
-		public:
-			
-			StatefulGestureBind(const GestureBind& bind) : GestureBind(bind),
-				m_position(0) 
-			{
-			}
-
-			std::size_t getPosition() const
-			{
-				return m_position;
-			}
-
-			void advance(int distance = 1)
-			{
-				m_position += distance;
-			}
-
-			void reset()
-			{
-				m_position = 0;
-			}
-
-			const sf::Event& getNextEvent() const
-			{
-				return getGesture().at(m_position);
-			}
-
-		private:
-			int m_position;
-		};*/
-
-
 		bool applyEventToOpenSet(sf::Int64 elapsedTime, const sf::Event& event)
 		{
 			bool eventApplied = false;
@@ -105,7 +71,7 @@ namespace GB
 				// TODO: the use of GestureBind::HandleEvenResult really indicates that
 				// We only care if the gesture is ready for new input or not. We dont really care about the current
 				// three states
-				GestureBind::HandleEventResult result = m_openSetGestures[ii].handleEvent(elapsedTime, event);
+				typename GestureBind::HandleEventResult result = m_openSetGestures[ii].handleEvent(elapsedTime, event);
 				if (result != GestureBind::HandleEventResult::Advanced)
 				{
 					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
