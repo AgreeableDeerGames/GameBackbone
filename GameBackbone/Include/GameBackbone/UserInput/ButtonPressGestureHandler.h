@@ -26,6 +26,8 @@ namespace GB
 	{
 	public:
 
+		using GestureBind = BasicGestureBind<EventCompare>;
+
 		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
 
 		ButtonPressGestureHandler() = default;
@@ -103,56 +105,16 @@ namespace GB
 				// TODO: the use of GestureBind::HandleEvenResult really indicates that
 				// We only care if the gesture is ready for new input or not. We dont really care about the current
 				// three states
-				GestureBind::HandleEvenResult result = m_openSetGestures[ii].handleEvent(elapsedTime, event);
-				if (result != GestureBind::HandleEvenResult::Advanced)
+				GestureBind::HandleEventResult result = m_openSetGestures[ii].handleEvent(elapsedTime, event);
+				if (result != GestureBind::HandleEventResult::Advanced)
 				{
 					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
 					--ii;
 				}
-				if (result != GestureBind::HandleEvenResult::Reset)
+				if (result != GestureBind::HandleEventResult::Reset)
 				{
 					eventApplied = true;
 				}
-
-				/*if (compareEvents(m_openSetGestures[ii].getNextEvent(), event) ) // && !hasTimedOut
-				{
-					//TODO: add action with logged time to the process event system
-					eventApplied = true;
-
-					m_openSetGestures[ii].advance();
-
-					if (m_openSetGestures[ii].getPosition() == m_openSetGestures[ii].getGesture().size())
-					{
-						// Invoke bound action
-						std::invoke(m_openSetGestures[ii].getAction());
-
-						// Tell the stateful gesture bind to do something given its end type
-						switch (m_openSetGestures[ii].getEndType())
-						{
-						case GestureBind::EndType::Continuous:
-						{
-							m_openSetGestures[ii].advance(-1);
-							break;
-						}
-						case GestureBind::EndType::Reset:
-						{
-							m_openSetGestures[ii].reset();
-							break;
-						}
-						case GestureBind::EndType::BlockLastEvent:
-						{
-							// TODO: How? Why? Make Michael do it.
-							break;
-						}
-						}
-					}
-				}
-				else
-				{
-					// TODO: Take gesture out of open set
-					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
-					--ii;
-				}*/
 			}
 
 			return eventApplied;
@@ -172,14 +134,13 @@ namespace GB
 
 		std::vector<GestureBind> m_openSetGestures;
 		std::vector<GestureBind> m_wholeSet;
-		EventCompare m_eventComparitor;
 	};
 }
 
 
 /*
 	Gesture - series of inputs
-	Bind - Gesture, function
+	Bind - Gesture, function (callable, usage, id/name/tooltip/icon), stateful inputs
 	ActiveGesture - Bind, state
 
 	User:
