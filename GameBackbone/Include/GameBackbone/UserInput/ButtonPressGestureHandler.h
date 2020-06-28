@@ -51,6 +51,7 @@ namespace GB
 			{
 				// Reset open set to contain everything again
 				resetGestures();
+				elapsedTime = 0;
 
 				// If the event still doesn't match anything then the event was not consumed by this handler 
 				eventConsumed = applyEventToOpenSet(elapsedTime, event);
