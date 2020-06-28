@@ -36,12 +36,10 @@ namespace GB
 			BlockLastEvent
 		};
 
-		// TODO: Think about making this a POD struct
-		enum class HandleEventResult
+		struct ProcessEventResult
 		{
-			Reset,
-			Advanced,
-			Completed
+			bool actionFired;
+			bool readyForInput;
 		};
 
 		BasicGestureBind(
@@ -57,27 +55,41 @@ namespace GB
 			m_name(std::move(name)),
 			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_endType(endType),
-			m_position(0)
+			m_position(0),
+			m_eventComparitor(),
+			m_readyForInput(true)
 		{
 		}
 
-		// TODO: this should probably be a different name so as to not be confused with InputHandler
-		// process event, update bind, 
-		HandleEventResult handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
+		ProcessEventResult processEvent(sf::Int64 elapsedTime, const sf::Event& event)
 		{
+
+			// Exit early if not ready for input
+			if (!readyForInput())
+			{
+				return { false, false };
+			}
+
+			// Process the input
+			bool actionFired = false;
 			if (compareEvents(getNextEvent(), event) && elapsedTime < m_maxTimeBetweenInputs)
 			{
 				++m_position;
 				if (m_position == m_gesture.size())
 				{
 					fireAction();
-					return getEndType() == EndType::Block ? HandleEventResult::Completed : HandleEventResult::Advanced;
+					actionFired = true;
 				}
-				return HandleEventResult::Advanced;
+			}
+			// The input did not match. Disable this GestureBind.
+			else
+			{
+				m_position = 0;
+				m_readyForInput = false;
 			}
 
-			m_position = 0;
-			return HandleEventResult::Reset;
+			// Return state to caller
+			return { actionFired, readyForInput() };
 		}
 
 		const std::vector<sf::Event>& getGesture() const
@@ -135,31 +147,47 @@ namespace GB
 			m_endType = endType;
 		}
 
+		void reset()
+		{
+			m_position = 0;
+			m_readyForInput = true;
+		}
+
+		bool readyForInput() const
+		{
+			return m_readyForInput;
+		}
+
 	private:
 
 		bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
 		{
-			// TODO: extension point
-			return m_eventComparitor(lhs, rhs);
+			return std::invoke(m_eventComparitor, lhs, rhs);
 		}
 
 		void fireAction()
 		{
 			switch (getEndType())
 			{
-			case BasicGestureBind::EndType::Continuous:
+			case EndType::Continuous:
 			{
 				--m_position;
 				break;
 			}
-			case BasicGestureBind::EndType::Reset:
+			case EndType::Reset:
 			{
-				m_position = 0;
+				reset();
 				break;
 			}
-			case BasicGestureBind::EndType::BlockLastEvent:
+			case EndType::BlockLastEvent:
 			{
-				// TODO: How? Why? Make Ryan do it.
+				// TODO: How? Why? Make Michael do it.
+				break;
+			}
+			case EndType::Block:
+			{
+				m_position = 0;
+				m_readyForInput = false;
 				break;
 			}
 			}
@@ -178,6 +206,7 @@ namespace GB
 		sf::Int64 m_maxTimeBetweenInputs;
 		EndType m_endType;
 		std::size_t m_position;
+		bool m_readyForInput;
 		EventCompare m_eventComparitor;
 	};
 }

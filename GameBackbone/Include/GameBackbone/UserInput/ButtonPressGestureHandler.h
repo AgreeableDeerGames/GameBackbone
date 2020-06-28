@@ -67,17 +67,18 @@ namespace GB
 			bool eventApplied = false;
 			for (std::size_t ii = 0; ii < m_openSetGestures.size(); ++ii)
 			{
+				// Forward event to the gesture bind
+				auto result = m_openSetGestures[ii].processEvent(elapsedTime, event);
 
-				// TODO: the use of GestureBind::HandleEvenResult really indicates that
-				// We only care if the gesture is ready for new input or not. We dont really care about the current
-				// three states
-				typename GestureBind::HandleEventResult result = m_openSetGestures[ii].handleEvent(elapsedTime, event);
-				if (result != GestureBind::HandleEventResult::Advanced)
+				// The bind cannot take any more input. Remove it from the open set.
+				if (!result.readyForInput)
 				{
 					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
 					--ii;
 				}
-				if (result != GestureBind::HandleEventResult::Reset)
+
+				// The event was part of the gesture
+				if (result.readyForInput || result.actionFired)
 				{
 					eventApplied = true;
 				}

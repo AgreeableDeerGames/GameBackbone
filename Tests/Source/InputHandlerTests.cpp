@@ -23,11 +23,11 @@ BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 
 	BOOST_AUTO_TEST_CASE(TestCompile)
 	{
-		 InputRouter router{ ButtonPressGestureHandler<KeyEventComparitor>{}, TestInputHandler{} };
-		 router.handleEvent(1, sf::Event{});
+		InputRouter router{ ButtonPressGestureHandler<KeyEventComparitor>{}, TestInputHandler{} };
+		router.handleEvent(1, sf::Event{});
 
 		BasicGestureBind<KeyEventComparitor> bind({}, []() {}, "", 1, BasicGestureBind<KeyEventComparitor>::EndType::Reset);
-		bind.handleEvent(1, sf::Event{});
+		bind.processEvent(1, sf::Event{});
 	}
 
 	static_assert(is_event_comparitor<KeyEventComparitor>::value, "wat");
