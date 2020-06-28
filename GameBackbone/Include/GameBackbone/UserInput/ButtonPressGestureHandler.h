@@ -28,8 +28,6 @@ namespace GB
 
 		using GestureBind = BasicGestureBind<EventCompare>;
 
-		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
-
 		ButtonPressGestureHandler() = default;
 		ButtonPressGestureHandler(const ButtonPressGestureHandler&) = default;
 		ButtonPressGestureHandler(ButtonPressGestureHandler&&) = default;

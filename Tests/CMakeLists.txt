@@ -1,20 +1,22 @@
 # CMakeLists for GameBackboneUnitTest executable 
 
 add_executable(GameBackboneUnitTest 
-	"Source/stdafx.h"
-	"Source/stdafx.cpp"
 	"Source/AnimatedSpriteTests.cpp"
 	"Source/AnimationSetTests.cpp"
 	"Source/BasicGameRegionTests.cpp"
+	"Source/ButtonPressGestureHandlerTests.cpp"
 	"Source/CompoundSpriteTests.cpp"
 	"Source/CoreEventControllerTests.cpp"
 	"Source/GameRegionTests.cpp"
+	"Source/InputHandlerTests.cpp"
 	"Source/RandGenTests.cpp"
 	"Source/SFUtilTests.cpp"
+	"Source/stdafx.cpp"
+	"Source/stdafx.h"
 	"Source/targetver.h"
 	"Source/UniformAnimationSetTests.cpp"
 	"Source/UtilMathTests.cpp"
- "Source/InputHandlerTests.cpp")
+)
 
 # Set warnings to GB test defaults
 gamebackbone_target_set_default_warnings_for_tests(GameBackboneUnitTest)

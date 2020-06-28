@@ -28,6 +28,8 @@ namespace GB
 	{
 	public:
 
+		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
+
 		enum class EndType
 		{
 			Continuous,
@@ -196,7 +198,8 @@ namespace GB
 
 		const sf::Event& getNextEvent() const
 		{
-			assert(m_position > m_gesture.size());
+			// TODO: we can hit this assertion if the gesture has a size of 0
+			assert(m_position < m_gesture.size());
 			return m_gesture[m_position];
 		}
 
