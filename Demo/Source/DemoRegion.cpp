@@ -52,7 +52,7 @@ void DemoRegion::initGui() {
 	tgui::Layout buttonWidth = windowWidth / 4.0f;
 	tgui::Layout buttonHeight = windowHeight / 4.0f;
 
-	// create a button to return to the parent region
+	// Create a button to return to the parent region
 	returnToMenuButton = tgui::Button::create();
 	returnToMenuButton->setRenderer(theme.getRenderer("Button"));
 	returnToMenuButton->setSize(buttonWidth, buttonHeight);
@@ -61,7 +61,7 @@ void DemoRegion::initGui() {
 	returnToMenuButton->connect("pressed", &DemoRegion::returnToMenuCB, this);
 	this->getGUI().add(returnToMenuButton);
 
-	// create a button to reset a region
+	// Create a button to reset a region
 	resetButton = tgui::Button::create();
 	resetButton->setRenderer(theme.getRenderer("Button"));
 	resetButton->setSize(buttonWidth, buttonHeight);

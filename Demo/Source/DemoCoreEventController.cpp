@@ -53,7 +53,7 @@ void DemoCoreEventController::draw()
 /// </summary>
 /// <param name="event">The event.</param>
 /// <returns></returns>
-bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
+void DemoCoreEventController::handleCoreEvent(sf::Event& event) {
 
 	// Handle events not handled by the GUI
 	switch (event.type) {
@@ -61,7 +61,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 		{
 			// Close the window, thus closing the game.
 			getWindow().close();
-			return true;
+			return;
 		}
 		case sf::Event::MouseMoved:
 		{
@@ -70,7 +70,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			sf::Vector2f actualPosition = getWindow().mapPixelToCoords(mousePos);
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleMouseMove(actualPosition);
-			return true;
+			return;
 		}
 		case sf::Event::MouseButtonPressed:
 		{
@@ -79,25 +79,25 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			sf::Vector2f actualPosition = getWindow().mapPixelToCoords(mousePos);
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleMouseClick(actualPosition, event.mouseButton.button);
-			return true;
+			return;
 		}
 		case sf::Event::MouseWheelScrolled:
 		{
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleWheelScroll(event.mouseWheelScroll.delta);
-			return true;
+			return;
 		}
 		case sf::Event::KeyPressed:
 		{
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleKeyPress(event.key);
-			return true;
+			return;
 		}
 		case sf::Event::KeyReleased:
 		{
 			// Pass the event to the active region to handle
 			static_cast<DemoRegion*>(getActiveRegion())->handleKeyRelease(event.key);
-			return true;
+			return;
 		}
 		case sf::Event::Resized:
 		{
@@ -107,11 +107,7 @@ bool DemoCoreEventController::handleCoreEvent(sf::Event & event) {
 			getWindow().setView(m_camera);
 			// Set the view on the GUI to be the reset camera
 			static_cast<DemoRegion*>(getActiveRegion())->getGUI().setView(m_camera);
-			return true;
-		}
-		default:
-		{
-			return false;
+			return;
 		}
 	}
 }

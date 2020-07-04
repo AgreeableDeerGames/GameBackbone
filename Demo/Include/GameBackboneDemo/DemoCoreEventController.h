@@ -23,7 +23,7 @@ namespace EXE {
 		void draw() override;
 
 	private:
-		bool handleCoreEvent(sf::Event& event);
+		void handleCoreEvent(sf::Event& event);
 		bool handleGUIEvent(sf::Event& event);
 		void postHandleEvent();
 		void postDraw();
