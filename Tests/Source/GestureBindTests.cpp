@@ -64,4 +64,24 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 		BOOST_CHECK(actionFired);
 	}
 
+	BOOST_AUTO_TEST_CASE(TestKeyboardGestureBind) 
+	{
+		KeyboardGestureBind bind({}, []() {}, "", 0, KeyboardGestureBind::EndType::Block);
+	}
+
+	BOOST_AUTO_TEST_CASE(TestJoystickGestureBind)
+	{
+		JoystickButtonGestureBind bind({}, []() {}, "", 0, JoystickButtonGestureBind::EndType::Block);
+	}
+
+	BOOST_AUTO_TEST_CASE(TestMouseButtonGestureBind)
+	{
+		MouseButtonGestureBind bind({}, []() {}, "", 0, MouseButtonGestureBind::EndType::Block);
+	}
+
+	BOOST_AUTO_TEST_CASE(TestButtonGestureBind)
+	{
+		ButtonGestureBind bind({}, []() {}, "", 0, ButtonGestureBind::EndType::Block);
+	}
+
 BOOST_AUTO_TEST_SUITE_END() // GestureBindTests

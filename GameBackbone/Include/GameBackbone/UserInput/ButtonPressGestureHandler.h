@@ -98,4 +98,12 @@ namespace GB
 		std::vector<GestureType> m_openSetGestures;
 		std::vector<GestureType> m_wholeSet;
 	};
+
+	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyboardGestureBind>;
+
+	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonGestureBind>;
+
+	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonGestureBind>;
+
+	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonGestureBind>;
 }

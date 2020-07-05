@@ -236,4 +236,12 @@ namespace GB
 		bool m_readyForInput;
 		EventCompare m_eventComparitor;
 	};
+
+	using KeyboardGestureBind = BasicGestureBind<KeyEventComparitor>;
+
+	using JoystickButtonGestureBind = BasicGestureBind<JoystickButtonEventComparitor>;
+
+	using MouseButtonGestureBind = BasicGestureBind<MouseButtonEventComparitor>;
+
+	using ButtonGestureBind = BasicGestureBind<ButtonEventComparitor>;
 }
