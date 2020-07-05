@@ -17,12 +17,6 @@
 namespace GB
 {
 
-	/**
-	 * consider having all gesture state managed by Gesture Bind
-	 * provide ways to tell if an event was handled or not and if the gesture
-	 * is complete. This way ButtonPressGestureHandler can do its thing
-	 */
-
 	template <typename EventCompare, std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true>
 	class BasicGestureBind
 	{

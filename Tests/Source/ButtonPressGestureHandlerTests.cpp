@@ -375,7 +375,6 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_CHECK(action3Fired == 1);
 	}
 
-
 	/*
 	 *  # Case 3.1
 	 *  
@@ -441,8 +440,6 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_CHECK(action2Fired == 2);
 		BOOST_CHECK(action3Fired == 1);
 	}
-
-
 
 	/*
 	 *  # Case 3.2
@@ -520,7 +517,6 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_CHECK(action3Fired == 1);
 
 	}
-
 
 	/*
      *  # Case 4
