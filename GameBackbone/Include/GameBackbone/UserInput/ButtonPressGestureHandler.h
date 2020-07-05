@@ -74,7 +74,7 @@ namespace GB
 				}
 
 				// The event was part of the gesture
-				if (result.readyForInput || result.actionFired)
+				if (result.inputConsumed)
 				{
 					eventApplied = true;
 				}
@@ -99,12 +99,3 @@ namespace GB
 		std::vector<GestureType> m_wholeSet;
 	};
 }
-
-
-/*
-	Gesture - series of inputs
-	Bind - Gesture, function (callable, usage, id/name/tooltip/icon), stateful inputs
-	ActiveGesture - Bind, state
-
-	User:
-*/

@@ -16,23 +16,27 @@
 
 namespace GB
 {
-	// FROM: https://blog.tartanllama.xyz/exploding-tuples-fold-expressions/
 
-	template <std::size_t... Idx>
-	auto make_index_dispatcher(std::index_sequence<Idx...>) {
-		return [](auto&& f) { (f(std::integral_constant<std::size_t, Idx>{}), ...); };
-	}
+	namespace Detail
+	{
+		// FROM: https://blog.tartanllama.xyz/exploding-tuples-fold-expressions/
 
-	template <std::size_t N>
-	auto make_index_dispatcher() {
-		return make_index_dispatcher(std::make_index_sequence<N>{});
-	}
+		template <std::size_t... Idx>
+		auto make_index_dispatcher(std::index_sequence<Idx...>) {
+			return [](auto&& f) { (f(std::integral_constant<std::size_t, Idx>{}), ...); };
+		}
 
-	template <typename Tuple, typename Func>
-	void for_each(Tuple&& t, Func&& f) {
-		constexpr auto n = std::tuple_size<std::decay_t<Tuple>>::value;
-		auto dispatcher = make_index_dispatcher<n>();
-		dispatcher([&f, &t](auto idx) { f(std::get<idx>(std::forward<Tuple>(t))); });
+		template <std::size_t N>
+		auto make_index_dispatcher() {
+			return make_index_dispatcher(std::make_index_sequence<N>{});
+		}
+
+		template <typename Tuple, typename Func>
+		void for_each(Tuple&& t, Func&& f) {
+			constexpr auto n = std::tuple_size<std::decay_t<Tuple>>::value;
+			auto dispatcher = make_index_dispatcher<n>();
+			dispatcher([&f, &t](auto idx) { f(std::get<idx>(std::forward<Tuple>(t))); });
+		}
 	}
 
 	// TODO: add deduction guide to type decay everything here
@@ -52,7 +56,7 @@ namespace GB
 			bool eventHandled = false;
 
 			// Loop through all sub-handlers until handles the event
-			for_each(
+			Detail::for_each(
 				m_handlers,
 				[&event, &eventHandled, elapsedTime](auto& handler)
 				{
@@ -72,11 +76,4 @@ namespace GB
 	private:
 		std::tuple<Handlers...> m_handlers;
 	};
-
-	/*
-	1 inout router
-	1 mouse (position) handler
-	1 keyboard (and buttons) handler
-	1 joystick (axes) handler
-	*/
 }

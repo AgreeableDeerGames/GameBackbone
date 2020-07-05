@@ -21,6 +21,7 @@ namespace GB
 	{
 		bool actionFired;
 		bool readyForInput;
+		bool inputConsumed;
 	};
 
 	namespace detail 
@@ -90,11 +91,12 @@ namespace GB
 			// Exit early if not ready for input
 			if (!readyForInput())
 			{
-				return { false, false };
+				return { false, false, false };
 			}
 
 			// Process the input
 			bool actionFired = false;
+			bool inputConsumed = false;
 			if (compareEvents(getNextEvent(), event) && elapsedTime < m_maxTimeBetweenInputs)
 			{
 				++m_position;
@@ -103,6 +105,7 @@ namespace GB
 					fireAction();
 					actionFired = true;
 				}
+				inputConsumed = true;
 			}
 			// The input did not match. Disable this GestureBind.
 			else
@@ -112,7 +115,7 @@ namespace GB
 			}
 
 			// Return state to caller
-			return { actionFired, readyForInput() };
+			return { actionFired, readyForInput(), inputConsumed };
 		}
 
 		const std::vector<sf::Event>& getGesture() const
