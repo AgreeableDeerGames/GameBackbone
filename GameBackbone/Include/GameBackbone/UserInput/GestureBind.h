@@ -17,6 +17,37 @@
 namespace GB
 {
 
+	struct GestureBindProcessEventResult
+	{
+		bool actionFired;
+		bool readyForInput;
+	};
+
+	namespace detail 
+	{
+		template <class GestureBind>
+		using GestureBindProcessEvent = decltype(
+			std::declval<GestureBindProcessEventResult>() = std::declval<GestureBind>().processEvent(std::declval<sf::Int64>(), std::declval<const sf::Event&>())
+		);
+
+		template <class GestureBind, class = void>
+		struct supports_gesture_bind_process_event : std::false_type {};
+
+		template <class GestureBind>
+		struct supports_gesture_bind_process_event <GestureBind, std::void_t<GestureBindProcessEvent<GestureBind>>> :
+			std::true_type {};
+	}
+
+	template <class GestureBind>
+	using is_gesture_bind =
+		std::conjunction<
+			std::is_copy_constructible<GestureBind>,
+			detail::supports_gesture_bind_process_event<GestureBind>
+		>;
+
+	template <class GestureBind>
+	inline constexpr bool is_gesture_bind_v = is_gesture_bind<GestureBind>::value;
+
 	template <typename EventCompare, std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true>
 	class BasicGestureBind
 	{
@@ -24,18 +55,14 @@ namespace GB
 
 		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
 
+		using ProcessEventResult = GestureBindProcessEventResult;
+
 		enum class EndType
 		{
 			Continuous,
 			Reset,
 			Block,
 			BlockLastEvent
-		};
-
-		struct ProcessEventResult
-		{
-			bool actionFired;
-			bool readyForInput;
 		};
 
 		BasicGestureBind(

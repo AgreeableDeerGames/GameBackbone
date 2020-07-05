@@ -2,9 +2,9 @@
 
 #include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
 #include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/GestureBind.h>
 
 using namespace GB;
-
 
 BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
@@ -43,6 +43,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			wPressed.type = sf::Event::KeyPressed;
 		}
 	
+		using TestGestureBind = BasicGestureBind<KeyEventComparitor>;
+
 		// Event for gesture
 		sf::Event upPressed = {};
 		sf::Event downPressed = {};
@@ -59,7 +61,9 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		// Create handler
 		int gesture1Count = 0;
 		int gesture2Count = 0;
-		ButtonPressGestureHandler<ButtonEventComparitor> handler;
+
+		// ButtonPressGestureHandler<BasicGestureBind<MouseButtonEventComparitor>> handler;
+		ButtonPressGestureHandler<TestGestureBind> handler;
 	};
 
 	BOOST_FIXTURE_TEST_CASE(HandleEventFalseWhenNoGesturesAreBound, InputHandlerConsumeEventFixture)
@@ -69,12 +73,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 	BOOST_FIXTURE_TEST_CASE(HandleEventReturnsTrueWhenEventMatchesGesture, InputHandlerConsumeEventFixture)
 	{
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed, upPressed },
 			[]() {},
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		BOOST_TEST(handler.handleEvent(0, upPressed));
@@ -82,12 +86,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 	BOOST_FIXTURE_TEST_CASE(HandleEventReturnsFalseWhenEventDoesNotMatchGesture, InputHandlerConsumeEventFixture)
 	{
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed, upPressed },
 			[]() {},
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		BOOST_TEST(!handler.handleEvent(0, downPressed));
@@ -96,12 +100,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 	BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresAction, InputHandlerConsumeEventFixture)
 	{
 		bool actionFired = false;
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed },
 			[&actionFired]() { actionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.handleEvent(0, upPressed);
@@ -111,12 +115,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 	BOOST_FIXTURE_TEST_CASE(UnboundEventDoesNotFireAction, InputHandlerConsumeEventFixture)
 	{
 		bool actionFired = false;
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed },
 			[&actionFired]() { actionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.handleEvent(0, downPressed);
 		BOOST_TEST(actionFired == false);
@@ -125,12 +129,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 	BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresActionForMultiInputGesture, InputHandlerConsumeEventFixture)
 	{
 		bool actionFired = false;
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed, upPressed, downPressed, downPressed },
 			[&actionFired]() { actionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.handleEvent(0, upPressed);
@@ -149,19 +153,19 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		bool correctActionFired = false;
 		bool wrongActionFired = false;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed },
 			[&correctActionFired]() { correctActionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ downPressed },
 			[&wrongActionFired]() { wrongActionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.addGesture(bind2);
@@ -174,12 +178,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 	{
 		bool actionFired = false;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed, upPressed },
 			[&actionFired]() { actionFired = true; },
 			"",
 			10,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 
 		handler.addGesture(bind);
@@ -192,12 +196,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 	{
 		bool actionFired = false;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ upPressed, upPressed },
 			[&actionFired]() { actionFired = true; },
 			"",
 			10,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 
 		handler.addGesture(bind);
@@ -231,19 +235,19 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		bool correctActionFired = false;
 		bool wrongActionFired = false;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ aPressed, bPressed, cPressed, dPressed },
 			[&wrongActionFired]() { wrongActionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ ePressed },
 			[&correctActionFired]() { correctActionFired = true; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.addGesture(bind2);
@@ -276,19 +280,19 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action1Fired = 0;
 		int action2Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ aPressed, bPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ cPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.addGesture(bind2);
@@ -335,26 +339,26 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action2Fired = 0;
 		int action3Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ wPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ wPressed, wPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind3(
+		TestGestureBind bind3(
 			{ wPressed, wPressed, wPressed },
 			[&action3Fired]() { ++action3Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 
 		handler.addGesture(bind);
@@ -401,26 +405,26 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action2Fired = 0;
 		int action3Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ wPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Continuous);
+			TestGestureBind::EndType::Continuous);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ wPressed, wPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Continuous);
+			TestGestureBind::EndType::Continuous);
 
-		decltype(handler)::GestureBind bind3(
+		TestGestureBind bind3(
 			{ wPressed, wPressed, wPressed },
 			[&action3Fired]() { ++action3Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Continuous);
+			TestGestureBind::EndType::Continuous);
 
 
 		handler.addGesture(bind);
@@ -465,26 +469,26 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action2Fired = 0;
 		int action3Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ wPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ wPressed, wPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Reset);
+			TestGestureBind::EndType::Reset);
 
-		decltype(handler)::GestureBind bind3(
+		TestGestureBind bind3(
 			{ wPressed, wPressed, wPressed },
 			[&action3Fired]() { ++action3Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Reset);
+			TestGestureBind::EndType::Reset);
 
 
 		handler.addGesture(bind);
@@ -537,19 +541,19 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action1Fired = 0;
 		int action2Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ aPressed, bPressed, cPressed, dPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ dPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.addGesture(bind2);
@@ -587,12 +591,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 	{
 		int action1Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ aPressed, bPressed, cPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 
@@ -630,19 +634,19 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action1Fired = 0;
 		int action2Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ aPressed, bPressed, cPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ aPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.addGesture(bind2);
@@ -683,19 +687,19 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		int action1Fired = 0;
 		int action2Fired = 0;
 
-		decltype(handler)::GestureBind bind(
+		TestGestureBind bind(
 			{ aPressed, bPressed, cPressed },
 			[&action1Fired]() { ++action1Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
-		decltype(handler)::GestureBind bind2(
+		TestGestureBind bind2(
 			{ aPressed, bPressed },
 			[&action2Fired]() { ++action2Fired; },
 			"",
 			1,
-			decltype(handler)::GestureBind::EndType::Block);
+			TestGestureBind::EndType::Block);
 
 		handler.addGesture(bind);
 		handler.addGesture(bind2);

@@ -4,10 +4,10 @@
 #include <GameBackbone/UserInput/InputHandler.h>
 #include <GameBackbone/UserInput/InputRouter.h>
 #include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
+#include <GameBackbone/UserInput/GestureBind.h>
 #include <GameBackbone/UserInput/EventComparitor.h>
 
 using namespace GB;
-
 
 BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 
@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 
 	BOOST_AUTO_TEST_CASE(TestCompile)
 	{
-		InputRouter router{ ButtonPressGestureHandler<KeyEventComparitor>{}, TestInputHandler{} };
+		InputRouter router{ ButtonPressGestureHandler<BasicGestureBind<KeyEventComparitor>>{}, TestInputHandler{} };
 		router.handleEvent(1, sf::Event{});
 
 		BasicGestureBind<KeyEventComparitor> bind({ sf::Event{} }, []() {}, "", 1, BasicGestureBind<KeyEventComparitor>::EndType::Reset);

@@ -3,7 +3,6 @@
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/UserInput/InputHandler.h>
 #include <GameBackbone/UserInput/GestureBind.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
 
 #include <SFML/Window/Event.hpp>
 
@@ -21,12 +20,10 @@
 namespace GB
 {
 
-	template <typename EventCompare, std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true>
+	template <class GestureType, std::enable_if_t<is_gesture_bind_v<GestureType>, bool> = true>
 	class ButtonPressGestureHandler : public InputHandler
 	{
 	public:
-
-		using GestureBind = BasicGestureBind<EventCompare>;
 
 		ButtonPressGestureHandler() = default;
 		ButtonPressGestureHandler(const ButtonPressGestureHandler&) = default;
@@ -35,7 +32,7 @@ namespace GB
 		ButtonPressGestureHandler& operator=(ButtonPressGestureHandler&&) = default;
 		virtual ~ButtonPressGestureHandler() = default;
 
-		void addGesture(GestureBind bind)
+		void addGesture(GestureType bind)
 		{
 			m_wholeSet.push_back(bind);
 			m_openSetGestures.emplace_back(bind);
@@ -92,14 +89,14 @@ namespace GB
 			m_openSetGestures.clear();
 
 			// Add all gestures from the whole set to the active gestures open set.
-			for (const GestureBind& bind : m_wholeSet)
+			for (const GestureType& bind : m_wholeSet)
 			{
 				m_openSetGestures.emplace_back(bind);
 			}
 		}
 
-		std::vector<GestureBind> m_openSetGestures;
-		std::vector<GestureBind> m_wholeSet;
+		std::vector<GestureType> m_openSetGestures;
+		std::vector<GestureType> m_wholeSet;
 	};
 }
 
