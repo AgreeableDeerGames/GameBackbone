@@ -14,7 +14,7 @@ namespace GB {
 	/// Base class meant to be inherited. Allows standard operation order for main game loop for clients of GB.
 	/// Also provides simple and concise way to run the main game loop.
 	///
-	/// The execution order of the helper functions is 1) handleEvent, 2) draw, 3) update, 4) swapRegion
+	/// The execution order of the helper functions is 1) handleEvent, 2) update, 3) draw, 4) swapRegion
 	///
 	/// </summary>
 	class libGameBackbone CoreEventController {
@@ -44,9 +44,9 @@ namespace GB {
 		/// Handles all window and user input events.
 		/// </summary>
 		/// <param name="event">The event.</param>
-		virtual void handleEvent(sf::Event& event) = 0;
+		virtual void handleEvents(sf::Int64 elapsedTime);
+		virtual void update(sf::Int64 elapsedTime);
 		virtual void draw();
-		virtual void update();
 		virtual void swapRegion();
 		
 	private:

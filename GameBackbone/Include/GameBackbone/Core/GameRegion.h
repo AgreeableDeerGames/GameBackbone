@@ -22,15 +22,16 @@ namespace GB {
 		GameRegion() = default;
 		GameRegion(const GameRegion&) = default;
 		GameRegion& operator=(const GameRegion&) = default;
-		GameRegion(GameRegion&&) = default;
-		GameRegion& operator=(GameRegion&&) = default;
+		GameRegion(GameRegion&&) noexcept = default;
+		GameRegion& operator=(GameRegion&&) noexcept = default;
 		virtual ~GameRegion() = default;
-
 
 		[[nodiscard]]
 		std::size_t getDrawableCount() const noexcept;
 		[[nodiscard]]
 		std::size_t getDrawableCount(int priority) const noexcept;
+
+		virtual bool handleEvent(sf::Int64 /*elapsedTime*/, const sf::Event& /*event*/) override { return false; };
 
 		/// <summary>
 		/// Implements Updatable::update as a no-op.

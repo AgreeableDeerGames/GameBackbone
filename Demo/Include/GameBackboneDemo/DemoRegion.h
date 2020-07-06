@@ -29,6 +29,8 @@ namespace EXE {
 		DemoRegion(DemoRegion&& other) = delete;
 		DemoRegion& operator= (DemoRegion&& other) = delete;
 
+		virtual bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override;
+
 		// Handle sf::Events
 		virtual void handleMouseMove(sf::Vector2f mousePosition);
 		virtual void handleMouseClick(sf::Vector2f newPosition, sf::Mouse::Button button);
@@ -41,6 +43,9 @@ namespace EXE {
 
 		// GUI
 		tgui::Gui& getGUI();
+
+		// Window
+		sf::RenderWindow& getWindow();
 
 	protected:
 		// Initialization and Cleanup
@@ -61,6 +66,9 @@ namespace EXE {
 		//GUI
 		tgui::Gui regionGUI;
 
+	private:
+		sf::RenderWindow& renderWindow;
+		sf::View camera;
 	};
 
 }

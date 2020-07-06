@@ -14,11 +14,9 @@
 #include <string>
 #include <iostream>
 
-
-
 namespace GB {
 
-	class InputHandler
+	class libGameBackbone InputHandler
 	{
 	public:
 		virtual bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) = 0;

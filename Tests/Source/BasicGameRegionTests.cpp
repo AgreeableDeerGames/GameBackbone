@@ -15,6 +15,7 @@ namespace
 	{
 		void update(sf::Int64 /*elapsedTime*/) override {}
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
+		bool handleEvent(sf::Int64 /*elapsedTime*/, const sf::Event& /*event*/) override { return false; };
 	};
 }
 
