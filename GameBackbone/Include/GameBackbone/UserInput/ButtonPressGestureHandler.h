@@ -65,7 +65,12 @@ namespace GB
 
 		void removeGesture(size_type position)
 		{
-			m_wholeSet.erase(position);
+			if ( position >= m_wholeSet.size() )
+			{
+				throw std::out_of_range("Out of bounds position in ButtonPressGestureHandler::removeGesture");
+			}
+
+			m_wholeSet.erase(m_wholeSet.begin() + position);
 			resetGestures();
 		}
 

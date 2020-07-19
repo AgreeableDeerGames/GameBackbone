@@ -216,509 +216,852 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_TEST(actionFired == true);
 	}
 
-	/*
-	 *	# Case 1
-	 * 
-	 *	|     gesture       | bound action |
-	 *	|       :----:      | :----:       |
-	 *	|  a -> b -> c ->d  | Action 1     |
-	 *	|         e         | Action 2     |
-	 *
-	 *  User inputs:
-     *  `a -> b -> c -> e`
-	 *  
-	 *  Result:
-     *  Action 2 is fired
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case1, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, InputHandlerConsumeEventFixture)
 	{
-		bool correctActionFired = false;
-		bool wrongActionFired = false;
+		// Prepare a set of gestures with unique sizes
+		std::vector<TestGestureBind> inputGestures;
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed },
+				[]{ },
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind(
-			{ aPressed, bPressed, cPressed, dPressed },
-			[&wrongActionFired]() { wrongActionFired = true; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed, upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind2(
-			{ ePressed },
-			[&correctActionFired]() { correctActionFired = true; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed, upPressed, upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
-		handler.handleEvent(0, aPressed);
-		handler.handleEvent(0, bPressed);
-		handler.handleEvent(0, cPressed);
-		handler.handleEvent(0, ePressed);
-		BOOST_TEST(correctActionFired == true);
-		BOOST_TEST(wrongActionFired == false);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
+
+		// Iterate over the gestures in the handler and verify that they match
+		// the input gestures and are in the correct order.
+		BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+		std::size_t iteration = 0;
+		for (auto& gesture : handler)
+		{
+			// Each gesture has a unique size. Use this to verify that they match
+			BOOST_CHECK(gesture.getGesture().size() == inputGestures[iteration].getGesture().size());
+			++iteration;
+		}
 	}
 
-	/*
-	 *  # Case 2
-	 * 
-	 *  |  gesture | bound action |
-	 *	|  :----:  |    :----:    |
-	 *	|  a -> b  |    Action 1  |
-	 *	|     c    |    Action 2  |
-	 *
-	 * 	User inputs:
-	 *	`a -> b -> c -> a -> b`
-	 * 
-	 *  Result:
-	 *  Action 1 Fires
-     *  Action 2 Fires
-     *  Action 1 Fires
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case2, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAdded, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
-		int action2Fired = 0;
+		// Prepare a set of gestures with unique sizes
+		std::vector<TestGestureBind> inputGestures;
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind(
-			{ aPressed, bPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed, upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind2(
-			{ cPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed, upPressed, upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
 
-		// Action 1 should fire
-		handler.handleEvent(0, aPressed);
-		handler.handleEvent(0, bPressed);
-		BOOST_TEST(action1Fired == 1);
+		// Make the handler const to test const iteration
+		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
 
-		// Action 2 should fire
-		handler.handleEvent(0, cPressed);
-		BOOST_TEST(action2Fired == 1);
-
-		// Action 1 should fire again
-		handler.handleEvent(0, aPressed);
-		handler.handleEvent(0, bPressed);
-
-		// Make sure final counts are correct
-		BOOST_TEST(action1Fired == 2);
-		BOOST_TEST(action2Fired == 1);
+		// Iterate over the gestures in the handler and verify that they match
+		// the input gestures and are in the correct order.
+		BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+		std::size_t iteration = 0;
+		for (auto& gesture : constHandler)
+		{
+			// Each gesture has a unique size. Use this to verify that they match
+			BOOST_CHECK(gesture.getGesture().size() == inputGestures[iteration].getGesture().size());
+			++iteration;
+		}
 	}
 
-	/*
-	 *  # Case 3
-	 *
-	 *  |   gesture    |   bound action   |   End Type  |
-	 *  |    :----:    |      :----:      |    :---:    |
-	 *  |      w       |     Action 1     |    Block    |
-	 *  |    w -> w    |     Action 2     |    Block    |
-	 *  | w -> w -> w  |     Action 3     |    Block    |
-	 *
-	 *
-	 *  User Inputs
-	 *  `w -> w -> w`
-	 *
-	 *  Result:
-	 *  Action 1 fires
-	 *  Action 2 fires
-	 *  Action 3 fires
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case3, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAddedUsingCBeginAndCEnd, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
-		int action2Fired = 0;
-		int action3Fired = 0;
+		// Prepare a set of gestures with unique sizes
+		std::vector<TestGestureBind> inputGestures;
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind(
-			{ wPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed, upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind2(
-			{ wPressed, wPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		inputGestures.push_back(
+			TestGestureBind(
+				{ upPressed, upPressed, upPressed },
+				[] {},
+				"",
+				10,
+				TestGestureBind::EndType::Block));
 
-		TestGestureBind bind3(
-			{ wPressed, wPressed, wPressed },
-			[&action3Fired]() { ++action3Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
 
+		// Make the handler const to test const iteration
+		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
-		handler.addGesture(bind3);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 0);
-		BOOST_CHECK(action3Fired == 0);
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 1);
-		BOOST_CHECK(action3Fired == 0);
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 1);
-		BOOST_CHECK(action3Fired == 1);
+		// Iterate over the gestures in the handler and verify that they match
+		// the input gestures and are in the correct order.
+		BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+		std::size_t iteration = 0;
+		for (auto it = constHandler.cbegin(); it != constHandler.cend(); ++it)
+		{
+			// Each gesture has a unique size. Use this to verify that they match
+			BOOST_CHECK(it->getGesture().size() == inputGestures[iteration].getGesture().size());
+			++iteration;
+		}
 	}
 
-	/*
-	 *  # Case 3.1
-	 *  
-	 *  |    gesture   | bound action |  End Type  |
-	 *  |    :----:    |    :----:    |    :---:   |
-	 *  |      w       |   Action 1   | Continuous |
-	 *  |    w -> w    |   Action 2   | Continuous |
-	 *  | w -> w -> w  |   Action 3   | Continuous |
-	 *  
-	 *  User Inputs
-	 *  `w -> w -> w`
-	 *  
-	 *  Result:
-	 *  Action 1 fires
-	 *  Action 1 fires
-	 *  Action 2 fires
-	 *  Action 1 fires
-	 *  Action 2 fires
-	 *  Action 3 fires
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case3_1, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(GetGestureReturnsCorrectGestureWhenRequestedPositionIsWithinBounds, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
-		int action2Fired = 0;
-		int action3Fired = 0;
 
-		TestGestureBind bind(
-			{ wPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Continuous);
+		// Prepare a set of gestures with unique sizes
+		const int gestureCount = 5;
+		std::vector<TestGestureBind> inputGestures;
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			std::vector<sf::Event> rawGesture;
+			for (int j = 0; j < i; ++j)
+			{
+				rawGesture.push_back(upPressed);
+			}
 
-		TestGestureBind bind2(
-			{ wPressed, wPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Continuous);
+			inputGestures.push_back(
+				TestGestureBind(
+					rawGesture,
+					[] {},
+					"",
+					10,
+					TestGestureBind::EndType::Block));
+		}
 
-		TestGestureBind bind3(
-			{ wPressed, wPressed, wPressed },
-			[&action3Fired]() { ++action3Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Continuous);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
 
+		// Verify that the gestures are the same by checking the sizes
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+		}
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
-		handler.addGesture(bind3);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 0);
-		BOOST_CHECK(action3Fired == 0);
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 2);
-		BOOST_CHECK(action2Fired == 1);
-		BOOST_CHECK(action3Fired == 0);
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 3);
-		BOOST_CHECK(action2Fired == 2);
-		BOOST_CHECK(action3Fired == 1);
+		// Verify that the gestures are the same by checking the sizes with a const handler
+		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			BOOST_CHECK(constHandler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+		}
 	}
 
-	/*
-	 *  # Case 3.2
-	 *  
-	 *  |   gesture    | bound action  | End Type |
-	 *  |    :----:    |    :----:     |   :---:  |
-	 *  |      w       |    Action 1   |   Stop   |
-	 *  |    w -> w    |    Action 2   |   Reset  |
-	 *  | w -> w -> w  |    Action 3   |   Reset  |
-	 *  
-	 *  User Inputs
-	 *  `w -> w -> w -> w -> w`
-	 *  	
-	 *  Result:
-     *  Action 1 fires
-     *  Action 2 fires
-     *  Action 3 fires
-     *  Action 2 fires
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case3_2, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(GetGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
-		int action2Fired = 0;
-		int action3Fired = 0;
 
-		TestGestureBind bind(
-			{ wPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		// Prepare a set of gestures with unique sizes
+		const int gestureCount = 5;
+		std::vector<TestGestureBind> inputGestures;
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			std::vector<sf::Event> rawGesture;
+			for (int j = 0; j < i; ++j)
+			{
+				rawGesture.push_back(upPressed);
+			}
 
-		TestGestureBind bind2(
-			{ wPressed, wPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Reset);
+			inputGestures.push_back(
+				TestGestureBind(
+					rawGesture,
+					[] {},
+					"",
+					10,
+					TestGestureBind::EndType::Block));
+		}
 
-		TestGestureBind bind3(
-			{ wPressed, wPressed, wPressed },
-			[&action3Fired]() { ++action3Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Reset);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
 
+		// Verify that the gestures are the same by checking the sizes
+		BOOST_CHECK_THROW(handler.getGesture(gestureCount), std::out_of_range);
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
-		handler.addGesture(bind3);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 0);
-		BOOST_CHECK(action3Fired == 0);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 1);
-		BOOST_CHECK(action3Fired == 0);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 1);
-		BOOST_CHECK(action3Fired == 1);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 2);
-		BOOST_CHECK(action3Fired == 1);
-
-		handler.handleEvent(0, wPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 2);
-		BOOST_CHECK(action3Fired == 1);
-
+		// Verify that the gestures are the same by checking the sizes with a const handler
+		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+		BOOST_CHECK_THROW(constHandler.getGesture(gestureCount), std::out_of_range);
 	}
 
-	/*
-     *  # Case 4
-     *  |      gesture      | bound action |
-     *  |       :----:      |     :----:   |
-     *  |  a -> b -> c ->d  |   Action 1   |
-     *  |         d         |   Action 2   |
-     *  
-     *  User inputs:
-     *  `a -> b -> c -> d`
-     *  
-     *  Result:
-     *  Action 1 fires
-     *  Action 2 does NOT fire
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case4, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(RemoveGestureRemovesCorrectGestureWhenRequestedPositionIsWithinBounds, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
-		int action2Fired = 0;
 
-		TestGestureBind bind(
-			{ aPressed, bPressed, cPressed, dPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		// Prepare a set of gestures with unique sizes
+		const int gestureCount = 5;
+		std::vector<TestGestureBind> inputGestures;
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			std::vector<sf::Event> rawGesture;
+			for (int j = 0; j < i; ++j)
+			{
+				rawGesture.push_back(upPressed);
+			}
 
-		TestGestureBind bind2(
-			{ dPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+			inputGestures.push_back(
+				TestGestureBind(
+					rawGesture,
+					[] {},
+					"",
+					10,
+					TestGestureBind::EndType::Block));
+		}
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
 
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 0);
+		// remove the same element from the handler and the inputGestures vector
+		std::size_t elementToErase = 2;
+		handler.removeGesture(elementToErase);
+		inputGestures.erase(inputGestures.begin() + elementToErase);
+		BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
 
-		handler.handleEvent(0, bPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 0);
-
-		handler.handleEvent(0, cPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 0);
-
-		handler.handleEvent(0, dPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 0);
+		// Verify that the gestures are the same by checking the sizes
+		for (int i = 0; i < handler.getGestureCount(); ++i)
+		{
+			BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+		}
 	}
 
-	/*
-     *  # Case 5
-     *  |    gesture    | bound action |
-     *  |     :----:    |    :----:    |
-     *  |  a -> b -> c  |   Action 1   |
-     *  
-     *  User inputs:
-     *  `a -> b -> a -> b -> c`
-     *  
-     *  Result:
-     *  Action 1 fires 1 time
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case5, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(RemoveGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
 
-		TestGestureBind bind(
-			{ aPressed, bPressed, cPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		// Prepare a set of gestures with unique sizes
+		const int gestureCount = 5;
+		std::vector<TestGestureBind> inputGestures;
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			std::vector<sf::Event> rawGesture;
+			for (int j = 0; j < i; ++j)
+			{
+				rawGesture.push_back(upPressed);
+			}
 
-		handler.addGesture(bind);
+			inputGestures.push_back(
+				TestGestureBind(
+					rawGesture,
+					[] {},
+					"",
+					10,
+					TestGestureBind::EndType::Block));
+		}
 
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+		}
 
-		handler.handleEvent(0, bPressed);
-		BOOST_CHECK(action1Fired == 0);
-
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
-
-		handler.handleEvent(0, bPressed);
-		BOOST_CHECK(action1Fired == 0);
-
-		handler.handleEvent(0, cPressed);
-		BOOST_CHECK(action1Fired == 1);
+		// remove the same element from the handler and the inputGestures vector
+		std::size_t elementToErase = gestureCount;
+		BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
+		elementToErase = gestureCount + 1;
+		BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
+		
 	}
 
-	/*
-     *  # Case 5.1
-     *  |     gesture    | bound action |
-     *  |     :----:     |    :----:    |
-     *  |  a -> b -> c   |   Action 1   |
-     *  |       a        |   Action 2   |
-     *  
-     *  User inputs:
-     *  `a -> a -> b -> c`
-     *  
-     *  Result:
-     *  Action 2 fires n times, Action 1 fires 1 time
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case5_1, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(GetGestureCountMaintainsCorrectCount, InputHandlerConsumeEventFixture)
 	{
-		int action1Fired = 0;
-		int action2Fired = 0;
 
-		TestGestureBind bind(
-			{ aPressed, bPressed, cPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		// Prepare a set of gestures with unique sizes
+		const int gestureCount = 5;
+		std::vector<TestGestureBind> inputGestures;
+		for (int i = 0; i < gestureCount; ++i)
+		{
+			std::vector<sf::Event> rawGesture;
+			for (int j = 0; j < i; ++j)
+			{
+				rawGesture.push_back(upPressed);
+			}
 
-		TestGestureBind bind2(
-			{ aPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+			inputGestures.push_back(
+				TestGestureBind(
+					rawGesture,
+					[] {},
+					"",
+					10,
+					TestGestureBind::EndType::Block));
+		}
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
+		// Count should be zero before anything is added to it
+		int count = 0;
+		BOOST_TEST(handler.getGestureCount() == count);
 
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 1);
+		// Count should go up with each gesture added
+		for (const auto& gesture : inputGestures)
+		{
+			handler.addGesture(gesture);
+			++count;
+			BOOST_TEST(handler.getGestureCount() == count);
 
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 2);
+		}
 
-		handler.handleEvent(0, bPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 2);
-
-		handler.handleEvent(0, cPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 2);
+		// Count should go down after removing gesture
+		handler.removeGesture(0);
+		--count;
+		BOOST_TEST(handler.getGestureCount() == count);
 	}
 
-	/*
-     *  
-     *  # Case 5.2
-     *  |     gesture    | bound action |
-     *  |     :----:     |    :----:    |
-     *  |  a -> b -> c   |   Action 1   |
-     *  |     a  -> b    |   Action 2   |
-     *  
-     *  User inputs:
-     *  `a -> a -> b -> c`
-     *  
-     *  Result:
-     *  Action 2 fires 1 time, Action 1 fires 1 time
-	 */
-	BOOST_FIXTURE_TEST_CASE(Case5_2, InputHandlerConsumeEventFixture)
-	{
-		int action1Fired = 0;
-		int action2Fired = 0;
 
-		TestGestureBind bind(
-			{ aPressed, bPressed, cPressed },
-			[&action1Fired]() { ++action1Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+	BOOST_AUTO_TEST_SUITE(GestureIOCases)
 
-		TestGestureBind bind2(
-			{ aPressed, bPressed },
-			[&action2Fired]() { ++action2Fired; },
-			"",
-			1,
-			TestGestureBind::EndType::Block);
+		/*
+		 *	# Case 1
+		 * 
+		 *	|     gesture       | bound action |
+		 *	|       :----:      | :----:       |
+		 *	|  a -> b -> c ->d  | Action 1     |
+		 *	|         e         | Action 2     |
+		 *
+		 *  User inputs:
+		 *  `a -> b -> c -> e`
+		 *  
+		 *  Result:
+		 *  Action 2 is fired
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case1, InputHandlerConsumeEventFixture)
+		{
+			bool correctActionFired = false;
+			bool wrongActionFired = false;
 
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
+			TestGestureBind bind(
+				{ aPressed, bPressed, cPressed, dPressed },
+				[&wrongActionFired]() { wrongActionFired = true; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
 
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 0);
+			TestGestureBind bind2(
+				{ ePressed },
+				[&correctActionFired]() { correctActionFired = true; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
 
-		handler.handleEvent(0, aPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 0);
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+			handler.handleEvent(0, aPressed);
+			handler.handleEvent(0, bPressed);
+			handler.handleEvent(0, cPressed);
+			handler.handleEvent(0, ePressed);
+			BOOST_TEST(correctActionFired == true);
+			BOOST_TEST(wrongActionFired == false);
+		}
 
-		handler.handleEvent(0, bPressed);
-		BOOST_CHECK(action1Fired == 0);
-		BOOST_CHECK(action2Fired == 1);
+		/*
+		 *  # Case 2
+		 * 
+		 *  |  gesture | bound action |
+		 *	|  :----:  |    :----:    |
+		 *	|  a -> b  |    Action 1  |
+		 *	|     c    |    Action 2  |
+		 *
+		 * 	User inputs:
+		 *	`a -> b -> c -> a -> b`
+		 * 
+		 *  Result:
+		 *  Action 1 Fires
+		 *  Action 2 Fires
+		 *  Action 1 Fires
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case2, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
 
-		handler.handleEvent(0, cPressed);
-		BOOST_CHECK(action1Fired == 1);
-		BOOST_CHECK(action2Fired == 1);
-	}
+			TestGestureBind bind(
+				{ aPressed, bPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind2(
+				{ cPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+
+			// Action 1 should fire
+			handler.handleEvent(0, aPressed);
+			handler.handleEvent(0, bPressed);
+			BOOST_TEST(action1Fired == 1);
+
+			// Action 2 should fire
+			handler.handleEvent(0, cPressed);
+			BOOST_TEST(action2Fired == 1);
+
+			// Action 1 should fire again
+			handler.handleEvent(0, aPressed);
+			handler.handleEvent(0, bPressed);
+
+			// Make sure final counts are correct
+			BOOST_TEST(action1Fired == 2);
+			BOOST_TEST(action2Fired == 1);
+		}
+
+		/*
+		 *  # Case 3
+		 *
+		 *  |   gesture    |   bound action   |   End Type  |
+		 *  |    :----:    |      :----:      |    :---:    |
+		 *  |      w       |     Action 1     |    Block    |
+		 *  |    w -> w    |     Action 2     |    Block    |
+		 *  | w -> w -> w  |     Action 3     |    Block    |
+		 *
+		 *
+		 *  User Inputs
+		 *  `w -> w -> w`
+		 *
+		 *  Result:
+		 *  Action 1 fires
+		 *  Action 2 fires
+		 *  Action 3 fires
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case3, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
+			int action3Fired = 0;
+
+			TestGestureBind bind(
+				{ wPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind2(
+				{ wPressed, wPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind3(
+				{ wPressed, wPressed, wPressed },
+				[&action3Fired]() { ++action3Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+			handler.addGesture(bind3);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 0);
+			BOOST_CHECK(action3Fired == 0);
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 1);
+			BOOST_CHECK(action3Fired == 0);
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 1);
+			BOOST_CHECK(action3Fired == 1);
+		}
+
+		/*
+		 *  # Case 3.1
+		 *  
+		 *  |    gesture   | bound action |  End Type  |
+		 *  |    :----:    |    :----:    |    :---:   |
+		 *  |      w       |   Action 1   | Continuous |
+		 *  |    w -> w    |   Action 2   | Continuous |
+		 *  | w -> w -> w  |   Action 3   | Continuous |
+		 *  
+		 *  User Inputs
+		 *  `w -> w -> w`
+		 *  
+		 *  Result:
+		 *  Action 1 fires
+		 *  Action 1 fires
+		 *  Action 2 fires
+		 *  Action 1 fires
+		 *  Action 2 fires
+		 *  Action 3 fires
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case3_1, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
+			int action3Fired = 0;
+
+			TestGestureBind bind(
+				{ wPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Continuous);
+
+			TestGestureBind bind2(
+				{ wPressed, wPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Continuous);
+
+			TestGestureBind bind3(
+				{ wPressed, wPressed, wPressed },
+				[&action3Fired]() { ++action3Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Continuous);
+
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+			handler.addGesture(bind3);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 0);
+			BOOST_CHECK(action3Fired == 0);
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 2);
+			BOOST_CHECK(action2Fired == 1);
+			BOOST_CHECK(action3Fired == 0);
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 3);
+			BOOST_CHECK(action2Fired == 2);
+			BOOST_CHECK(action3Fired == 1);
+		}
+
+		/*
+		 *  # Case 3.2
+		 *  
+		 *  |   gesture    | bound action  | End Type |
+		 *  |    :----:    |    :----:     |   :---:  |
+		 *  |      w       |    Action 1   |   Stop   |
+		 *  |    w -> w    |    Action 2   |   Reset  |
+		 *  | w -> w -> w  |    Action 3   |   Reset  |
+		 *  
+		 *  User Inputs
+		 *  `w -> w -> w -> w -> w`
+		 *  	
+		 *  Result:
+		 *  Action 1 fires
+		 *  Action 2 fires
+		 *  Action 3 fires
+		 *  Action 2 fires
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case3_2, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
+			int action3Fired = 0;
+
+			TestGestureBind bind(
+				{ wPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind2(
+				{ wPressed, wPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Reset);
+
+			TestGestureBind bind3(
+				{ wPressed, wPressed, wPressed },
+				[&action3Fired]() { ++action3Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Reset);
+
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+			handler.addGesture(bind3);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 0);
+			BOOST_CHECK(action3Fired == 0);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 1);
+			BOOST_CHECK(action3Fired == 0);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 1);
+			BOOST_CHECK(action3Fired == 1);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 2);
+			BOOST_CHECK(action3Fired == 1);
+
+			handler.handleEvent(0, wPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 2);
+			BOOST_CHECK(action3Fired == 1);
+
+		}
+
+		/*
+		 *  # Case 4
+		 *  |      gesture      | bound action |
+		 *  |       :----:      |     :----:   |
+		 *  |  a -> b -> c ->d  |   Action 1   |
+		 *  |         d         |   Action 2   |
+		 *  
+		 *  User inputs:
+		 *  `a -> b -> c -> d`
+		 *  
+		 *  Result:
+		 *  Action 1 fires
+		 *  Action 2 does NOT fire
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case4, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
+
+			TestGestureBind bind(
+				{ aPressed, bPressed, cPressed, dPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind2(
+				{ dPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 0);
+
+			handler.handleEvent(0, bPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 0);
+
+			handler.handleEvent(0, cPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 0);
+
+			handler.handleEvent(0, dPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 0);
+		}
+
+		/*
+		 *  # Case 5
+		 *  |    gesture    | bound action |
+		 *  |     :----:    |    :----:    |
+		 *  |  a -> b -> c  |   Action 1   |
+		 *  
+		 *  User inputs:
+		 *  `a -> b -> a -> b -> c`
+		 *  
+		 *  Result:
+		 *  Action 1 fires 1 time
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case5, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+
+			TestGestureBind bind(
+				{ aPressed, bPressed, cPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			handler.addGesture(bind);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+
+			handler.handleEvent(0, bPressed);
+			BOOST_CHECK(action1Fired == 0);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+
+			handler.handleEvent(0, bPressed);
+			BOOST_CHECK(action1Fired == 0);
+
+			handler.handleEvent(0, cPressed);
+			BOOST_CHECK(action1Fired == 1);
+		}
+
+		/*
+		 *  # Case 5.1
+		 *  |     gesture    | bound action |
+		 *  |     :----:     |    :----:    |
+		 *  |  a -> b -> c   |   Action 1   |
+		 *  |       a        |   Action 2   |
+		 *  
+		 *  User inputs:
+		 *  `a -> a -> b -> c`
+		 *  
+		 *  Result:
+		 *  Action 2 fires n times, Action 1 fires 1 time
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case5_1, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
+
+			TestGestureBind bind(
+				{ aPressed, bPressed, cPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind2(
+				{ aPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 1);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 2);
+
+			handler.handleEvent(0, bPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 2);
+
+			handler.handleEvent(0, cPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 2);
+		}
+
+		/*
+		 *  
+		 *  # Case 5.2
+		 *  |     gesture    | bound action |
+		 *  |     :----:     |    :----:    |
+		 *  |  a -> b -> c   |   Action 1   |
+		 *  |     a  -> b    |   Action 2   |
+		 *  
+		 *  User inputs:
+		 *  `a -> a -> b -> c`
+		 *  
+		 *  Result:
+		 *  Action 2 fires 1 time, Action 1 fires 1 time
+		 */
+		BOOST_FIXTURE_TEST_CASE(Case5_2, InputHandlerConsumeEventFixture)
+		{
+			int action1Fired = 0;
+			int action2Fired = 0;
+
+			TestGestureBind bind(
+				{ aPressed, bPressed, cPressed },
+				[&action1Fired]() { ++action1Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			TestGestureBind bind2(
+				{ aPressed, bPressed },
+				[&action2Fired]() { ++action2Fired; },
+				"",
+				1,
+				TestGestureBind::EndType::Block);
+
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 0);
+
+			handler.handleEvent(0, aPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 0);
+
+			handler.handleEvent(0, bPressed);
+			BOOST_CHECK(action1Fired == 0);
+			BOOST_CHECK(action2Fired == 1);
+
+			handler.handleEvent(0, cPressed);
+			BOOST_CHECK(action1Fired == 1);
+			BOOST_CHECK(action2Fired == 1);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END() // GestureIOCases
 
 BOOST_AUTO_TEST_SUITE_END() // ButtonPressGestureHandlerTests
