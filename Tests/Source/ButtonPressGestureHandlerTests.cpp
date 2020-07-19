@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 						TestGestureBind::EndType::Block));
 			}
 		}
-		const int gestureCount = 5;
+		const std::size_t gestureCount = 5;
 		std::vector<TestGestureBind> inputGestures;
 	};
 
