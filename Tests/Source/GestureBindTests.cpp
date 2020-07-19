@@ -37,9 +37,8 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 		bool actionFired = false;
 
 		std::vector<sf::Event> gesture{ upPressed, downPressed };
-		std::string gestureBindName = "gestureBindName";
 		TestGestureBind::EndType gestureBindEndType = TestGestureBind::EndType::Block;
-		TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; }, gestureBindName, 0, gestureBindEndType);
+		TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; }, gestureBindEndType);
 
 		// Check that the gesture was correctly stored
 		bool identicalGestures = true;
@@ -54,9 +53,6 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 		BOOST_TEST(identicalGestures);
 
 		// Check that name was correctly set
-		BOOST_TEST(bind.getName() == gestureBindName);
-
-		// Check that name was correctly set
 		BOOST_CHECK(bind.getEndType() == gestureBindEndType);
 
 		// Check that the bound function is the expected one by running it
@@ -66,27 +62,27 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 	BOOST_AUTO_TEST_CASE(TestKeyboardGestureBind) 
 	{
-		KeyboardGestureBind bind({}, []() {}, "", 0, KeyboardGestureBind::EndType::Block);
+		KeyboardGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestJoystickGestureBind)
 	{
-		JoystickButtonGestureBind bind({}, []() {}, "", 0, JoystickButtonGestureBind::EndType::Block);
+		JoystickButtonGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestMouseButtonGestureBind)
 	{
-		MouseButtonGestureBind bind({}, []() {}, "", 0, MouseButtonGestureBind::EndType::Block);
+		MouseButtonGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestButtonGestureBind)
 	{
-		ButtonGestureBind bind({}, []() {}, "", 0, ButtonGestureBind::EndType::Block);
+		ButtonGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestEmptyGestureBindIgnoresInput)
 	{
-		TestGestureBind bind({}, [] {}, "", 0, TestGestureBind::EndType::Block);
+		TestGestureBind bind({}, [] {});
 		auto[actionFired, readyForInput, inputConsumed] = bind.processEvent(0, {});
 		BOOST_CHECK(!actionFired);
 		BOOST_CHECK(!readyForInput);
@@ -95,7 +91,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 	BOOST_AUTO_TEST_CASE(TestEmptyGestureIsNotReadyForInput)
 	{
-		TestGestureBind bind({}, [] {}, "", 0, TestGestureBind::EndType::Block);
+		TestGestureBind bind({}, [] {});
 		BOOST_CHECK(!bind.readyForInput());
 	}
 

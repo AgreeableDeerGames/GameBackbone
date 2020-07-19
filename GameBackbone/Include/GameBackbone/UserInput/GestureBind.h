@@ -69,19 +69,40 @@ namespace GB
 		BasicGestureBind(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
-			std::string name,
-			sf::Int64 maxTimeBetweenInputs,
-			EndType endType
+			EndType endType,
+			sf::Int64 maxTimeBetweenInputs
 		) :
 
 			m_gesture(std::move(gesture)),
 			m_action(std::move(action)),
-			m_name(std::move(name)),
-			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_endType(endType),
+			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_position(0),
 			m_eventComparitor(),
 			m_readyForInput(true)
+		{
+		}
+
+		BasicGestureBind(
+			std::vector<sf::Event> gesture,
+			std::function<void()> action,
+			EndType endType) :
+			BasicGestureBind(
+				std::move(gesture),
+				std::move(action),
+				endType,
+				defaultMaxTimeBetweenInputs)
+		{
+		}
+
+		BasicGestureBind(
+			std::vector<sf::Event> gesture,
+			std::function<void()> action) :
+			BasicGestureBind(
+				std::move(gesture),
+				std::move(action),
+				EndType::Block,
+				defaultMaxTimeBetweenInputs)
 		{
 		}
 
@@ -133,11 +154,6 @@ namespace GB
 			return m_action;
 		}
 
-		const std::string& getName() const
-		{
-			return m_name;
-		}
-
 		sf::Int64 getMaxTimeBetweenInputs() const
 		{
 			return m_maxTimeBetweenInputs;
@@ -156,11 +172,6 @@ namespace GB
 		void setAction(std::function<void()> action)
 		{
 			m_action = std::move(action);
-		}
-
-		void setName(std::string name)
-		{
-			m_name = std::move(name);
 		}
 
 		void setMaxTimeBetweenInputs(sf::Int64 maxTimeBetweenInputs)
@@ -228,9 +239,8 @@ namespace GB
 
 		std::vector<sf::Event> m_gesture;
 		std::function<void()> m_action;
-		std::string m_name;
-		sf::Int64 m_maxTimeBetweenInputs;
 		EndType m_endType;
+		sf::Int64 m_maxTimeBetweenInputs;
 		std::size_t m_position;
 		bool m_readyForInput;
 		EventCompare m_eventComparitor;
