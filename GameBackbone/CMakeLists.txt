@@ -22,6 +22,7 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/UserInput/GestureBind.h"
   "Include/GameBackbone/UserInput/GestureBindBuilder.h"
   "Include/GameBackbone/UserInput/EventComparitor.h"
+  "Include/GameBackbone/UserInput/EventFilter.h"
 
   # util
   "Include/GameBackbone/Util/DllUtil.h"
