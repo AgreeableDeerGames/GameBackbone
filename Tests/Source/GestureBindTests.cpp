@@ -84,4 +84,19 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 		ButtonGestureBind bind({}, []() {}, "", 0, ButtonGestureBind::EndType::Block);
 	}
 
+	BOOST_AUTO_TEST_CASE(TestEmptyGestureBindIgnoresInput)
+	{
+		TestGestureBind bind({}, [] {}, "", 0, TestGestureBind::EndType::Block);
+		auto[actionFired, readyForInput, inputConsumed] = bind.processEvent(0, {});
+		BOOST_CHECK(!actionFired);
+		BOOST_CHECK(!readyForInput);
+		BOOST_CHECK(!inputConsumed);
+	}
+
+	BOOST_AUTO_TEST_CASE(TestEmptyGestureIsNotReadyForInput)
+	{
+		TestGestureBind bind({}, [] {}, "", 0, TestGestureBind::EndType::Block);
+		BOOST_CHECK(!bind.readyForInput());
+	}
+
 BOOST_AUTO_TEST_SUITE_END() // GestureBindTests

@@ -181,7 +181,7 @@ namespace GB
 
 		bool readyForInput() const
 		{
-			return m_readyForInput;
+			return m_readyForInput && !m_gesture.empty();
 		}
 
 	private:
