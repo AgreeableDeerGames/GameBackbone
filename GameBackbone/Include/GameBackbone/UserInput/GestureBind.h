@@ -222,7 +222,6 @@ namespace GB
 
 		const sf::Event& getNextEvent() const
 		{
-			// TODO: we can hit this assertion if the gesture has a size of 0
 			assert(m_position < m_gesture.size());
 			return m_gesture[m_position];
 		}

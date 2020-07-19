@@ -23,7 +23,14 @@ namespace GB
 	template <class GestureType, std::enable_if_t<is_gesture_bind_v<GestureType>, bool> = true>
 	class ButtonPressGestureHandler : public InputHandler
 	{
+	private: 
+		using GestureContainer = std::vector<GestureType>;
+
 	public:
+
+		using iterator = typename GestureContainer::iterator;
+		using const_iterator = typename GestureContainer::const_iterator;
+		using size_type = typename GestureContainer::size_type;
 
 		ButtonPressGestureHandler() = default;
 		ButtonPressGestureHandler(const ButtonPressGestureHandler&) = default;
@@ -31,12 +38,6 @@ namespace GB
 		ButtonPressGestureHandler& operator=(const ButtonPressGestureHandler&) = default;
 		ButtonPressGestureHandler& operator=(ButtonPressGestureHandler&&) = default;
 		virtual ~ButtonPressGestureHandler() = default;
-
-		void addGesture(GestureType bind)
-		{
-			m_wholeSet.push_back(bind);
-			m_openSetGestures.emplace_back(bind);
-		}
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
@@ -54,6 +55,63 @@ namespace GB
 				eventConsumed = applyEventToOpenSet(elapsedTime, event);
 			}
 			return eventConsumed;
+		}
+
+		void addGesture(GestureType bind)
+		{
+			m_wholeSet.push_back(bind);
+			m_openSetGestures.emplace_back(std::move(bind));
+		}
+
+		void removeGesture(size_type position)
+		{
+			m_wholeSet.erase(position);
+			resetGestures();
+		}
+
+		GestureType& getGesture(size_type position)
+		{
+			return m_wholeSet.at(position);
+		}
+
+		const GestureType& getGesture(size_type position) const
+		{
+			return m_wholeSet.at(position);
+		}
+
+		size_type getGestureCount() const
+		{
+			return m_wholeSet.size();
+		}
+
+		iterator begin() 
+		{
+			return m_wholeSet.begin();
+		}
+
+		const_iterator begin() const
+		{
+			return m_wholeSet.begin();
+		}
+
+		const_iterator cbegin() const
+		{
+			return m_wholeSet.cbegin();
+		}
+
+		iterator end()
+		{
+			return m_wholeSet.end();
+		}
+
+		const_iterator end() const
+		{
+			return m_wholeSet.end();
+		}
+
+		const_iterator cend() const
+		{
+			return m_wholeSet.cend();
 		}
 
 	private:
@@ -91,12 +149,12 @@ namespace GB
 			// Add all gestures from the whole set to the active gestures open set.
 			for (const GestureType& bind : m_wholeSet)
 			{
-				m_openSetGestures.emplace_back(bind);
+				m_openSetGestures.push_back(bind);
 			}
 		}
 
-		std::vector<GestureType> m_openSetGestures;
-		std::vector<GestureType> m_wholeSet;
+		GestureContainer m_openSetGestures;
+		GestureContainer m_wholeSet;
 	};
 
 	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyboardGestureBind>;
