@@ -66,6 +66,32 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		ButtonPressGestureHandler<TestGestureBind> handler;
 	};
 
+	struct GestureAccessorFixture : InputHandlerConsumeEventFixture
+	{
+		GestureAccessorFixture()
+		{
+			// Prepare a set of gestures with unique sizes
+			for (int i = 0; i < gestureCount; ++i)
+			{
+				std::vector<sf::Event> rawGesture;
+				for (int j = 0; j < i; ++j)
+				{
+					rawGesture.push_back(upPressed);
+				}
+
+				inputGestures.push_back(
+					TestGestureBind(
+						rawGesture,
+						[] {},
+						"",
+						10,
+						TestGestureBind::EndType::Block));
+			}
+		}
+		const int gestureCount = 5;
+		std::vector<TestGestureBind> inputGestures;
+	};
+
 	BOOST_FIXTURE_TEST_CASE(HandleEventFalseWhenNoGesturesAreBound, InputHandlerConsumeEventFixture)
 	{
 		BOOST_TEST(!handler.handleEvent(0, upPressed));
@@ -216,33 +242,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_TEST(actionFired == true);
 	}
 
-	BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
 	{
-		// Prepare a set of gestures with unique sizes
-		std::vector<TestGestureBind> inputGestures;
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed },
-				[]{ },
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed, upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed, upPressed, upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
 
 		for (const auto& gesture : inputGestures)
 		{
@@ -261,34 +262,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		}
 	}
 
-	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAdded, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
 	{
-		// Prepare a set of gestures with unique sizes
-		std::vector<TestGestureBind> inputGestures;
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed, upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed, upPressed, upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
 		for (const auto& gesture : inputGestures)
 		{
 			handler.addGesture(gesture);
@@ -309,34 +284,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		}
 	}
 
-	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAddedUsingCBeginAndCEnd, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAddedUsingCBeginAndCEnd, GestureAccessorFixture)
 	{
-		// Prepare a set of gestures with unique sizes
-		std::vector<TestGestureBind> inputGestures;
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed, upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
-		inputGestures.push_back(
-			TestGestureBind(
-				{ upPressed, upPressed, upPressed },
-				[] {},
-				"",
-				10,
-				TestGestureBind::EndType::Block));
-
 		for (const auto& gesture : inputGestures)
 		{
 			handler.addGesture(gesture);
@@ -357,28 +306,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		}
 	}
 
-	BOOST_FIXTURE_TEST_CASE(GetGestureReturnsCorrectGestureWhenRequestedPositionIsWithinBounds, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(GetGestureReturnsCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
 	{
-
-		// Prepare a set of gestures with unique sizes
-		const int gestureCount = 5;
-		std::vector<TestGestureBind> inputGestures;
-		for (int i = 0; i < gestureCount; ++i)
-		{
-			std::vector<sf::Event> rawGesture;
-			for (int j = 0; j < i; ++j)
-			{
-				rawGesture.push_back(upPressed);
-			}
-
-			inputGestures.push_back(
-				TestGestureBind(
-					rawGesture,
-					[] {},
-					"",
-					10,
-					TestGestureBind::EndType::Block));
-		}
 
 		for (const auto& gesture : inputGestures)
 		{
@@ -399,28 +328,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		}
 	}
 
-	BOOST_FIXTURE_TEST_CASE(GetGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(GetGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, GestureAccessorFixture)
 	{
-
-		// Prepare a set of gestures with unique sizes
-		const int gestureCount = 5;
-		std::vector<TestGestureBind> inputGestures;
-		for (int i = 0; i < gestureCount; ++i)
-		{
-			std::vector<sf::Event> rawGesture;
-			for (int j = 0; j < i; ++j)
-			{
-				rawGesture.push_back(upPressed);
-			}
-
-			inputGestures.push_back(
-				TestGestureBind(
-					rawGesture,
-					[] {},
-					"",
-					10,
-					TestGestureBind::EndType::Block));
-		}
 
 		for (const auto& gesture : inputGestures)
 		{
@@ -435,29 +344,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_CHECK_THROW(constHandler.getGesture(gestureCount), std::out_of_range);
 	}
 
-	BOOST_FIXTURE_TEST_CASE(RemoveGestureRemovesCorrectGestureWhenRequestedPositionIsWithinBounds, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(RemoveGestureRemovesCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
 	{
-
-		// Prepare a set of gestures with unique sizes
-		const int gestureCount = 5;
-		std::vector<TestGestureBind> inputGestures;
-		for (int i = 0; i < gestureCount; ++i)
-		{
-			std::vector<sf::Event> rawGesture;
-			for (int j = 0; j < i; ++j)
-			{
-				rawGesture.push_back(upPressed);
-			}
-
-			inputGestures.push_back(
-				TestGestureBind(
-					rawGesture,
-					[] {},
-					"",
-					10,
-					TestGestureBind::EndType::Block));
-		}
-
 		for (const auto& gesture : inputGestures)
 		{
 			handler.addGesture(gesture);
@@ -476,28 +364,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		}
 	}
 
-	BOOST_FIXTURE_TEST_CASE(RemoveGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(RemoveGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, GestureAccessorFixture)
 	{
-
-		// Prepare a set of gestures with unique sizes
-		const int gestureCount = 5;
-		std::vector<TestGestureBind> inputGestures;
-		for (int i = 0; i < gestureCount; ++i)
-		{
-			std::vector<sf::Event> rawGesture;
-			for (int j = 0; j < i; ++j)
-			{
-				rawGesture.push_back(upPressed);
-			}
-
-			inputGestures.push_back(
-				TestGestureBind(
-					rawGesture,
-					[] {},
-					"",
-					10,
-					TestGestureBind::EndType::Block));
-		}
 
 		for (const auto& gesture : inputGestures)
 		{
@@ -512,29 +380,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		
 	}
 
-	BOOST_FIXTURE_TEST_CASE(GetGestureCountMaintainsCorrectCount, InputHandlerConsumeEventFixture)
+	BOOST_FIXTURE_TEST_CASE(GetGestureCountMaintainsCorrectCount, GestureAccessorFixture)
 	{
-
-		// Prepare a set of gestures with unique sizes
-		const int gestureCount = 5;
-		std::vector<TestGestureBind> inputGestures;
-		for (int i = 0; i < gestureCount; ++i)
-		{
-			std::vector<sf::Event> rawGesture;
-			for (int j = 0; j < i; ++j)
-			{
-				rawGesture.push_back(upPressed);
-			}
-
-			inputGestures.push_back(
-				TestGestureBind(
-					rawGesture,
-					[] {},
-					"",
-					10,
-					TestGestureBind::EndType::Block));
-		}
-
 		// Count should be zero before anything is added to it
 		int count = 0;
 		BOOST_TEST(handler.getGestureCount() == count);
