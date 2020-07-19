@@ -24,7 +24,47 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 	// Gesture Bind type for easy testing
 	using TestGestureBind = BasicGestureBind<AlwaysTrueEventComparitor>;
 
-	BOOST_AUTO_TEST_CASE(TestConstructor)
+	BOOST_AUTO_TEST_CASE(TestFullySpecifiedConstructor)
+	{
+		sf::Event upPressed = {};
+		sf::Event downPressed = {};
+		upPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Up, false, false, false, false };
+		upPressed.type = sf::Event::KeyPressed;
+
+		downPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Down, false, false, false, false };
+		downPressed.type = sf::Event::KeyPressed;
+
+		bool actionFired = false;
+
+		std::vector<sf::Event> gesture{ upPressed, downPressed };
+		TestGestureBind::EndType gestureBindEndType = TestGestureBind::EndType::Block;
+		sf::Int64 maxTimeBetweenEvents = 20;
+		TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; }, gestureBindEndType, maxTimeBetweenEvents);
+
+		// Check that the gesture was correctly stored
+		bool identicalGestures = true;
+		for (std::size_t i = 0; i < gesture.size() && i < bind.getGesture().size(); ++i)
+		{
+			if (gesture[i].key.code != bind.getGesture().at(i).key.code)
+			{
+				identicalGestures = false;
+				break;
+			}
+		}
+		BOOST_TEST(identicalGestures);
+
+		// Check that name was correctly set
+		BOOST_CHECK(bind.getEndType() == gestureBindEndType);
+
+		// Check that time between inputs is correct
+		BOOST_CHECK(bind.getMaxTimeBetweenInputs() == maxTimeBetweenEvents);
+
+		// Check that the bound function is the expected one by running it
+		std::invoke(bind.getAction());
+		BOOST_CHECK(actionFired);
+	}
+
+	BOOST_AUTO_TEST_CASE(TestConstructorWithGestureActionAndEndType)
 	{
 		sf::Event upPressed = {};
 		sf::Event downPressed = {};
@@ -54,6 +94,47 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 		// Check that name was correctly set
 		BOOST_CHECK(bind.getEndType() == gestureBindEndType);
+
+		// Check that time between inputs is correct
+		BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestGestureBind::defaultMaxTimeBetweenInputs);
+
+		// Check that the bound function is the expected one by running it
+		std::invoke(bind.getAction());
+		BOOST_CHECK(actionFired);
+	}
+
+	BOOST_AUTO_TEST_CASE(TestConstructorWithGestureAndAction)
+	{
+		sf::Event upPressed = {};
+		sf::Event downPressed = {};
+		upPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Up, false, false, false, false };
+		upPressed.type = sf::Event::KeyPressed;
+
+		downPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Down, false, false, false, false };
+		downPressed.type = sf::Event::KeyPressed;
+
+		bool actionFired = false;
+
+		std::vector<sf::Event> gesture{ upPressed, downPressed };
+		TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; });
+
+		// Check that the gesture was correctly stored
+		bool identicalGestures = true;
+		for (std::size_t i = 0; i < gesture.size() && i < bind.getGesture().size(); ++i)
+		{
+			if (gesture[i].key.code != bind.getGesture().at(i).key.code)
+			{
+				identicalGestures = false;
+				break;
+			}
+		}
+		BOOST_TEST(identicalGestures);
+
+		// Check that name was correctly set
+		BOOST_CHECK(bind.getEndType() == TestGestureBind::EndType::Block);
+
+		// Check that time between inputs is correct
+		BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestGestureBind::defaultMaxTimeBetweenInputs);
 
 		// Check that the bound function is the expected one by running it
 		std::invoke(bind.getAction());
