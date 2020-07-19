@@ -91,267 +91,274 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		std::vector<TestGestureBind> inputGestures;
 	};
 
-	BOOST_FIXTURE_TEST_CASE(HandleEventFalseWhenNoGesturesAreBound, InputHandlerConsumeEventFixture)
-	{
-		BOOST_TEST(!handler.handleEvent(0, upPressed));
-	}
+	BOOST_AUTO_TEST_SUITE(HandleEventResults)
 
-	BOOST_FIXTURE_TEST_CASE(HandleEventReturnsTrueWhenEventMatchesGesture, InputHandlerConsumeEventFixture)
-	{
-		TestGestureBind bind({ upPressed, upPressed }, []() {});
-
-		handler.addGesture(bind);
-		BOOST_TEST(handler.handleEvent(0, upPressed));
-	}
-
-	BOOST_FIXTURE_TEST_CASE(HandleEventReturnsFalseWhenEventDoesNotMatchGesture, InputHandlerConsumeEventFixture)
-	{
-		TestGestureBind bind({ upPressed, upPressed }, []() {});
-
-		handler.addGesture(bind);
-		BOOST_TEST(!handler.handleEvent(0, downPressed));
-	}
-
-	BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresAction, InputHandlerConsumeEventFixture)
-	{
-		bool actionFired = false;
-		TestGestureBind bind({ upPressed }, [&actionFired]() { actionFired = true; });
-
-		handler.addGesture(bind);
-		handler.handleEvent(0, upPressed);
-		BOOST_TEST(actionFired == true);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(UnboundEventDoesNotFireAction, InputHandlerConsumeEventFixture)
-	{
-		bool actionFired = false;
-		TestGestureBind bind({ upPressed }, [&actionFired]() { actionFired = true; });
-
-		handler.handleEvent(0, downPressed);
-		BOOST_TEST(actionFired == false);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresActionForMultiInputGesture, InputHandlerConsumeEventFixture)
-	{
-		bool actionFired = false;
-		TestGestureBind bind({ upPressed, upPressed, downPressed, downPressed }, [&actionFired]() { actionFired = true; });
-
-		handler.addGesture(bind);
-		handler.handleEvent(0, upPressed);
-		BOOST_TEST(actionFired == false);
-		handler.handleEvent(0, upPressed);
-		BOOST_TEST(actionFired == false);
-		handler.handleEvent(0, downPressed);
-		BOOST_TEST(actionFired == false);
-		handler.handleEvent(0, downPressed);
-
-		BOOST_TEST(actionFired == true);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresCorrectActionWithMultipleGesturesBound, InputHandlerConsumeEventFixture)
-	{
-		bool correctActionFired = false;
-		bool wrongActionFired = false;
-
-		TestGestureBind bind({ upPressed }, [&correctActionFired]() { correctActionFired = true; });
-		TestGestureBind bind2( { downPressed }, [&wrongActionFired]() { wrongActionFired = true; });
-
-		handler.addGesture(bind);
-		handler.addGesture(bind2);
-		handler.handleEvent(0, upPressed);
-		BOOST_TEST(correctActionFired == true);
-		BOOST_TEST(wrongActionFired == false);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(GestureDoesNotCompleteWhenTimeExpires, InputHandlerConsumeEventFixture)
-	{
-		bool actionFired = false;
-
-		TestGestureBind bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestGestureBind::EndType::Block, 10);
-
-		handler.addGesture(bind);
-		handler.handleEvent(0, upPressed);
-		handler.handleEvent(20, upPressed);
-		BOOST_TEST(actionFired == false);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(GestureCanRestartAfterTimeExpires, InputHandlerConsumeEventFixture)
-	{
-		bool actionFired = false;
-
-		TestGestureBind bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestGestureBind::EndType::Block, 10);
-
-		handler.addGesture(bind);
-		handler.handleEvent(0, upPressed);
-
-		// This fails the first attempt at the gesture, but starts the second one
-		handler.handleEvent(20, upPressed);
-		BOOST_TEST(actionFired == false);
-
-		// This finishes the second attempt at the gesture
-		handler.handleEvent(0, upPressed);
-		BOOST_TEST(actionFired == true);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
-	{
-
-		for (const auto& gesture : inputGestures)
+		BOOST_FIXTURE_TEST_CASE(HandleEventFalseWhenNoGesturesAreBound, InputHandlerConsumeEventFixture)
 		{
-			handler.addGesture(gesture);
+			BOOST_TEST(!handler.handleEvent(0, upPressed));
 		}
 
-		// Iterate over the gestures in the handler and verify that they match
-		// the input gestures and are in the correct order.
-		BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
-		std::size_t iteration = 0;
-		for (auto& gesture : handler)
+		BOOST_FIXTURE_TEST_CASE(HandleEventReturnsTrueWhenEventMatchesGesture, InputHandlerConsumeEventFixture)
 		{
-			// Each gesture has a unique size. Use this to verify that they match
-			BOOST_CHECK(gesture.getGesture().size() == inputGestures[iteration].getGesture().size());
-			++iteration;
-		}
-	}
+			TestGestureBind bind({ upPressed, upPressed }, []() {});
 
-	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
-	{
-		for (const auto& gesture : inputGestures)
-		{
-			handler.addGesture(gesture);
+			handler.addGesture(bind);
+			BOOST_TEST(handler.handleEvent(0, upPressed));
 		}
 
-		// Make the handler const to test const iteration
-		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
-
-		// Iterate over the gestures in the handler and verify that they match
-		// the input gestures and are in the correct order.
-		BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
-		std::size_t iteration = 0;
-		for (auto& gesture : constHandler)
+		BOOST_FIXTURE_TEST_CASE(HandleEventReturnsFalseWhenEventDoesNotMatchGesture, InputHandlerConsumeEventFixture)
 		{
-			// Each gesture has a unique size. Use this to verify that they match
-			BOOST_CHECK(gesture.getGesture().size() == inputGestures[iteration].getGesture().size());
-			++iteration;
-		}
-	}
+			TestGestureBind bind({ upPressed, upPressed }, []() {});
 
-	BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAddedUsingCBeginAndCEnd, GestureAccessorFixture)
-	{
-		for (const auto& gesture : inputGestures)
-		{
-			handler.addGesture(gesture);
+			handler.addGesture(bind);
+			BOOST_TEST(!handler.handleEvent(0, downPressed));
 		}
 
-		// Make the handler const to test const iteration
-		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
-
-		// Iterate over the gestures in the handler and verify that they match
-		// the input gestures and are in the correct order.
-		BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
-		std::size_t iteration = 0;
-		for (auto it = constHandler.cbegin(); it != constHandler.cend(); ++it)
+		BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresAction, InputHandlerConsumeEventFixture)
 		{
-			// Each gesture has a unique size. Use this to verify that they match
-			BOOST_CHECK(it->getGesture().size() == inputGestures[iteration].getGesture().size());
-			++iteration;
-		}
-	}
+			bool actionFired = false;
+			TestGestureBind bind({ upPressed }, [&actionFired]() { actionFired = true; });
 
-	BOOST_FIXTURE_TEST_CASE(GetGestureReturnsCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
-	{
-
-		for (const auto& gesture : inputGestures)
-		{
-			handler.addGesture(gesture);
+			handler.addGesture(bind);
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == true);
 		}
 
-		// Verify that the gestures are the same by checking the sizes
-		for (int i = 0; i < gestureCount; ++i)
+		BOOST_FIXTURE_TEST_CASE(UnboundEventDoesNotFireAction, InputHandlerConsumeEventFixture)
 		{
-			BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+			bool actionFired = false;
+			TestGestureBind bind({ upPressed }, [&actionFired]() { actionFired = true; });
+
+			handler.handleEvent(0, downPressed);
+			BOOST_TEST(actionFired == false);
 		}
 
-		// Verify that the gestures are the same by checking the sizes with a const handler
-		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
-		for (int i = 0; i < gestureCount; ++i)
+		BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresActionForMultiInputGesture, InputHandlerConsumeEventFixture)
 		{
-			BOOST_CHECK(constHandler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
-		}
-	}
+			bool actionFired = false;
+			TestGestureBind bind({ upPressed, upPressed, downPressed, downPressed }, [&actionFired]() { actionFired = true; });
 
-	BOOST_FIXTURE_TEST_CASE(GetGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, GestureAccessorFixture)
-	{
+			handler.addGesture(bind);
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == false);
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == false);
+			handler.handleEvent(0, downPressed);
+			BOOST_TEST(actionFired == false);
+			handler.handleEvent(0, downPressed);
 
-		for (const auto& gesture : inputGestures)
-		{
-			handler.addGesture(gesture);
-		}
-
-		// Verify that the gestures are the same by checking the sizes
-		BOOST_CHECK_THROW(handler.getGesture(gestureCount), std::out_of_range);
-
-		// Verify that the gestures are the same by checking the sizes with a const handler
-		const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
-		BOOST_CHECK_THROW(constHandler.getGesture(gestureCount), std::out_of_range);
-	}
-
-	BOOST_FIXTURE_TEST_CASE(RemoveGestureRemovesCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
-	{
-		for (const auto& gesture : inputGestures)
-		{
-			handler.addGesture(gesture);
+			BOOST_TEST(actionFired == true);
 		}
 
-		// remove the same element from the handler and the inputGestures vector
-		std::size_t elementToErase = 2;
-		handler.removeGesture(elementToErase);
-		inputGestures.erase(inputGestures.begin() + elementToErase);
-		BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
-
-		// Verify that the gestures are the same by checking the sizes
-		for (int i = 0; i < handler.getGestureCount(); ++i)
+		BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresCorrectActionWithMultipleGesturesBound, InputHandlerConsumeEventFixture)
 		{
-			BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
-		}
-	}
+			bool correctActionFired = false;
+			bool wrongActionFired = false;
 
-	BOOST_FIXTURE_TEST_CASE(RemoveGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, GestureAccessorFixture)
-	{
+			TestGestureBind bind({ upPressed }, [&correctActionFired]() { correctActionFired = true; });
+			TestGestureBind bind2( { downPressed }, [&wrongActionFired]() { wrongActionFired = true; });
 
-		for (const auto& gesture : inputGestures)
-		{
-			handler.addGesture(gesture);
+			handler.addGesture(bind);
+			handler.addGesture(bind2);
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(correctActionFired == true);
+			BOOST_TEST(wrongActionFired == false);
 		}
 
-		// remove the same element from the handler and the inputGestures vector
-		std::size_t elementToErase = gestureCount;
-		BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
-		elementToErase = gestureCount + 1;
-		BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
+		BOOST_FIXTURE_TEST_CASE(GestureDoesNotCompleteWhenTimeExpires, InputHandlerConsumeEventFixture)
+		{
+			bool actionFired = false;
+
+			TestGestureBind bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestGestureBind::EndType::Block, 10);
+
+			handler.addGesture(bind);
+			handler.handleEvent(0, upPressed);
+			handler.handleEvent(20, upPressed);
+			BOOST_TEST(actionFired == false);
+		}
+
+		BOOST_FIXTURE_TEST_CASE(GestureCanRestartAfterTimeExpires, InputHandlerConsumeEventFixture)
+		{
+			bool actionFired = false;
+
+			TestGestureBind bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestGestureBind::EndType::Block, 10);
+
+			handler.addGesture(bind);
+			handler.handleEvent(0, upPressed);
+
+			// This fails the first attempt at the gesture, but starts the second one
+			handler.handleEvent(20, upPressed);
+			BOOST_TEST(actionFired == false);
+
+			// This finishes the second attempt at the gesture
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == true);
+		}
+
+	BOOST_AUTO_TEST_SUITE_END() // HandleEventResults
+
+	BOOST_AUTO_TEST_SUITE(GestureAccess)
+
+		BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
+		{
+
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// Iterate over the gestures in the handler and verify that they match
+			// the input gestures and are in the correct order.
+			BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+			std::size_t iteration = 0;
+			for (auto& gesture : handler)
+			{
+				// Each gesture has a unique size. Use this to verify that they match
+				BOOST_CHECK(gesture.getGesture().size() == inputGestures[iteration].getGesture().size());
+				++iteration;
+			}
+		}
+
+		BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
+		{
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// Make the handler const to test const iteration
+			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+
+			// Iterate over the gestures in the handler and verify that they match
+			// the input gestures and are in the correct order.
+			BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+			std::size_t iteration = 0;
+			for (auto& gesture : constHandler)
+			{
+				// Each gesture has a unique size. Use this to verify that they match
+				BOOST_CHECK(gesture.getGesture().size() == inputGestures[iteration].getGesture().size());
+				++iteration;
+			}
+		}
+
+		BOOST_FIXTURE_TEST_CASE(IterationWithConstHandlerReturnsGesturesInTheOrderThatTheyWereAddedUsingCBeginAndCEnd, GestureAccessorFixture)
+		{
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// Make the handler const to test const iteration
+			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+
+			// Iterate over the gestures in the handler and verify that they match
+			// the input gestures and are in the correct order.
+			BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+			std::size_t iteration = 0;
+			for (auto it = constHandler.cbegin(); it != constHandler.cend(); ++it)
+			{
+				// Each gesture has a unique size. Use this to verify that they match
+				BOOST_CHECK(it->getGesture().size() == inputGestures[iteration].getGesture().size());
+				++iteration;
+			}
+		}
+
+		BOOST_FIXTURE_TEST_CASE(GetGestureReturnsCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
+		{
+
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// Verify that the gestures are the same by checking the sizes
+			for (int i = 0; i < gestureCount; ++i)
+			{
+				BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+			}
+
+			// Verify that the gestures are the same by checking the sizes with a const handler
+			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+			for (int i = 0; i < gestureCount; ++i)
+			{
+				BOOST_CHECK(constHandler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+			}
+		}
+
+		BOOST_FIXTURE_TEST_CASE(GetGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, GestureAccessorFixture)
+		{
+
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// Verify that the gestures are the same by checking the sizes
+			BOOST_CHECK_THROW(handler.getGesture(gestureCount), std::out_of_range);
+
+			// Verify that the gestures are the same by checking the sizes with a const handler
+			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+			BOOST_CHECK_THROW(constHandler.getGesture(gestureCount), std::out_of_range);
+		}
+
+		BOOST_FIXTURE_TEST_CASE(RemoveGestureRemovesCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
+		{
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// remove the same element from the handler and the inputGestures vector
+			std::size_t elementToErase = 2;
+			handler.removeGesture(elementToErase);
+			inputGestures.erase(inputGestures.begin() + elementToErase);
+			BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+
+			// Verify that the gestures are the same by checking the sizes
+			for (int i = 0; i < handler.getGestureCount(); ++i)
+			{
+				BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+			}
+		}
+
+		BOOST_FIXTURE_TEST_CASE(RemoveGestureThrowsOutOfRangeExceptionWhenRequestedPositionIsNotWithinBounds, GestureAccessorFixture)
+		{
+
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+			}
+
+			// remove the same element from the handler and the inputGestures vector
+			std::size_t elementToErase = gestureCount;
+			BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
+			elementToErase = gestureCount + 1;
+			BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
 		
-	}
+		}
 
-	BOOST_FIXTURE_TEST_CASE(GetGestureCountMaintainsCorrectCount, GestureAccessorFixture)
-	{
-		// Count should be zero before anything is added to it
-		int count = 0;
-		BOOST_TEST(handler.getGestureCount() == count);
-
-		// Count should go up with each gesture added
-		for (const auto& gesture : inputGestures)
+		BOOST_FIXTURE_TEST_CASE(GetGestureCountMaintainsCorrectCount, GestureAccessorFixture)
 		{
-			handler.addGesture(gesture);
-			++count;
+			// Count should be zero before anything is added to it
+			int count = 0;
 			BOOST_TEST(handler.getGestureCount() == count);
 
+			// Count should go up with each gesture added
+			for (const auto& gesture : inputGestures)
+			{
+				handler.addGesture(gesture);
+				++count;
+				BOOST_TEST(handler.getGestureCount() == count);
+
+			}
+
+			// Count should go down after removing gesture
+			handler.removeGesture(0);
+			--count;
+			BOOST_TEST(handler.getGestureCount() == count);
 		}
 
-		// Count should go down after removing gesture
-		handler.removeGesture(0);
-		--count;
-		BOOST_TEST(handler.getGestureCount() == count);
-	}
-
+	BOOST_AUTO_TEST_SUITE_END() // GestureAccess
 
 	BOOST_AUTO_TEST_SUITE(GestureIOCases)
 
