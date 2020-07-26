@@ -41,17 +41,17 @@ namespace GB
 
 	// TODO: add deduction guide to type decay everything here
 	template <class... Handlers>
-	class InputRouter : public InputHandler
+	class InputRouter final : public  InputHandler
 	{
 	public:
 
-		InputRouter(Handlers... inputHandlers)
+		InputRouter(Handlers... inputHandlers) :
+			m_handlers(std::make_tuple(std::move(inputHandlers)...))
 		{
-			m_handlers = std::make_tuple(std::move(inputHandlers)...);
 		}
 
 		// return true if any input handler handled the event
-		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
+		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) final
 		{
 			bool eventHandled = false;
 
