@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
 #include <GameBackbone/UserInput/InputHandler.h>
 #include <GameBackbone/UserInput/InputRouter.h>
 
@@ -231,6 +232,44 @@ BOOST_AUTO_TEST_CASE(InputRouterStopsTryingToApplyAnEventToItsHandlersAfterAnyHa
 	BOOST_CHECK(hasRouterRecievedInput[1]);
 	BOOST_CHECK(!hasRouterRecievedInput[2]);
 	BOOST_CHECK(!hasRouterRecievedInput[3]);
+}
+
+
+class TestReferenceInputHandler : public InputHandler
+{
+public:
+
+	bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event)
+	{
+		m_hasHandledEvent = true;
+		return true;
+	}
+	bool m_hasHandledEvent = false;
+};
+
+BOOST_AUTO_TEST_CASE(InputRouterCanStoreDifferentTypesOfInputHandlers)
+{
+	TestReferenceInputHandler testHandler;
+	TestReferenceInputHandler& testHandlerRef = testHandler;
+
+	InputRouter router
+	{
+		testHandlerRef,
+		TestInputHandler
+		{
+			[&](sf::Int64, const sf::Event&)
+			{
+				return true;
+			}
+		},
+		KeyboardGestureHandler{},
+		JoystickButtonGestureHandler{},
+		AnyButtonGestureHandler{},
+		MouseButtonGestureHandler{}
+	};
+
+	router.handleEvent(0, {});
+	BOOST_TEST(testHandler.m_hasHandledEvent);
 }
 
 
