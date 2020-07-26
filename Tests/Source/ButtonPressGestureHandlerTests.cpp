@@ -57,12 +57,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		sf::Event dPressed = {};
 		sf::Event ePressed = {};
 		sf::Event wPressed = {};
-	
-		// Create handler
-		int gesture1Count = 0;
-		int gesture2Count = 0;
 
-		// ButtonPressGestureHandler<BasicGestureBind<MouseButtonEventComparitor>> handler;
 		ButtonPressGestureHandler<TestGestureBind> handler;
 	};
 
