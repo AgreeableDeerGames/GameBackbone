@@ -57,10 +57,10 @@ namespace GB
 			return eventConsumed;
 		}
 
-		void addGesture(GestureType bind)
+		GestureType& addGesture(GestureType bind)
 		{
-			m_wholeSet.push_back(bind);
-			m_openSetGestures.emplace_back(std::move(bind));
+			m_openSetGestures.push_back(bind);
+			return m_wholeSet.emplace_back(std::move(bind));
 		}
 
 		void removeGesture(size_type position)

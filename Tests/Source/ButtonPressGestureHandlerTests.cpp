@@ -199,6 +199,17 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 	BOOST_AUTO_TEST_SUITE(GestureAccess)
 
+		BOOST_FIXTURE_TEST_CASE(AddGestureReturnsReferenceToAddedgesture, GestureAccessorFixture)
+		{
+
+			BOOST_CHECK(handler.getGestureCount() == 0);
+			auto& outGesture = handler.addGesture(inputGestures[0]);
+
+			// Each gesture has a unique size. Use this to verify that they match
+			BOOST_CHECK(outGesture.getGesture().size() == inputGestures[0].getGesture().size());
+		}
+
+
 		BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
 		{
 
