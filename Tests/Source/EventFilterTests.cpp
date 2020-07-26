@@ -2,6 +2,9 @@
 
 #include <GameBackbone/UserInput/EventFilter.h>
 
+#include <functional>
+#include <type_traits>
+#include <vector>
 
 using namespace GB;
 
@@ -61,7 +64,10 @@ BOOST_AUTO_TEST_SUITE(EventFilterTests)
 
 	};
 
-	template <class EventFilterType>
+	template <
+		class EventFilterType,
+		std::enable_if_t<is_event_filter_v<EventFilterType>, bool> = true
+	>
 	void checkEventFilter(EventFilterType&& filter, const std::vector<sf::Event>& passEvents, const std::vector<sf::Event>& failEvents)
 	{
 		for (const auto& event : passEvents)
