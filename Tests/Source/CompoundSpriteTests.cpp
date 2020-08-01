@@ -508,6 +508,19 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 	BOOST_CHECK(!CanAddComponent_v<sf::Transformable>);
 }
 
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
+{
+	CompoundSprite compoundSprite{};
+	compoundSprite.addComponent(1, sprite);
+	compoundSprite.addComponent(2, sprite2);
+
+	for (auto iter = compoundSprite.begin(); iter != compoundSprite.end(); ++iter)
+	{
+		iter->first;
+		iter->second;
+	}
+}
+
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
 
 

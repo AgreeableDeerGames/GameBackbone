@@ -57,6 +57,27 @@ namespace GB {
 		/// </summary>
 		CompoundSprite() {}
 
+		class InternalType;
+		using iterator = std::multimap<int, std::unique_ptr<InternalType>>::iterator;
+		iterator begin() 
+		{
+			return m_prioritizedComponents.begin();
+		}
+		iterator end()
+		{
+			return m_prioritizedComponents.end();
+		}
+
+		using const_iterator = std::multimap<int, std::unique_ptr<InternalType>>::const_iterator;
+		const const_iterator cbegin()
+		{
+			return m_prioritizedComponents.cbegin();
+		}
+		const const_iterator cend()
+		{
+			return m_prioritizedComponents.cend();
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
 		/// The position of the CompoundSprite is (0,0).
