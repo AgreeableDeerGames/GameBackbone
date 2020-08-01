@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 		bool operator()(const sf::Event&, const sf::Event&) { return true; }
 	};
 	static_assert(is_event_comparitor_v<AlwaysTrueEventComparitor>, "GestureBindTests SimpleEventComparitor does not meet EventComparitor requirements");
-	static_assert(is_gesture_bind_v<BasicGestureBind<AlwaysTrueEventComparitor>>, "BasicGestureBind does not meet GestureBind requirements");
+	static_assert(is_gesture_bind_v<BasicGestureBind<AlwaysTrueEventComparitor, AnyEventFilter>>, "BasicGestureBind does not meet GestureBind requirements");
 	static_assert(!is_gesture_bind_v<int>, "int is not a GestureBind");
 	struct GestureBindWithWrongSignature
 	{
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 	static_assert(!is_gesture_bind_v<GestureBindWithWrongSignature>, "GestureBind type trait failed to check for return value");
 
 	// Gesture Bind type for easy testing
-	using TestGestureBind = BasicGestureBind<AlwaysTrueEventComparitor>;
+	using TestGestureBind = BasicGestureBind<AlwaysTrueEventComparitor, AnyEventFilter>;
 
 	BOOST_AUTO_TEST_CASE(TestFullySpecifiedConstructor)
 	{
@@ -143,22 +143,22 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 	BOOST_AUTO_TEST_CASE(TestKeyboardGestureBind) 
 	{
-		KeyboardGestureBind bind({}, []() {});
+		KeyDownGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestJoystickGestureBind)
 	{
-		JoystickButtonGestureBind bind({}, []() {});
+		JoystickButtonDownGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestMouseButtonGestureBind)
 	{
-		MouseButtonGestureBind bind({}, []() {});
+		MouseButtonDownGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestButtonGestureBind)
 	{
-		ButtonGestureBind bind({}, []() {});
+		ButtonDownGestureBind bind({}, []() {});
 	}
 
 	BOOST_AUTO_TEST_CASE(TestEmptyGestureBindIgnoresInput)

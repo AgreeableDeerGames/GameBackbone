@@ -2,6 +2,7 @@
 
 #include <GameBackbone/Util/DllUtil.h>
 #include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventFilter.h>
 #include <GameBackbone/UserInput/InputHandler.h>
 
 #include <SFML/System/Time.hpp>
@@ -11,7 +12,6 @@
 #include <functional>
 #include <string>
 #include <vector>
-
 
 
 namespace GB
@@ -49,7 +49,12 @@ namespace GB
 	template <class GestureBind>
 	inline constexpr bool is_gesture_bind_v = is_gesture_bind<GestureBind>::value;
 
-	template <typename EventCompare, std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true>
+	template <
+		typename EventCompare,
+		typename EventFilter,
+		std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true,
+		std::enable_if_t<is_event_filter_v<EventFilter>, bool> = true
+	>
 	class BasicGestureBind
 	{
 	public:
@@ -246,11 +251,11 @@ namespace GB
 		EventCompare m_eventComparitor;
 	};
 
-	using KeyboardGestureBind = BasicGestureBind<KeyEventComparitor>;
+	using KeyDownGestureBind = BasicGestureBind<KeyEventComparitor, KeyDownEventFilter>;
 
-	using JoystickButtonGestureBind = BasicGestureBind<JoystickButtonEventComparitor>;
+	using JoystickButtonDownGestureBind = BasicGestureBind<JoystickButtonEventComparitor, JoystickButtonDownEventFilter>;
 
-	using MouseButtonGestureBind = BasicGestureBind<MouseButtonEventComparitor>;
+	using MouseButtonDownGestureBind = BasicGestureBind<MouseButtonEventComparitor, MouseButtonDownEventFilter>;
 
-	using ButtonGestureBind = BasicGestureBind<ButtonEventComparitor>;
+	using ButtonDownGestureBind = BasicGestureBind<ButtonEventComparitor, AnyButtonDownEventFilter>;
 }
