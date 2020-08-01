@@ -14,7 +14,7 @@ namespace GB
 	class InputRecorder : public InputHandler
 	{
 	public:
-		using BasicGestureBind<EventCompare, EventFilter>;
+		using ReturnBind = BasicGestureBind<EventCompare, EventFilter>;
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
@@ -29,17 +29,16 @@ namespace GB
 		}
 
 
-		 GetCompletedBind(std::string name, std::function<void()> action)
+		ReturnBind GetCompletedBind(
+			std::function<void()> action, 
+			typename ReturnBind::EndType endType = ReturnBind::EndType::Block,
+			sf::Int64 maxTimeBetweenInputs = 1000000)
 		{
-			sf::Int64 maxTimeBetweenInputs = 1000000;
-			NumberGestureBind::EndType endType = NumberGestureBind::EndType::Block;
-
-			NumberGestureBind returnBind{
+			ReturnBind returnBind{
 				m_bindKeys,
 				action,
-				name,
-				maxTimeBetweenInputs,
-				endType
+				endType,
+				maxTimeBetweenInputs
 			};
 
 			// Clear the internal state
