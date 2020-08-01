@@ -50,8 +50,8 @@ namespace GB
 	class InputRouter final : public InputHandler
 	{
 	public:
-		static_assert(Detail::are_all_input_handlers_v<Handlers...>, "GB::InputRouter can only forward inputs to children of GB::InputHandler");
 
+		template < std::enable_if_t<Detail::are_all_input_handlers_v<Handlers...>, bool> = true>
 		InputRouter(Handlers... inputHandlers) :
 			m_handlers(std::make_tuple(std::move(inputHandlers)...))
 		{
