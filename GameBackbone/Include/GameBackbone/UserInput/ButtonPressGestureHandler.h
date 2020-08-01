@@ -162,11 +162,11 @@ namespace GB
 		GestureContainer m_wholeSet;
 	};
 
-	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyboardGestureBind>;
+	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyDownGestureBind>;
 
-	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonGestureBind>;
+	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonDownGestureBind>;
 
-	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonGestureBind>;
+	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonDownGestureBind>;
 
-	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonGestureBind>;
+	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonDownGestureBind>;
 }

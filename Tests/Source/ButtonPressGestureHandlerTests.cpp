@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			wPressed.type = sf::Event::KeyPressed;
 		}
 	
-		using TestGestureBind = BasicGestureBind<KeyEventComparitor>;
+		using TestGestureBind = BasicGestureBind<KeyEventComparitor, AnyEventFilter>;
 
 		// Event for gesture
 		sf::Event upPressed = {};
