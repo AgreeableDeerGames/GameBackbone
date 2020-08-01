@@ -249,12 +249,14 @@ public:
 
 BOOST_AUTO_TEST_CASE(InputRouterCanStoreDifferentTypesOfInputHandlers)
 {
+	// Create a lvalue reference input handler to pass to InputRouter
 	TestReferenceInputHandler testHandler;
 	TestReferenceInputHandler& testHandlerRef = testHandler;
 
+	// Create an input router holding many different types of input handlers
 	InputRouter router
 	{
-		testHandlerRef,
+		testHandlerRef, // Copy!
 		TestInputHandler
 		{
 			[&](sf::Int64, const sf::Event&)
@@ -269,7 +271,10 @@ BOOST_AUTO_TEST_CASE(InputRouterCanStoreDifferentTypesOfInputHandlers)
 	};
 
 	router.handleEvent(0, {});
-	BOOST_TEST(testHandler.m_hasHandledEvent);
+
+	// InputRouter has made a copy. It owns all of its InputHandlers
+	// so the member variable on the external testHandler was not set.
+	BOOST_TEST(!testHandler.m_hasHandledEvent);
 }
 
 

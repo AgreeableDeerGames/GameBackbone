@@ -12,7 +12,7 @@
 #include <chrono>
 #include <cassert>
 #include <string>
-#include <iostream>
+#include <type_traits>
 
 namespace GB
 {
@@ -39,13 +39,18 @@ namespace GB
 			auto dispatcher = make_index_dispatcher<n>();
 			dispatcher( [&f, &t] (auto idx) { f(std::get<idx>(std::forward<Tuple>(t))); } );
 		}
+
+
+		/// <summary> Checks if all types fulfill the requirements of a CompoundSprite component. (Drawable and Transformable) </summary>
+		template <class... InTypes>
+		inline constexpr bool are_all_input_handlers_v = (std::is_base_of_v<InputHandler, InTypes> && ...);
 	}
 
-	// TODO: add deduction guide to type decay everything here
 	template <class... Handlers>
 	class InputRouter final : public InputHandler
 	{
 	public:
+		static_assert(Detail::are_all_input_handlers_v<Handlers...>, "GB::InputRouter can only forward inputs to children of GB::InputHandler");
 
 		InputRouter(Handlers... inputHandlers) :
 			m_handlers(std::make_tuple(std::move(inputHandlers)...))
