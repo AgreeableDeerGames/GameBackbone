@@ -16,7 +16,6 @@
 
 namespace GB
 {
-
 	struct GestureBindProcessEventResult
 	{
 		bool actionFired;
@@ -67,8 +66,7 @@ namespace GB
 		{
 			Continuous,
 			Reset,
-			Block,
-			BlockLastEvent
+			Block
 		};
 
 		BasicGestureBind(
@@ -113,11 +111,16 @@ namespace GB
 
 		ProcessEventResult processEvent(sf::Int64 elapsedTime, const sf::Event& event)
 		{
-
 			// Exit early if not ready for input
 			if (!readyForInput())
 			{
 				return { false, false, false };
+			}
+
+			// Do not process the input if it does not pass the event filter
+			if (!std::invoke(m_eventFilter, event))
+			{
+				return { false, readyForInput(), false };
 			}
 
 			// Process the input
@@ -221,11 +224,6 @@ namespace GB
 				reset();
 				break;
 			}
-			case EndType::BlockLastEvent:
-			{
-				// TODO: How? Why? Make Michael do it.
-				break;
-			}
 			case EndType::Block:
 			{
 				m_position = 0;
@@ -249,6 +247,7 @@ namespace GB
 		std::size_t m_position;
 		bool m_readyForInput;
 		EventCompare m_eventComparitor;
+		EventFilter m_eventFilter;
 	};
 
 	using KeyDownGestureBind = BasicGestureBind<KeyEventComparitor, KeyDownEventFilter>;

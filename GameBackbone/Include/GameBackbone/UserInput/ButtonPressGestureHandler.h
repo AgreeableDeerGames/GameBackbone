@@ -19,7 +19,6 @@
 
 namespace GB
 {
-
 	template <class GestureType, std::enable_if_t<is_gesture_bind_v<GestureType>, bool> = true>
 	class ButtonPressGestureHandler : public InputHandler
 	{

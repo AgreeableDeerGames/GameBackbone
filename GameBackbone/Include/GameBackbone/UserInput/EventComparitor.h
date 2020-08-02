@@ -54,7 +54,7 @@ namespace GB
 		bool operator()(const sf::Event& userEvent, const sf::Event& gestureEvent) const
 		{
 			// Short circuit if the type doesn't match or if the types are not handlable.
-			if (userEvent.type != gestureEvent.type || userEvent.type != sf::Event::MouseButtonPressed || userEvent.type != sf::Event::MouseButtonReleased)
+			if (userEvent.type != gestureEvent.type || (userEvent.type != sf::Event::MouseButtonPressed && userEvent.type != sf::Event::MouseButtonReleased))
 			{
 				return false;
 			}
