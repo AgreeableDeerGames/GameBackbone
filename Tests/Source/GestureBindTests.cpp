@@ -76,7 +76,9 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 	};
 
-	BOOST_AUTO_TEST_CASE(TestFullySpecifiedConstructor)
+	BOOST_AUTO_TEST_SUITE(Construction)
+
+		BOOST_AUTO_TEST_CASE(TestFullySpecifiedConstructor)
 	{
 		sf::Event upPressed = {};
 		sf::Event downPressed = {};
@@ -116,82 +118,112 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 		BOOST_CHECK(actionFired);
 	}
 
-	BOOST_AUTO_TEST_CASE(TestConstructorWithGestureActionAndEndType)
-	{
-		sf::Event upPressed = {};
-		sf::Event downPressed = {};
-		upPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Up, false, false, false, false };
-		upPressed.type = sf::Event::KeyPressed;
-
-		downPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Down, false, false, false, false };
-		downPressed.type = sf::Event::KeyPressed;
-
-		bool actionFired = false;
-
-		std::vector<sf::Event> gesture{ upPressed, downPressed };
-		TestGestureBind::EndType gestureBindEndType = TestGestureBind::EndType::Block;
-		TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; }, gestureBindEndType);
-
-		// Check that the gesture was correctly stored
-		bool identicalGestures = true;
-		for (std::size_t i = 0; i < gesture.size() && i < bind.getGesture().size(); ++i)
+		BOOST_AUTO_TEST_CASE(TestConstructorWithGestureActionAndEndType)
 		{
-			if (gesture[i].key.code != bind.getGesture().at(i).key.code)
+			sf::Event upPressed = {};
+			sf::Event downPressed = {};
+			upPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Up, false, false, false, false };
+			upPressed.type = sf::Event::KeyPressed;
+
+			downPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Down, false, false, false, false };
+			downPressed.type = sf::Event::KeyPressed;
+
+			bool actionFired = false;
+
+			std::vector<sf::Event> gesture{ upPressed, downPressed };
+			TestGestureBind::EndType gestureBindEndType = TestGestureBind::EndType::Block;
+			TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; }, gestureBindEndType);
+
+			// Check that the gesture was correctly stored
+			bool identicalGestures = true;
+			for (std::size_t i = 0; i < gesture.size() && i < bind.getGesture().size(); ++i)
 			{
-				identicalGestures = false;
-				break;
+				if (gesture[i].key.code != bind.getGesture().at(i).key.code)
+				{
+					identicalGestures = false;
+					break;
+				}
 			}
+			BOOST_TEST(identicalGestures);
+
+			// Check that name was correctly set
+			BOOST_CHECK(bind.getEndType() == gestureBindEndType);
+
+			// Check that time between inputs is correct
+			BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestGestureBind::defaultMaxTimeBetweenInputs);
+
+			// Check that the bound function is the expected one by running it
+			std::invoke(bind.getAction());
+			BOOST_CHECK(actionFired);
 		}
-		BOOST_TEST(identicalGestures);
 
-		// Check that name was correctly set
-		BOOST_CHECK(bind.getEndType() == gestureBindEndType);
-
-		// Check that time between inputs is correct
-		BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestGestureBind::defaultMaxTimeBetweenInputs);
-
-		// Check that the bound function is the expected one by running it
-		std::invoke(bind.getAction());
-		BOOST_CHECK(actionFired);
-	}
-
-	BOOST_AUTO_TEST_CASE(TestConstructorWithGestureAndAction)
-	{
-		sf::Event upPressed = {};
-		sf::Event downPressed = {};
-		upPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Up, false, false, false, false };
-		upPressed.type = sf::Event::KeyPressed;
-
-		downPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Down, false, false, false, false };
-		downPressed.type = sf::Event::KeyPressed;
-
-		bool actionFired = false;
-
-		std::vector<sf::Event> gesture{ upPressed, downPressed };
-		TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; });
-
-		// Check that the gesture was correctly stored
-		bool identicalGestures = true;
-		for (std::size_t i = 0; i < gesture.size() && i < bind.getGesture().size(); ++i)
+		BOOST_AUTO_TEST_CASE(TestConstructorWithGestureAndAction)
 		{
-			if (gesture[i].key.code != bind.getGesture().at(i).key.code)
+			sf::Event upPressed = {};
+			sf::Event downPressed = {};
+			upPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Up, false, false, false, false };
+			upPressed.type = sf::Event::KeyPressed;
+
+			downPressed.key = sf::Event::KeyEvent{ sf::Keyboard::Key::Down, false, false, false, false };
+			downPressed.type = sf::Event::KeyPressed;
+
+			bool actionFired = false;
+
+			std::vector<sf::Event> gesture{ upPressed, downPressed };
+			TestGestureBind bind(gesture, [&actionFired]() { actionFired = true; });
+
+			// Check that the gesture was correctly stored
+			bool identicalGestures = true;
+			for (std::size_t i = 0; i < gesture.size() && i < bind.getGesture().size(); ++i)
 			{
-				identicalGestures = false;
-				break;
+				if (gesture[i].key.code != bind.getGesture().at(i).key.code)
+				{
+					identicalGestures = false;
+					break;
+				}
 			}
+			BOOST_TEST(identicalGestures);
+
+			// Check that name was correctly set
+			BOOST_CHECK(bind.getEndType() == TestGestureBind::EndType::Block);
+
+			// Check that time between inputs is correct
+			BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestGestureBind::defaultMaxTimeBetweenInputs);
+
+			// Check that the bound function is the expected one by running it
+			std::invoke(bind.getAction());
+			BOOST_CHECK(actionFired);
 		}
-		BOOST_TEST(identicalGestures);
 
-		// Check that name was correctly set
-		BOOST_CHECK(bind.getEndType() == TestGestureBind::EndType::Block);
 
-		// Check that time between inputs is correct
-		BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestGestureBind::defaultMaxTimeBetweenInputs);
+		struct EventCompareNoDefaultCtr
+		{
+			EventCompareNoDefaultCtr(int) {}
+			bool operator()(const sf::Event&, const sf::Event&) { return true; }
+		};
 
-		// Check that the bound function is the expected one by running it
-		std::invoke(bind.getAction());
-		BOOST_CHECK(actionFired);
-	}
+		struct FilterNoDefaultCtr
+		{
+			FilterNoDefaultCtr(int) {}
+			bool operator()(const sf::Event&) { return true; }
+		};
+
+		BOOST_AUTO_TEST_CASE(TestConstructionCompareAndFilterHaveNoDefaultConstructor)
+		{
+			// Just check that this compiles and runs with no issue
+			using Gesture = BasicGestureBind<EventCompareNoDefaultCtr, FilterNoDefaultCtr>;
+			Gesture gesture(
+				{},
+				[] {},
+				Gesture::EndType::Block,
+				0,
+				EventCompareNoDefaultCtr{ 0 },
+				FilterNoDefaultCtr{ 0 });
+
+			gesture.processEvent(0, {});
+		}
+
+	BOOST_AUTO_TEST_SUITE_END() // Construction
 
 	BOOST_AUTO_TEST_SUITE(SpecializationTests)
 

@@ -11,6 +11,7 @@
 #include <cassert>
 #include <functional>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 
@@ -73,19 +74,45 @@ namespace GB
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
 			EndType endType,
-			sf::Int64 maxTimeBetweenInputs
+			sf::Int64 maxTimeBetweenInputs,
+			EventCompare eventComparator,
+			EventFilter eventFilter
 		) :
-
 			m_gesture(std::move(gesture)),
 			m_action(std::move(action)),
 			m_endType(endType),
 			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_position(0),
-			m_eventComparitor(),
-			m_readyForInput(true)
+			m_readyForInput(true),
+			m_eventComparitor(std::move(eventComparator)),
+			m_eventFilter(std::move(eventFilter))
 		{
 		}
 
+		template <
+			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+		>
+		BasicGestureBind(
+			std::vector<sf::Event> gesture,
+			std::function<void()> action,
+			EndType endType,
+			sf::Int64 maxTimeBetweenInputs
+		) :
+			BasicGestureBind(
+				std::move(gesture),
+				std::move(action),
+				endType,
+				maxTimeBetweenInputs,
+				EventCompare{},
+				EventFilter{})
+		{
+		}
+
+		template <
+			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+		>
 		BasicGestureBind(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
@@ -98,6 +125,10 @@ namespace GB
 		{
 		}
 
+		template <
+			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+		>
 		BasicGestureBind(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action) :
