@@ -5,7 +5,7 @@
 #include <GameBackbone/UserInput/InputRouter.h>
 #include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
 #include <GameBackbone/UserInput/GestureBind.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventComparator.h>
 
 using namespace GB;
 
@@ -23,14 +23,14 @@ BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 
 	BOOST_AUTO_TEST_CASE(TestCompile)
 	{
-		InputRouter router{ ButtonPressGestureHandler<BasicGestureBind<KeyEventComparitor, AnyEventFilter>>{}, TestInputHandler{} };
+		InputRouter router{ ButtonPressGestureHandler<BasicGestureBind<KeyEventComparator, AnyEventFilter>>{}, TestInputHandler{} };
 		router.handleEvent(1, sf::Event{});
 
-		BasicGestureBind<KeyEventComparitor, AnyEventFilter> bind({ sf::Event{} }, []() {}, BasicGestureBind<KeyEventComparitor, AnyEventFilter>::EndType::Reset, 1);
+		BasicGestureBind<KeyEventComparator, AnyEventFilter> bind({ sf::Event{} }, []() {}, BasicGestureBind<KeyEventComparator, AnyEventFilter>::EndType::Reset, 1);
 		bind.processEvent(1, sf::Event{});
 	}
 
-	static_assert(is_event_comparitor<KeyEventComparitor>::value, "wat");
-	static_assert(is_event_comparitor_v<KeyEventComparitor>, "wat");
+	static_assert(is_event_comparator<KeyEventComparator>::value, "wat");
+	static_assert(is_event_comparator_v<KeyEventComparator>, "wat");
 
 BOOST_AUTO_TEST_SUITE_END() // InputHandlerTests

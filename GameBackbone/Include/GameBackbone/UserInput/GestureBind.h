@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GameBackbone/Util/DllUtil.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventComparator.h>
 #include <GameBackbone/UserInput/EventFilter.h>
 #include <GameBackbone/UserInput/InputHandler.h>
 
@@ -52,7 +52,7 @@ namespace GB
 	template <
 		typename EventCompare,
 		typename EventFilter,
-		std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true,
+		std::enable_if_t<is_event_comparator_v<EventCompare>, bool> = true,
 		std::enable_if_t<is_event_filter_v<EventFilter>, bool> = true
 	>
 	class BasicGestureBind
@@ -61,6 +61,8 @@ namespace GB
 
 		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
 
+		using EventComparatorType = EventCompare;
+		using EventFilterType = EventFilter;
 		using ProcessEventResult = GestureBindProcessEventResult;
 
 		enum class EndType
@@ -84,7 +86,7 @@ namespace GB
 			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_position(0),
 			m_readyForInput(true),
-			m_eventComparitor(std::move(eventComparator)),
+			m_eventComparator(std::move(eventComparator)),
 			m_eventFilter(std::move(eventFilter))
 		{
 		}
@@ -238,7 +240,7 @@ namespace GB
 
 		bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
 		{
-			return std::invoke(m_eventComparitor, lhs, rhs);
+			return std::invoke(m_eventComparator, lhs, rhs);
 		}
 
 		void fireAction()
@@ -277,15 +279,15 @@ namespace GB
 		sf::Int64 m_maxTimeBetweenInputs;
 		std::size_t m_position;
 		bool m_readyForInput;
-		EventCompare m_eventComparitor;
+		EventCompare m_eventComparator;
 		EventFilter m_eventFilter;
 	};
 
-	using KeyDownGestureBind = BasicGestureBind<KeyEventComparitor, KeyDownEventFilter>;
+	using KeyDownGestureBind = BasicGestureBind<KeyEventComparator, KeyDownEventFilter>;
 
-	using JoystickButtonDownGestureBind = BasicGestureBind<JoystickButtonEventComparitor, JoystickButtonDownEventFilter>;
+	using JoystickButtonDownGestureBind = BasicGestureBind<JoystickButtonEventComparator, JoystickButtonDownEventFilter>;
 
-	using MouseButtonDownGestureBind = BasicGestureBind<MouseButtonEventComparitor, MouseButtonDownEventFilter>;
+	using MouseButtonDownGestureBind = BasicGestureBind<MouseButtonEventComparator, MouseButtonDownEventFilter>;
 
-	using ButtonDownGestureBind = BasicGestureBind<ButtonEventComparitor, AnyButtonDownEventFilter>;
+	using ButtonDownGestureBind = BasicGestureBind<ButtonEventComparator, AnyButtonDownEventFilter>;
 }

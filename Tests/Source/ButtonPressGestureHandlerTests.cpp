@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventComparator.h>
 #include <GameBackbone/UserInput/GestureBind.h>
 
 using namespace GB;
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			wPressed.type = sf::Event::KeyPressed;
 		}
 	
-		using TestGestureBind = BasicGestureBind<KeyEventComparitor, AnyEventFilter>;
+		using TestGestureBind = BasicGestureBind<KeyEventComparator, AnyEventFilter>;
 
 		// Event for gesture
 		sf::Event upPressed = {};

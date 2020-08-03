@@ -1,19 +1,19 @@
 #include "stdafx.h"
 
 #include <GameBackbone/UserInput/GestureBind.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventComparator.h>
 
 using namespace GB;
 
 BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 	// Assert For type traits
-	struct AlwaysTrueEventComparitor
+	struct AlwaysTrueEventComparator
 	{
 		bool operator()(const sf::Event&, const sf::Event&) { return true; }
 	};
-	static_assert(is_event_comparitor_v<AlwaysTrueEventComparitor>, "GestureBindTests SimpleEventComparitor does not meet EventComparitor requirements");
-	static_assert(is_gesture_bind_v<BasicGestureBind<AlwaysTrueEventComparitor, AnyEventFilter>>, "BasicGestureBind does not meet GestureBind requirements");
+	static_assert(is_event_comparator_v<AlwaysTrueEventComparator>, "GestureBindTests SimpleEventComparator does not meet EventComparator requirements");
+	static_assert(is_gesture_bind_v<BasicGestureBind<AlwaysTrueEventComparator, AnyEventFilter>>, "BasicGestureBind does not meet GestureBind requirements");
 	static_assert(!is_gesture_bind_v<int>, "int is not a GestureBind");
 	struct GestureBindWithWrongSignature
 	{
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 	static_assert(!is_gesture_bind_v<GestureBindWithWrongSignature>, "GestureBind type trait failed to check for return value");
 
 	// Gesture Bind type for easy testing
-	using TestGestureBind = BasicGestureBind<AlwaysTrueEventComparitor, AnyEventFilter>;
+	using TestGestureBind = BasicGestureBind<AlwaysTrueEventComparator, AnyEventFilter>;
 
 	struct SFEventFixture
 	{
@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 			BOOST_CHECK(eventVec.size() == gestureEvents.size());
 			for (std::size_t i = 0; i < eventVec.size(); ++i)
 			{
-				BOOST_CHECK(ButtonEventComparitor{}(eventVec[i], gestureEvents[i]));
+				BOOST_CHECK(ButtonEventComparator{}(eventVec[i], gestureEvents[i]));
 			}
 			
 			// Modify then recheck events
@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 			BOOST_CHECK(eventVec.size() == gestureEvents.size());
 			for (std::size_t i = 0; i < eventVec.size(); ++i)
 			{
-				BOOST_CHECK(ButtonEventComparitor{}(eventVec[i], gestureEvents[i]));
+				BOOST_CHECK(ButtonEventComparator{}(eventVec[i], gestureEvents[i]));
 			}
 		}
 
@@ -494,7 +494,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 		BOOST_FIXTURE_TEST_CASE(ProcessEventDoesNotConsumeInputWhenNotReadyForInput, SFEventFixture)
 		{
-			using Gesture = BasicGestureBind<ButtonEventComparitor, AnyButtonDownEventFilter>;
+			using Gesture = BasicGestureBind<ButtonEventComparator, AnyButtonDownEventFilter>;
 			std::vector eventVec{ upPressed };
 			Gesture gesture(eventVec, [&] {});
 
@@ -513,7 +513,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 		BOOST_FIXTURE_TEST_CASE(ProcessEventDoesNotConsumeInputWhenInputDoesNotPassFilter, SFEventFixture)
 		{
-			using Gesture = BasicGestureBind<ButtonEventComparitor, KeyDownEventFilter>;
+			using Gesture = BasicGestureBind<ButtonEventComparator, KeyDownEventFilter>;
 			std::vector eventVec{ upPressed };
 			Gesture gesture(eventVec, [&] {});
 
@@ -528,7 +528,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 		BOOST_FIXTURE_TEST_CASE(BasicGestureBindIsUnreadyToHandleInputAfterProcessingEventThatIsntPartOfTheGesture, SFEventFixture)
 		{
-			using Gesture = BasicGestureBind<ButtonEventComparitor, AnyButtonDownEventFilter>;
+			using Gesture = BasicGestureBind<ButtonEventComparator, AnyButtonDownEventFilter>;
 			std::vector eventVec{ upPressed };
 			Gesture gesture(eventVec, [&] {});
 
@@ -541,7 +541,7 @@ BOOST_AUTO_TEST_SUITE(GestureBindTests)
 
 		BOOST_FIXTURE_TEST_CASE(BasicGestureBindIsUnreadyToHandleInputAfterTheMaxTimeBetweenInputsHasElapsed, SFEventFixture)
 		{
-			using Gesture = BasicGestureBind<ButtonEventComparitor, AnyButtonDownEventFilter>;
+			using Gesture = BasicGestureBind<ButtonEventComparator, AnyButtonDownEventFilter>;
 			std::vector eventVec{ upPressed, downPressed };
 			Gesture gesture(eventVec, [&] {}, Gesture::EndType::Block, 5);
 
