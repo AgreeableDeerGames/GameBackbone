@@ -9,7 +9,7 @@ add_executable(GameBackboneUnitTest
 	"Source/CoreEventControllerTests.cpp"
 	"Source/EventFilterTests.cpp"
 	"Source/GameRegionTests.cpp"
-	"Source/GestureBindTests.cpp"
+	"Source/GestureMatchSignalerTests.cpp"
 	"Source/InputHandlerTests.cpp"
 	"Source/InputRouterTests.cpp"
 	"Source/RandGenTests.cpp"

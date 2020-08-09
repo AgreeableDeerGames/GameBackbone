@@ -2,7 +2,7 @@
 
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/UserInput/InputHandler.h>
-#include <GameBackbone/UserInput/GestureBind.h>
+#include <GameBackbone/UserInput/GestureMatchSignaler.h>
 
 #include <SFML/Window/Event.hpp>
 
@@ -19,11 +19,11 @@
 
 namespace GB
 {
-	template <class GestureType, std::enable_if_t<is_gesture_bind_v<GestureType>, bool> = true>
+	template <class GestureMatchSignalerType, std::enable_if_t<is_gesture_match_signaler_v<GestureMatchSignalerType>, bool> = true>
 	class ButtonPressGestureHandler : public InputHandler
 	{
 	private: 
-		using GestureContainer = std::vector<GestureType>;
+		using GestureContainer = std::vector<GestureMatchSignalerType>;
 
 	public:
 
@@ -56,7 +56,7 @@ namespace GB
 			return eventConsumed;
 		}
 
-		GestureType& addGesture(GestureType bind)
+		GestureMatchSignalerType& addGesture(GestureMatchSignalerType bind)
 		{
 			m_openSetGestures.push_back(bind);
 			return m_wholeSet.emplace_back(std::move(bind));
@@ -73,12 +73,12 @@ namespace GB
 			resetGestures();
 		}
 
-		GestureType& getGesture(size_type position)
+		GestureMatchSignalerType& getGesture(size_type position)
 		{
 			return m_wholeSet.at(position);
 		}
 
-		const GestureType& getGesture(size_type position) const
+		const GestureMatchSignalerType& getGesture(size_type position) const
 		{
 			return m_wholeSet.at(position);
 		}
@@ -151,7 +151,7 @@ namespace GB
 			m_openSetGestures.clear();
 
 			// Add all gestures from the whole set to the active gestures open set.
-			for (const GestureType& bind : m_wholeSet)
+			for (const GestureMatchSignalerType& bind : m_wholeSet)
 			{
 				m_openSetGestures.push_back(bind);
 			}
@@ -161,11 +161,11 @@ namespace GB
 		GestureContainer m_wholeSet;
 	};
 
-	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyDownGestureBind>;
+	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyDownMatchSignaler>;
 
-	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonDownGestureBind>;
+	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonDownMatchSignaler>;
 
-	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonDownGestureBind>;
+	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonDownMatchSignaler>;
 
-	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonDownGestureBind>;
+	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonDownMatchSignaler>;
 }
