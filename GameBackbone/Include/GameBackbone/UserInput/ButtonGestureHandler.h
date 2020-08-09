@@ -56,13 +56,13 @@ namespace GB
 			return eventConsumed;
 		}
 
-		GestureMatchSignalerType& addGesture(GestureMatchSignalerType bind)
+		GestureMatchSignalerType& addMatchSignaler(GestureMatchSignalerType bind)
 		{
 			m_openSetGestures.push_back(bind);
 			return m_wholeSet.emplace_back(std::move(bind));
 		}
 
-		void removeGesture(size_type position)
+		void removeMatchSignaler(size_type position)
 		{
 			if ( position >= m_wholeSet.size() )
 			{
@@ -73,12 +73,12 @@ namespace GB
 			resetGestures();
 		}
 
-		GestureMatchSignalerType& getGesture(size_type position)
+		GestureMatchSignalerType& getMatchSignaler(size_type position)
 		{
 			return m_wholeSet.at(position);
 		}
 
-		const GestureMatchSignalerType& getGesture(size_type position) const
+		const GestureMatchSignalerType& getMatchSignaler(size_type position) const
 		{
 			return m_wholeSet.at(position);
 		}
