@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_FIXTURE_TEST_CASE(AddGestureReturnsReferenceToAddedgesture, GestureAccessorFixture)
 		{
 
-			BOOST_CHECK(handler.getGestureCount() == 0);
+			BOOST_CHECK(handler.getMatchSignalerCount() == 0);
 			auto& outGesture = handler.addMatchSignaler(inputGestures[0]);
 
 			// Each gesture has a unique size. Use this to verify that they match
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
-			BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(handler.getMatchSignalerCount() == inputGestures.size());
 			std::size_t iteration = 0;
 			for (auto& gesture : handler)
 			{
@@ -237,7 +237,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
-			BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(constHandler.getMatchSignalerCount() == inputGestures.size());
 			std::size_t iteration = 0;
 			for (auto& gesture : constHandler)
 			{
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
-			BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(constHandler.getMatchSignalerCount() == inputGestures.size());
 			std::size_t iteration = 0;
 			for (auto it = constHandler.cbegin(); it != constHandler.cend(); ++it)
 			{
@@ -318,10 +318,10 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			std::size_t elementToErase = 2;
 			handler.removeMatchSignaler(elementToErase);
 			inputGestures.erase(inputGestures.begin() + elementToErase);
-			BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(handler.getMatchSignalerCount() == inputGestures.size());
 
 			// Verify that the gestures are the same by checking the sizes
-			for (int i = 0; i < handler.getGestureCount(); ++i)
+			for (int i = 0; i < handler.getMatchSignalerCount(); ++i)
 			{
 				BOOST_CHECK(handler.getMatchSignaler(i).getGesture().size() == inputGestures[i].getGesture().size());
 			}
@@ -347,21 +347,21 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			// Count should be zero before anything is added to it
 			int count = 0;
-			BOOST_TEST(handler.getGestureCount() == count);
+			BOOST_TEST(handler.getMatchSignalerCount() == count);
 
 			// Count should go up with each gesture added
 			for (const auto& gesture : inputGestures)
 			{
 				handler.addMatchSignaler(gesture);
 				++count;
-				BOOST_TEST(handler.getGestureCount() == count);
+				BOOST_TEST(handler.getMatchSignalerCount() == count);
 
 			}
 
 			// Count should go down after removing gesture
 			handler.removeMatchSignaler(0);
 			--count;
-			BOOST_TEST(handler.getGestureCount() == count);
+			BOOST_TEST(handler.getMatchSignalerCount() == count);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END() // GestureAccess

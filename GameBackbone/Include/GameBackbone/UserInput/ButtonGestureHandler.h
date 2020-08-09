@@ -83,7 +83,7 @@ namespace GB
 			return m_wholeSet.at(position);
 		}
 
-		size_type getGestureCount() const
+		size_type getMatchSignalerCount() const
 		{
 			return m_wholeSet.size();
 		}
