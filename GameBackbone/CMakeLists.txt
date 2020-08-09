@@ -16,12 +16,12 @@ add_library(GameBackbone SHARED
   "Include/GameBackbone/Core/Updatable.h"
 
    # user input
-  "Include/GameBackbone/UserInput/InputHandler.h"
-  "Include/GameBackbone/UserInput/InputRouter.h"
-  "Include/GameBackbone/UserInput/ButtonPressGestureHandler.h"
-  "Include/GameBackbone/UserInput/GestureMatchSignaler.h"
+  "Include/GameBackbone/UserInput/ButtonGestureHandler.h"
   "Include/GameBackbone/UserInput/EventComparator.h"
   "Include/GameBackbone/UserInput/EventFilter.h"
+  "Include/GameBackbone/UserInput/GestureMatchSignaler.h"
+  "Include/GameBackbone/UserInput/InputHandler.h"
+  "Include/GameBackbone/UserInput/InputRouter.h"
 
   # util
   "Include/GameBackbone/Util/DllUtil.h"

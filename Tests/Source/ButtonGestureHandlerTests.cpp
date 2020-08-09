@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
+#include <GameBackbone/UserInput/ButtonGestureHandler.h>
 #include <GameBackbone/UserInput/EventComparator.h>
 #include <GameBackbone/UserInput/GestureMatchSignaler.h>
 
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		sf::Event ePressed = {};
 		sf::Event wPressed = {};
 
-		ButtonPressGestureHandler<TestMatchSignaler> handler;
+		ButtonGestureHandler<TestMatchSignaler> handler;
 	};
 
 	struct GestureAccessorFixture : InputHandlerConsumeEventFixture
@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			}
 
 			// Make the handler const to test const iteration
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestMatchSignaler>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
@@ -255,7 +255,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			}
 
 			// Make the handler const to test const iteration
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestMatchSignaler>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
@@ -284,7 +284,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			}
 
 			// Verify that the gestures are the same by checking the sizes with a const handler
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestMatchSignaler>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 			for (int i = 0; i < gestureCount; ++i)
 			{
 				BOOST_CHECK(constHandler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
@@ -303,7 +303,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			BOOST_CHECK_THROW(handler.getGesture(gestureCount), std::out_of_range);
 
 			// Verify that the gestures are the same by checking the sizes with a const handler
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestMatchSignaler>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 			BOOST_CHECK_THROW(constHandler.getGesture(gestureCount), std::out_of_range);
 		}
 

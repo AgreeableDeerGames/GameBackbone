@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
+#include <GameBackbone/UserInput/ButtonGestureHandler.h>
 #include <GameBackbone/UserInput/InputHandler.h>
 #include <GameBackbone/UserInput/InputRouter.h>
 

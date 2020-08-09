@@ -20,7 +20,7 @@
 namespace GB
 {
 	template <class GestureMatchSignalerType, std::enable_if_t<is_gesture_match_signaler_v<GestureMatchSignalerType>, bool> = true>
-	class ButtonPressGestureHandler : public InputHandler
+	class ButtonGestureHandler : public InputHandler
 	{
 	private: 
 		using GestureContainer = std::vector<GestureMatchSignalerType>;
@@ -31,12 +31,12 @@ namespace GB
 		using const_iterator = typename GestureContainer::const_iterator;
 		using size_type = typename GestureContainer::size_type;
 
-		ButtonPressGestureHandler() = default;
-		ButtonPressGestureHandler(const ButtonPressGestureHandler&) = default;
-		ButtonPressGestureHandler(ButtonPressGestureHandler&&) = default;
-		ButtonPressGestureHandler& operator=(const ButtonPressGestureHandler&) = default;
-		ButtonPressGestureHandler& operator=(ButtonPressGestureHandler&&) = default;
-		virtual ~ButtonPressGestureHandler() = default;
+		ButtonGestureHandler() = default;
+		ButtonGestureHandler(const ButtonGestureHandler&) = default;
+		ButtonGestureHandler(ButtonGestureHandler&&) = default;
+		ButtonGestureHandler& operator=(const ButtonGestureHandler&) = default;
+		ButtonGestureHandler& operator=(ButtonGestureHandler&&) = default;
+		virtual ~ButtonGestureHandler() = default;
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
@@ -66,7 +66,7 @@ namespace GB
 		{
 			if ( position >= m_wholeSet.size() )
 			{
-				throw std::out_of_range("Out of bounds position in ButtonPressGestureHandler::removeGesture");
+				throw std::out_of_range("Out of bounds position in ButtonGestureHandler::removeGesture");
 			}
 
 			m_wholeSet.erase(m_wholeSet.begin() + position);
@@ -161,11 +161,11 @@ namespace GB
 		GestureContainer m_wholeSet;
 	};
 
-	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyDownMatchSignaler>;
+	using KeyboardGestureHandler = ButtonGestureHandler<KeyDownMatchSignaler>;
 
-	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonDownMatchSignaler>;
+	using JoystickButtonGestureHandler = ButtonGestureHandler<JoystickButtonDownMatchSignaler>;
 
-	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonDownMatchSignaler>;
+	using MouseButtonGestureHandler = ButtonGestureHandler<MouseButtonDownMatchSignaler>;
 
-	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonDownMatchSignaler>;
+	using AnyButtonGestureHandler = ButtonGestureHandler<ButtonDownMatchSignaler>;
 }
