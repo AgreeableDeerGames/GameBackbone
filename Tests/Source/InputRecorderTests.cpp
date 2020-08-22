@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventComparator.h>
 #include <GameBackbone/UserInput/InputRecorder.h>
-#include <GameBackbone/UserInput/GestureBind.h>
+#include <GameBackbone/UserInput/GestureMatchSignaler.h>
 
 
 #include <SFML/Window/Event.hpp>
@@ -31,8 +31,8 @@ BOOST_AUTO_TEST_SUITE(InputRecorderTests)
 			leftMousePressed.type = sf::Event::MouseButtonPressed;
 		}
 	
-		using TestRecorder = InputRecorder<KeyEventComparitor, KeyDownEventFilter>;
-		using TestGestureBind = TestRecorder::ReturnBind;
+		using TestRecorder = InputRecorder<KeyEventComparator, KeyDownEventFilter>;
+		using TestGestureBind = TestRecorder::ReturnGestureMatchSignaler;
 
 		// Compare two binds. For now, only check that the Sequence on them is equal.
 		bool CompareBinds(TestGestureBind lhs, TestGestureBind rhs)
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(InputRecorderTests)
 			for (int ii = 0; ii < lhVec.size(); ii++)
 			{
 				// If any Comparison returns false, return false. 
-				if (!std::invoke(KeyEventComparitor{}, lhVec[ii], rhVec[ii]))
+				if (!std::invoke(KeyEventComparator{}, lhVec[ii], rhVec[ii]))
 				{
 					return false;
 				}
