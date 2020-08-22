@@ -521,7 +521,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 		iter->second;
 	}
 
-	auto x = compoundSprite.getComponentWithPriorty(2);
+	auto x = compoundSprite.getComponentPriorties();
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests

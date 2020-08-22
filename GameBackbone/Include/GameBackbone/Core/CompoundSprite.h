@@ -90,6 +90,18 @@ namespace GB {
 			}
 			return components;
 		}
+		
+		std::vector<int> getComponentPriorties()
+		{
+			std::vector<int> priorities;
+			for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
+			{
+				priorities.push_back(iter->first);
+			}
+			return priorities;
+		}
+
+		
 
 		/// <summary>
 		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
