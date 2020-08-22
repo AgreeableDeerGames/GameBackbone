@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE(InputRecorderTests)
 			leftMousePressed.type = sf::Event::MouseButtonPressed;
 		}
 	
-		using TestRecorder = InputRecorder<KeyEventComparitor, AnyKeyEventFilter>;
+		using TestRecorder = InputRecorder<KeyEventComparitor, KeyDownEventFilter>;
 		using TestGestureBind = TestRecorder::ReturnBind;
 
 		// Compare two binds. For now, only check that the Sequence on them is equal.
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_SUITE(InputRecorderTests)
 
 			inputRecorder.handleEvent(0, upPressed);
 			inputRecorder.handleEvent(0, downPressed);
-			TestGestureBind testBind = inputRecorder.GetCompletedBind([](){});
+			TestGestureBind testBind = inputRecorder.getCompletedBind([](){});
 
 			BOOST_TEST(CompareBinds(bindToCompare, testBind));
 		}
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_SUITE(InputRecorderTests)
 
 			inputRecorder.handleEvent(0, upPressed);
 			inputRecorder.handleEvent(0, upPressed);
-			TestGestureBind testBind = inputRecorder.GetCompletedBind([]() {});
+			TestGestureBind testBind = inputRecorder.getCompletedBind([]() {});
 
 			BOOST_TEST(CompareBinds(bindToCompare, testBind));
 		}
@@ -101,25 +101,23 @@ BOOST_AUTO_TEST_SUITE(InputRecorderTests)
 			inputRecorder.handleEvent(0, upPressed);
 			inputRecorder.handleEvent(0, leftMousePressed);
 			inputRecorder.handleEvent(0, upPressed);
-			TestGestureBind testBind = inputRecorder.GetCompletedBind([]() {});
+			TestGestureBind testBind = inputRecorder.getCompletedBind([]() {});
 
 			BOOST_TEST(CompareBinds(bindToCompare, testBind));
 		}
+		
+		BOOST_FIXTURE_TEST_CASE(FilteredUpEvent, InputHandlerConsumeEventFixture)
+		{
+			TestGestureBind bindToCompare({ upPressed, upPressed }, []() {});
 
-	BOOST_AUTO_TEST_SUITE_END() // ValidCases
+			inputRecorder.handleEvent(0, upPressed);
+			inputRecorder.handleEvent(0, upReleased);
+			inputRecorder.handleEvent(0, upPressed);
+			inputRecorder.handleEvent(0, upReleased);
+			TestGestureBind testBind = inputRecorder.getCompletedBind([]() {});
 
-	BOOST_AUTO_TEST_SUITE(ValidCases)
-
-	/*BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresActionForMultiInputGesture, InputHandlerConsumeEventFixture)
-	{
-		TestGestureBind bindToCompare({ upPressed, downPressed }, []() {});
-
-		inputRecorder.handleEvent(0, upPressed);
-		inputRecorder.handleEvent(0, downPressed);
-		TestGestureBind testBind = inputRecorder.GetCompletedBind([]() {});
-
-		BOOST_TEST(CompareBinds(bindToCompare, testBind));
-	}*/
+			BOOST_TEST(CompareBinds(bindToCompare, testBind));
+		}
 
 	BOOST_AUTO_TEST_SUITE_END() // ValidCases
 	

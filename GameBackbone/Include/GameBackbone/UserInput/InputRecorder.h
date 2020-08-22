@@ -10,11 +10,17 @@
 
 namespace GB
 {
+	// SFNIAE
 	template <typename EventCompare, typename EventFilter>
 	class InputRecorder : public InputHandler
 	{
 	public:
 		using ReturnBind = BasicGestureBind<EventCompare, EventFilter>;
+		// Compare and Filter Type
+		// using ReturnBind = BasicGestureBind<EventCompare, EventFilter>;
+		// using ReturnBind = BasicGestureBind<EventCompare, EventFilter>;
+
+		// Constructors
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
@@ -28,8 +34,8 @@ namespace GB
 			return false;
 		}
 
-
-		ReturnBind GetCompletedBind(
+		
+		ReturnBind getCompletedBind(
 			std::function<void()> action, 
 			typename ReturnBind::EndType endType = ReturnBind::EndType::Block,
 			sf::Int64 maxTimeBetweenInputs = 1000000)
@@ -42,11 +48,24 @@ namespace GB
 			};
 
 			// Clear the internal state
-			m_bindKeys.clear();
+			reset();
 
 			return returnBind;
 		}
 
+		void reset()
+		{
+			m_bindKeys.clear();
+		}
+
+		void Getter()
+		{}
+
+		void Getter()
+		{}
+
+
+	private:
 		EventCompare m_eventComparitor;
 		EventFilter m_eventFilter;
 
