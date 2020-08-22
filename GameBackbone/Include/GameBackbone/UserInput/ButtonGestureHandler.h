@@ -17,27 +17,64 @@
 #include <vector>
 
 
+//TODO: Make manually resettable
+
 namespace GB
-{
-	template <class GestureMatchSignalerType, std::enable_if_t<is_gesture_match_signaler_v<GestureMatchSignalerType>, bool> = true>
+{	
+	/// @brief Forwards inputs to a set of active GB::GestureMatchSignaler.
+	/// @details This class attempts to match incoming Events to the Event Sequences (Gestures) in a set of GB::GestureMatchSignaler.
+	///				If an Event sequence matches the GB::GestureMatchSignaler, that GB::GestureMatchSignaler continues to be active.
+	///				If the Sequence does not match, then the GB::GestureMatchSignaler no longer active. 
+	///				When there are no GB::GestureMatchSignaler matches the sequence so far, the Sequence is restarted 
+	///				at the current Event and is reapplied to all GB::GestureMatchSignaler.
+	/// @tparam Signaler The type of GestureMatchSignaler that will be used to match against event sequences.
+	template <class Signaler, std::enable_if_t<is_gesture_match_signaler_v<Signaler>, bool> = true>
 	class ButtonGestureHandler : public InputHandler
 	{
-	private: 
-		using GestureContainer = std::vector<GestureMatchSignalerType>;
 
 	public:
-
+		/// @brief The type of GestureMatchSignaler that inputs will be matched against.
+		using GestureMatchSignalerType = Signaler;
+	private: 
+		using GestureContainer = std::vector<GestureMatchSignalerType>;
+	public:
 		using iterator = typename GestureContainer::iterator;
 		using const_iterator = typename GestureContainer::const_iterator;
 		using size_type = typename GestureContainer::size_type;
 
+		/// @brief Default construct a ButtonGestureHandler. 
 		ButtonGestureHandler() = default;
-		ButtonGestureHandler(const ButtonGestureHandler&) = default;
-		ButtonGestureHandler(ButtonGestureHandler&&) = default;
-		ButtonGestureHandler& operator=(const ButtonGestureHandler&) = default;
-		ButtonGestureHandler& operator=(ButtonGestureHandler&&) = default;
-		virtual ~ButtonGestureHandler() = default;
 
+		/// @brief Copy construct a ButtonGestureHandler.
+		/// @param other the ButtonGestureHandler to copy.
+		ButtonGestureHandler(const ButtonGestureHandler& other) = default;
+
+		/// @brief Move construct a ButtonGestureHandler.
+		/// @param other the ButtonGestureHandler to move.
+		ButtonGestureHandler(ButtonGestureHandler&& other) = default;
+
+		/// @brief Copy Assignment.
+		/// @param other The ButtonGestureHandler to copy.
+		/// @return this
+		ButtonGestureHandler& operator=(const ButtonGestureHandler& other) = default;
+
+		/// @brief Move Assignment.
+		/// @param other The ButtonGestureHandler to move.
+		/// @return this
+		ButtonGestureHandler& operator=(ButtonGestureHandler&& other) = default;
+
+		/// @brief Destroy the ButtonGestureHandler.
+		~ButtonGestureHandler() override = default;
+
+		/// @brief Apply the incoming event to each active GB::GestureMatchSignaler stored on this instance.
+		/// @details Match the incoming Event against the stored instances of GB::GestureMatchSignaler.
+		///			Any GB::GestureMatchSignaler that matches the event will continue to be active.
+		///			All other GB::GestureMatchSignaler will no longer be active.
+		///			if no GB::GestureMatchSignaler matches then all GB::GestureMatchSignaler are reset and activated and
+		///			the event is applied to each one again.
+		/// @param elapsedTime The time since the last event
+		/// @param event the incoming event.
+		/// @return True if any GB::GestureMatchSignaler matched the incoming event. False otherwise.
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
 			bool eventConsumed = applyEventToOpenSet(elapsedTime, event);
@@ -56,12 +93,22 @@ namespace GB
 			return eventConsumed;
 		}
 
-		GestureMatchSignalerType& addMatchSignaler(GestureMatchSignalerType bind)
+		// TODO: this is pretty bad behavior. Perhaps open and whole set should use same pointer and reset.
+
+		/// @brief Adds a GB::GestureMatchSignaler to match against incoming events.
+		/// @param matchSignaler the GB::GestureMatchSignaler to add.
+		/// @return a reference to the added GB::GestureMatchSignaler.
+		/// @note If any changes are made to matchSignaler after it has been added they will not 
+		///			have any effect until reset has been called.
+		GestureMatchSignalerType& addMatchSignaler(GestureMatchSignalerType matchSignaler)
 		{
-			m_openSetGestures.push_back(bind);
-			return m_wholeSet.emplace_back(std::move(bind));
+			m_openSetGestures.push_back(matchSignaler);
+			return m_wholeSet.emplace_back(std::move(matchSignaler));
 		}
 
+		/// @brief Removes the GB::GestureMatchSignaler at the provided location.
+		/// @param position The index of the GB::GestureMatchSignaler to remove.
+		/// @throws std::out_of_range exception if the position is invalid.
 		void removeMatchSignaler(size_type position)
 		{
 			if ( position >= m_wholeSet.size() )
@@ -73,56 +120,81 @@ namespace GB
 			resetGestures();
 		}
 
+		/// @brief Gets a reference to the GB::GestureMatchSignaler at the provided location.
+		/// @param position the index of the GB::GestureMatchSignaler to return.
+		/// @return The GB::GestureMatchSignaler at the provided index.
+		/// @throws std::out_of_range exception if the position is invalid.
 		GestureMatchSignalerType& getMatchSignaler(size_type position)
 		{
 			return m_wholeSet.at(position);
 		}
 
+		/// @brief Gets a reference to the GB::GestureMatchSignaler at the provided location.
+		/// @param position the index of the GB::GestureMatchSignaler to return.
+		/// @return The GB::GestureMatchSignaler at the provided index.
+		/// @throws std::out_of_range exception if the position is invalid.
 		const GestureMatchSignalerType& getMatchSignaler(size_type position) const
 		{
 			return m_wholeSet.at(position);
 		}
 
+		/// @brief Get the number of GB::GestureMatchSignaler stored on this instance.
 		size_type getMatchSignalerCount() const
 		{
 			return m_wholeSet.size();
 		}
 
+		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
 		iterator begin() 
 		{
 			return m_wholeSet.begin();
 		}
 
+		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
 		const_iterator begin() const
 		{
 			return m_wholeSet.begin();
 		}
 
+		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
 		const_iterator cbegin() const
 		{
 			return m_wholeSet.cbegin();
 		}
 
+		/// @brief End iterator to the instances of GB::GestureMatchSignaler that are stored on this instance.
 		iterator end()
 		{
 			return m_wholeSet.end();
 		}
 
+		/// @brief End iterator to the instances of GB::GestureMatchSignaler that are stored on this instance.
 		const_iterator end() const
 		{
 			return m_wholeSet.end();
 		}
 
+		/// @brief End iterator to the instances of GB::GestureMatchSignaler that are stored on this instance.
 		const_iterator cend() const
 		{
 			return m_wholeSet.cend();
 		}
 
 	private:
-
+	
+		/// @brief Apply the incoming event to each active GB::GestureMatchSignaler stored on this instance.
+		/// @details Forwards inputs to a set of active GB::GestureMatchSignaler. In ButtonGestureHandler::handleEvent
+		///				events are passed to each GB::GestureMatchSignaler in the open set. If any GB::GestureMatchSignaler
+		///             does not match the input it will be taken out of the active set until the GB::ButtonGestureHandler is reset.
+		///             If nothing in the active set matches the input then GB::ButtonGestureHandler is automatically reset and
+		///				the input is reapplied to the active set one extra time. 
+		///				The reset and  reapplication of the event is because we want to be able to bail out and then start a new Gesture immediately.
+		/// @param elapsedTime The time since the last event
+		/// @param event the incoming event.
+		/// @return True if any GB::GestureMatchSignaler matched the incoming event. False otherwise.
 		bool applyEventToOpenSet(sf::Int64 elapsedTime, const sf::Event& event)
 		{
-			bool eventApplied = false;
+			bool eventConsumed = false;
 			for (std::size_t ii = 0; ii < m_openSetGestures.size(); ++ii)
 			{
 				// Forward event to the gesture bind
@@ -138,13 +210,14 @@ namespace GB
 				// The event was part of the gesture
 				if (result.inputConsumed)
 				{
-					eventApplied = true;
+					eventConsumed = true;
 				}
 			}
 
-			return eventApplied;
+			return eventConsumed;
 		}
 
+		/// @brief Move all gestures back into the open set in their original state.
 		void resetGestures()
 		{
 			// Clear the open set completely
@@ -161,11 +234,15 @@ namespace GB
 		GestureContainer m_wholeSet;
 	};
 
+	/// @brief GB::ButtonGestureHandler that handles sequences of key down inputs. 
 	using KeyboardGestureHandler = ButtonGestureHandler<KeyDownMatchSignaler>;
-
+	
+	/// @brief GB::ButtonGestureHandler that handles sequences of joystick button down inputs. 
 	using JoystickButtonGestureHandler = ButtonGestureHandler<JoystickButtonDownMatchSignaler>;
-
+	
+	/// @brief GB::ButtonGestureHandler that handles sequences of mouse button down inputs. 
 	using MouseButtonGestureHandler = ButtonGestureHandler<MouseButtonDownMatchSignaler>;
 
+	/// @brief GB::ButtonGestureHandler that handles sequences of button down inputs. 
 	using AnyButtonGestureHandler = ButtonGestureHandler<ButtonDownMatchSignaler>;
 }

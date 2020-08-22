@@ -77,8 +77,8 @@ namespace GB
 			std::function<void()> action,
 			EndType endType,
 			sf::Int64 maxTimeBetweenInputs,
-			EventCompare eventComparator,
-			EventFilter eventFilter
+			EventComparatorType eventComparator,
+			EventFilterType eventFilter
 		) :
 			m_gesture(std::move(gesture)),
 			m_action(std::move(action)),
@@ -92,8 +92,8 @@ namespace GB
 		}
 
 		template <
-			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
-			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+			typename = std::enable_if_t< std::is_default_constructible_v<EventComparatorType>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilterType>>
 		>
 		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
@@ -107,13 +107,13 @@ namespace GB
 				endType,
 				maxTimeBetweenInputs,
 				EventCompare{},
-				EventFilter{})
+				EventFilterType{})
 		{
 		}
 
 		template <
-			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
-			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+			typename = std::enable_if_t< std::is_default_constructible_v<EventComparatorType>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilterType>>
 		>
 		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
@@ -128,8 +128,8 @@ namespace GB
 		}
 
 		template <
-			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
-			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+			typename = std::enable_if_t< std::is_default_constructible_v<EventComparatorType>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilterType>>
 		>
 		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
@@ -279,8 +279,8 @@ namespace GB
 		sf::Int64 m_maxTimeBetweenInputs;
 		std::size_t m_position;
 		bool m_readyForInput;
-		EventCompare m_eventComparator;
-		EventFilter m_eventFilter;
+		EventComparatorType m_eventComparator;
+		EventFilterType m_eventFilter;
 	};
 
 	using KeyDownMatchSignaler = GestureMatchSignaler<KeyEventComparator, KeyDownEventFilter>;

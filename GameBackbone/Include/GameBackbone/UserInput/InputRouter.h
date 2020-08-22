@@ -16,6 +16,7 @@
 
 namespace GB
 {
+	// TODO: Capitalization of Detail. Should these go somewhere
 	namespace Detail
 	{
 		// FROM: https://blog.tartanllama.xyz/exploding-tuples-fold-expressions/
@@ -45,19 +46,28 @@ namespace GB
 		template <class... InTypes>
 		inline constexpr bool are_all_input_handlers_v = (std::is_base_of_v<InputHandler, InTypes> && ...);
 	}
-
+	
+	/// @brief Forwards handleEvent calls to all GB::InputHandler. Once the event is handled, no other GB::InputHandler may handle the event.
+	/// @param ...Handlers A variadic list of GB::InputHandler that will receive the forwarded handleEvent calls. 
+	///						The priority of the Handlers is defined by the order that they were passed in. Earlier Handlers have higher priority.
 	template <class... Handlers>
 	class InputRouter final : public InputHandler
 	{
 	public:
 
+		/// @brief Construct an instance of InputRouter.
+		/// @param ...inputHandlers A variadic list of GB::InputHandler that will receive the forwarded handleEvent calls.
+		///							The priority of the Handlers is defined by the order that they were passed in. Earlier Handlers have higher priority.
 		template < std::enable_if_t<Detail::are_all_input_handlers_v<Handlers...>, bool> = true>
 		InputRouter(Handlers... inputHandlers) :
 			m_handlers(std::make_tuple(std::move(inputHandlers)...))
 		{
 		}
 
-		// return true if any input handler handled the event
+		/// @brief Handles an event by 
+		/// @param elapsedTime Forwarded to the InputHandler.
+		/// @param event Forwarded to the InputHandler.
+		/// @return Returns true if any InputHandler handled the event.
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) final
 		{
 			bool eventHandled = false;
