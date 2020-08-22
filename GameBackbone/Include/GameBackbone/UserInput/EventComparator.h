@@ -5,16 +5,16 @@
 namespace GB
 {
 	template <typename T>
-	using is_event_comparitor = std::conjunction<
+	using is_event_comparator = std::conjunction<
 		std::is_invocable<T, const sf::Event&, const sf::Event&>,
 		std::is_same<typename std::invoke_result<T, const sf::Event&, const sf::Event&>::type, bool>
 	>;
 
 	template <typename T>
-	static inline constexpr bool is_event_comparitor_v = is_event_comparitor<T>::value;
+	static inline constexpr bool is_event_comparator_v = is_event_comparator<T>::value;
 
 	// Comparator used to compare two key events
-	class KeyEventComparitor
+	class KeyEventComparator
 	{
 	public:
 		bool operator()(const sf::Event& userEvent, const sf::Event& gestureEvent) const
@@ -31,7 +31,7 @@ namespace GB
 	};
 
 	// Comparator used to compare two joystick button events
-	class JoystickButtonEventComparitor
+	class JoystickButtonEventComparator
 	{
 	public:
 		bool operator()(const sf::Event& userEvent, const sf::Event& gestureEvent) const
@@ -48,13 +48,13 @@ namespace GB
 	};
 
 	// Comparator used to compare two mouse button events
-	class MouseButtonEventComparitor
+	class MouseButtonEventComparator
 	{
 	public:
 		bool operator()(const sf::Event& userEvent, const sf::Event& gestureEvent) const
 		{
 			// Short circuit if the type doesn't match or if the types are not handlable.
-			if (userEvent.type != gestureEvent.type || userEvent.type != sf::Event::MouseButtonPressed || userEvent.type != sf::Event::MouseButtonReleased)
+			if (userEvent.type != gestureEvent.type || (userEvent.type != sf::Event::MouseButtonPressed && userEvent.type != sf::Event::MouseButtonReleased))
 			{
 				return false;
 			}
@@ -65,7 +65,7 @@ namespace GB
 	};
 
 	// Comparator used to compare two button down or button up events
-	class ButtonEventComparitor
+	class ButtonEventComparator
 	{
 	public:
 		bool operator()(const sf::Event& userEvent, const sf::Event& gestureEvent) const
@@ -76,10 +76,10 @@ namespace GB
 				return false;
 			}
 			
-			// Forward gestures to each comparitor.
-			return KeyEventComparitor{}(userEvent, gestureEvent)
-				|| JoystickButtonEventComparitor{}(userEvent, gestureEvent)
-				|| MouseButtonEventComparitor{}(userEvent, gestureEvent);
+			// Forward gestures to each comparator.
+			return KeyEventComparator{}(userEvent, gestureEvent)
+				|| JoystickButtonEventComparator{}(userEvent, gestureEvent)
+				|| MouseButtonEventComparator{}(userEvent, gestureEvent);
 		}
 	};
 }

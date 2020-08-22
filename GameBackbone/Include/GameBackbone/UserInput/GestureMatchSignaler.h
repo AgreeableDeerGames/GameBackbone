@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GameBackbone/Util/DllUtil.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
+#include <GameBackbone/UserInput/EventComparator.h>
 #include <GameBackbone/UserInput/EventFilter.h>
 #include <GameBackbone/UserInput/InputHandler.h>
 
@@ -11,13 +11,13 @@
 #include <cassert>
 #include <functional>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 
 namespace GB
 {
-
-	struct GestureBindProcessEventResult
+	struct GestureMatchSignalerProcessEventResult
 	{
 		bool actionFired;
 		bool readyForInput;
@@ -26,73 +26,100 @@ namespace GB
 
 	namespace detail 
 	{
-		template <class GestureBind>
-		using GestureBindProcessEvent = decltype(
-			std::declval<GestureBindProcessEventResult>() = std::declval<GestureBind>().processEvent(std::declval<sf::Int64>(), std::declval<const sf::Event&>())
+		template <class GestureMatchSignalerType>
+		using GestureMatchSignalerProcessEvent = decltype(
+			std::declval<GestureMatchSignalerProcessEventResult>() = std::declval<GestureMatchSignalerType>().processEvent(std::declval<sf::Int64>(), std::declval<const sf::Event&>())
 		);
 
-		template <class GestureBind, class = void>
-		struct supports_gesture_bind_process_event : std::false_type {};
+		template <class GestureMatchSignalerType, class = void>
+		struct supports_gesture_match_signaler_process_event : std::false_type {};
 
-		template <class GestureBind>
-		struct supports_gesture_bind_process_event <GestureBind, std::void_t<GestureBindProcessEvent<GestureBind>>> :
+		template <class GestureMatchSignalerType>
+		struct supports_gesture_match_signaler_process_event <GestureMatchSignalerType, std::void_t<GestureMatchSignalerProcessEvent<GestureMatchSignalerType>>> :
 			std::true_type {};
 	}
 
-	template <class GestureBind>
-	using is_gesture_bind =
+	template <class GestureMatchSignalerType>
+	using is_gesture_match_signaler =
 		std::conjunction<
-			std::is_copy_constructible<GestureBind>,
-			detail::supports_gesture_bind_process_event<GestureBind>
+			std::is_copy_constructible<GestureMatchSignalerType>,
+			detail::supports_gesture_match_signaler_process_event<GestureMatchSignalerType>
 		>;
 
-	template <class GestureBind>
-	inline constexpr bool is_gesture_bind_v = is_gesture_bind<GestureBind>::value;
+	template <class GestureMatchSignalerType>
+	inline constexpr bool is_gesture_match_signaler_v = is_gesture_match_signaler<GestureMatchSignalerType>::value;
 
 	template <
 		typename EventCompare,
 		typename EventFilter,
-		std::enable_if_t<is_event_comparitor_v<EventCompare>, bool> = true,
+		std::enable_if_t<is_event_comparator_v<EventCompare>, bool> = true,
 		std::enable_if_t<is_event_filter_v<EventFilter>, bool> = true
 	>
-	class BasicGestureBind
+	class GestureMatchSignaler
 	{
 	public:
 
 		static constexpr sf::Int64 defaultMaxTimeBetweenInputs = 1000;
 
-		using ProcessEventResult = GestureBindProcessEventResult;
+		using EventComparatorType = EventCompare;
+		using EventFilterType = EventFilter;
+		using ProcessEventResult = GestureMatchSignalerProcessEventResult;
 
 		enum class EndType
 		{
 			Continuous,
 			Reset,
-			Block,
-			BlockLastEvent
+			Block
 		};
 
-		BasicGestureBind(
+		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
 			EndType endType,
-			sf::Int64 maxTimeBetweenInputs
+			sf::Int64 maxTimeBetweenInputs,
+			EventCompare eventComparator,
+			EventFilter eventFilter
 		) :
-
 			m_gesture(std::move(gesture)),
 			m_action(std::move(action)),
 			m_endType(endType),
 			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_position(0),
-			m_eventComparitor(),
-			m_readyForInput(true)
+			m_readyForInput(true),
+			m_eventComparator(std::move(eventComparator)),
+			m_eventFilter(std::move(eventFilter))
 		{
 		}
 
-		BasicGestureBind(
+		template <
+			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+		>
+		GestureMatchSignaler(
+			std::vector<sf::Event> gesture,
+			std::function<void()> action,
+			EndType endType,
+			sf::Int64 maxTimeBetweenInputs
+		) :
+			GestureMatchSignaler(
+				std::move(gesture),
+				std::move(action),
+				endType,
+				maxTimeBetweenInputs,
+				EventCompare{},
+				EventFilter{})
+		{
+		}
+
+		template <
+			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+		>
+		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
 			EndType endType) :
-			BasicGestureBind(
+			GestureMatchSignaler(
 				std::move(gesture),
 				std::move(action),
 				endType,
@@ -100,10 +127,14 @@ namespace GB
 		{
 		}
 
-		BasicGestureBind(
+		template <
+			typename = std::enable_if_t< std::is_default_constructible_v<EventCompare>>,
+			typename = std::enable_if_t< std::is_default_constructible_v<EventFilter>>
+		>
+		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action) :
-			BasicGestureBind(
+			GestureMatchSignaler(
 				std::move(gesture),
 				std::move(action),
 				EndType::Block,
@@ -113,11 +144,16 @@ namespace GB
 
 		ProcessEventResult processEvent(sf::Int64 elapsedTime, const sf::Event& event)
 		{
-
 			// Exit early if not ready for input
 			if (!readyForInput())
 			{
 				return { false, false, false };
+			}
+
+			// Do not process the input if it does not pass the event filter
+			if (!std::invoke(m_eventFilter, event))
+			{
+				return { false, readyForInput(), false };
 			}
 
 			// Process the input
@@ -133,7 +169,7 @@ namespace GB
 				}
 				inputConsumed = true;
 			}
-			// The input did not match. Disable this GestureBind.
+			// The input did not match. Disable this GestureMatchSignaler.
 			else
 			{
 				m_position = 0;
@@ -204,7 +240,7 @@ namespace GB
 
 		bool compareEvents(const sf::Event& lhs, const sf::Event& rhs)
 		{
-			return std::invoke(m_eventComparitor, lhs, rhs);
+			return std::invoke(m_eventComparator, lhs, rhs);
 		}
 
 		void fireAction()
@@ -219,11 +255,6 @@ namespace GB
 			case EndType::Reset:
 			{
 				reset();
-				break;
-			}
-			case EndType::BlockLastEvent:
-			{
-				// TODO: How? Why? Make Michael do it.
 				break;
 			}
 			case EndType::Block:
@@ -248,14 +279,15 @@ namespace GB
 		sf::Int64 m_maxTimeBetweenInputs;
 		std::size_t m_position;
 		bool m_readyForInput;
-		EventCompare m_eventComparitor;
+		EventCompare m_eventComparator;
+		EventFilter m_eventFilter;
 	};
 
-	using KeyDownGestureBind = BasicGestureBind<KeyEventComparitor, KeyDownEventFilter>;
+	using KeyDownMatchSignaler = GestureMatchSignaler<KeyEventComparator, KeyDownEventFilter>;
 
-	using JoystickButtonDownGestureBind = BasicGestureBind<JoystickButtonEventComparitor, JoystickButtonDownEventFilter>;
+	using JoystickButtonDownMatchSignaler = GestureMatchSignaler<JoystickButtonEventComparator, JoystickButtonDownEventFilter>;
 
-	using MouseButtonDownGestureBind = BasicGestureBind<MouseButtonEventComparitor, MouseButtonDownEventFilter>;
+	using MouseButtonDownMatchSignaler = GestureMatchSignaler<MouseButtonEventComparator, MouseButtonDownEventFilter>;
 
-	using ButtonDownGestureBind = BasicGestureBind<ButtonEventComparitor, AnyButtonDownEventFilter>;
+	using ButtonDownMatchSignaler = GestureMatchSignaler<ButtonEventComparator, AnyButtonDownEventFilter>;
 }

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include <GameBackbone/UserInput/ButtonPressGestureHandler.h>
-#include <GameBackbone/UserInput/EventComparitor.h>
-#include <GameBackbone/UserInput/GestureBind.h>
+#include <GameBackbone/UserInput/ButtonGestureHandler.h>
+#include <GameBackbone/UserInput/EventComparator.h>
+#include <GameBackbone/UserInput/GestureMatchSignaler.h>
 
 using namespace GB;
 
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			wPressed.type = sf::Event::KeyPressed;
 		}
 	
-		using TestGestureBind = BasicGestureBind<KeyEventComparitor, AnyEventFilter>;
+		using TestMatchSignaler = GestureMatchSignaler<KeyEventComparator, AnyEventFilter>;
 
 		// Event for gesture
 		sf::Event upPressed = {};
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		sf::Event ePressed = {};
 		sf::Event wPressed = {};
 
-		ButtonPressGestureHandler<TestGestureBind> handler;
+		ButtonGestureHandler<TestMatchSignaler> handler;
 	};
 
 	struct GestureAccessorFixture : InputHandlerConsumeEventFixture
@@ -75,15 +75,15 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 				}
 
 				inputGestures.push_back(
-					TestGestureBind(
+					TestMatchSignaler(
 						rawGesture,
 						[] {},
-						TestGestureBind::EndType::Block,
+						TestMatchSignaler::EndType::Block,
 						10));
 			}
 		}
 		const std::size_t gestureCount = 5;
-		std::vector<TestGestureBind> inputGestures;
+		std::vector<TestMatchSignaler> inputGestures;
 	};
 
 	BOOST_AUTO_TEST_SUITE(HandleEventResults)
@@ -95,26 +95,26 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 		BOOST_FIXTURE_TEST_CASE(HandleEventReturnsTrueWhenEventMatchesGesture, InputHandlerConsumeEventFixture)
 		{
-			TestGestureBind bind({ upPressed, upPressed }, []() {});
+			TestMatchSignaler bind({ upPressed, upPressed }, []() {});
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 			BOOST_TEST(handler.handleEvent(0, upPressed));
 		}
 
 		BOOST_FIXTURE_TEST_CASE(HandleEventReturnsFalseWhenEventDoesNotMatchGesture, InputHandlerConsumeEventFixture)
 		{
-			TestGestureBind bind({ upPressed, upPressed }, []() {});
+			TestMatchSignaler bind({ upPressed, upPressed }, []() {});
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 			BOOST_TEST(!handler.handleEvent(0, downPressed));
 		}
 
 		BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresAction, InputHandlerConsumeEventFixture)
 		{
 			bool actionFired = false;
-			TestGestureBind bind({ upPressed }, [&actionFired]() { actionFired = true; });
+			TestMatchSignaler bind({ upPressed }, [&actionFired]() { actionFired = true; });
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 			handler.handleEvent(0, upPressed);
 			BOOST_TEST(actionFired == true);
 		}
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_FIXTURE_TEST_CASE(UnboundEventDoesNotFireAction, InputHandlerConsumeEventFixture)
 		{
 			bool actionFired = false;
-			TestGestureBind bind({ upPressed }, [&actionFired]() { actionFired = true; });
+			TestMatchSignaler bind({ upPressed }, [&actionFired]() { actionFired = true; });
 
 			handler.handleEvent(0, downPressed);
 			BOOST_TEST(actionFired == false);
@@ -131,9 +131,9 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_FIXTURE_TEST_CASE(CompletingGestureFiresActionForMultiInputGesture, InputHandlerConsumeEventFixture)
 		{
 			bool actionFired = false;
-			TestGestureBind bind({ upPressed, upPressed, downPressed, downPressed }, [&actionFired]() { actionFired = true; });
+			TestMatchSignaler bind({ upPressed, upPressed, downPressed, downPressed }, [&actionFired]() { actionFired = true; });
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 			handler.handleEvent(0, upPressed);
 			BOOST_TEST(actionFired == false);
 			handler.handleEvent(0, upPressed);
@@ -150,11 +150,11 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			bool correctActionFired = false;
 			bool wrongActionFired = false;
 
-			TestGestureBind bind({ upPressed }, [&correctActionFired]() { correctActionFired = true; });
-			TestGestureBind bind2( { downPressed }, [&wrongActionFired]() { wrongActionFired = true; });
+			TestMatchSignaler bind({ upPressed }, [&correctActionFired]() { correctActionFired = true; });
+			TestMatchSignaler bind2( { downPressed }, [&wrongActionFired]() { wrongActionFired = true; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
 			handler.handleEvent(0, upPressed);
 			BOOST_TEST(correctActionFired == true);
 			BOOST_TEST(wrongActionFired == false);
@@ -164,9 +164,9 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			bool actionFired = false;
 
-			TestGestureBind bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestGestureBind::EndType::Block, 10);
+			TestMatchSignaler bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestMatchSignaler::EndType::Block, 10);
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 			handler.handleEvent(0, upPressed);
 			handler.handleEvent(20, upPressed);
 			BOOST_TEST(actionFired == false);
@@ -176,9 +176,9 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			bool actionFired = false;
 
-			TestGestureBind bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestGestureBind::EndType::Block, 10);
+			TestMatchSignaler bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestMatchSignaler::EndType::Block, 10);
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 			handler.handleEvent(0, upPressed);
 
 			// This fails the first attempt at the gesture, but starts the second one
@@ -197,8 +197,8 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		BOOST_FIXTURE_TEST_CASE(AddGestureReturnsReferenceToAddedgesture, GestureAccessorFixture)
 		{
 
-			BOOST_CHECK(handler.getGestureCount() == 0);
-			auto& outGesture = handler.addGesture(inputGestures[0]);
+			BOOST_CHECK(handler.getMatchSignalerCount() == 0);
+			auto& outGesture = handler.addMatchSignaler(inputGestures[0]);
 
 			// Each gesture has a unique size. Use this to verify that they match
 			BOOST_CHECK(outGesture.getGesture().size() == inputGestures[0].getGesture().size());
@@ -210,12 +210,12 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
-			BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(handler.getMatchSignalerCount() == inputGestures.size());
 			std::size_t iteration = 0;
 			for (auto& gesture : handler)
 			{
@@ -229,15 +229,15 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// Make the handler const to test const iteration
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
-			BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(constHandler.getMatchSignalerCount() == inputGestures.size());
 			std::size_t iteration = 0;
 			for (auto& gesture : constHandler)
 			{
@@ -251,15 +251,15 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// Make the handler const to test const iteration
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 
 			// Iterate over the gestures in the handler and verify that they match
 			// the input gestures and are in the correct order.
-			BOOST_CHECK(constHandler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(constHandler.getMatchSignalerCount() == inputGestures.size());
 			std::size_t iteration = 0;
 			for (auto it = constHandler.cbegin(); it != constHandler.cend(); ++it)
 			{
@@ -274,20 +274,20 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// Verify that the gestures are the same by checking the sizes
 			for (int i = 0; i < gestureCount; ++i)
 			{
-				BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+				BOOST_CHECK(handler.getMatchSignaler(i).getGesture().size() == inputGestures[i].getGesture().size());
 			}
 
 			// Verify that the gestures are the same by checking the sizes with a const handler
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
 			for (int i = 0; i < gestureCount; ++i)
 			{
-				BOOST_CHECK(constHandler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+				BOOST_CHECK(constHandler.getMatchSignaler(i).getGesture().size() == inputGestures[i].getGesture().size());
 			}
 		}
 
@@ -296,34 +296,34 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// Verify that the gestures are the same by checking the sizes
-			BOOST_CHECK_THROW(handler.getGesture(gestureCount), std::out_of_range);
+			BOOST_CHECK_THROW(handler.getMatchSignaler(gestureCount), std::out_of_range);
 
 			// Verify that the gestures are the same by checking the sizes with a const handler
-			const auto constHandler = const_cast<const ButtonPressGestureHandler<TestGestureBind>&>(handler);
-			BOOST_CHECK_THROW(constHandler.getGesture(gestureCount), std::out_of_range);
+			const auto constHandler = const_cast<const ButtonGestureHandler<TestMatchSignaler>&>(handler);
+			BOOST_CHECK_THROW(constHandler.getMatchSignaler(gestureCount), std::out_of_range);
 		}
 
 		BOOST_FIXTURE_TEST_CASE(RemoveGestureRemovesCorrectGestureWhenRequestedPositionIsWithinBounds, GestureAccessorFixture)
 		{
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// remove the same element from the handler and the inputGestures vector
 			std::size_t elementToErase = 2;
-			handler.removeGesture(elementToErase);
+			handler.removeMatchSignaler(elementToErase);
 			inputGestures.erase(inputGestures.begin() + elementToErase);
-			BOOST_CHECK(handler.getGestureCount() == inputGestures.size());
+			BOOST_CHECK(handler.getMatchSignalerCount() == inputGestures.size());
 
 			// Verify that the gestures are the same by checking the sizes
-			for (int i = 0; i < handler.getGestureCount(); ++i)
+			for (int i = 0; i < handler.getMatchSignalerCount(); ++i)
 			{
-				BOOST_CHECK(handler.getGesture(i).getGesture().size() == inputGestures[i].getGesture().size());
+				BOOST_CHECK(handler.getMatchSignaler(i).getGesture().size() == inputGestures[i].getGesture().size());
 			}
 		}
 
@@ -332,14 +332,14 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 			}
 
 			// remove the same element from the handler and the inputGestures vector
 			std::size_t elementToErase = gestureCount;
-			BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
+			BOOST_CHECK_THROW(handler.removeMatchSignaler(elementToErase), std::out_of_range);
 			elementToErase = gestureCount + 1;
-			BOOST_CHECK_THROW(handler.removeGesture(elementToErase), std::out_of_range);
+			BOOST_CHECK_THROW(handler.removeMatchSignaler(elementToErase), std::out_of_range);
 		
 		}
 
@@ -347,21 +347,21 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			// Count should be zero before anything is added to it
 			int count = 0;
-			BOOST_TEST(handler.getGestureCount() == count);
+			BOOST_TEST(handler.getMatchSignalerCount() == count);
 
 			// Count should go up with each gesture added
 			for (const auto& gesture : inputGestures)
 			{
-				handler.addGesture(gesture);
+				handler.addMatchSignaler(gesture);
 				++count;
-				BOOST_TEST(handler.getGestureCount() == count);
+				BOOST_TEST(handler.getMatchSignalerCount() == count);
 
 			}
 
 			// Count should go down after removing gesture
-			handler.removeGesture(0);
+			handler.removeMatchSignaler(0);
 			--count;
-			BOOST_TEST(handler.getGestureCount() == count);
+			BOOST_TEST(handler.getMatchSignalerCount() == count);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END() // GestureAccess
@@ -387,11 +387,11 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			bool correctActionFired = false;
 			bool wrongActionFired = false;
 
-			TestGestureBind bind({ aPressed, bPressed, cPressed, dPressed }, [&wrongActionFired]() { wrongActionFired = true; });
-			TestGestureBind bind2({ ePressed }, [&correctActionFired]() { correctActionFired = true; });
+			TestMatchSignaler bind({ aPressed, bPressed, cPressed, dPressed }, [&wrongActionFired]() { wrongActionFired = true; });
+			TestMatchSignaler bind2({ ePressed }, [&correctActionFired]() { correctActionFired = true; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
 			handler.handleEvent(0, aPressed);
 			handler.handleEvent(0, bPressed);
 			handler.handleEvent(0, cPressed);
@@ -421,11 +421,11 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action1Fired = 0;
 			int action2Fired = 0;
 
-			TestGestureBind bind({ aPressed, bPressed }, [&action1Fired]() { ++action1Fired; });
-			TestGestureBind bind2({ cPressed }, [&action2Fired]() { ++action2Fired; });
+			TestMatchSignaler bind({ aPressed, bPressed }, [&action1Fired]() { ++action1Fired; });
+			TestMatchSignaler bind2({ cPressed }, [&action2Fired]() { ++action2Fired; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
 
 			// Action 1 should fire
 			handler.handleEvent(0, aPressed);
@@ -469,13 +469,13 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action2Fired = 0;
 			int action3Fired = 0;
 
-			TestGestureBind bind({ wPressed }, [&action1Fired]() { ++action1Fired; });
-			TestGestureBind bind2({ wPressed, wPressed }, [&action2Fired]() { ++action2Fired; });
-			TestGestureBind bind3({ wPressed, wPressed, wPressed }, [&action3Fired]() { ++action3Fired; });
+			TestMatchSignaler bind({ wPressed }, [&action1Fired]() { ++action1Fired; });
+			TestMatchSignaler bind2({ wPressed, wPressed }, [&action2Fired]() { ++action2Fired; });
+			TestMatchSignaler bind3({ wPressed, wPressed, wPressed }, [&action3Fired]() { ++action3Fired; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
-			handler.addGesture(bind3);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
+			handler.addMatchSignaler(bind3);
 
 			handler.handleEvent(0, wPressed);
 			BOOST_CHECK(action1Fired == 1);
@@ -517,13 +517,13 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action2Fired = 0;
 			int action3Fired = 0;
 
-			TestGestureBind bind({ wPressed }, [&action1Fired]() { ++action1Fired; }, TestGestureBind::EndType::Continuous);
-			TestGestureBind bind2({ wPressed, wPressed }, [&action2Fired]() { ++action2Fired; }, TestGestureBind::EndType::Continuous);
-			TestGestureBind bind3({ wPressed, wPressed, wPressed }, [&action3Fired]() { ++action3Fired; }, TestGestureBind::EndType::Continuous);
+			TestMatchSignaler bind({ wPressed }, [&action1Fired]() { ++action1Fired; }, TestMatchSignaler::EndType::Continuous);
+			TestMatchSignaler bind2({ wPressed, wPressed }, [&action2Fired]() { ++action2Fired; }, TestMatchSignaler::EndType::Continuous);
+			TestMatchSignaler bind3({ wPressed, wPressed, wPressed }, [&action3Fired]() { ++action3Fired; }, TestMatchSignaler::EndType::Continuous);
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
-			handler.addGesture(bind3);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
+			handler.addMatchSignaler(bind3);
 
 			handler.handleEvent(0, wPressed);
 			BOOST_CHECK(action1Fired == 1);
@@ -563,13 +563,13 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action2Fired = 0;
 			int action3Fired = 0;
 
-			TestGestureBind bind({ wPressed }, [&action1Fired]() { ++action1Fired; }, TestGestureBind::EndType::Block);
-			TestGestureBind bind2({ wPressed, wPressed }, [&action2Fired]() { ++action2Fired; }, TestGestureBind::EndType::Reset);
-			TestGestureBind bind3({ wPressed, wPressed, wPressed }, [&action3Fired]() { ++action3Fired; }, TestGestureBind::EndType::Reset);
+			TestMatchSignaler bind({ wPressed }, [&action1Fired]() { ++action1Fired; }, TestMatchSignaler::EndType::Block);
+			TestMatchSignaler bind2({ wPressed, wPressed }, [&action2Fired]() { ++action2Fired; }, TestMatchSignaler::EndType::Reset);
+			TestMatchSignaler bind3({ wPressed, wPressed, wPressed }, [&action3Fired]() { ++action3Fired; }, TestMatchSignaler::EndType::Reset);
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
-			handler.addGesture(bind3);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
+			handler.addMatchSignaler(bind3);
 
 			handler.handleEvent(0, wPressed);
 			BOOST_CHECK(action1Fired == 1);
@@ -617,11 +617,11 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action1Fired = 0;
 			int action2Fired = 0;
 
-			TestGestureBind bind({ aPressed, bPressed, cPressed, dPressed }, [&action1Fired]() { ++action1Fired; });
-			TestGestureBind bind2({ dPressed }, [&action2Fired]() { ++action2Fired; });
+			TestMatchSignaler bind({ aPressed, bPressed, cPressed, dPressed }, [&action1Fired]() { ++action1Fired; });
+			TestMatchSignaler bind2({ dPressed }, [&action2Fired]() { ++action2Fired; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
 
 			handler.handleEvent(0, aPressed);
 			BOOST_CHECK(action1Fired == 0);
@@ -656,9 +656,9 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 		{
 			int action1Fired = 0;
 
-			TestGestureBind bind({ aPressed, bPressed, cPressed }, [&action1Fired]() { ++action1Fired; });
+			TestMatchSignaler bind({ aPressed, bPressed, cPressed }, [&action1Fired]() { ++action1Fired; });
 
-			handler.addGesture(bind);
+			handler.addMatchSignaler(bind);
 
 			handler.handleEvent(0, aPressed);
 			BOOST_CHECK(action1Fired == 0);
@@ -694,11 +694,11 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action1Fired = 0;
 			int action2Fired = 0;
 
-			TestGestureBind bind({ aPressed, bPressed, cPressed }, [&action1Fired]() { ++action1Fired; });
-			TestGestureBind bind2({ aPressed }, [&action2Fired]() { ++action2Fired; });
+			TestMatchSignaler bind({ aPressed, bPressed, cPressed }, [&action1Fired]() { ++action1Fired; });
+			TestMatchSignaler bind2({ aPressed }, [&action2Fired]() { ++action2Fired; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
 
 			handler.handleEvent(0, aPressed);
 			BOOST_CHECK(action1Fired == 0);
@@ -736,11 +736,11 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			int action1Fired = 0;
 			int action2Fired = 0;
 
-			TestGestureBind bind({ aPressed, bPressed, cPressed }, [&action1Fired]() { ++action1Fired; });
-			TestGestureBind bind2({ aPressed, bPressed }, [&action2Fired]() { ++action2Fired; });
+			TestMatchSignaler bind({ aPressed, bPressed, cPressed }, [&action1Fired]() { ++action1Fired; });
+			TestMatchSignaler bind2({ aPressed, bPressed }, [&action2Fired]() { ++action2Fired; });
 
-			handler.addGesture(bind);
-			handler.addGesture(bind2);
+			handler.addMatchSignaler(bind);
+			handler.addMatchSignaler(bind2);
 
 			handler.handleEvent(0, aPressed);
 			BOOST_CHECK(action1Fired == 0);

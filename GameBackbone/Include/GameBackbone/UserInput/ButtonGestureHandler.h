@@ -2,7 +2,7 @@
 
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/UserInput/InputHandler.h>
-#include <GameBackbone/UserInput/GestureBind.h>
+#include <GameBackbone/UserInput/GestureMatchSignaler.h>
 
 #include <SFML/Window/Event.hpp>
 
@@ -19,12 +19,11 @@
 
 namespace GB
 {
-
-	template <class GestureType, std::enable_if_t<is_gesture_bind_v<GestureType>, bool> = true>
-	class ButtonPressGestureHandler : public InputHandler
+	template <class GestureMatchSignalerType, std::enable_if_t<is_gesture_match_signaler_v<GestureMatchSignalerType>, bool> = true>
+	class ButtonGestureHandler : public InputHandler
 	{
 	private: 
-		using GestureContainer = std::vector<GestureType>;
+		using GestureContainer = std::vector<GestureMatchSignalerType>;
 
 	public:
 
@@ -32,12 +31,12 @@ namespace GB
 		using const_iterator = typename GestureContainer::const_iterator;
 		using size_type = typename GestureContainer::size_type;
 
-		ButtonPressGestureHandler() = default;
-		ButtonPressGestureHandler(const ButtonPressGestureHandler&) = default;
-		ButtonPressGestureHandler(ButtonPressGestureHandler&&) = default;
-		ButtonPressGestureHandler& operator=(const ButtonPressGestureHandler&) = default;
-		ButtonPressGestureHandler& operator=(ButtonPressGestureHandler&&) = default;
-		virtual ~ButtonPressGestureHandler() = default;
+		ButtonGestureHandler() = default;
+		ButtonGestureHandler(const ButtonGestureHandler&) = default;
+		ButtonGestureHandler(ButtonGestureHandler&&) = default;
+		ButtonGestureHandler& operator=(const ButtonGestureHandler&) = default;
+		ButtonGestureHandler& operator=(ButtonGestureHandler&&) = default;
+		virtual ~ButtonGestureHandler() = default;
 
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
@@ -57,34 +56,34 @@ namespace GB
 			return eventConsumed;
 		}
 
-		GestureType& addGesture(GestureType bind)
+		GestureMatchSignalerType& addMatchSignaler(GestureMatchSignalerType bind)
 		{
 			m_openSetGestures.push_back(bind);
 			return m_wholeSet.emplace_back(std::move(bind));
 		}
 
-		void removeGesture(size_type position)
+		void removeMatchSignaler(size_type position)
 		{
 			if ( position >= m_wholeSet.size() )
 			{
-				throw std::out_of_range("Out of bounds position in ButtonPressGestureHandler::removeGesture");
+				throw std::out_of_range("Out of bounds position in ButtonGestureHandler::removeGesture");
 			}
 
 			m_wholeSet.erase(m_wholeSet.begin() + position);
 			resetGestures();
 		}
 
-		GestureType& getGesture(size_type position)
+		GestureMatchSignalerType& getMatchSignaler(size_type position)
 		{
 			return m_wholeSet.at(position);
 		}
 
-		const GestureType& getGesture(size_type position) const
+		const GestureMatchSignalerType& getMatchSignaler(size_type position) const
 		{
 			return m_wholeSet.at(position);
 		}
 
-		size_type getGestureCount() const
+		size_type getMatchSignalerCount() const
 		{
 			return m_wholeSet.size();
 		}
@@ -152,7 +151,7 @@ namespace GB
 			m_openSetGestures.clear();
 
 			// Add all gestures from the whole set to the active gestures open set.
-			for (const GestureType& bind : m_wholeSet)
+			for (const GestureMatchSignalerType& bind : m_wholeSet)
 			{
 				m_openSetGestures.push_back(bind);
 			}
@@ -162,11 +161,11 @@ namespace GB
 		GestureContainer m_wholeSet;
 	};
 
-	using KeyboardGestureHandler = ButtonPressGestureHandler<KeyDownGestureBind>;
+	using KeyboardGestureHandler = ButtonGestureHandler<KeyDownMatchSignaler>;
 
-	using JoystickButtonGestureHandler = ButtonPressGestureHandler<JoystickButtonDownGestureBind>;
+	using JoystickButtonGestureHandler = ButtonGestureHandler<JoystickButtonDownMatchSignaler>;
 
-	using MouseButtonGestureHandler = ButtonPressGestureHandler<MouseButtonDownGestureBind>;
+	using MouseButtonGestureHandler = ButtonGestureHandler<MouseButtonDownMatchSignaler>;
 
-	using AnyButtonGestureHandler = ButtonPressGestureHandler<ButtonDownGestureBind>;
+	using AnyButtonGestureHandler = ButtonGestureHandler<ButtonDownMatchSignaler>;
 }
