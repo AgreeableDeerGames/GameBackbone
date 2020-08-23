@@ -16,9 +16,6 @@
 #include <type_traits>
 #include <vector>
 
-
-//TODO: Make manually resettable
-
 namespace GB
 {	
 	/// @brief Forwards inputs to a set of active GB::GestureMatchSignaler.
@@ -84,7 +81,7 @@ namespace GB
 			if (!eventConsumed)
 			{
 				// Reset open set to contain everything again
-				resetGestures();
+				reset();
 				elapsedTime = 0;
 
 				// If the event still doesn't match anything then the event was not consumed by this handler 
@@ -106,7 +103,7 @@ namespace GB
 			return m_wholeSet.emplace_back(std::move(matchSignaler));
 		}
 
-		/// @brief Removes the GB::GestureMatchSignaler at the provided location.
+		/// @brief Removes the GB::GestureMatchSignaler at the provided location and resets.
 		/// @param position The index of the GB::GestureMatchSignaler to remove.
 		/// @throws std::out_of_range exception if the position is invalid.
 		void removeMatchSignaler(size_type position)
@@ -117,7 +114,7 @@ namespace GB
 			}
 
 			m_wholeSet.erase(m_wholeSet.begin() + position);
-			resetGestures();
+			reset();
 		}
 
 		/// @brief Gets a reference to the GB::GestureMatchSignaler at the provided location.
@@ -142,6 +139,19 @@ namespace GB
 		size_type getMatchSignalerCount() const
 		{
 			return m_wholeSet.size();
+		}
+
+		/// @brief Makes all instances of GB::GestureMatchSignaler active. Resets the state of all instances of GB::GestureMatchSignaler.
+		void reset()
+		{
+			// Clear the open set completely
+			m_openSetGestures.clear();
+
+			// Add all gestures from the whole set to the active gestures open set.
+			for (const GestureMatchSignalerType& bind : m_wholeSet)
+			{
+				m_openSetGestures.push_back(bind);
+			}
 		}
 
 		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
@@ -215,19 +225,6 @@ namespace GB
 			}
 
 			return eventConsumed;
-		}
-
-		/// @brief Move all gestures back into the open set in their original state.
-		void resetGestures()
-		{
-			// Clear the open set completely
-			m_openSetGestures.clear();
-
-			// Add all gestures from the whole set to the active gestures open set.
-			for (const GestureMatchSignalerType& bind : m_wholeSet)
-			{
-				m_openSetGestures.push_back(bind);
-			}
 		}
 
 		GestureContainer m_openSetGestures;

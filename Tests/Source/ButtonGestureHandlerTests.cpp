@@ -190,6 +190,46 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			BOOST_TEST(actionFired == true);
 		}
 
+		BOOST_FIXTURE_TEST_CASE(ResetMovesActiveGesturesBackToTheBeginning, InputHandlerConsumeEventFixture)
+		{
+			bool actionFired = false;
+
+			TestMatchSignaler bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestMatchSignaler::EndType::Block, 10);
+			handler.addMatchSignaler(bind);
+			handler.handleEvent(0, upPressed);
+
+			handler.reset();
+
+			// After the reset the full gesture is required
+
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == false);
+
+			// This finishes the second attempt at the gesture
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == true);
+		}
+
+		BOOST_FIXTURE_TEST_CASE(ResetEnablesGesturesThatHaveBeenRemovedFromTheOpenSet, InputHandlerConsumeEventFixture)
+		{
+			bool actionFired = false;
+
+			TestMatchSignaler bind({ upPressed, upPressed }, [&actionFired]() { actionFired = true; }, TestMatchSignaler::EndType::Block, 10);
+			handler.addMatchSignaler(bind);
+			handler.handleEvent(0, downPressed);
+
+			handler.reset();
+
+			// After the reset the full gesture is required
+
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == false);
+
+			// This finishes the second attempt at the gesture
+			handler.handleEvent(0, upPressed);
+			BOOST_TEST(actionFired == true);
+		}
+
 	BOOST_AUTO_TEST_SUITE_END() // HandleEventResults
 
 	BOOST_AUTO_TEST_SUITE(GestureAccess)
@@ -203,7 +243,6 @@ BOOST_AUTO_TEST_SUITE(ButtonPressGestureHandlerTests)
 			// Each gesture has a unique size. Use this to verify that they match
 			BOOST_CHECK(outGesture.getGesture().size() == inputGestures[0].getGesture().size());
 		}
-
 
 		BOOST_FIXTURE_TEST_CASE(IterationReturnsGesturesInTheOrderThatTheyWereAdded, GestureAccessorFixture)
 		{
