@@ -513,14 +513,12 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 	CompoundSprite compoundSprite{};
 	compoundSprite.addComponent(1, sprite);
 	compoundSprite.addComponent(2, sprite2);
-	compoundSprite.addComponent(2, sprite);
 
 	for (auto iter = compoundSprite.begin(); iter != compoundSprite.end(); ++iter)
 	{
 		iter->first;
-		iter->second;
+		sf::Sprite* sprites = iter->second->as<sf::Sprite>();
 	}
-
 	auto x = compoundSprite.getComponentPriorties();
 }
 

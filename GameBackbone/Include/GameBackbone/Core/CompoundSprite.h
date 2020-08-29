@@ -101,8 +101,6 @@ namespace GB {
 			return priorities;
 		}
 
-		
-
 		/// <summary>
 		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
 		/// The position of the CompoundSprite is (0,0).
@@ -385,8 +383,23 @@ namespace GB {
 			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
 			virtual sf::Drawable& getDataAsDrawable() = 0;
-		};
 
+			template <
+				class inputType,
+				std::enable_if_t<is_component_v<inputType>, bool> = true
+			>
+			inputType* as()
+			{
+				ComponentAdapter<inputType>* adapter = dynamic_cast<ComponentAdapter<inputType>*>(this);
+				return &(adapter->m_data);
+			}
+
+			// TODO: 
+			// 1. Return a reference not a pointer 
+			// 2. Cast the data (from getDataAsDrawable) to inputType not this to CA<inputType> 
+			// 3. Throw an exception if dynamic_cast is nullptr
+			// 4. Rename to getDataAs<>()
+		};
 		// Class which actually stores the data of the type erased InternalType. Used primarily to forward calls to the Component data.
 		template <class Component>
 		class ComponentAdapter final : public InternalType {
