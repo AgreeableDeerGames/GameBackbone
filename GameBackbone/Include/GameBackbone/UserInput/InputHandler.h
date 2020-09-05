@@ -15,7 +15,8 @@
 #include <iostream>
 
 namespace GB {
-
+	
+	/// @brief 
 	class libGameBackbone InputHandler
 	{
 	public:

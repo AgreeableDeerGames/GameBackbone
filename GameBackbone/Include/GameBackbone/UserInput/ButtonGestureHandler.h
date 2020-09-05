@@ -69,9 +69,9 @@ namespace GB
 		///			All other GB::GestureMatchSignaler will no longer be active.
 		///			if no GB::GestureMatchSignaler matches then all GB::GestureMatchSignaler are reset and activated and
 		///			the event is applied to each one again.
-		/// @param elapsedTime The time since the last event
-		/// @param event the incoming event.
-		/// @return True if any GB::GestureMatchSignaler matched the incoming event. False otherwise.
+		/// @param elapsedTime The time since the last event.
+		/// @param event The incoming event.
+		/// @return Value is true if any GB::GestureMatchSignaler matched the incoming event. False otherwise.
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) override
 		{
 			bool eventConsumed = applyEventToOpenSet(elapsedTime, event);
@@ -91,10 +91,14 @@ namespace GB
 		}
 
 		// TODO: this is pretty bad behavior. Perhaps open and whole set should use same pointer and reset.
+		// 1. open set contains pointers
+		// 2. whole set reset function calls reset (REQUIRES reset to be on the concept for GestureMatchSignaler)
+		// 4. dont use unique pointers (cache locality early opt?)
+		// 3. give official warning about dangling refs (look to vector's warning)
 
 		/// @brief Adds a GB::GestureMatchSignaler to match against incoming events.
-		/// @param matchSignaler the GB::GestureMatchSignaler to add.
-		/// @return a reference to the added GB::GestureMatchSignaler.
+		/// @param matchSignaler The GB::GestureMatchSignaler to add.
+		/// @return A reference to the added GB::GestureMatchSignaler.
 		/// @note If any changes are made to matchSignaler after it has been added they will not 
 		///			have any effect until reset has been called.
 		GestureMatchSignalerType& addMatchSignaler(GestureMatchSignalerType matchSignaler)
@@ -199,9 +203,9 @@ namespace GB
 		///             If nothing in the active set matches the input then GB::ButtonGestureHandler is automatically reset and
 		///				the input is reapplied to the active set one extra time. 
 		///				The reset and  reapplication of the event is because we want to be able to bail out and then start a new Gesture immediately.
-		/// @param elapsedTime The time since the last event
-		/// @param event the incoming event.
-		/// @return True if any GB::GestureMatchSignaler matched the incoming event. False otherwise.
+		/// @param elapsedTime The time since the last event.
+		/// @param event The incoming event.
+		/// @return Value is true if any GB::GestureMatchSignaler matched the incoming event. False otherwise.
 		bool applyEventToOpenSet(sf::Int64 elapsedTime, const sf::Event& event)
 		{
 			bool eventConsumed = false;
@@ -211,7 +215,7 @@ namespace GB
 				auto result = m_openSetGestures[ii].processEvent(elapsedTime, event);
 
 				// The bind cannot take any more input. Remove it from the open set.
-				if (!result.readyForInput)
+				if (!result.isReadyForInput)
 				{
 					m_openSetGestures.erase(m_openSetGestures.begin() + ii);
 					--ii;
