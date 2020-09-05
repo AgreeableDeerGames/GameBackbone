@@ -235,12 +235,12 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			result = bind.processEvent(0, upReleased);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 			bind.reset();
 
 			result = bind.processEvent(0, mouseButton1Pressed);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 		}
 
 		BOOST_FIXTURE_TEST_CASE(TestJoystickGestureMatchSignaler, SFEventFixture)
@@ -252,12 +252,12 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			result = bind.processEvent(0, joystickButton1Released);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 			bind.reset();
 
 			result = bind.processEvent(0, mouseButton1Pressed);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 		}
 
 		BOOST_FIXTURE_TEST_CASE(TestMouseButtonGestureMatchSignaler, SFEventFixture)
@@ -269,12 +269,12 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			result = bind.processEvent(0, mouseButton1Released);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 			bind.reset();
 
 			result = bind.processEvent(0, upPressed);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 		}
 
 		BOOST_FIXTURE_TEST_CASE(TestButtonGestureMatchSignaler, SFEventFixture)
@@ -290,12 +290,12 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			result = bind.processEvent(0, mouseButton1Released);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 			bind.reset();
 
 			result = bind.processEvent(0, upReleased);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 		}
 	
 	BOOST_AUTO_TEST_SUITE_END() //SpecializationTests
@@ -430,16 +430,16 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		BOOST_AUTO_TEST_CASE(TestEmptyGestureMatchSignalerIgnoresInput)
 		{
 			TestMatchSignaler bind({}, [] {});
-			auto [actionFired, readyForInput, inputConsumed] = bind.processEvent(0, {});
+			auto [actionFired, isReadyForInput, inputConsumed] = bind.processEvent(0, {});
 			BOOST_CHECK(!actionFired);
-			BOOST_CHECK(!readyForInput);
+			BOOST_CHECK(!isReadyForInput);
 			BOOST_CHECK(!inputConsumed);
 		}
 
 		BOOST_AUTO_TEST_CASE(TestEmptyGestureIsNotReadyForInput)
 		{
 			TestMatchSignaler bind({}, [] {});
-			BOOST_CHECK(!bind.readyForInput());
+			BOOST_CHECK(!bind.isReadyForInput());
 		}
 
 		BOOST_FIXTURE_TEST_CASE(ResetMakesTheGestureMatchSignalerReadyToHandleInputAgain, SFEventFixture)
@@ -449,13 +449,13 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			// Process an incorrect event to disable the gesture
 			auto result = gesture.processEvent(0, downPressed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 
 			// Reset the gesture
 			gesture.reset();
 
 			// Check that the gesture is ready for input now
-			BOOST_TEST(gesture.readyForInput());
+			BOOST_TEST(gesture.isReadyForInput());
 		}
 
 		BOOST_FIXTURE_TEST_CASE(ProcessEventDoesNotFireActionWhenGestureIsNotComplete, SFEventFixture)
@@ -468,7 +468,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			GestureMatchSignalerProcessEventResult result = gesture.processEvent(0, upPressed);
 			BOOST_TEST(!result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			// Check that the gesture has not fired
 			BOOST_TEST(!actionFired);
@@ -485,7 +485,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			GestureMatchSignalerProcessEventResult result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 
 			// Check that the gesture has not fired
 			BOOST_TEST(actionFired);
@@ -499,13 +499,13 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			// Process an incorrect event to disable the gesture
 			auto result = gesture.processEvent(0, downPressed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 
 			// Send the correct event
 			result = gesture.processEvent(0, upPressed);
 
 			// Check that the event was not consumed since the gesture is not ready for input
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 			BOOST_TEST(!result.inputConsumed);
 			BOOST_TEST(!result.actionFired);
 		}
@@ -520,7 +520,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			auto result = gesture.processEvent(0, mouseButton1Pressed);
 
 			// Check that the event was not consumed since the event did not pass the filter
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 			BOOST_TEST(!result.inputConsumed);
 			BOOST_TEST(!result.actionFired);
 		}
@@ -533,7 +533,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			// Process an incorrect event to disable the gesture
 			auto result = gesture.processEvent(0, downPressed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 			BOOST_TEST(!result.inputConsumed);
 			BOOST_TEST(!result.actionFired);
 		}
@@ -546,13 +546,13 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 
 			// Process a the first event
 			auto result = gesture.processEvent(0, upPressed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 			BOOST_TEST(result.inputConsumed);
 			BOOST_TEST(!result.actionFired);
 
 			// Process a the second event after too much time
 			result = gesture.processEvent(6, downPressed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 			BOOST_TEST(!result.inputConsumed);
 			BOOST_TEST(!result.actionFired);
 		}
@@ -572,7 +572,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			 GestureMatchSignalerProcessEventResult result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 1);
@@ -581,12 +581,12 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			result = gesture.processEvent(0, upPressed);
 			BOOST_TEST(!result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 2);
@@ -603,7 +603,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			GestureMatchSignalerProcessEventResult result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 1);
@@ -612,7 +612,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 2);
@@ -629,7 +629,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			GestureMatchSignalerProcessEventResult result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(result.readyForInput);
+			BOOST_TEST(result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 1);
@@ -638,7 +638,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			result = gesture.processEvent(0, upPressed);
 			BOOST_TEST(!result.actionFired);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 1);
@@ -655,7 +655,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			GestureMatchSignalerProcessEventResult result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(result.actionFired);
 			BOOST_TEST(result.inputConsumed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 1);
@@ -664,7 +664,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			result = gesture.processEvent(0, downPressed);
 			BOOST_TEST(!result.actionFired);
 			BOOST_TEST(!result.inputConsumed);
-			BOOST_TEST(!result.readyForInput);
+			BOOST_TEST(!result.isReadyForInput);
 
 			// Check that the gesture has fired the correct number of times
 			BOOST_TEST(actionFiredCount == 1);
