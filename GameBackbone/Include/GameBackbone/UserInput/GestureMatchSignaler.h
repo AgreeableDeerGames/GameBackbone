@@ -25,7 +25,7 @@ namespace GB
 		bool inputConsumed;
 	};
 
-	namespace detail 
+	namespace Detail 
 	{
 		template <class GestureMatchSignalerType>
 		using GestureMatchSignalerProcessEvent = decltype(
@@ -44,7 +44,7 @@ namespace GB
 	using is_gesture_match_signaler =
 		std::conjunction<
 			std::is_copy_constructible<GestureMatchSignalerType>,
-			detail::supports_gesture_match_signaler_process_event<GestureMatchSignalerType>
+			Detail::supports_gesture_match_signaler_process_event<GestureMatchSignalerType>
 		>;
 
 	template <class GestureMatchSignalerType>
@@ -70,14 +70,11 @@ namespace GB
 		using EventFilterType = EventFilter;
 		using ProcessEventResult = GestureMatchSignalerProcessEventResult;
 
-
-		// TODO: Please dear god rename this. Options: EndStateBehavior, MatchStateBehavior, StateAfterMatch
-		// TODO: State names: Continuous/Penultimate, Reset/First, Block/Ohio 
 		/// @brief Indicates the desired behavior after a match is found.
-		enum class EndType
+		enum class MatchBehavior
 		{
 			/// @brief Signal with every subsequent event that matches the last event in the gesture.
-			Continuous,
+			Penultimate,
 
 			/// @brief Puts the gesture back to position 0 after it completes and allows the gesture to complete again.
 			Reset,
@@ -100,7 +97,7 @@ namespace GB
 			GestureMatchSignaler(
 				std::move(gesture),
 				std::move(action),
-				EndType::Block,
+				MatchBehavior::Block,
 				defaultMaxTimeBetweenInputs)
 		{
 		}
@@ -108,7 +105,7 @@ namespace GB
 		/// @brief Creates a new instance of a GestureMatchSignaler.
 		/// @param gesture The Sequence of sf::Event that the GestureMatchSignaler will match.
 		/// @param action The action to fire upon the Sequence being matched. The "Slot".
-		/// @param endType The EndType for the new GestureMatchSignaler.
+		/// @param matchBehavior The behavior of this GestureMatchSignaler after a successful match.
 		template <
 			typename = std::enable_if_t< std::is_default_constructible_v<EventComparatorType>>,
 			typename = std::enable_if_t< std::is_default_constructible_v<EventFilterType>>
@@ -116,11 +113,11 @@ namespace GB
 		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
-			EndType endType) :
+			MatchBehavior matchBehavior) :
 			GestureMatchSignaler(
 				std::move(gesture),
 				std::move(action),
-				endType,
+				matchBehavior,
 				defaultMaxTimeBetweenInputs)
 		{
 		}
@@ -128,7 +125,7 @@ namespace GB
 		/// @brief Creates a new instance of a GestureMatchSignaler.
 		/// @param gesture The Sequence of sf::Event that the GestureMatchSignaler will match.
 		/// @param action The action to fire upon the Sequence being matched. The "Slot".
-		/// @param endType The EndType for the new GestureMatchSignaler.
+		/// @param matchBehavior The behavior of this GestureMatchSignaler after a successful match.
 		/// @param maxTimeBetweenInputs The amount of time allowed between each sf::Event in the Sequence. 
 		///				If an sf::Event is sent after this period of time, the GestureMatchSignaler will not accept the sf::Event.
 		template <
@@ -138,41 +135,39 @@ namespace GB
 		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
-			EndType endType,
+			MatchBehavior matchBehavior,
 			sf::Int64 maxTimeBetweenInputs
 		) :
 			GestureMatchSignaler(
 				std::move(gesture),
 				std::move(action),
-				endType,
+				matchBehavior,
 				maxTimeBetweenInputs,
 				EventCompare{},
 				EventFilterType{})
 		{
 		}
 
-		// TODO: Ensure this is clear to the user
-		//         This constructor is intended for if the eventComparitor and eventFilter are not default constructible or require a non default initial state.
-
 		/// @brief Creates a new instance of a GestureMatchSignaler.
 		/// @param gesture The Sequence of sf::Event that the GestureMatchSignaler will match.
 		/// @param action The action to fire upon the Sequence being matched. The "Slot".
-		/// @param endType The EndType for the new GestureMatchSignaler.
+		/// @param matchBehavior The behavior of this GestureMatchSignaler after a successful match.
 		/// @param maxTimeBetweenInputs The amount of time allowed between each sf::Event in the Sequence. 
 		///				If an sf::Event is sent after this period of time, the GestureMatchSignaler will not accept the sf::Event.
-		/// @param eventComparator A preconstructed instance of the EventComparatorType.
-		/// @param eventFilter A preconstructed instance of the EventFilterType.
+		/// @param eventComparator A function or function object for comparing an input event to an expected one.
+		/// @param eventFilter A function or function object that returns true if the input event should be matched against the expected
+		///						one and false if it should be skipped entirely.
 		GestureMatchSignaler(
 			std::vector<sf::Event> gesture,
 			std::function<void()> action,
-			EndType endType,
+			MatchBehavior matchBehavior,
 			sf::Int64 maxTimeBetweenInputs,
 			EventComparatorType eventComparator,
 			EventFilterType eventFilter
 		) :
 			m_gesture(std::move(gesture)),
 			m_action(std::move(action)),
-			m_endType(endType),
+			m_matchBehavior(matchBehavior),
 			m_maxTimeBetweenInputs(maxTimeBetweenInputs),
 			m_position(0),
 			m_readyForInput(true),
@@ -245,10 +240,10 @@ namespace GB
 			return m_maxTimeBetweenInputs;
 		}
 
-		/// @brief Returns the EndType.
-		EndType getEndType() const
+		/// @brief The behavior of this GestureMatchSignaler after a successful match.
+		MatchBehavior getMatchBehavior() const
 		{
-			return m_endType;
+			return m_matchBehavior;
 		}
 
 		/// @brief Set the Sequence of sf::Event that the GestureMatchSignaler will match.
@@ -269,10 +264,10 @@ namespace GB
 			m_maxTimeBetweenInputs = maxTimeBetweenInputs;
 		}
 
-		/// @brief Sets the EndType.
-		void setEndType(EndType endType)
+		/// @brief Sets the behavior of this GestureMatchSignaler after a successful match.
+		void setMatchBehavior(MatchBehavior matchBehavior)
 		{
-			m_endType = endType;
+			m_matchBehavior = matchBehavior;
 		}
 		
 		/// @brief Resets the state of the GestureMatchSignaler.
@@ -289,6 +284,7 @@ namespace GB
 		}
 
 	private:
+
 		/// @brief Invoke the EventComparator
 		/// @param lhs The left-hand sf::Event.
 		/// @param rhs The right-hand sf::Event.
@@ -298,23 +294,23 @@ namespace GB
 			return std::invoke(m_eventComparator, lhs, rhs);
 		}
 
-		/// @brief Signals the slot and sets the state that corresponds to the EndType
+		/// @brief Signals the slot and sets the state that corresponds to the MatchType
 		void completeMatch()
 		{
 			// Set completed/matched/new state
-			switch (getEndType())
+			switch (getMatchBehavior())
 			{
-			case EndType::Continuous:
+			case MatchBehavior::Penultimate:
 			{
 				--m_position;
 				break;
 			}
-			case EndType::Reset:
+			case MatchBehavior::Reset:
 			{
 				reset();
 				break;
 			}
-			case EndType::Block:
+			case MatchBehavior::Block:
 			{
 				m_position = 0;
 				m_readyForInput = false;
@@ -339,7 +335,7 @@ namespace GB
 		sf::Int64 m_maxTimeBetweenInputs;
 
 		// State control and State
-		EndType m_endType;
+		MatchBehavior m_matchBehavior;
 		std::size_t m_position;
 		bool m_readyForInput;
 

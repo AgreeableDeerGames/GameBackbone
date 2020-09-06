@@ -32,12 +32,15 @@ namespace GB
 	public:
 		/// @brief The type of GestureMatchSignaler that inputs will be matched against.
 		using GestureMatchSignalerType = Signaler;
-	private: 
-		using GestureContainer = std::vector<GestureMatchSignalerType>;
+	private:
+		template <typename T>
+		using GestureContainer = std::vector<T>;
+		using GestureValueContainer = GestureContainer<GestureMatchSignalerType>;
+		using GesturePointerContainer = GestureContainer<std::add_pointer_t<GestureMatchSignalerType>>;
 	public:
-		using iterator = typename GestureContainer::iterator;
-		using const_iterator = typename GestureContainer::const_iterator;
-		using size_type = typename GestureContainer::size_type;
+		using iterator = typename GestureValueContainer::iterator;
+		using const_iterator = typename GestureValueContainer::const_iterator;
+		using size_type = typename GestureValueContainer::size_type;
 
 		/// @brief Default construct a ButtonGestureHandler. 
 		ButtonGestureHandler() = default;
@@ -90,24 +93,20 @@ namespace GB
 			return eventConsumed;
 		}
 
-		// TODO: this is pretty bad behavior. Perhaps open and whole set should use same pointer and reset.
-		// 1. open set contains pointers
-		// 2. whole set reset function calls reset (REQUIRES reset to be on the concept for GestureMatchSignaler)
-		// 4. dont use unique pointers (cache locality early opt?)
-		// 3. give official warning about dangling refs (look to vector's warning)
-
-		/// @brief Adds a GB::GestureMatchSignaler to match against incoming events.
+		/// @brief Adds a GB::GestureMatchSignaler to match against incoming events. Resets every GB::GestureMatchSignaler
+		///			currently stored on this ButtonGestureHandler instance.
 		/// @param matchSignaler The GB::GestureMatchSignaler to add.
 		/// @return A reference to the added GB::GestureMatchSignaler.
-		/// @note If any changes are made to matchSignaler after it has been added they will not 
-		///			have any effect until reset has been called.
+		/// @note The reference returned by this function is invalidated by any future calls to
+		///			addMatchSignaler or removeMatchSignaler.
 		GestureMatchSignalerType& addMatchSignaler(GestureMatchSignalerType matchSignaler)
 		{
-			m_openSetGestures.push_back(matchSignaler);
-			return m_wholeSet.emplace_back(std::move(matchSignaler));
+			auto& emplacedSignaler = m_wholeSet.emplace_back(std::move(matchSignaler));
+			reset();
+			return emplacedSignaler;
 		}
 
-		/// @brief Removes the GB::GestureMatchSignaler at the provided location and resets.
+		/// @brief Removes the GB::GestureMatchSignaler at the provided location.
 		/// @param position The index of the GB::GestureMatchSignaler to remove.
 		/// @throws std::out_of_range exception if the position is invalid.
 		void removeMatchSignaler(size_type position)
@@ -117,8 +116,15 @@ namespace GB
 				throw std::out_of_range("Out of bounds position in ButtonGestureHandler::removeGesture");
 			}
 
+			// Remove from the open set if it exists
+			auto removeResult = std::remove(m_openSetGestures.begin(), m_openSetGestures.end(), &m_wholeSet[position]);
+			if (removeResult != m_openSetGestures.end())
+			{
+				m_openSetGestures.erase(removeResult);
+			}
+
+			// Remove from the whole set
 			m_wholeSet.erase(m_wholeSet.begin() + position);
-			reset();
 		}
 
 		/// @brief Gets a reference to the GB::GestureMatchSignaler at the provided location.
@@ -152,43 +158,50 @@ namespace GB
 			m_openSetGestures.clear();
 
 			// Add all gestures from the whole set to the active gestures open set.
-			for (const GestureMatchSignalerType& bind : m_wholeSet)
+			for (GestureMatchSignalerType& bind : m_wholeSet)
 			{
-				m_openSetGestures.push_back(bind);
+				bind.reset();
+				m_openSetGestures.push_back(&bind);
 			}
 		}
 
 		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
+		/// @note all iterators are invalidated by calls to addMatchSignaler or removeMatchSignaler.
 		iterator begin() 
 		{
 			return m_wholeSet.begin();
 		}
 
 		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
+		/// @note all iterators are invalidated by calls to addMatchSignaler or removeMatchSignaler.
 		const_iterator begin() const
 		{
 			return m_wholeSet.begin();
 		}
 
 		/// @brief Gets an iterator to the first GB::GestureMatchSignaler stored on this instance.
+		/// @note all iterators are invalidated by calls to addMatchSignaler or removeMatchSignaler.
 		const_iterator cbegin() const
 		{
 			return m_wholeSet.cbegin();
 		}
 
 		/// @brief End iterator to the instances of GB::GestureMatchSignaler that are stored on this instance.
+		/// @note all iterators are invalidated by calls to addMatchSignaler or removeMatchSignaler.
 		iterator end()
 		{
 			return m_wholeSet.end();
 		}
 
 		/// @brief End iterator to the instances of GB::GestureMatchSignaler that are stored on this instance.
+		/// @note all iterators are invalidated by calls to addMatchSignaler or removeMatchSignaler.
 		const_iterator end() const
 		{
 			return m_wholeSet.end();
 		}
 
 		/// @brief End iterator to the instances of GB::GestureMatchSignaler that are stored on this instance.
+		/// @note all iterators are invalidated by calls to addMatchSignaler or removeMatchSignaler.
 		const_iterator cend() const
 		{
 			return m_wholeSet.cend();
@@ -212,7 +225,7 @@ namespace GB
 			for (std::size_t ii = 0; ii < m_openSetGestures.size(); ++ii)
 			{
 				// Forward event to the gesture bind
-				auto result = m_openSetGestures[ii].processEvent(elapsedTime, event);
+				auto result = m_openSetGestures[ii]->processEvent(elapsedTime, event);
 
 				// The bind cannot take any more input. Remove it from the open set.
 				if (!result.isReadyForInput)
@@ -231,8 +244,8 @@ namespace GB
 			return eventConsumed;
 		}
 
-		GestureContainer m_openSetGestures;
-		GestureContainer m_wholeSet;
+		GesturePointerContainer m_openSetGestures;
+		GestureValueContainer m_wholeSet;
 	};
 
 	/// @brief GB::ButtonGestureHandler that handles sequences of key down inputs. 

@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE(InputHandlerTests)
 		InputRouter router{ ButtonGestureHandler<GestureMatchSignaler<KeyEventComparator, AnyEventFilter>>{}, TestInputHandler{} };
 		router.handleEvent(1, sf::Event{});
 
-		GestureMatchSignaler<KeyEventComparator, AnyEventFilter> bind({ sf::Event{} }, []() {}, GestureMatchSignaler<KeyEventComparator, AnyEventFilter>::EndType::Reset, 1);
+		GestureMatchSignaler<KeyEventComparator, AnyEventFilter> bind({ sf::Event{} }, []() {}, GestureMatchSignaler<KeyEventComparator, AnyEventFilter>::MatchBehavior::Reset, 1);
 		bind.processEvent(1, sf::Event{});
 	}
 

@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		bool actionFired = false;
 
 		std::vector<sf::Event> gesture{ upPressed, downPressed };
-		TestMatchSignaler::EndType gestureMatchSignalerEndType = TestMatchSignaler::EndType::Block;
+		TestMatchSignaler::MatchBehavior gestureMatchSignalerEndType = TestMatchSignaler::MatchBehavior::Block;
 		sf::Int64 maxTimeBetweenEvents = 20;
 		TestMatchSignaler bind(gesture, [&actionFired]() { actionFired = true; }, gestureMatchSignalerEndType, maxTimeBetweenEvents);
 
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		BOOST_TEST(identicalGestures);
 
 		// Check that name was correctly set
-		BOOST_CHECK(bind.getEndType() == gestureMatchSignalerEndType);
+		BOOST_CHECK(bind.getMatchBehavior() == gestureMatchSignalerEndType);
 
 		// Check that time between inputs is correct
 		BOOST_CHECK(bind.getMaxTimeBetweenInputs() == maxTimeBetweenEvents);
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			bool actionFired = false;
 
 			std::vector<sf::Event> gesture{ upPressed, downPressed };
-			TestMatchSignaler::EndType gestureMatchSignalerEndType = TestMatchSignaler::EndType::Block;
+			TestMatchSignaler::MatchBehavior gestureMatchSignalerEndType = TestMatchSignaler::MatchBehavior::Block;
 			TestMatchSignaler bind(gesture, [&actionFired]() { actionFired = true; }, gestureMatchSignalerEndType);
 
 			// Check that the gesture was correctly stored
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			BOOST_TEST(identicalGestures);
 
 			// Check that name was correctly set
-			BOOST_CHECK(bind.getEndType() == gestureMatchSignalerEndType);
+			BOOST_CHECK(bind.getMatchBehavior() == gestureMatchSignalerEndType);
 
 			// Check that time between inputs is correct
 			BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestMatchSignaler::defaultMaxTimeBetweenInputs);
@@ -184,7 +184,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			BOOST_TEST(identicalGestures);
 
 			// Check that name was correctly set
-			BOOST_CHECK(bind.getEndType() == TestMatchSignaler::EndType::Block);
+			BOOST_CHECK(bind.getMatchBehavior() == TestMatchSignaler::MatchBehavior::Block);
 
 			// Check that time between inputs is correct
 			BOOST_CHECK(bind.getMaxTimeBetweenInputs() == TestMatchSignaler::defaultMaxTimeBetweenInputs);
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			Gesture gesture(
 				{},
 				[] {},
-				Gesture::EndType::Block,
+				Gesture::MatchBehavior::Block,
 				0,
 				EventCompareNoDefaultCtr{ 0 },
 				FilterNoDefaultCtr{ 0 });
@@ -379,15 +379,15 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			// Check initial end type
 			std::vector eventVec{ upPressed, downPressed };
-			TestMatchSignaler::EndType initialEndType = TestMatchSignaler::EndType::Block;
+			TestMatchSignaler::MatchBehavior initialEndType = TestMatchSignaler::MatchBehavior::Block;
 			TestMatchSignaler gesture(eventVec, [] {}, initialEndType);
-			bool equalEndTypes = gesture.getEndType() == initialEndType;
+			bool equalEndTypes = gesture.getMatchBehavior() == initialEndType;
 			BOOST_TEST(equalEndTypes);
 
 			// Set and check new end type
-			TestMatchSignaler::EndType newEndType = TestMatchSignaler::EndType::Reset;
-			gesture.setEndType(newEndType);
-			equalEndTypes = gesture.getEndType() == newEndType;
+			TestMatchSignaler::MatchBehavior newEndType = TestMatchSignaler::MatchBehavior::Reset;
+			gesture.setMatchBehavior(newEndType);
+			equalEndTypes = gesture.getMatchBehavior() == newEndType;
 			BOOST_TEST(equalEndTypes);
 		}
 
@@ -396,7 +396,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 			// Check initial value
 			std::vector eventVec{ upPressed, downPressed };
 			sf::Int64 maxTime = 10;
-			TestMatchSignaler gesture(eventVec, [] {}, TestMatchSignaler::EndType::Block, maxTime);
+			TestMatchSignaler gesture(eventVec, [] {}, TestMatchSignaler::MatchBehavior::Block, maxTime);
 			BOOST_TEST(gesture.getMaxTimeBetweenInputs() == maxTime);
 
 			// Set and check new value
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			std::vector eventVec{ upPressed, downPressed };
 			bool actionFired = false;
-			TestMatchSignaler gesture(eventVec, [&] { actionFired = true; }, TestMatchSignaler::EndType::Block);
+			TestMatchSignaler gesture(eventVec, [&] { actionFired = true; }, TestMatchSignaler::MatchBehavior::Block);
 
 			// Process part of the gesture
 			gesture.processEvent(0, upPressed);
@@ -542,7 +542,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			using Gesture = GestureMatchSignaler<ButtonEventComparator, AnyButtonDownEventFilter>;
 			std::vector eventVec{ upPressed, downPressed };
-			Gesture gesture(eventVec, [&] {}, Gesture::EndType::Block, 5);
+			Gesture gesture(eventVec, [&] {}, Gesture::MatchBehavior::Block, 5);
 
 			// Process a the first event
 			auto result = gesture.processEvent(0, upPressed);
@@ -565,7 +565,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			std::vector eventVec{ upPressed, downPressed };
 			int actionFiredCount = 0;
-			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::EndType::Reset);
+			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::MatchBehavior::Reset);
 
 			// Process the gesture
 			 gesture.processEvent(0, upPressed);
@@ -596,7 +596,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			std::vector eventVec{ upPressed, downPressed };
 			int actionFiredCount = 0;
-			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::EndType::Continuous);
+			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::MatchBehavior::Penultimate);
 
 			// Process the gesture
 			gesture.processEvent(0, upPressed);
@@ -622,7 +622,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			std::vector eventVec{ upPressed, downPressed };
 			int actionFiredCount = 0;
-			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::EndType::Continuous);
+			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::MatchBehavior::Penultimate);
 
 			// Process the gesture
 			gesture.processEvent(0, upPressed);
@@ -648,7 +648,7 @@ BOOST_AUTO_TEST_SUITE(GestureMatchSignalerTests)
 		{
 			std::vector eventVec{ upPressed, downPressed };
 			int actionFiredCount = 0;
-			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::EndType::Block);
+			KeyDownMatchSignaler gesture(eventVec, [&] { ++actionFiredCount; }, KeyDownMatchSignaler::MatchBehavior::Block);
 
 			// Process the gesture
 			gesture.processEvent(0, upPressed);

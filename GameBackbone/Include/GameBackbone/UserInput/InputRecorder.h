@@ -64,24 +64,24 @@ namespace GB
 		}
 
 		/// @brief Construct a ReturnGestureMatchSignaler to match the recorded Events.
-		/// @param action The action that will be attatched to the GB::GestureBindSignaler.
-		/// @param endType The endType of the GB::GestureBindSignaler.
-		/// @param maxTimeBetweenInputs The Maximum time inbetween inputs on the GB::GestureBindSignaler.
+		/// @param action The action that will be attached to the GB::GestureBindSignaler.
+		/// @param matchBehavior The behavior of the resulting GB::GestureMatchSignaler after a successful match.
+		/// @param maxTimeBetweenInputs The Maximum time in between inputs on the GB::GestureBindSignaler.
 		/// @param shouldClear If true, clears the recorded events after construction of the GB::GestureBindSignaler. 
 		/// @return The constructed ReturnGestureMatchSignaler.
 		[[nodiscard]]
 		ReturnGestureMatchSignaler getCompletedBind(
 			std::function<void()> action, 
-			typename ReturnGestureMatchSignaler::EndType endType = ReturnGestureMatchSignaler::EndType::Block,
+			typename ReturnGestureMatchSignaler::MatchBehavior matchBehavior = ReturnGestureMatchSignaler::MatchBehavior::Block,
 			sf::Int64 maxTimeBetweenInputs = 1000000,
 			bool shouldClear = true)
 		{
-			// Construct an ReturnGestureMatchSignaler with the current recorded events and the given action, endType, and maxTimeBetweenInputs.
+			// Construct an ReturnGestureMatchSignaler with the current recorded events and the given action, matchBehavior, and maxTimeBetweenInputs.
 			// m_eventComparator and m_eventFilter are copied and passed into the ReturnGestureMatchSignaler
 			ReturnGestureMatchSignaler returnsignaler{
 				m_bindKeys,
 				action,
-				endType,
+				matchBehavior,
 				maxTimeBetweenInputs,
 				m_eventComparator,
 				m_eventFilter
