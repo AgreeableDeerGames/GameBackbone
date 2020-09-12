@@ -48,7 +48,7 @@ namespace GB
 	}
 	
 	/// @brief Forwards handleEvent calls to all GB::InputHandler. Once the event is handled, no other GB::InputHandler may handle the event.
-	/// @param ...Handlers A variadic list of GB::InputHandler that will receive the forwarded handleEvent calls. 
+	/// @tparam ...Handlers A variadic list of GB::InputHandler that will receive the forwarded handleEvent calls. 
 	///						The priority of the Handlers is defined by the order that they were passed in. Earlier Handlers have higher priority.
 	template <class... Handlers>
 	class InputRouter final : public InputHandler
@@ -64,10 +64,11 @@ namespace GB
 		{
 		}
 
-		/// @brief Handles an event by 
-		/// @param elapsedTime Forwarded to the InputHandler.
-		/// @param event Forwarded to the InputHandler.
-		/// @return Returns true if any InputHandler handled the event.
+		/// @brief Handles an event by forwarding the handleEvemt call to all GB::InputHandler. 
+		///			Once the event is handled, no other GB::InputHandler may handle the event.
+		/// @param elapsedTime Forwarded to the GB::InputHandler.
+		/// @param event Forwarded to the GB::InputHandler.
+		/// @return Returns true if any GB::InputHandler handled the event.
 		bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) final
 		{
 			bool eventHandled = false;

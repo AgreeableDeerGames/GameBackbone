@@ -18,10 +18,10 @@
 
 namespace GB
 {	
-	/// @brief Forwards inputs to a set of active GB::GestureMatchSignaler.
+	/// @brief Specialized GB::InputHandler to match incoming sf::Events into a set of GB::GestureMatchSignaler to fire their actions upon a complete match.
 	/// @details This class attempts to match incoming Events to the Event Sequences (Gestures) in a set of GB::GestureMatchSignaler.
 	///				If an Event sequence matches the GB::GestureMatchSignaler, that GB::GestureMatchSignaler continues to be active.
-	///				If the Sequence does not match, then the GB::GestureMatchSignaler no longer active. 
+	///				If the Sequence does not match, then the GB::GestureMatchSignaler is no longer active. 
 	///				When there are no GB::GestureMatchSignaler matches the sequence so far, the Sequence is restarted 
 	///				at the current Event and is reapplied to all GB::GestureMatchSignaler.
 	/// @tparam Signaler The type of GestureMatchSignaler that will be used to match against event sequences.
@@ -42,25 +42,25 @@ namespace GB
 		using const_iterator = typename GestureValueContainer::const_iterator;
 		using size_type = typename GestureValueContainer::size_type;
 
-		/// @brief Default construct a ButtonGestureHandler. 
+		/// @brief Default construct a ButtonGestureHandler. It contains no instances of GB::GestureMatchSignaler.
 		ButtonGestureHandler() = default;
 
 		/// @brief Copy construct a ButtonGestureHandler.
-		/// @param other the ButtonGestureHandler to copy.
+		/// @param other The ButtonGestureHandler to copy.
 		ButtonGestureHandler(const ButtonGestureHandler& other) = default;
 
 		/// @brief Move construct a ButtonGestureHandler.
-		/// @param other the ButtonGestureHandler to move.
+		/// @param other The ButtonGestureHandler to move.
 		ButtonGestureHandler(ButtonGestureHandler&& other) = default;
 
 		/// @brief Copy Assignment.
 		/// @param other The ButtonGestureHandler to copy.
-		/// @return this
+		/// @return *this
 		ButtonGestureHandler& operator=(const ButtonGestureHandler& other) = default;
 
 		/// @brief Move Assignment.
 		/// @param other The ButtonGestureHandler to move.
-		/// @return this
+		/// @return *this
 		ButtonGestureHandler& operator=(ButtonGestureHandler&& other) = default;
 
 		/// @brief Destroy the ButtonGestureHandler.
@@ -70,7 +70,7 @@ namespace GB
 		/// @details Match the incoming Event against the stored instances of GB::GestureMatchSignaler.
 		///			Any GB::GestureMatchSignaler that matches the event will continue to be active.
 		///			All other GB::GestureMatchSignaler will no longer be active.
-		///			if no GB::GestureMatchSignaler matches then all GB::GestureMatchSignaler are reset and activated and
+		///			If no GB::GestureMatchSignaler matches then all GB::GestureMatchSignaler are reset and activated and
 		///			the event is applied to each one again.
 		/// @param elapsedTime The time since the last event.
 		/// @param event The incoming event.
@@ -93,7 +93,7 @@ namespace GB
 			return eventConsumed;
 		}
 
-		/// @brief Adds a GB::GestureMatchSignaler to match against incoming events. Resets every GB::GestureMatchSignaler
+		/// @brief Adds a GB::GestureMatchSignaler to match against incoming events. Resets every GB::GestureMatchSignaler that is
 		///			currently stored on this ButtonGestureHandler instance.
 		/// @param matchSignaler The GB::GestureMatchSignaler to add.
 		/// @return A reference to the added GB::GestureMatchSignaler.
