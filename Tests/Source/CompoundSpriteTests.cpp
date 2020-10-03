@@ -511,15 +511,30 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 {
 	CompoundSprite compoundSprite{};
+
+	std::vector<sf::Sprite*> sprites {&sprite, &sprite2};
+
 	compoundSprite.addComponent(1, sprite);
 	compoundSprite.addComponent(2, sprite2);
 
+	auto spriteIter = sprites.begin();
 	for (auto iter = compoundSprite.begin(); iter != compoundSprite.end(); ++iter)
 	{
 		iter->first;
-		sf::Sprite* sprites = iter->second->as<sf::Sprite>();
+		iter->second;
+		// TODO: This doesn't work find some data on the component and check that it is the same'
+		BOOST_CHECK(iter->second->getDataAs<sf::Sprite>() == *spriteIter);
+		++spriteIter;
 	}
 	auto x = compoundSprite.getComponentPriorties();
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
+{
+	CompoundSprite compoundSprite{};
+	compoundSprite.addComponent(1, sprite);
+	//compoundSprite.getComponentsWithPriorty(1);
+	//GB::AnimatedSprite* hi = internalTypeVec.at(0)->getDataAs<GB::AnimatedSprite>();
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests

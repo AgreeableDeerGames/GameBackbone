@@ -78,7 +78,8 @@ namespace GB {
 			return m_prioritizedComponents.cend();
 		}
 
-		std::vector<InternalType*> getComponentWithPriorty(int priority)
+		// TODO: Make this return type a reference_wrapper
+		std::vector<InternalType*> getComponentsWithPriorty(int priority)
 		{
 			std::vector<InternalType*> components;
 			for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
@@ -368,9 +369,18 @@ namespace GB {
 			virtual const sf::Transform& getInverseTransform() const = 0;
 		};
 
+
+	public: 
+		class FailedAs : public std::bad_cast {
+		public:
+			FailedAs() noexcept : bad_cast()
+			{
+			}
+		};
+
 		// Class that a Component's data in CompoundSprite is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.
 		class InternalType : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
-		public:
+		private:
 			InternalType(){}
 			virtual ~InternalType() = default;
 
@@ -380,6 +390,7 @@ namespace GB {
 			InternalType(InternalType&&) noexcept = delete;
 			InternalType& operator=(InternalType&&) noexcept = delete;
 
+		public:
 			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
 			virtual sf::Drawable& getDataAsDrawable() = 0;
@@ -388,18 +399,18 @@ namespace GB {
 				class inputType,
 				std::enable_if_t<is_component_v<inputType>, bool> = true
 			>
-			inputType* as()
+			inputType* getDataAs()
 			{
-				ComponentAdapter<inputType>* adapter = dynamic_cast<ComponentAdapter<inputType>*>(this);
-				return &(adapter->m_data);
+				inputType* data = dynamic_cast<inputType*>(&this->getDataAsDrawable());
+				if (data == nullptr)
+				{
+					throw FailedAs{};
+				}
+				return data;
 			}
-
-			// TODO: 
-			// 1. Return a reference not a pointer 
-			// 2. Cast the data (from getDataAsDrawable) to inputType not this to CA<inputType> 
-			// 3. Throw an exception if dynamic_cast is nullptr
-			// 4. Rename to getDataAs<>()
 		};
+
+	private:
 		// Class which actually stores the data of the type erased InternalType. Used primarily to forward calls to the Component data.
 		template <class Component>
 		class ComponentAdapter final : public InternalType {
