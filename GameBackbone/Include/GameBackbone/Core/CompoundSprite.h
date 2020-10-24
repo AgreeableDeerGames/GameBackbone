@@ -69,10 +69,11 @@ namespace GB {
 		explicit CompoundSprite(int priority, Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, priority, std::move(componentsToAdd)...) {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
-		/// Initializes the CompoundSprite to the passed position.
+		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The provided Components are added to the CompoundSprite at the given priority.
+		/// Initializes the CompoundSprite to the specified position.
 		/// </summary>
 		/// <param name="position">The position.</param>
+		/// <param name="priority">The priority of the components.</param>
 		/// <param name="componentsToAdd">The components.</param>
 		template <class... Components,
 			std::enable_if_t<are_all_components_v<Components...>, bool> = true
@@ -197,7 +198,7 @@ namespace GB {
 		/// <summary>
 		/// Removes all components from the compound sprite
 		/// </summary>
-		virtual void clearComponents();
+		void clearComponents();
 
 		// Transformable API
 
