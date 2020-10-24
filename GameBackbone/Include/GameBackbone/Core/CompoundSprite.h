@@ -380,8 +380,8 @@ namespace GB {
 
 		// Class that a Component's data in CompoundSprite is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.
 		class InternalType : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
-		private:
-			InternalType(){}
+		public:
+			InternalType() = default;
 			virtual ~InternalType() = default;
 
 			// Deleting Copy/Move Constructors because InternalType cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
@@ -389,8 +389,7 @@ namespace GB {
 			InternalType& operator=(const InternalType&) = delete;
 			InternalType(InternalType&&) noexcept = delete;
 			InternalType& operator=(InternalType&&) noexcept = delete;
-
-		public:
+					
 			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
 			virtual sf::Drawable& getDataAsDrawable() = 0;
