@@ -21,7 +21,7 @@ namespace GB
 	template <typename T>
 	static inline constexpr bool is_event_comparator_v = is_event_comparator<T>::value;
 
-	// Comparator used to compare two key events
+	/// @brief Comparator used to compare two key events
 	class KeyEventComparator
 	{
 	public:
@@ -38,7 +38,7 @@ namespace GB
 		}
 	};
 
-	// Comparator used to compare two joystick button events
+	/// @brief Comparator used to compare two joystick button events
 	class JoystickButtonEventComparator
 	{
 	public:
@@ -55,7 +55,7 @@ namespace GB
 		}
 	};
 
-	// Comparator used to compare two mouse button events
+	/// @brief Comparator used to compare two mouse button events
 	class MouseButtonEventComparator
 	{
 	public:
@@ -72,7 +72,7 @@ namespace GB
 		}
 	};
 
-	// Comparator used to compare two button down or button up events
+	/// @brief Comparator used to compare two button down or button up events
 	class ButtonEventComparator
 	{
 	public:

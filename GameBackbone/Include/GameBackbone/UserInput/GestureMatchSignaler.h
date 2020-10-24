@@ -17,7 +17,10 @@
 
 namespace GB
 {
-	// Used by ProcessEvent to tell the GB::ButtonGestureHandler how they processed it.
+	/// @brief Stores the result of GestureMatchSignaler::processEvent.
+	///	@details actionFired indicates that the GestureMatchSignaler has fired its action.
+	///		isReadyForInput indicates that the GestureMatchSignaler is still active and can successfully handle more input.
+	///		inputConsumed indicates that the GestureMatchSignaler processed the last input provided to GestureMatchSignaler::processEvent
 	struct GestureMatchSignalerProcessEventResult
 	{
 		bool actionFired;
@@ -40,6 +43,9 @@ namespace GB
 			std::true_type {};
 	}
 
+	/// @brief Type trait that determines if a type is a GestureMatchSignaler. If the type is a GestureMatchSignaler
+	///		then a member constant value is equal to true. If the type is not a GestureMatchSignaler then the member constant value is equal to false.
+	/// @tparam GestureMatchSignalerType The type to check
 	template <class GestureMatchSignalerType>
 	using is_gesture_match_signaler =
 		std::conjunction<
@@ -47,6 +53,8 @@ namespace GB
 			Detail::supports_gesture_match_signaler_process_event<GestureMatchSignalerType>
 		>;
 
+	/// @brief Type trait that determines if a type is a GestureMatchSignaler. True if the type is a GestureMatchSignaler. False otherwise.
+	/// @tparam GestureMatchSignalerType The type to check
 	template <class GestureMatchSignalerType>
 	inline constexpr bool is_gesture_match_signaler_v = is_gesture_match_signaler<GestureMatchSignalerType>::value;
 
