@@ -44,7 +44,7 @@ add_library(GameBackbone SHARED
   # Util
   "Source/Util/RandGen.cpp"
 
- )
+)
 
 set_target_properties(
   GameBackbone 
