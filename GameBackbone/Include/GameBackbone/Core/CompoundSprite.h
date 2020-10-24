@@ -57,8 +57,8 @@ namespace GB {
 		/// </summary>
 		CompoundSprite() {}
 
-		class InternalType;
-		using iterator = std::multimap<int, std::unique_ptr<InternalType>>::iterator;
+		class ComponentWrapper;
+		using iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::iterator;
 		iterator begin() 
 		{
 			return m_prioritizedComponents.begin();
@@ -68,7 +68,7 @@ namespace GB {
 			return m_prioritizedComponents.end();
 		}
 
-		using const_iterator = std::multimap<int, std::unique_ptr<InternalType>>::const_iterator;
+		using const_iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::const_iterator;
 		const const_iterator cbegin()
 		{
 			return m_prioritizedComponents.cbegin();
@@ -79,9 +79,9 @@ namespace GB {
 		}
 
 		// TODO: Make this return type a reference_wrapper
-		std::vector<InternalType*> getComponentsWithPriorty(int priority)
+		std::vector<ComponentWrapper*> getComponentsWithPriorty(int priority)
 		{
-			std::vector<InternalType*> components;
+			std::vector<ComponentWrapper*> components;
 			for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
 			{
 				if (iter->first == priority)
@@ -207,7 +207,7 @@ namespace GB {
 
 			// Add the component to the prioritizedComponents
 			auto it = m_prioritizedComponents.emplace(priority, std::make_unique<ComponentAdapter<Component>>(std::move(component)));
-			std::unique_ptr<InternalType>& returnValue = it->second;
+			std::unique_ptr<ComponentWrapper>& returnValue = it->second;
 		
 			// Return the place in the components vector that the new component was placed.
 			return static_cast<Component&>(returnValue->getDataAsDrawable());
@@ -226,7 +226,7 @@ namespace GB {
 		{
 			// Find the drawable inside of the internal map.
 			auto it = std::find_if(m_prioritizedComponents.begin(), m_prioritizedComponents.end(),
-				[&componentToRemove](const std::pair<int, std::unique_ptr<InternalType>>& possibleRemoval) -> bool {
+				[&componentToRemove](const std::pair<int, std::unique_ptr<ComponentWrapper>>& possibleRemoval) -> bool {
 					sf::Drawable& underlyingData = possibleRemoval.second->getDataAsDrawable();
 					return &(underlyingData) == &componentToRemove;
 				});
@@ -343,7 +343,7 @@ namespace GB {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
-		// Helper Class used by InternalType to virtually forward calls from sf::Transformables
+		// Helper Class used by ComponentWrapper to virtually forward calls from sf::Transformables
 		// to ComponentAdapter which will then forward the calls nonvirtually to the type erased data. 
 		class VirtualTransformable : public sf::Transformable {
 		public:
@@ -379,19 +379,19 @@ namespace GB {
 		};
 
 		// Class that a Component's data in CompoundSprite is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.
-		class InternalType : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
+		class ComponentWrapper : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
 		public:
-			InternalType() = default;
-			virtual ~InternalType() = default;
+			ComponentWrapper() = default;
+			virtual ~ComponentWrapper() = default;
 
-			// Deleting Copy/Move Constructors because InternalType cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
-			InternalType(const InternalType&) = delete;
-			InternalType& operator=(const InternalType&) = delete;
-			InternalType(InternalType&&) noexcept = delete;
-			InternalType& operator=(InternalType&&) noexcept = delete;
+			// Deleting Copy/Move Constructors because ComponentWrapper cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
+			ComponentWrapper(const ComponentWrapper&) = delete;
+			ComponentWrapper& operator=(const ComponentWrapper&) = delete;
+			ComponentWrapper(ComponentWrapper&&) noexcept = delete;
+			ComponentWrapper& operator=(ComponentWrapper&&) noexcept = delete;
 					
 			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
-			virtual std::unique_ptr<InternalType> cloneAsUnique() = 0;
+			virtual std::unique_ptr<ComponentWrapper> cloneAsUnique() = 0;
 			virtual sf::Drawable& getDataAsDrawable() = 0;
 
 			template <
@@ -410,9 +410,9 @@ namespace GB {
 		};
 
 	private:
-		// Class which actually stores the data of the type erased InternalType. Used primarily to forward calls to the Component data.
+		// Class which actually stores the data of the type erased ComponentWrapper. Used primarily to forward calls to the Component data.
 		template <class Component>
-		class ComponentAdapter final : public InternalType {
+		class ComponentAdapter final : public ComponentWrapper {
 		protected:
 
 			// Protected draw call forwards the draw call passing the sf::Drawable data.
@@ -424,7 +424,7 @@ namespace GB {
 		public:
 			explicit ComponentAdapter(Component x) : m_data(std::move(x)) { }
 
-			// Deleting Copy/Move Constructors because InternalType cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
+			// Deleting Copy/Move Constructors because ComponentWrapper cannot know the type of ComponentAdapter. Instead, using a clone method, which is virtual.
 			ComponentAdapter(const ComponentAdapter&) = delete;
 			ComponentAdapter& operator=(const ComponentAdapter&) = delete;
 			ComponentAdapter(ComponentAdapter&&) noexcept = delete;
@@ -446,9 +446,9 @@ namespace GB {
 				m_data.update(elapsedTime);
 			}
 
-			// Clones the object as a unique pointer. Always called virtually from InternalType. 
-			// It cannot be done in InternalType as the type has already been erased. This can be done here as the type of Component is known.
-			std::unique_ptr<InternalType> cloneAsUnique() override
+			// Clones the object as a unique pointer. Always called virtually from ComponentWrapper. 
+			// It cannot be done in ComponentWrapper as the type has already been erased. This can be done here as the type of Component is known.
+			std::unique_ptr<ComponentWrapper> cloneAsUnique() override
 			{
 				return std::make_unique<ComponentAdapter<Component>>(m_data);
 			}
@@ -483,6 +483,6 @@ namespace GB {
 		};
 
 		// Internal storage of the Components for CompoundSprite
-		std::multimap<int, std::unique_ptr<InternalType>> m_prioritizedComponents;
+		std::multimap<int, std::unique_ptr<ComponentWrapper>> m_prioritizedComponents;
 	};
 }
