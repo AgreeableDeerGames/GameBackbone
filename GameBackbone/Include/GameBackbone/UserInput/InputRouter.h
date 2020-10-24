@@ -16,31 +16,34 @@
 
 namespace GB
 {
-	// TODO: Capitalization of Detail. Should these go somewhere
 	namespace Detail
 	{
-		// FROM: https://blog.tartanllama.xyz/exploding-tuples-fold-expressions/
+		// From: https://blog.tartanllama.xyz/exploding-tuples-fold-expressions/
 
 		template <std::size_t... Idx>
-		auto make_index_dispatcher(std::index_sequence<Idx...>)
+		auto makeIndexDispatcher(std::index_sequence<Idx...>)
 		{
 			return [](auto&& f) { (f(std::integral_constant<std::size_t, Idx>{}), ...); };
 		}
 
 		template <std::size_t N>
-		auto make_index_dispatcher()
+		auto makeIndexDispatcher()
 		{
-			return make_index_dispatcher(std::make_index_sequence<N>{});
+			return makeIndexDispatcher(std::make_index_sequence<N>{});
 		}
 
+		/// @brief Apply function to every element in a tuple
+		/// @tparam Tuple The type tuple to iterate
+		/// @tparam Func The type of the function to apply
+		/// @param t The tuple to iterate
+		/// @param f The function to apply
 		template <typename Tuple, typename Func>
-		void for_each(Tuple&& t, Func&& f)
+		void forEach(Tuple&& t, Func&& f)
 		{
 			constexpr auto n = std::tuple_size<std::decay_t<Tuple>>::value;
-			auto dispatcher = make_index_dispatcher<n>();
+			auto dispatcher = makeIndexDispatcher<n>();
 			dispatcher( [&f, &t] (auto idx) { f(std::get<idx>(std::forward<Tuple>(t))); } );
 		}
-
 
 		/// <summary> Checks if all types fulfill the requirements of a CompoundSprite component. (Drawable and Transformable) </summary>
 		template <class... InTypes>
@@ -74,7 +77,7 @@ namespace GB
 			bool eventHandled = false;
 
 			// Loop through all sub-handlers until handles the event
-			Detail::for_each(
+			Detail::forEach(
 				m_handlers,
 				[&event, &eventHandled, elapsedTime](auto& handler)
 				{

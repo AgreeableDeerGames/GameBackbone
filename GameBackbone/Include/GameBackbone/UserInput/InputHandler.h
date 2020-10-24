@@ -16,10 +16,16 @@
 
 namespace GB {
 	
-	/// @brief 
+	/// @brief Interface for consuming user input produced by the GB event loop.
 	class libGameBackbone InputHandler
 	{
 	public:
+
+		/// @brief Handle and optionally consume a user event.
+		/// @param elapsedTime The time since the last event was handled.
+		/// @param event The event to handle.
+		/// @return True if the event was consumed and should not be handled by a different handler
+		///		False otherwise.
 		virtual bool handleEvent(sf::Int64 elapsedTime, const sf::Event& event) = 0;
 
 		InputHandler() = default;

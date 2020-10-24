@@ -4,12 +4,20 @@
 
 namespace GB
 {
+	/// @brief if T is an event comparator, provides a member constant value to true.
+	///		For any other type, value is equal to false.
+	///		Event comparators compare two events for equality.
+	///		An Event comparator must be invocable with two const references to sf::Event and return a bool.
+	/// @tparam T The type to check
 	template <typename T>
 	using is_event_comparator = std::conjunction<
 		std::is_invocable<T, const sf::Event&, const sf::Event&>,
 		std::is_same<typename std::invoke_result<T, const sf::Event&, const sf::Event&>::type, bool>
 	>;
 
+	/// @brief Checks if a type is an event comparator.
+	/// @tparam T The type to check
+	/// @see GB::is_event_comparator
 	template <typename T>
 	static inline constexpr bool is_event_comparator_v = is_event_comparator<T>::value;
 

@@ -71,13 +71,16 @@ BOOST_AUTO_TEST_SUITE(EventComparatorTests)
 	>
 	void checkEventCompare(EventComparatorType&& compare, const sf::Event& targetEvent, const std::vector<sf::Event>& passEvents, const std::vector<sf::Event>& failEvents)
 	{
-		for (const auto& event : passEvents)
+		// These are intentionally not range based loops. By using a count its easier to see which item in the input array causes an error.
+		for (int i = 0; i < passEvents.size(); ++i)
 		{
-			BOOST_TEST(std::invoke(compare, targetEvent, event));
+			bool pass = std::invoke(compare, targetEvent, passEvents[i]);
+			BOOST_TEST(pass);
 		}
-		for (const auto& event : failEvents)
+		for (int i = 0; i < failEvents.size(); ++i)
 		{
-			BOOST_TEST(!std::invoke(compare, targetEvent, event));
+			bool pass = std::invoke(compare, targetEvent, failEvents[i]);
+			BOOST_TEST(!pass);
 		}
 	}
 
@@ -85,6 +88,31 @@ BOOST_AUTO_TEST_SUITE(EventComparatorTests)
 	{
 		checkEventCompare(KeyEventComparator{}, upPressed, { upPressed }, { downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed, joystickButton1Released });
 		checkEventCompare(KeyEventComparator{}, upReleased, { upReleased }, { upPressed, downPressed, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed, joystickButton1Released } );
+		checkEventCompare(KeyEventComparator{}, mouseButton1Pressed, { }, { downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed, joystickButton1Released });
+	}
+
+	BOOST_FIXTURE_TEST_CASE(JoystickButtonEventComparatorCorrectlyComparesEvents, SFEventFixture)
+	{
+		checkEventCompare(JoystickButtonEventComparator{}, joystickButton1Pressed, { joystickButton1Pressed }, { upPressed, downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, joystickButton1Released });
+		checkEventCompare(JoystickButtonEventComparator{}, joystickButton1Released, { joystickButton1Released }, { upPressed, upReleased, downPressed, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed});
+		checkEventCompare(JoystickButtonEventComparator{}, mouseButton1Pressed, { }, { downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed, joystickButton1Released });
+	}
+
+	BOOST_FIXTURE_TEST_CASE(MouseButtonEventComparatorCorrectlyComparesEvents, SFEventFixture)
+	{
+		checkEventCompare(MouseButtonEventComparator{}, mouseButton1Pressed, { mouseButton1Pressed }, { upPressed, downPressed, upReleased, mouseButton1Released, joystickButton1Pressed, joystickButton1Released, joystickButton1Pressed });
+		checkEventCompare(MouseButtonEventComparator{}, mouseButton1Released, { mouseButton1Released }, { upPressed, upReleased, downPressed, mouseButton1Pressed, joystickButton1Pressed, joystickButton1Released });
+		checkEventCompare(MouseButtonEventComparator{}, joystickButton1Pressed, {}, { downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, mouseButton1Pressed, joystickButton1Released });
+	}
+
+	BOOST_FIXTURE_TEST_CASE(ButtonEventComparatorCorrectlyComparesEvents, SFEventFixture)
+	{
+		checkEventCompare(ButtonEventComparator{}, mouseButton1Pressed, { mouseButton1Pressed }, { upPressed, downPressed, upReleased, mouseButton1Released, joystickButton1Pressed, joystickButton1Released, joystickButton1Pressed });
+		checkEventCompare(ButtonEventComparator{}, mouseButton1Released, { mouseButton1Released }, { upPressed, upReleased, downPressed, mouseButton1Pressed, joystickButton1Pressed, joystickButton1Released });
+		checkEventCompare(ButtonEventComparator{}, joystickButton1Pressed, { joystickButton1Pressed }, { upPressed, downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, joystickButton1Released });
+		checkEventCompare(ButtonEventComparator{}, joystickButton1Released, { joystickButton1Released }, { upPressed, upReleased, downPressed, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed });
+		checkEventCompare(ButtonEventComparator{}, upPressed, { upPressed }, { downPressed, upReleased, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed, joystickButton1Released });
+		checkEventCompare(ButtonEventComparator{}, upReleased, { upReleased }, { upPressed, downPressed, mouseButton1Pressed, mouseButton1Released, joystickButton1Pressed, joystickButton1Released });
 	}
 
 BOOST_AUTO_TEST_SUITE_END() // EventComparatorTests
