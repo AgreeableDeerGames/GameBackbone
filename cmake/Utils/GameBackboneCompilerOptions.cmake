@@ -13,7 +13,7 @@ macro(gamebackbone_target_set_default_warnings IN_TARGET)
 		target_compile_options(${IN_TARGET}
 			PRIVATE
 			# /W4 put this back when we switch to CMake 3.15
-			/permissive
+			/permissive-
 			/w14640
 			/w14242
 			/w14254

@@ -2,6 +2,7 @@
 
 #include <GameBackbone/Core/Updatable.h>
 #include <GameBackbone/Util/DllUtil.h>
+#include <GameBackbone/UserInput/InputHandler.h>
 
 #include <SFML/Graphics/Drawable.hpp>
 
@@ -9,9 +10,8 @@
 #include <memory>
 
 namespace GB {
-	
-	/// @brief Base class meant to be inherited. Controls game logic and actors for a specific time or space in game.
-	class libGameBackbone BasicGameRegion : public sf::Drawable, public Updatable {
+	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
+	class libGameBackbone BasicGameRegion : public sf::Drawable, public Updatable, public InputHandler{
 	public:
 		
 		/// @brief shared_ptr to BasicGameRegion
@@ -51,9 +51,6 @@ namespace GB {
 		/// @brief Sets the BasicGameRegion that should become active after the next update of this one.
 		/// @param nextRegion The region that should become active.
 		void setNextRegion(BasicGameRegion& nextRegion);
-
-		/// @brief Implements Updatable::update as a no-op.
-		void update(sf::Int64 /*elapsedTime*/) override {}
 
 	private:
 		std::reference_wrapper<BasicGameRegion> m_nextRegion;

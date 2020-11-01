@@ -33,9 +33,12 @@ CoreEventController::CoreEventController(int windowWidth, int windowHeight) : Co
 /// <param name="windowWidth">Width of the window.</param>
 /// <param name="windowHeight">Height of the window.</param>
 /// <param name="windowName">Name of the window.</param>
-CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string& windowName) : m_window(sf::VideoMode(windowWidth, windowHeight), windowName)
+CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string& windowName) :
+	m_activeRegion(nullptr),
+	m_window(sf::VideoMode(windowWidth, windowHeight), windowName),
+	m_updateClock(),
+	m_timeSinceLastHandledEvent(0)
 {
-	m_activeRegion = nullptr;
 }
 
 /// <summary>
@@ -46,21 +49,20 @@ CoreEventController::~CoreEventController() {}
 /// <summary>
 /// The main loop of the <see cref="CoreEventController"/>. This loop is blocking.
 /// </summary>
-void CoreEventController::runLoop() {
-	sf::Event event;
-
+void CoreEventController::runLoop() 
+{
 	// Ensure the window is fully opened before we do any work on it.
-	while (m_window.isOpen() == false) {
+	while (m_window.isOpen() == false)
+	{
 		continue;
 	}
 
-	while (m_window.isOpen()) {
-		while (m_window.pollEvent(event)) {
-			handleEvent(event);
-		}
-
+	while (m_window.isOpen())
+	{
+		sf::Time elapsedTime = m_updateClock.restart();
+		handleEvents(elapsedTime.asMicroseconds());
+		update(elapsedTime.asMicroseconds());
 		repaint();
-		update();
 		swapRegion();
 	}
 }
@@ -95,34 +97,51 @@ void CoreEventController::setActiveRegion(BasicGameRegion* activeRegion)
 /// <summary>
 /// Primary drawing logic. Draws every drawable object in the game region.
 /// </summary>
- void CoreEventController::repaint() {
-	 m_window.clear();
-
-	 draw();
-
+void CoreEventController::repaint()
+{
+	m_window.clear();
+	draw();
 	m_window.display();
 }
 
- /// <summary>
+/// <summary>
 /// Primary drawing logic. Draws every drawable object in the game region.
 /// </summary>
- void CoreEventController::draw() {
-	 // Draw m_activeRegion so it can draw its drawables.
-	 m_window.draw(*getActiveRegion());
- }
+void CoreEventController::draw()
+{
+	// Draw m_activeRegion so it can draw its drawables.
+	m_window.draw(*getActiveRegion());
+}
+
+void CoreEventController::handleEvents(sf::Int64 elapsedTime)
+{
+	m_timeSinceLastHandledEvent += elapsedTime;
+
+	sf::Event event;
+	while (m_window.pollEvent(event))
+	{
+		getActiveRegion()->handleEvent(elapsedTime, event);
+		m_timeSinceLastHandledEvent = 0;
+
+		if (event.type == sf::Event::Closed)
+		{
+			m_window.close();
+		}
+	}
+}
 
 /// <summary>
 /// Primary update logic. Runs behavior logic for active GameRegion. Updates every Updatable object in the active GameRegion.
 /// </summary>
- void CoreEventController::update() {
-	sf::Time elapsedTime = m_updateClock.restart();
-	getActiveRegion()->update(elapsedTime.asMicroseconds());
+void CoreEventController::update(sf::Int64 elapsedTime)
+{
+	getActiveRegion()->update(elapsedTime);
 }
 
 /// <summary>
 /// Changes to the next active region if prompted by the current active region.
 /// </summary>
- void CoreEventController::swapRegion()
+void CoreEventController::swapRegion()
 {
 	BasicGameRegion& newRegion = getActiveRegion()->getNextRegion();
 	if (m_activeRegion != &newRegion)
