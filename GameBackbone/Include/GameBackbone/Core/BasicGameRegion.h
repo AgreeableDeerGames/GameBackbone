@@ -10,7 +10,8 @@
 #include <memory>
 
 namespace GB {
-	/// <summary> Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </summary>
+	
+	/// @brief Abstract class providing an interface to control game logic and actors for a specific time or space in game.
 	class libGameBackbone BasicGameRegion : public sf::Drawable, public Updatable, public InputHandler{
 	public:
 		
