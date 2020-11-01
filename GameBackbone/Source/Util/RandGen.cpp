@@ -16,10 +16,11 @@ RandGen::RandGen() :
 }
 
 RandGen::RandGen(std::string seed) :
-	m_seedString(std::move(seed)),
+	m_seedString(),
 	m_generator(),
 	m_uniDistributor(std::uniform_real_distribution<double>(0, 1))
 {
+	setSeed(std::move(seed));
 }
 
 const std::string& RandGen::getSeed() const noexcept
