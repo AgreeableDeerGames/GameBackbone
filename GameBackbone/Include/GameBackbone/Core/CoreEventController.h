@@ -55,6 +55,7 @@ namespace GB {
 		BasicGameRegion* m_activeRegion;
 		sf::RenderWindow m_window;
 		sf::Clock m_updateClock;
+		sf::Int64 m_timeSinceLastHandledEvent;
 	};
 
 }

@@ -234,6 +234,56 @@ BOOST_AUTO_TEST_CASE(InputRouterStopsTryingToApplyAnEventToItsHandlersAfterAnyHa
 	BOOST_CHECK(!hasRouterRecievedInput[3]);
 }
 
+BOOST_AUTO_TEST_CASE(InputRouterKeepsTrackOfTimeBetweenCalls)
+{
+	std::array inputCount{ 0, 0 };
+	std::array elapsedTimeArray{ sf::Int64{0}, sf::Int64{0} };
+
+	// Set up a Router with multiple handlers that never return true.
+	// This will ensure that the event is passed to each of them
+	InputRouter router
+	{
+		TestInputHandler
+		{
+			[&](sf::Int64 elapsedTime, const sf::Event&)
+			{
+				elapsedTimeArray[0] = elapsedTime;
+				++inputCount[0];
+				return inputCount[0] % 3 != 0;
+			}
+		},
+		TestInputHandler
+		{
+			[&](sf::Int64 elapsedTime, const sf::Event&)
+			{
+				elapsedTimeArray[1] = elapsedTime;
+				++inputCount[1];
+				return false;
+			}
+		}
+	};
+
+	// Send an event (First handler called)
+	router.handleEvent(1, {});
+	BOOST_CHECK(elapsedTimeArray[0] == 1);
+	BOOST_CHECK(elapsedTimeArray[1] == 0);
+	BOOST_CHECK(inputCount[0] == 1);
+	BOOST_CHECK(inputCount[1] == 0);
+
+	// Send an event (first handler called)
+	router.handleEvent(1, {});
+	BOOST_CHECK(elapsedTimeArray[0] == 1);
+	BOOST_CHECK(elapsedTimeArray[1] == 0);
+	BOOST_CHECK(inputCount[0] == 2);
+	BOOST_CHECK(inputCount[1] == 0);
+
+	// Send an event (now the second handle should actually be called)
+	router.handleEvent(1, {});
+	BOOST_CHECK(elapsedTimeArray[0] == 1);
+	BOOST_CHECK(elapsedTimeArray[1] == 3);
+	BOOST_CHECK(inputCount[0] == 3);
+	BOOST_CHECK(inputCount[1] == 1);
+}
 
 class TestReferenceInputHandler : public InputHandler
 {

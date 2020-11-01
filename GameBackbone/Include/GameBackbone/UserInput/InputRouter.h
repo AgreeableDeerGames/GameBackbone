@@ -50,7 +50,7 @@ namespace GB
 		inline constexpr bool are_all_input_handlers_v = (std::is_base_of_v<InputHandler, InTypes> && ...);
 	}
 	
-	/// @brief Forwards handleEvent calls to all GB::InputHandler. Once the event is handled, no other GB::InputHandler may handle the event.
+	/// @brief Stores several GB::InputHandler instances and forwards handleEvent calls to each of them in order. Once the event is successfully handled, no other GB::InputHandler may handle the event.
 	/// @tparam ...Handlers A variadic list of GB::InputHandler that will receive the forwarded handleEvent calls. 
 	///						The priority of the Handlers is defined by the order that they were passed in. Earlier Handlers have higher priority.
 	template <class... Handlers>
@@ -58,17 +58,23 @@ namespace GB
 	{
 	public:
 
-		/// @brief Construct an instance of InputRouter.
+		/// @brief Construct an instance of InputRouter that wraps the provided GB::InputHandler instances.
 		/// @param ...inputHandlers A variadic list of GB::InputHandler that will receive the forwarded handleEvent calls.
 		///							The priority of the Handlers is defined by the order that they were passed in. Earlier Handlers have higher priority.
 		template < std::enable_if_t<Detail::are_all_input_handlers_v<Handlers...>, bool> = true>
 		InputRouter(Handlers... inputHandlers) :
-			m_handlers(std::make_tuple(std::move(inputHandlers)...))
+			m_handlers( 
+				std::make_tuple( 
+					std::make_pair(sf::Int64{ 0 }, std::move(inputHandlers))... 
+				) 
+			)
 		{
 		}
 
-		/// @brief Handles an event by forwarding the handleEvemt call to all GB::InputHandler. 
+		/// @brief Handles an event by forwarding the handleEvemt call to all stored GB::InputHandler instances. 
 		///			Once the event is handled, no other GB::InputHandler may handle the event.
+		///			The elapsed time sent to each invoked GB::InputHandler is the time since that specific
+		///			handler was last called.
 		/// @param elapsedTime Forwarded to the GB::InputHandler.
 		/// @param event Forwarded to the GB::InputHandler.
 		/// @return Returns true if any GB::InputHandler handled the event.
@@ -79,15 +85,18 @@ namespace GB
 			// Loop through all sub-handlers until handles the event
 			Detail::forEach(
 				m_handlers,
-				[&event, &eventHandled, elapsedTime](auto& handler)
+				[&event, &eventHandled, elapsedTime](auto& handlerPair)
 				{
+					handlerPair.first += elapsedTime;
+
 					// Only attempt to handle an event that has not been handled yet
 					if (!eventHandled)
 					{
-						if (handler.handleEvent(elapsedTime, event))
+						if (handlerPair.second.handleEvent(handlerPair.first, event))
 						{
 							eventHandled = true;
 						}
+						handlerPair.first = 0;
 					}
 				}
 			);
@@ -95,6 +104,6 @@ namespace GB
 		}
 
 	private:
-		std::tuple<Handlers...> m_handlers;
+		std::tuple<std::pair<sf::Int64, Handlers>...> m_handlers;
 	};
 }

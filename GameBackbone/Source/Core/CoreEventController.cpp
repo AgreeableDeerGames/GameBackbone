@@ -33,9 +33,12 @@ CoreEventController::CoreEventController(int windowWidth, int windowHeight) : Co
 /// <param name="windowWidth">Width of the window.</param>
 /// <param name="windowHeight">Height of the window.</param>
 /// <param name="windowName">Name of the window.</param>
-CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string& windowName) : m_window(sf::VideoMode(windowWidth, windowHeight), windowName)
+CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string& windowName) :
+	m_activeRegion(nullptr),
+	m_window(sf::VideoMode(windowWidth, windowHeight), windowName),
+	m_updateClock(),
+	m_timeSinceLastHandledEvent(0)
 {
-	m_activeRegion = nullptr;
 }
 
 /// <summary>
@@ -101,21 +104,25 @@ void CoreEventController::repaint()
 	m_window.display();
 }
 
- /// <summary>
+/// <summary>
 /// Primary drawing logic. Draws every drawable object in the game region.
 /// </summary>
- void CoreEventController::draw()
- {
-	 // Draw m_activeRegion so it can draw its drawables.
-	 m_window.draw(*getActiveRegion());
- }
+void CoreEventController::draw()
+{
+	// Draw m_activeRegion so it can draw its drawables.
+	m_window.draw(*getActiveRegion());
+}
 
 void CoreEventController::handleEvents(sf::Int64 elapsedTime)
 {
+	m_timeSinceLastHandledEvent += elapsedTime;
+
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
 		getActiveRegion()->handleEvent(elapsedTime, event);
+		m_timeSinceLastHandledEvent = 0;
+
 		if (event.type == sf::Event::Closed)
 		{
 			m_window.close();
