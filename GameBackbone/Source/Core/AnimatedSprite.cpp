@@ -9,25 +9,13 @@ using namespace GB;
 
 //ctr and dtr
 
-/// <summary>
-/// Create a new AnimatedSprite with an empty texture. All values are initialized to 0, nullptr, or false.
-/// </summary>
 AnimatedSprite::AnimatedSprite() : AnimatedSprite(sf::Texture{}) {
 }
 
-/// <summary>
-/// Initializes a new instance of the <see cref="AnimatedSprite"/> class. Texture set to passed value. Position set to 0.
-/// </summary>
-/// <param name="texture">The texture.</param>
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture) : 
 	AnimatedSprite(texture, nullptr) {
 }
 
-/// <summary>
-/// Initializes a new instance of the <see cref="AnimatedSprite"/> class. Initializes texture to first frame of first animation.
-/// </summary>
-/// <param name="texture"> texture representing the animation sheet.</param>
-/// <param name="animations">The animations.</param>
 AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr animations) : 
 	sf::Sprite(texture),
 	animating(false),
@@ -44,23 +32,10 @@ AnimatedSprite::AnimatedSprite(const sf::Texture & texture, AnimationSet::Ptr an
 	setAnimations(std::move(animations));
 }
 
-//getters and setters
-
-	//setters
-
-///<summary> 
-/// Whether or not the AnimatedSprite is currently playing an animation
-/// </summary>
 void AnimatedSprite::setAnimating(bool animating) {
 	this->animating = animating;
 }
 
-/// <summary>
-/// Sets the current frame (within the current animation) of the AnimatedSprite.
-/// Immediately updates the texture displayed on the sprite.
-/// Throws std::runtime_error if there is no active animation (runAnimation has not been called).
-/// </summary>
-/// <param name="frame">The frame.</param>
 void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 	if (!currentAnimation) {
 		throw std::runtime_error("Cannot set the frame of an animation without an active animation (calling runAnimation).");
@@ -69,12 +44,6 @@ void AnimatedSprite::setCurrentFrame(unsigned int frame) {
 	setTextureRect(currentAnimation->at(currentFrame));
 }
 
-/// <summary>
-/// Updates the sprite to use the provided AnimationSet.
-/// The current frame of the sprite is set to the first frame of the AnimationSet's first Animation
-/// If the provided AnimationSet is empty an out_of_bounds exception is thrown.
-/// </summary>
-/// <param name="animations">The new AnimationSet to use.</param>
 void AnimatedSprite::setAnimations(AnimationSet::Ptr animations) {
 	if (animations) {
 		this->animations = std::move(animations);
@@ -83,102 +52,47 @@ void AnimatedSprite::setAnimations(AnimationSet::Ptr animations) {
 	}
 }
 
-/// <summary>
-/// Sets the minimum time (as sf::Time) between two animation frames.
-/// </summary>
-/// <param name="delay">Minimum time (as sf::Time) between two animation frames.</param>
 void AnimatedSprite::setAnimationDelay(sf::Time delay) {
 	animationDelay = delay;
 }
 
-	//getters
-
-///<summary>
-/// Returns the current frame of the current animation
-/// </summary>
 unsigned int AnimatedSprite::getCurrentFrame() const {
 	return currentFrame;
 }
 
-///<summary>
-/// Returns the current animation set on this instance.
-/// Returns nullptr if no animation has been set.
-/// </summary>
 const Animation* AnimatedSprite::getCurrentAnimation() const {
 	return currentAnimation;
 }
 
-/// <summary>
-/// Returns the ID of the current animation
-/// </summary>
-/// <returns>ID of the current animation.</returns>
 std::size_t AnimatedSprite::getCurrentAnimationId() const {
 	return currentAnimationId;
 }
 
-/// <summary>
-/// Returns the minimum time (as sf::Time ) between two animation frames.
-/// </summary>
-/// <returns> The minimum time (as sf::Time) between two animation frames.</returns>
 sf::Time AnimatedSprite::getAnimationDelay() const {
 	return animationDelay;
 }
 
-/// <summary>
-/// Returns the number of frames that have been displayed since the current animation has started.
-/// </summary>
-/// <returns> The minimum time (as sf::Time) between two animation frames.</returns>
 unsigned int AnimatedSprite::getFramesSpentInCurrentAnimation() const {
 	return framesSpentInCurrentAnimation;
 }
 
-/// <summary>
-/// Determines whether this instance is animating.
-/// </summary>
-/// <returns>
-///   <c>true</c> if this instance is animating; otherwise, <c>false</c>.
-/// </returns>
 bool AnimatedSprite::isAnimating() const {
 	return animating;
 }
 
-//operations
-
-/// <summary>
-/// Begins a new animation from the first frame
-/// Throws a std::out_of_range exception if the requested animation is empty.
-/// </summary>
-/// <param name="animationId">the index of the animation to begin.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId) {
 	runAnimation(animationId, ANIMATION_END_TYPE::ANIMATION_LOOP);
 }
 
-/// <summary>
-/// Begins a new animation from the first frame, allowing the caller to decide what happens when it ends.
-/// Throws a std::out_of_range exception if the requested animation is empty.
-/// </summary>
-/// <param name="animationId">the index of the animation to begin.</param>
-/// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::runAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
 	setCurrentAnimation(animationId, endStyle);
 	setAnimating(true);
 }
 
-/// <summary>
-/// Sets the animation that will be displayed by the animated sprite. The animation will loop when it ends.
-/// Throws a std::out_of_range exception if the requested animation is empty.
-/// </summary>
-/// <param name="animationId">the index of the animation to begin.</param>
 void AnimatedSprite::setCurrentAnimation(unsigned int animationId) {
 	setCurrentAnimation(animationId, ANIMATION_END_TYPE::ANIMATION_LOOP);
 }
 
-/// <summary>
-/// Sets the animation that will be displayed by the animated sprite.
-/// Throws a std::out_of_range exception if the requested animation is empty.
-/// </summary>
-/// <param name="animationId">the index of the animation to begin.</param>
-/// <param name="endStyle">What happens when the animation reaches the end.</param>
 void AnimatedSprite::setCurrentAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle) {
 	// Empty animations cannot be run. What frame would be displayed?
 	if (animations->at(animationId).empty()) {
@@ -191,10 +105,6 @@ void AnimatedSprite::setCurrentAnimation(unsigned int animationId, ANIMATION_END
 	this->framesSpentInCurrentAnimation = 0;
 }
 
-/// <summary>
-/// Moves the next frame of the active animation if the sprite is animating
-/// </summary>
-/// <param name="elapsedTime">The elapsed time.</param>
 void AnimatedSprite::update(sf::Int64 elapsedTime) {
 	timeSinceLastUpdate = timeSinceLastUpdate + sf::microseconds(elapsedTime);
 	if (animating && (timeSinceLastUpdate.asMicroseconds() > animationDelay.asMicroseconds())) {
