@@ -23,7 +23,7 @@ namespace GB {
 	class libGameBackbone AnimatedSprite : public sf::Sprite, public Updatable {
 	public:
 		
-		/// @brief y>shared_ptr to an AnimatedSprite
+		/// @brief shared_ptr to an AnimatedSprite
 		using Ptr = std::shared_ptr<AnimatedSprite>;
 
 		/// @brief Create a new AnimatedSprite with an empty texture. All values are initialized to 0, nullptr, or false.
@@ -44,7 +44,7 @@ namespace GB {
 
 		/// @brief Copy assign an AnimatedSprite
 		/// @param other The AnimatedSprite to copy
-		/// @return This
+		/// @return A reference to this instance
 		AnimatedSprite& operator=(const AnimatedSprite& other) = default;
 
 		/// @brief Move construct an AnimatedSprite
@@ -53,7 +53,7 @@ namespace GB {
 
 		/// @brief Move assign an AnimatedSprite
 		/// @param other The AnimatedSprite to move
-		/// @return This
+		/// @return A reference to this instance
 		AnimatedSprite& operator=(AnimatedSprite&& other) noexcept = default;
 
 		/// @brief Destroy the AnimatedSprite
@@ -104,13 +104,12 @@ namespace GB {
 
 		/// @brief Sets the animation that will be displayed by the animated sprite.
 		/// @param animationId The index of the animation to begin.
-		/// @param endStyle 
+		/// @param endStyle What happens when the animation reaches the end.
 		///	@throws std::out_of_range exception if the requested animation is empty.
 		void setCurrentAnimation(unsigned int animationId, ANIMATION_END_TYPE endStyle);
 
-		/// @brief Sets the animation that will be displayed by the animated sprite. The animation will loop when it ends.
+		/// @brief Sets the animation that will be displayed by the animated sprite.
 		/// @param animationId The index of the animation to begin.
-		/// @param endStyle What happens when the animation reaches the end.
 		/// @throws Throws a std::out_of_range exception if the requested animation is empty.
 		void setCurrentAnimation(unsigned int animationId);
 

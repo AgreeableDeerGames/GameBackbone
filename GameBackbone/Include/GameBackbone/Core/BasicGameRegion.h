@@ -32,18 +32,19 @@ namespace GB {
 
 		/// @brief Move Construct a BasicGameRegion
 		/// @param The BasicGameRegion to move
-		/// @return This
+		/// @return A reference to this instance
 		BasicGameRegion(BasicGameRegion&&) noexcept = default;
 
 		/// @brief Move assign a basicGameRegion
 		/// @param The BasicGameRegion to move
-		/// @return this
+		/// @return A reference to this
 		BasicGameRegion& operator=(BasicGameRegion&&) noexcept = default;
 
 		/// @brief Destroy this BasicGameRegion
 		virtual ~BasicGameRegion() = default;
 
 		/// @brief Gets the game region that should become active after the next update of this one.
+		///		Defaults to this instance.
 		BasicGameRegion& getNextRegion();
 
 		/// @brief The region that should become active after the next update of this one.

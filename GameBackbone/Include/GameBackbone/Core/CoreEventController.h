@@ -17,10 +17,10 @@ namespace GB {
 	class libGameBackbone CoreEventController {
 	public:
 
-		/// @brief Initializes a new instance of the <see cref="CoreEventController"/> class. Window width, height, and name are default.
+		/// @brief Initializes a new instance of the CoreEventController class. Window width, height, and name are default.
 		CoreEventController();
 
-		/// @brief Initializes a new instance of the <see cref="CoreEventController"/> class. Window width and height are default.
+		/// @brief Initializes a new instance of the CoreEventController class. Window width and height are default.
 		/// @param windowName Name of the window
 		explicit CoreEventController(const std::string& windowName);
 
@@ -51,6 +51,7 @@ namespace GB {
 		CoreEventController& operator=(const CoreEventController& other) = delete;
 
 		/// @brief Begin the main loop of the CoreEventController. This call is blocking.
+		///		This loop will exit after the window managed by this instance is closed.
 		void runLoop();
 
 		/// @brief Returns the currently active game region, on which all of the operation are being performed.
@@ -63,7 +64,7 @@ namespace GB {
 	protected:
 
 		/// @brief Set the active region on the CoreEventController.
-		/// @param activeRegion The new active region
+		/// @param activeRegion The new active region. This should never be set to nullptr.
 		void setActiveRegion(BasicGameRegion* activeRegion);
 		
 		/// @brief Handles all window and user input events.
@@ -74,7 +75,7 @@ namespace GB {
 		/// @param elapsedTime The time since the last update of the active GameRegion
 		virtual void update(sf::Int64 elapsedTime);
 
-		/// @brief Primary drawing logic. Draws every drawable object in the game region.
+		/// @brief Clears the screen. Draws the active region.
 		virtual void draw();
 
 		/// @brief Changes to the next active region if prompted by the current active region.
@@ -82,7 +83,7 @@ namespace GB {
 		
 	private:
 
-		/// @brief Primary drawing logic. Draws every drawable object in the game region.
+		/// @brief Draws the active region.
 		void repaint();
 
 		BasicGameRegion* m_activeRegion;
@@ -90,6 +91,5 @@ namespace GB {
 		sf::Clock m_updateClock;
 		sf::Int64 m_timeSinceLastHandledEvent;
 	};
-
 }
 
