@@ -8,11 +8,10 @@
 
 
 namespace GB {
-
-	/// <summary>
-	/// Used to compare which of two sf::Vector2 is less
-	/// Designed to facilitate map and set use of sf::Vector2
-	/// </summary>
+	
+	/// @brief Used to compare which of two sf::Vector2 is less
+	///		Designed to facilitate map and set use of sf::Vector2
+	/// @tparam T The type stored by the sf::Vector2. Must support operator<.
 	template <typename T>
 	class IsVector2Less {
 	public:
@@ -21,15 +20,13 @@ namespace GB {
 		}
 	};
 
-
-	/// <summary>
-	/// Moves the transformable in the direction of the destination.
-	/// The transformable will never overshoot the destination.
-	/// </summary>
-	/// <param name="transformable">The transformable to move.</param>
-	/// <param name="destination">The destination.</param>
-	/// <param name="maxStepLength">Maximum length that the transformable can move.</param>
-	/// <param name="shouldRotate">Whether or not transformables should rotate towards their destination. If true, they will be rotated.</param>
+	/// @brief Moves the transformable in the direction of the destination.
+	///		The transformable will never overshoot the destination.
+	/// @tparam Transformable Any class implementing the interface of sf::Transformable
+	/// @param transformable The transformable to move.
+	/// @param destination The destination.
+	/// @param maxStepLength Maximum length that the transformable can move.
+	/// @param shouldRotate Whether or not transformables should rotate towards their destination. If true, they will be rotated.
 	template <class Transformable>
 	void stepTowardsPoint(Transformable& transformable,
 		const sf::Vector2f& destination,
