@@ -18,23 +18,23 @@ namespace GB {
 
 		/// @brief Initializes a new instance of the RandGen class.
 		/// @param seed The seed for the Generator.
-		explicit RandGen(std::string* seed);
+		explicit RandGen(std::string seed);
 
 		RandGen(const RandGen& generator) = default;
-		RandGen(RandGen&& generator) = default;
+		RandGen(RandGen&& generator) noexcept = default;
 		RandGen& operator= (const RandGen& generator) = default;
-		RandGen& operator= (RandGen&& generator) = default;
+		RandGen& operator= (RandGen&& generator) noexcept = default;
 
 		/// @brief Destroys an instance of RandGen
-		~RandGen();
+		~RandGen() = default;
 
 		/// @brief Gets the seed of the Random Generator.
 		/// @return The seed of the Random Generator
-		std::string getSeed();
+		const std::string& getSeed() const noexcept;
 
 		/// @brief Sets the seed of this RandGen instance
 		/// @param seed The new seed of the RandGen
-		void setSeed(std::string* seed);
+		void setSeed(std::string seed);
 
 		/// @brief Creates a uniform distribution between [min, max)
 		///		Throws if the provided min is not less than the max.
@@ -45,12 +45,10 @@ namespace GB {
 		double uniDist(double min, double max);
 
 	protected:
-		// This is being made a pointer to remove the VS warning about declspecing seed.
-		// Everyone is going to have to compile this anyway with the same compiler as their project so they won't have issues.
-		std::string* m_seedString;
+		std::string m_seedString;
 
-		std::mt19937* m_generator;
-		std::uniform_real_distribution<double>* m_uniDistributor;
+		std::mt19937 m_generator;
+		std::uniform_real_distribution<double> m_uniDistributor;
 
 	};
 }
