@@ -27,7 +27,7 @@ namespace GB {
 
 		/// @brief Copy assign a BasicGameRegion
 		/// @param  The BasicGameRegion to copy
-		/// @return This
+		/// @return A reference to this instance
 		BasicGameRegion& operator=(const BasicGameRegion&) = default;
 
 		/// @brief Move Construct a BasicGameRegion
