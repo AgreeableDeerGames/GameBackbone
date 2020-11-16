@@ -5,8 +5,9 @@
 #include <GameBackbone/Util/DllUtil.h>
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 
 #include <cstddef>
 #include <map>
