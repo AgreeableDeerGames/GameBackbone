@@ -62,15 +62,15 @@ BOOST_AUTO_TEST_CASE(RandGen_move_CTR_test) {
 	double output = testRandGen.uniDist(0, 1);
 	BOOST_CHECK(output >= 0 && output < 1);
 
-	// Copy
-	RandGen copyRandGen(std::move(testRandGen));
+	// Move
+	RandGen movedRandGen(std::move(testRandGen));
 
 	//Ensure that the seed is what we set;
-	BOOST_CHECK_EQUAL("TestString", copyRandGen.getSeed());
+	BOOST_CHECK_EQUAL("TestString", movedRandGen.getSeed());
 
 	// Ensure that the Distributor has been set up correctly
-	double copyOutput = copyRandGen.uniDist(0, 1);
-	BOOST_CHECK(copyOutput >= 0 && copyOutput < 1);
+	double movedRandGenOutput = movedRandGen.uniDist(0, 1);
+	BOOST_CHECK(movedRandGenOutput >= 0 && movedRandGenOutput < 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end RandGen_CTRs
