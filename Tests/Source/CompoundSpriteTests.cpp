@@ -508,33 +508,84 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 	BOOST_CHECK(!CanAddComponent_v<sf::Transformable>);
 }
 
+/* Name: areSpritesEquivalent
+*  Description: Helper method used to determine if two sprites are the same for the purposes of test cases.
+*		As designed this will test the color and transform of each sprite.
+*  Inputs: Two sprites to be compared.
+*  Ouput: True if equivalent / Flase if not.
+*/
+static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
+{
+	if (spriteA->getColor() != spriteB->getColor())
+	{
+		return false;
+	}
+
+	if (spriteA->getTransform() != spriteB->getTransform())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 {
+	sprite.setColor(sf::Color::Blue);
+	sprite2.setColor(sf::Color::Green);
+
 	CompoundSprite compoundSprite{};
-
-	std::vector<sf::Sprite*> sprites {&sprite, &sprite2};
-
 	compoundSprite.addComponent(1, sprite);
-	compoundSprite.addComponent(2, sprite2);
-
-	auto spriteIter = sprites.begin();
+	compoundSprite.addComponent(1, sprite2);
+	
+	int count = 0;
 	for (auto iter = compoundSprite.begin(); iter != compoundSprite.end(); ++iter)
 	{
-		iter->first;
-		iter->second;
-		// TODO: This doesn't work find some data on the component and check that it is the same'
-		BOOST_CHECK(iter->second->getDataAs<sf::Sprite>() == *spriteIter);
-		++spriteIter;
+		sf::Sprite* retrievedSprite = iter->second->getDataAs<sf::Sprite>();
+		if (count == 0)
+		{
+			BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
+			BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite2));
+		}
+
+		if (count == 1)
+		{
+			BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite2));
+			BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite));
+		}
+		count++;
 	}
-	auto x = compoundSprite.getComponentPriorties();
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
 {
 	CompoundSprite compoundSprite{};
+	sprite.setColor(sf::Color::Red);
 	compoundSprite.addComponent(1, sprite);
-	//compoundSprite.getComponentsWithPriorty(1);
-	//GB::AnimatedSprite* hi = internalTypeVec.at(0)->getDataAs<GB::AnimatedSprite>();
+	sf::Sprite* retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
+
+	// Positive Test 
+	BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
+
+	// Negative Test
+	BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite2));
+}
+
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetCoponentsWithPriority, ReusableObjects)
+{
+	CompoundSprite compoundSprite{};
+	sprite.setColor(sf::Color::Yellow);
+	compoundSprite.addComponent(1, sprite);
+
+	sf::Sprite* retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
+
+	// Positive Test
+	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(1).size() == 1);
+	BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
+
+	// Negative Test
+	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(0).size() == 0);
+	BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite2));
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
