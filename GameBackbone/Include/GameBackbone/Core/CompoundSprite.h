@@ -15,50 +15,59 @@
 #include <vector>
 
 
-namespace GB {
-
-	/// <summary> Checks if a type is drawable. </summary>
+namespace GB 
+{
+	/// @brief Checks if a type is drawable. 
+	/// @tparam InType The type to check
 	template <class InType>
 	struct is_drawable : std::is_base_of<sf::Drawable, InType> {};
 
-	/// <summary> Checks if a type is drawable. </summary>
+	/// @brief Checks if a type is drawable. 
+	/// @tparam InType The type to check
 	template <class InType>
 	inline constexpr bool is_drawable_v = is_drawable<InType>::value;
 
-	/// <summary> Checks if a type is transformable. </summary>
+	/// @brief Checks if a type is transformable.
+	/// @tparam InType The type to check
 	template <class InType>
 	struct is_transformable : std::is_base_of<sf::Transformable, InType> {};
 
-	/// <summary> Checks if a type is transformable. </summary>
+	/// @brief Checks if a type is transformable.
+	/// @tparam InType The type to check
 	template <class InType>
 	inline constexpr bool is_transformable_v = is_transformable<InType>::value;
 
-	/// <summary> Checks if a type is updatable. </summary>
+	/// @brief Checks if a type is updatable.
+	/// @tparam InType The type to check
 	template <class InType>
 	struct is_updatable : std::is_base_of<GB::Updatable, InType> {};
 
-	/// <summary> Checks if a type is updatable. </summary>
+	/// @brief Checks if a type is updatable.
+	/// @tparam InType The type to check
 	template <class InType>
 	inline constexpr bool is_updatable_v = is_updatable<InType>::value;
 
-	/// <summary> Checks if a type is fulfills the requirements of a CompoundSprite component. (Drawable and Transformable) </summary>
+	/// @brief Checks if a type is fulfills the requirements of a CompoundSprite component. (Drawable and Transformable)
+	/// @tparam InType The type to check
 	template <class InType>
 	inline constexpr bool is_component_v = (is_drawable_v<InType> && is_transformable_v<InType>);
 
-	/// <summary> Checks if all types fulfill the requirements of a CompoundSprite component. (Drawable and Transformable) </summary>
+	/// @brief Checks if all types fulfill the requirements of a CompoundSprite component. (Drawable and Transformable)
+	/// @tparam ...InTypes The types to check
 	template <class... InTypes>
 	inline constexpr bool are_all_components_v = (is_component_v<InTypes> && ...);
 
-	/// <summary> Controls several sf::Drawable and sf::Transformable Components as one logical unit. </summary>
+	/// @brief Controls several sf::Drawable and sf::Transformable Components as one logical unit.
 	class libGameBackbone CompoundSprite : public Updatable, public sf::Drawable, public sf::Transformable {
 	public:
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/>. The CompoundSprite has no components and is located at (0,0).
-		/// </summary>
+		
+		/// @brief Initializes a new instance of the <see cref="CompoundSprite"/>. The CompoundSprite has no components and is located at (0,0).
 		CompoundSprite() {}
 
 		class ComponentWrapper;
+
 		using iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::iterator;
+
 		iterator begin() 
 		{
 			return m_prioritizedComponents.begin();
@@ -102,22 +111,22 @@ namespace GB {
 			return priorities;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the /<see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
-		/// The position of the CompoundSprite is (0,0).
-		/// </summary>
-		/// <param name="componentsToAdd">The components.</param>
+		/// @brief Initializes a new instance of the CompoundSprite class. The passed in Components are added to the CompoundSprite.
+		///		The position of the CompoundSprite is (0,0).
+		/// @tparam ...Components 
+		/// @param priority The priority of the added components. Higher priority components will be drawn on top of components with lower priority.
+		/// @param ...componentsToAdd The components.
 		template <class... Components,
 			std::enable_if_t<are_all_components_v<Components...>, bool> = true
 		>
 		explicit CompoundSprite(int priority, Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, priority, std::move(componentsToAdd)...) {}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. The passed in Components are added to the CompoundSprite.
-		/// Initializes the CompoundSprite to the passed position.
-		/// </summary>
-		/// <param name="position">The position.</param>
-		/// <param name="componentsToAdd">The components.</param>
+		/// @brief Initializes a new instance of the CompoundSprite class. The passed in Components are added to the CompoundSprite.
+		///		Initializes the CompoundSprite to the passed position.
+		/// @tparam ...Components 
+		/// @param position The position.
+		/// @param priority The priority of the added components. Higher priority components will be drawn on top of components with lower priority.
+		/// @param ...componentsToAdd The components.
 		template <class... Components,
 			std::enable_if_t<are_all_components_v<Components...>, bool> = true
 		>
@@ -129,64 +138,54 @@ namespace GB {
 			(addComponent(priority, std::move(std::forward<Components>(componentsToAdd))), ...);
 		}
 
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
-		/// </summary>
-		/// <param name="initialPosition">The initial position.</param>
+		/// @brief Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
+		/// @param position The initial position.
 		explicit CompoundSprite(sf::Vector2f position);
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. 
-		/// The copy constructor is needed to copy the internal vector.
-		/// </summary>
-		/// <param name="other">The other CompoundSprite that is being copied.</param>
+		/// @brief Initializes a new instance of the CompoundSprite class. 
+		///		The copy constructor is needed to copy the internal vector.
+		/// @param other The CompoundSprite to copy
 		CompoundSprite(const CompoundSprite& other);
 
-		/// <summary>
-		/// Copy assignment operator for the <see cref="CompoundSprite"/> class. 
-		/// </summary>
-		/// <param name="other">The other CompoundSprite that is being copied.</param>
+		/// @brief Copy assignment operator for the CompoundSprite class. 
+		/// @param other The CompoundSprite to copy
+		/// @return this
 		CompoundSprite& operator=(const CompoundSprite& other);
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompoundSprite"/> class. 
-		/// The move constructor is needed to move the internal vector and copy the sf::Transformable members.
-		/// </summary>
-		/// <param name="other">The other CompoundSprite that is being moved.</param>
+		/// @brief Move construct a CompoundSprite. The new CompoundSprite takes ownership of the Components of
+		///		the moved from CompoundSprite.
+		/// @param other The CompoundSprite being moved.
 		CompoundSprite(CompoundSprite&& other) noexcept;
 
-		/// <summary>
-		/// Move assignment operator for the <see cref="CompoundSprite"/> class.
-		/// </summary>
-		/// <param name="other">The other CompoundSprite that is being moved.</param>
+		/// @brief Move assign a CompoundSprite. The new CompoundSprite takes ownership of the components of
+		///		the moved from CompoundSprite
+		/// @param other The CompoundSprite being moved.
+		/// @return this
 		CompoundSprite& operator=(CompoundSprite&& other) noexcept;
 
+		/// @brief Destroy this CompoundSprite
 		virtual ~CompoundSprite() = default;
 
 		// Component Getters
 
-		/// <summary>
-		/// Gets the count of Sprite components.
-		/// </summary>
-		/// <return> The count of sprite components. </return>
+		/// @brief Gets the number of components owned by the CompoundSprite
+		/// @return The number of components owned by the CompoundSprite
 		std::size_t getComponentCount() const;
 
-		/// <summary>
-		/// Gets the count of Sprite components for a given priority.
-		/// </summary>
-		/// <param name="priority">The priority to check.</param>
-		/// <return> The count of sprite components. </return>
+		/// @brief Gets the number of components owned by the CompoundSprite with a given priority.
+		/// @param priority The priority.
+		/// @return The number of components owned by the CompoundSprite with the given priority.
 		std::size_t getComponentCount(int priority) const;
 
-		/// <summary>True if this CompoundSprite holds no components. False otherwise.</summary>
+		/// @brief True if this CompoundSprite holds no components. False otherwise.
 		bool isEmpty() const;
 
-		/// <summary>
-		/// Adds the passed in Component to the CompoundSprite and returns a reference to it.
-		/// The position stays the same on screen and the origin is set to the CompoundSprite's origin.
-		/// </summary>
-		/// <param name="other">The other CompoundSprite that is being copied.</param>
+		/// @brief Adds the passed in Component to the CompoundSprite and returns a reference to it.
+		///		The position stays the same on screen and the origin is set to the CompoundSprite's origin.
+		/// @tparam Component A class that satisfies the requirements of is_component_v
+		/// @param priority The priority of the added component. Higher priority components will be drawn on top of components with lower priority.
+		/// @param component The component to add.
+		/// @return A reference to the added component.
 		template <
 			class Component,
 			std::enable_if_t<is_component_v<Component>, bool> = true
@@ -213,11 +212,10 @@ namespace GB {
 			return static_cast<Component&>(returnValue->getDataAsDrawable());
 		}
 
-		/// <summary>
-		/// Removes the component from the CompoundSprite.
-		/// This invalidates all indices returned by addComponent
-		/// </summary>
-		/// <param name="component">The component to remove from the CompoundSprite</param>
+		/// @brief Removes the component from the CompoundSprite.
+		///		This invalidates all indices returned by addComponent
+		/// @tparam Component 
+		/// @param componentToRemove The component to remove from the CompoundSprite 
 		template <
 			class Component,
 			std::enable_if_t<is_component_v<Component>, bool> = true
@@ -238,108 +236,78 @@ namespace GB {
 			}
 		}
 		
-		/// <summary>
-		/// Removes all components from the compound sprite
-		/// </summary>
+		/// @brief Removes all components from the compound sprite
 		virtual void clearComponents();
 
 		// Transformable API
 
-		/// <summary>
-		/// Sets the position.
-		/// </summary>
-		/// <param name="x">The new x.</param>
-		/// <param name="y">The new y.</param>
+		/// @brief Sets the position.
+		/// @param x The new x.
+		/// @param y The new y.
 		void setPosition(float x, float y);
 
-		/// <summary>
-		/// Sets the rotation of the CompoundSprite and all of its components.
-		/// The components will rotate about the origin of the CompoundSprite.
-		/// </summary>
-		/// <param name="val">The value.</param>
+		/// @brief Sets the rotation of the CompoundSprite and all of its components.
+		///		The components will rotate about the origin of the CompoundSprite.
+		/// @param position The value.
 		void setPosition(const sf::Vector2f& position);
 
-		/// <summary>
-		/// Sets the rotation of the CompoundSprite and all of its components.
-		/// The components will rotate about the origin of the CompoundSprite.
-		/// </summary>
-		/// <param name="angle"> Angle of rotation, in degrees.</param>
+		/// @brief Sets the rotation of the CompoundSprite and all of its components.
+		///		The components will rotate about the origin of the CompoundSprite.
+		/// @param angle Angle of rotation, in degrees.
 		void setRotation(float angle);
 
-		/// <summary>
-		/// Sets the scale factor of the CompoundSprite and all of its components.
-		/// </summary>
-		/// <param name="factorX">The scale factor in the x direction.</param>
-		/// <param name="factorY">The scale factor in the y direction.</param>
+		/// @brief Sets the scale factor of the CompoundSprite and all of its components.
+		/// @param factorX The scale factor in the x direction.
+		/// @param factorY The scale factor in the y direction.
 		void setScale(float factorX, float factorY);
 
-		/// <summary>
-		/// Sets the scale factor of the CompoundSprite and all of its components.
-		/// </summary>
-		/// <param name="factors">The new scale.</param>
+		/// @brief Sets the scale factor of the CompoundSprite and all of its components.
+		/// @param factors The new scale.
 		void setScale(const sf::Vector2f& factors);
 
-		/// <summary>
-		/// Sets the origin of the compound sprite.
-		/// Sets the origin of all components relative to the new origin.
-		/// </summary>
-		/// <param name="x">The x coordinate of the new origin.</param>
-		/// <param name="y">The y coordinate of the new origin.</param>
+		/// @brief Sets the origin of the compound sprite.
+		///		Sets the origin of all components relative to the new origin.
+		/// @param x The x coordinate of the new origin.
+		/// @param y The y coordinate of the new origin.
 		void setOrigin(float x, float y);
 
-		/// <summary>
-		/// Sets the origin of the compound sprite.
-		/// Sets the origin of all components relative to the new origin.
-		/// </summary>
-		/// <param name="origin">The new position of the origin.</param>
+		/// @brief Sets the origin of the compound sprite.
+		///		Sets the origin of all components relative to the new origin.
+		/// @param origin The new position of the origin.
 		void setOrigin(const sf::Vector2f& origin);
 
-		/// <summary>
-		/// Moves the CompoundSprite and all of its components by the same offset.
-		/// </summary>
-		/// <param name="offsetX">The offset x.</param>
-		/// <param name="offsetY">The offset y.</param>
+		/// @brief Moves the CompoundSprite and all of its components by the same offset.
+		/// @param offsetX The offset x.
+		/// @param offsetY The offset y.
 		void move(float offsetX, float offsetY);
 
-		/// <summary>
-		/// Moves the CompoundSprite and all of its components by the same offset.
-		/// </summary>
-		/// <param name="offset">The offset.</param>
+		/// @brief Moves the CompoundSprite and all of its components by the same offset.
+		/// @param offset The offset.
 		void move(const sf::Vector2f& offset);
 
-		/// <summary>
-		/// Rotates the CompoundSprite and all of its components.
-		/// The components will rotate about the origin of the CompoundSprite.
-		/// </summary>
-		/// <param name="angle">The offset to the current rotation.</param>
+		/// @brief Rotates the CompoundSprite and all of its components.
+		///		The components will rotate about the origin of the CompoundSprite.
+		/// @param angle The offset to the current rotation.
 		void rotate(float angle);
 
-		/// <summary>
-		/// Scales the CompoundSprite and all of its components.
-		/// </summary>
-		/// <param name="factorX">The horizontal scale factor.</param>
-		/// <param name="factorY">The vertical scale factor.</param>
+		/// @brief Scales the CompoundSprite and all of its components.
+		/// @param factorX The horizontal scale factor.
+		/// @param factorY The vertical scale factor.
 		void scale(float factorX, float factorY);
 
-		/// <summary>
-		/// Scales the CompoundSprite and all of its components.
-		/// </summary>
-		/// <param name="factor">The scale factors.</param>
+		/// @brief Scales the CompoundSprite and all of its components.
+		/// @param factor The scale factors.
 		void scale(const sf::Vector2f& factor);
 
-		/// <summary>
-		/// Updates each animated sprite in the compound sprite.
-		/// </summary>
-		/// <param name="elapsedTime">The elapsed time.</param>
+		/// @brief Updates each animated sprite in the compound sprite.
+		/// @param elapsedTime The elapsed time.
 		virtual void update(sf::Int64 elapsedTime) override;
 
 	protected:
 
-		/// <summary>
-		/// Draw all the component sprites of the compound sprite.
-		/// </summary>
-		/// <param name="target"> The render target to be drawn to. </param>
-		/// <param name="states"> Current render states. </param>
+		/// @brief Draw all the component sprites of the compound sprite.
+		/// @param target The render target to be drawn to. 
+		/// @param states Current render states.
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
