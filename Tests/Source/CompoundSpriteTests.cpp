@@ -521,6 +521,16 @@ static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
 		return false;
 	}
 
+	if (spriteA->getTexture() != spriteB->getTexture())
+	{
+		return false;
+	}
+
+	if (spriteA->getTextureRect() != spriteB->getTextureRect())
+	{
+		return false;
+	}
+
 	if (spriteA->getTransform() != spriteB->getTransform())
 	{
 		return false;
@@ -562,6 +572,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
 	CompoundSprite compoundSprite{};
 	sprite.setColor(sf::Color::Red);
 	compoundSprite.addComponent(1, sprite);
+
 	sf::Sprite* retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
 
 	// Positive Test 
@@ -576,16 +587,16 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetCoponentsWithPriority, ReusableObj
 	CompoundSprite compoundSprite{};
 	sprite.setColor(sf::Color::Yellow);
 	compoundSprite.addComponent(1, sprite);
-
-	sf::Sprite* retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
+	compoundSprite.addComponent(2, sprite);
+	compoundSprite.addComponent(2, sprite2);
 
 	// Positive Test
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(1).size() == 1);
-	BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
+	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(2).size() == 2);
 
 	// Negative Test
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(0).size() == 0);
-	BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite2));
+	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(3).size() == 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_SFINAETests
