@@ -340,12 +340,7 @@ namespace GB
 
 
 	public: 
-		class FailedAs : public std::bad_cast {
-		public:
-			FailedAs() noexcept : bad_cast()
-			{
-			}
-		};
+		
 
 		// Class that a Component's data in CompoundSprite is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.
 		class ComponentWrapper : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
@@ -358,7 +353,16 @@ namespace GB
 			ComponentWrapper& operator=(const ComponentWrapper&) = delete;
 			ComponentWrapper(ComponentWrapper&&) noexcept = delete;
 			ComponentWrapper& operator=(ComponentWrapper&&) noexcept = delete;
-					
+
+			class BadComponentCast : public std::bad_cast {
+			public:
+				BadComponentCast() noexcept : bad_cast() {}
+				const char* what() const noexcept override
+				{
+					return "Bad Component Cast";
+				}
+			};
+
 			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<ComponentWrapper> cloneAsUnique() = 0;
 			virtual sf::Drawable& getDataAsDrawable() = 0;
@@ -372,7 +376,7 @@ namespace GB
 				ExpectedComponentType* data = dynamic_cast<ExpectedComponentType*>(&this->getDataAsDrawable());
 				if (data == nullptr)
 				{
-					throw FailedAs{};
+					throw BadComponentCast{};
 				}
 				return *data;
 			}

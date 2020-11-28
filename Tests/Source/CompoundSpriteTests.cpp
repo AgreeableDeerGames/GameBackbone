@@ -184,7 +184,7 @@ public:
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_Sprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(VariadicCtr_Sprite, ReusableObjects) {
 	CompoundSprite compoundSprite{ 0,  sprite };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
@@ -192,7 +192,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_Sprite, ReusableObjects) {
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_AnimatedSprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(VariadicCtr_AnimatedSprite, ReusableObjects) {
 	CompoundSprite compoundSprite{ 0,  animSpriteWithAnim1 };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
@@ -200,7 +200,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_AnimatedSprite, ReusableObjec
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_RectangleShape, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(VariadicCtr_RectangleShape, ReusableObjects) {
 	CompoundSprite compoundSprite{ 0,  sf::RectangleShape{} };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
@@ -208,7 +208,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_RectangleShape, ReusableObjec
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_TwoTypes, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(VariadicCtr_TwoTypes, ReusableObjects) {
 	CompoundSprite compoundSprite{ 0,  sprite, animSpriteWithAnim1 };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
@@ -216,7 +216,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_TwoTypes, ReusableObjects) {
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 2);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_FourTypes, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(VariadicCtr_FourTypes, ReusableObjects) {
 	CompoundSprite compoundSprite{ 0,  sprite, animSpriteWithAnim1, sf::RectangleShape{}, CompoundSprite{} };
 
 	BOOST_CHECK(compoundSprite.isEmpty() == false);
@@ -224,7 +224,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicCtr_FourTypes, ReusableObjects) {
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 4);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicPositionCtr, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(VariadicPositionCtr, ReusableObjects)
 {
 	CompoundSprite compoundSprite{ sf::Vector2f{10.0f, 10.0f}, 0, sprite, animSpriteWithAnim1 };
 
@@ -235,7 +235,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_VariadicPositionCtr, ReusableObjects)
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 2);
 }
 
-BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_NoCopies)
+BOOST_AUTO_TEST_CASE(VariadicCtr_NoCopies)
 {
 	int copies = 0;
 	int moves = 0;
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_NoCopies)
 	BOOST_CHECK(moves == 5);
 }
 
-BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
+BOOST_AUTO_TEST_CASE(VariadicCtr_OneCopies)
 {
 	int copies = 0;
 	int moves = 0;
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_CASE(CompoundSprite_VariadicCtr_OneCopies)
 	BOOST_CHECK(copies == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyCtr_DoesCopyConstruction, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(CopyCtr_DoesCopyConstruction, ReusableObjects)
 {
 	CompoundSprite compoundSprite{ 0, sprite };
 	CompoundSprite compoundSprite2{ compoundSprite };
@@ -266,7 +266,7 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyCtr_DoesCopyConstruction, ReusableObje
 	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_ClonesComponents)
+BOOST_AUTO_TEST_CASE(CopyCtr_ClonesComponents)
 {
 	int copies = 0;
 	int moves = 0;
@@ -276,7 +276,7 @@ BOOST_AUTO_TEST_CASE(CompundSprite_CopyCtr_ClonesComponents)
 	BOOST_CHECK(copies == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyAssign_DoesCopyAssign, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(CopyAssign_DoesCopyAssign, ReusableObjects)
 {
 	CompoundSprite compoundSprite{ 0, sprite };
 	CompoundSprite compoundSprite2{};
@@ -287,7 +287,7 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyAssign_DoesCopyAssign, ReusableObjects
 	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_CopyAssign_ClonesComponents)
+BOOST_AUTO_TEST_CASE(CopyAssign_ClonesComponents)
 {
 	int copies = 0;
 	int moves = 0;
@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_CASE(CompundSprite_CopyAssign_ClonesComponents)
 	BOOST_CHECK(copies == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesMoveConstruction)
+BOOST_AUTO_TEST_CASE(MoveCtr_DoesMoveConstruction)
 {
 	CompoundSprite compoundSprite{ 0, sf::Sprite{} };
 	CompoundSprite compoundSprite2( std::move(compoundSprite) );
@@ -308,7 +308,7 @@ BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_DoesMoveConstruction)
 	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_ClonesComponents)
+BOOST_AUTO_TEST_CASE(MoveCtr_ClonesComponents)
 {
 	int copies = 0;
 	int moves = 0;
@@ -318,7 +318,7 @@ BOOST_AUTO_TEST_CASE(CompundSprite_MoveCtr_ClonesComponents)
 	BOOST_CHECK(copies == 0);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_DoesMoveAssign, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(MoveAssign_DoesMoveAssign, ReusableObjects)
 {
 	CompoundSprite compoundSprite{ 0, sprite };
 	CompoundSprite compoundSprite2{};
@@ -329,7 +329,7 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_DoesMoveAssign, ReusableObjects
 	BOOST_CHECK(compoundSprite2.getComponentCount(0) == 1);
 }
 
-BOOST_AUTO_TEST_CASE(CompundSprite_MoveAssign_DoesNotCloneComponents)
+BOOST_AUTO_TEST_CASE(MoveAssign_DoesNotCloneComponents)
 {
 	int copies = 0;
 	int moves = 0;
@@ -341,7 +341,7 @@ BOOST_AUTO_TEST_CASE(CompundSprite_MoveAssign_DoesNotCloneComponents)
 }
 
 // TODO: This does not test the copy at all. After CompoundSprite becomes iterable?, we can.
-BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyCtr_TransformCheck, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(CopyCtr_TransformCheck, ReusableObjects)
 {
 	// Create CS with sprites
 	CompoundSprite compoundSprite{};
@@ -365,7 +365,7 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyCtr_TransformCheck, ReusableObjects)
 }
 
 // TODO: This does not test the copy at all. After CompoundSprite becomes iterable?, we can.
-BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyAssign_TransformCheck, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(CopyAssign_TransformCheck, ReusableObjects)
 {
 	// Create CS with sprites
 	CompoundSprite compoundSprite{};
@@ -389,7 +389,7 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_CopyAssign_TransformCheck, ReusableObjects
 	BOOST_CHECK(spriteReturn.getRotation() == 1.0f);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveCtr_TransformCheck, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(MoveCtr_TransformCheck, ReusableObjects)
 {
 	// Create CS with sprites
 	CompoundSprite compoundSprite{};
@@ -412,7 +412,7 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveCtr_TransformCheck, ReusableObjects)
 	BOOST_CHECK(spriteReturn.getRotation() == 1.0f);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_TransformCheck, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(MoveAssign_TransformCheck, ReusableObjects)
 {
 	// Create CS with sprites
 	CompoundSprite compoundSprite{};
@@ -440,9 +440,9 @@ BOOST_FIXTURE_TEST_CASE(CompundSprite_MoveAssign_TransformCheck, ReusableObjects
 
 BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_CTR
 
-BOOST_AUTO_TEST_SUITE(CompoundSprite_addComponent)
+BOOST_AUTO_TEST_SUITE(addComponent)
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Sprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(addComponent_Sprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
 	compoundSprite.addComponent(0, sprite);
 
@@ -451,7 +451,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Sprite, ReusableObjects) {
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_AnimatedSprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(addComponent_AnimatedSprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
 	compoundSprite.addComponent(0, animSpriteWithAnim1);
 
@@ -460,7 +460,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_AnimatedSprite, ReusableObje
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_RectangleShape, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(addComponent_RectangleShape, ReusableObjects) {
 	CompoundSprite compoundSprite{};
 	compoundSprite.addComponent(0, sf::RectangleShape{});
 
@@ -469,7 +469,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_RectangleShape, ReusableObje
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_CompoundSprite, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(addComponent_CompoundSprite, ReusableObjects) {
 	CompoundSprite compoundSprite{};
 	compoundSprite.addComponent(0, CompoundSprite{});
 
@@ -478,7 +478,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_CompoundSprite, ReusableObje
 	BOOST_CHECK(compoundSprite.getComponentCount(0) == 1);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Return, ReusableObjects) {
+BOOST_FIXTURE_TEST_CASE(addComponent_Return, ReusableObjects) {
 	CompoundSprite compoundSprite{};
 	sprite.setColor(sf::Color::Red);
 	auto& returnRef = compoundSprite.addComponent(0, sprite);
@@ -486,37 +486,41 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_addComponent_Return, ReusableObjects) {
 	BOOST_CHECK(returnRef.getColor() == sprite.getColor());
 }
 
-BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_addComponent
+BOOST_AUTO_TEST_SUITE_END() // END addComponent
 
-BOOST_AUTO_TEST_SUITE(CompoundSprite_GetComponents)
+BOOST_AUTO_TEST_SUITE(GetComponents)
 
-	BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
+	BOOST_FIXTURE_TEST_CASE(ComponentWrapper_getDataAs, ReusableObjects)
 	{
 		sprite.setColor(sf::Color::Red);
-		ComponentWrapperTestHelper x = ComponentWrapperTestHelper(sprite);
+		// Create a ComponentWrapper(Child) and assign it to a ComponentWrapper&
+		ComponentWrapperTestHelper inheritedWrapper{ sprite };
+		CompoundSprite::ComponentWrapper& compWrapper = inheritedWrapper;
 
 		CompoundSprite compoundSprite{};
 
 		compoundSprite.addComponent(1, sprite);
 
-		sf::Sprite& retrievedSprite = x.getDataAs<sf::Sprite>();
+		sf::Sprite& retrievedSprite = compWrapper.getDataAs<sf::Sprite>();
 		BOOST_CHECK(areSpritesEquivalent(retrievedSprite, sprite));
 	}
 
-	BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAsWithWrongType, ReusableObjects)
+	BOOST_FIXTURE_TEST_CASE(ComponentWrapper_getDataAs_WrongType, ReusableObjects)
 	{
 		sprite.setColor(sf::Color::Red);
-		ComponentWrapperTestHelper x = ComponentWrapperTestHelper(sprite);
+		// Create a ComponentWrapper(Child) and assign it to a ComponentWrapper&
+		ComponentWrapperTestHelper inheritedWrapper{ sprite };
+		CompoundSprite::ComponentWrapper& compWrapper = inheritedWrapper;
 
 		CompoundSprite compoundSprite{};
 
 		compoundSprite.addComponent(1, sprite);
 
-		BOOST_CHECK_THROW(x.getDataAs<CompoundSprite>(), CompoundSprite::FailedAs);
+		BOOST_CHECK_THROW(compWrapper.getDataAs<CompoundSprite>(), CompoundSprite::ComponentWrapper::BadComponentCast);
 
 	}
 
-	BOOST_FIXTURE_TEST_CASE(CompoundSprite_IsIterable, ReusableObjects)
+	BOOST_FIXTURE_TEST_CASE(IsIterable, ReusableObjects)
 	{
 		sprite.setColor(sf::Color::Blue);
 		sprite2.setColor(sf::Color::Green);
