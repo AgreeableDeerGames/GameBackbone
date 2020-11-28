@@ -138,13 +138,13 @@ static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
 	return true;
 }
 
-class Temp : public CompoundSprite::ComponentWrapper {
+class ComponentWrapperTestHelper : public CompoundSprite::ComponentWrapper {
 public: 	
 	sf::Drawable& m_internalData;
 	sf::Vector2f m_vec;
 	sf::Transform m_transform;
 
-	Temp(sf::Drawable& internalData) : m_internalData(internalData){}
+	ComponentWrapperTestHelper(sf::Drawable& internalData) : m_internalData(internalData){}
 
 	sf::Drawable& getDataAsDrawable() override
 	{
@@ -613,7 +613,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
 {
 	sprite.setColor(sf::Color::Red);
-	Temp x = Temp(sprite);
+	ComponentWrapperTestHelper x = ComponentWrapperTestHelper(sprite);
 
 	CompoundSprite compoundSprite{};
 	
