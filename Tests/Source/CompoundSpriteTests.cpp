@@ -107,6 +107,37 @@ protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
 };
 
+/* Name: areSpritesEquivalent
+*  Description: Helper method used to determine if two sprites are the same for the purposes of test cases.
+*		As designed this will test the color and transform of each sprite.
+*  Inputs: Two sprites to be compared.
+*  Ouput: True if equivalent / Flase if not.
+*/
+static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
+{
+	if (spriteA->getColor() != spriteB->getColor())
+	{
+		return false;
+	}
+
+	if (spriteA->getTexture() != spriteB->getTexture())
+	{
+		return false;
+	}
+
+	if (spriteA->getTextureRect() != spriteB->getTextureRect())
+	{
+		return false;
+	}
+
+	if (spriteA->getTransform() != spriteB->getTransform())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
@@ -508,37 +539,6 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 	BOOST_CHECK(!CanAddComponent_v<sf::Transformable>);
 }
 
-/* Name: areSpritesEquivalent
-*  Description: Helper method used to determine if two sprites are the same for the purposes of test cases.
-*		As designed this will test the color and transform of each sprite.
-*  Inputs: Two sprites to be compared.
-*  Ouput: True if equivalent / Flase if not.
-*/
-static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
-{
-	if (spriteA->getColor() != spriteB->getColor())
-	{
-		return false;
-	}
-
-	if (spriteA->getTexture() != spriteB->getTexture())
-	{
-		return false;
-	}
-
-	if (spriteA->getTextureRect() != spriteB->getTextureRect())
-	{
-		return false;
-	}
-
-	if (spriteA->getTransform() != spriteB->getTransform())
-	{
-		return false;
-	}
-
-	return true;
-}
-
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 {
 	sprite.setColor(sf::Color::Blue);
@@ -586,6 +586,7 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetCoponentsWithPriority, ReusableObj
 {
 	CompoundSprite compoundSprite{};
 	sprite.setColor(sf::Color::Yellow);
+	sprite2.setColor(sf::Color::Green);
 	compoundSprite.addComponent(1, sprite);
 	compoundSprite.addComponent(2, sprite);
 	compoundSprite.addComponent(2, sprite2);
@@ -593,6 +594,12 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetCoponentsWithPriority, ReusableObj
 	// Positive Test
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(1).size() == 1);
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(2).size() == 2);
+	auto retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
+	auto retrievedSprite2 = compoundSprite.getComponentsWithPriorty(2).at(0)->getDataAs<sf::Sprite>();
+	auto retrievedSprite3 = compoundSprite.getComponentsWithPriorty(2).at(1)->getDataAs<sf::Sprite>();
+	areSpritesEquivalent(&sprite, retrievedSprite);
+	areSpritesEquivalent(&sprite, retrievedSprite2);
+	areSpritesEquivalent(&sprite, retrievedSprite3);
 
 	// Negative Test
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(0).size() == 0);
