@@ -547,208 +547,129 @@ BOOST_AUTO_TEST_SUITE_END() // END CompoundSprite_GetComponents
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_Transform)
 
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects) {
-//	CompoundSprite compoundSprite;
-//	compoundSprite.addComponent(animSpriteWithAnim1);
-//	compoundSprite.addComponent(animSpriteWithAnim2);
-//
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++) {
-//		compoundSprite.getAnimatedComponent(i).runAnimation(0);
-//	}
-//
-//	compoundSprite.update(2);
-//
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++) {
-//		BOOST_CHECK(compoundSprite.getAnimatedComponent(i).getCurrentFrame() == 1);
-//	}
-//}
-//
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_scale, ReusableObjects) {
-//
-//	std::vector<sf::Sprite> spriteVec = { sprite };
-//	std::vector<AnimatedSprite> animSpriteVec = { animSpriteWithAnim1, animSpriteWithAnim2 };
-//	CompoundSprite compoundSprite(spriteVec, animSpriteVec);
-//	const float X_SCALE_FACTOR = 0.1f;
-//	const float Y_SCALE_FACTOR = 0.2f;
-//
-//	compoundSprite.scale(X_SCALE_FACTOR, Y_SCALE_FACTOR);
-//
-//	//ensure all sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& testSprite = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK(testSprite.getScale().x == X_SCALE_FACTOR);
-//		BOOST_CHECK(testSprite.getScale().y == Y_SCALE_FACTOR);
-//	}
-//
-//	//ensure all animated sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& animSprite = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK(animSprite.getScale().x == X_SCALE_FACTOR);
-//		BOOST_CHECK(animSprite.getScale().y == Y_SCALE_FACTOR);
-//	}
-//}
-//
-//// Test that setting the scale of a compound sprite scales all of its component sprites
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_Two_Inputs, ReusableObjectsForOperations) {
-//	const float SCALE_FACTOR_X = 0.123f;
-//	const float SCALE_FACTOR_Y = 0.234f;
-//	compoundSprite.setScale(SCALE_FACTOR_X, SCALE_FACTOR_Y);
-//
-//	//ensure all sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK(temp.getScale().x == SCALE_FACTOR_X);
-//		BOOST_CHECK(temp.getScale().y == SCALE_FACTOR_Y);
-//	}
-//
-//	//ensure all animated sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK(temp.getScale().x == SCALE_FACTOR_X);
-//		BOOST_CHECK(temp.getScale().y == SCALE_FACTOR_Y);
-//	}
-//}
-//
-//// Test that setting the scale of the compound sprite sets the scale of all of its component sprites
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOperations) {
-//	const float SCALE_FACTOR_X = 0.123f;
-//	const float SCALE_FACTOR_Y = 0.234f;
-//	const sf::Vector2f SCALE_FACTOR{ SCALE_FACTOR_X, SCALE_FACTOR_Y };
-//	compoundSprite.setScale(SCALE_FACTOR);
-//
-//	//ensure all sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK(temp.getScale().x == SCALE_FACTOR_X);
-//		BOOST_CHECK(temp.getScale().y == SCALE_FACTOR_Y);
-//	}
-//
-//	//ensure all animated sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK(temp.getScale().x == SCALE_FACTOR_X);
-//		BOOST_CHECK(temp.getScale().y == SCALE_FACTOR_Y);
-//	}
-//}
-//
-//// Tests that scaling the compound sprite scales all of its components
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_Scale_Point2D, ReusableObjects) {
-//	std::vector<sf::Sprite> sprites{ sprite };
-//	std::vector<AnimatedSprite> animSprites{ animSpriteWithAnim1, animSpriteWithAnim2 };
-//	const sf::Vector2f SCALE{ 0.5f, 0.6f };
-//	CompoundSprite compoundSprite(sprites, animSprites);
-//	compoundSprite.scale(SCALE);
-//
-//	//ensure all sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK(temp.getScale().x == SCALE.x);
-//		BOOST_CHECK(temp.getScale().y == SCALE.y);
-//	}
-//
-//	//ensure all animated sprites got the correct scale
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK(temp.getScale().x == SCALE.x);
-//		BOOST_CHECK(temp.getScale().y == SCALE.y);
-//	}
-//}
-//
-//// Tests that rotating a compound sprite rotates all of its components
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_rotate_rotate_from_zero, ReusableObjectsForOperations) {
-//	const float ROTATION = 10;
-//	compoundSprite.rotate(ROTATION);
-//
-//	//ensure all sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-//
-//	}
-//	//ensure all animated sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-//	}
-//}
-//
-//// Test that applying a rotation to a compound sprite is cumulative.
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Additive_Rotate, ReusableObjectsForOperations) {
-//	const float ROTATION = 10;
-//	const unsigned int NUM_ROTATIONS = 2;
-//
-//	for (unsigned int i = 0; i < NUM_ROTATIONS; i++) {
-//		compoundSprite.rotate(ROTATION);
-//	}
-//
-//	//ensure all sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), NUM_ROTATIONS * ROTATION);
-//
-//	}
-//	//ensure all animated sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), NUM_ROTATIONS * ROTATION);
-//	}
-//}
-//
-//// Test that setting the rotation of a compound sprite sets the rotation for all of its components
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_rotate_from_zero, ReusableObjectsForOperations) {
-//	const float ROTATION = 10;
-//	compoundSprite.setRotation(ROTATION);
-//
-//	//ensure all sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-//
-//	}
-//	//ensure all animated sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-//	}
-//}
-//
-//// Test that setting a rotation to a compound sprite is not cumulative.
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_NonAdditive_Rotate, ReusableObjectsForOperations) {
-//	const float ROTATION = 10;
-//	const unsigned int NUM_ROTATIONS = 2;
-//
-//	for (unsigned int i = 0; i < NUM_ROTATIONS; i++) {
-//		compoundSprite.setRotation(ROTATION);
-//	}
-//	//ensure all sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getSpriteComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getSpriteComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-//	}
-//	//ensure all animated sprites got the correct rotation
-//	for (std::size_t i = 0; i < compoundSprite.getAnimatedComponentCount(); i++)
-//	{
-//		auto& temp = compoundSprite.getAnimatedComponent(i);
-//		BOOST_CHECK_EQUAL(temp.getRotation(), ROTATION);
-//	}
-//}
-//
-//BOOST_FIXTURE_TEST_CASE(CompoundSprite_move, ReusableObjectsForOperations) {
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_update, ReusableObjects)
+	{
+		CompoundSprite compoundSprite;
+		compoundSprite.addComponent(1, animSpriteWithAnim1);
+		compoundSprite.addComponent(1, animSpriteWithAnim2);
+
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			priorityComponentPair.second->getDataAs<AnimatedSprite>().runAnimation(0);
+		}
+
+		compoundSprite.update(2);
+
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getDataAs<AnimatedSprite>().getCurrentFrame() == 1);
+		}
+	}
+
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_scale, ReusableObjects)
+	{
+		CompoundSprite compoundSprite(1, sprite, animSpriteWithAnim1, animSpriteWithAnim2);
+		const float X_SCALE_FACTOR = 0.1f;
+		const float Y_SCALE_FACTOR = 0.2f;
+
+		compoundSprite.scale(X_SCALE_FACTOR, Y_SCALE_FACTOR);
+
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getScale().x == X_SCALE_FACTOR);
+			BOOST_CHECK(priorityComponentPair.second->getScale().y == Y_SCALE_FACTOR);
+		}
+	}
+
+	// Test that setting the scale of a compound sprite scales all of its component sprites
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_Two_Inputs, ReusableObjectsForOperations) {
+		const float SCALE_FACTOR_X = 0.123f;
+		const float SCALE_FACTOR_Y = 0.234f;
+		compoundSprite.setScale(SCALE_FACTOR_X, SCALE_FACTOR_Y);
+
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getScale().x == SCALE_FACTOR_X);
+			BOOST_CHECK(priorityComponentPair.second->getScale().y == SCALE_FACTOR_Y);
+		}
+	}
+
+	// Test that setting the scale of the compound sprite sets the scale of all of its component sprites
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_setScale_One_Input, ReusableObjectsForOperations) {
+		const float SCALE_FACTOR_X = 0.123f;
+		const float SCALE_FACTOR_Y = 0.234f;
+		const sf::Vector2f SCALE_FACTOR{ SCALE_FACTOR_X, SCALE_FACTOR_Y };
+		compoundSprite.setScale(SCALE_FACTOR);
+
+		//ensure all sprites got the correct scale
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getScale().x == SCALE_FACTOR_X);
+			BOOST_CHECK(priorityComponentPair.second->getScale().y == SCALE_FACTOR_Y);
+		}
+	}
+
+
+	// Tests that rotating a compound sprite rotates all of its components
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_rotate_rotate_from_zero, ReusableObjectsForOperations) 
+	{
+		const float ROTATION = 10;
+		compoundSprite.rotate(ROTATION);
+
+		//ensure all sprites got the correct rotation
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getRotation() == ROTATION);
+		}
+	}
+
+	// Test that applying a rotation to a compound sprite is cumulative.
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_Rotate_Additive_Rotate, ReusableObjectsForOperations) 
+	{
+		const float ROTATION = 10;
+		const unsigned int NUM_ROTATIONS = 2;
+
+		for (unsigned int i = 0; i < NUM_ROTATIONS; i++) {
+			compoundSprite.rotate(ROTATION);
+		}
+
+		//ensure all sprites got the correct rotation
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getRotation() == NUM_ROTATIONS * ROTATION);
+		}
+	}
+
+	// Test that setting the rotation of a compound sprite sets the rotation for all of its components
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_rotate_from_zero, ReusableObjectsForOperations) {
+		const float ROTATION = 10;
+		compoundSprite.setRotation(ROTATION);
+
+		//ensure all sprites got the correct rotation
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getRotation() == ROTATION);
+		}
+	}
+
+	// Test that setting a rotation to a compound sprite is not cumulative.
+	BOOST_FIXTURE_TEST_CASE(CompoundSprite_setRotation_NonAdditive_Rotate, ReusableObjectsForOperations)
+	{
+		const float ROTATION = 10;
+		const unsigned int NUM_ROTATIONS = 2;
+
+		for (unsigned int i = 0; i < NUM_ROTATIONS; i++) {
+			compoundSprite.setRotation(ROTATION);
+		}
+
+		//ensure all sprites got the correct rotation
+		for (const auto& priorityComponentPair : compoundSprite)
+		{
+			BOOST_CHECK(priorityComponentPair.second->getRotation() == ROTATION);
+		}
+	}
+
+	//BOOST_FIXTURE_TEST_CASE(CompoundSprite_move, ReusableObjectsForOperations) {
 //
 //	const float X_OFFSET = 500.6f;
 //	const float Y_OFFSET = 100.2f;
@@ -1159,9 +1080,9 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetCoponentsWithPriority, ReusableObj
 	// Positive Test
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(1).size() == 1);
 	BOOST_CHECK(compoundSprite.getComponentsWithPriorty(2).size() == 2);
-	auto retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
-	auto retrievedSprite2 = compoundSprite.getComponentsWithPriorty(2).at(0)->getDataAs<sf::Sprite>();
-	auto retrievedSprite3 = compoundSprite.getComponentsWithPriorty(2).at(1)->getDataAs<sf::Sprite>();
+	sf::Sprite& retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
+	sf::Sprite& retrievedSprite2 = compoundSprite.getComponentsWithPriorty(2).at(0)->getDataAs<sf::Sprite>();
+	sf::Sprite& retrievedSprite3 = compoundSprite.getComponentsWithPriorty(2).at(1)->getDataAs<sf::Sprite>();
 	areSpritesEquivalent(sprite, retrievedSprite);
 	areSpritesEquivalent(sprite, retrievedSprite2);
 	areSpritesEquivalent(sprite, retrievedSprite3);
