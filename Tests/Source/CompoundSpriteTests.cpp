@@ -337,7 +337,6 @@ BOOST_AUTO_TEST_CASE(MoveAssign_DoesNotCloneComponents)
 	BOOST_CHECK(copies == 0);
 }
 
-// TODO: This does not test the copy at all. After CompoundSprite becomes iterable?, we can.
 BOOST_FIXTURE_TEST_CASE(CopyCtr_TransformCheck, ReusableObjects)
 {
 	// Create CS with sprites
@@ -362,7 +361,6 @@ BOOST_FIXTURE_TEST_CASE(CopyCtr_TransformCheck, ReusableObjects)
 	BOOST_CHECK(returnedSprite->getRotation() == 1.0f);
 }
 
-// TODO: This does not test the copy at all. After CompoundSprite becomes iterable?, we can.
 BOOST_FIXTURE_TEST_CASE(CopyAssign_TransformCheck, ReusableObjects)
 {
 	// Create CS with sprites
