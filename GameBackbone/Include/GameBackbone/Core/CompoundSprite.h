@@ -364,17 +364,17 @@ namespace GB
 			virtual sf::Drawable& getDataAsDrawable() = 0;
 
 			template <
-				class inputType,
-				std::enable_if_t<is_component_v<inputType>, bool> = true
+				class ExpectedComponentType,
+				std::enable_if_t<is_component_v<ExpectedComponentType>, bool> = true
 			>
-			inputType* getDataAs()
+			ExpectedComponentType& getDataAs()
 			{
-				inputType* data = dynamic_cast<inputType*>(&this->getDataAsDrawable());
+				ExpectedComponentType* data = dynamic_cast<ExpectedComponentType*>(&this->getDataAsDrawable());
 				if (data == nullptr)
 				{
 					throw FailedAs{};
 				}
-				return data;
+				return *data;
 			}
 		};
 

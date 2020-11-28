@@ -113,24 +113,24 @@ protected:
 *  Inputs: Two sprites to be compared.
 *  Ouput: True if equivalent / Flase if not.
 */
-static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
+static bool areSpritesEquivalent(const sf::Sprite& lhs, const sf::Sprite& rhs)
 {
-	if (spriteA->getColor() != spriteB->getColor())
+	if (lhs.getColor() != rhs.getColor())
 	{
 		return false;
 	}
 
-	if (spriteA->getTexture() != spriteB->getTexture())
+	if (lhs.getTexture() != rhs.getTexture())
 	{
 		return false;
 	}
 
-	if (spriteA->getTextureRect() != spriteB->getTextureRect())
+	if (lhs.getTextureRect() != rhs.getTextureRect())
 	{
 		return false;
 	}
 
-	if (spriteA->getTransform() != spriteB->getTransform())
+	if (lhs.getTransform() != rhs.getTransform())
 	{
 		return false;
 	}
@@ -582,31 +582,25 @@ BOOST_AUTO_TEST_CASE(SFINAE_NOTCanAddComponent_Transformable)
 	BOOST_CHECK(!CanAddComponent_v<sf::Transformable>);
 }
 
-BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
+BOOST_FIXTURE_TEST_CASE(CompoundSprite_IsIterable, ReusableObjects)
 {
 	sprite.setColor(sf::Color::Blue);
 	sprite2.setColor(sf::Color::Green);
 
 	CompoundSprite compoundSprite{};
-	compoundSprite.addComponent(1, sprite);
+	compoundSprite.addComponent(0, sprite);
 	compoundSprite.addComponent(1, sprite2);
-	
-	int count = 0;
-	for (auto iter = compoundSprite.begin(); iter != compoundSprite.end(); ++iter)
-	{
-		sf::Sprite* retrievedSprite = iter->second->getDataAs<sf::Sprite>();
-		if (count == 0)
-		{
-			BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
-			BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite2));
-		}
 
-		if (count == 1)
-		{
-			BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite2));
-			BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite));
-		}
-		count++;
+	std::vector<sf::Sprite*> testVector{&sprite, &sprite2};
+
+	int testIndex = 0;
+	for (const std::pair<const int, std::unique_ptr<CompoundSprite::ComponentWrapper>>& priorityPair : compoundSprite)
+	{
+		BOOST_CHECK_EQUAL(testIndex, priorityPair.first);
+
+		sf::Sprite& retrievedSprite = priorityPair.second->getDataAs<sf::Sprite>();
+		BOOST_CHECK(areSpritesEquivalent(*testVector[testIndex], retrievedSprite));
+		testIndex++;
 	}
 }
 
@@ -619,13 +613,13 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
 	
 	compoundSprite.addComponent(1, sprite);
 
-	sf::Sprite* retrievedSprite = x.getDataAs<sf::Sprite>();
+	sf::Sprite& retrievedSprite = x.getDataAs<sf::Sprite>();
 
 	// Positive Test 
-	BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
+	BOOST_CHECK(areSpritesEquivalent(retrievedSprite, sprite));
 
 	// Negative Test
-	BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, &sprite2));
+	BOOST_CHECK(!areSpritesEquivalent(retrievedSprite, sprite2));
 }
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetCoponentsWithPriority, ReusableObjects)
