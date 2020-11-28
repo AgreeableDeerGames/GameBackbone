@@ -138,6 +138,49 @@ static bool areSpritesEquivalent(sf::Sprite* spriteA, sf::Sprite* spriteB)
 	return true;
 }
 
+class Temp : public CompoundSprite::ComponentWrapper {
+public: 	
+	sf::Drawable& m_internalData;
+	sf::Vector2f m_vec;
+	sf::Transform m_transform;
+
+	Temp(sf::Drawable& internalData) : m_internalData(internalData){}
+
+	sf::Drawable& getDataAsDrawable() override
+	{
+		return m_internalData;
+	}
+
+	std::unique_ptr<ComponentWrapper> cloneAsUnique() override
+	{
+		return nullptr;
+	}
+
+	void setPosition(float x, float y) override {}
+	void setPosition(const sf::Vector2f& position) override {}
+	void setRotation(float angle) override {}
+	void setScale(float factorX, float factorY) override {}
+	void setScale(const sf::Vector2f& factors) override {}
+	void setOrigin(float x, float y) override {}
+	void setOrigin(const sf::Vector2f& origin) override {}
+	const sf::Vector2f& getPosition() const override { return m_vec; }
+	float getRotation() const override { return -1; }
+	const sf::Vector2f& getScale() const override { return m_vec; }
+	const sf::Vector2f& getOrigin() const override { return m_vec; }
+	void move(float offsetX, float offsetY) override {}
+	void move(const sf::Vector2f& offset) override {}
+	void rotate(float angle) override {}
+	void scale(float factorX, float factorY) override {}
+	void scale(const sf::Vector2f& factor) override {}
+	const sf::Transform& getTransform() const override { return m_transform; }
+	const sf::Transform& getInverseTransform() const override { return m_transform; }
+
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
+	void update(sf::Int64 elapsedTime) override {}
+
+
+};
+
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
 
@@ -569,11 +612,14 @@ BOOST_FIXTURE_TEST_CASE(CompoundSprite_testIterator, ReusableObjects)
 
 BOOST_FIXTURE_TEST_CASE(CompoundSprite_testGetDataAs, ReusableObjects)
 {
-	CompoundSprite compoundSprite{};
 	sprite.setColor(sf::Color::Red);
+	Temp x = Temp(sprite);
+
+	CompoundSprite compoundSprite{};
+	
 	compoundSprite.addComponent(1, sprite);
 
-	sf::Sprite* retrievedSprite = compoundSprite.getComponentsWithPriorty(1).at(0)->getDataAs<sf::Sprite>();
+	sf::Sprite* retrievedSprite = x.getDataAs<sf::Sprite>();
 
 	// Positive Test 
 	BOOST_CHECK(areSpritesEquivalent(retrievedSprite, &sprite));
