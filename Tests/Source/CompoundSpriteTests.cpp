@@ -104,7 +104,7 @@ public:
 
 
 protected:
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
+	virtual void draw([[maybe_unused]] sf::RenderTarget& target, [[maybe_unused]] sf::RenderStates states) const override {}
 };
 
 /* Name: areSpritesEquivalent
@@ -156,27 +156,27 @@ public:
 		return nullptr;
 	}
 
-	void setPosition(float x, float y) override {}
-	void setPosition(const sf::Vector2f& position) override {}
-	void setRotation(float angle) override {}
-	void setScale(float factorX, float factorY) override {}
-	void setScale(const sf::Vector2f& factors) override {}
-	void setOrigin(float x, float y) override {}
-	void setOrigin(const sf::Vector2f& origin) override {}
+	void setPosition([[maybe_unused]] float x, [[maybe_unused]] float y) override {}
+	void setPosition([[maybe_unused]] const sf::Vector2f& position) override {}
+	void setRotation([[maybe_unused]] float angle) override {}
+	void setScale([[maybe_unused]] float factorX, [[maybe_unused]] float factorY) override {}
+	void setScale([[maybe_unused]] const sf::Vector2f& factors) override {}
+	void setOrigin([[maybe_unused]] float x, [[maybe_unused]] float y) override {}
+	void setOrigin([[maybe_unused]] const sf::Vector2f& origin) override {}
 	const sf::Vector2f& getPosition() const override { return m_vec; }
 	float getRotation() const override { return -1; }
 	const sf::Vector2f& getScale() const override { return m_vec; }
 	const sf::Vector2f& getOrigin() const override { return m_vec; }
-	void move(float offsetX, float offsetY) override {}
-	void move(const sf::Vector2f& offset) override {}
-	void rotate(float angle) override {}
-	void scale(float factorX, float factorY) override {}
-	void scale(const sf::Vector2f& factor) override {}
+	void move([[maybe_unused]] float offsetX, [[maybe_unused]] float offsetY) override {}
+	void move([[maybe_unused]] const sf::Vector2f& offset) override {}
+	void rotate([[maybe_unused]] float angle) override {}
+	void scale([[maybe_unused]] float factorX, [[maybe_unused]] float factorY) override {}
+	void scale([[maybe_unused]] const sf::Vector2f& factor) override {}
 	const sf::Transform& getTransform() const override { return m_transform; }
 	const sf::Transform& getInverseTransform() const override { return m_transform; }
 
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override {}
-	void update(sf::Int64 elapsedTime) override {}
+	void draw([[maybe_unused]] sf::RenderTarget& target, [[maybe_unused]] sf::RenderStates states) const override {}
+	void update([[maybe_unused]] sf::Int64 elapsedTime) override {}
 };
 
 BOOST_AUTO_TEST_SUITE(CompoundSprite_CTR)
@@ -354,8 +354,11 @@ BOOST_FIXTURE_TEST_CASE(CopyCtr_TransformCheck, ReusableObjects)
 	BOOST_CHECK(compoundSprite2.getPosition() == sf::Vector2f(1.0f, 1.0f));
 	BOOST_CHECK(compoundSprite2.getScale() == sf::Vector2f(2.0f, 2.0f));
 	BOOST_CHECK(compoundSprite2.getRotation() == 1.0f);
+
+	std::vector<CompoundSprite::ComponentWrapper*> returnedVector = compoundSprite2.getComponentsWithPriorty(0);
+	CompoundSprite::ComponentWrapper* returnedSprite = returnedVector.at(0);
+
 	// Check transform things on Sprites.
-	CompoundSprite::ComponentWrapper* returnedSprite = compoundSprite2.getComponentsWithPriorty(0)[0];
 	BOOST_CHECK(returnedSprite->getPosition() == sf::Vector2f(1.0f, 1.0f));
 	BOOST_CHECK(returnedSprite->getScale() == sf::Vector2f(2.0f, 2.0f));
 	BOOST_CHECK(returnedSprite->getRotation() == 1.0f);
@@ -379,8 +382,11 @@ BOOST_FIXTURE_TEST_CASE(CopyAssign_TransformCheck, ReusableObjects)
 	BOOST_CHECK(compoundSprite2.getPosition() == sf::Vector2f(1.0f, 1.0f));
 	BOOST_CHECK(compoundSprite2.getScale() == sf::Vector2f(2.0f, 2.0f));
 	BOOST_CHECK(compoundSprite2.getRotation() == 1.0f);
+
+	std::vector<CompoundSprite::ComponentWrapper*> returnedVector = compoundSprite2.getComponentsWithPriorty(0);
+	CompoundSprite::ComponentWrapper* returnedSprite = returnedVector.at(0);
+
 	// Check transform things on Sprites.
-	CompoundSprite::ComponentWrapper* returnedSprite = compoundSprite2.getComponentsWithPriorty(0)[0];
 	BOOST_CHECK(returnedSprite->getPosition() == sf::Vector2f(1.0f, 1.0f));
 	BOOST_CHECK(returnedSprite->getScale() == sf::Vector2f(2.0f, 2.0f));
 	BOOST_CHECK(returnedSprite->getRotation() == 1.0f);
@@ -922,7 +928,6 @@ BOOST_AUTO_TEST_SUITE(CompoundSprite_SFINAETests)
 
 	BOOST_AUTO_TEST_CASE(SFINAE_CanConstruct_Sprite)
 	{
-		bool test = CanConstructCompoundSprite_v<sf::Sprite>;
 		BOOST_CHECK(CanConstructCompoundSprite_v<sf::Sprite>);
 	}
 
