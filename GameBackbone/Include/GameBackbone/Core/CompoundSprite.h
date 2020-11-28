@@ -5,8 +5,9 @@
 #include <GameBackbone/Util/DllUtil.h>
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 
 #include <cstddef>
 #include <map>
@@ -121,7 +122,7 @@ namespace GB
 		>
 		explicit CompoundSprite(int priority, Components... componentsToAdd) : CompoundSprite(sf::Vector2f{ 0,0 }, priority, std::move(componentsToAdd)...) {}
 
-		/// @brief Initializes a new instance of the CompoundSprite class. The passed in Components are added to the CompoundSprite.
+		/// @brief Initializes a new instance of the CompoundSprite class. The provided Components are added to the CompoundSprite at the given priority.
 		///		Initializes the CompoundSprite to the passed position.
 		/// @tparam ...Components 
 		/// @param position The position.
@@ -235,9 +236,9 @@ namespace GB
 				m_prioritizedComponents.erase(it);
 			}
 		}
-		
+
 		/// @brief Removes all components from the compound sprite
-		virtual void clearComponents();
+		void clearComponents();
 
 		// Transformable API
 

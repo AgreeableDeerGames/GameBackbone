@@ -33,7 +33,8 @@ public:
 
 	// test event functions
 protected:
-	void handleEvent(sf::Event& event) override {
+	void handleEvents(sf::Int64 /*elapsedTime*/) override
+	{
 		BOOST_CHECK(!hasFinishedHandleCoreEvent);
 		BOOST_CHECK(!hasFinishedHandleGuiEvent);
 
@@ -44,6 +45,7 @@ protected:
 		hasFinishedHandleCoreEvent = false;
 		hasFinishedHandleGuiEvent = false;
 	}
+
 public:
 
 	///// pretend to handle the gui event if its a LostFocus event
@@ -67,7 +69,7 @@ public:
 		hasFinishedDraw = true;
 	}
 
-	void update() override {
+	void update(sf::Int64 /*elapsedTime*/) override {
 		hasFinishedUpdate = true;
 	}
 
