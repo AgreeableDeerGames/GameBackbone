@@ -65,30 +65,38 @@ namespace GB
 		/// @brief Initializes a new instance of the <see cref="CompoundSprite"/>. The CompoundSprite has no components and is located at (0,0).
 		CompoundSprite() {}
 
+		// Forward declare ComponentWrapper to be used in the iterators
 		class ComponentWrapper;
 
 		using iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::iterator;
+		using const_iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::const_iterator;
 
+		/// @brief Get an iterator to the beginning of the Components.
 		iterator begin() 
 		{
 			return m_prioritizedComponents.begin();
 		}
+
+		/// @brief Get an iterator to the end of the Components.
 		iterator end()
 		{
 			return m_prioritizedComponents.end();
 		}
 
-		using const_iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::const_iterator;
+		/// @brief Get a const_iterator to the beginning of the Components.
 		const const_iterator cbegin()
 		{
 			return m_prioritizedComponents.cbegin();
 		}
+
+		/// @brief Get a const_iterator to the end of the Components.
 		const const_iterator cend()
 		{
 			return m_prioritizedComponents.cend();
 		}
 
-		// TODO: Make this return type a reference_wrapper
+		/// @brief Returns all Components for a given priority
+		/// @param priority The priority of the Components to get
 		std::vector<ComponentWrapper*> getComponentsWithPriorty(int priority)
 		{
 			std::vector<ComponentWrapper*> components;
@@ -102,6 +110,7 @@ namespace GB
 			return components;
 		}
 		
+		/// @brief Returns a vector of all prioties within the CompoundSprite
 		std::vector<int> getComponentPriorties()
 		{
 			std::vector<int> priorities;
@@ -312,8 +321,8 @@ namespace GB
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	private:
-		// Helper Class used by ComponentWrapper to virtually forward calls from sf::Transformables
-		// to ComponentAdapter which will then forward the calls nonvirtually to the type erased data. 
+		/// @brief Helper Class used by ComponentWrapper to virtually forward calls from sf::Transformables
+		///  to ComponentAdapter which will then forward the calls nonvirtually to the type erased data. 
 		class VirtualTransformable : public sf::Transformable {
 		public:
 			virtual ~VirtualTransformable() = default;
@@ -340,9 +349,8 @@ namespace GB
 
 
 	public: 
-		
-
-		// Class that a Component's data in CompoundSprite is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.
+		/// @brief Class that a Component's data in CompoundSprite is stored as. 
+		/// This is a type erased class and works using virtual calls to forward the necessary functions.
 		class ComponentWrapper : public sf::Drawable, public VirtualTransformable, public GB::Updatable {
 		public:
 			ComponentWrapper() = default;
@@ -354,6 +362,7 @@ namespace GB
 			ComponentWrapper(ComponentWrapper&&) noexcept = delete;
 			ComponentWrapper& operator=(ComponentWrapper&&) noexcept = delete;
 
+			/// @brief An exception of this type is thrown when a Component cannot be cast to the expected type.
 			class BadComponentCast : public std::bad_cast {
 			public:
 				BadComponentCast() noexcept : bad_cast() {}
@@ -363,10 +372,15 @@ namespace GB
 				}
 			};
 
-			// Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
+			/// @brief Clones the object as a unique pointer. This is used to virtually forward the clone call to ComponentAdapter.
 			virtual std::unique_ptr<ComponentWrapper> cloneAsUnique() = 0;
+
+			/// @brief Returns the data stored within the ComponentWrapper as an sf::Drawable&
 			virtual sf::Drawable& getDataAsDrawable() = 0;
 
+			/// @brief Returns the data stored within the ComponentWrapper cast to the passed in type.
+			/// @tparam ExpectedComponentType The type of the data within the ComponentWrapper. The type to return the data as.
+			/// @throws BadComponentCast Thrown when the data is not of ExpectedComponentType.
 			template <
 				class ExpectedComponentType,
 				std::enable_if_t<is_component_v<ExpectedComponentType>, bool> = true
@@ -383,11 +397,11 @@ namespace GB
 		};
 
 	private:
-		// Class which actually stores the data of the type erased ComponentWrapper. Used primarily to forward calls to the Component data.
+		/// @brief Class which actually stores the data of the type erased ComponentWrapper. Used primarily to forward calls to the Component data.
+		/// @tparam Component The type of the Component to store.
 		template <class Component>
 		class ComponentAdapter final : public ComponentWrapper {
 		protected:
-
 			// Protected draw call forwards the draw call passing the sf::Drawable data.
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override
 			{
