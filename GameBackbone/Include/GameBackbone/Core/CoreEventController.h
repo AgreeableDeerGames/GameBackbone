@@ -1,12 +1,12 @@
 #pragma once
 
-#include <GameBackbone/Core/GameRegion.h>
+#include <GameBackbone/Core/BasicGameRegion.h>
 
-#include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include <string>
+#include <memory>
 #include <iostream>
+#include <string>
 
 namespace GB {
 	
@@ -18,25 +18,33 @@ namespace GB {
 	public:
 
 		/// @brief Initializes a new instance of the CoreEventController class. Window width, height, and name are default.
-		CoreEventController();
+		/// @param defaultRegion The BasicGameRegion that is loaded first. This BasicGameRegion instance will remain in memory
+		///		for the entire lifetime of this instance of CoreEventController.
+		CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion);
 
 		/// @brief Initializes a new instance of the CoreEventController class. Window width and height are default.
 		/// @param windowName Name of the window
-		explicit CoreEventController(const std::string& windowName);
+		/// @param defaultRegion The BasicGameRegion that is loaded first. This BasicGameRegion instance will remain in memory
+		///		for the entire lifetime of this instance of CoreEventController.
+		explicit CoreEventController(std::unique_ptr<BasicGameRegion>, const std::string& windowName);
 
 		/// @brief Initializes a new instance of the CoreEventController class. Window name is default.
+		/// @param defaultRegion The BasicGameRegion that is loaded first. This BasicGameRegion instance will remain in memory
+		///		for the entire lifetime of this instance of CoreEventController.
 		/// @param windowWidth Width of the window.
 		/// @param windowHeight Height of the window.
-		CoreEventController(int windowWidth, int windowHeight);
+		CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion, int windowWidth, int windowHeight);
 
 		/// @brief Initializes a new instance of the CoreEventController class.
+		/// @param defaultRegion The BasicGameRegion that is loaded first. This BasicGameRegion instance will remain in memory
+		///		for the entire lifetime of this instance of CoreEventController.
 		/// @param windowWidth Width of the window.
 		/// @param windowHeight Height of the window.
 		/// @param windowName Name of the window.
-		CoreEventController(int windowWidth, int windowHeight, const std::string& windowName);
+		CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion, int windowWidth, int windowHeight, const std::string& windowName);
 
 		/// @brief Destroys this CoreEventController
-		virtual ~CoreEventController();
+		virtual ~CoreEventController() = default;
 
 		/// @brief Move construct A CoreEventController
 		/// @param other The CoreEventController to move
@@ -86,6 +94,7 @@ namespace GB {
 		/// @brief Draws the active region.
 		void repaint();
 
+		std::unique_ptr<BasicGameRegion> m_defaultRegion;
 		BasicGameRegion* m_activeRegion;
 		sf::RenderWindow m_window;
 		sf::Clock m_updateClock;

@@ -9,21 +9,19 @@ static const int DEFAULT_WINDOW_HEIGHT = 700;
 static const int DEFAULT_WINDOW_WIDTH = 700;
 static const std::string DEFAULT_WINDOW_NAME = "GameBackbone";
 
-CoreEventController::CoreEventController() : CoreEventController(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_NAME) {}
+CoreEventController::CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion) : CoreEventController(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_NAME) {}
 
-CoreEventController::CoreEventController(const std::string& windowName) : CoreEventController(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, windowName) {}
+CoreEventController::CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion, const std::string& windowName) : CoreEventController(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, windowName) {}
 
-CoreEventController::CoreEventController(int windowWidth, int windowHeight) : CoreEventController(windowWidth, windowHeight, DEFAULT_WINDOW_NAME) {}
+CoreEventController::CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion, int windowWidth, int windowHeight) : CoreEventController(windowWidth, windowHeight, DEFAULT_WINDOW_NAME) {}
 
-CoreEventController::CoreEventController(int windowWidth, int windowHeight, const std::string& windowName) :
+CoreEventController::CoreEventController(std::unique_ptr<BasicGameRegion> defaultRegion, int windowWidth, int windowHeight, const std::string& windowName) :
 	m_activeRegion(nullptr),
 	m_window(sf::VideoMode(windowWidth, windowHeight), windowName),
 	m_updateClock(),
 	m_timeSinceLastHandledEvent(0)
 {
 }
-
-CoreEventController::~CoreEventController() {}
 
 void CoreEventController::runLoop() 
 {
