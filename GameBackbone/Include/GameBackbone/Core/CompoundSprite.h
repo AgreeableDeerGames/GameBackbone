@@ -71,56 +71,6 @@ namespace GB
 		using iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::iterator;
 		using const_iterator = std::multimap<int, std::unique_ptr<ComponentWrapper>>::const_iterator;
 
-		/// @brief Get an iterator to the beginning of the Components.
-		iterator begin() 
-		{
-			return m_prioritizedComponents.begin();
-		}
-
-		/// @brief Get an iterator to the end of the Components.
-		iterator end()
-		{
-			return m_prioritizedComponents.end();
-		}
-
-		/// @brief Get a const_iterator to the beginning of the Components.
-		const const_iterator cbegin()
-		{
-			return m_prioritizedComponents.cbegin();
-		}
-
-		/// @brief Get a const_iterator to the end of the Components.
-		const const_iterator cend()
-		{
-			return m_prioritizedComponents.cend();
-		}
-
-		/// @brief Returns all Components for a given priority
-		/// @param priority The priority of the Components to get
-		std::vector<ComponentWrapper*> getComponentsWithPriorty(int priority)
-		{
-			std::vector<ComponentWrapper*> components;
-			for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
-			{
-				if (iter->first == priority)
-				{
-					components.push_back(iter->second.get());
-				}
-			}
-			return components;
-		}
-		
-		/// @brief Returns a vector of all prioties within the CompoundSprite
-		std::vector<int> getComponentPriorties()
-		{
-			std::vector<int> priorities;
-			for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
-			{
-				priorities.push_back(iter->first);
-			}
-			return priorities;
-		}
-
 		/// @brief Initializes a new instance of the CompoundSprite class. The passed in Components are added to the CompoundSprite.
 		///		The position of the CompoundSprite is (0,0).
 		/// @tparam ...Components 
@@ -148,12 +98,11 @@ namespace GB
 			(addComponent(priority, std::move(std::forward<Components>(componentsToAdd))), ...);
 		}
 
-		/// @brief Initializes a new instance of the <see cref="CompoundSprite"/> class. Sets the initial position of the CompoundSprite to the passed value.
+		/// @brief Initializes a new instance of the CompoundSprite class. Sets the initial position of the CompoundSprite to the passed value.
 		/// @param position The initial position.
 		explicit CompoundSprite(sf::Vector2f position);
 
 		/// @brief Initializes a new instance of the CompoundSprite class. 
-		///		The copy constructor is needed to copy the internal vector.
 		/// @param other The CompoundSprite to copy
 		CompoundSprite(const CompoundSprite& other);
 
@@ -186,6 +135,37 @@ namespace GB
 		/// @param priority The priority.
 		/// @return The number of components owned by the CompoundSprite with the given priority.
 		std::size_t getComponentCount(int priority) const;
+
+		/// @brief Returns a vector of all prioties within the CompoundSprite
+		std::vector<int> getComponentPriorties();
+
+		/// @brief Returns all Components for a given priority
+		/// @param priority The priority of the Components to get
+		std::vector<ComponentWrapper*> getComponentsWithPriorty(int priority);
+
+		/// @brief Get an iterator to the beginning of the Components.
+		iterator begin()
+		{
+			return m_prioritizedComponents.begin();
+		}
+
+		/// @brief Get an iterator to the end of the Components.
+		iterator end()
+		{
+			return m_prioritizedComponents.end();
+		}
+
+		/// @brief Get a const_iterator to the beginning of the Components.
+		const const_iterator cbegin()
+		{
+			return m_prioritizedComponents.cbegin();
+		}
+
+		/// @brief Get a const_iterator to the end of the Components.
+		const const_iterator cend()
+		{
+			return m_prioritizedComponents.cend();
+		}
 
 		/// @brief True if this CompoundSprite holds no components. False otherwise.
 		bool isEmpty() const;

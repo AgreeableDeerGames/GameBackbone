@@ -66,6 +66,28 @@ std::size_t CompoundSprite::getComponentCount(int priority) const {
 	return m_prioritizedComponents.count(priority);
 }
 
+std::vector<CompoundSprite::ComponentWrapper*> CompoundSprite::getComponentsWithPriorty(int priority) {
+	std::vector<ComponentWrapper*> components;
+	for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
+	{
+		if (iter->first == priority)
+		{
+			components.push_back(iter->second.get());
+		}
+	}
+	return components;
+}
+
+std::vector<int> CompoundSprite::getComponentPriorties()
+{
+	std::vector<int> priorities;
+	for (iterator iter = m_prioritizedComponents.begin(); iter != m_prioritizedComponents.end(); ++iter)
+	{
+		priorities.push_back(iter->first);
+	}
+	return priorities;
+}
+
 bool CompoundSprite::isEmpty() const {
 	return m_prioritizedComponents.empty();
 }
