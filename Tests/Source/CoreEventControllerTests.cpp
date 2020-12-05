@@ -126,7 +126,6 @@ public:
 class SwapGRMock : public GB::GameRegion
 {
 public:
-
 	/// <summary>shared_ptr of TestGameRegion</summary>
 	using Ptr = std::shared_ptr<SwapGRMock>;
 
@@ -172,11 +171,11 @@ public:
 	}
 
 	std::vector<SwapGRMock::Ptr> children;
+	int m_updateCounter;
 
 private:
 	sf::RenderWindow* m_window;
 	GB::GameRegion* m_parent;
-	int m_updateCounter;
 };
 
 // Tests the behavior of RunLoop when the sf window has no events
@@ -189,6 +188,10 @@ BOOST_AUTO_TEST_CASE(CoreEventController_SwapRegion) {
 
 	// This runLoop call has the check for this test within swapRegion.
 	testController.runLoop();
+
+	// Ensure that the swapping actually happened and that the number of times updating was as expected.
+	BOOST_CHECK_EQUAL(parentGameRegion.m_updateCounter, 5);
+	BOOST_CHECK_EQUAL(parentGameRegion.children[0]->m_updateCounter, 4);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // end CoreEventController Tests
