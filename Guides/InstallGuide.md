@@ -32,19 +32,22 @@ This guide will show you how to
 1. Follow the quickstart guide for your platform
    * [Windows](https://github.com/AgreeableDeerGames/ag_vcpkg#quick-start-windows)
    * [Unix](https://github.com/AgreeableDeerGames/ag_vcpkg#quick-start-windows)
-2. install sfml
-   * `vcpkg install sfml:[vcpkg-triplet-here]`
-3. install tgui (required for demo only)
-   * `vcpkg install tgui:[vcpkg-triplet-here]`
-4. install box2d (required for demo only)
-   * `vcpkg install box2d:[vcpkg-triplet-here]`
-5. install boost (required for tests only)
-   * `vcpkg install boost:[vcpkg-triplet-here]`
+2. Install dependencies
+   * We only officially support building GameBackbone with the `x64-windows` triplet. Other triplets may work, but are untested.
+   * sfml
+      * `vcpkg install sfml:[vcpkg-triplet-here]`
+   * tgui (required for demo only)
+      * `vcpkg install tgui:[vcpkg-triplet-here]`
+   * box2d (required for platform demo only)
+      * `vcpkg install box2d:[vcpkg-triplet-here]`
+   * boost (required for tests only)
+      * `vcpkg install boost:[vcpkg-triplet-here]`
+
 
 #### 2.2.2: custom install
 Build and install the following dependencies on your own. 
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
-* [Box2D](https://box2d.org/) (required for demo only)
+* [Box2D](https://box2d.org/) (required for platform demo only)
 * [TGUI](https://tgui.eu/) (required for demo only)
 * [Boost](https://www.boost.org/users/download/) (required for tests only)
 
