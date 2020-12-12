@@ -78,6 +78,27 @@ std::vector<CompoundSprite::ComponentWrapper*> CompoundSprite::getComponentsWith
 	return components;
 }
 
+CompoundSprite::iterator CompoundSprite::begin()
+{
+	return this->m_prioritizedComponents.begin();
+}
+
+CompoundSprite::iterator CompoundSprite::end()
+{
+	return m_prioritizedComponents.end();
+}
+
+const CompoundSprite::const_iterator CompoundSprite::cbegin()
+{
+	return m_prioritizedComponents.cbegin();
+}
+
+const CompoundSprite::const_iterator CompoundSprite::cend()
+{
+	return m_prioritizedComponents.cend();
+}
+
+
 std::vector<int> CompoundSprite::getComponentPriorties()
 {
 	std::vector<int> priorities;

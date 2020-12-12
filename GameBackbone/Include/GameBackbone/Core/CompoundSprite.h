@@ -144,28 +144,16 @@ namespace GB
 		std::vector<ComponentWrapper*> getComponentsWithPriorty(int priority);
 
 		/// @brief Get an iterator to the beginning of the Components.
-		iterator begin()
-		{
-			return m_prioritizedComponents.begin();
-		}
+		iterator begin();
 
 		/// @brief Get an iterator to the end of the Components.
-		iterator end()
-		{
-			return m_prioritizedComponents.end();
-		}
+		iterator end();
 
 		/// @brief Get a const_iterator to the beginning of the Components.
-		const const_iterator cbegin()
-		{
-			return m_prioritizedComponents.cbegin();
-		}
+		const const_iterator cbegin();
 
 		/// @brief Get a const_iterator to the end of the Components.
-		const const_iterator cend()
-		{
-			return m_prioritizedComponents.cend();
-		}
+		const const_iterator cend();
 
 		/// @brief True if this CompoundSprite holds no components. False otherwise.
 		bool isEmpty() const;
