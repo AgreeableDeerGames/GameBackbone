@@ -30,6 +30,6 @@ An abstract class representing anything in a game that contains game logic (leve
 ### CoreEventController:
 An abstract class representing GameBackbone's main loop. It creates and owns a window and requires that children handle the events from this window by implementing the `handleEvent` pure virtual member function. The CoreEventController also references a single “active” BasicGameRegion. 
 
-The main loop provided by `CoreEventController::runLoop` first handles updates, draws the “active” region, updates the “active” region, then checks to see if a different BasicGameRegion should be made the “active” region for the next iteration of the loop. 
+The main loop provided by `CoreEventController::runLoop` first handles window events, updates the “active” region, draws the “active” region, then checks to see if a different BasicGameRegion should be made the “active” region for the next iteration of the loop. 
 
 Each of these steps, with the exception of handling window events, has a default implementation. Each of these default implementations can be safely overridden by a child class if customization is required.
