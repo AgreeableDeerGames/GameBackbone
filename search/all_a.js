@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['ptr',['Ptr',['../class_g_b_1_1_animated_sprite.html#adf20ade21fffd2b2fd633ccbefbb26c6',1,'GB::AnimatedSprite::Ptr()'],['../class_g_b_1_1_animation_set.html#ac23ba0a3f8da0382e12756e390dbb639',1,'GB::AnimationSet::Ptr()'],['../class_g_b_1_1_basic_game_region.html#a8c551931421810cc67dcdb414375271d',1,'GB::BasicGameRegion::Ptr()'],['../class_g_b_1_1_game_region.html#a497abc19f69baaa9532b33a5ce26fc65',1,'GB::GameRegion::Ptr()'],['../class_g_b_1_1_uniform_animation_set.html#aade8d5e0d168876048eb73947684d41c',1,'GB::UniformAnimationSet::Ptr()']]]
+  ['matchbehavior',['MatchBehavior',['../class_g_b_1_1_gesture_match_signaler.html#a1293ce20c88830fead2e8dcc1ffa9c3a',1,'GB::GestureMatchSignaler']]],
+  ['mousebuttondowneventfilter',['MouseButtonDownEventFilter',['../class_g_b_1_1_mouse_button_down_event_filter.html',1,'GB']]],
+  ['mousebuttoneventcomparator',['MouseButtonEventComparator',['../class_g_b_1_1_mouse_button_event_comparator.html',1,'GB']]],
+  ['mousebuttonupeventfilter',['MouseButtonUpEventFilter',['../class_g_b_1_1_mouse_button_up_event_filter.html',1,'GB']]],
+  ['move',['move',['../class_g_b_1_1_compound_sprite.html#a8d9e7f79dc9c3137f1ff24c5201f61ec',1,'GB::CompoundSprite::move(float offsetX, float offsetY)'],['../class_g_b_1_1_compound_sprite.html#aa5460392013f30525b7493050c5d870d',1,'GB::CompoundSprite::move(const sf::Vector2f &amp;offset)']]]
 ];

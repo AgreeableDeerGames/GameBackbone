@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.4.0</span>
+   &#160;<span id="projectnumber">0.4.1</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract class meant to be inherited. Class that is capable of being updated.  
+<p>Interface representing objects that are capable of being updated over time.  
  <a href="class_g_b_1_1_updatable.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_updatable_8h_source.html">Updatable.h</a>&gt;</code></p>
@@ -83,10 +83,11 @@ Inheritance diagram for GB::Updatable:</div>
  <div class="center">
   <img src="class_g_b_1_1_updatable.png" usemap="#GB::Updatable_map" alt=""/>
   <map id="GB::Updatable_map" name="GB::Updatable_map">
-<area href="class_g_b_1_1_animated_sprite.html" title="Sprite with the ability to display several animation states. " alt="GB::AnimatedSprite" shape="rect" coords="0,56,137,80"/>
-<area href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..." alt="GB::BasicGameRegion" shape="rect" coords="147,56,284,80"/>
-<area href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. " alt="GB::CompoundSprite" shape="rect" coords="294,56,431,80"/>
-<area href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..." alt="GB::GameRegion" shape="rect" coords="147,112,284,136"/>
+<area href="class_g_b_1_1_animated_sprite.html" title="Sprite with the ability to display several animation states. " alt="GB::AnimatedSprite" shape="rect" coords="0,56,246,80"/>
+<area href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i..." alt="GB::BasicGameRegion" shape="rect" coords="256,56,502,80"/>
+<area href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. " alt="GB::CompoundSprite" shape="rect" coords="512,56,758,80"/>
+<area href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html" title="Class that a Component&#39;s data in CompoundSprite is stored as. This is a type erased class and works u..." alt="GB::CompoundSprite::ComponentWrapper" shape="rect" coords="768,56,1014,80"/>
+<area href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..." alt="GB::GameRegion" shape="rect" coords="256,112,502,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -105,11 +106,11 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="class_g_b_1_1_updatable.html">Updatable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_g_b_1_1_updatable.html">Updatable</a> &amp;&amp;) noexcept=default</td></tr>
 <tr class="separator:aa5bb480be77d9c3f33b5d53826e549a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe29c14213fb79daf47a66d33d17bfec"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_updatable.html#abe29c14213fb79daf47a66d33d17bfec">update</a> (sf::Int64 elapsedTime)=0</td></tr>
-<tr class="memdesc:abe29c14213fb79daf47a66d33d17bfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the instance. <a href="#abe29c14213fb79daf47a66d33d17bfec">More...</a><br /></td></tr>
+<tr class="memdesc:abe29c14213fb79daf47a66d33d17bfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the instance.  <a href="#abe29c14213fb79daf47a66d33d17bfec">More...</a><br /></td></tr>
 <tr class="separator:abe29c14213fb79daf47a66d33d17bfec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract class meant to be inherited. Class that is capable of being updated. </p>
+<div class="textblock"><p>Interface representing objects that are capable of being updated over time. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="abe29c14213fb79daf47a66d33d17bfec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe29c14213fb79daf47a66d33d17bfec">&#9670;&nbsp;</a></span>update()</h2>
@@ -135,15 +136,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Updates the instance.</p>
+<p>Updates the instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">elapsedTime</td><td></td></tr>
+    <tr><td class="paramname">elapsedTime</td><td>Time (in microseconds) since the instance was last updated. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_g_b_1_1_compound_sprite.html#a3100d767971af4422be6fbbed90677c8">GB::CompoundSprite</a>, <a class="el" href="class_g_b_1_1_animated_sprite.html#a064d9588897c279d753910a1846ad08a">GB::AnimatedSprite</a>, <a class="el" href="class_g_b_1_1_game_region.html#a6d270f96488520ed8e8214752fbf0722">GB::GameRegion</a>, and <a class="el" href="class_g_b_1_1_basic_game_region.html#ad89a01c35f2752734b0a0fac5b94effe">GB::BasicGameRegion</a>.</p>
+<p>Implemented in <a class="el" href="class_g_b_1_1_compound_sprite.html#a3100d767971af4422be6fbbed90677c8">GB::CompoundSprite</a>, <a class="el" href="class_g_b_1_1_animated_sprite.html#aac226862cb6fa62e6d28aa69e2bef352">GB::AnimatedSprite</a>, and <a class="el" href="class_g_b_1_1_game_region.html#a6d270f96488520ed8e8214752fbf0722">GB::GameRegion</a>.</p>
 
 </div>
 </div>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.4.0</span>
+   &#160;<span id="projectnumber">0.4.1</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -70,11 +70,11 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_g_b_1_1_basic_game_region-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">GB::BasicGameRegion Class Reference</div>  </div>
+<div class="title">GB::BasicGameRegion Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Base class meant to be inherited. Controls game logic and actors for a specific time or space in game.  
+<p>Abstract class providing an interface to control game logic and actors for a specific time or space in game.  
  <a href="class_g_b_1_1_basic_game_region.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_basic_game_region_8h_source.html">BasicGameRegion.h</a>&gt;</code></p>
@@ -84,124 +84,247 @@ Inheritance diagram for GB::BasicGameRegion:</div>
  <div class="center">
   <img src="class_g_b_1_1_basic_game_region.png" usemap="#GB::BasicGameRegion_map" alt=""/>
   <map id="GB::BasicGameRegion_map" name="GB::BasicGameRegion_map">
-<area href="class_g_b_1_1_updatable.html" title="Abstract class meant to be inherited. Class that is capable of being updated. " alt="GB::Updatable" shape="rect" coords="147,0,284,24"/>
-<area href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..." alt="GB::GameRegion" shape="rect" coords="73,112,210,136"/>
+<area href="class_g_b_1_1_updatable.html" title="Interface representing objects that are capable of being updated over time. " alt="GB::Updatable" shape="rect" coords="147,0,284,24"/>
+<area href="class_g_b_1_1_input_handler.html" title="Interface for consuming user input produced by the GB event loop. " alt="GB::InputHandler" shape="rect" coords="294,0,431,24"/>
+<area href="class_g_b_1_1_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game..." alt="GB::GameRegion" shape="rect" coords="147,112,284,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a8c551931421810cc67dcdb414375271d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a8c551931421810cc67dcdb414375271d">Ptr</a> = std::shared_ptr&lt; <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &gt;</td></tr>
-<tr class="memdesc:a8c551931421810cc67dcdb414375271d"><td class="mdescLeft">&#160;</td><td class="mdescRight">shared_ptr to <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">BasicGameRegion</a> <a href="#a8c551931421810cc67dcdb414375271d">More...</a><br /></td></tr>
+<tr class="memitem:a8c551931421810cc67dcdb414375271d"><td class="memItemLeft" align="right" valign="top"><a id="a8c551931421810cc67dcdb414375271d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a8c551931421810cc67dcdb414375271d">Ptr</a> = std::shared_ptr&lt; <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &gt;</td></tr>
+<tr class="memdesc:a8c551931421810cc67dcdb414375271d"><td class="mdescLeft">&#160;</td><td class="mdescRight">shared_ptr to <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> <br /></td></tr>
 <tr class="separator:a8c551931421810cc67dcdb414375271d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad51a2e69f738466974a674d6766c3a4d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#ad51a2e69f738466974a674d6766c3a4d">BasicGameRegion</a> ()</td></tr>
-<tr class="memdesc:ad51a2e69f738466974a674d6766c3a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">BasicGameRegion</a> class.  <a href="#ad51a2e69f738466974a674d6766c3a4d">More...</a><br /></td></tr>
+<tr class="memitem:ad51a2e69f738466974a674d6766c3a4d"><td class="memItemLeft" align="right" valign="top"><a id="ad51a2e69f738466974a674d6766c3a4d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#ad51a2e69f738466974a674d6766c3a4d">BasicGameRegion</a> ()</td></tr>
+<tr class="memdesc:ad51a2e69f738466974a674d6766c3a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the BasicGameRegionclass. <br /></td></tr>
 <tr class="separator:ad51a2e69f738466974a674d6766c3a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a990bfdec5e517ade12a2ef62abe973fd"><td class="memItemLeft" align="right" valign="top"><a id="a990bfdec5e517ade12a2ef62abe973fd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BasicGameRegion</b> (const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;)=default</td></tr>
+<tr class="memitem:a990bfdec5e517ade12a2ef62abe973fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a990bfdec5e517ade12a2ef62abe973fd">BasicGameRegion</a> (const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;)=default</td></tr>
+<tr class="memdesc:a990bfdec5e517ade12a2ef62abe973fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy construct a <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>.  <a href="#a990bfdec5e517ade12a2ef62abe973fd">More...</a><br /></td></tr>
 <tr class="separator:a990bfdec5e517ade12a2ef62abe973fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1230347a439ad6d2d9d9274a2a3f484d"><td class="memItemLeft" align="right" valign="top"><a id="a1230347a439ad6d2d9d9274a2a3f484d"></a>
-<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;)=default</td></tr>
+<tr class="memitem:a1230347a439ad6d2d9d9274a2a3f484d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a1230347a439ad6d2d9d9274a2a3f484d">operator=</a> (const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;)=default</td></tr>
+<tr class="memdesc:a1230347a439ad6d2d9d9274a2a3f484d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assign a <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>.  <a href="#a1230347a439ad6d2d9d9274a2a3f484d">More...</a><br /></td></tr>
 <tr class="separator:a1230347a439ad6d2d9d9274a2a3f484d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9e58462a026ff1b830a04092def8b16"><td class="memItemLeft" align="right" valign="top"><a id="aa9e58462a026ff1b830a04092def8b16"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BasicGameRegion</b> (<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memitem:aa9e58462a026ff1b830a04092def8b16"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#aa9e58462a026ff1b830a04092def8b16">BasicGameRegion</a> (<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:aa9e58462a026ff1b830a04092def8b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move Construct a <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>.  <a href="#aa9e58462a026ff1b830a04092def8b16">More...</a><br /></td></tr>
 <tr class="separator:aa9e58462a026ff1b830a04092def8b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a239d9844ab7cbcad16597afa53eb37ac"><td class="memItemLeft" align="right" valign="top"><a id="a239d9844ab7cbcad16597afa53eb37ac"></a>
-<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memitem:a239d9844ab7cbcad16597afa53eb37ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a239d9844ab7cbcad16597afa53eb37ac">operator=</a> (<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="memdesc:a239d9844ab7cbcad16597afa53eb37ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assign a basicGameRegion.  <a href="#a239d9844ab7cbcad16597afa53eb37ac">More...</a><br /></td></tr>
 <tr class="separator:a239d9844ab7cbcad16597afa53eb37ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fe61920dfec3a852f0dd889fabb2f4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a8fe61920dfec3a852f0dd889fabb2f4e">getNextRegion</a> ()</td></tr>
-<tr class="memdesc:a8fe61920dfec3a852f0dd889fabb2f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the game region that should become active after the next update of this one.  <a href="#a8fe61920dfec3a852f0dd889fabb2f4e">More...</a><br /></td></tr>
+<tr class="memitem:a17458a856f38528e3b8451f6e30e5027"><td class="memItemLeft" align="right" valign="top"><a id="a17458a856f38528e3b8451f6e30e5027"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a17458a856f38528e3b8451f6e30e5027">~BasicGameRegion</a> ()=default</td></tr>
+<tr class="memdesc:a17458a856f38528e3b8451f6e30e5027"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy this <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>. <br /></td></tr>
+<tr class="separator:a17458a856f38528e3b8451f6e30e5027"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fe61920dfec3a852f0dd889fabb2f4e"><td class="memItemLeft" align="right" valign="top"><a id="a8fe61920dfec3a852f0dd889fabb2f4e"></a>
+<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a8fe61920dfec3a852f0dd889fabb2f4e">getNextRegion</a> ()</td></tr>
+<tr class="memdesc:a8fe61920dfec3a852f0dd889fabb2f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the game region that should become active after the next update of this one. Defaults to this instance. <br /></td></tr>
 <tr class="separator:a8fe61920dfec3a852f0dd889fabb2f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae898dac89f653aa5bdffc5d930629efc"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#ae898dac89f653aa5bdffc5d930629efc">getNextRegion</a> () const</td></tr>
-<tr class="memdesc:ae898dac89f653aa5bdffc5d930629efc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The game region that should become active after the next update of this one.  <a href="#ae898dac89f653aa5bdffc5d930629efc">More...</a><br /></td></tr>
+<tr class="memitem:ae898dac89f653aa5bdffc5d930629efc"><td class="memItemLeft" align="right" valign="top"><a id="ae898dac89f653aa5bdffc5d930629efc"></a>
+const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#ae898dac89f653aa5bdffc5d930629efc">getNextRegion</a> () const</td></tr>
+<tr class="memdesc:ae898dac89f653aa5bdffc5d930629efc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The region that should become active after the next update of this one. <br /></td></tr>
 <tr class="separator:ae898dac89f653aa5bdffc5d930629efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a929d3c4dcd5026695a34ff2d8a7ce18d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#a929d3c4dcd5026695a34ff2d8a7ce18d">setNextRegion</a> (<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;nextRegion)</td></tr>
-<tr class="memdesc:a929d3c4dcd5026695a34ff2d8a7ce18d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">BasicGameRegion</a> that should become active after the next update of this one.  <a href="#a929d3c4dcd5026695a34ff2d8a7ce18d">More...</a><br /></td></tr>
+<tr class="memdesc:a929d3c4dcd5026695a34ff2d8a7ce18d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> that should become active after the next update of this one.  <a href="#a929d3c4dcd5026695a34ff2d8a7ce18d">More...</a><br /></td></tr>
 <tr class="separator:a929d3c4dcd5026695a34ff2d8a7ce18d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad89a01c35f2752734b0a0fac5b94effe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_basic_game_region.html#ad89a01c35f2752734b0a0fac5b94effe">update</a> (sf::Int64) override</td></tr>
-<tr class="memdesc:ad89a01c35f2752734b0a0fac5b94effe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements <a class="el" href="class_g_b_1_1_updatable.html#abe29c14213fb79daf47a66d33d17bfec" title="Updates the instance.">Updatable::update</a> as a no-op.  <a href="#ad89a01c35f2752734b0a0fac5b94effe">More...</a><br /></td></tr>
-<tr class="separator:ad89a01c35f2752734b0a0fac5b94effe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe29c14213fb79daf47a66d33d17bfec"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_updatable.html#abe29c14213fb79daf47a66d33d17bfec">update</a> (sf::Int64 elapsedTime)=0</td></tr>
+<tr class="memdesc:abe29c14213fb79daf47a66d33d17bfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the instance.  <a href="#abe29c14213fb79daf47a66d33d17bfec">More...</a><br /></td></tr>
+<tr class="separator:abe29c14213fb79daf47a66d33d17bfec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50007416e4678fa9ed240602ef192abd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_input_handler.html#a50007416e4678fa9ed240602ef192abd">handleEvent</a> (sf::Int64 elapsedTime, const sf::Event &amp;event)=0</td></tr>
+<tr class="memdesc:a50007416e4678fa9ed240602ef192abd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle and optionally consume a user event.  <a href="#a50007416e4678fa9ed240602ef192abd">More...</a><br /></td></tr>
+<tr class="separator:a50007416e4678fa9ed240602ef192abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base class meant to be inherited. Controls game logic and actors for a specific time or space in game. </p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a8c551931421810cc67dcdb414375271d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c551931421810cc67dcdb414375271d">&#9670;&nbsp;</a></span>Ptr</h2>
+<div class="textblock"><p>Abstract class providing an interface to control game logic and actors for a specific time or space in game. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a990bfdec5e517ade12a2ef62abe973fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a990bfdec5e517ade12a2ef62abe973fd">&#9670;&nbsp;</a></span>BasicGameRegion() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="class_g_b_1_1_basic_game_region.html#a8c551931421810cc67dcdb414375271d">GB::BasicGameRegion::Ptr</a> =  std::shared_ptr&lt;<a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a>&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>shared_ptr to <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">BasicGameRegion</a></p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad51a2e69f738466974a674d6766c3a4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad51a2e69f738466974a674d6766c3a4d">&#9670;&nbsp;</a></span>BasicGameRegion()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BasicGameRegion::BasicGameRegion </td>
+          <td class="memname">GB::BasicGameRegion::BasicGameRegion </td>
           <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">BasicGameRegion</a> class. </p>
+<p>Copy construct a <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td><a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> to copy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa9e58462a026ff1b830a04092def8b16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9e58462a026ff1b830a04092def8b16">&#9670;&nbsp;</a></span>BasicGameRegion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GB::BasicGameRegion::BasicGameRegion </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move Construct a <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td><a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> to move </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to this instance </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8fe61920dfec3a852f0dd889fabb2f4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fe61920dfec3a852f0dd889fabb2f4e">&#9670;&nbsp;</a></span>getNextRegion() <span class="overload">[1/2]</span></h2>
+<a id="a50007416e4678fa9ed240602ef192abd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50007416e4678fa9ed240602ef192abd">&#9670;&nbsp;</a></span>handleEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp; BasicGameRegion::getNextRegion </td>
+          <td class="memname">virtual bool GB::InputHandler::handleEvent </td>
           <td>(</td>
+          <td class="paramtype">sf::Int64&#160;</td>
+          <td class="paramname"><em>elapsedTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sf::Event &amp;&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle and optionally consume a user event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elapsedTime</td><td>The time since the last event was handled. </td></tr>
+    <tr><td class="paramname">event</td><td>The event to handle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the event was consumed and should not be handled by a different handler False otherwise. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_g_b_1_1_input_router.html#a72d355452d50afff92247cc880856a0e">GB::InputRouter&lt; Handlers &gt;</a>, <a class="el" href="class_g_b_1_1_button_gesture_handler.html#a38051380febef65df4358881b67effb8">GB::ButtonGestureHandler&lt; Signaler, &gt;</a>, <a class="el" href="class_g_b_1_1_input_recorder.html#a4b7140ea9151d47e56c811debbe48df0">GB::InputRecorder&lt; EventComparator, EventFilter,, &gt;</a>, and <a class="el" href="class_g_b_1_1_game_region.html#ae2573e603a9f23bafd9304246cc106fb">GB::GameRegion</a>.</p>
+
+</div>
+</div>
+<a id="a1230347a439ad6d2d9d9274a2a3f484d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1230347a439ad6d2d9d9274a2a3f484d">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a>&amp; GB::BasicGameRegion::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Gets the game region that should become active after the next update of this one. </p>
-<dl class="section return"><dt>Returns</dt><dd>The region that should become active after the next update of this one.</dd></dl>
+<p>Copy assign a <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td><a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> to copy </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to this instance </dd></dl>
 
 </div>
 </div>
-<a id="ae898dac89f653aa5bdffc5d930629efc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae898dac89f653aa5bdffc5d930629efc">&#9670;&nbsp;</a></span>getNextRegion() <span class="overload">[2/2]</span></h2>
+<a id="a239d9844ab7cbcad16597afa53eb37ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a239d9844ab7cbcad16597afa53eb37ac">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp; BasicGameRegion::getNextRegion </td>
+          <td class="memname"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a>&amp; GB::BasicGameRegion::operator= </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="class_g_b_1_1_basic_game_region.html">BasicGameRegion</a> &amp;&amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>The game region that should become active after the next update of this one. </p>
-<dl class="section return"><dt>Returns</dt><dd>The region that should become active after the next update of this one.</dd></dl>
+<p>Move assign a basicGameRegion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td><a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> to move </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to this </dd></dl>
 
 </div>
 </div>
@@ -221,18 +344,18 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Base class meant to be inherited. Controls game logic and actors for a specific time or space in game...">BasicGameRegion</a> that should become active after the next update of this one. </p>
+<p>Sets the <a class="el" href="class_g_b_1_1_basic_game_region.html" title="Abstract class providing an interface to control game logic and actors for a specific time or space i...">BasicGameRegion</a> that should become active after the next update of this one. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">nextRegion</td><td>The region that should become active after the next update of this one.</td></tr>
+    <tr><td class="paramname">nextRegion</td><td>The region that should become active. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ad89a01c35f2752734b0a0fac5b94effe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad89a01c35f2752734b0a0fac5b94effe">&#9670;&nbsp;</a></span>update()</h2>
+<a id="abe29c14213fb79daf47a66d33d17bfec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe29c14213fb79daf47a66d33d17bfec">&#9670;&nbsp;</a></span>update()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,31 +364,29 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GB::BasicGameRegion::update </td>
+          <td class="memname">virtual void GB::Updatable::update </td>
           <td>(</td>
           <td class="paramtype">sf::Int64&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>elapsedTime</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_g_b_1_1_updatable.html#abe29c14213fb79daf47a66d33d17bfec" title="Updates the instance.">Updatable::update</a> as a no-op. </p>
+<p>Updates the instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">elapsedTime</td><td></td></tr>
+    <tr><td class="paramname">elapsedTime</td><td>Time (in microseconds) since the instance was last updated. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_g_b_1_1_updatable.html#abe29c14213fb79daf47a66d33d17bfec">GB::Updatable</a>.</p>
-
-<p>Reimplemented in <a class="el" href="class_g_b_1_1_game_region.html#a6d270f96488520ed8e8214752fbf0722">GB::GameRegion</a>.</p>
+<p>Implemented in <a class="el" href="class_g_b_1_1_compound_sprite.html#a3100d767971af4422be6fbbed90677c8">GB::CompoundSprite</a>, <a class="el" href="class_g_b_1_1_animated_sprite.html#aac226862cb6fa62e6d28aa69e2bef352">GB::AnimatedSprite</a>, and <a class="el" href="class_g_b_1_1_game_region.html#a6d270f96488520ed8e8214752fbf0722">GB::GameRegion</a>.</p>
 
 </div>
 </div>

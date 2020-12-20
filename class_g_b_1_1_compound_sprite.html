@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="Backbone2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GameBackbone
-   &#160;<span id="projectnumber">0.4.0</span>
+   &#160;<span id="projectnumber">0.4.1</span>
    </div>
    <div id="projectbrief">Framework for developing 2D video games.</div>
   </td>
@@ -67,6 +67,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="class_g_b_1_1_compound_sprite-members.html">List of all members</a>  </div>
@@ -85,46 +86,90 @@ Inheritance diagram for GB::CompoundSprite:</div>
  <div class="center">
   <img src="class_g_b_1_1_compound_sprite.png" usemap="#GB::CompoundSprite_map" alt=""/>
   <map id="GB::CompoundSprite_map" name="GB::CompoundSprite_map">
-<area href="class_g_b_1_1_updatable.html" title="Abstract class meant to be inherited. Class that is capable of being updated. " alt="GB::Updatable" shape="rect" coords="0,0,128,24"/>
+<area href="class_g_b_1_1_updatable.html" title="Interface representing objects that are capable of being updated over time. " alt="GB::Updatable" shape="rect" coords="0,0,128,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html">ComponentWrapper</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that a Component's data in <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> is stored as. This is a type erased class and works using virtual calls to forward the necessary functions.  <a href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ac04aec93a2b144e3e2a48b0d5ceb17ac"><td class="memItemLeft" align="right" valign="top"><a id="ac04aec93a2b144e3e2a48b0d5ceb17ac"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>iterator</b> = std::multimap&lt; int, std::unique_ptr&lt; <a class="el" href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html">ComponentWrapper</a> &gt; &gt;::iterator</td></tr>
+<tr class="separator:ac04aec93a2b144e3e2a48b0d5ceb17ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab02a72ba02de11d0562fc9f0fa89afec"><td class="memItemLeft" align="right" valign="top"><a id="ab02a72ba02de11d0562fc9f0fa89afec"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b> = std::multimap&lt; int, std::unique_ptr&lt; <a class="el" href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html">ComponentWrapper</a> &gt; &gt;::const_iterator</td></tr>
+<tr class="separator:ab02a72ba02de11d0562fc9f0fa89afec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8a7ede8089698776abbeb0aa2d51fc9b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a8a7ede8089698776abbeb0aa2d51fc9b">CompoundSprite</a> ()</td></tr>
-<tr class="memdesc:a8a7ede8089698776abbeb0aa2d51fc9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> has no components and is located at (0,0).  <a href="#a8a7ede8089698776abbeb0aa2d51fc9b">More...</a><br /></td></tr>
+<tr class="memitem:a8a7ede8089698776abbeb0aa2d51fc9b"><td class="memItemLeft" align="right" valign="top"><a id="a8a7ede8089698776abbeb0aa2d51fc9b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a8a7ede8089698776abbeb0aa2d51fc9b">CompoundSprite</a> ()</td></tr>
+<tr class="memdesc:a8a7ede8089698776abbeb0aa2d51fc9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> has no components and is located at (0,0). <br /></td></tr>
 <tr class="separator:a8a7ede8089698776abbeb0aa2d51fc9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bac703335b981276bf8052aeba9868f"><td class="memTemplParams" colspan="2">template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; Components... &gt;, bool &gt;  = true&gt; </td></tr>
 <tr class="memitem:a2bac703335b981276bf8052aeba9868f"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a2bac703335b981276bf8052aeba9868f">CompoundSprite</a> (int priority, Components... componentsToAdd)</td></tr>
-<tr class="memdesc:a2bac703335b981276bf8052aeba9868f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the /<a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The passed in Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The position of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> is (0,0).  <a href="#a2bac703335b981276bf8052aeba9868f">More...</a><br /></td></tr>
+<tr class="memdesc:a2bac703335b981276bf8052aeba9868f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The passed in Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The position of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> is (0,0).  <a href="#a2bac703335b981276bf8052aeba9868f">More...</a><br /></td></tr>
 <tr class="separator:a2bac703335b981276bf8052aeba9868f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a423d7033f38e7f77c0630ae38531a314"><td class="memTemplParams" colspan="2">template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; Components... &gt;, bool &gt;  = true&gt; </td></tr>
 <tr class="memitem:a423d7033f38e7f77c0630ae38531a314"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a423d7033f38e7f77c0630ae38531a314">CompoundSprite</a> (sf::Vector2f position, int priority, Components... componentsToAdd)</td></tr>
-<tr class="memdesc:a423d7033f38e7f77c0630ae38531a314"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The passed in Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. Initializes the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to the passed position.  <a href="#a423d7033f38e7f77c0630ae38531a314">More...</a><br /></td></tr>
+<tr class="memdesc:a423d7033f38e7f77c0630ae38531a314"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The provided Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> at the given priority. Initializes the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to the passed position.  <a href="#a423d7033f38e7f77c0630ae38531a314">More...</a><br /></td></tr>
 <tr class="separator:a423d7033f38e7f77c0630ae38531a314"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a495d693b3d3e335ab2e5f54c48bc4c5d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a495d693b3d3e335ab2e5f54c48bc4c5d">CompoundSprite</a> (sf::Vector2f position)</td></tr>
 <tr class="memdesc:a495d693b3d3e335ab2e5f54c48bc4c5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. Sets the initial position of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to the passed value.  <a href="#a495d693b3d3e335ab2e5f54c48bc4c5d">More...</a><br /></td></tr>
 <tr class="separator:a495d693b3d3e335ab2e5f54c48bc4c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57e5868b9ae9be1b88abf93212720715"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a57e5868b9ae9be1b88abf93212720715">CompoundSprite</a> (const <a class="el" href="class_g_b_1_1_compound_sprite.html">CompoundSprite</a> &amp;other)</td></tr>
-<tr class="memdesc:a57e5868b9ae9be1b88abf93212720715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The copy constructor is needed to copy the internal vector.  <a href="#a57e5868b9ae9be1b88abf93212720715">More...</a><br /></td></tr>
+<tr class="memdesc:a57e5868b9ae9be1b88abf93212720715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class.  <a href="#a57e5868b9ae9be1b88abf93212720715">More...</a><br /></td></tr>
 <tr class="separator:a57e5868b9ae9be1b88abf93212720715"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2efc97c77f1abf73212fc66f26df74e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_g_b_1_1_compound_sprite.html">CompoundSprite</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#ad2efc97c77f1abf73212fc66f26df74e">operator=</a> (const <a class="el" href="class_g_b_1_1_compound_sprite.html">CompoundSprite</a> &amp;other)</td></tr>
 <tr class="memdesc:ad2efc97c77f1abf73212fc66f26df74e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator for the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class.  <a href="#ad2efc97c77f1abf73212fc66f26df74e">More...</a><br /></td></tr>
 <tr class="separator:ad2efc97c77f1abf73212fc66f26df74e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a925cf29589fe3ff6ca430d69dfaa16ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a925cf29589fe3ff6ca430d69dfaa16ef">CompoundSprite</a> (<a class="el" href="class_g_b_1_1_compound_sprite.html">CompoundSprite</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:a925cf29589fe3ff6ca430d69dfaa16ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The move constructor is needed to move the internal vector and copy the sf::Transformable members.  <a href="#a925cf29589fe3ff6ca430d69dfaa16ef">More...</a><br /></td></tr>
+<tr class="memdesc:a925cf29589fe3ff6ca430d69dfaa16ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move construct a <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The new <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> takes ownership of the Components of the moved from <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>.  <a href="#a925cf29589fe3ff6ca430d69dfaa16ef">More...</a><br /></td></tr>
 <tr class="separator:a925cf29589fe3ff6ca430d69dfaa16ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90ba33d1a57476589d9b6cbe25006fc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_g_b_1_1_compound_sprite.html">CompoundSprite</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a90ba33d1a57476589d9b6cbe25006fc3">operator=</a> (<a class="el" href="class_g_b_1_1_compound_sprite.html">CompoundSprite</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:a90ba33d1a57476589d9b6cbe25006fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator for the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class.  <a href="#a90ba33d1a57476589d9b6cbe25006fc3">More...</a><br /></td></tr>
+<tr class="memdesc:a90ba33d1a57476589d9b6cbe25006fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assign a <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The new <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> takes ownership of the components of the moved from <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>.  <a href="#a90ba33d1a57476589d9b6cbe25006fc3">More...</a><br /></td></tr>
 <tr class="separator:a90ba33d1a57476589d9b6cbe25006fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf01bf1f3f0d8651ef198d712f3c3724"><td class="memItemLeft" align="right" valign="top"><a id="abf01bf1f3f0d8651ef198d712f3c3724"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#abf01bf1f3f0d8651ef198d712f3c3724">~CompoundSprite</a> ()=default</td></tr>
+<tr class="memdesc:abf01bf1f3f0d8651ef198d712f3c3724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy this <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. <br /></td></tr>
+<tr class="separator:abf01bf1f3f0d8651ef198d712f3c3724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a333dad6a757b1b5182580ca5c59f712c"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a333dad6a757b1b5182580ca5c59f712c">getComponentCount</a> () const</td></tr>
-<tr class="memdesc:a333dad6a757b1b5182580ca5c59f712c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the count of Sprite components.  <a href="#a333dad6a757b1b5182580ca5c59f712c">More...</a><br /></td></tr>
+<tr class="memdesc:a333dad6a757b1b5182580ca5c59f712c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of components owned by the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>.  <a href="#a333dad6a757b1b5182580ca5c59f712c">More...</a><br /></td></tr>
 <tr class="separator:a333dad6a757b1b5182580ca5c59f712c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6075ac52a2bcf793f78d0d90713f478c"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a6075ac52a2bcf793f78d0d90713f478c">getComponentCount</a> (int priority) const</td></tr>
-<tr class="memdesc:a6075ac52a2bcf793f78d0d90713f478c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the count of Sprite components for a given priority.  <a href="#a6075ac52a2bcf793f78d0d90713f478c">More...</a><br /></td></tr>
+<tr class="memdesc:a6075ac52a2bcf793f78d0d90713f478c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of components owned by the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> with a given priority.  <a href="#a6075ac52a2bcf793f78d0d90713f478c">More...</a><br /></td></tr>
 <tr class="separator:a6075ac52a2bcf793f78d0d90713f478c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adeafecf7f7954bd1cbcaa6babd1a37d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#adeafecf7f7954bd1cbcaa6babd1a37d3">isEmpty</a> () const</td></tr>
-<tr class="memdesc:adeafecf7f7954bd1cbcaa6babd1a37d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if this <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> holds no components. False otherwise. <a href="#adeafecf7f7954bd1cbcaa6babd1a37d3">More...</a><br /></td></tr>
+<tr class="memitem:a278c01f6edff6327051b2af18fd51923"><td class="memItemLeft" align="right" valign="top"><a id="a278c01f6edff6327051b2af18fd51923"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a278c01f6edff6327051b2af18fd51923">getComponentPriorties</a> ()</td></tr>
+<tr class="memdesc:a278c01f6edff6327051b2af18fd51923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of all prioties within the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. <br /></td></tr>
+<tr class="separator:a278c01f6edff6327051b2af18fd51923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cceb6e2e6e3035ca28001004428c7c4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html">ComponentWrapper</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a3cceb6e2e6e3035ca28001004428c7c4">getComponentsWithPriorty</a> (int priority)</td></tr>
+<tr class="memdesc:a3cceb6e2e6e3035ca28001004428c7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all Components for a given priority.  <a href="#a3cceb6e2e6e3035ca28001004428c7c4">More...</a><br /></td></tr>
+<tr class="separator:a3cceb6e2e6e3035ca28001004428c7c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df0fd0e55951bbe691e564b45d4b970"><td class="memItemLeft" align="right" valign="top"><a id="a2df0fd0e55951bbe691e564b45d4b970"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a2df0fd0e55951bbe691e564b45d4b970">begin</a> ()</td></tr>
+<tr class="memdesc:a2df0fd0e55951bbe691e564b45d4b970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an iterator to the beginning of the Components. <br /></td></tr>
+<tr class="separator:a2df0fd0e55951bbe691e564b45d4b970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ffa11805b904f3555de77ae3a46830e"><td class="memItemLeft" align="right" valign="top"><a id="a9ffa11805b904f3555de77ae3a46830e"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a9ffa11805b904f3555de77ae3a46830e">end</a> ()</td></tr>
+<tr class="memdesc:a9ffa11805b904f3555de77ae3a46830e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an iterator to the end of the Components. <br /></td></tr>
+<tr class="separator:a9ffa11805b904f3555de77ae3a46830e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94cb6bb6add30150ec8de3849f1705bb"><td class="memItemLeft" align="right" valign="top"><a id="a94cb6bb6add30150ec8de3849f1705bb"></a>
+const const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a94cb6bb6add30150ec8de3849f1705bb">cbegin</a> ()</td></tr>
+<tr class="memdesc:a94cb6bb6add30150ec8de3849f1705bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a const_iterator to the beginning of the Components. <br /></td></tr>
+<tr class="separator:a94cb6bb6add30150ec8de3849f1705bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95546ae4c51375aba627dd81c9062983"><td class="memItemLeft" align="right" valign="top"><a id="a95546ae4c51375aba627dd81c9062983"></a>
+const const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a95546ae4c51375aba627dd81c9062983">cend</a> ()</td></tr>
+<tr class="memdesc:a95546ae4c51375aba627dd81c9062983"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a const_iterator to the end of the Components. <br /></td></tr>
+<tr class="separator:a95546ae4c51375aba627dd81c9062983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeafecf7f7954bd1cbcaa6babd1a37d3"><td class="memItemLeft" align="right" valign="top"><a id="adeafecf7f7954bd1cbcaa6babd1a37d3"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#adeafecf7f7954bd1cbcaa6babd1a37d3">isEmpty</a> () const</td></tr>
+<tr class="memdesc:adeafecf7f7954bd1cbcaa6babd1a37d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if this <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> holds no components. False otherwise. <br /></td></tr>
 <tr class="separator:adeafecf7f7954bd1cbcaa6babd1a37d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9751db65e776608db017692841ee808"><td class="memTemplParams" colspan="2">template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component &gt;, bool &gt;  = true&gt; </td></tr>
 <tr class="memitem:ab9751db65e776608db017692841ee808"><td class="memTemplItemLeft" align="right" valign="top">Component &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#ab9751db65e776608db017692841ee808">addComponent</a> (int priority, Component component)</td></tr>
@@ -132,10 +177,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab9751db65e776608db017692841ee808"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a115fefb542908835fb03a26542dfae5a"><td class="memTemplParams" colspan="2">template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component &gt;, bool &gt;  = true&gt; </td></tr>
 <tr class="memitem:a115fefb542908835fb03a26542dfae5a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a115fefb542908835fb03a26542dfae5a">removeComponent</a> (Component &amp;componentToRemove)</td></tr>
-<tr class="memdesc:a115fefb542908835fb03a26542dfae5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the component from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. This invalidates all indices returned by addComponent  <a href="#a115fefb542908835fb03a26542dfae5a">More...</a><br /></td></tr>
+<tr class="memdesc:a115fefb542908835fb03a26542dfae5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the component from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. This invalidates all indices returned by addComponent.  <a href="#a115fefb542908835fb03a26542dfae5a">More...</a><br /></td></tr>
 <tr class="separator:a115fefb542908835fb03a26542dfae5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5425526371c2c00586b757f93770edc4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a5425526371c2c00586b757f93770edc4">clearComponents</a> ()</td></tr>
-<tr class="memdesc:a5425526371c2c00586b757f93770edc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all components from the compound sprite  <a href="#a5425526371c2c00586b757f93770edc4">More...</a><br /></td></tr>
+<tr class="memitem:a5425526371c2c00586b757f93770edc4"><td class="memItemLeft" align="right" valign="top"><a id="a5425526371c2c00586b757f93770edc4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#a5425526371c2c00586b757f93770edc4">clearComponents</a> ()</td></tr>
+<tr class="memdesc:a5425526371c2c00586b757f93770edc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all components from the compound sprite. <br /></td></tr>
 <tr class="separator:a5425526371c2c00586b757f93770edc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbe2fafe867050deb27b49b0dd9e17ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_b_1_1_compound_sprite.html#adbe2fafe867050deb27b49b0dd9e17ce">setPosition</a> (float x, float y)</td></tr>
 <tr class="memdesc:adbe2fafe867050deb27b49b0dd9e17ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the position.  <a href="#adbe2fafe867050deb27b49b0dd9e17ce">More...</a><br /></td></tr>
@@ -186,35 +232,8 @@ Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Controls several sf::Drawable and sf::Transformable Components as one logical unit. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8a7ede8089698776abbeb0aa2d51fc9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a7ede8089698776abbeb0aa2d51fc9b">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[1/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">GB::CompoundSprite::CompoundSprite </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> has no components and is located at (0,0). </p>
-
-</div>
-</div>
 <a id="a2bac703335b981276bf8052aeba9868f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bac703335b981276bf8052aeba9868f">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bac703335b981276bf8052aeba9868f">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,10 +268,17 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the /<a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The passed in Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The position of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> is (0,0). </p>
+<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The passed in Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The position of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> is (0,0). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...Components</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">componentsToAdd</td><td>The components.</td></tr>
+    <tr><td class="paramname">priority</td><td>The priority of the added components. Higher priority components will be drawn on top of components with lower priority. </td></tr>
+    <tr><td class="paramname">...componentsToAdd</td><td>The components. </td></tr>
   </table>
   </dd>
 </dl>
@@ -260,7 +286,7 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </div>
 </div>
 <a id="a423d7033f38e7f77c0630ae38531a314"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a423d7033f38e7f77c0630ae38531a314">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a423d7033f38e7f77c0630ae38531a314">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,11 +327,18 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The passed in Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. Initializes the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to the passed position. </p>
+<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The provided Components are added to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> at the given priority. Initializes the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to the passed position. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...Components</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">position</td><td>The position.</td></tr>
-    <tr><td class="paramname">componentsToAdd</td><td>The components.</td></tr>
+    <tr><td class="paramname">position</td><td>The position. </td></tr>
+    <tr><td class="paramname">priority</td><td>The priority of the added components. Higher priority components will be drawn on top of components with lower priority. </td></tr>
+    <tr><td class="paramname">...componentsToAdd</td><td>The components. </td></tr>
   </table>
   </dd>
 </dl>
@@ -313,7 +346,7 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </div>
 </div>
 <a id="a495d693b3d3e335ab2e5f54c48bc4c5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a495d693b3d3e335ab2e5f54c48bc4c5d">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a495d693b3d3e335ab2e5f54c48bc4c5d">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,7 +372,7 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 <p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. Sets the initial position of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to the passed value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">initialPosition</td><td>The initial position.</td></tr>
+    <tr><td class="paramname">position</td><td>The initial position. </td></tr>
   </table>
   </dd>
 </dl>
@@ -347,7 +380,7 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </div>
 </div>
 <a id="a57e5868b9ae9be1b88abf93212720715"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57e5868b9ae9be1b88abf93212720715">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a57e5868b9ae9be1b88abf93212720715">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,10 +395,10 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
       </table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The copy constructor is needed to copy the internal vector. </p>
+<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>The other <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> that is being copied.</td></tr>
+    <tr><td class="paramname">other</td><td>The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to copy </td></tr>
   </table>
   </dd>
 </dl>
@@ -373,7 +406,7 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </div>
 </div>
 <a id="a925cf29589fe3ff6ca430d69dfaa16ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a925cf29589fe3ff6ca430d69dfaa16ef">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a925cf29589fe3ff6ca430d69dfaa16ef">&#9670;&nbsp;</a></span>CompoundSprite() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -396,10 +429,10 @@ template&lt;class... Components, std::enable_if_t&lt; are_all_components_v&lt; C
 </table>
 </div><div class="memdoc">
 
-<p>Initializes a new instance of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. The move constructor is needed to move the internal vector and copy the sf::Transformable members. </p>
+<p>Move construct a <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The new <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> takes ownership of the Components of the moved from <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>The other <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> that is being moved.</td></tr>
+    <tr><td class="paramname">other</td><td>The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> being moved. </td></tr>
   </table>
   </dd>
 </dl>
@@ -444,39 +477,20 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 </div><div class="memdoc">
 
 <p>Adds the passed in Component to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and returns a reference to it. The position stays the same on screen and the origin is set to the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>'s origin. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td>The other <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> that is being copied.</td></tr>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Component</td><td>A class that satisfies the requirements of is_component_v </td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a5425526371c2c00586b757f93770edc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5425526371c2c00586b757f93770edc4">&#9670;&nbsp;</a></span>clearComponents()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CompoundSprite::clearComponents </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Removes all components from the compound sprite </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">priority</td><td>The priority of the added component. Higher priority components will be drawn on top of components with lower priority. </td></tr>
+    <tr><td class="paramname">component</td><td>The component to add. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the added component. </dd></dl>
 
 </div>
 </div>
@@ -540,8 +554,8 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
       </table>
 </div><div class="memdoc">
 
-<p>Gets the count of Sprite components. </p>
-<p>&lt;return&gt; The count of sprite components. &lt;/return&gt; </p>
+<p>Gets the number of components owned by the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of components owned by the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> </dd></dl>
 
 </div>
 </div>
@@ -561,33 +575,40 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
       </table>
 </div><div class="memdoc">
 
-<p>Gets the count of Sprite components for a given priority. </p>
+<p>Gets the number of components owned by the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> with a given priority. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">priority</td><td>The priority to check.</td></tr>
+    <tr><td class="paramname">priority</td><td>The priority. </td></tr>
   </table>
   </dd>
 </dl>
-<p>&lt;return&gt; The count of sprite components. &lt;/return&gt; </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of components owned by the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> with the given priority. </dd></dl>
 
 </div>
 </div>
-<a id="adeafecf7f7954bd1cbcaa6babd1a37d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adeafecf7f7954bd1cbcaa6babd1a37d3">&#9670;&nbsp;</a></span>isEmpty()</h2>
+<a id="a3cceb6e2e6e3035ca28001004428c7c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cceb6e2e6e3035ca28001004428c7c4">&#9670;&nbsp;</a></span>getComponentsWithPriorty()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CompoundSprite::isEmpty </td>
+          <td class="memname">std::vector&lt; <a class="el" href="class_g_b_1_1_compound_sprite_1_1_component_wrapper.html">CompoundSprite::ComponentWrapper</a> * &gt; CompoundSprite::getComponentsWithPriorty </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>priority</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>True if this <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> holds no components. False otherwise.</p>
+<p>Returns all Components for a given priority. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">priority</td><td>The priority of the Components to get </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -620,8 +641,8 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Moves the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components by the same offset. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offsetX</td><td>The offset x.</td></tr>
-    <tr><td class="paramname">offsetY</td><td>The offset y.</td></tr>
+    <tr><td class="paramname">offsetX</td><td>The offset x. </td></tr>
+    <tr><td class="paramname">offsetY</td><td>The offset y. </td></tr>
   </table>
   </dd>
 </dl>
@@ -647,7 +668,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Moves the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components by the same offset. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offset</td><td>The offset.</td></tr>
+    <tr><td class="paramname">offset</td><td>The offset. </td></tr>
   </table>
   </dd>
 </dl>
@@ -673,10 +694,11 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Copy assignment operator for the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>The other <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> that is being copied.</td></tr>
+    <tr><td class="paramname">other</td><td>The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> to copy </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>this </dd></dl>
 
 </div>
 </div>
@@ -704,13 +726,14 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 </table>
 </div><div class="memdoc">
 
-<p>Move assignment operator for the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> class. </p>
+<p>Move assign a <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. The new <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> takes ownership of the components of the moved from <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>The other <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> that is being moved.</td></tr>
+    <tr><td class="paramname">other</td><td>The <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> being moved. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>this </dd></dl>
 
 </div>
 </div>
@@ -740,10 +763,16 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 </table>
 </div><div class="memdoc">
 
-<p>Removes the component from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. This invalidates all indices returned by addComponent </p>
+<p>Removes the component from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. This invalidates all indices returned by addComponent. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Component</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">component</td><td>The component to remove from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a></td></tr>
+    <tr><td class="paramname">componentToRemove</td><td>The component to remove from the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -769,7 +798,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Rotates the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. The components will rotate about the origin of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">angle</td><td>The offset to the current rotation.</td></tr>
+    <tr><td class="paramname">angle</td><td>The offset to the current rotation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -805,8 +834,8 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Scales the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">factorX</td><td>The horizontal scale factor.</td></tr>
-    <tr><td class="paramname">factorY</td><td>The vertical scale factor.</td></tr>
+    <tr><td class="paramname">factorX</td><td>The horizontal scale factor. </td></tr>
+    <tr><td class="paramname">factorY</td><td>The vertical scale factor. </td></tr>
   </table>
   </dd>
 </dl>
@@ -832,7 +861,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Scales the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">factor</td><td>The scale factors.</td></tr>
+    <tr><td class="paramname">factor</td><td>The scale factors. </td></tr>
   </table>
   </dd>
 </dl>
@@ -868,8 +897,8 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the origin of the compound sprite. Sets the origin of all components relative to the new origin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>The x coordinate of the new origin.</td></tr>
-    <tr><td class="paramname">y</td><td>The y coordinate of the new origin.</td></tr>
+    <tr><td class="paramname">x</td><td>The x coordinate of the new origin. </td></tr>
+    <tr><td class="paramname">y</td><td>The y coordinate of the new origin. </td></tr>
   </table>
   </dd>
 </dl>
@@ -895,7 +924,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the origin of the compound sprite. Sets the origin of all components relative to the new origin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">origin</td><td>The new position of the origin.</td></tr>
+    <tr><td class="paramname">origin</td><td>The new position of the origin. </td></tr>
   </table>
   </dd>
 </dl>
@@ -931,8 +960,8 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the position. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>The new x.</td></tr>
-    <tr><td class="paramname">y</td><td>The new y.</td></tr>
+    <tr><td class="paramname">x</td><td>The new x. </td></tr>
+    <tr><td class="paramname">y</td><td>The new y. </td></tr>
   </table>
   </dd>
 </dl>
@@ -958,7 +987,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the rotation of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. The components will rotate about the origin of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">val</td><td>The value.</td></tr>
+    <tr><td class="paramname">position</td><td>The value. </td></tr>
   </table>
   </dd>
 </dl>
@@ -984,7 +1013,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the rotation of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. The components will rotate about the origin of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">angle</td><td>Angle of rotation, in degrees.</td></tr>
+    <tr><td class="paramname">angle</td><td>Angle of rotation, in degrees. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1020,8 +1049,8 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the scale factor of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">factorX</td><td>The scale factor in the x direction.</td></tr>
-    <tr><td class="paramname">factorY</td><td>The scale factor in the y direction.</td></tr>
+    <tr><td class="paramname">factorX</td><td>The scale factor in the x direction. </td></tr>
+    <tr><td class="paramname">factorY</td><td>The scale factor in the y direction. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1047,7 +1076,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Sets the scale factor of the <a class="el" href="class_g_b_1_1_compound_sprite.html" title="Controls several sf::Drawable and sf::Transformable Components as one logical unit. ">CompoundSprite</a> and all of its components. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">factors</td><td>The new scale.</td></tr>
+    <tr><td class="paramname">factors</td><td>The new scale. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1081,7 +1110,7 @@ template&lt;class Component , std::enable_if_t&lt; is_component_v&lt; Component 
 <p>Updates each animated sprite in the compound sprite. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">elapsedTime</td><td>The elapsed time.</td></tr>
+    <tr><td class="paramname">elapsedTime</td><td>The elapsed time. </td></tr>
   </table>
   </dd>
 </dl>
