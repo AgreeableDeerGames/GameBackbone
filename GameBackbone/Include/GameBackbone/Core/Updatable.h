@@ -6,7 +6,7 @@
 
 namespace GB {
 
-	/// <summary> Abstract class meant to be inherited. Class that is capable of being updated. </summary>
+	/// @brief Interface representing objects that are capable of being updated over time.
 	class libGameBackbone Updatable {
 	public:
 		Updatable() = default;
@@ -16,8 +16,8 @@ namespace GB {
 		Updatable& operator=(Updatable&&) noexcept = default;
 		virtual ~Updatable() = default;
 
-		/// <summary>Updates the instance.</summary>
-		/// <param name="elapsedTime"> </param>
+		/// @brief Updates the instance.
+		/// @param elapsedTime Time (in microseconds) since the instance was last updated.
 		virtual void update(sf::Int64 elapsedTime) = 0;
 	};
 

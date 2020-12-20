@@ -2,8 +2,7 @@
 GameBackbone (GB) is a small, low-level library meant to accelerate the
 production of 2D video games. GB provides little to no gameplay logic and is
 simply meant to help remove long overhead times when starting a new 2D game.
-This narrow scope allows GB to maintain high performance and allows users of
-GB to maintain total control over their codebase.
+This narrow scope allows users of GB to maintain total control over their codebase.
 <br>
 <br>
 A good understanding of C++ is required to make use of GB. Game developers

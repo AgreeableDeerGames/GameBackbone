@@ -18,3 +18,4 @@ assignees: ''
 - [ ] Update User Manual
 - [ ] Update Consumer Template 
 - [ ] Update VCPKG
+- [ ] Update GitHub Actions
