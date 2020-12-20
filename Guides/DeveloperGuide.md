@@ -38,7 +38,7 @@ See [style guide](https://github.com/AgreeableDeerGames/GameBackbone/blob/master
 * [Download](https://visualstudio.microsoft.com/downloads/) Visual Studio 2019
 
 #### 3.1.1: Download C++
-Download the MSVC 14.25 toolset through the visual studio installer
+Download the latest C++ toolset through the visual studio installer
 
 #### 3.1.2: Download Extensions (optional) 
 It is recommended that you download the following additions to visual studio
@@ -60,7 +60,7 @@ Download the following extensions
 
 #### 3.2.2: CMake Settings
 Add "cmake.configureSettings": {} to your settings.json
-For every CMake option you want to set you should add another property to cmake.configureSettings. The properties follow the pattern "key":"value" where key is the CMake option that you want to set (without the -D) and value is the new value for the option. create a property for each of the [Recommended CMake Options](#5-recommended-cmake-options).
+For every CMake option you want to set you should add another property to cmake.configureSettings. The properties follow the pattern "key":"value" where key is the CMake option that you want to set (without the -D) and value is the new value for the option. create a property for each of the [Recommended CMake Options](#6-recommended-cmake-options).
 
 
 #### 3.2.3: Set Working Directory
@@ -89,13 +89,15 @@ Tests are automatically run by the GB CI on every push. If all tests pass a gree
 
 
 ### 4.1: Visual Studio
-Your options for running the unit tests from visual studio are:
+Your options for running the unit tests from Visual Studio are:
 * Download the boost test adapter and run the tests from there
 * Run the tests by launching the test project
 * Open a developer command prompt in the bin folder for the solution and launch the test executable from the command prompt
 * Run tests through CTest
 ### 4.2: Visual Studio Code
-* Run CTest or run tests through the terminal
+Your options for running the unit tests from Visual Studio Code are:
+* Run CTest
+* Run tests through the terminal
 ***
 ## 5: Misc Tools
 It is recommended that you download the following 3rd party apps
