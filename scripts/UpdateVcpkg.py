@@ -82,7 +82,6 @@ def run_vcpkg_with_wrong_sha(vcpkg_folder_path: str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Updates GB VCPKG port to new version")
     parser.add_argument("--gb_path", type=str, help="path to the top level folder of the GB repo", dest="gb_path")
-    parser.add_argument("--gb_port_path", type=str, help="path to the GB port in VCPKG", dest="gb_port_path")
     parser.add_argument("--vcpkg_folder_path", type=str, help="VCPKG folder", dest="vcpkg_folder_path")
     args = parser.parse_args()
 
