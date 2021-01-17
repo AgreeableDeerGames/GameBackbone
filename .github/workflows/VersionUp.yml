@@ -70,7 +70,7 @@ jobs:
         pwd
         ls
         ./bootstrap-vcpkg.sh
-        python3 ../GameBackbone/scripts/UpdateVcpkg.py --vcpkg_folder_path ./ag_vcpkg --gb_path ../GameBackbone
+        python3 ../GameBackbone/scripts/UpdateVcpkg.py --vcpkg_folder_path . --gb_path ../GameBackbone
         sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
         sudo git config --global user.name "github-actions[bot]"
         git add *
