@@ -17,12 +17,12 @@ jobs:
 
     - name: validate version numbers
       run: |
-        python3 ./scripts/ValidateVersionNumbers.py --GB_ROOT . --LAST_VERSION `git describe --abbrev=0`
+        # python3 ./scripts/ValidateVersionNumbers.py --GB_ROOT . --LAST_VERSION `git describe --abbrev=0`
 
     - name: push new tag
       run: |
-        git tag `python3 ./scripts/PrintGBVersion.py --GB_ROOT .`
-        git push origin --tags
+        # git tag `python3 ./scripts/PrintGBVersion.py --GB_ROOT .`
+        # git push origin --tags
 
   update_doxygen:
     needs: add_tag
@@ -69,13 +69,10 @@ jobs:
         cd ag_vcpkg
         pwd
         ls
-        ./ag_vcpkg/bootstrap-vcpkg.sh
-        python3 ./GameBackbone/scripts/UpdateVcpkg.py --vcpkg_folder_path ./ag_vcpkg --gb_path ./GameBackbone
-        cd ag_vcpkg
-        pwd
-        ls
+        ./bootstrap-vcpkg.sh
+        python3 ../GameBackbone/scripts/UpdateVcpkg.py --vcpkg_folder_path ./ag_vcpkg --gb_path ../GameBackbone
         sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
         sudo git config --global user.name "github-actions[bot]"
         git add *
         git commit -m "[GameBackbone] Bot: Update GameBackbone"
-        git push origin master
+        # git push origin master
