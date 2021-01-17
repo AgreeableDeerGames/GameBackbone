@@ -67,6 +67,8 @@ def update_vcpkg(gb_dir, vcpkg_gb_port_dir, sha):
     update_vcpkg_port(vcpkg_gb_port_dir, sha, version_string)
 
 def extract_sha_from_vcpkg_output(vcpkg_output: str):
+    print("VCPKG Output: ")
+    print(vcpkg_output)
     sha_match = re.search(pattern=r"(Actual hash: \[ )([a-zA-Z0-9]+)( \])", string=vcpkg_output)
     return sha_match.group(2)
 
