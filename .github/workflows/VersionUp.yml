@@ -2,7 +2,7 @@ name: VersionUp
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, hotfix/fix_vcpkg]
 
 jobs:
 
@@ -66,8 +66,14 @@ jobs:
     
     - name: Update VCPKG Port
       run: |
+        cd ag_vcpkg
+        pwd
+        ls
+        ./ag_vcpkg/bootstrap-vcpkg.sh
         python3 ./GameBackbone/scripts/UpdateVcpkg.py --vcpkg_folder_path ./ag_vcpkg --gb_path ./GameBackbone
         cd ag_vcpkg
+        pwd
+        ls
         sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
         sudo git config --global user.name "github-actions[bot]"
         git add *
