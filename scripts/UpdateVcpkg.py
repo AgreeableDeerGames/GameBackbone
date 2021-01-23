@@ -5,6 +5,7 @@ import re
 import os
 import argparse
 import subprocess
+from sys import platform
 
 def set_agvcpkg_portfile_version_number(portfile_text, new_version_string):
     """
@@ -66,6 +67,8 @@ def update_vcpkg(gb_dir, vcpkg_gb_port_dir, sha):
     update_vcpkg_port(vcpkg_gb_port_dir, sha, version_string)
 
 def extract_sha_from_vcpkg_output(vcpkg_output: str):
+    print("VCPKG Output: ")
+    print(vcpkg_output)
     sha_match = re.search(pattern=r"(Actual hash: \[ )([a-zA-Z0-9]+)( \])", string=vcpkg_output)
     return sha_match.group(2)
 
@@ -73,11 +76,14 @@ def run_vcpkg_with_wrong_sha(vcpkg_folder_path: str):
     """
     Run VCPKG with wrong SHA to get it to give us the correct SHA
     """
-    result = subprocess.run([os.path.join(vcpkg_folder_path, "vcpkg.exe"), "install", "gamebackbone:x64-windows"], stdout=subprocess.PIPE)
+    vcpkg_exe_name = "vcpkg.exe"
+    vcpkg_triplet = ":x64-windows"
+    if platform == "linux" or platform == "linux2":
+        vcpkg_exe_name = "vcpkg"
+        vcpkg_triplet = ""   
+    result = subprocess.run([os.path.join(vcpkg_folder_path, vcpkg_exe_name), "install", "gamebackbone"+vcpkg_triplet], stdout=subprocess.PIPE)
     sha = extract_sha_from_vcpkg_output(result.stdout.decode('utf-8'))
     return sha
-
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Updates GB VCPKG port to new version")
