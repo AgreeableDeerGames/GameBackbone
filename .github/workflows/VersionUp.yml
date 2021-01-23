@@ -49,7 +49,7 @@ jobs:
 
   update_vcpkg:
     needs: add_tag
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout GB
@@ -67,12 +67,11 @@ jobs:
     - name: Update VCPKG Port
       run: |
         cd ag_vcpkg
-        pwd
-        ls
-        ./bootstrap-vcpkg.sh
+        dir
+        bootstrap-vcpkg.bat
         python3 ../GameBackbone/scripts/UpdateVcpkg.py --vcpkg_folder_path . --gb_path ../GameBackbone
-        sudo git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        sudo git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         git add *
         git commit -m "[GameBackbone] Bot: Update GameBackbone"
         # git push origin master
