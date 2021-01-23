@@ -2,7 +2,7 @@ name: VersionUp
 
 on:
   push:
-    branches: [ master, hotfix/fix_vcpkg]
+    branches: [ master ]
 
 jobs:
 
