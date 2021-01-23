@@ -64,13 +64,11 @@ jobs:
         path: ag_vcpkg
         ssh-key: "${{secrets.AG_GITHUB_BOT_KEY}}"
     
-    - name: Init Python
+    - name: Update VCPKG Port
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
         architecture: 'x64'
-
-    - name: Update VCPKG Port
       run: |
         cd ag_vcpkg
         dir
